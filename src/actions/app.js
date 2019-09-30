@@ -40,6 +40,9 @@ const loadPage = (page) => (dispatch) => {
     case 'view3':
       import('../components/my-view3.js');
       break;
+    case 'table':
+      import('../components/my-table.js');
+      break;
     default:
       page = 'view404';
       import('../components/my-view404.js');
