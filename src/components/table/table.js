@@ -34,6 +34,13 @@ class UnityTable extends LitElement {
     }
   }
 
+  set data(value) {
+    const oldValue = this.tableData
+    this.tableData = value.map((datum, i) => ({...datum, tableId: i}))
+    this.requestUpdate('data', oldValue)
+  }
+
+  // possibly use setters for dynamic sort/filter update?
   // internals
   constructor() {
     super()
@@ -96,12 +103,17 @@ class UnityTable extends LitElement {
   }
 
   render() {
+    // table header
+    // data.map(renderRow)
     return html`
       <div>
-        This is the table component.
+        ${this.tableData.map(datum => html`<p>${JSON.stringify(datum)}</p>`)}
       </div>
     `
   }
 }
 
 customElements.define('unity-table', UnityTable)
+
+// rows render columns
+// columns render cells
