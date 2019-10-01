@@ -52,7 +52,6 @@ class MyApp extends connect(store)(LitElement) {
           display: block;
 
           --app-drawer-width: 256px;
-
           --app-primary-color: #E91E63;
           --app-secondary-color: #293237;
           --app-dark-text-color: var(--app-secondary-color);
@@ -226,6 +225,7 @@ class MyApp extends connect(store)(LitElement) {
         <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
         <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
+        <my-layout class="page" ?active="${this._page === 'page-layout'}"><my-layout>
       </main>
 
       <footer>
