@@ -116,7 +116,7 @@ class UnityTable extends LitElement {
         newOrder.push(targetColumn)
       }
       if (column.name === columnName) return
-      else newOrder.pushColumn
+      else newOrder.push(column)
     })
     if (oldOrder.length === newOrder.length) {
       this.columns = newOrder
@@ -132,7 +132,7 @@ class UnityTable extends LitElement {
   // otherwise mutates and returns new columns order
   addColumn(name) {
     // save old length, add new column, and save new length
-    const columns = [...this.columns]
+    let columns = [...this.columns]
     // confirm column isn't already in list
     const exists = columns.some(({name: columnName}) => columnName === name)
     if (exists) {
@@ -142,6 +142,10 @@ class UnityTable extends LitElement {
     const oldLength = columns.length
     columns.push({name, width: 1/oldLength})
     const newLength = columns.length
+    if (oldLength >= newLength) {
+      console.warn('Columns length did not change correctly')
+      return false
+    }
     const factor = oldLength / newLength
     // iterate over new columns, adjusting for new column count
     columns.forEach(column => column.width = column.width * factor)
@@ -149,12 +153,29 @@ class UnityTable extends LitElement {
     return columns
   }
 
-  // removeColumn(name) {
-  //   // iterate over columns arr, remove offending column, adjust widths
-  // }
-  // sortData(column, direction) {
-  //   // sort data based on column and direction
-  // }
+  removeColumn(name) {
+    // iterate over columns arr to make new columns, save target column width
+    const oldColumns = [...this.columns]
+    let newColumns = []
+    let removedColumnWidth
+    oldColumns.forEach(column => {
+      const {
+        name: columnName,
+        width
+      } = column
+      if (columnName === name) removedColumnWidth = width
+      else newColumns.push(column)
+    })
+    if (oldColumns.length <= newColumns.length) {
+      return false
+    }
+    // iterate over new columns increasing width by even portion of removed column
+    let factor = removedColumnWidth / newColumns.length
+    newColumns.forEach(column => column.width = column.width + factor)
+    this.columns = newColumns
+    return newColumns
+  }
+
   // filterData(filter) {
   //   // return items only if any prop contains the string
   //   // might instead be based on currently visible columns
@@ -178,6 +199,7 @@ class UnityTable extends LitElement {
 
   render() {
     console.log('this.data', this.data)
+    console.log('this.columns', this.columns)
     return html`
       <div>
         ${this.renderTableHeader(this.columns)}
