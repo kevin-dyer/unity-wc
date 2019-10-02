@@ -165,12 +165,23 @@ class UnityTable extends LitElement {
     // filterData()
   }
 
+  renderTableHeader(columns) {
+    const colOrder = this.columns.map(({name}) => name)
+    return html`<p>${colOrder.map((key, i) => html`${key}${i < colOrder.length - 1 ? ' -- ' : ''}`)}</>`
+  }
+
+  renderRow(datum) {
+    // returns a row element
+    const columns = this.columns.map(({name}) => name)
+    return html`<p>${columns.map((key, i) => html`${datum[key]}${i < columns.length - 1 ? ' -- ' : ''}`)}</>`
+  }
+
   render() {
-    // table header
-    // data.map(renderRow)
+    console.log('this.data', this.data)
     return html`
       <div>
-        ${this.tableData.map(datum => html`<p>${JSON.stringify(datum)}</p>`)}
+        ${this.renderTableHeader(this.columns)}
+        ${this._data.map(datum => html`<p>${this.renderRow(datum)}</p>`)}
       </div>
     `
   }
