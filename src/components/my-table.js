@@ -31,7 +31,6 @@ const exampleColumns = [
   {name: 'favorite', width: 120}
 ]
 
-
 class MyTable extends PageViewElement {
   static get styles() {
     return [
@@ -40,7 +39,7 @@ class MyTable extends PageViewElement {
   }
 
   render() {
-    return html`<unity-table .data="${exampleData}" .columns="${exampleColumns}"/>`
+    return html`<unity-table .data="${exampleData}" .columns="${exampleColumns}" />`
   }
 }
 

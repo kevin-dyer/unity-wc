@@ -16,11 +16,11 @@ import { LitElement, html, css } from 'lit-element'
     reportSelected:   function to be called with full selected array
 
     Internals for creating/editing
-    tableData:      data marked w/ tableId for uniq references
+    data:           data marked w/ tableId for uniq references
     selected:       array of elements that are selected, sent to reportSelected
     sortBy:         object with column to sort by and direction
     filter:         string to find in any column
-    processedList:  sorted and filtered tableData list, might need to find way to remove
+    processedList:  sorted and filtered _data list, might need to find way to remove
                     as this leads to doubling the list for sake of runtime efficiency
 */
 
@@ -35,22 +35,38 @@ class UnityTable extends LitElement {
   }
 
   set data(value) {
-    const oldValue = this.tableData
-    this.tableData = value.map((datum, i) => ({...datum, tableId: i}))
+    const oldValue = this._data
+    const columns = this._columns
+    // default catcher for missing columns
+    if (!columns || !columns.length) {
+      const newCol = Object.keys(value[0])
+      this.columns = newCol.map(name => ({name, width: `${1 / newCol.length * 100}%`}))
+    }
+    const newValue = value.map((datum, i) => ({...datum, tableId: i}))
+    this._data = newValue
     this.requestUpdate('data', oldValue)
   }
 
+  get data() { return this._data }
+
   // possibly use setters for dynamic sort/filter update?
+  /*
+    if filter updates when changed, then _data can change
+    Will data and filter ever change at the same time?
+
+    actually, should sort after filtering, as sorting takes longer than filtering
+    and filtering will remove elements which will make sorting faster
+  */
+
   // internals
   constructor() {
     super()
-    this.data = []
-    this.tableData = []
+    this._data = []
     this.columns = []
     this.reportSelected = ()=>{}
     this.selected = {}
-    this.sortBy = {column: '', direction: 'ascending'}
     this.filter = ''
+    this.sortBy = {column: '', direction: 'ascending'}
     this.proccessedList = []
   }
 
