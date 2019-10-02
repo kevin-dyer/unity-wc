@@ -96,12 +96,59 @@ class UnityTable extends LitElement {
     this.selected[id] = this.data[id]
   }
 
-  // changeColumnOrder(column, newIndex) {}
-  // addColumn(name) {
-  //   this.columns.push({name})
-  //   const numCol = this.columns.length
-  //   // reduce each column by % based on numCol
-  // }
+  // takes name of column (or maybe whole column) to move and index to move it to
+  // returns false if something went wrong, or new order
+  // mutates this.columns if successful
+  changeColumnOrder(columnName, newIndex) {
+    // get old order and target column
+    const oldOrder = [...this.columns]
+    // TODO: can remove this step if whole column is passed in
+    //
+    const targetColumn = oldOrder.find(({name}, i) => name === columnName && i !== newIndex)
+    if (targetColumn === undefined) {
+      console.warn(`Column not found or already in index: ${newIndex}`)
+      return false
+    }
+    let newOrder = []
+    // iterate over old order until inserting column into new position
+    oldOrder.forEach(column => {
+      if (newOrder.length === newIndex) {
+        newOrder.push(targetColumn)
+      }
+      if (column.name === columnName) return
+      else newOrder.pushColumn
+    })
+    if (oldOrder.length === newOrder.length) {
+      this.columns = newOrder
+      return newOrder
+    } else {
+      console.warn(`There are ${newOrder.length > oldOrder.length ? 'extra' : 'missing'} columns. Old then New order:`, oldOrder, newOrder)
+      return false
+    }
+  }
+
+  // takes name of column to add
+  // returns false if column already exists
+  // otherwise mutates and returns new columns order
+  addColumn(name) {
+    // save old length, add new column, and save new length
+    const columns = [...this.columns]
+    // confirm column isn't already in list
+    const exists = columns.some(({name: columnName}) => columnName === name)
+    if (exists) {
+      console.warn('Column already exists')
+      return false
+    }
+    const oldLength = columns.length
+    columns.push({name, width: 1/oldLength})
+    const newLength = columns.length
+    const factor = oldLength / newLength
+    // iterate over new columns, adjusting for new column count
+    columns.forEach(column => column.width = column.width * factor)
+    this.columns = columns
+    return columns
+  }
+
   // removeColumn(name) {
   //   // iterate over columns arr, remove offending column, adjust widths
   // }
