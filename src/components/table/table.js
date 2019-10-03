@@ -18,11 +18,15 @@ import { LitElement, html, css } from 'lit-element'
     Internals for creating/editing
     data:           data marked w/ tableId for uniq references
     selected:       array of elements that are selected, sent to reportSelected
-    sortBy:         object with column to sort by and direction
+    sortBy:         object with column to sort by and direction, default to first
+                    and descending? What counts as no sort?
     filter:         string to find in any column
     processedList:  sorted and filtered _data list, might need to find way to remove
                     as this leads to doubling the list for sake of runtime efficiency
 */
+
+const ASC = 'ASCENDING'
+const DES = 'DESCENDING'
 
 class UnityTable extends LitElement {
   // inputs
@@ -30,7 +34,9 @@ class UnityTable extends LitElement {
     return {
       data: { type: Array },
       columns: { type: Array },
-      reportSelected: { type: Function }
+      reportSelected: { type: Function },
+      headless: { type: Boolean },
+      config: { type: Object }
     }
   }
 
@@ -40,14 +46,50 @@ class UnityTable extends LitElement {
     // default catcher for missing columns
     if (!columns || !columns.length) {
       const newCol = Object.keys(value[0])
-      this.columns = newCol.map(name => ({name, width: `${1 / newCol.length * 100}%`}))
+      this.columns = newCol.map(name => ({name, width: 1 / newCol.length}))
     }
     const newValue = value.map((datum, i) => ({...datum, tableId: i}))
     this._data = newValue
+    this.process()
     this.requestUpdate('data', oldValue)
   }
 
   get data() { return this._data }
+
+  // if column isn't rendered or not passed in, defaults to first rendered column
+  // if direction isn't ASC or DES, default to ASC
+  set sortBy(value) {
+    // should always receive object
+    // should save value as expected
+    // call process on new values
+    // update
+    const oldValue = this._sortBy
+    let { column, direction } = value
+    const columns = this.columns
+    // check that column is in list
+    const exists = columns.some(({name}) => name === column)
+    if (!exists) {
+      column = columns[0].name
+    }
+    // check direction is 'ascending' or 'descending', defaulting the former
+    if (direction !== ASC && direction !== DES) {
+      direction = ASC
+    }
+    this._sortBy = {column, direction}
+    this.sortData()
+    this.requestUpdate('sortBy', oldValue)
+  }
+
+  get sortBy() { return this._sortBy }
+
+  set filter(value) {
+    const oldValue = this._filter
+    this._filter = value
+    this.process()
+    this.requestUpdate('filter', oldValue)
+  }
+
+  get filter() { return this._filter }
 
   // possibly use setters for dynamic sort/filter update?
   /*
@@ -64,9 +106,10 @@ class UnityTable extends LitElement {
     this._data = []
     this.columns = []
     this.reportSelected = ()=>{}
+    this.headless = false
     this.selected = {}
-    this.filter = ''
-    this.sortBy = {column: '', direction: 'ascending'}
+    this._filter = ''
+    this._sortBy = {column: '', direction: ASC}
     this.proccessedList = []
   }
 
@@ -176,18 +219,61 @@ class UnityTable extends LitElement {
     return newColumns
   }
 
-  // filterData(filter) {
-  //   // return items only if any prop contains the string
-  //   // might instead be based on currently visible columns
-  // }
+  filterData() {
+    // return items only if any prop contains the string
+    // might instead be based on currently visible columns
+    let processedData = [...this.data]
+    const columns = [...this.columns]
+    const searchFor = this.filter || ''
+    if (!!searchFor) {
+      processedData = processedData.filter(datum => {
+        // need to consider different value types
+        return columns.some(({name: column}) => {
+          const point = datum[column]
+          // might need to turn below into recursive func if we are expecting data to include obj
+          if (typeof point === 'string') {
+            return point.includes(searchFor)
+          } else if (typeof point === 'number') {
+            return point === searchFor
+          } else {
+            return false
+          }
+        })
+      })
+    }
+    this.processedData = processedData
+  }
+
+  sortData() {
+    // sort data based on column and direction
+    let processedData = [...this.processedData]
+    const {
+      column: sortBy,
+      direction
+    } = this.sortBy
+    processedData = processedData.sort((first, second) => {
+      const a = String(first[sortBy]).toLowerCase()
+      const b = String(second[sortBy]).toLowerCase()
+      if (a < b) {
+        // return < 0, a first
+        return direction === DES ? 1 : -1
+      } else if (b < a) {
+        // return < 0, a first
+        return direction === DES ? -1 : 1
+      } else {
+        return 0
+      }
+    })
+    this.processedData = processedData
+  }
+
   process() {
-    // don't handle id marking here, so that it's only done on data change
-    // sortData()
-    // filterData()
+    this.filterData()
+    this.sortData()
   }
 
   renderTableHeader(columns) {
-    const colOrder = this.columns.map(({name}) => name)
+    const colOrder = columns.map(({name}) => name)
     return html`<p>${colOrder.map((key, i) => html`${key}${i < colOrder.length - 1 ? ' -- ' : ''}`)}</>`
   }
 
@@ -202,8 +288,8 @@ class UnityTable extends LitElement {
     console.log('this.columns', this.columns)
     return html`
       <div>
-        ${this.renderTableHeader(this.columns)}
-        ${this._data.map(datum => html`<p>${this.renderRow(datum)}</p>`)}
+        ${!this.headless ? this.renderTableHeader(this.columns) : null}
+        ${this.processedData.map(datum => html`<p>${this.renderRow(datum)}</p>`)}
       </div>
     `
   }
