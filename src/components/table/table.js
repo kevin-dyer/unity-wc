@@ -13,7 +13,17 @@ import { LitElement, html, css } from 'lit-element'
 
     data:             array of datum objects, non-uniform shape
     columns:          array of column objects, {name (datum key), width}
+    headless:         bool to control head render, include to have no table header
+    selectable:       bool to control if rows should be selectable
     reportSelected:   function to be called with full selected array
+    controls:         determines use of internal filter and sort, can be 'internal',
+                      'external', or false
+    reportFilter:     function to be called when filter changes if controls are EXT
+                      sends in string to filter by
+    reportSort:       function to be called when sortBy changes if controls are EXT
+                      sends string of column name and string for ascending or descending
+    reportUpdate:     function to be called to request more pages to support infiniscroll
+                      only works with controls set to EXT
 
     Internals for creating/editing
     data:           data marked w/ tableId for uniq references
@@ -25,8 +35,10 @@ import { LitElement, html, css } from 'lit-element'
                     as this leads to doubling the list for sake of runtime efficiency
 */
 
-const ASC = 'ASCENDING'
-const DES = 'DESCENDING'
+const ASC = 'ascending'
+const DES = 'descending'
+const INT = 'internal'
+const EXT = 'external'
 
 class UnityTable extends LitElement {
   // inputs
@@ -34,9 +46,13 @@ class UnityTable extends LitElement {
     return {
       data: { type: Array },
       columns: { type: Array },
-      reportSelected: { type: Function },
       headless: { type: Boolean },
-      config: { type: Object }
+      selectable: { type: Boolean },
+      reportSelected: { type: Function },
+      controls: { type: String },
+      reportFilter: { type: Function },
+      reportSort: { type: Function },
+      reportUpdate: { type: Function }
     }
   }
 
@@ -85,7 +101,11 @@ class UnityTable extends LitElement {
   set filter(value) {
     const oldValue = this._filter
     this._filter = value
-    this.process()
+    if (this.controls === EXT) {
+      this.filterData()
+    } else {
+      this.process()
+    }
     this.requestUpdate('filter', oldValue)
   }
 
@@ -103,11 +123,18 @@ class UnityTable extends LitElement {
   // internals
   constructor() {
     super()
+    // defaults of input
     this._data = []
     this.columns = []
+    this.selectable = false
     this.reportSelected = ()=>{}
     this.headless = false
     this.selected = {}
+    this.reportFilter = ()=>{}
+    this.reportSort = ()=>{}
+    this.reportUpdate = ()=>{}
+
+    // defaults of internal references
     this._filter = ''
     this._sortBy = {column: '', direction: ASC}
     this.proccessedList = []
@@ -130,15 +157,22 @@ class UnityTable extends LitElement {
   // actions
   // resizeColumns() {}
   selectAll() {
-    this.selected = data.reduce((mask, data, i) => ({...mask, [i]: data}), {})
+    const data = [...this.data]
+    const newSelected = data.reduce((mask, data, i) => ({...mask, [i]: data}), {})
+    this.selected = newSelected
+    this.reportSelected(newSelected)
   }
 
   selectNone() {
     this.selected = {}
+    this.reportSelected({})
   }
 
   selectOne(id) {
-    this.selected[id] = this.data[id]
+    const newSelected = [...this.selected]
+    newSelected[id] = this.data[id]
+    this.selected = newSelected
+    this.reportSelected(newSelected)
   }
 
   // takes name of column (or maybe whole column) to move and index to move it to
@@ -222,11 +256,17 @@ class UnityTable extends LitElement {
   }
 
   filterData() {
+    const searchFor = this.filter || ''
+    // if controls are external, callback and quit
+    if (this.controls === EXT) {
+      this.reportFilter(searchFor)
+      this.processedData = [...this.data]
+      return
+    }
     // return items only if any prop contains the string
     // might instead be based on currently visible columns
     let processedData = [...this.data]
     const columns = [...this.columns]
-    const searchFor = this.filter || ''
     if (!!searchFor) {
       processedData = processedData.filter(datum => {
         // need to consider different value types
@@ -247,12 +287,17 @@ class UnityTable extends LitElement {
   }
 
   sortData() {
-    // sort data based on column and direction
-    let processedData = [...this.processedData]
     const {
       column: sortBy,
       direction
     } = this.sortBy
+    if (this.controls === EXT) {
+      this.reportSort(sortBy, direction)
+      this.processedData = [...this.processedData]
+      return
+    }
+    // sort data based on column and direction
+    let processedData = [...this.processedData]
     processedData = processedData.sort((first, second) => {
       const a = String(first[sortBy]).toLowerCase()
       const b = String(second[sortBy]).toLowerCase()
