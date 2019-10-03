@@ -119,7 +119,9 @@ class UnityTable extends LitElement {
       // imported css styles go here
       css`
         .container {
-          width: '100%'
+          width: 100%;
+          overflow-x: hidden;
+          overflow-y: auto;
         }
       `
     ]
@@ -287,7 +289,7 @@ class UnityTable extends LitElement {
     console.log('this.data', this.data)
     console.log('this.columns', this.columns)
     return html`
-      <div>
+      <div class="container">
         ${!this.headless ? this.renderTableHeader(this.columns) : null}
         ${this.processedData.map(datum => html`<p>${this.renderRow(datum)}</p>`)}
       </div>
