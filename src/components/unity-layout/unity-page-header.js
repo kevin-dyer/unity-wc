@@ -1,32 +1,55 @@
 import { LitElement, html, css } from 'lit-element';
+import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@polymer/iron-icons/iron-icons.js';
+import '@polymer/paper-tabs/paper-tabs.js';
+import '@polymer/paper-tabs/paper-tab.js';
 
 //This component will render a page header
-// It will display a Title, a back arrow (optional), and Right aligned action buttons. These action buttons will be added as named splits to the component
+// It will display a Title, a back arrow (optional), Right aligned action content (optional), and tabs (optional). These action buttons will be added as named splits to the component
 
-// These are the shared styles needed by this element.
-import { SharedStyles } from '../shared-styles.js';
-import { ThemeStyles } from '../theme-styles.js';
+// These are the shared custom styles to be used as defaults
+import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js';
 
 class UnityPageHeader extends LitElement {
   static get styles() {
     return [
-      ThemeStyles,
+      UnityDefaultThemeStyles,
       css`
-        :host: {
+        :host {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          font-family: var(--font-family, --default-font-family);
+        }
+
+        #header {
           flex: 1;
           height: 52px;
-          display: 'flex';
-          flex-direction: 'row';
-          justify-content: 'space-between';
-          align-items: 'center';
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid var(--light-grey-text-color, --default-light-grey-text-color);
         }
 
-        #title: {
-          font-size: var(--header1-font-size, 24px);
-          font-weight: var(--header1-font-weight, 400);
+        #left-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
         }
 
-        #left-container: {}
+        #title {
+          font-size: var(--header1-font-size, --default-header1-font-size);
+          font-weight: var(--header1-font-weight, --default-header1-font-weight);
+        }
+
+        paper-tabs {
+          font-size: var(--small-text-size, --default-small-text-size);
+          height: 28px;
+          align-self: flex-start;
+          --paper-tabs-selection-bar-color: var(--primary-brand-color, --default-primary-brand-color);
+        }
+
       `
     ];
   }
@@ -35,22 +58,60 @@ class UnityPageHeader extends LitElement {
     return {
       title: {
         type: String
+      },
+      showBackBtn: {
+        type: Boolean
+      },
+      tabs: {
+        type: Array
+      },
+      selectedTab: {
+        type: Number
       }
     }
   }
 
+  constructor() {
+    super()
+
+    this.title=''
+    this.showBackBtn=false
+    this.tabs=[]
+    this.selectedTab=0
+  }
+
+  //This may need to be passed in as a property, could replace showBackBtn bool
+  backHandler(e) {
+    console.log("Go back here!")
+  }
+
   render() {
-    console.log("rendering UnityPageHeader")
     return html`
-      <div>
+      <div id="header">
         <div id="left-container">
+          ${this.showBackBtn &&
+            html`
+              <paper-icon-button
+                icon="arrow-back"
+                @click=${this.backHandler}
+              ></paper-icon-button>
+
+            `
+          }
           <span id="title">${this.title}</span>
         </div>
-        <div id="right-container">
-          right stuff
-        </div>
-
-      </div>`
+        <slot name="action-content" id="right-container"></slot>
+      </div>
+      ${this.tabs.length > 0 &&
+        html`<paper-tabs selected=${this.selectedTab} id="header-tabs" noink>
+          ${this.tabs.map(({label, onClick=()=>{}}) =>
+            html`<paper-tab @click=${this.onClick}>
+              ${label}
+            </paper-tab>`
+          )}
+        </paper-tabs>`
+      }
+    `
   }
 }
 
