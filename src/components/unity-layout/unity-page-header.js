@@ -81,8 +81,9 @@ class UnityPageHeader extends LitElement {
   }
 
   //This may need to be passed in as a property, could replace showBackBtn bool
-  backHandler(e) {
+  handleBack(e) {
     console.log("Go back here!")
+    window.history.back()
   }
 
   render() {
@@ -93,7 +94,7 @@ class UnityPageHeader extends LitElement {
             html`
               <paper-icon-button
                 icon="arrow-back"
-                @click=${this.backHandler}
+                @click=${this.handleBack}
               ></paper-icon-button>
 
             `
