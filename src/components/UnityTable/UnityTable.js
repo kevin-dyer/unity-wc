@@ -72,8 +72,7 @@ class UnityTable extends LitElement {
 
   get data() { return this._data }
 
-  // if column isn't rendered or not passed in, defaults to first rendered column
-  // if direction isn't ASC or DES, default to ASC
+  // sortBy will be cyclical: UNS -> ASC -> DES -> UNS
   set sortBy(value) {
     // should always receive object
     // should save value as expected
@@ -85,10 +84,14 @@ class UnityTable extends LitElement {
     // check that column is in list
     const exists = columns.some(({name}) => name === column)
     if (!exists) {
-      column = columns[0].name
+      return false
     }
-    // check direction is 'ascending' or 'descending', defaulting the former
-    if (direction !== ASC && direction !== DES) {
+    // check direction is to update to next in cycle
+    if (direction === ASC) {
+      direction = DES
+    } else if (direction === DES) {
+      direction = false
+    } else if (!direction) {
       direction = ASC
     }
     this._sortBy = {column, direction}
@@ -136,7 +139,7 @@ class UnityTable extends LitElement {
 
     // defaults of internal references
     this._filter = ''
-    this._sortBy = {column: '', direction: ASC}
+    this._sortBy = {column: '', direction: false}
     this.proccessedList = []
   }
 
@@ -293,19 +296,21 @@ class UnityTable extends LitElement {
     }
     // sort data based on column and direction
     let processedData = [...this.processedData]
-    processedData = processedData.sort((first, second) => {
-      const a = String(first[sortBy]).toLowerCase()
-      const b = String(second[sortBy]).toLowerCase()
-      if (a < b) {
-        // return < 0, a first
-        return direction === DES ? 1 : -1
-      } else if (b < a) {
-        // return < 0, a first
-        return direction === DES ? -1 : 1
-      } else {
-        return 0
-      }
-    })
+    if (!!direction) {
+      processedData = processedData.sort((first, second) => {
+        const a = String(first[sortBy]).toLowerCase()
+        const b = String(second[sortBy]).toLowerCase()
+        if (a < b) {
+          // return < 0, a first
+          return direction === DES ? 1 : -1
+        } else if (b < a) {
+          // return < 0, a first
+          return direction === DES ? -1 : 1
+        } else {
+          return 0
+        }
+      })
+    }
     this.processedData = processedData
   }
 
