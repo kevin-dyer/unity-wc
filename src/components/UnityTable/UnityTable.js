@@ -152,6 +152,7 @@ class UnityTable extends LitElement {
           width: 100%;
           overflow-x: hidden;
           overflow-y: auto;
+          table-layout: auto;
         }
       `
     ]
@@ -180,29 +181,29 @@ class UnityTable extends LitElement {
   // takes name of column (or maybe whole column) to move and index to move it to
   // returns false if something went wrong, or new order
   // mutates this.columns if successful
-  changeColumnOrder(columnName, newIndex) {
-    // get old order and target column
-    const oldOrder = [...this.columns]
-    // TODO: can remove this step if whole column is passed in
-    const targetColumnIndex = oldOrder.findIndex(({name}) => name === columnName)
-    if (targetColumnIndex < 0) {
-      console.warn(`Column not found or already in index: ${newIndex}`)
-      return false
-    }
-    let newOrder = [...this.columns]
-    // remove column at old position
-    newOrder.splice(targetColumnIndex, 1)
-    // if new index is farther back, have to adjust for having removed element first
-    const newPos = targetColumnIndex > newIndex ? newIndex - 1 : newIndex
-    newOrder.splice(newPos, 0, oldOrder[targetColumnIndex])
-    if (oldOrder.length === newOrder.length) {
-      this.columns = newOrder
-      return newOrder
-    } else {
-      console.warn(`There are ${newOrder.length > oldOrder.length ? 'extra' : 'missing'} columns. Old then New order:`, oldOrder, newOrder)
-      return false
-    }
-  }
+  // changeColumnOrder(columnName, newIndex) {
+  //   // get old order and target column
+  //   const oldOrder = [...this.columns]
+  //   // TODO: can remove this step if whole column is passed in
+  //   const targetColumnIndex = oldOrder.findIndex(({name}) => name === columnName)
+  //   if (targetColumnIndex < 0) {
+  //     console.warn(`Column not found or already in index: ${newIndex}`)
+  //     return false
+  //   }
+  //   let newOrder = [...this.columns]
+  //   // remove column at old position
+  //   newOrder.splice(targetColumnIndex, 1)
+  //   // if new index is farther back, have to adjust for having removed element first
+  //   const newPos = targetColumnIndex > newIndex ? newIndex - 1 : newIndex
+  //   newOrder.splice(newPos, 0, oldOrder[targetColumnIndex])
+  //   if (oldOrder.length === newOrder.length) {
+  //     this.columns = newOrder
+  //     return newOrder
+  //   } else {
+  //     console.warn(`There are ${newOrder.length > oldOrder.length ? 'extra' : 'missing'} columns. Old then New order:`, oldOrder, newOrder)
+  //     return false
+  //   }
+  // }
 
   // takes name of column to add
   // returns false if column already exists
@@ -281,6 +282,8 @@ class UnityTable extends LitElement {
         })
       })
       this.processedData = processedData
+    } else {
+      this.processedData = [...this.data]
     }
   }
 
@@ -295,8 +298,8 @@ class UnityTable extends LitElement {
       return
     }
     // sort data based on column and direction
-    let processedData = [...this.processedData]
     if (!!direction) {
+      let processedData = [...this.processedData]
       processedData = processedData.sort((first, second) => {
         const a = String(first[sortBy]).toLowerCase()
         const b = String(second[sortBy]).toLowerCase()
@@ -310,8 +313,8 @@ class UnityTable extends LitElement {
           return 0
         }
       })
+      this.processedData = processedData
     }
-    this.processedData = processedData
   }
 
   process() {
@@ -321,23 +324,25 @@ class UnityTable extends LitElement {
 
   renderTableHeader(columns) {
     const colOrder = columns.map(({name}) => name)
-    return html`<p>${colOrder.map((key, i) => html`${key}${i < colOrder.length - 1 ? ' -- ' : ''}`)}</>`
+    return html`<tr>${colOrder.map((key, i) => html`<th key="col-${key}">${key}</th>`)}</tr>`
   }
 
   renderRow(datum) {
     // returns a row element
     const columns = this.columns.map(({name}) => name)
-    return html`<p>${columns.map((key, i) => html`${datum[key]}${i < columns.length - 1 ? ' -- ' : ''}`)}</>`
+    return html`${columns.map((key, i) => html`<td>${datum[key]}</td>`)}`
   }
 
   render() {
     console.log('this.data', this.data)
     console.log('this.columns', this.columns)
     return html`
-      <div class="container">
+      <table class="container">
         ${!this.headless ? this.renderTableHeader(this.columns) : null}
-        ${this.processedData.map(datum => html`<p>${this.renderRow(datum)}</p>`)}
-      </div>
+        ${this.processedData.length > 0
+          ? this.processedData.map(datum => html`<tr>${this.renderRow(datum)}</tr>`)
+          : html`<tr>No information found.</tr>`}
+      </table>
     `
   }
 }
