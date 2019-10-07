@@ -4,6 +4,54 @@ import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 
+
+/** @flow */
+
+/**
+ * Displays a Top level Page Header.
+ * @name UnityPageHeader
+ * @param {''} title
+ * @param {bool} showBackArrow
+ * @param {[]} tabs
+ * @param {''} selectedTab
+ * @returns {LitElement} returns a a class extended from LitElement
+ * @example
+ *  <unity-page-header
+ *    title="MOCC2 Title"
+ *    ?showBackBtn=${true}
+ *    .tabs=${[
+ *      {
+ *        label: 'Users',
+ *        onClick: (e) => {
+ *          console.log("Users tab clicked")
+ *        }
+ *      },
+ *      {
+ *        label: 'Rules',
+ *        onClick: (e) => {
+ *          console.log("Rules tab clicked")
+ *        }
+ *      },
+ *      {
+ *        label: 'API Keys',
+ *        onClick: (e) => {
+ *          console.log("API Keys tab clicked")
+ *        }
+ *      }
+ *    ]}
+ *    .selectedTab=${1}
+ *  >
+ *    <div slot="action-content">
+ *      <unity-button
+ *        label="my button"
+ *        ?gradient=${true}
+ *        ?disabled=${false}
+ *        @click=${e => console.log("unity-button clicked! e: ", e)}
+ *      />
+ *    </div>
+ *  </unity-page-header>
+ */
+
 //This component will render a page header
 // It will display a Title, a back arrow (optional), Right aligned action content (optional), and tabs (optional). These action buttons will be added as named splits to the component
 
