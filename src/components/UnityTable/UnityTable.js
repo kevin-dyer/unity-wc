@@ -21,6 +21,7 @@ import { LitElement, html, css } from 'lit-element'
                             sends in string to filter by
     filterDebounceTimeout:  TBD
     filterThrottleTimeout:  TBD
+    onColumnChange:         Callback to update changes to the rendered columns
     onColumnSort:           function to be called when sortBy changes if controls are EXT
                             sends string of column name and string for ascending or descending
     onEndReached:           function to be called to request more pages to support infiniscroll
@@ -52,7 +53,8 @@ class UnityTable extends LitElement {
       controls: { type: Boolean },
       onSearchFilter: { type: Function },
       onColumnSort: { type: Function },
-      onEndReached: { type: Function }
+      onEndReached: { type: Function },
+      onColumnChange: { type: Function }
     }
   }
 
@@ -136,6 +138,7 @@ class UnityTable extends LitElement {
     this.onSearchFilter = ()=>{}
     this.onColumnSort = ()=>{}
     this.onEndReached = ()=>{}
+    this.onColumnChange = ()=>{}
 
     // defaults of internal references
     this._filter = ''
@@ -198,6 +201,7 @@ class UnityTable extends LitElement {
   //   newOrder.splice(newPos, 0, oldOrder[targetColumnIndex])
   //   if (oldOrder.length === newOrder.length) {
   //     this.columns = newOrder
+  //     this.onColumnChange(newOrder)
   //     return newOrder
   //   } else {
   //     console.warn(`There are ${newOrder.length > oldOrder.length ? 'extra' : 'missing'} columns. Old then New order:`, oldOrder, newOrder)
@@ -228,6 +232,7 @@ class UnityTable extends LitElement {
     // iterate over new columns, adjusting for new column count
     columns.forEach(column => column.width = column.width * factor)
     this.columns = columns
+    this.onColumnChange(columns)
     return columns
   }
 
@@ -251,6 +256,7 @@ class UnityTable extends LitElement {
     let factor = removedColumnWidth / newColumns.length
     newColumns.forEach(column => column.width = column.width + factor)
     this.columns = newColumns
+    this.onColumnChange(newColumns)
     return newColumns
   }
 
