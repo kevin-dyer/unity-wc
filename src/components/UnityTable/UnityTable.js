@@ -11,23 +11,25 @@ import { LitElement, html, css } from 'lit-element'
     determine order and size of columns in the table. If not passed in, then a
     default will be made from each key on the data object.
 
-    data:             array of datum objects, non-uniform shape
-    columns:          array of column objects, {key (related to datum keys), label (label rendered) width}
-    headless:         bool to control head render, include to have no table header
-    selectable:       bool to control if rows should be selectable
-    reportSelected:   function to be called with full selected array
-    controls:         determines use of internal filter and sort, can be 'internal',
-                      'external', or false
-    reportFilter:     function to be called when filter changes if controls are EXT
-                      sends in string to filter by
-    reportSort:       function to be called when sortBy changes if controls are EXT
-                      sends string of column name and string for ascending or descending
-    reportUpdate:     function to be called to request more pages to support infiniscroll
-                      only works with controls set to EXT
+    data:                   array of datum objects, non-uniform shape
+    columns:                array of column objects, {key (related to datum keys), label (label rendered) width}
+    headless:               bool to control head render, include to have no table header
+    selectable:             bool to control if rows should be selectable
+    onSelectionChange:      function to be called with full selected array
+    controls:               determines use of internal filter and sort, exclude if using internal sort/filter
+    onSearchFilter:         function to be called when filter changes if controls are EXT
+                            sends in string to filter by
+    filterDebounceTimeout:  TBD
+    filterThrottleTimeout:  TBD
+    onColumnSort:           function to be called when sortBy changes if controls are EXT
+                            sends string of column name and string for ascending or descending
+    onEndReached:           function to be called to request more pages to support infiniscroll
+                            only works with controls set to EXT
+    onEndReachedThreshold:  TBD
 
     Internals for creating/editing
     data:           data marked w/ tableId for uniq references
-    selected:       array of elements that are selected, sent to reportSelected
+    selected:       array of elements that are selected, sent to onSelectionChange
     sortBy:         object with column to sort by and direction, default to first
                     and descending? What counts as no sort?
     filter:         string to find in any column
@@ -37,8 +39,6 @@ import { LitElement, html, css } from 'lit-element'
 
 const ASC = 'ascending'
 const DES = 'descending'
-const INT = 'internal'
-const EXT = 'external'
 
 class UnityTable extends LitElement {
   // inputs
@@ -48,11 +48,11 @@ class UnityTable extends LitElement {
       columns: { type: Array },
       headless: { type: Boolean },
       selectable: { type: Boolean },
-      reportSelected: { type: Function },
-      controls: { type: String },
-      reportFilter: { type: Function },
-      reportSort: { type: Function },
-      reportUpdate: { type: Function }
+      onSelectionChange: { type: Function },
+      controls: { type: Boolean },
+      onSearchFilter: { type: Function },
+      onColumnSort: { type: Function },
+      onEndReached: { type: Function }
     }
   }
 
@@ -101,7 +101,7 @@ class UnityTable extends LitElement {
   set filter(value) {
     const oldValue = this._filter
     this._filter = value
-    if (this.controls === EXT) {
+    if (this.controls) {
       this.filterData()
     } else {
       this.process()
@@ -127,12 +127,12 @@ class UnityTable extends LitElement {
     this._data = []
     this.columns = []
     this.selectable = false
-    this.reportSelected = ()=>{}
+    this.onSelectionChange = ()=>{}
     this.headless = false
     this.selected = {}
-    this.reportFilter = ()=>{}
-    this.reportSort = ()=>{}
-    this.reportUpdate = ()=>{}
+    this.onSearchFilter = ()=>{}
+    this.onColumnSort = ()=>{}
+    this.onEndReached = ()=>{}
 
     // defaults of internal references
     this._filter = ''
@@ -159,19 +159,19 @@ class UnityTable extends LitElement {
   selectAll() {
     const newSelected = [...this.data]
     this.selected = newSelected
-    this.reportSelected(newSelected)
+    this.onSelectionChange(newSelected)
   }
 
   selectNone() {
     this.selected = {}
-    this.reportSelected({})
+    this.onSelectionChange({})
   }
 
   selectOne(id) {
     const newSelected = [...this.selected]
     newSelected[id] = this.data[id]
     this.selected = newSelected
-    this.reportSelected(newSelected)
+    this.onSelectionChange(newSelected)
   }
 
   // takes name of column (or maybe whole column) to move and index to move it to
@@ -253,8 +253,8 @@ class UnityTable extends LitElement {
   filterData() {
     const searchFor = this.filter || ''
     // if controls are external, callback and quit
-    if (this.controls === EXT) {
-      this.reportFilter(searchFor)
+    if (this.controls) {
+      this.onSearchFilter(searchFor)
       this.processedData = [...this.data]
       return
     }
@@ -286,8 +286,8 @@ class UnityTable extends LitElement {
       column: sortBy,
       direction
     } = this.sortBy
-    if (this.controls === EXT) {
-      this.reportSort(sortBy, direction)
+    if (this.controls) {
+      this.onColumnSort(sortBy, direction)
       this.processedData = [...this.processedData]
       return
     }
