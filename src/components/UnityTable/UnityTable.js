@@ -12,7 +12,7 @@ import { LitElement, html, css } from 'lit-element'
     default will be made from each key on the data object.
 
     data:             array of datum objects, non-uniform shape
-    columns:          array of column objects, {name (datum key), width}
+    columns:          array of column objects, {key (related to datum keys), label (label rendered) width}
     headless:         bool to control head render, include to have no table header
     selectable:       bool to control if rows should be selectable
     reportSelected:   function to be called with full selected array
@@ -62,7 +62,7 @@ class UnityTable extends LitElement {
     // default catcher for missing columns
     if (!columns || !columns.length) {
       const newCol = Object.keys(value[0])
-      this.columns = newCol.map(name => ({name, width: 1 / newCol.length}))
+      this.columns = newCol.map(name => ({key: name, label: name, width: 1 / newCol.length}))
     }
     const newValue = value.map((datum, i) => ({...datum, tableId: i}))
     this._data = newValue
@@ -157,8 +157,7 @@ class UnityTable extends LitElement {
   // actions
   // resizeColumns() {}
   selectAll() {
-    const data = [...this.data]
-    const newSelected = data.reduce((mask, data, i) => ({...mask, [i]: data}), {})
+    const newSelected = [...this.data]
     this.selected = newSelected
     this.reportSelected(newSelected)
   }
@@ -182,21 +181,17 @@ class UnityTable extends LitElement {
     // get old order and target column
     const oldOrder = [...this.columns]
     // TODO: can remove this step if whole column is passed in
-    //
-    const targetColumn = oldOrder.find(({name}, i) => name === columnName && i !== newIndex)
-    if (targetColumn === undefined) {
+    const targetColumnIndex = oldOrder.findIndex(({name}) => name === columnName)
+    if (targetColumnIndex < 0) {
       console.warn(`Column not found or already in index: ${newIndex}`)
       return false
     }
-    let newOrder = []
-    // iterate over old order until inserting column into new position
-    oldOrder.forEach(column => {
-      if (newOrder.length === newIndex) {
-        newOrder.push(targetColumn)
-      }
-      if (column.name === columnName) return
-      else newOrder.push(column)
-    })
+    let newOrder = [...this.columns]
+    // remove column at old position
+    newOrder.splice(targetColumnIndex, 1)
+    // if new index is farther back, have to adjust for having removed element first
+    const newPos = targetColumnIndex > newIndex ? newIndex - 1 : newIndex
+    newOrder.splice(newPos, 0, oldOrder[targetColumnIndex])
     if (oldOrder.length === newOrder.length) {
       this.columns = newOrder
       return newOrder
@@ -265,9 +260,9 @@ class UnityTable extends LitElement {
     }
     // return items only if any prop contains the string
     // might instead be based on currently visible columns
-    let processedData = [...this.data]
     const columns = [...this.columns]
     if (!!searchFor) {
+      let processedData = [...this.data]
       processedData = processedData.filter(datum => {
         // need to consider different value types
         return columns.some(({name: column}) => {
@@ -282,8 +277,8 @@ class UnityTable extends LitElement {
           }
         })
       })
+      this.processedData = processedData
     }
-    this.processedData = processedData
   }
 
   sortData() {
