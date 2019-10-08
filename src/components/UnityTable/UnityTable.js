@@ -42,6 +42,27 @@ const ASC = 'ascending'
 const DES = 'descending'
 
 class UnityTable extends LitElement {
+  // internals
+  constructor() {
+    super()
+    // defaults of input
+    this._data = []
+    this.columns = []
+    this.selectable = false
+    this.onSelectionChange = ()=>{}
+    this.headless = false
+    this.selected = {}
+    this.onSearchFilter = ()=>{}
+    this.onColumnSort = ()=>{}
+    this.onEndReached = ()=>{}
+    this.onColumnChange = ()=>{}
+
+    // defaults of internal references
+    this._filter = ''
+    this._sortBy = {column: '', direction: false}
+    this.proccessedList = []
+  }
+
   // inputs
   static get properties() {
     return {
@@ -68,7 +89,7 @@ class UnityTable extends LitElement {
     }
     const newValue = value.map((datum, i) => ({...datum, tableId: i}))
     this._data = newValue
-    this.process()
+    this._process()
     this.requestUpdate('data', oldValue)
   }
 
@@ -97,7 +118,7 @@ class UnityTable extends LitElement {
       direction = ASC
     }
     this._sortBy = {column, direction}
-    this.sortData()
+    this._sortData()
     this.requestUpdate('sortBy', oldValue)
   }
 
@@ -125,56 +146,20 @@ class UnityTable extends LitElement {
     and filtering will remove elements which will make sorting faster
   */
 
-  // internals
-  constructor() {
-    super()
-    // defaults of input
-    this._data = []
-    this.columns = []
-    this.selectable = false
-    this.onSelectionChange = ()=>{}
-    this.headless = false
-    this.selected = {}
-    this.onSearchFilter = ()=>{}
-    this.onColumnSort = ()=>{}
-    this.onEndReached = ()=>{}
-    this.onColumnChange = ()=>{}
-
-    // defaults of internal references
-    this._filter = ''
-    this._sortBy = {column: '', direction: false}
-    this.proccessedList = []
-  }
-
-  // styles
-  static get styles() {
-    return [
-      // imported css styles go here
-      css`
-        .container {
-          width: 100%;
-          overflow-x: hidden;
-          overflow-y: auto;
-          table-layout: auto;
-        }
-      `
-    ]
-  }
-
   // actions
   // resizeColumns() {}
-  selectAll() {
+  _selectAll() {
     const newSelected = [...this.data]
     this.selected = newSelected
     this.onSelectionChange(newSelected)
   }
 
-  selectNone() {
+  _selectNone() {
     this.selected = {}
     this.onSelectionChange({})
   }
 
-  selectOne(id) {
+  _selectOne(id) {
     const newSelected = [...this.selected]
     newSelected[id] = this.data[id]
     this.selected = newSelected
@@ -212,7 +197,7 @@ class UnityTable extends LitElement {
   // takes name of column to add
   // returns false if column already exists
   // otherwise mutates and returns new columns order
-  addColumn(name) {
+  _addColumn(name) {
     // save old length, add new column, and save new length
     let columns = [...this.columns]
     // confirm column isn't already in list
@@ -236,7 +221,7 @@ class UnityTable extends LitElement {
     return columns
   }
 
-  removeColumn(name) {
+  _removeColumn(name) {
     // iterate over columns arr to make new columns, save target column width
     const oldColumns = [...this.columns]
     let newColumns = []
@@ -260,7 +245,7 @@ class UnityTable extends LitElement {
     return newColumns
   }
 
-  filterData() {
+  _filterData() {
     const searchFor = this.filter || ''
     // if controls are external, callback and quit
     if (this.controls) {
@@ -293,7 +278,7 @@ class UnityTable extends LitElement {
     }
   }
 
-  sortData() {
+  _sortData() {
     const {
       column: sortBy,
       direction
@@ -323,17 +308,17 @@ class UnityTable extends LitElement {
     }
   }
 
-  process() {
-    this.filterData()
-    this.sortData()
+  _process() {
+    this._filterData()
+    this._sortData()
   }
 
-  renderTableHeader(columns) {
+  _renderTableHeader(columns) {
     const colOrder = columns.map(({name}) => name)
     return html`<tr>${colOrder.map((key, i) => html`<th key="col-${key}">${key}</th>`)}</tr>`
   }
 
-  renderRow(datum) {
+  _renderRow(datum) {
     // returns a row element
     const columns = this.columns.map(({name}) => name)
     return html`${columns.map((key, i) => html`<td>${datum[key]}</td>`)}`
@@ -344,12 +329,27 @@ class UnityTable extends LitElement {
     console.log('this.columns', this.columns)
     return html`
       <table class="container">
-        ${!this.headless ? this.renderTableHeader(this.columns) : null}
+        ${!this.headless ? this._renderTableHeader(this.columns) : null}
         ${this.processedData.length > 0
-          ? this.processedData.map(datum => html`<tr>${this.renderRow(datum)}</tr>`)
+          ? this.processedData.map(datum => html`<tr>${this._renderRow(datum)}</tr>`)
           : html`<tr>No information found.</tr>`}
       </table>
     `
+  }
+
+  // styles
+  static get styles() {
+    return [
+      // imported css styles go here
+      css`
+        .container {
+          width: 100%;
+          overflow-x: hidden;
+          overflow-y: auto;
+          table-layout: auto;
+        }
+      `
+    ]
   }
 }
 
