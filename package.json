@@ -47,5 +47,10 @@
     "prpl-server": "^1.4.0",
     "puppeteer": "^1.5.0",
     "wct-mocha": "^1.0.1"
+  },
+  "bit": {
+    "env": {},
+    "componentsDefaultDirectory": "components/{name}",
+    "packageManager": "npm"
   }
 }
