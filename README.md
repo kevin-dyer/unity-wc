@@ -6,6 +6,12 @@
 >
 > See the list of Known Issues and TODOs, below, for updates.
 
+# MOCC2 Add Components
+1) Create wrapper component `my-componentName.js` that will import component and renders it (see `my-table` for example)
+1) Add page to load/router action in `actions/app.loadPage`
+1) Add links and wrapper component to the main `my-app` file
+1) Create folder/files for components and get to work
+
 # PWA Starter Kit
 
 This sample app is a starting point for building PWAs. Out of the box, the template
