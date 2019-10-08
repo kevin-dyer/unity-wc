@@ -314,13 +314,32 @@ class UnityTable extends LitElement {
   }
 
   _renderTableHeader(columns) {
-    const colOrder = columns.map(({name}) => name)
-    return html`<thead><tr>${colOrder.map((key, i) => html`<th key="col-${key}">${key}</th>`)}</tr></thead>`
+    return html`
+      <thead class="table-header">
+        <tr>
+          ${columns.map(({name, label, width}) => html`
+            <th
+              class="cell header"
+              name="header-column-${name}"
+              style="${
+                !width ? null :
+                width < 1 ?
+                  `width: ${width*100}%`
+                : `width: ${width}px`
+              }"
+            >
+              ${label || name}
+            </th>
+          `)}
+        </tr>
+      </thead>
+    `
   }
 
   _renderRow(datum) {
     // returns a row element
-    const columns = this.columns.map(({name}) => name)
+    const columns = this.columns.map(({name}, i) => name)
+    // if index is 0, add check-all button
     return html`${columns.map((key, i) => html`<td>${datum[key]}</td>`)}`
   }
 
@@ -329,9 +348,6 @@ class UnityTable extends LitElement {
     console.log('this.columns', this.columns)
     return html`
       <table class="container">
-        <colgroup>
-          ${this.columns.map(({name, label, width}) => html`<col style="width: ${width*100}%">`)}
-        </colgroup>
         ${!this.headless ? this._renderTableHeader(this.columns) : null}
         ${this.processedData.length > 0
           ? this.processedData.map(datum => html`<tr>${this._renderRow(datum)}</tr>`)
@@ -350,11 +366,28 @@ class UnityTable extends LitElement {
           overflow-x: hidden;
           overflow-y: auto;
           table-layout: fixed;
+          border-collapse: collapse;
+          border-spacing: 0;
         }
         .empty-table {
           text-align: center;
           padding: 33px 0;
           font-family: Avenir;
+        }
+        .table-header {
+          height: 33px;
+          width: 100%;
+        }
+        .cell {
+          color: #000;
+          font-family: Avenir;
+          border: 1px solid #d4d9db;
+          text-align: left;
+          padding-left: 13px;
+        }
+        .header {
+          line-height: 33px;
+          font-weight: 500;
         }
       `
     ]
