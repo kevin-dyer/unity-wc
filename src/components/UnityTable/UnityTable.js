@@ -83,7 +83,7 @@ class UnityTable extends LitElement {
     const oldValue = this._data
     const columns = this._columns
     // default catcher for missing columns
-    if (!columns || !columns.length) {
+    if ((!columns || !columns.length) && !!value && !!value.length) {
       const newCol = Object.keys(value[0])
       this.columns = newCol.map(name => ({key: name, label: name, width: 1 / newCol.length}))
     }
@@ -315,7 +315,7 @@ class UnityTable extends LitElement {
 
   _renderTableHeader(columns) {
     const colOrder = columns.map(({name}) => name)
-    return html`<tr>${colOrder.map((key, i) => html`<th key="col-${key}">${key}</th>`)}</tr>`
+    return html`<thead><tr>${colOrder.map((key, i) => html`<th key="col-${key}">${key}</th>`)}</tr></thead>`
   }
 
   _renderRow(datum) {
@@ -329,10 +329,13 @@ class UnityTable extends LitElement {
     console.log('this.columns', this.columns)
     return html`
       <table class="container">
+        <colgroup>
+          ${this.columns.map(({name, label, width}) => html`<col style="width: ${width*100}%">`)}
+        </colgroup>
         ${!this.headless ? this._renderTableHeader(this.columns) : null}
         ${this.processedData.length > 0
           ? this.processedData.map(datum => html`<tr>${this._renderRow(datum)}</tr>`)
-          : html`<tr>No information found.</tr>`}
+          : html`<tr><td colspan="${this.columns.length}" rowspan="3" class="empty-table">No information found.</td></tr>`}
       </table>
     `
   }
@@ -346,7 +349,12 @@ class UnityTable extends LitElement {
           width: 100%;
           overflow-x: hidden;
           overflow-y: auto;
-          table-layout: auto;
+          table-layout: fixed;
+        }
+        .empty-table {
+          text-align: center;
+          padding: 33px 0;
+          font-family: Avenir;
         }
       `
     ]
