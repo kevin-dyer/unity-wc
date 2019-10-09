@@ -151,21 +151,36 @@ class UnityTable extends LitElement {
   // actions
   // resizeColumns() {}
   _selectAll() {
+    // all data are selected, make selected from all data
     const newSelected = [...this.data]
     this.selected = newSelected
     this.onSelectionChange(newSelected)
+    // mark all selected as true
+    this._allSelected = true
   }
 
   _selectNone() {
-    this.selected = {}
-    this.onSelectionChange({})
+    // none selected, so replace with empty
+    this.selected = []
+    this.onSelectionChange([])
+    // mark all selected as false
+    this._allSelected = false
   }
 
   _selectOne(id) {
+    // copy selected
     const newSelected = [...this.selected]
-    newSelected[id] = this.data[id]
+    // if not selected, select
+    if (!newSelected[i]) newSelected[id] = this.data[id]
+    // if selected, delete from arr
+    else if (!!newSelected[i]) delete newSelected[id]
     this.selected = newSelected
-    this.onSelectionChange(newSelected)
+    // send flat
+    let flatSelected = newSelected.flat()
+    this.onSelectionChange(flatSelected)
+    // check if none/all selected
+    if (flatSelected.length === 0) this._allSelected = false
+    else if (flatSelected.length === this.data) this._allSelected = true
   }
 
   // takes name of column (or maybe whole column) to move and index to move it to
