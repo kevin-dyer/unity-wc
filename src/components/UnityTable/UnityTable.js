@@ -77,7 +77,8 @@ class UnityTable extends LitElement {
       onSearchFilter: { type: Function },
       onColumnSort: { type: Function },
       onEndReached: { type: Function },
-      onColumnChange: { type: Function }
+      onColumnChange: { type: Function },
+      _allSelected: { type: Boolean }
     }
   }
 
@@ -330,6 +331,14 @@ class UnityTable extends LitElement {
     this._sortData()
   }
 
+  _handleHeaderSelect() {
+    const _allSelected = this._allSelected
+    // if _allSelected, select none
+    if (!!_allSelected) this._selectNone()
+    // if !_allSelected, select all
+    else if (!_allSelected) this._selectAll()
+  }
+
   _renderTableHeader(columns) {
     return html`
       <thead>
@@ -345,7 +354,7 @@ class UnityTable extends LitElement {
                 : `width: ${width}px`
               }"
             >
-              ${this.selectable && i === 0 ? html`<paper-checkbox noink @click="${e=>{console.log('changed', e)}}" />` : null}
+              ${this.selectable && i === 0 ? html`<paper-checkbox .checked="${this._allSelected}" noink @click="${this._handleHeaderSelect}" />` : null}
               <span class="header-label" >${label || name}</span>
             </th>
           `)}
@@ -362,8 +371,6 @@ class UnityTable extends LitElement {
   }
 
   render() {
-    console.log('this.data', this.data)
-    console.log('this.columns', this.columns)
     const data = this._processedData
     return html`
       <table class="container">
