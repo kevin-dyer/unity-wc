@@ -1,8 +1,8 @@
 {
-  "name": "pwa-starter-kit",
-  "version": "0.9.0",
+  "name": "Altair Unity",
+  "version": "0.0.1",
   "contributors": [
-    "The Polymer Authors"
+    "Oakland Office"
   ],
   "license": "BSD-3-Clause",
   "repository": "Polymer/pwa-starter-kit",
@@ -33,6 +33,13 @@
     "reselect": "^4.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.6.3",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
+    "@babel/preset-env": "^7.6.3",
+    "@bit/bit.envs.internal.babel-base-compiler": "^1.0.1",
     "@polymer/test-fixture": "^4.0.2",
     "axe-core": "^3.0.0",
     "chai": "^4.1.2",
@@ -49,7 +56,15 @@
     "wct-mocha": "^1.0.1"
   },
   "bit": {
-    "env": {},
+    "env": {
+      "compiler": {
+        "meta": {
+          "options": {
+            "file": "src/compilers/lit-element-babel"
+          }
+        }
+      }
+    },
     "componentsDefaultDirectory": "components/{name}",
     "packageManager": "npm"
   }
