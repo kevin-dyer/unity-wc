@@ -60,7 +60,8 @@ class UnityTable extends LitElement {
     // defaults of internal references
     this._filter = ''
     this._sortBy = {column: '', direction: false}
-    this.proccessedList = []
+    this._processedData = []
+    this._allSelected = false
   }
 
   // inputs
@@ -250,7 +251,7 @@ class UnityTable extends LitElement {
     // if controls are external, callback and quit
     if (this.controls) {
       this.onSearchFilter(searchFor)
-      this.processedData = [...this.data]
+      this._processedData = [...this.data]
       return
     }
     // return items only if any prop contains the string
@@ -272,9 +273,9 @@ class UnityTable extends LitElement {
           }
         })
       })
-      this.processedData = processedData
+      this._processedData = processedData
     } else {
-      this.processedData = [...this.data]
+      this._processedData = [...this.data]
     }
   }
 
@@ -285,7 +286,7 @@ class UnityTable extends LitElement {
     } = this.sortBy
     if (this.controls) {
       this.onColumnSort(sortBy, direction)
-      this.processedData = [...this.processedData]
+      this._processedData = [...this.processedData]
       return
     }
     // sort data based on column and direction
@@ -304,7 +305,7 @@ class UnityTable extends LitElement {
           return 0
         }
       })
-      this.processedData = processedData
+      this._processedData = processedData
     }
   }
 
@@ -346,11 +347,12 @@ class UnityTable extends LitElement {
   render() {
     console.log('this.data', this.data)
     console.log('this.columns', this.columns)
+    const data = this._processedData
     return html`
       <table class="container">
         ${!this.headless ? this._renderTableHeader(this.columns) : null}
-        ${this.processedData.length > 0
-          ? this.processedData.map(datum => html`<tr>${this._renderRow(datum)}</tr>`)
+        ${data.length > 0
+          ? data.map(datum => html`<tr>${this._renderRow(datum)}</tr>`)
           : html`<tr><td colspan="${this.columns.length}" rowspan="3" class="empty-table">No information found.</td></tr>`}
       </table>
     `
