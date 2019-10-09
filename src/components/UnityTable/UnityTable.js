@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element'
+import "@polymer/paper-checkbox/paper-checkbox.js"
 // import { themes } from './path/to/themes'
 
 
@@ -316,9 +317,9 @@ class UnityTable extends LitElement {
 
   _renderTableHeader(columns) {
     return html`
-      <thead class="table-header">
-        <tr>
-          ${columns.map(({name, label, width}) => html`
+      <thead>
+        <tr class="table-header">
+          ${columns.map(({name, label, width}, i) => html`
             <th
               class="cell header"
               name="header-column-${name}"
@@ -329,7 +330,8 @@ class UnityTable extends LitElement {
                 : `width: ${width}px`
               }"
             >
-              ${label || name}
+              ${this.selectable && i === 0 ? html`<paper-checkbox noink @click="${e=>{console.log('changed', e)}}" />` : null}
+              <span class="header-label" >${label || name}</span>
             </th>
           `)}
         </tr>
@@ -370,6 +372,7 @@ class UnityTable extends LitElement {
           table-layout: fixed;
           border-collapse: collapse;
           border-spacing: 0;
+          box-sizing: border-box;
         }
         .empty-table {
           text-align: center;
@@ -378,18 +381,31 @@ class UnityTable extends LitElement {
         }
         .table-header {
           height: 33px;
-          width: 100%;
         }
         .cell {
           color: #000;
           font-family: Avenir;
+          font-size: 11pt;
           border: 1px solid #d4d9db;
           text-align: left;
+          padding: 0;
           padding-left: 13px;
+          line-height: 33px
+        }
+        .header-label {
+          position: relative;
+          top: 1px;
         }
         .header {
-          line-height: 33px;
           font-weight: 500;
+        }
+        paper-checkbox {
+          padding: calc((33px - 14px) / 2) 0;
+          --paper-checkbox-size: 14px;
+          --paper-checkbox-unchecked-color: #d4d9db;
+          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
+          --paper-checkbox-checked-color: red;
+          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
         }
       `
     ]
