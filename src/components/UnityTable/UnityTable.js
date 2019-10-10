@@ -1,5 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
-import "@polymer/paper-checkbox/paper-checkbox.js"
+import '@polymer/paper-checkbox/paper-checkbox.js'
+import '@polymer/paper-icon-button/paper-icon-button.js'
+import '@polymer/iron-icons/iron-icons.js'
 // import { themes } from './path/to/themes'
 
 
@@ -39,8 +41,9 @@ import "@polymer/paper-checkbox/paper-checkbox.js"
                     as this leads to doubling the list for sake of runtime efficiency
 */
 
-const ASC = 'ascending'
-const DES = 'descending'
+const ASC = 'Ascending'
+const DES = 'Descending'
+const UNS = 'Unsorted'
 
 class UnityTable extends LitElement {
   // internals
@@ -105,20 +108,28 @@ class UnityTable extends LitElement {
     // call process on new values
     // update
     const oldValue = this._sortBy
-    let { column, direction } = value
-    const columns = this.columns
+    let column, direction
+    if (value instanceof Object) {
+      column = value.column
+      direction = value.direction
+    } else {
+      column = value
+      direction = oldValue.direction
+      const changed = oldValue.column !== column
+      // check direction is to update to next in cycle
+      if (changed || !direction) {
+        direction = ASC
+      } else if (direction === ASC) {
+        direction = DES
+      } else if (direction === DES) {
+        direction = false
+      }
+    }
     // check that column is in list
+    const columns = this.columns
     const exists = columns.some(({name}) => name === column)
     if (!exists) {
       return false
-    }
-    // check direction is to update to next in cycle
-    if (direction === ASC) {
-      direction = DES
-    } else if (direction === DES) {
-      direction = false
-    } else if (!direction) {
-      direction = ASC
     }
     this._sortBy = {column, direction}
     this._sortData()
@@ -303,12 +314,12 @@ class UnityTable extends LitElement {
     } = this.sortBy
     if (this.controls) {
       this.onColumnSort(sortBy, direction)
-      this._processedData = [...this.processedData]
+      this._processedData = [...this._processedData]
       return
     }
     // sort data based on column and direction
     if (!!direction) {
-      let processedData = [...this.processedData]
+      let processedData = [...this._processedData]
       processedData = processedData.sort((first, second) => {
         const a = String(first[sortBy]).toLowerCase()
         const b = String(second[sortBy]).toLowerCase()
@@ -340,24 +351,42 @@ class UnityTable extends LitElement {
   }
 
   _renderTableHeader(columns) {
+    const {
+      column,
+      direction: dir
+    } = this._sortBy
+    const direction = !!dir ? dir : UNS
     return html`
       <thead>
         <tr class="table-header">
-          ${columns.map(({name, label, width}, i) => html`
-            <th
-              class="cell header"
-              name="header-column-${name}"
-              style="${
-                !width ? null :
-                width < 1 ?
-                  `width: ${width*100}%`
-                : `width: ${width}px`
-              }"
-            >
-              ${this.selectable && i === 0 ? html`<paper-checkbox .checked="${this._allSelected}" noink @click="${this._handleHeaderSelect}" />` : null}
-              <span class="header-label" >${label || name}</span>
-            </th>
-          `)}
+          ${columns.map(({name, label, width}, i) => {
+            const icon = direction !== UNS && column === name ? 'filter-list' : 'menu'
+            const flip = direction === ASC
+            return html`
+              <th
+                class="cell"
+                name="header-column-${name}"
+                style="${
+                  !width ? null :
+                  width < 1 ?
+                    `width: ${width*800}%`
+                  : `width: ${width}px`
+                }"
+              >
+                <div class="header">
+                  ${this.selectable && i === 0 ? html`<paper-checkbox .checked="${this._allSelected}" noink @click="${this._handleHeaderSelect}" />` : null}
+                  <span class="header-label" >${label || name}</span>
+                  <paper-icon-button
+                    noink
+                    icon="${icon}"
+                    title="${direction}"
+                    class="icon ${flip ? 'flipped' : ''}"
+                    @click="${()=>{this.sortBy = name}}"
+                  />
+                </div>
+              </th>
+            `
+          })}
         </tr>
       </thead>
     `
@@ -371,6 +400,7 @@ class UnityTable extends LitElement {
   }
 
   render() {
+    console.log('=\t=\t=\trender called\t=\t=\t=')
     const data = this._processedData
     return html`
       <table class="container">
@@ -410,16 +440,17 @@ class UnityTable extends LitElement {
           font-size: 11pt;
           border: 1px solid #d4d9db;
           text-align: left;
-          padding: 0;
-          padding-left: 13px;
+          padding: 0 13px;
           line-height: 33px
         }
         .header-label {
-          position: relative;
-          top: 1px;
+          flex: 1;
         }
         .header {
           font-weight: 500;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
         }
         paper-checkbox {
           padding: calc((33px - 14px) / 2) 0;
@@ -428,6 +459,14 @@ class UnityTable extends LitElement {
           --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
           --paper-checkbox-checked-color: red;
           --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
+        }
+        paper-icon-button {
+          color: #000;
+          width: 33px;
+          height: 33px;
+        }
+        .flipped {
+          transform: rotate(180deg);
         }
       `
     ]
