@@ -394,11 +394,25 @@ class UnityTable extends LitElement {
     `
   }
 
-  _renderRow(datum) {
+  _renderRow(datum, row) {
     // returns a row element
     const columns = this.columns.map(({name}, i) => name)
+    const id = datum.tableId
+    // pull out
     // if index is 0, add check-all button
-    return html`${columns.map((key, i) => html`<td>${datum[key]}</td>`)}`
+    // have td render unity cell instead
+    // need to add handler for icon/img and label
+    return html`
+      <tr class="row" key="row-${row}">
+        ${columns.map((column, i) => {
+          return html`
+            <td class="table-cell" key="${row}-${i}">
+              ${datum[column]}
+            </td>`
+          })
+        }
+      </tr>
+    `
   }
 
   render() {
@@ -408,7 +422,7 @@ class UnityTable extends LitElement {
       <table class="container">
         ${!this.headless ? this._renderTableHeader(this.columns) : null}
         ${data.length > 0
-          ? data.map(datum => html`<tr>${this._renderRow(datum)}</tr>`)
+          ? data.map((datum, i) => this._renderRow(datum, i))
           : html`<tr><td colspan="${this.columns.length}" rowspan="3" class="empty-table">No information found.</td></tr>`}
       </table>
     `
