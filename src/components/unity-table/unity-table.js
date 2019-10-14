@@ -56,7 +56,7 @@ class UnityTable extends LitElement {
     this.selectable = false
     this.onSelectionChange = ()=>{}
     this.headless = false
-    this.selected = {}
+    this.selected = []
     this.onSearchFilter = ()=>{}
     this.onColumnSort = ()=>{}
     this.onEndReached = ()=>{}
@@ -82,7 +82,8 @@ class UnityTable extends LitElement {
       onColumnSort: { type: Function },
       onEndReached: { type: Function },
       onColumnChange: { type: Function },
-      _allSelected: { type: Boolean }
+      _allSelected: { type: Boolean },
+      selected: { type: Array }
     }
   }
 
@@ -184,16 +185,16 @@ class UnityTable extends LitElement {
     // copy selected
     const newSelected = [...this.selected]
     // if not selected, select
-    if (!newSelected[i]) newSelected[id] = this.data[id]
+    if (!newSelected[id]) newSelected[id] = this.data[id]
     // if selected, delete from arr
-    else if (!!newSelected[i]) delete newSelected[id]
+    else if (!!newSelected[id]) delete newSelected[id]
     this.selected = newSelected
     // send flat
-    let flatSelected = newSelected.flat()
+    let flatSelected = newSelected.reduce((flat, v) => !!v ? [...flat, v] : flat, [])
     this.onSelectionChange(flatSelected)
     // check if none/all selected
     if (flatSelected.length === 0) this._allSelected = false
-    else if (flatSelected.length === this.data) this._allSelected = true
+    else if (flatSelected.length === this.data.length) this._allSelected = true
   }
 
   // takes name of column (or maybe whole column) to move and index to move it to
