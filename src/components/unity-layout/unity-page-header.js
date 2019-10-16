@@ -3,7 +3,8 @@ import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
-
+// These are the shared custom styles to be used as defaults
+import UnityDefaultThemeStyles from '@bit/smartworks.unity.unity-default-theme-styles';
 
 /**
  * Displays a Top level Page Header.
@@ -52,9 +53,6 @@ import '@polymer/paper-tabs/paper-tab.js';
 
 //This component will render a page header
 // It will display a Title, a back arrow (optional), Right aligned action content (optional), and tabs (optional). These action buttons will be added as named splits to the component
-
-// These are the shared custom styles to be used as defaults
-import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js';
 
 class UnityPageHeader extends LitElement {
   static get styles() {
@@ -142,7 +140,6 @@ class UnityPageHeader extends LitElement {
                 icon="arrow-back"
                 @click=${this.handleBack}
               ></paper-icon-button>
-
             `
             : ''
           }
