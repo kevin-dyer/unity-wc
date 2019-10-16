@@ -2,7 +2,7 @@ import { css } from 'lit-element';
 import 'typeface-nunito';
 import 'typeface-nunito-sans';
 
-export const UnityDefaultThemeStyles = css`
+const UnityDefaultThemeStyles = css`
   :host {
     --default-primary-brand-rgb: 58, 188, 225;
     --default-secondary-brand-rgb: 0, 94, 255;
@@ -44,3 +44,5 @@ export const UnityDefaultThemeStyles = css`
     --default-small-text-selected-weight: 600;
   }
 `;
+
+export default UnityDefaultThemeStyles
