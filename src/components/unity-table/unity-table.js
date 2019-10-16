@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
+import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js'
 // import { themes } from './path/to/themes'
 
 
@@ -415,13 +416,13 @@ class UnityTable extends LitElement {
   // styles
   static get styles() {
     return [
-      // imported css styles go here
+      UnityDefaultThemeStyles,
       css`
         .container {
           width: 100%;
           overflow-x: hidden;
           overflow-y: auto;
-          table-layout: fixed;
+          table-layout: auto;
           border-collapse: collapse;
           border-spacing: 0;
           box-sizing: border-box;
@@ -429,44 +430,53 @@ class UnityTable extends LitElement {
         .empty-table {
           text-align: center;
           padding: 33px 0;
-          font-family: Avenir;
+          font-family: var(--font-family, var(--default-font-family));
         }
         .table-header {
           height: 33px;
         }
         .cell {
-          color: #000;
-          font-family: Avenir;
-          font-size: 11pt;
-          border: 1px solid #d4d9db;
+          color: var(--black-text-color, var(--default-black-text-color));
+          font-family: var(--font-family, var(--default-font-family));
+          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
+          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           text-align: left;
           padding: 0 13px;
           line-height: 33px
         }
         .header-label {
           flex: 1;
+          padding-top: 1px;
         }
         .header {
-          font-weight: 500;
           display: flex;
           flex-direction: row;
           justify-content: space-between;
         }
         paper-checkbox {
           padding: calc((33px - 14px) / 2) 0;
-          --paper-checkbox-size: 14px;
-          --paper-checkbox-unchecked-color: #d4d9db;
-          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
-          --paper-checkbox-checked-color: red;
-          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
+          --paper-checkbox-size: var(--paragraph-font-size, var(--default-paragraphy-font-size));
+          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
         }
         paper-icon-button {
-          color: #000;
+          color: var(--black-text-color, var(--default-black-text-color));
           width: 33px;
           height: 33px;
         }
         .flipped {
           transform: rotate(180deg);
+        }
+        .row {
+          height: 38px;
+          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+        }
+        .table-cell {
+          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+        }
+        th {
+          box-sizing: border-box;
         }
       `
     ]
@@ -474,6 +484,3 @@ class UnityTable extends LitElement {
 }
 
 customElements.define('unity-table', UnityTable)
-
-// rows render columns
-// columns render cells
