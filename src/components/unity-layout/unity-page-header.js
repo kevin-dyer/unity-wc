@@ -64,7 +64,7 @@ class UnityPageHeader extends LitElement {
           flex: 1;
           display: flex;
           flex-direction: column;
-          font-family: var(--font-family, --default-font-family);
+          font-family: var(--font-family, var(--default-font-family));
         }
 
         #header {
@@ -74,7 +74,7 @@ class UnityPageHeader extends LitElement {
           flex-direction: row;
           justify-content: space-between;
           align-items: center;
-          border-bottom: 1px solid var(--light-grey-text-color, --default-light-grey-text-color);
+          border-bottom: 1px solid var(--light-grey-text-color, var(--default-light-grey-text-color));
         }
 
         #left-container {
@@ -84,15 +84,15 @@ class UnityPageHeader extends LitElement {
         }
 
         #title {
-          font-size: var(--header1-font-size, --default-header1-font-size);
-          font-weight: var(--header1-font-weight, --default-header1-font-weight);
+          font-size: var(--header1-font-size, var(--default-header1-font-size));
+          font-weight: var(--header1-font-weight, var(--default-header1-font-weight));
         }
 
         paper-tabs {
-          font-size: var(--small-text-size, --default-small-text-size);
+          font-size: var(--small-text-size, var(--default-small-text-size));
           height: 28px;
           align-self: flex-start;
-          --paper-tabs-selection-bar-color: var(--primary-brand-color, --default-primary-brand-color);
+          --paper-tabs-selection-bar-color: var(--primary-brand-color, var(--default-primary-brand-color));
         }
 
       `
