@@ -4,8 +4,8 @@ import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 // These are the shared custom styles to be used as defaults
-// import UnityDefaultThemeStyles from '@bit/smartworks.unity.unity-default-theme-styles';
-import {UnityDefaultThemeStyles} from '../unity-default-theme-styles'
+import UnityDefaultThemeStyles from '@bit/smartworks.unity.unity-default-theme-styles';
+// import {UnityDefaultThemeStyles} from '../unity-default-theme-styles'
 
 /**
  * Displays a Top level Page Header.
