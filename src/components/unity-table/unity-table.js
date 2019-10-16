@@ -93,7 +93,7 @@ class UnityTable extends LitElement {
     // default catcher for missing columns
     if ((!columns || !columns.length) && !!value && !!value.length) {
       const newCol = Object.keys(value[0])
-      this.columns = newCol.map(name => ({key: name, label: name, width: 1 / newCol.length}))
+      this.columns = newCol.map(name => ({key: name, label: name}))
     }
     const newValue = value.map((datum, i) => ({...datum, tableId: i}))
     this._data = newValue
@@ -361,7 +361,7 @@ class UnityTable extends LitElement {
     return html`
       <thead>
         <tr class="table-header">
-          ${columns.map(({name, label, width}, i) => {
+          ${columns.map(({key, label, width}, i) => {
             const icon = direction !== UNS && column === name ? 'filter-list' : 'menu'
             const flip = direction === ASC
             return html`
@@ -396,7 +396,7 @@ class UnityTable extends LitElement {
 
   _renderRow(datum, row) {
     // returns a row element
-    const columns = this.columns.map(({name}, i) => name)
+    const columns = this.columns.map(({key}, i) => key)
     const id = datum.tableId
     // pull out
     // if index is 0, add check-all button
