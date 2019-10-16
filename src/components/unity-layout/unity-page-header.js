@@ -149,14 +149,15 @@ class UnityPageHeader extends LitElement {
         </div>
         <slot name="action-content" id="right-container"></slot>
       </div>
-      ${this.tabs.length > 0 &&
-        html`<paper-tabs selected=${this.selectedTab} id="header-tabs" noink>
-          ${this.tabs.map(({label, onClick=()=>{}}) =>
-            html`<paper-tab @click=${this.onClick}>
-              ${label}
-            </paper-tab>`
-          )}
-        </paper-tabs>`
+      ${this.tabs.length > 0
+        ? html`<paper-tabs selected=${this.selectedTab} id="header-tabs" noink>
+            ${this.tabs.map(({label, onClick=()=>{}}) =>
+              html`<paper-tab @click=${this.onClick}>
+                ${label}
+              </paper-tab>`
+            )}
+          </paper-tabs>`
+        : ''
       }
     `
   }

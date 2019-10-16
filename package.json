@@ -30,7 +30,9 @@
     "pwa-helpers": "^0.9.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "typeface-nunito": "0.0.72",
+    "typeface-nunito-sans": "0.0.72"
   },
   "devDependencies": {
     "@babel/core": "^7.6.3",
@@ -57,13 +59,7 @@
   },
   "bit": {
     "env": {
-      "compiler": {
-        "meta": {
-          "options": {
-            "file": "src/compilers/lit-element-babel"
-          }
-        }
-      }
+      "compiler": "bit.envs/compilers/typescript@3.0.35"
     },
     "componentsDefaultDirectory": "components/{name}",
     "packageManager": "npm"

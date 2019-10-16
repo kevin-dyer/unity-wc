@@ -1,4 +1,6 @@
 import { css } from 'lit-element';
+import 'typeface-nunito';
+import 'typeface-nunito-sans';
 
 export const UnityDefaultThemeStyles = css`
   :host {
