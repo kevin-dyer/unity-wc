@@ -136,14 +136,15 @@ class UnityPageHeader extends LitElement {
     return html`
       <div id="header">
         <div id="left-container">
-          ${this.showBackBtn &&
-            html`
+          ${this.showBackBtn
+            ? html`
               <paper-icon-button
                 icon="arrow-back"
                 @click=${this.handleBack}
               ></paper-icon-button>
 
             `
+            : ''
           }
           <span id="title">${this.title}</span>
         </div>
