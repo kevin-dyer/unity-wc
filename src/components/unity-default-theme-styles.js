@@ -1,8 +1,10 @@
 import { css } from 'lit-element';
-import 'typeface-nunito';
-import 'typeface-nunito-sans';
 
-const UnityDefaultThemeStyles = css`
+//Note: was not able to import css files,
+// Therefore any specified font should be loaded in parent app
+// import 'typeface-nunito-sans';
+
+export const UnityDefaultThemeStyles = css`
   :host {
     --default-primary-brand-rgb: 58, 188, 225;
     --default-secondary-brand-rgb: 0, 94, 255;
@@ -44,5 +46,3 @@ const UnityDefaultThemeStyles = css`
     --default-small-text-selected-weight: 600;
   }
 `;
-
-export default UnityDefaultThemeStyles
