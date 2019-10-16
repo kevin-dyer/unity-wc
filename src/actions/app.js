@@ -28,6 +28,9 @@ export const navigate = (path) => (dispatch) => {
 
 const loadPage = (page) => (dispatch) => {
   switch(page) {
+    case 'page-layout':
+      import('../components/my-layout.js')
+      break;
     case 'view1':
       import('../components/my-view1.js').then((module) => {
         // Put code in here that you want to run every time when

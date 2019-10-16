@@ -1,8 +1,8 @@
 {
-  "name": "pwa-starter-kit",
-  "version": "0.9.0",
+  "name": "Altair Unity",
+  "version": "0.0.1",
   "contributors": [
-    "The Polymer Authors"
+    "Oakland Office"
   ],
   "license": "BSD-3-Clause",
   "repository": "Polymer/pwa-starter-kit",
@@ -20,15 +20,28 @@
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.0",
+    "@polymer/iron-icons": "^3.0.1",
+    "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-icon-button": "^3.0.2",
+    "@polymer/paper-tabs": "^3.1.0",
     "@polymer/polymer": "^3.1.0",
-    "@webcomponents/webcomponentsjs": "^2.2.4",
+    "@webcomponents/webcomponentsjs": "^2.3.0",
     "lit-element": "^2.0.1",
     "pwa-helpers": "^0.9.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "typeface-nunito": "0.0.72",
+    "typeface-nunito-sans": "0.0.72"
   },
   "devDependencies": {
+    "@babel/core": "^7.6.3",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
+    "@babel/preset-env": "^7.6.3",
+    "@bit/bit.envs.internal.babel-base-compiler": "^1.0.1",
     "@polymer/test-fixture": "^4.0.2",
     "axe-core": "^3.0.0",
     "chai": "^4.1.2",
@@ -43,5 +56,12 @@
     "prpl-server": "^1.4.0",
     "puppeteer": "^1.5.0",
     "wct-mocha": "^1.0.1"
+  },
+  "bit": {
+    "env": {
+      "compiler": "bit.envs/compilers/typescript@3.0.35"
+    },
+    "componentsDefaultDirectory": "components/{name}",
+    "packageManager": "npm"
   }
 }
