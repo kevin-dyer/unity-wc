@@ -83,6 +83,11 @@ class UnityPageHeader extends LitElement {
           align-items: center;
         }
 
+        #right-container {
+          flex: 1,
+          border: 1px solid green;
+        }
+
         #title {
           font-size: var(--header1-font-size, var(--default-header1-font-size));
           font-weight: var(--header1-font-weight, var(--default-header1-font-weight));
@@ -125,13 +130,13 @@ class UnityPageHeader extends LitElement {
     this.selectedTab=0
   }
 
-  createRenderRoot() {
-  /**
-   * Render template in light DOM. Note that shadow DOM features like
-   * encapsulated CSS are unavailable.
-   */
-    return this;
-  }
+  // createRenderRoot() {
+  // /**
+  //  * Render template in light DOM. Note that shadow DOM features like
+  //  * encapsulated CSS are unavailable.
+  //  */
+  //   return this;
+  // }
 
   _handleTabSelect(tab, index) {
     const tabSelectedEvent = new CustomEvent('header-tab-selected', {
@@ -168,7 +173,7 @@ class UnityPageHeader extends LitElement {
           }
           <span id="title">${this.title}</span>
         </div>
-        <slot name="action-content" id="right-container"></slot>
+        <slot id="right-container"></slot>
       </div>
       ${this.tabs.length > 0
         ? html`<paper-tabs selected=${this.selectedTab} id="header-tabs" noink>
