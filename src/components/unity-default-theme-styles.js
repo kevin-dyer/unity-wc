@@ -29,22 +29,22 @@ export const UnityDefaultThemeStyles = css`
     /* Fonts */
     --default-font-family: 'Nunito', sans-serif;
 
-    --default-header1-font-size: 18px;
+    --default-header1-font-size: 18pt;
     --default-header1-font-weight: 400;
 
-    --default-header2-font-size: 18px;
+    --default-header2-font-size: 18pt;
     --default-header2-font-weight: 400;
 
-    --default-header2-selected-font-size: 18px;
+    --default-header2-selected-font-size: 18pt;
     --default-header2-selected-font-weight: 600;
 
-    --default-paragraph-font-size: 14px;
+    --default-paragraph-font-size: 14pt;
     --default-paragraph-font-weight: 400;
 
-    --default-small-text-size: 11px;
+    --default-small-text-size: 11pt;
     --default-small-text-weight: 400;
 
-    --default-small-text-selected-size: 11px;
+    --default-small-text-selected-size: 11pt;
     --default-small-text-selected-weight: 600;
   }
 `;

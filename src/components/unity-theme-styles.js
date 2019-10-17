@@ -25,22 +25,22 @@ export const UnityThemeStyles = css`
     /* Fonts */
     --font-family: 'Nunito', sans-serif;
 
-    --header1-font-size: 18px;
+    --header1-font-size: 18pt;
     --header1-font-weight: 400;
 
-    --header2-font-size: 18px;
+    --header2-font-size: 18pt;
     --header2-font-weight: 400;
 
-    --header2-selected-font-size: 18px;
+    --header2-selected-font-size: 18pt;
     --header2-selected-font-weight: 600;
 
-    --paragraph-font-size: 14px;
+    --paragraph-font-size: 14pt;
     --paragraph-font-weight: 400;
 
-    --small-text-size: 11px;
+    --small-text-size: 11pt;
     --small-text-weight: 400;
 
-    --small-text-selected-size: 11px;
+    --small-text-selected-size: 11pt;
     --small-text-selected-weight: 600;
   }
 `;
