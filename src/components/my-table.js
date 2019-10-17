@@ -7,9 +7,9 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-import { html } from 'lit-element';
+import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import './UnityTable/UnityTable.js'
+import './unity-table/unity-table.js'
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
@@ -26,20 +26,33 @@ const exampleData = [
 ]
 
 const exampleColumns = [
-  {name: 'hex', width: .5},
-  {name: 'name', width: .25},
-  {name: 'favorite', width: .25}
+  {name: 'hex', label: 'Hex value', width: 500},
+  {name: 'name', label: 'Color'},
+  {name: 'favorite', label: 'Favourite?'}
 ]
 
 class MyTable extends PageViewElement {
   static get styles() {
     return [
-      SharedStyles
+      SharedStyles,
+      css`
+        .example-container {
+          position: relative;
+          width: 1000px;
+          top: 200px;
+          left: 50%;
+          transform: translate(-50%,0);
+        }
+      `
     ];
   }
 
   render() {
-    return html`<unity-table .data="${exampleData}" .columns="${exampleColumns}" />`
+    return html`
+      <div class="example-container">
+        <unity-table selectable .data="${exampleData}" .columns="${exampleColumns}" />
+      </div>
+    `
   }
 }
 

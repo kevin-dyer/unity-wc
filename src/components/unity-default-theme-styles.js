@@ -16,10 +16,12 @@ export const UnityDefaultThemeStyles = css`
     --default-global-nav-background-color: grey;
     --default-global-nav-section-color: #454545;
     --default-black-text-color: #000;
-    --default-dark-grey-text-color: #303030;
-    --default-light-grey-text-color: #8c8c8c;
-    --default-dark-grey-background-color: #303030;
-    --default-light-grey-background-color: #8c8c8c;
+    --default-dark-grey-text-color: #5f6368;
+    --default-medium-grey-text-color: #80868b;
+    --default-light-grey-text-color: #bdbdbd;
+    --default-dark-grey-background-color: #f1f3f4;
+    --default-medium-grey-background-color: #d4d9db;
+    --default-light-grey-background-color: #a7adaf;
 
     /*Composite style based on variables above*/
     --default-selection-highlight-color: rgba(var(--default-primary-brand-rgb), var(--default-selection-opacity));
