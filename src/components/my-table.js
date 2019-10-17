@@ -39,7 +39,8 @@ class MyTable extends PageViewElement {
         .example-container {
           position: relative;
           width: 1000px;
-          top: 200px;
+          height: 500px;
+          top: 100px;
           left: 50%;
           transform: translate(-50%,0);
         }

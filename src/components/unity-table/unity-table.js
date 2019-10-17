@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
+import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js'
 // import { themes } from './path/to/themes'
 
@@ -31,6 +32,8 @@ import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js'
     onEndReached:           function to be called to request more pages to support infiniscroll
                             only works with controls set to EXT
     onEndReachedThreshold:  TBD
+    emptyDisplay:           String to display when data array is empty
+    isLoading:              Boolean to show spinner instead of table
 
     Internals for creating/editing
     data:           data marked w/ tableId for uniq references
@@ -61,6 +64,8 @@ class UnityTable extends LitElement {
     this.onColumnSort = ()=>{}
     this.onEndReached = ()=>{}
     this.onColumnChange = ()=>{}
+    this.emptyDisplay = 'No information found.'
+    this.isLoading = false
 
     // defaults of internal references
     this._filter = ''
@@ -83,7 +88,9 @@ class UnityTable extends LitElement {
       onEndReached: { type: Function },
       onColumnChange: { type: Function },
       _allSelected: { type: Boolean },
-      selected: { type: Array }
+      selected: { type: Array },
+      emptyDisplay: { type: String },
+      isLoading: { type: Boolean }
     }
   }
 
