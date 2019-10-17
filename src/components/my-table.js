@@ -26,9 +26,9 @@ const exampleData = [
 ]
 
 const exampleColumns = [
-  {name: 'hex', label: 'Hex value', width: 500},
-  {name: 'name', label: 'Color'},
-  {name: 'favorite', label: 'Favourite?'}
+  {key: 'hex', label: 'Hex value', width: 500},
+  {key: 'name', label: 'Color'},
+  {key: 'favorite', label: 'Favourite?'}
 ]
 
 class MyTable extends PageViewElement {
