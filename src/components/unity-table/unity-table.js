@@ -401,7 +401,6 @@ class UnityTable extends LitElement {
   }
 
   render() {
-    console.log('=\t=\t=\trender called\t=\t=\t=')
     const data = this._processedData
     return html`
       <table class="container">
