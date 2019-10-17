@@ -118,6 +118,9 @@ class UnityPageHeader extends LitElement {
       selectedTab: {
         type: Number
       }
+      onTabSelect: {
+        type: Function
+      }
     }
   }
 
@@ -128,6 +131,7 @@ class UnityPageHeader extends LitElement {
     this.showBackBtn=false
     this.tabs=[]
     this.selectedTab=0
+    this.onTabSelect=()=>{}
   }
 
   // createRenderRoot() {
@@ -139,16 +143,17 @@ class UnityPageHeader extends LitElement {
   // }
 
   _handleTabSelect(tab, index) {
-    const tabSelectedEvent = new CustomEvent('header-tab-selected', {
-      detail: {
-        tab,
-        index
-      },
-      bubbles: true,
-      composed: true
-    });
-
-    this.dispatchEvent(tabSelectedEvent);
+//     const tabSelectedEvent = new CustomEvent('header-tab-selected', {
+//       detail: {
+//         tab,
+//         index
+//       },
+//       bubbles: true,
+//       composed: true
+//     });
+// 
+//     this.dispatchEvent(tabSelectedEvent);
+    this.onTabSelect(tab, index)
   }
 
   //This may need to be passed in as a property, could replace showBackBtn bool
