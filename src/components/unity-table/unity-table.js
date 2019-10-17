@@ -198,7 +198,7 @@ class UnityTable extends LitElement {
     else if (!!newSelected[id]) delete newSelected[id]
     this.selected = newSelected
     // send flat
-    let flatSelected = newSelected.reduce((flat, v) => !!v ? [...flat, v] : flat, [])
+    let flatSelected = newSelected.filter( v => !!v)
     this.onSelectionChange(flatSelected)
     // check if none/all selected
     if (flatSelected.length === 0) this._allSelected = false
