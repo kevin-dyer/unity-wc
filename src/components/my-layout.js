@@ -13,28 +13,34 @@ class MyLayout extends LitElement {
     ];
   }
 
+  connectedCallback() {
+    super.connectedCallback()
+    this.addEventListener('header-tab-selected', this._handleTabSelect)
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback()
+    this.removeEventListener('header-tab-selected', this._handleTabSelect)
+  }
+
+  _handleTabSelect(e) {
+    const {detail: {tab, index}={}} = e
+    console.log("handleTabSelect called in my-layout, tab: ", tab, ", index: ", index)
+  }
+
   render() {
     return html`<unity-page-header
       title="MOCC2 Title"
       ?showBackBtn=${true}
       .tabs=${[
         {
-          label: 'Users',
-          onClick: (e) => {
-            console.log("Users tab clicked")
-          }
+          label: 'Users'
         },
         {
-          label: 'Rules',
-          onClick: (e) => {
-            console.log("Rules tab clicked")
-          }
+          label: 'Rules'
         },
         {
-          label: 'API Keys',
-          onClick: (e) => {
-            console.log("API Keys tab clicked")
-          }
+          label: 'API Keys'
         }
       ]}
       .selectedTab=${1}

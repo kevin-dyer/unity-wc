@@ -4,7 +4,7 @@ import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 // These are the shared custom styles to be used as defaults
-import UnityDefaultThemeStyles from '@bit/smartworks.unity.unity-default-theme-styles';
+import {UnityDefaultThemeStyles} from '@bit/smartworks.unity.unity-default-theme-styles';
 // import {UnityDefaultThemeStyles} from '../unity-default-theme-styles'
 
 /**
@@ -125,6 +125,19 @@ class UnityPageHeader extends LitElement {
     this.selectedTab=0
   }
 
+  _handleTabSelect(tab, index) {
+    const tabSelectedEvent = new CustomEvent('header-tab-selected', {
+      detail: {
+        tab,
+        index
+      },
+      bubbles: true,
+      composed: true
+    });
+
+    this.dispatchEvent(tabSelectedEvent);
+  }
+
   //This may need to be passed in as a property, could replace showBackBtn bool
   handleBack(e) {
     console.log("Go back here!")
@@ -150,11 +163,13 @@ class UnityPageHeader extends LitElement {
       </div>
       ${this.tabs.length > 0
         ? html`<paper-tabs selected=${this.selectedTab} id="header-tabs" noink>
-            ${this.tabs.map(({label, onClick=()=>{}}) =>
-              html`<paper-tab @click=${this.onClick}>
+            ${this.tabs.map((tab, index) => {
+              const {label} = tab
+
+              return html`<paper-tab @click=${e => this._handleTabSelect(tab, index)}>
                 ${label}
               </paper-tab>`
-            )}
+            })}
           </paper-tabs>`
         : ''
       }
