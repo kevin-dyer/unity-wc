@@ -117,7 +117,7 @@ class UnityPageHeader extends LitElement {
       },
       selectedTab: {
         type: Number
-      }
+      },
       onTabSelect: {
         type: Function
       }
@@ -153,6 +153,8 @@ class UnityPageHeader extends LitElement {
 //     });
 // 
 //     this.dispatchEvent(tabSelectedEvent);
+
+    console.log("_handleTabSelect called in unity-page-header component. tab: ", tab, ", index: ", index)
     this.onTabSelect(tab, index)
   }
 
