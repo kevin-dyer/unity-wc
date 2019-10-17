@@ -70,7 +70,8 @@ class UnityTable extends LitElement {
     // defaults of internal references
     this._filter = ''
     this._sortBy = {column: '', direction: false}
-    this._processedData = []
+    this._filteredData = []
+    this._sortedData = []
     this._allSelected = false
   }
 
@@ -136,7 +137,7 @@ class UnityTable extends LitElement {
     }
     // check that column is in list
     const columns = this.columns
-    const exists = columns.some(({name}) => name === column)
+    const exists = columns.some(({key}) => key === column)
     if (!exists) {
       return false
     }
@@ -288,18 +289,18 @@ class UnityTable extends LitElement {
     // if controls are external, callback and quit
     if (this.controls) {
       this.onSearchFilter(searchFor)
-      this._processedData = [...this.data]
+      this._filteredData = [...this.data]
       return
     }
     // return items only if any prop contains the string
     // might instead be based on currently visible columns
     const columns = [...this.columns]
+    let filteredData = this.data.map((v,i) => i)
     if (!!searchFor) {
-      let processedData = [...this.data]
-      processedData = processedData.filter(datum => {
+      filteredData = filteredData.filter(i => {
         // need to consider different value types
         return columns.some(({name: column}) => {
-          const point = datum[column]
+          const point = this.data[i][column]
           // might need to turn below into recursive func if we are expecting data to include obj
           if (typeof point === 'string') {
             return point.includes(searchFor)
@@ -310,10 +311,8 @@ class UnityTable extends LitElement {
           }
         })
       })
-      this._processedData = processedData
-    } else {
-      this._processedData = [...this.data]
     }
+    this._filteredData = filteredData
   }
 
   _sortData() {
@@ -323,15 +322,16 @@ class UnityTable extends LitElement {
     } = this.sortBy
     if (this.controls) {
       this.onColumnSort(sortBy, direction)
-      this._processedData = [...this._processedData]
+      this._sortedData = [...this._filteredData]
       return
     }
     // sort data based on column and direction
+    let sortedData = [...this._filteredData]
     if (!!direction) {
-      let processedData = [...this._processedData]
-      processedData = processedData.sort((first, second) => {
-        const a = String(first[sortBy]).toLowerCase()
-        const b = String(second[sortBy]).toLowerCase()
+      const data = this.data
+      sortedData = sortedData.sort((first, second) => {
+        const a = String(data[first][sortBy]).toLowerCase()
+        const b = String(data[second][sortBy]).toLowerCase()
         if (a < b) {
           // return < 0, a first
           return direction === DES ? 1 : -1
@@ -342,8 +342,8 @@ class UnityTable extends LitElement {
           return 0
         }
       })
-      this._processedData = processedData
     }
+    this._sortedData = sortedData
   }
 
   _process() {
@@ -368,19 +368,18 @@ class UnityTable extends LitElement {
     return html`
       <thead>
         <tr class="table-header">
-          ${columns.map(({key, label, width}, i) => {
-            const icon = direction !== UNS && column === name ? 'filter-list' : 'menu'
+          ${columns.map(({key, label, width: rootWidth}, i) => {
+            const icon = direction !== UNS && column === key ? 'filter-list' : 'menu'
             const flip = direction === ASC
+            let width = null
+            if (typeof rootWidth === 'string') width = rootWidth
+            else if (rootWidth < 1) width = `${rootWidth*100}%`
+            else width = `${rootWidth}px`
             return html`
               <th
                 class="cell"
-                name="header-column-${name}"
-                style="${
-                  !width ? null :
-                  width < 1 ?
-                    `width: ${width*800}%`
-                  : `width: ${width}px`
-                }"
+                name="header-column-${key}"
+                style="width: ${width}"
               >
                 <div class="header">
                   ${this.selectable && i === 0 ? html`<paper-checkbox .checked="${this._allSelected}" noink @click="${this._handleHeaderSelect}" />` : null}
@@ -390,7 +389,7 @@ class UnityTable extends LitElement {
                     icon="${icon}"
                     title="${direction}"
                     class="icon ${flip ? 'flipped' : ''}"
-                    @click="${()=>{this.sortBy = name}}"
+                    @click="${()=>{this.sortBy = key}}"
                   />
                 </div>
               </th>
@@ -401,10 +400,11 @@ class UnityTable extends LitElement {
     `
   }
 
-  _renderRow(datum, row) {
+  _renderRow(index, row) {
     // returns a row element
     const columns = this.columns.map(({key}, i) => key)
-    const id = datum.tableId
+    const data = this.data
+    const id = data[index].tableId
     // pull out
     // if index is 0, add check-all button
     // have td render unity cell instead
@@ -414,7 +414,7 @@ class UnityTable extends LitElement {
         ${columns.map((column, i) => {
           return html`
             <td class="table-cell" key="${row}-${i}">
-              ${datum[column]}
+              ${data[index][column]}
             </td>`
           })
         }
@@ -424,7 +424,7 @@ class UnityTable extends LitElement {
 
   render() {
     console.log('=\t=\t=\trender called\t=\t=\t=')
-    const data = this._processedData
+    const data = this._sortedData
     const hasData = data.length > 0
     const isLoading = this.isLoading
     const fill = isLoading || !hasData
