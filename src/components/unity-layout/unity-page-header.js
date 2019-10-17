@@ -78,14 +78,17 @@ class UnityPageHeader extends LitElement {
         }
 
         #left-container {
+          flex: 1;
           display: flex;
           flex-direction: row;
           align-items: center;
         }
 
         #right-container {
-          flex: 1,
-          border: 1px solid green;
+          flex: 1;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
         }
 
         #title {
@@ -131,7 +134,7 @@ class UnityPageHeader extends LitElement {
     this.showBackBtn=false
     this.tabs=[]
     this.selectedTab=0
-    this.onTabSelect=()=>{}
+    this.onTabSelect=()=>{console.log("onTabSelect default")}
   }
 
   // createRenderRoot() {
@@ -168,19 +171,11 @@ class UnityPageHeader extends LitElement {
     console.log("this.tabs: ", this.tabs)
     return html`
       <div id="header">
-        <div id="left-container">
-          ${this.showBackBtn
-            ? html`
-              <paper-icon-button
-                icon="arrow-back"
-                @click=${this.handleBack}
-              ></paper-icon-button>
-            `
-            : ''
-          }
+        <div id="left-content" id="left-container">
+          <slot name="left-centent"></slot>
           <span id="title">${this.title}</span>
         </div>
-        <slot id="right-container"></slot>
+        <slot name="right-content" id="right-container"></slot>
       </div>
       ${this.tabs.length > 0
         ? html`<paper-tabs selected=${this.selectedTab} id="header-tabs" noink>
