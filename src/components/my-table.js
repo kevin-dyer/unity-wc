@@ -26,9 +26,9 @@ const exampleData = [
 ]
 
 const exampleColumns = [
-  {name: 'hex', label: 'Hex value', width: 500},
-  {name: 'name', label: 'Color'},
-  {name: 'favorite', label: 'Favourite?'}
+  {key: 'hex', label: 'Hex value', width: 500},
+  {key: 'name', label: 'Color'},
+  {key: 'favorite', label: 'Favourite?'}
 ]
 
 class MyTable extends PageViewElement {
@@ -39,7 +39,8 @@ class MyTable extends PageViewElement {
         .example-container {
           position: relative;
           width: 1000px;
-          top: 200px;
+          height: 500px;
+          top: 100px;
           left: 50%;
           transform: translate(-50%,0);
         }

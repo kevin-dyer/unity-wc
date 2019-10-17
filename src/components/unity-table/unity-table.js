@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
+import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js'
 // import { themes } from './path/to/themes'
 
@@ -31,6 +32,8 @@ import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js'
     onEndReached:           function to be called to request more pages to support infiniscroll
                             only works with controls set to EXT
     onEndReachedThreshold:  TBD
+    emptyDisplay:           String to display when data array is empty
+    isLoading:              Boolean to show spinner instead of table
 
     Internals for creating/editing
     data:           data marked w/ tableId for uniq references
@@ -56,16 +59,19 @@ class UnityTable extends LitElement {
     this.selectable = false
     this.onSelectionChange = ()=>{}
     this.headless = false
-    this.selected = {}
+    this.selected = []
     this.onSearchFilter = ()=>{}
     this.onColumnSort = ()=>{}
     this.onEndReached = ()=>{}
     this.onColumnChange = ()=>{}
+    this.emptyDisplay = 'No information found.'
+    this.isLoading = false
 
     // defaults of internal references
     this._filter = ''
     this._sortBy = {column: '', direction: false}
-    this._processedData = []
+    this._filteredData = []
+    this._sortedData = []
     this._allSelected = false
   }
 
@@ -82,7 +88,10 @@ class UnityTable extends LitElement {
       onColumnSort: { type: Function },
       onEndReached: { type: Function },
       onColumnChange: { type: Function },
-      _allSelected: { type: Boolean }
+      _allSelected: { type: Boolean },
+      selected: { type: Array },
+      emptyDisplay: { type: String },
+      isLoading: { type: Boolean }
     }
   }
 
@@ -92,7 +101,7 @@ class UnityTable extends LitElement {
     // default catcher for missing columns
     if ((!columns || !columns.length) && !!value && !!value.length) {
       const newCol = Object.keys(value[0])
-      this.columns = newCol.map(name => ({key: name, label: name, width: 1 / newCol.length}))
+      this.columns = newCol.map(name => ({key: name, label: name}))
     }
     const newValue = value.map((datum, i) => ({...datum, tableId: i}))
     this._data = newValue
@@ -128,7 +137,7 @@ class UnityTable extends LitElement {
     }
     // check that column is in list
     const columns = this.columns
-    const exists = columns.some(({name}) => name === column)
+    const exists = columns.some(({key}) => key === column)
     if (!exists) {
       return false
     }
@@ -184,16 +193,16 @@ class UnityTable extends LitElement {
     // copy selected
     const newSelected = [...this.selected]
     // if not selected, select
-    if (!newSelected[i]) newSelected[id] = this.data[id]
+    if (!newSelected[id]) newSelected[id] = this.data[id]
     // if selected, delete from arr
-    else if (!!newSelected[i]) delete newSelected[id]
+    else if (!!newSelected[id]) delete newSelected[id]
     this.selected = newSelected
     // send flat
-    let flatSelected = newSelected.flat()
+    let flatSelected = newSelected.filter( v => !!v)
     this.onSelectionChange(flatSelected)
     // check if none/all selected
     if (flatSelected.length === 0) this._allSelected = false
-    else if (flatSelected.length === this.data) this._allSelected = true
+    else if (flatSelected.length === this.data.length) this._allSelected = true
   }
 
   // takes name of column (or maybe whole column) to move and index to move it to
@@ -280,18 +289,18 @@ class UnityTable extends LitElement {
     // if controls are external, callback and quit
     if (this.controls) {
       this.onSearchFilter(searchFor)
-      this._processedData = [...this.data]
+      this._filteredData = [...this.data]
       return
     }
     // return items only if any prop contains the string
     // might instead be based on currently visible columns
     const columns = [...this.columns]
+    let filteredData = this.data.map((v,i) => i)
     if (!!searchFor) {
-      let processedData = [...this.data]
-      processedData = processedData.filter(datum => {
+      filteredData = filteredData.filter(i => {
         // need to consider different value types
         return columns.some(({name: column}) => {
-          const point = datum[column]
+          const point = this.data[i][column]
           // might need to turn below into recursive func if we are expecting data to include obj
           if (typeof point === 'string') {
             return point.includes(searchFor)
@@ -302,10 +311,8 @@ class UnityTable extends LitElement {
           }
         })
       })
-      this._processedData = processedData
-    } else {
-      this._processedData = [...this.data]
     }
+    this._filteredData = filteredData
   }
 
   _sortData() {
@@ -315,15 +322,16 @@ class UnityTable extends LitElement {
     } = this.sortBy
     if (this.controls) {
       this.onColumnSort(sortBy, direction)
-      this._processedData = [...this._processedData]
+      this._sortedData = [...this._filteredData]
       return
     }
     // sort data based on column and direction
+    let sortedData = [...this._filteredData]
     if (!!direction) {
-      let processedData = [...this._processedData]
-      processedData = processedData.sort((first, second) => {
-        const a = String(first[sortBy]).toLowerCase()
-        const b = String(second[sortBy]).toLowerCase()
+      const data = this.data
+      sortedData = sortedData.sort((first, second) => {
+        const a = String(data[first][sortBy]).toLowerCase()
+        const b = String(data[second][sortBy]).toLowerCase()
         if (a < b) {
           // return < 0, a first
           return direction === DES ? 1 : -1
@@ -334,8 +342,8 @@ class UnityTable extends LitElement {
           return 0
         }
       })
-      this._processedData = processedData
     }
+    this._sortedData = sortedData
   }
 
   _process() {
@@ -360,19 +368,18 @@ class UnityTable extends LitElement {
     return html`
       <thead>
         <tr class="table-header">
-          ${columns.map(({name, label, width}, i) => {
-            const icon = direction !== UNS && column === name ? 'filter-list' : 'menu'
+          ${columns.map(({key, label, width: rootWidth}, i) => {
+            const icon = direction !== UNS && column === key ? 'filter-list' : 'menu'
             const flip = direction === ASC
+            let width = null
+            if (typeof rootWidth === 'string') width = rootWidth
+            else if (rootWidth < 1) width = `${rootWidth*100}%`
+            else width = `${rootWidth}px`
             return html`
               <th
                 class="cell"
-                name="header-column-${name}"
-                style="${
-                  !width ? null :
-                  width < 1 ?
-                    `width: ${width*800}%`
-                  : `width: ${width}px`
-                }"
+                name="header-column-${key}"
+                style="width: ${width}"
               >
                 <div class="header">
                   ${this.selectable && i === 0 ? html`<paper-checkbox .checked="${this._allSelected}" noink @click="${this._handleHeaderSelect}" />` : null}
@@ -382,7 +389,7 @@ class UnityTable extends LitElement {
                     icon="${icon}"
                     title="${direction}"
                     class="icon ${flip ? 'flipped' : ''}"
-                    @click="${()=>{this.sortBy = name}}"
+                    @click="${()=>{this.sortBy = key}}"
                   />
                 </div>
               </th>
@@ -393,21 +400,51 @@ class UnityTable extends LitElement {
     `
   }
 
-  _renderRow(datum) {
+  _renderRow(index, row) {
     // returns a row element
-    const columns = this.columns.map(({name}, i) => name)
+    const columns = this.columns.map(({key}, i) => key)
+    const data = this.data
+    const id = data[index].tableId
+    // pull out
     // if index is 0, add check-all button
-    return html`${columns.map((key, i) => html`<td>${datum[key]}</td>`)}`
+    // have td render unity cell instead
+    // need to add handler for icon/img and label
+    return html`
+      <tr class="row" key="row-${row}">
+        ${columns.map((column, i) => {
+          return html`
+            <td class="table-cell" key="${row}-${i}">
+              ${data[index][column]}
+            </td>`
+          })
+        }
+      </tr>
+    `
   }
 
   render() {
-    const data = this._processedData
+    const data = this._sortedData
+    const hasData = data.length > 0
+    const isLoading = this.isLoading
+    const fill = isLoading || !hasData
+
+    // if isLoading, show spinner
+    // if !hasData, show empty message
+    // show data
     return html`
-      <table class="container">
+      <table class="container ${fill ? 'fullspace' : ''}">
         ${!this.headless ? this._renderTableHeader(this.columns) : null}
-        ${data.length > 0
-          ? data.map(datum => html`<tr>${this._renderRow(datum)}</tr>`)
-          : html`<tr><td colspan="${this.columns.length}" rowspan="3" class="empty-table">No information found.</td></tr>`}
+        ${fill
+          ? html`
+              <td colspan="${this.columns.length}" class="fullspace">
+                ${isLoading
+                  ? html`<paper-spinner-lite active class="spinner center" />`
+                  : html`<div class="center">${this.emptyDisplay}</div>`
+                }
+              </td>
+            `
+          : data.map((index, row) => this._renderRow(index, row))
+        }
       </table>
     `
   }
@@ -417,6 +454,10 @@ class UnityTable extends LitElement {
     return [
       UnityDefaultThemeStyles,
       css`
+        :host {
+          font-family: var(--font-family, var(--default-font-family));
+          color: var(--black-text-color, var(--default-black-text-color));
+        }
         .container {
           width: 100%;
           overflow-x: hidden;
@@ -426,17 +467,27 @@ class UnityTable extends LitElement {
           border-spacing: 0;
           box-sizing: border-box;
         }
-        .empty-table {
-          text-align: center;
-          padding: 33px 0;
-          font-family: var(--font-family, var(--default-font-family));
+        .fullspace {
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: hidden;
+        }
+        .center {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .spinner {
+          --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
+          width: 56px;
+          height: 56px;
         }
         .table-header {
           height: 33px;
         }
         .cell {
-          color: var(--black-text-color, var(--default-black-text-color));
-          font-family: var(--font-family, var(--default-font-family));
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
