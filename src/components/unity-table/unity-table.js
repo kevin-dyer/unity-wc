@@ -423,7 +423,6 @@ class UnityTable extends LitElement {
   }
 
   render() {
-    console.log('=\t=\t=\trender called\t=\t=\t=')
     const data = this._sortedData
     const hasData = data.length > 0
     const isLoading = this.isLoading
@@ -437,14 +436,12 @@ class UnityTable extends LitElement {
         ${!this.headless ? this._renderTableHeader(this.columns) : null}
         ${fill
           ? html`
-              <!-- <tr class="fullspace"> -->
-                <td colspan="${this.columns.length}" class="fullspace">
-                  ${isLoading
-                    ? html`<paper-spinner-lite active class="spinner center" />`
-                    : html`<div class="center">${this.emptyDisplay}</div>`
-                  }
-                </td>
-              <!-- </tr> -->
+              <td colspan="${this.columns.length}" class="fullspace">
+                ${isLoading
+                  ? html`<paper-spinner-lite active class="spinner center" />`
+                  : html`<div class="center">${this.emptyDisplay}</div>`
+                }
+              </td>
             `
           : data.map((index, row) => this._renderRow(index, row))
         }
