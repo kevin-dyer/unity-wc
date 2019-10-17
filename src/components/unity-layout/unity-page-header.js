@@ -125,6 +125,14 @@ class UnityPageHeader extends LitElement {
     this.selectedTab=0
   }
 
+  createRenderRoot() {
+  /**
+   * Render template in light DOM. Note that shadow DOM features like
+   * encapsulated CSS are unavailable.
+   */
+    return this;
+  }
+
   _handleTabSelect(tab, index) {
     const tabSelectedEvent = new CustomEvent('header-tab-selected', {
       detail: {
@@ -145,6 +153,7 @@ class UnityPageHeader extends LitElement {
   }
 
   render() {
+    console.log("this.tabs: ", this.tabs)
     return html`
       <div id="header">
         <div id="left-container">
