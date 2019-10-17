@@ -4,6 +4,7 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js'
+import './unity-table-cell.js'
 // import { themes } from './path/to/themes'
 
 
@@ -104,6 +105,8 @@ class UnityTable extends LitElement {
       this.columns = newCol.map(name => ({key: name, label: name}))
     }
     const newValue = value.map((datum, i) => ({...datum, tableId: i}))
+    // add tableId for better reference to source data
+    // but now to worry about what if datum isn't obj?
     this._data = newValue
     this._process()
     this.requestUpdate('data', oldValue)
@@ -404,7 +407,12 @@ class UnityTable extends LitElement {
     // returns a row element
     const columns = this.columns.map(({key}, i) => key)
     const data = this.data
-    const id = data[index].tableId
+    const datum = data[index]
+    const {
+      tableId: id,
+      icon,
+      image
+    } = datum
     // pull out
     // if index is 0, add check-all button
     // have td render unity cell instead
@@ -414,7 +422,15 @@ class UnityTable extends LitElement {
         ${columns.map((column, i) => {
           return html`
             <td class="table-cell" key="${row}-${i}">
-              ${data[index][column]}
+              <unity-table-cell
+                label="${datum[column]}"
+                .icon="${i === 0 && icon}"
+                .image="${i === 0 && image}"
+                .id="${id}"
+                ?selectable="${this.selectable && i === 0}"
+                ?selected="${this.selected[id]}"
+                .onSelect="${id => this._selectOne(id)}"
+              />
             </td>`
           })
         }
