@@ -425,12 +425,29 @@ class UnityTable extends LitElement {
   render() {
     console.log('=\t=\t=\trender called\t=\t=\t=')
     const data = this._processedData
+    const hasData = data.length > 0
+    const isLoading = this.isLoading
+    const fill = isLoading || !hasData
+
+    // if isLoading, show spinner
+    // if !hasData, show empty message
+    // show data
     return html`
-      <table class="container">
+      <table class="container ${fill ? 'fullspace' : ''}">
         ${!this.headless ? this._renderTableHeader(this.columns) : null}
-        ${data.length > 0
-          ? data.map((datum, i) => this._renderRow(datum, i))
-          : html`<tr><td colspan="${this.columns.length}" rowspan="3" class="empty-table">No information found.</td></tr>`}
+        ${fill
+          ? html`
+              <!-- <tr class="fullspace"> -->
+                <td colspan="${this.columns.length}" class="fullspace">
+                  ${isLoading
+                    ? html`<paper-spinner-lite active class="spinner center" />`
+                    : html`<div class="center">${this.emptyDisplay}</div>`
+                  }
+                </td>
+              <!-- </tr> -->
+            `
+          : data.map((index, row) => this._renderRow(index, row))
+        }
       </table>
     `
   }
@@ -440,6 +457,10 @@ class UnityTable extends LitElement {
     return [
       UnityDefaultThemeStyles,
       css`
+        :host {
+          font-family: var(--font-family, var(--default-font-family));
+          color: var(--black-text-color, var(--default-black-text-color));
+        }
         .container {
           width: 100%;
           overflow-x: hidden;
@@ -449,17 +470,27 @@ class UnityTable extends LitElement {
           border-spacing: 0;
           box-sizing: border-box;
         }
-        .empty-table {
-          text-align: center;
-          padding: 33px 0;
-          font-family: var(--font-family, var(--default-font-family));
+        .fullspace {
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: hidden;
+        }
+        .center {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .spinner {
+          --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
+          width: 56px;
+          height: 56px;
         }
         .table-header {
           height: 33px;
         }
         .cell {
-          color: var(--black-text-color, var(--default-black-text-color));
-          font-family: var(--font-family, var(--default-font-family));
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
