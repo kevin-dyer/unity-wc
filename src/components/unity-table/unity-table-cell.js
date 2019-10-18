@@ -3,7 +3,7 @@ import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/iron-icons/image-icons.js'
 import '@polymer/iron-icons/social-icons.js'
-import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles.js'
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 class UnityTableCell extends LitElement {
   constructor() {
