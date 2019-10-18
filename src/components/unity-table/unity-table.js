@@ -8,43 +8,73 @@ import './unity-table-cell.js'
 // import { themes } from './path/to/themes'
 
 
-/*
-    Table, at minimum, takes an array of the data being passed in. Each data index
-    should be an object with uniform keys. Actions are handled outside of table,
-    but are dependant on what's selected. As such, if outside source wants access
-    to the selected elements, a function should be passed in to process the
-    selected data. In addition, a predefined column array can be passed in to
-    determine order and size of columns in the table. If not passed in, then a
-    default will be made from each key on the data object.
+/**
+ * Displays table of data.
+ * @name UnityTable
+ * @param {object} data
+ * @param {object} columns
+ * @param {bool} headless
+ * @param {bool} selectable
+ * @param {bool} isLoading
+ * @param {string} emptyDisplay
+ * @param {}
+ * @param {}
+ * @param {}
+ * @param {}
+ * @param {}
+ * @param {}
+ * @param {}
+ * @param {}
+ * @param {}
+ * @param {}
+ * @param {}
+ * @returns {LitElement} returns a class extended from LitElement
+ *
+ *
+ *
+ *
+ *
+ *  Table, at minimum, takes an array of the data being passed in. Each data index
+ *  should be an object with uniform keys. Actions are handled outside of table,
+ *  but are dependant on what's selected. As such, if outside source wants access
+ *  to the selected elements, a function should be passed in to process the
+ *  selected data. In addition, a predefined column array can be passed in to
+ *  determine order and size of columns in the table. If not passed in, then a
+ *  default will be made from each key on the data object.
+ *
+ *  data:                   array of datum objects, non-uniform shape
+ *  columns:                array of column objects, {key (related to datum keys), label (label rendered) width}
+ *  headless:               bool to control head render, include to have no table header
+ *  selectable:             bool to control if rows should be selectable
+ *  emptyDisplay:           String to display when data array is empty
+ *  isLoading:              Boolean to show spinner instead of table
+ *
+ *  Internals for creating/editing
+ *  _data:           data marked w/ tableId for uniq references
+ *  _selected:       array of elements that are selected, sent to onSelectionChange
+ *  _sortBy:         object with column to sort by and direction, default to first
+ *                   and descending? What counts as no sort?
+ *  _filter:         string to find in any column
+ *  _filteredList:   filtered list of indicies from _data
+ *  _sortedList:     sorted version of _filteredList, this is what the displayed table is built from
+ *
+ *  Features to be implemented
+ *  controls:               determines use of internal filter and sort, exclude if using internal sort/filter
+ *  onSearchFilter:         function to be called when filter changes if controls are EXT
+ *                          sends in string to filter by
+ *  filterDebounceTimeout:  TBD
+ *  filterThrottleTimeout:  TBD
+ *  onColumnSort:           function to be called when sortBy changes if controls are EXT
+ *                          sends string of column name and string for ascending or descending
+ *  onSelectionChange:      function to be called with full selected array
+ *  onColumnChange:         Callback to update changes to the rendered columns
+ *  onEndReached:           function to be called to request more pages to support infiniscroll
+ *                          only works with controls set to EXT
+ *  onEndReachedThreshold:  TBD
+ */
 
-    data:                   array of datum objects, non-uniform shape
-    columns:                array of column objects, {key (related to datum keys), label (label rendered) width}
-    headless:               bool to control head render, include to have no table header
-    selectable:             bool to control if rows should be selectable
-    onSelectionChange:      function to be called with full selected array
-    controls:               determines use of internal filter and sort, exclude if using internal sort/filter
-    onSearchFilter:         function to be called when filter changes if controls are EXT
-                            sends in string to filter by
-    filterDebounceTimeout:  TBD
-    filterThrottleTimeout:  TBD
-    onColumnChange:         Callback to update changes to the rendered columns
-    onColumnSort:           function to be called when sortBy changes if controls are EXT
-                            sends string of column name and string for ascending or descending
-    onEndReached:           function to be called to request more pages to support infiniscroll
-                            only works with controls set to EXT
-    onEndReachedThreshold:  TBD
-    emptyDisplay:           String to display when data array is empty
-    isLoading:              Boolean to show spinner instead of table
-
-    Internals for creating/editing
-    data:           data marked w/ tableId for uniq references
-    selected:       array of elements that are selected, sent to onSelectionChange
-    sortBy:         object with column to sort by and direction, default to first
-                    and descending? What counts as no sort?
-    filter:         string to find in any column
-    processedList:  sorted and filtered _data list, might need to find way to remove
-                    as this leads to doubling the list for sake of runtime efficiency
-*/
+// This component will render a table
+// It will display a table header (optional), colums (defined by developer or dataset), rows (defined by data), and icons (defined by data). The data can be sorted by the user and be selectable (optional).
 
 const ASC = 'Ascending'
 const DES = 'Descending'
@@ -58,15 +88,17 @@ class UnityTable extends LitElement {
     this._data = []
     this.columns = []
     this.selectable = false
-    this.onSelectionChange = ()=>{}
     this.headless = false
-    this.selected = []
-    this.onSearchFilter = ()=>{}
-    this.onColumnSort = ()=>{}
-    this.onEndReached = ()=>{}
-    this.onColumnChange = ()=>{}
-    this.emptyDisplay = 'No information found.'
     this.isLoading = false
+    this.emptyDisplay = 'No information found.'
+
+    // action handlers, to be implemented later
+    // this.controls = false
+    // this.onSelectionChange = ()=>{}
+    // this.onSearchFilter = ()=>{}
+    // this.onColumnSort = ()=>{}
+    // this.onEndReached = ()=>{}
+    // this.onColumnChange = ()=>{}
 
     // defaults of internal references
     this._filter = ''
@@ -74,6 +106,7 @@ class UnityTable extends LitElement {
     this._filteredData = []
     this._sortedData = []
     this._allSelected = false
+    this._selected = []
   }
 
   // inputs
@@ -83,16 +116,20 @@ class UnityTable extends LitElement {
       columns: { type: Array },
       headless: { type: Boolean },
       selectable: { type: Boolean },
-      onSelectionChange: { type: Function },
-      controls: { type: Boolean },
-      onSearchFilter: { type: Function },
-      onColumnSort: { type: Function },
-      onEndReached: { type: Function },
-      onColumnChange: { type: Function },
-      _allSelected: { type: Boolean },
-      selected: { type: Array },
+      isLoading: { type: Boolean },
       emptyDisplay: { type: String },
-      isLoading: { type: Boolean }
+
+      // internals
+      _allSelected: { type: Boolean },
+      _selected: { type: Array },
+
+      // TBI
+      // controls: { type: Boolean },
+      // onSelectionChange: { type: Function },
+      // onSearchFilter: { type: Function },
+      // onColumnSort: { type: Function },
+      // onEndReached: { type: Function },
+      // onColumnChange: { type: Function },
     }
   }
 
@@ -178,31 +215,31 @@ class UnityTable extends LitElement {
   _selectAll() {
     // all data are selected, make selected from all data
     const newSelected = [...this.data]
-    this.selected = newSelected
-    this.onSelectionChange(newSelected)
+    this._selected = newSelected
+    // this.onSelectionChange(newSelected)
     // mark all selected as true
     this._allSelected = true
   }
 
   _selectNone() {
     // none selected, so replace with empty
-    this.selected = []
-    this.onSelectionChange([])
+    this._selected = []
+    // this.onSelectionChange([])
     // mark all selected as false
     this._allSelected = false
   }
 
   _selectOne(id) {
     // copy selected
-    const newSelected = [...this.selected]
+    const newSelected = [...this._selected]
     // if not selected, select
     if (!newSelected[id]) newSelected[id] = this.data[id]
     // if selected, delete from arr
     else if (!!newSelected[id]) delete newSelected[id]
-    this.selected = newSelected
+    this._selected = newSelected
     // send flat
     let flatSelected = newSelected.filter( v => !!v)
-    this.onSelectionChange(flatSelected)
+    // this.onSelectionChange(flatSelected)
     // check if none/all selected
     if (flatSelected.length === 0) this._allSelected = false
     else if (flatSelected.length === this.data.length) this._allSelected = true
@@ -259,7 +296,7 @@ class UnityTable extends LitElement {
     // iterate over new columns, adjusting for new column count
     columns.forEach(column => column.width = column.width * factor)
     this.columns = columns
-    this.onColumnChange(columns)
+    // this.onColumnChange(columns)
     return columns
   }
 
@@ -283,18 +320,18 @@ class UnityTable extends LitElement {
     let factor = removedColumnWidth / newColumns.length
     newColumns.forEach(column => column.width = column.width + factor)
     this.columns = newColumns
-    this.onColumnChange(newColumns)
+    // this.onColumnChange(newColumns)
     return newColumns
   }
 
   _filterData() {
     const searchFor = this.filter || ''
     // if controls are external, callback and quit
-    if (this.controls) {
-      this.onSearchFilter(searchFor)
-      this._filteredData = [...this.data]
-      return
-    }
+    // if (this.controls) {
+    //   this.onSearchFilter(searchFor)
+    //   this._filteredData = [...this.data]
+    //   return
+    // }
     // return items only if any prop contains the string
     // might instead be based on currently visible columns
     const columns = [...this.columns]
@@ -323,11 +360,11 @@ class UnityTable extends LitElement {
       column: sortBy,
       direction
     } = this.sortBy
-    if (this.controls) {
-      this.onColumnSort(sortBy, direction)
-      this._sortedData = [...this._filteredData]
-      return
-    }
+    // if (this.controls) {
+    //   this.onColumnSort(sortBy, direction)
+    //   this._sortedData = [...this._filteredData]
+    //   return
+    // }
     // sort data based on column and direction
     let sortedData = [...this._filteredData]
     if (!!direction) {
@@ -435,7 +472,7 @@ class UnityTable extends LitElement {
                 .image="${i === 0 && image}"
                 .id="${id}"
                 ?selectable="${this.selectable && i === 0}"
-                ?selected="${this.selected[id]}"
+                ?selected="${this._selected[id]}"
                 .onSelect="${id => this._selectOne(id)}"
               />
             </td>`
