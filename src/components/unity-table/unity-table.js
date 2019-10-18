@@ -385,13 +385,20 @@ class UnityTable extends LitElement {
                 style="width: ${width}"
               >
                 <div class="header">
-                  ${this.selectable && i === 0 ? html`<paper-checkbox .checked="${this._allSelected}" noink @click="${this._handleHeaderSelect}" />` : null}
+                  ${this.selectable && i === 0
+                    ? html`
+                      <paper-checkbox
+                        noink
+                        .checked="${this._allSelected}"
+                        @click="${this._handleHeaderSelect}"
+                      />` : null
+                  }
                   <span class="header-label" >${label || name}</span>
                   <paper-icon-button
                     noink
                     icon="${icon}"
                     title="${direction}"
-                    class="icon ${flip ? 'flipped' : ''}"
+                    class="${flip ? 'flipped' : ''}"
                     @click="${()=>{this.sortBy = key}}"
                   />
                 </div>
@@ -421,7 +428,7 @@ class UnityTable extends LitElement {
       <tr class="row" key="row-${row}">
         ${columns.map((column, i) => {
           return html`
-            <td class="table-cell" key="${row}-${i}">
+            <td class="cell" key="${row}-${i}">
               <unity-table-cell
                 label="${datum[column]}"
                 .icon="${i === 0 && icon}"
@@ -472,7 +479,15 @@ class UnityTable extends LitElement {
       css`
         :host {
           font-family: var(--font-family, var(--default-font-family));
+          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           color: var(--black-text-color, var(--default-black-text-color));
+          --paper-checkbox-size: 14px;
+          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
+          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
+          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
+          --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
         }
         .container {
           width: 100%;
@@ -495,21 +510,25 @@ class UnityTable extends LitElement {
           left: 50%;
           transform: translate(-50%, -50%);
         }
-        .spinner {
-          --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
+        paper-spinner-lite {
           width: 56px;
           height: 56px;
         }
         .table-header {
           height: 33px;
         }
-        .cell {
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+        th {
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
-          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           text-align: left;
           padding: 0 13px;
-          line-height: 33px
+          line-height: 33px;
+          box-sizing: border-box;
+        }
+        .cell {
+          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+        }
+        td {
+          padding: 0;
         }
         .header-label {
           flex: 1;
@@ -522,9 +541,6 @@ class UnityTable extends LitElement {
         }
         paper-checkbox {
           padding: calc((33px - 14px) / 2) 0;
-          --paper-checkbox-size: var(--paragraph-font-size, var(--default-paragraphy-font-size));
-          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
         }
         paper-icon-button {
           color: var(--black-text-color, var(--default-black-text-color));
@@ -537,12 +553,6 @@ class UnityTable extends LitElement {
         .row {
           height: 38px;
           border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-        }
-        .table-cell {
-          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-        }
-        th {
-          box-sizing: border-box;
         }
       `
     ]
