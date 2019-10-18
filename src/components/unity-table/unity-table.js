@@ -559,4 +559,4 @@ class UnityTable extends LitElement {
   }
 }
 
-customElements.define('unity-table', UnityTable)
+window.customElements.define('unity-table', UnityTable)

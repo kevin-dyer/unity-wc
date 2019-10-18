@@ -100,4 +100,4 @@ class UnityTableCell extends LitElement {
   }
 }
 
-customElements.define('unity-table-cell', UnityTableCell)
+window.customElements.define('unity-table-cell', UnityTableCell)
