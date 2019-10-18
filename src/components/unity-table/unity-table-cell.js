@@ -3,6 +3,7 @@ import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/iron-icons/image-icons.js'
 import '@polymer/iron-icons/social-icons.js'
+import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js'
 
 class UnityTableCell extends LitElement {
   constructor() {
@@ -44,9 +45,21 @@ class UnityTableCell extends LitElement {
 
     return html`
       <div class="cell">
-        ${this.selectable ? html`<paper-checkbox .checked="${this.selected}" noink @click="${this._handleSelect}" />`: null}
-        ${!!imgUrl ? html`<iron-icon icon="image:broken-image"></iron-icon>` :
-          !!icon ? html`<iron-icon icon="${icon}"></iron-icon>` : null }
+        ${this.selectable
+          ? html`
+            <paper-checkbox
+              noink
+              .checked="${this.selected}"
+              @click="${this._handleSelect}"
+            />`
+          : null
+        }
+        ${!!imgUrl
+          ? html`<iron-icon icon="image:broken-image"></iron-icon>`
+          : !!icon
+            ? html`<iron-icon icon="${icon}"></iron-icon>`
+            : null
+        }
         <span class="text">${this.label}</span>
       </div>
     `
@@ -54,32 +67,33 @@ class UnityTableCell extends LitElement {
 
   static get styles() {
     return [
-      // imported css styles go here
-      // figure out this variable shite
-      // can add class to custom component to control styles?
+      UnityDefaultThemeStyles,
       css`
+        :host {
+          font-family: var(--font-family, var(--default-font-family));
+          font-size: var(--paragraph-text-size, var(--default-paragraph-text-size));
+          font-weight: var(--small-text-weight, var(--default-small-text-weight));
+          color: var(--black-text-color, var(--default-black-text-color));
+          --paper-checkbox-size: 14px;
+          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
+          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
+          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
+        }
         paper-checkbox {
           padding: calc((38px - 14px) / 2) 0;
-          --paper-checkbox-size: 14px;
-          --paper-checkbox-unchecked-color: #d4d9db;
-          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
-          --paper-checkbox-checked-color: rgb(58, 188, 225);
-          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
         }
         .cell {
           padding: 0 13px;
+          border-spacing: 0;
         }
         .text {
-          color: #000;
-          font-family: Avenir;
-          size: 11pt;
           position: relative;
-          top: 1px;
+          padding-top: 1px;
           line-height: 38px;
         }
         iron-icon {
-          color: #464E57;
-
+          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
         }
       `
     ]
