@@ -62,48 +62,45 @@ import '@bit/smartworks.unity.unity-table-cell'
  *    ?selectable="${true}"
  *    .onSelectionChange="${selected => console.log('These elements are selected: ', selected')}"
  *  />
- *
- *  Table, at minimum, takes an array of the data being passed in. Each data index
- *  should be an object with uniform keys. Actions are handled outside of table,
- *  but are dependant on what's selected. As such, if outside source wants access
- *  to the selected elements, a function should be passed in to process the
- *  selected data. In addition, a predefined column array can be passed in to
- *  determine order and size of columns in the table. If not passed in, then a
- *  default will be made from each key on the data object.
- *
- *  data:                   array of datum objects, non-uniform shape
- *  columns:                array of column objects, {key (related to datum keys), label (label rendered) width}
- *  headless:               bool to control head render, include to have no table header
- *  selectable:             bool to control if rows should be selectable
- *  onSelectionChange:      callback function, recieves selected array when it changes
- *  emptyDisplay:           String to display when data array is empty
- *  isLoading:              Boolean to show spinner instead of table
- *
- *  Internals for creating/editing
- *  _data:                  data marked w/ tableId for uniq references
- *  _selected:              array of elements that are selected, sent to onSelectionChange
- *  _sortBy:                object with column to sort by and direction, default to first
- *                          and descending? What counts as no sort?
- *  _filter:                string to find in any column
- *  _filteredList:          filtered list of indicies from _data
- *  _sortedList:            sorted version of _filteredList, this is what the displayed table is built from
- *
- *  Features to be implemented
- *  controls:               determines use of internal filter and sort, exclude if using internal sort/filter
- *  onSearchFilter:         function to be called when filter changes if controls are EXT
- *                          sends in string to filter by
- *  filterDebounceTimeout:  TBD
- *  filterThrottleTimeout:  TBD
- *  onColumnSort:           function to be called when sortBy changes if controls are EXT
- *                          sends string of column name and string for ascending or descending
- *  onColumnChange:         Callback to update changes to the rendered columns
- *  onEndReached:           function to be called to request more pages to support infiniscroll
- *                          only works with controls set to EXT
- *  onEndReachedThreshold:  TBD
  */
 
-// This component will render a table
-// It will display a table header (optional), colums (defined by developer or dataset), rows (defined by data), and icons (defined by data). The data can be sorted by the user and be selectable (optional).
+//   Table, at minimum, takes an array of the data being passed in. Each data index
+//   should be an object with uniform keys. Actions are handled outside of table,
+//   but are dependant on what's selected. As such, if outside source wants access
+//   to the selected elements, a function should be passed in to process the
+//   selected data. In addition, a predefined column array can be passed in to
+//   determine order and size of columns in the table. If not passed in, then a
+//   default will be made from each key on the data object.
+//
+//   data:                   array of datum objects, non-uniform shape
+//   columns:                array of column objects, {key (related to datum keys), label (label rendered) width}
+//   headless:               bool to control head render, include to have no table header
+//   selectable:             bool to control if rows should be selectable
+//   onSelectionChange:      callback function, recieves selected array when it changes
+//   emptyDisplay:           String to display when data array is empty
+//   isLoading:              Boolean to show spinner instead of table
+//
+//   Internals for creating/editing
+//   _data:                  data marked w/ tableId for uniq references
+//   _selected:              array of elements that are selected, sent to onSelectionChange
+//   _sortBy:                object with column to sort by and direction, default to first
+//                           and descending? What counts as no sort?
+//   _filter:                string to find in any column
+//   _filteredList:          filtered list of indicies from _data
+//   _sortedList:            sorted version of _filteredList, this is what the displayed table is built from
+//
+//   Features to be implemented
+//   controls:               determines use of internal filter and sort, exclude if using internal sort/filter
+//   onSearchFilter:         function to be called when filter changes if controls are EXT
+//                           sends in string to filter by
+//   filterDebounceTimeout:  TBD
+//   filterThrottleTimeout:  TBD
+//   onColumnSort:           function to be called when sortBy changes if controls are EXT
+//                           sends string of column name and string for ascending or descending
+//   onColumnChange:         Callback to update changes to the rendered columns
+//   onEndReached:           function to be called to request more pages to support infiniscroll
+//                           only works with controls set to EXT
+//   onEndReachedThreshold:  TBD
 
 const ASC = 'Ascending'
 const DES = 'Descending'
