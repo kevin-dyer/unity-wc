@@ -38,9 +38,10 @@ export const UnityDefaultThemeStyles = css`
     --default-header2-selected-font-size: 18pt;
     --default-header2-selected-font-weight: 600;
 
-    --default-paragraph-font-size: 14pt;
+    --default-paragraph-font-size: 11pt;
     --default-paragraph-font-weight: 400;
 
+    /* this font size should likely change */
     --default-small-text-size: 11pt;
     --default-small-text-weight: 400;
 
