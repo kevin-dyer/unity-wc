@@ -51,7 +51,12 @@ class MyTable extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-table selectable .data="${exampleData}" .columns="${exampleColumns}" />
+        <unity-table
+          selectable
+          .data="${exampleData}"
+          .columns="${exampleColumns}"
+          .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+        />
       </div>
     `
   }

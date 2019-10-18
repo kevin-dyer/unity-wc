@@ -11,28 +11,58 @@ import './unity-table-cell.js'
 /**
  * Displays table of data.
  * @name UnityTable
- * @param {object} data
- * @param {object} columns
+ * @param {[]} data, array of objects
+ * @param {[]} columns, array of objects, relates to data's object keys
  * @param {bool} headless
  * @param {bool} selectable
  * @param {bool} isLoading
  * @param {string} emptyDisplay
- * @param {}
- * @param {}
- * @param {}
- * @param {}
- * @param {}
- * @param {}
- * @param {}
- * @param {}
- * @param {}
- * @param {}
- * @param {}
  * @returns {LitElement} returns a class extended from LitElement
- *
- *
- *
- *
+ * @example
+ *  <unity-table
+ *    ?headless="${false}"
+ *    ?isLoading="${false}"
+ *    emptyDisplay="No information found."
+ *    .data="${[
+ *      {
+ *        column1: 'item 1 col1',
+ *        column2: 'item 1 col2',
+ *        column3: 'item 1 col3',
+ *        columnN: 'item 1 colN',
+ *        icon: 'iron-iconName'
+ *      },
+ *      {
+ *        column1: 'item 2 col1',
+ *        column2: 'item 2 col2',
+ *        column3: 'item 2 col3',
+ *        columnN: 'item 2 colN',
+ *        icon: 'iron-iconName'
+ *      },
+ *      {
+ *        column1: 'item n col1',
+ *        column2: 'item n col2',
+ *        column3: 'item n col3',
+ *        columnN: 'item n colN',
+ *        icon: 'iron-iconName'
+ *      }
+ *    ]}"
+ *    .columns="${[
+ *      {
+ *        key: 'column2',
+ *        label: 'Column #2'
+ *      },
+ *      {
+ *        key: 'columnN',
+ *        label: 'Column #N'
+ *      },
+ *      {
+ *        key: 'column1',
+ *        label: 'Column #1'
+ *      }
+ *    ]}"
+ *    ?selectable="${true}"
+ *    .onSelectionChange="${selected => console.log('These elements are selected: ', selected')}"
+ *  />
  *
  *  Table, at minimum, takes an array of the data being passed in. Each data index
  *  should be an object with uniform keys. Actions are handled outside of table,
@@ -46,17 +76,18 @@ import './unity-table-cell.js'
  *  columns:                array of column objects, {key (related to datum keys), label (label rendered) width}
  *  headless:               bool to control head render, include to have no table header
  *  selectable:             bool to control if rows should be selectable
+ *  onSelectionChange:      callback function, recieves selected array when it changes
  *  emptyDisplay:           String to display when data array is empty
  *  isLoading:              Boolean to show spinner instead of table
  *
  *  Internals for creating/editing
- *  _data:           data marked w/ tableId for uniq references
- *  _selected:       array of elements that are selected, sent to onSelectionChange
- *  _sortBy:         object with column to sort by and direction, default to first
- *                   and descending? What counts as no sort?
- *  _filter:         string to find in any column
- *  _filteredList:   filtered list of indicies from _data
- *  _sortedList:     sorted version of _filteredList, this is what the displayed table is built from
+ *  _data:                  data marked w/ tableId for uniq references
+ *  _selected:              array of elements that are selected, sent to onSelectionChange
+ *  _sortBy:                object with column to sort by and direction, default to first
+ *                          and descending? What counts as no sort?
+ *  _filter:                string to find in any column
+ *  _filteredList:          filtered list of indicies from _data
+ *  _sortedList:            sorted version of _filteredList, this is what the displayed table is built from
  *
  *  Features to be implemented
  *  controls:               determines use of internal filter and sort, exclude if using internal sort/filter
@@ -66,7 +97,6 @@ import './unity-table-cell.js'
  *  filterThrottleTimeout:  TBD
  *  onColumnSort:           function to be called when sortBy changes if controls are EXT
  *                          sends string of column name and string for ascending or descending
- *  onSelectionChange:      function to be called with full selected array
  *  onColumnChange:         Callback to update changes to the rendered columns
  *  onEndReached:           function to be called to request more pages to support infiniscroll
  *                          only works with controls set to EXT
@@ -92,9 +122,11 @@ class UnityTable extends LitElement {
     this.isLoading = false
     this.emptyDisplay = 'No information found.'
 
+    // action handlers
+    this.onSelectionChange = ()=>{}
+
     // action handlers, to be implemented later
     // this.controls = false
-    // this.onSelectionChange = ()=>{}
     // this.onSearchFilter = ()=>{}
     // this.onColumnSort = ()=>{}
     // this.onEndReached = ()=>{}
@@ -118,14 +150,14 @@ class UnityTable extends LitElement {
       selectable: { type: Boolean },
       isLoading: { type: Boolean },
       emptyDisplay: { type: String },
+      onSelectionChange: { type: Function },
 
-      // internals
+      // internals, tracking for change
       _allSelected: { type: Boolean },
-      _selected: { type: Array },
+      // selected: { type: Array },
 
       // TBI
       // controls: { type: Boolean },
-      // onSelectionChange: { type: Function },
       // onSearchFilter: { type: Function },
       // onColumnSort: { type: Function },
       // onEndReached: { type: Function },
@@ -188,6 +220,18 @@ class UnityTable extends LitElement {
 
   get sortBy() { return this._sortBy }
 
+  set selected(value) {
+    const oldValue = this._selected
+    this._selected = value
+    const flatSelected = this._flattenSelect(value)
+    this.onSelectionChange(flatSelected)
+    if (flatSelected.length === 0) this._allSelected = false
+    else if (flatSelected.length === this.data.length) this._allSelected = true
+    this.requestUpdate('selected', oldValue)
+  }
+
+  get selected() { return this._selected }
+
   set filter(value) {
     const oldValue = this._filter
     this._filter = value
@@ -215,18 +259,12 @@ class UnityTable extends LitElement {
   _selectAll() {
     // all data are selected, make selected from all data
     const newSelected = [...this.data]
-    this._selected = newSelected
-    // this.onSelectionChange(newSelected)
-    // mark all selected as true
-    this._allSelected = true
+    this.selected = newSelected
   }
 
   _selectNone() {
     // none selected, so replace with empty
-    this._selected = []
-    // this.onSelectionChange([])
-    // mark all selected as false
-    this._allSelected = false
+    this.selected = []
   }
 
   _selectOne(id) {
@@ -236,13 +274,11 @@ class UnityTable extends LitElement {
     if (!newSelected[id]) newSelected[id] = this.data[id]
     // if selected, delete from arr
     else if (!!newSelected[id]) delete newSelected[id]
-    this._selected = newSelected
-    // send flat
-    let flatSelected = newSelected.filter( v => !!v)
-    // this.onSelectionChange(flatSelected)
-    // check if none/all selected
-    if (flatSelected.length === 0) this._allSelected = false
-    else if (flatSelected.length === this.data.length) this._allSelected = true
+    this.selected = newSelected
+  }
+
+  _flattenSelect(selected) {
+    return selected.filter(v=>!!v)
   }
 
   // takes name of column (or maybe whole column) to move and index to move it to
