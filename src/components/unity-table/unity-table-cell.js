@@ -5,6 +5,36 @@ import '@polymer/iron-icons/image-icons.js'
 import '@polymer/iron-icons/social-icons.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
+/**
+ * Displays table of data.
+ * @name UnityTableCell
+ * @param {string} label, info to display in the cell
+ * @param {string} icon, iron-icon to display in the cell
+ * @param {string} id, relational id to the data, used in selection
+ * @param {bool} selectable
+ * @param {bool} selected
+ * @param {function} onSelect, action handler on being selected
+ * @returns {LitElement} returns a class extended from LitElement
+ * @example
+ *  <unity-table-cell
+ *    label="Cell Content"
+ *    .icon="${index === 0 && 'work'}"
+ *    .id="${1}"
+ *    selectable
+ *    ?selected="${false}"
+ *    .onSelect="${reportSelected}"
+ *  />
+ */
+
+//   Table Cell to be used with Unity Table. Could be used elsewhere, matching styleguides
+//
+//   label:       string of the data to show in the cell
+//   icon:        string of the name of the iron-icon to show in the cell
+//   id:          the id related to the row/cell/datum being displayed, used with select functions
+//   selectable:  bool to control if cell is selectable
+//   selected:    bool to render cell as selected
+//   onSelect:    callback for selection functions
+
 class UnityTableCell extends LitElement {
   constructor() {
     super()
