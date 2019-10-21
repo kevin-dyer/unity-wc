@@ -3,47 +3,104 @@ import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
-import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js'
-// import { themes } from './path/to/themes'
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '@bit/smartworks.unity.unity-table-cell'
 
 
-/*
-    Table, at minimum, takes an array of the data being passed in. Each data index
-    should be an object with uniform keys. Actions are handled outside of table,
-    but are dependant on what's selected. As such, if outside source wants access
-    to the selected elements, a function should be passed in to process the
-    selected data. In addition, a predefined column array can be passed in to
-    determine order and size of columns in the table. If not passed in, then a
-    default will be made from each key on the data object.
+/**
+ * Displays table of data.
+ * @name UnityTable
+ * @param {[]} data, array of objects
+ * @param {[]} columns, array of objects, relates to data's object keys
+ * @param {bool} headless
+ * @param {bool} selectable
+ * @param {bool} isLoading
+ * @param {string} emptyDisplay
+ * @returns {LitElement} returns a class extended from LitElement
+ * @example
+ *  <unity-table
+ *    ?headless="${false}"
+ *    ?isLoading="${false}"
+ *    emptyDisplay="No information found."
+ *    .data="${[
+ *      {
+ *        column1: 'item 1 col1',
+ *        column2: 'item 1 col2',
+ *        column3: 'item 1 col3',
+ *        columnN: 'item 1 colN',
+ *        icon: 'iron-iconName'
+ *      },
+ *      {
+ *        column1: 'item 2 col1',
+ *        column2: 'item 2 col2',
+ *        column3: 'item 2 col3',
+ *        columnN: 'item 2 colN',
+ *        icon: 'iron-iconName'
+ *      },
+ *      {
+ *        column1: 'item n col1',
+ *        column2: 'item n col2',
+ *        column3: 'item n col3',
+ *        columnN: 'item n colN',
+ *        icon: 'iron-iconName'
+ *      }
+ *    ]}"
+ *    .columns="${[
+ *      {
+ *        key: 'column2',
+ *        label: 'Column #2'
+ *      },
+ *      {
+ *        key: 'columnN',
+ *        label: 'Column #N'
+ *      },
+ *      {
+ *        key: 'column1',
+ *        label: 'Column #1'
+ *      }
+ *    ]}"
+ *    ?selectable="${true}"
+ *    .onSelectionChange="${selected => console.log('These elements are selected: ', selected')}"
+ *  />
+ */
 
-    data:                   array of datum objects, non-uniform shape
-    columns:                array of column objects, {key (related to datum keys), label (label rendered) width}
-    headless:               bool to control head render, include to have no table header
-    selectable:             bool to control if rows should be selectable
-    onSelectionChange:      function to be called with full selected array
-    controls:               determines use of internal filter and sort, exclude if using internal sort/filter
-    onSearchFilter:         function to be called when filter changes if controls are EXT
-                            sends in string to filter by
-    filterDebounceTimeout:  TBD
-    filterThrottleTimeout:  TBD
-    onColumnChange:         Callback to update changes to the rendered columns
-    onColumnSort:           function to be called when sortBy changes if controls are EXT
-                            sends string of column name and string for ascending or descending
-    onEndReached:           function to be called to request more pages to support infiniscroll
-                            only works with controls set to EXT
-    onEndReachedThreshold:  TBD
-    emptyDisplay:           String to display when data array is empty
-    isLoading:              Boolean to show spinner instead of table
-
-    Internals for creating/editing
-    data:           data marked w/ tableId for uniq references
-    selected:       array of elements that are selected, sent to onSelectionChange
-    sortBy:         object with column to sort by and direction, default to first
-                    and descending? What counts as no sort?
-    filter:         string to find in any column
-    processedList:  sorted and filtered _data list, might need to find way to remove
-                    as this leads to doubling the list for sake of runtime efficiency
-*/
+//   Table, at minimum, takes an array of the data being passed in. Each data index
+//   should be an object with uniform keys. Actions are handled outside of table,
+//   but are dependant on what's selected. As such, if outside source wants access
+//   to the selected elements, a function should be passed in to process the
+//   selected data. In addition, a predefined column array can be passed in to
+//   determine order and size of columns in the table. If not passed in, then a
+//   default will be made from each key on the data object.
+//
+//   data:                   array of datum objects, non-uniform shape
+//   columns:                array of column objects, {key (related to datum keys), label (label rendered) width}
+//   headless:               bool to control head render, include to have no table header
+//   selectable:             bool to control if rows should be selectable
+//   onSelectionChange:      callback function, recieves selected array when it changes
+//   emptyDisplay:           String to display when data array is empty
+//   isLoading:              Boolean to show spinner instead of table
+//
+//   Internals for creating/editing
+//   _data:                  data marked w/ tableId for uniq references
+//   _selected:              array of elements that are selected, sent to onSelectionChange
+//   _sortBy:                object with column to sort by and direction, default to first
+//                           and descending? What counts as no sort?
+//   _filter:                string to find in any column
+//   _filteredList:          filtered list of indicies from _data
+//   _sortedList:            sorted version of _filteredList, this is what the displayed table is built from
+//
+//   Features to be implemented
+//   controls:               determines use of internal filter and sort, exclude if using internal sort/filter
+//   onSearchFilter:         function to be called when filter changes if controls are EXT
+//                           sends in string to filter by
+//   filterDebounceTimeout:  TBD
+//   filterThrottleTimeout:  TBD
+//   onColumnSort:           function to be called when sortBy changes if controls are EXT
+//                           sends string of column name and string for ascending or descending
+//   onColumnChange:         Callback to update changes to the rendered columns
+//   onEndReached:           function to be called to request more pages to support infiniscroll
+//                           only works with controls set to EXT
+//   onEndReachedThreshold:  TBD
 
 const ASC = 'Ascending'
 const DES = 'Descending'
@@ -57,15 +114,19 @@ class UnityTable extends LitElement {
     this._data = []
     this.columns = []
     this.selectable = false
-    this.onSelectionChange = ()=>{}
     this.headless = false
-    this.selected = []
-    this.onSearchFilter = ()=>{}
-    this.onColumnSort = ()=>{}
-    this.onEndReached = ()=>{}
-    this.onColumnChange = ()=>{}
-    this.emptyDisplay = 'No information found.'
     this.isLoading = false
+    this.emptyDisplay = 'No information found.'
+
+    // action handlers
+    this.onSelectionChange = ()=>{}
+
+    // action handlers, to be implemented later
+    // this.controls = false
+    // this.onSearchFilter = ()=>{}
+    // this.onColumnSort = ()=>{}
+    // this.onEndReached = ()=>{}
+    // this.onColumnChange = ()=>{}
 
     // defaults of internal references
     this._filter = ''
@@ -73,6 +134,7 @@ class UnityTable extends LitElement {
     this._filteredData = []
     this._sortedData = []
     this._allSelected = false
+    this._selected = {}
   }
 
   // inputs
@@ -82,16 +144,20 @@ class UnityTable extends LitElement {
       columns: { type: Array },
       headless: { type: Boolean },
       selectable: { type: Boolean },
-      onSelectionChange: { type: Function },
-      controls: { type: Boolean },
-      onSearchFilter: { type: Function },
-      onColumnSort: { type: Function },
-      onEndReached: { type: Function },
-      onColumnChange: { type: Function },
-      _allSelected: { type: Boolean },
-      selected: { type: Array },
+      isLoading: { type: Boolean },
       emptyDisplay: { type: String },
-      isLoading: { type: Boolean }
+      onSelectionChange: { type: Function },
+
+      // internals, tracking for change
+      _allSelected: { type: Boolean },
+      // selected: { type: Array },
+
+      // TBI
+      // controls: { type: Boolean },
+      // onSearchFilter: { type: Function },
+      // onColumnSort: { type: Function },
+      // onEndReached: { type: Function },
+      // onColumnChange: { type: Function },
     }
   }
 
@@ -104,6 +170,8 @@ class UnityTable extends LitElement {
       this.columns = newCol.map(name => ({key: name, label: name}))
     }
     const newValue = value.map((datum, i) => ({...datum, tableId: i}))
+    // add tableId for better reference to source data
+    // but now to worry about what if datum isn't obj?
     this._data = newValue
     this._process()
     this.requestUpdate('data', oldValue)
@@ -148,6 +216,18 @@ class UnityTable extends LitElement {
 
   get sortBy() { return this._sortBy }
 
+  set selected(value) {
+    const oldValue = this._selected
+    this._selected = value
+    const flatSelected = Object.values(value)
+    this.onSelectionChange(flatSelected)
+    if (flatSelected.length === 0) this._allSelected = false
+    else if (flatSelected.length === this.data.length) this._allSelected = true
+    this.requestUpdate('selected', oldValue)
+  }
+
+  get selected() { return this._selected }
+
   set filter(value) {
     const oldValue = this._filter
     this._filter = value
@@ -174,35 +254,23 @@ class UnityTable extends LitElement {
   // resizeColumns() {}
   _selectAll() {
     // all data are selected, make selected from all data
-    const newSelected = [...this.data]
+    const newSelected = {...this.data}
     this.selected = newSelected
-    this.onSelectionChange(newSelected)
-    // mark all selected as true
-    this._allSelected = true
   }
 
   _selectNone() {
     // none selected, so replace with empty
-    this.selected = []
-    this.onSelectionChange([])
-    // mark all selected as false
-    this._allSelected = false
+    this.selected = {}
   }
 
   _selectOne(id) {
     // copy selected
-    const newSelected = [...this.selected]
+    const newSelected = {...this._selected}
     // if not selected, select
     if (!newSelected[id]) newSelected[id] = this.data[id]
     // if selected, delete from arr
     else if (!!newSelected[id]) delete newSelected[id]
     this.selected = newSelected
-    // send flat
-    let flatSelected = newSelected.filter( v => !!v)
-    this.onSelectionChange(flatSelected)
-    // check if none/all selected
-    if (flatSelected.length === 0) this._allSelected = false
-    else if (flatSelected.length === this.data.length) this._allSelected = true
   }
 
   // takes name of column (or maybe whole column) to move and index to move it to
@@ -256,7 +324,7 @@ class UnityTable extends LitElement {
     // iterate over new columns, adjusting for new column count
     columns.forEach(column => column.width = column.width * factor)
     this.columns = columns
-    this.onColumnChange(columns)
+    // this.onColumnChange(columns)
     return columns
   }
 
@@ -280,18 +348,18 @@ class UnityTable extends LitElement {
     let factor = removedColumnWidth / newColumns.length
     newColumns.forEach(column => column.width = column.width + factor)
     this.columns = newColumns
-    this.onColumnChange(newColumns)
+    // this.onColumnChange(newColumns)
     return newColumns
   }
 
   _filterData() {
     const searchFor = this.filter || ''
     // if controls are external, callback and quit
-    if (this.controls) {
-      this.onSearchFilter(searchFor)
-      this._filteredData = [...this.data]
-      return
-    }
+    // if (this.controls) {
+    //   this.onSearchFilter(searchFor)
+    //   this._filteredData = [...this.data]
+    //   return
+    // }
     // return items only if any prop contains the string
     // might instead be based on currently visible columns
     const columns = [...this.columns]
@@ -320,11 +388,11 @@ class UnityTable extends LitElement {
       column: sortBy,
       direction
     } = this.sortBy
-    if (this.controls) {
-      this.onColumnSort(sortBy, direction)
-      this._sortedData = [...this._filteredData]
-      return
-    }
+    // if (this.controls) {
+    //   this.onColumnSort(sortBy, direction)
+    //   this._sortedData = [...this._filteredData]
+    //   return
+    // }
     // sort data based on column and direction
     let sortedData = [...this._filteredData]
     if (!!direction) {
@@ -382,13 +450,20 @@ class UnityTable extends LitElement {
                 style="width: ${width}"
               >
                 <div class="header">
-                  ${this.selectable && i === 0 ? html`<paper-checkbox .checked="${this._allSelected}" noink @click="${this._handleHeaderSelect}" />` : null}
+                  ${this.selectable && i === 0
+                    ? html`
+                      <paper-checkbox
+                        noink
+                        .checked="${this._allSelected}"
+                        @click="${this._handleHeaderSelect}"
+                      />` : null
+                  }
                   <span class="header-label" >${label || name}</span>
                   <paper-icon-button
                     noink
                     icon="${icon}"
                     title="${direction}"
-                    class="icon ${flip ? 'flipped' : ''}"
+                    class="${flip ? 'flipped' : ''}"
                     @click="${()=>{this.sortBy = key}}"
                   />
                 </div>
@@ -404,7 +479,12 @@ class UnityTable extends LitElement {
     // returns a row element
     const columns = this.columns.map(({key}, i) => key)
     const data = this.data
-    const id = data[index].tableId
+    const datum = data[index]
+    const {
+      tableId: id,
+      icon,
+      image
+    } = datum
     // pull out
     // if index is 0, add check-all button
     // have td render unity cell instead
@@ -413,8 +493,16 @@ class UnityTable extends LitElement {
       <tr class="row" key="row-${row}">
         ${columns.map((column, i) => {
           return html`
-            <td class="table-cell" key="${row}-${i}">
-              ${data[index][column]}
+            <td class="cell" key="${row}-${i}">
+              <unity-table-cell
+                label="${datum[column]}"
+                .icon="${i === 0 && icon}"
+                .image="${i === 0 && image}"
+                .id="${id}"
+                ?selectable="${this.selectable && i === 0}"
+                ?selected="${this._selected[id]}"
+                .onSelect="${() => this._selectOne(id)}"
+              />
             </td>`
           })
         }
@@ -456,7 +544,15 @@ class UnityTable extends LitElement {
       css`
         :host {
           font-family: var(--font-family, var(--default-font-family));
+          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           color: var(--black-text-color, var(--default-black-text-color));
+          --paper-checkbox-size: 14px;
+          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
+          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
+          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
+          --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
         }
         .container {
           width: 100%;
@@ -479,21 +575,25 @@ class UnityTable extends LitElement {
           left: 50%;
           transform: translate(-50%, -50%);
         }
-        .spinner {
-          --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
+        paper-spinner-lite {
           width: 56px;
           height: 56px;
         }
         .table-header {
           height: 33px;
         }
-        .cell {
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+        th {
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
-          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           text-align: left;
           padding: 0 13px;
-          line-height: 33px
+          line-height: 33px;
+          box-sizing: border-box;
+        }
+        .cell {
+          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+        }
+        td {
+          padding: 0;
         }
         .header-label {
           flex: 1;
@@ -506,9 +606,6 @@ class UnityTable extends LitElement {
         }
         paper-checkbox {
           padding: calc((33px - 14px) / 2) 0;
-          --paper-checkbox-size: var(--paragraph-font-size, var(--default-paragraphy-font-size));
-          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
         }
         paper-icon-button {
           color: var(--black-text-color, var(--default-black-text-color));
@@ -522,15 +619,9 @@ class UnityTable extends LitElement {
           height: 38px;
           border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
-        .table-cell {
-          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-        }
-        th {
-          box-sizing: border-box;
-        }
       `
     ]
   }
 }
 
-customElements.define('unity-table', UnityTable)
+window.customElements.define('unity-table', UnityTable)

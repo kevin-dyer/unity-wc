@@ -17,18 +17,18 @@ import { SharedStyles } from './shared-styles.js';
 // example table data, should eventually turn into controls
 // normally this would be taken from the store
 const exampleData = [
-  {name: 'red', hex: '#ff0000', favorite: true},
-  {name: 'black', hex: '#000000', favorite: true},
-  {name: 'yellow', hex: '#ffff00', favorite: false},
-  {name: 'green', hex: '#00ff00', favorite: true},
-  {name: 'grey', hex: '#888888', favorite: false},
-  {name: 'magenta', hex: '#ff00ff', favorite: false}
+  {name: 'red', hex: '#ff0000', favorite: true, image: 'show image'},
+  {name: 'black', hex: '#000000', favorite: true, icon: 'work'},
+  {name: 'yellow', hex: '#ffff00', favorite: false, icon: 'social:domain'},
+  {name: 'green', hex: '#00ff00', favorite: true, icon: 'work'},
+  {name: 'grey', hex: '#888888', favorite: false, image: 'show image', icon: 'build'},
+  {name: 'magenta', hex: '#ff00ff', favorite: false, icon: 'social:domain'}
 ]
 
 const exampleColumns = [
-  {key: 'hex', label: 'Hex value', width: 500},
-  {key: 'name', label: 'Color'},
-  {key: 'favorite', label: 'Favourite?'}
+  {key: 'hex', label: 'Hex value', width: 200},
+  {key: 'name', label: 'Color', width: 300},
+  {key: 'favorite', label: 'Favourite?', width: 500}
 ]
 
 class MyTable extends PageViewElement {
@@ -51,7 +51,12 @@ class MyTable extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-table selectable .data="${exampleData}" .columns="${exampleColumns}" />
+        <unity-table
+          selectable
+          .data="${exampleData}"
+          .columns="${exampleColumns}"
+          .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+        />
       </div>
     `
   }

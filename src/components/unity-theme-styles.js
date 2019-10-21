@@ -15,9 +15,9 @@ export const UnityThemeStyles = css`
     ---dark-grey-text-color: #5f6368;
     ---medium-grey-text-color: #80868b;
     ---light-grey-text-color: #bdbdbd;
-    ---dark-grey-background-color: #f1f3f4;
+    ---dark-grey-background-color: #a7adaf;
     ---medium-grey-background-color: #d4d9db;
-    ---light-grey-background-color: #a7adaf;
+    ---light-grey-background-color: #f1f3f4;
 
     /*Composite style based on variables above*/
     --selection-highlight-color: rgba(var(--primary-brand-rgb), var(--selection-opacity));
@@ -25,22 +25,23 @@ export const UnityThemeStyles = css`
     /* Fonts */
     --font-family: 'Nunito', sans-serif;
 
-    --header1-font-size: 18px;
+    --header1-font-size: 18pt;
     --header1-font-weight: 400;
 
-    --header2-font-size: 18px;
+    --header2-font-size: 18pt;
     --header2-font-weight: 400;
 
-    --header2-selected-font-size: 18px;
+    --header2-selected-font-size: 18pt;
     --header2-selected-font-weight: 600;
 
-    --paragraph-font-size: 14px;
+    --paragraph-font-size: 11pt;
     --paragraph-font-weight: 400;
 
-    --small-text-size: 11px;
+    /* this font size should likely change */
+    --small-text-size: 11pt;
     --small-text-weight: 400;
 
-    --small-text-selected-size: 11px;
+    --small-text-selected-size: 11pt;
     --small-text-selected-weight: 600;
   }
 `;
