@@ -134,7 +134,7 @@ class UnityTable extends LitElement {
     this._filteredData = []
     this._sortedData = []
     this._allSelected = false
-    this._selected = []
+    this._selected = {}
   }
 
   // inputs
@@ -219,7 +219,7 @@ class UnityTable extends LitElement {
   set selected(value) {
     const oldValue = this._selected
     this._selected = value
-    const flatSelected = this._flattenSelect(value)
+    const flatSelected = Object.values(value)
     this.onSelectionChange(flatSelected)
     if (flatSelected.length === 0) this._allSelected = false
     else if (flatSelected.length === this.data.length) this._allSelected = true
@@ -254,27 +254,23 @@ class UnityTable extends LitElement {
   // resizeColumns() {}
   _selectAll() {
     // all data are selected, make selected from all data
-    const newSelected = [...this.data]
+    const newSelected = {...this.data}
     this.selected = newSelected
   }
 
   _selectNone() {
     // none selected, so replace with empty
-    this.selected = []
+    this.selected = {}
   }
 
   _selectOne(id) {
     // copy selected
-    const newSelected = [...this._selected]
+    const newSelected = {...this._selected}
     // if not selected, select
     if (!newSelected[id]) newSelected[id] = this.data[id]
     // if selected, delete from arr
     else if (!!newSelected[id]) delete newSelected[id]
     this.selected = newSelected
-  }
-
-  _flattenSelect(selected) {
-    return selected.filter(v=>!!v)
   }
 
   // takes name of column (or maybe whole column) to move and index to move it to
@@ -505,7 +501,7 @@ class UnityTable extends LitElement {
                 .id="${id}"
                 ?selectable="${this.selectable && i === 0}"
                 ?selected="${this._selected[id]}"
-                .onSelect="${id => this._selectOne(id)}"
+                .onSelect="${() => this._selectOne(id)}"
               />
             </td>`
           })

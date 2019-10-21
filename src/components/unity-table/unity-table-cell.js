@@ -64,10 +64,6 @@ class UnityTableCell extends LitElement {
     }
   }
 
-  _handleSelect() {
-    this.onSelect(this.id)
-  }
-
   render() {
     // if img > icon > nothing
     const imgUrl = this.image
@@ -80,7 +76,7 @@ class UnityTableCell extends LitElement {
             <paper-checkbox
               noink
               .checked="${this.selected}"
-              @click="${this._handleSelect}"
+              @click="${this.onSelect}"
             />`
           : null
         }
