@@ -163,7 +163,7 @@ class UnityTable extends LitElement {
 
   set data(value) {
     const oldValue = this._data
-    const columns = this._columns
+    const columns = this.columns
     // default catcher for missing columns
     if ((!columns || !columns.length) && !!value && !!value.length) {
       const newCol = Object.keys(value[0])
