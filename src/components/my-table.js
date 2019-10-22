@@ -27,8 +27,8 @@ const exampleData = [
 
 const exampleColumns = [
   {key: 'hex', label: 'Hex value', width: 200},
-  {key: 'name', label: 'Color', width: 300},
-  {key: 'favorite', label: 'Favourite?', width: 500}
+  {key: 'name', label: 'Color', width: 300, format: name => `${name.charAt(0).toUpperCase()}${name.slice(1)}`},
+  {key: 'favorite', label: 'Favourite?', width: 500, format: datum => datum ? 'I love it!' : 'passible, I guess'}
 ]
 
 class MyTable extends PageViewElement {
