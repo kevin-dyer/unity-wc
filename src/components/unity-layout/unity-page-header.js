@@ -70,22 +70,27 @@ class UnityPageHeader extends LitElement {
         #header {
           flex: 1;
           height: 52px;
+          min-height: 52px;
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          align-items: center;
+          align-items: stretch;
           border-bottom: 1px solid var(--light-grey-text-color, var(--default-light-grey-text-color));
         }
 
+        #left-wrapper {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+
         #left-container {
-          flex: 1;
           display: flex;
           flex-direction: row;
           align-items: center;
         }
 
         #right-container {
-          flex: 1;
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -94,6 +99,7 @@ class UnityPageHeader extends LitElement {
         #title {
           font-size: var(--header1-font-size, var(--default-header1-font-size));
           font-weight: var(--header1-font-weight, var(--default-header1-font-weight));
+          margin-left: 16px;
         }
 
         paper-tabs {
@@ -112,9 +118,6 @@ class UnityPageHeader extends LitElement {
       title: {
         type: String
       },
-      showBackBtn: {
-        type: Boolean
-      },
       tabs: {
         type: Array
       },
@@ -131,32 +134,12 @@ class UnityPageHeader extends LitElement {
     super()
 
     this.title=''
-    this.showBackBtn=false
     this.tabs=[]
     this.selectedTab=0
     this.onTabSelect=()=>{console.log("onTabSelect default")}
   }
 
-  // createRenderRoot() {
-  // /**
-  //  * Render template in light DOM. Note that shadow DOM features like
-  //  * encapsulated CSS are unavailable.
-  //  */
-  //   return this;
-  // }
-
   _handleTabSelect(tab, index) {
-//     const tabSelectedEvent = new CustomEvent('header-tab-selected', {
-//       detail: {
-//         tab,
-//         index
-//       },
-//       bubbles: true,
-//       composed: true
-//     });
-// 
-//     this.dispatchEvent(tabSelectedEvent);
-
     console.log("_handleTabSelect called in unity-page-header component. tab: ", tab, ", index: ", index)
     this.onTabSelect(tab, index)
   }
@@ -171,8 +154,8 @@ class UnityPageHeader extends LitElement {
     console.log("this.tabs: ", this.tabs)
     return html`
       <div id="header">
-        <div id="left-content" id="left-container">
-          <slot name="left-centent"></slot>
+        <div id="left-wrapper">
+          <slot name="left-content" id="left-container"></slot>
           <span id="title">${this.title}</span>
         </div>
         <slot name="right-content" id="right-container"></slot>
