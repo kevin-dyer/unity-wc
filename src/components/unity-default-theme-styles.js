@@ -18,7 +18,7 @@ export const UnityDefaultThemeStyles = css`
     --default-black-text-color: #000;
     --default-dark-grey-text-color: #5f6368;
     --default-medium-grey-text-color: #80868b;
-    --default-light-grey-text-color: #bdbdbd;
+    --default-light-grey-text-color: #b8b8b8;
     --default-dark-grey-background-color: #a7adaf;
     --default-medium-grey-background-color: #d4d9db;
     --default-light-grey-background-color: #f1f3f4;
