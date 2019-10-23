@@ -4,8 +4,7 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-// import '@bit/smartworks.unity.unity-table-cell'
-import './unity-table-cell.js'
+import '@bit/smartworks.unity.unity-table-cell'
 
 
 /**
@@ -55,7 +54,7 @@ import './unity-table-cell.js'
  *      {
  *        key: 'columnN',
  *        label: 'Column #N'
- *        format: datum => datum * 100
+ *        format: datum => html`<span style="${myStyle}">Room: ${datum}</span>`
  *      },
  *      {
  *        key: 'column1',
@@ -78,7 +77,7 @@ import './unity-table-cell.js'
 //
 //   data:                   array of datum objects, non-uniform shape
 //                           each key is a viable column, with icon available for rendering leading row icon
-//   columns:                array of column objects, can contain format function
+//   columns:                array of column objects, can contain format function (returns string or Lit HTML string)
 //                           {key (related to datum keys), label (label rendered) width, format (func to format cell data)}
 //   headless:               bool to control head render, include to have no table header
 //   selectable:             bool to control if rows should be selectable
