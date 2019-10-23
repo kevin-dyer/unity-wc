@@ -482,7 +482,7 @@ class UnityTable extends LitElement {
 
   _renderRow(index, row) {
     // returns a row element
-    const columns = this.columns.map(({key, format}, i) => ({key, format}))
+    const columns = this.columns
     const data = this.data
     const datum = data[index]
     const {
@@ -497,8 +497,7 @@ class UnityTable extends LitElement {
       <tr class="row" key="row-${row}">
         ${columns.map(({key: column, format}, i) => {
           const value = datum[column]
-          let label = value
-          if (format instanceof Function) label = format(label)
+          const label = format instanceof Function ? format(value) : value
           return html`
             <td class="cell" key="${row}-${i}">
               <unity-table-cell
