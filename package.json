@@ -19,7 +19,7 @@
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
   "dependencies": {
-    "@bit/smartworks.unity.unity-default-theme-styles": "0.0.4",
+    "@bit/smartworks.unity.unity-default-theme-styles": "0.0.5",
     "@bit/smartworks.unity.unity-table-cell": "^0.1.2",
     "@polymer/app-layout": "^3.0.0",
     "@polymer/iron-icons": "^3.0.1",
@@ -69,6 +69,11 @@
     "packageManager": "npm",
     "overrides": {
       "smartworks.unity/unity-default-theme-styles": {
+        "env": {
+          "compiler": "bit.envs/compilers/typescript@3.0.35"
+        }
+      },
+      "smartworks.unity/unity-page-header": {
         "env": {
           "compiler": "bit.envs/compilers/typescript@3.0.35"
         }
