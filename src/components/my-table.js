@@ -56,6 +56,7 @@ class MyTable extends PageViewElement {
           .data="${exampleData}"
           .columns="${exampleColumns}"
           .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+          .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
         />
       </div>
     `

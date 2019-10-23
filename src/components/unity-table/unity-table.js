@@ -16,6 +16,8 @@ import '@bit/smartworks.unity.unity-table-cell'
  * @param {bool} selectable
  * @param {bool} isLoading
  * @param {string} emptyDisplay
+ * @param {func} onClickRow, func that is sent the data of the element clicked, and the event of the click
+ * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-table
@@ -124,6 +126,7 @@ class UnityTable extends LitElement {
     this.emptyDisplay = 'No information found.'
 
     // action handlers
+    this.onClickRow = ()=>{}
     this.onSelectionChange = ()=>{}
 
     // action handlers, to be implemented later
@@ -152,6 +155,7 @@ class UnityTable extends LitElement {
       isLoading: { type: Boolean },
       emptyDisplay: { type: String },
       onSelectionChange: { type: Function },
+      onClickRow: { type: Function },
 
       // internals, tracking for change
       _allSelected: { type: Boolean },
@@ -494,7 +498,7 @@ class UnityTable extends LitElement {
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
-      <tr class="row" key="row-${row}">
+      <tr class="row" key="row-${row}" @click="${e => this.onClickRow(datum, e)}">
         ${columns.map(({key: column, format}, i) => {
           const value = datum[column]
           const label = format instanceof Function ? format(value) : value
@@ -508,7 +512,10 @@ class UnityTable extends LitElement {
                 .id="${id}"
                 ?selectable="${this.selectable && i === 0}"
                 ?selected="${this._selected[id]}"
-                .onSelect="${() => this._selectOne(id)}"
+                .onSelect="${e => {
+                  e.stopPropagation()
+                  this._selectOne(id)
+                }}"
               />
             </td>`
           })
