@@ -54,7 +54,7 @@ class UnityTableCell extends LitElement {
 
   static get properties() {
     return {
-      label: { type: String },
+      label: { type: Object },
       // since value can be anything, best to make object for default handler
       value: { type: Object },
       // need to separate between img and icon

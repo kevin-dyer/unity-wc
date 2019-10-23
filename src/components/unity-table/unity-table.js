@@ -4,7 +4,8 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-table-cell'
+// import '@bit/smartworks.unity.unity-table-cell'
+import './unity-table-cell.js'
 
 
 /**
@@ -502,8 +503,8 @@ class UnityTable extends LitElement {
           return html`
             <td class="cell" key="${row}-${i}">
               <unity-table-cell
-                label="${label}"
-                value="${value}"
+                .label="${label}"
+                .value="${value}"
                 .icon="${i === 0 && icon}"
                 .image="${i === 0 && image}"
                 .id="${id}"
