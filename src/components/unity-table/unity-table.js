@@ -113,6 +113,8 @@ const ASC = 'Ascending'
 const DES = 'Descending'
 const UNS = 'Unsorted'
 
+const tlc = value => JSON.stringify(value).toLowerCase()
+
 class UnityTable extends LitElement {
   // internals
   constructor() {
@@ -403,12 +405,24 @@ class UnityTable extends LitElement {
     //   return
     // }
     // sort data based on column and direction
+
+    // need to add format use in here
     let sortedData = [...this._filteredData]
     if (!!direction) {
       const data = this.data
+      const format = this.columns.find(({key}) => key === sortBy).format
       sortedData = sortedData.sort((first, second) => {
-        const a = String(data[first][sortBy]).toLowerCase()
-        const b = String(data[second][sortBy]).toLowerCase()
+        const aData = data[first][sortBy]
+        const bData = data[second][sortBy]
+        let a, b
+        if (typeof aData === 'object' && typeof bData === 'object') {
+          a = tlc(format(aData))
+          b = tlc(format(bData))
+        } else {
+          console.log('in sort by data')
+          a = tlc(aData)
+          b = tlc(bData)
+        }
         if (a < b) {
           // return < 0, a first
           return direction === DES ? 1 : -1
@@ -567,6 +581,7 @@ class UnityTable extends LitElement {
           --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
           --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
           --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
+          --paper-spinner-stroke-width: 4px;
         }
         .container {
           width: 100%;
@@ -590,8 +605,8 @@ class UnityTable extends LitElement {
           transform: translate(-50%, -50%);
         }
         paper-spinner-lite {
-          width: 56px;
-          height: 56px;
+          width: 100px;
+          height: 100px;
         }
         .table-header {
           height: 33px;
