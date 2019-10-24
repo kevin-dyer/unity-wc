@@ -16,6 +16,8 @@ import '@bit/smartworks.unity.unity-table-cell'
  * @param {bool} selectable
  * @param {bool} isLoading
  * @param {string} emptyDisplay
+ * @param {func} onClickRow, func that is sent the data of the element clicked, and the event of the click
+ * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-table
@@ -49,14 +51,17 @@ import '@bit/smartworks.unity.unity-table-cell'
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
+*         format: datum => `Building: ${datum}`
  *      },
  *      {
  *        key: 'columnN',
  *        label: 'Column #N'
+ *        format: datum => html`<span style="${myStyle}">Room: ${datum}</span>`
  *      },
  *      {
  *        key: 'column1',
  *        label: 'Column #1'
+ *        format: column1Handler
  *      }
  *    ]}"
  *    ?selectable="${true}"
@@ -73,7 +78,9 @@ import '@bit/smartworks.unity.unity-table-cell'
 //   default will be made from each key on the data object.
 //
 //   data:                   array of datum objects, non-uniform shape
-//   columns:                array of column objects, {key (related to datum keys), label (label rendered) width}
+//                           each key is a viable column, with icon available for rendering leading row icon
+//   columns:                array of column objects, can contain format function (returns string or Lit HTML string)
+//                           {key (related to datum keys), label (label rendered) width, format (func to format cell data)}
 //   headless:               bool to control head render, include to have no table header
 //   selectable:             bool to control if rows should be selectable
 //   onSelectionChange:      callback function, recieves selected array when it changes
@@ -83,8 +90,8 @@ import '@bit/smartworks.unity.unity-table-cell'
 //   Internals for creating/editing
 //   _data:                  data marked w/ tableId for uniq references
 //   _selected:              array of elements that are selected, sent to onSelectionChange
-//   _sortBy:                object with column to sort by and direction, default to first
-//                           and descending? What counts as no sort?
+//   _sortBy:                object with column to sort by and direction, default all unsorted
+//                           sorting is done off of data's values, which can cause disconnect if format changes rendered values too much
 //   _filter:                string to find in any column
 //   _filteredList:          filtered list of indicies from _data
 //   _sortedList:            sorted version of _filteredList, this is what the displayed table is built from
@@ -119,6 +126,7 @@ class UnityTable extends LitElement {
     this.emptyDisplay = 'No information found.'
 
     // action handlers
+    this.onClickRow = ()=>{}
     this.onSelectionChange = ()=>{}
 
     // action handlers, to be implemented later
@@ -147,6 +155,7 @@ class UnityTable extends LitElement {
       isLoading: { type: Boolean },
       emptyDisplay: { type: String },
       onSelectionChange: { type: Function },
+      onClickRow: { type: Function },
 
       // internals, tracking for change
       _allSelected: { type: Boolean },
@@ -477,7 +486,7 @@ class UnityTable extends LitElement {
 
   _renderRow(index, row) {
     // returns a row element
-    const columns = this.columns.map(({key}, i) => key)
+    const columns = this.columns
     const data = this.data
     const datum = data[index]
     const {
@@ -487,21 +496,26 @@ class UnityTable extends LitElement {
     } = datum
     // pull out
     // if index is 0, add check-all button
-    // have td render unity cell instead
     // need to add handler for icon/img and label
     return html`
-      <tr class="row" key="row-${row}">
-        ${columns.map((column, i) => {
+      <tr class="row" key="row-${row}" @click="${e => this.onClickRow(datum, e)}">
+        ${columns.map(({key: column, format}, i) => {
+          const value = datum[column]
+          const label = format instanceof Function ? format(value) : value
           return html`
             <td class="cell" key="${row}-${i}">
               <unity-table-cell
-                label="${datum[column]}"
+                .label="${label}"
+                .value="${value}"
                 .icon="${i === 0 && icon}"
                 .image="${i === 0 && image}"
                 .id="${id}"
                 ?selectable="${this.selectable && i === 0}"
                 ?selected="${this._selected[id]}"
-                .onSelect="${() => this._selectOne(id)}"
+                .onSelect="${e => {
+                  e.stopPropagation()
+                  this._selectOne(id)
+                }}"
               />
             </td>`
           })

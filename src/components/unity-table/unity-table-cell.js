@@ -9,6 +9,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * Displays table of data.
  * @name UnityTableCell
  * @param {string} label, info to display in the cell
+ * @param {*} label, the actual value of the datum ascribed to the cell
  * @param {string} icon, iron-icon to display in the cell
  * @param {string} id, relational id to the data, used in selection
  * @param {bool} selectable
@@ -18,6 +19,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @example
  *  <unity-table-cell
  *    label="Cell Content"
+ *    value="datum"
  *    .icon="${index === 0 && 'work'}"
  *    .id="${1}"
  *    selectable
@@ -29,6 +31,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 //   Table Cell to be used with Unity Table. Could be used elsewhere, matching styleguides
 //
 //   label:       string of the data to show in the cell
+//   value:       actual value of the datum
 //   icon:        string of the name of the iron-icon to show in the cell
 //   id:          the id related to the row/cell/datum being displayed, used with select functions
 //   selectable:  bool to control if cell is selectable
@@ -39,6 +42,7 @@ class UnityTableCell extends LitElement {
   constructor() {
     super()
     this.label = ''
+    this.value = null
     this.icon = ''
     this.image = ''
     this.selectable = false
@@ -50,7 +54,9 @@ class UnityTableCell extends LitElement {
 
   static get properties() {
     return {
-      label: { type: String },
+      label: { type: Object },
+      // since value can be anything, best to make object for default handler
+      value: { type: Object },
       // need to separate between img and icon
       icon: { type: String },
       // term with util handler? url to img?
