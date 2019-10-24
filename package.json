@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@bit/smartworks.unity.unity-default-theme-styles": "0.0.5",
-    "@bit/smartworks.unity.unity-table-cell": "^0.1.2",
+    "@bit/smartworks.unity.unity-table-cell": "^0.1.4",
     "@polymer/app-layout": "^3.0.0",
     "@polymer/iron-icons": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
@@ -69,6 +69,16 @@
     "packageManager": "npm",
     "overrides": {
       "smartworks.unity/unity-default-theme-styles": {
+        "env": {
+          "compiler": "bit.envs/compilers/typescript@3.0.35"
+        }
+      },
+      "smartworks.unity/unity-table-cell": {
+        "env": {
+          "compiler": "bit.envs/compilers/typescript@3.0.35"
+        }
+      },
+      "smartworks.unity/unity-table": {
         "env": {
           "compiler": "bit.envs/compilers/typescript@3.0.35"
         }
