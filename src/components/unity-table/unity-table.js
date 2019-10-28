@@ -444,14 +444,14 @@ class UnityTable extends LitElement {
     const direction = !!dir ? dir : UNS
     return html`
       <thead>
-        <tr class="table-header">
+        <tr class="sticky-header-row">
           ${columns.map(({key, label, width: rootWidth}, i) => {
             const icon = direction !== UNS && column === key ? 'filter-list' : 'menu'
             const flip = direction === ASC
-            let width = null
+            let width = undefined
             if (typeof rootWidth === 'string') width = rootWidth
             else if (rootWidth < 1) width = `${rootWidth*100}%`
-            else width = `${rootWidth}px`
+            else if (width !== undefined) width = `${rootWidth}px`
             return html`
               <th
                 class="cell"
@@ -534,20 +534,22 @@ class UnityTable extends LitElement {
     // if !hasData, show empty message
     // show data
     return html`
-      <table class="container ${fill ? 'fullspace' : ''}">
-        ${!this.headless ? this._renderTableHeader(this.columns) : null}
-        ${fill
-          ? html`
-              <td colspan="${this.columns.length}" class="fullspace">
-                ${isLoading
-                  ? html`<paper-spinner-lite active class="spinner center" />`
-                  : html`<div class="center">${this.emptyDisplay}</div>`
-                }
-              </td>
-            `
-          : data.map((index, row) => this._renderRow(index, row))
-        }
-      </table>
+      <div class="container">
+        <table class="${fill ? 'fullspace' : ''}">
+          ${!this.headless ? this._renderTableHeader(this.columns) : null}
+          ${fill
+            ? html`
+                <td colspan="${this.columns.length}" class="fullspace">
+                  ${isLoading
+                    ? html`<paper-spinner-lite active class="spinner center" />`
+                    : html`<div class="center">${this.emptyDisplay}</div>`
+                  }
+                </td>
+              `
+            : data.map((index, row) => this._renderRow(index, row))
+          }
+        </table>
+      </div>
     `
   }
 
@@ -561,27 +563,46 @@ class UnityTable extends LitElement {
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           color: var(--black-text-color, var(--default-black-text-color));
+          border-collapse: collapse;
           --paper-checkbox-size: 14px;
           --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
           --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
           --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
           --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
+          --thead-height: 33px;
+          --trow-height: 38px;
         }
         .container {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
           width: 100%;
-          overflow-x: hidden;
           overflow-y: auto;
-          table-layout: auto;
+          overflow-x: hidden;
+        }
+        table {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          table-layout: fixed;
           border-collapse: collapse;
           border-spacing: 0;
           box-sizing: border-box;
+          overflow-x: hidden;
+          border-right: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          border-bottom: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
         .fullspace {
           width: 100%;
           height: 100%;
           box-sizing: border-box;
           overflow: hidden;
+          bottom: 0;
         }
         .center {
           position: absolute;
@@ -593,33 +614,54 @@ class UnityTable extends LitElement {
           width: 56px;
           height: 56px;
         }
-        .table-header {
-          height: 33px;
+        thead {
+          width: 100%;
         }
         th {
+          position: sticky;
+          top: 0;
+          height: var(--thead-height);
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           text-align: left;
-          padding: 0 13px;
-          line-height: 33px;
-          box-sizing: border-box;
-        }
-        .cell {
-          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-        }
-        td {
           padding: 0;
-        }
-        .header-label {
-          flex: 1;
-          padding-top: 1px;
+          maring: 0;
+          line-height: var(--thead-height);
+          border-collapse: collapse;
+          z-index: 1;
         }
         .header {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
+          maring: 0;
+          padding: 0 13px;
+          box-sizing: border-box;
+          border-collapse: collapse;
+          border-top: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          border-bottom: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          border-left: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+        }
+        tr {
+          width: 100%;
+          table-layout: fixed;
+          border-collapse: collapse;
+        }
+        td {
+          padding: 0;
+          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          border-top: 0;
+          border-collapse: collapse;
+        }
+        .cell {
+          border-collapse: collapse;
+          background-color: var(--background-color, var(--default-background-color))
+        }
+        .header-label {
+          flex: 1;
+          padding-top: 1px;
         }
         paper-checkbox {
-          padding: calc((33px - 14px) / 2) 0;
+          padding: calc((var(--thead-height) - 14px) / 2) 0;
         }
         paper-icon-button {
           color: var(--black-text-color, var(--default-black-text-color));
@@ -630,8 +672,8 @@ class UnityTable extends LitElement {
           transform: rotate(180deg);
         }
         .row {
-          height: 38px;
-          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          height: var(--trow-height);
+          border-collapse: collapse;
         }
       `
     ]

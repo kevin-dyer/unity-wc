@@ -13,6 +13,7 @@ export const UnityDefaultThemeStyles = css`
     /* Colors*/
     --default-primary-brand-color: rgb(var(--default-primary-brand-rgb));
     --default-secondary-brand-color: rgb(var(--default-secondary-brand-rgb));
+    --default-background-color: white;
     --default-global-nav-background-color: grey;
     --default-global-nav-section-color: #454545;
     --default-black-text-color: #000;
