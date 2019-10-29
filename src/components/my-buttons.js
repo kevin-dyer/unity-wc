@@ -1,8 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-// import { PageViewElement } from './page-view-element.js';
 import './unity-button/unity-button.js'
-
-// These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
 class MyButtons extends LitElement {
@@ -25,22 +22,6 @@ class MyButtons extends LitElement {
       `
     ];
   }
-
-  constructor() {
-    super()
-    console.log("MyButtons constructor")
-  }
-
-//   connectedCallback() {
-//     // super.connectedCallback()
-//     // this.addEventListener('header-tab-selected', this._handleTabSelect)
-//   }
-// 
-//   disconnectedCallback() {
-//     // super.disconnectedCallback()
-//     // this.removeEventListener('header-tab-selected', this._handleTabSelect)
-//   }
-
 
   render() {
     console.log("Render MyButtons")
