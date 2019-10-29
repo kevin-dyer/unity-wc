@@ -1,0 +1,85 @@
+import { LitElement, html, css } from 'lit-element';
+// import { PageViewElement } from './page-view-element.js';
+import './unity-button/unity-button.js'
+
+// These are the shared styles needed by this element.
+import { SharedStyles } from './shared-styles.js';
+
+class MyButtons extends LitElement {
+  static get styles() {
+    return [
+      SharedStyles,
+      css`
+        .button-page {
+          margin: 20px;
+        }
+        .section {
+          padding: 20px;
+        }
+
+        .button-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      `
+    ];
+  }
+
+  constructor() {
+    super()
+    console.log("MyButtons constructor")
+  }
+
+//   connectedCallback() {
+//     // super.connectedCallback()
+//     // this.addEventListener('header-tab-selected', this._handleTabSelect)
+//   }
+// 
+//   disconnectedCallback() {
+//     // super.disconnectedCallback()
+//     // this.removeEventListener('header-tab-selected', this._handleTabSelect)
+//   }
+
+
+  render() {
+    console.log("Render MyButtons")
+    return html`
+    <div class="button-page">
+      <h1>Unity Buttons</h1>
+
+      <div class="section">
+        <h4>Gradient button</h4>
+
+        <div class="button-container">
+          <unity-button
+            label="gradient"
+            ?gradient=${true}
+            ?disabled=${false}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="disabled"
+            ?gradient=${true}
+            ?disabled=${true}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h4>Outline button</h4>
+
+        <unity-button
+          label="my button"
+          ?outlined=${true}
+          ?disabled=${false}
+          @click=${e => console.log("unity-button clicked! e: ", e)}
+        />
+      </div>
+    </div>`
+  }
+}
+
+window.customElements.define('my-buttons', MyButtons);

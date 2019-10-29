@@ -46,6 +46,9 @@ const loadPage = (page) => (dispatch) => {
     case 'table':
       import('../components/my-table.js');
       break;
+    case 'my-buttons':
+      import('../components/my-buttons.js');
+      break;
     default:
       page = 'view404';
       import('../components/my-view404.js');
