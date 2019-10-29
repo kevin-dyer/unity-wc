@@ -26,6 +26,13 @@ class UnityButton extends LitElement {
           filter: brightness(85%);
         }
 
+        /*Including .unity-button selector for increased specificity*/
+        paper-button.unity-button.disabled {
+          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          background: var(--light-grey-background-color, var(--default-light-grey-background-color));
+          border: none;
+        }
+
         paper-button.gradient {
           /*NOTE: gradient from left to right: secondary brand color(if exists) -> primary brand color*/
           /* If secondary brand color does not exist, use primary brand color to creat solid background color */
@@ -37,11 +44,6 @@ class UnityButton extends LitElement {
         /*paper-button.gradient:active {
           filter: brightness(70%);
         }*/
-
-        paper-button.disabled {
-          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          background: var(--light-grey-background-color, var(--default-light-grey-background-color));
-        }
 
         paper-button.outlined {
           background: white;
@@ -79,7 +81,7 @@ class UnityButton extends LitElement {
   }
 
   _getClassNames() {
-    let classList = []
+    let classList = ['unity-button']
 
     if (this.gradient) {
       classList.push('gradient')
@@ -98,6 +100,7 @@ class UnityButton extends LitElement {
   }
 
   //TODO: Add props for displaying icons
+  //NOTE: consider rendering slot inside paper button that will render in place of label
   render() {
     //NOTE: @click is bubbled  up
     return html`
