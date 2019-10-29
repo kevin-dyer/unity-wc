@@ -7,7 +7,7 @@ import { css } from 'lit-element';
 export const UnityDefaultThemeStyles = css`
   :host {
     --default-primary-brand-rgb: 58, 188, 225;
-    --default-secondary-brand-rgb: 0, 94, 255;
+    --default-secondary-brand-rgb: 48, 128, 195;
     --default-selection-opacity: 0.5;
 
     /* Colors*/
