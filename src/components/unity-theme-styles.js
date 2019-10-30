@@ -4,11 +4,13 @@ export const UnityThemeStyles = css`
   :host {
     --primary-brand-rgb: 58, 188, 225;
     --secondary-brand-rgb: 48, 128, 195;
+    --danger-rgb: 244, 67, 54;
     --selection-opacity: 0.5;
 
     /* Colors*/
     --primary-brand-color: rgb(var(--primary-brand-rgb));
     --secondary-brand-color: rgb(var(--secondary-brand-rgb));
+    --danger-color: rgb(var(--danger-rgb));
     --default-background-color: white;
     --global-nav-background-color: grey;
     --global-nav-section-color: #454545;

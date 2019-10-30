@@ -63,6 +63,23 @@ class UnityButton extends LitElement {
           background: white;
           border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
+
+        /*Danger Styles*/
+        paper-button.danger {
+          background: white;
+          border: 1px solid var(--danger-color, var(--default-danger-color));
+          color: var(--danger-color, var(--default-danger-color));
+        }
+
+        paper-button.danger:hover {
+          background: rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.2);
+        }
+
+        paper-button.unity-button.danger.disabled {
+          border: 1px solid rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.2);
+          color: rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.5);
+          background: white;
+        }
       `
     ];
   }
@@ -81,6 +98,9 @@ class UnityButton extends LitElement {
       outlined: {
         type: Boolean
       },
+      danger: {
+        type: Boolean
+      },
     }
   }
 
@@ -91,6 +111,7 @@ class UnityButton extends LitElement {
     this.gradient=false
     this.disabled=false
     this.outlined=false
+    this.danger=false
   }
 
   _getClassNames() {
@@ -102,6 +123,10 @@ class UnityButton extends LitElement {
 
     if (this.outlined) {
       classList.push('outlined')
+    }
+
+    if (this.danger) {
+      classList.push('danger')
     }
 
     if (this.disabled) {

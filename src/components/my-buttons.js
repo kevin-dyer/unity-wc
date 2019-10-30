@@ -68,6 +68,26 @@ class MyButtons extends LitElement {
           ></unity-button>
         </div>
       </div>
+
+      <div class="section">
+        <h4>Danger button</h4>
+
+        <div class="button-container">
+          <unity-button
+            label="danger"
+            ?danger=${true}
+            ?disabled=${false}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="disabled"
+            ?danger=${true}
+            ?disabled=${true}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+        </div>
+      </div>
     </div>`
   }
 }
