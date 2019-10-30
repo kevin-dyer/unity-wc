@@ -26,13 +26,15 @@ class UnityButton extends LitElement {
           filter: brightness(85%);
         }
 
-        /*Including .unity-button selector for increased specificity*/
+        /*Including .unity-button selector for increased specificity and override other class styles*/
         paper-button.unity-button.disabled {
           color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           background: var(--light-grey-background-color, var(--default-light-grey-background-color));
           border: none;
         }
 
+
+        /*Gradient Styles*/
         paper-button.gradient {
           /*NOTE: gradient from left to right: secondary brand color(if exists) -> primary brand color*/
           /* If secondary brand color does not exist, use primary brand color to creat solid background color */
@@ -45,10 +47,21 @@ class UnityButton extends LitElement {
           filter: brightness(70%);
         }*/
 
+        /*Outlined Styles*/
         paper-button.outlined {
           background: white;
           border: 1px solid var(--primary-brand-color, var(--default-primary-brand-color));
           color: var(--black-text-color, var(--default-black-text-color));
+        }
+
+        paper-button.outlined:hover {
+          /*TODO: set border color to be 15% darker - How do I do this without affecting background color*/
+          filter: brightness(93%);
+        }
+
+        paper-button.outlined.disabled {
+          background: white;
+          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
       `
     ];
