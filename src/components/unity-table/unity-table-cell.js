@@ -63,7 +63,7 @@ class UnityTableCell extends LitElement {
       image: { type: String },
       selectable: { type: Boolean },
       selected: { type: Boolean },
-      id: { type: Number },
+      id: { type: String },
 
       onSelect: { type: Function }
       // hierarchy stuff
