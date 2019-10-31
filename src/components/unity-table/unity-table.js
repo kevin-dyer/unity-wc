@@ -51,12 +51,12 @@ import '@bit/smartworks.unity.unity-table-cell'
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
-*         format: datum => `Building: ${datum}`
+*         format: (colValue, datum) => `Building: ${colValue}`
  *      },
  *      {
  *        key: 'columnN',
  *        label: 'Column #N'
- *        format: datum => html`<span style="${myStyle}">Room: ${datum}</span>`
+ *        format: (colValue, datum) => html`<span style="${myStyle}">Room: ${colValue}</span>`
  *      },
  *      {
  *        key: 'column1',
@@ -543,7 +543,7 @@ class UnityTable extends LitElement {
       <tr class="row" key="row-${rowId}" @click="${e => this.onClickRow(datum, e)}">
         ${columns.map(({key: column, format}, i) => {
           const value = datum[column]
-          const label = format instanceof Function ? format(value) : value
+          const label = format instanceof Function ? format(value, datum) : value
           return html`
             <td class="cell" key="${rowId}-${column}">
               <unity-table-cell
