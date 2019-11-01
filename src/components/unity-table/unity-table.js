@@ -719,6 +719,7 @@ class UnityTable extends LitElement {
         .row {
           height: var(--trow-height);
           border-collapse: collapse;
+          cursor: pointer;
         }
       `
     ]
