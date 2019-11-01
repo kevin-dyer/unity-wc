@@ -26,9 +26,9 @@ const exampleData = [
 ]
 
 const exampleColumns = [
-  {key: 'hex', label: 'Hex value', width: 200, format: hex => html`<span style="color: ${hex}">${hex}</span>`},
-  {key: 'name', label: 'Color', width: 300, format: name => `${name.charAt(0).toUpperCase()}${name.slice(1)}`},
-  {key: 'favorite', label: 'Favourite?', width: 500, format: datum => datum ? 'I love it!' : 'passible, I guess'}
+  {key: 'hex', label: 'Hex value', width: 200, format: (hex, datum) => html`<span style="color: ${hex}">${hex}</span>`},
+  {key: 'name', label: 'Color', width: 300, format: (name, datum) => `${name.charAt(0).toUpperCase()}${name.slice(1)}`},
+  {key: 'favorite', label: 'Favourite?', width: 500, format: (value, datum) => value ? 'I love it!' : 'passible, I guess'}
 ]
 
 class MyTable extends PageViewElement {
@@ -57,6 +57,7 @@ class MyTable extends PageViewElement {
           .columns="${exampleColumns}"
           .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
           .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
+          .keyExtractor="${(datum, index) => datum.name}"
         />
       </div>
     `
