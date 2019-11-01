@@ -25,7 +25,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-cell@0.1.6": {
+    "smartworks.unity/unity-table-cell@0.1.7": {
         "files": [
             {
                 "name": "unity-table-cell.js",
@@ -37,7 +37,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.1.8": {
+    "smartworks.unity/unity-table@0.1.9": {
         "files": [
             {
                 "name": "unity-table.js",
