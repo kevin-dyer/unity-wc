@@ -63,7 +63,7 @@ class UnityTableCell extends LitElement {
       image: { type: String },
       selectable: { type: Boolean },
       selected: { type: Boolean },
-      id: { type: String },
+      id: { type: Number },
 
       onSelect: { type: Function }
       // hierarchy stuff
@@ -118,6 +118,9 @@ class UnityTableCell extends LitElement {
         .cell {
           padding: 0 13px;
           border-spacing: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .text {
           position: relative;
