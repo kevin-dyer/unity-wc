@@ -242,8 +242,11 @@ class UnityTable extends LitElement {
     this._selected = new Set(selectedSet) // ensure that value is an iterable array of keys
 
     // Array of selected data elements
-    const selectedData = Array.from(this._selected)
-      .map(id => this.data.get(id))
+    const selectedData = Array.from(this._selected).reduce((out, id) => {
+      const newVal = this.data.get(id)
+      if (newVal !== undefined) out.push(newVal)
+      return out
+    }, [])
 
     this.onSelectionChange(selectedData)
     if (selectedData.length === 0) this._allSelected = false
