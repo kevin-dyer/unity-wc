@@ -46,5 +46,7 @@ export const UnityThemeStyles = css`
 
     --small-text-selected-size: 11pt;
     --small-text-selected-weight: 600;
+
+    --small-icon-size: 14pt;
   }
 `;

@@ -1,5 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 import '@polymer/paper-button/paper-button.js';
+import '@polymer/iron-icons/iron-icons.js'
+import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '../unity-default-theme-styles.js';
 
 class UnityButton extends LitElement {
@@ -9,6 +12,7 @@ class UnityButton extends LitElement {
       css`
         :host {
           --gradient-background: transparent linear-gradient(90deg, var(--secondary-brand-color, var(--primary-brand-color, var(--default-primary-brand-color))) 0%, var(--primary-brand-color, var(--default-primary-brand-color)) 100%) 0% 0% no-repeat padding-box;
+          flex-shrink: 0;
         }
 
         paper-button {
@@ -54,6 +58,22 @@ class UnityButton extends LitElement {
           color: var(--black-text-color, var(--default-black-text-color));
         }
 
+        paper-button.outlined iron-icon {
+          color: var(--primary-brand-color, var(--default-primary-brand-color))
+        }
+
+        paper-button.outlined paper-spinner-lite {
+          color: var(--primary-brand-color, var(--default-primary-brand-color))
+        }
+
+        paper-button.outlined.disabled iron-icon {
+          color: inherit;
+        }
+
+        paper-button.outlined.disabled paper-spinner-lite {
+          color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+        }
+
         paper-button.outlined:hover {
           /*TODO: set border color to be 15% darker - How do I do this without affecting background color*/
           filter: brightness(93%);
@@ -80,6 +100,31 @@ class UnityButton extends LitElement {
           color: rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.5);
           background: white;
         }
+
+        paper-spinner-lite.icon {
+          height: var(--small-icon-size, var(--default-small-icon-size));
+          width: var(--small-icon-size, var(--default-small-icon-size));;
+          --paper-spinner-color: 'inherit';
+          /*--paper-spinner-color: var(--primary-brand-color, var(--default-primary-brand-color));*/
+          --paper-spinner-stroke-width: 2px;
+        }
+
+        paper-spinner-lite.icon.left-icon {
+          margin-right: 8px;
+        }
+        paper-spinner-lite.icon.right-icon {
+          margin-left: 8px;
+        }
+
+        .icon {
+          margin: 0 4px;
+        }
+        .left-icon {
+          margin-left: -15px;
+        }
+        .right-icon {
+          margin-right: -15px;
+        }
       `
     ];
   }
@@ -101,6 +146,15 @@ class UnityButton extends LitElement {
       danger: {
         type: Boolean
       },
+      loading: {
+        type: Boolean
+      },
+      leftIcon: {
+        type: String
+      },
+      rightIcon: {
+        type: String
+      }
     }
   }
 
@@ -112,6 +166,9 @@ class UnityButton extends LitElement {
     this.disabled=false
     this.outlined=false
     this.danger=false
+    this.loading=false
+    this.leftIcon=''
+    this.rightIcon=''
   }
 
   _getClassNames() {
@@ -133,20 +190,40 @@ class UnityButton extends LitElement {
       classList.push('disabled')
     }
 
+    if (this.loading) {
+      classList.push('loading')
+    }
+
     console.log("getClassNames returns: ", classList.join(' '))
     return classList.join(' ')
   }
 
-  //TODO: Add props for displaying icons
   //NOTE: consider rendering slot inside paper button that will render in place of label
   render() {
-    //NOTE: @click is bubbled  up
+    //NOTE: @click is bubbled up
     return html`
       <paper-button
         ?disabled=${this.disabled}
         class=${this._getClassNames()}
       >
+        ${this.loading
+          ? html`<paper-spinner-lite active class="spinner icon left-icon" />`
+          : !!this.leftIcon
+            ? html`<iron-icon
+                icon=${this.leftIcon}
+                class="icon left-icon"
+              ></iron-icon>`
+            : ''
+        }
         ${this.label}
+
+        ${this.rightIcon
+          ? html`<iron-icon
+              icon=${this.rightIcon}
+              class="icon right-icon"
+            ></iron-icon>`
+          : ''
+        }
       </paper-button>
     `
   }

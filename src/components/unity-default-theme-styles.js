@@ -50,5 +50,7 @@ export const UnityDefaultThemeStyles = css`
 
     --default-small-text-selected-size: 11pt;
     --default-small-text-selected-weight: 600;
+
+    --default-small-icon-size: 14pt;
   }
 `;
