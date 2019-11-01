@@ -13,6 +13,7 @@ class UnityButton extends LitElement {
         :host {
           --gradient-background: transparent linear-gradient(90deg, var(--secondary-brand-color, var(--primary-brand-color, var(--default-primary-brand-color))) 0%, var(--primary-brand-color, var(--default-primary-brand-color)) 100%) 0% 0% no-repeat padding-box;
           flex-shrink: 0;
+          font-family: var(--font-family, var(--default-font-family));
         }
 
         paper-button {
@@ -124,6 +125,11 @@ class UnityButton extends LitElement {
         }
         .right-icon {
           margin-right: -15px;
+        }
+
+        iron-icon.icon {
+          --iron-icon-width: var(--small-icon-size, var(--default-small-icon-size));
+          --iron-icon-height: var(--small-icon-size, var(--default-small-icon-size));
         }
       `
     ];
