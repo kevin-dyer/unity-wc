@@ -208,6 +208,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
           <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
           <a ?selected="${this._page === 'table'}" href="/table">Table</a>
+          <a ?selected="${this._page === 'globalNav'}" href="/globalNav">Global Nav</a>
           <a ?selected="${this._page === 'page-layout'}" href="/page-layout">Page Layout</a>
           <a ?selected="${this._page === 'my-buttons'}" href="/my-buttons">Buttons</a>
         </nav>
@@ -223,6 +224,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
           <a ?selected="${this._page === 'table'}" href="/table">Table</a>
           <a ?selected="${this._page === 'my-buttons'}" href="/my-buttons">Table</a>
+          <a ?selected="${this._page === 'globalNav'}" href="/globalNav">Global Nav</a>
         </nav>
       </app-drawer>
 
@@ -232,6 +234,7 @@ class MyApp extends connect(store)(LitElement) {
         <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
         <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
         <my-table class="page" ?active="${this._page === 'table'}"></my-table>
+        <my-global-nav class="page" ?active="${this._page === 'globalNav'}"></my-global-nav>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
         <my-layout class="page" ?active="${this._page === 'page-layout'}"></my-layout>
         <my-buttons class="page" ?active="${this._page === 'my-buttons'}"></my-buttons>

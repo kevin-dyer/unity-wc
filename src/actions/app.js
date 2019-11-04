@@ -48,6 +48,8 @@ const loadPage = (page) => (dispatch) => {
       break;
     case 'my-buttons':
       import('../components/my-buttons.js');
+    case 'globalNav':
+      import('../components/my-global-nav.js');
       break;
     default:
       page = 'view404';
