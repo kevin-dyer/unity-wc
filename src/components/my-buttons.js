@@ -181,7 +181,7 @@ class MyButtons extends LitElement {
             label="small icon"
             ?gradient=${true}
             ?small=${true}
-            leftIcon='create'
+            leftIcon='image:photo'
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
@@ -190,6 +190,13 @@ class MyButtons extends LitElement {
             ?gradient=${true}
             ?small=${true}
             ?loading=${true}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="small danger"
+            ?danger=${true}
+            ?small=${true}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
         </div>

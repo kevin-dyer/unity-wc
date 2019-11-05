@@ -1,7 +1,8 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/iron-icons/iron-icons.js'
-import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/iron-icon/iron-icon.js'
+import '@polymer/iron-icons/image-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import {UnityDefaultThemeStyles} from '@bit/smartworks.unity.unity-default-theme-styles';
 
