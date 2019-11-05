@@ -48,7 +48,14 @@ class UnityGlobalNav extends LitElement {
               <slot name="logo"></slot>
             </div>
           </div>
-          This is the menu.
+          <div class="menu-box">
+            <div class="top-container">
+              <slot name="top"></slot>
+            </div>
+            <div class="bottom-container">
+              <slot name="bottom"></slot>
+            </div>
+          </div>
         </div>
       ${gutter ? html`</div>` : ''}
     `
@@ -100,6 +107,30 @@ class UnityGlobalNav extends LitElement {
           position: absolute;
           top: calc(var(--logo-height) / 2);
           transform: translateY(-50%);
+        }
+        .menu-box {
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          top: var(--logo-height);
+          bottom: 0;
+          width: 100%;
+        }
+        .top-container {
+          height: 100%;
+          width: 100%;
+          overflow-x: hidden;
+          overflow-y: auto;
+          border-collapse: collapse;
+        }
+        .bottom-container {
+          bottom: 0;
+          height: auto;
+          min-height: min-content;
+          width: 100%;
+          overflow: hidden;
+          border-collapse: collapse;
         }
       `
     ]

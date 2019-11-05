@@ -49,6 +49,16 @@ class MyGlobalNav extends PageViewElement {
           <div slot="logo">
             This is a logo.
           </div>
+          <div slot="top">Top Item 0</div>
+          <div slot="top">Top Item 1</div>
+          <div slot="top">Top Item 2</div>
+          <div slot="top">Top Item 3</div>
+          <div slot="top">Top Item 4</div>
+          <div slot="bottom">Bottom Item 0</div>
+          <div slot="bottom">Bottom Item 1</div>
+          <div slot="bottom">Bottom Item 2</div>
+          <div slot="bottom">Bottom Item 3</div>
+          <div slot="bottom">Bottom Item 4</div>
         </unity-global-nav>
       </div>
     `
