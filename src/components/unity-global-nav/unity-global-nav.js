@@ -30,30 +30,18 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 // To be used with 'unity-nav-top-item's. Others may be used, but may not have intended results.
 
 class UnityGlobalNav extends LitElement {
-  // internals
   constructor() {
     super()
-    // defaults of inputs
+    
     this.gutter = false
-
-    // action handlers
-
-    // action handlers, to be implemented later
-
-    // defaults of internal reference
   }
 
-  // inputs
   static get properties() {
     return {
       gutter: { type: Boolean }
-      // TBI
     }
   }
 
-  // custom setter/getters
-
-  // actions
   render() {
     const gutter = this.gutter
     return html`
