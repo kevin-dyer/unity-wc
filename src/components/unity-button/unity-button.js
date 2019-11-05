@@ -20,10 +20,19 @@ class UnityButton extends LitElement {
           height: 30px;
           border-radius: 30px;
           min-width: 79px;
-          font-size: var(--small-text-size, var(--default-small-text-size));
-          font-weight: var(--small-text-weight, var(--default-small-text-weight));
+          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           padding: 0 20px;
           text-transform: none;
+        }
+
+        paper-button.small {
+          height: 22px;
+          padding: 0 10px;
+          min-width: 22px;
+          border-radius: 22px;
+          font-size: var(--small-text-size, var(--default-small-text-size));
+          font-weight: var(--small-text-weight, var(--default-small-text-weight));
         }
 
         paper-button:hover {
@@ -106,8 +115,12 @@ class UnityButton extends LitElement {
           height: var(--small-icon-size, var(--default-small-icon-size));
           width: var(--small-icon-size, var(--default-small-icon-size));;
           --paper-spinner-color: 'inherit';
-          /*--paper-spinner-color: var(--primary-brand-color, var(--default-primary-brand-color));*/
           --paper-spinner-stroke-width: 2px;
+        }
+
+        .small paper-spinner-lite.icon {
+          height: var(--xsmall-icon-size, var(--default-xsmall-icon-size));
+          width: var(--xsmall-icon-size, var(--default-xsmall-icon-size));;
         }
 
         paper-spinner-lite.icon.left-icon {
@@ -127,9 +140,21 @@ class UnityButton extends LitElement {
           margin-right: -15px;
         }
 
+        .small .left-icon {
+          margin-left: -6px;
+        }
+        .small .right-icon {
+          margin-left: -6px;
+        }
+
         iron-icon.icon {
           --iron-icon-width: var(--small-icon-size, var(--default-small-icon-size));
           --iron-icon-height: var(--small-icon-size, var(--default-small-icon-size));
+        }
+
+        .small iron-icon.icon {
+          --iron-icon-width: var(--xmall-icon-size, var(--default-xsmall-icon-size));
+          --iron-icon-height: var(--xsmall-icon-size, var(--default-xsmall-icon-size));
         }
       `
     ];
@@ -155,6 +180,9 @@ class UnityButton extends LitElement {
       loading: {
         type: Boolean
       },
+      small: {
+        type: Boolean
+      },
       leftIcon: {
         type: String
       },
@@ -173,6 +201,7 @@ class UnityButton extends LitElement {
     this.outlined=false
     this.danger=false
     this.loading=false
+    this.small=false
     this.leftIcon=''
     this.rightIcon=''
   }
@@ -198,6 +227,10 @@ class UnityButton extends LitElement {
 
     if (this.loading) {
       classList.push('loading')
+    }
+
+    if (this.small) {
+      classList.push('small')
     }
 
     console.log("getClassNames returns: ", classList.join(' '))

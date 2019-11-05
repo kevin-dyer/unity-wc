@@ -165,6 +165,34 @@ class MyButtons extends LitElement {
           ></unity-button>
         </div>
       </div>
+
+      <div class="section">
+        <h4>Small button</h4>
+
+        <div class="button-container">
+          <unity-button
+            label="Small"
+            ?gradient=${true}
+            ?small=${true}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="small icon"
+            ?gradient=${true}
+            ?small=${true}
+            leftIcon='create'
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="loading"
+            ?gradient=${true}
+            ?small=${true}
+            ?loading=${true}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+        </div>
     </div>`
   }
 }

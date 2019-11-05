@@ -41,12 +41,13 @@ export const UnityThemeStyles = css`
     --paragraph-font-weight: 400;
 
     /* this font size should likely change */
-    --small-text-size: 11pt;
+    --small-text-size: 9pt;
     --small-text-weight: 400;
 
     --small-text-selected-size: 11pt;
     --small-text-selected-weight: 600;
 
     --small-icon-size: 14pt;
+    --xsmall-icon-size: 10pt;
   }
 `;
