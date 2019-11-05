@@ -18,13 +18,17 @@ import { SharedStyles } from './shared-styles.js';
 // normally this would be taken from the store
 const exampleData = []
 
-
-
 class MyGlobalNav extends PageViewElement {
   static get styles() {
     return [
       SharedStyles,
       css`
+        unity-global-nav {
+          --default-global-nav-background-color: #122C33;
+          --default-global-nav-expanded-color: #07191E;
+          --default-global-nav-text-color: white;
+          --global-nav-border-color: var(--default-dark-grey-text-color)
+        }
         .example-container {
           position: relative;
           width: 1000px;
@@ -41,7 +45,11 @@ class MyGlobalNav extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-global-nav/>
+        <unity-global-nav gutter>
+          <div slot="logo">
+            This is a logo.
+          </div>
+        </unity-global-nav>
       </div>
     `
   }
