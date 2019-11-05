@@ -12,7 +12,9 @@ export const UnityThemeStyles = css`
     --secondary-brand-color: rgb(var(--secondary-brand-rgb));
     --danger-color: rgb(var(--danger-rgb));
     --default-background-color: white;
-    --global-nav-background-color: grey;
+    --global-nav-background-color: #122C33;
+    --global-nav-expanded-color: #07191E;
+    --global-nav-border-color: #464E57;
     --global-nav-section-color: #454545;
     --black-text-color: #000;
     --dark-grey-text-color: #5f6368;
