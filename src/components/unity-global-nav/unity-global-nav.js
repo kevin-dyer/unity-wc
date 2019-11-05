@@ -5,8 +5,19 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * Renders a left-bound navigation bar
 * @name UnityGlobalNav
 * @param {bool} gutter, show or hide the side gutter
+* @param {slot} logo, logo image to place in menu header
+* @param {slot} top, nav items to render in top list, scrollable
+* @param {slot} bottom, nav items to render in bottom list, has hard limit based on view space
 * @return {LitElement} returns a class extended from LitElement
 * @example
+* <unity-global-nav gutter>
+*   <img src="/path/to/logo" slot="logo" alt="Company Inc.">
+*   <div slot="top">Top Item #1</div>
+*   <div slot="top">Top Item #2</div>
+*   <div slot="top">Top Item #3</div>
+*   <div slot="bottom">Bottom Item #1</div>
+*   <div slot="bottom">Bottom Item #2</div>
+* </unity-global-nav>
 **/
 
 // Left-mounted Global Navigation Bar, only internal variable is bool 'gutter'
@@ -113,6 +124,7 @@ class UnityGlobalNav extends LitElement {
           display: flex;
           flex-direction: column;
           flex-wrap: nowrap;
+          overflow: hidden;
           top: var(--logo-height);
           bottom: 0;
           width: 100%;
@@ -120,17 +132,15 @@ class UnityGlobalNav extends LitElement {
         .top-container {
           height: 100%;
           width: 100%;
-          overflow-x: hidden;
           overflow-y: auto;
           border-collapse: collapse;
         }
         .bottom-container {
           bottom: 0;
-          height: auto;
           min-height: min-content;
           width: 100%;
-          overflow: hidden;
           border-collapse: collapse;
+          overflow-y: auto;
         }
       `
     ]
