@@ -8,6 +8,11 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @param {slot} logo, logo image to place in menu header
 * @param {slot} top, nav items to render in top list, scrollable
 * @param {slot} bottom, nav items to render in bottom list, has hard limit based on view space
+* @param {css} --global-nav-background-color, css var used for coloring the component
+* @param {css} --global-nav-expanded-color, css var used for coloring the component
+* @param {css} --primary-brand-color, var, css var used for coloring the component
+* @param {css} --global-nav-text-color, css var used for coloring the component
+* @param {css} --global-nav-border-color, css var used for coloring the component
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-global-nav gutter>
