@@ -32,7 +32,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 class UnityGlobalNav extends LitElement {
   constructor() {
     super()
-    
+
     this.gutter = false
   }
 
@@ -102,10 +102,8 @@ class UnityGlobalNav extends LitElement {
         .logo-container {
           height: var(--logo-height);
           width: 100%;
-          border-bottom: 1px solid var(--border-breakers);
           padding-left: var(--logo-padding);
           padding-right: var(--logo-padding);
-          box-sizing: border-box;
         }
         .logo {
           position: absolute;
@@ -125,6 +123,7 @@ class UnityGlobalNav extends LitElement {
         .top-container {
           height: 100%;
           width: 100%;
+          min-height: 52px;
           overflow-y: auto;
           border-collapse: collapse;
         }
@@ -133,7 +132,6 @@ class UnityGlobalNav extends LitElement {
           min-height: min-content;
           width: 100%;
           border-collapse: collapse;
-          overflow-y: auto;
         }
       `
     ]
