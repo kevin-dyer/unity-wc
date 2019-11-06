@@ -200,6 +200,24 @@ class MyButtons extends LitElement {
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
         </div>
+      </div>
+
+      <div class="section">
+        <h4>Icon button</h4>
+
+        <div class="button-container">
+          <unity-button
+            centerIcon="close"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            centerIcon="close"
+            ?loading=${true}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+        </div>
+      </div>
     </div>`
   }
 }

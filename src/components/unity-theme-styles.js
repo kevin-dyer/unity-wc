@@ -47,6 +47,7 @@ export const UnityThemeStyles = css`
     --small-text-selected-size: 11pt;
     --small-text-selected-weight: 600;
 
+    --medium-icon-size: 18pt;
     --small-icon-size: 14pt;
     --xsmall-icon-size: 10pt;
   }

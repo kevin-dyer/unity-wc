@@ -131,6 +131,10 @@ class UnityButton extends LitElement {
           margin-left: 8px;
         }
 
+        .icon-btn paper-spinner-lite.icon.left-icon {
+          margin: 0;
+        }
+
         .icon {
           margin: 0 4px;
         }
@@ -156,6 +160,17 @@ class UnityButton extends LitElement {
         .small iron-icon.icon {
           --iron-icon-width: var(--xmall-icon-size, var(--default-xsmall-icon-size));
           --iron-icon-height: var(--xsmall-icon-size, var(--default-xsmall-icon-size));
+        }
+
+        paper-button.icon-btn {
+          min-width: 30px;
+          width: 30px;
+          padding: 0;
+        }
+
+        paper-button.icon-btn .icon {
+          --iron-icon-width: var(--medium-icon-size, var(--default-medium-icon-size));
+          --iron-icon-height: var(--medium-icon-size, var(--default-medium-icon-size));
         }
       `
     ];
@@ -189,6 +204,9 @@ class UnityButton extends LitElement {
       },
       rightIcon: {
         type: String
+      },
+      centerIcon: {
+        type: String
       }
     }
   }
@@ -205,6 +223,7 @@ class UnityButton extends LitElement {
     this.small=false
     this.leftIcon=''
     this.rightIcon=''
+    this.centerIcon=''
   }
 
   _getClassNames() {
@@ -234,6 +253,10 @@ class UnityButton extends LitElement {
       classList.push('small')
     }
 
+    if (this.centerIcon) {
+      classList.push('icon-btn')
+    }
+
     console.log("getClassNames returns: ", classList.join(' '))
     return classList.join(' ')
   }
@@ -256,6 +279,14 @@ class UnityButton extends LitElement {
             : ''
         }
         ${this.label}
+
+        ${this.centerIcon && !this.loading
+          ? html`<iron-icon
+              icon=${this.centerIcon}
+              class="icon center-icon"
+            ></iron-icon>`
+          : ''
+        }
 
         ${this.rightIcon
           ? html`<iron-icon

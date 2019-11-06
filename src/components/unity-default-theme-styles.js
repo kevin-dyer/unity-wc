@@ -51,6 +51,7 @@ export const UnityDefaultThemeStyles = css`
     --default-small-text-selected-size: 11pt;
     --default-small-text-selected-weight: 600;
 
+    --default-medium-icon-size: 18pt;
     --default-small-icon-size: 14pt;
     --default-xsmall-icon-size: 10pt;
   }
