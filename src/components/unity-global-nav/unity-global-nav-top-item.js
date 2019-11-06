@@ -42,6 +42,7 @@ class UnityGlobalNavTopItem extends LitElement {
     this.short = false
     this.label = ''
     this.key = ''
+    this.icon = ''
     this.onSelect = ()=>{}
     // this.children = []
 
@@ -56,6 +57,7 @@ class UnityGlobalNavTopItem extends LitElement {
       onSelect: { type: Function },
       label: { type: String },
       key: { type: String },
+      icon: { type: String },
       children: { type: Array },
 
       // internals
@@ -79,6 +81,7 @@ class UnityGlobalNavTopItem extends LitElement {
       _onSelect,
       key='',
       label=key,
+      icon='',
       // children=[],
       // _expanded: open=false
     } = this
@@ -88,7 +91,10 @@ class UnityGlobalNavTopItem extends LitElement {
         class="container ${short ? 'short' : ''} ${selected ? 'selected' : ''}"
         @click=${_onSelect}
       >
-        <div class="label text ${short ? 'short-label' : ''}">${label}</div>
+        <div class="label ${short ? 'short-label' : ''}">
+          ${icon ? html`<iron-icon icon="${icon}"></iron-icon>` : ''}
+          <span class="text">${label}</span>
+        </div>
         <!-- Children items go here -->
       </div>
     `
@@ -134,13 +140,20 @@ class UnityGlobalNavTopItem extends LitElement {
           padding-right: var(--label-padding);
           font-weight: 500;
           transform: translateY(-50%);
-          font-size: 14pt;
         }
         .short-label {
           top: calc(var(--short-height) / 2);
+          line-height: var(--short-height);
         }
         .text {
+          font-size: 14pt;
           color: var(--text-color)
+          line-height: var(--tall-height);
+        }
+        iron-icon {
+          top: -2px;
+          padding-right: 12px;
+          color: var(--text-color);
         }
       `
     ]
