@@ -114,7 +114,7 @@ class UnityGlobalNavTopItem extends LitElement {
         @click=${_onSelect}
       >
         <div class="label ${short ? 'short-label' : ''}">
-          ${icon ? html`<iron-icon icon="${icon}"></iron-icon>` : ''}
+          ${!!icon && icon !== 'undefined' ? html`<iron-icon icon="${icon}"></iron-icon>` : ''}
           <span class="text">${label}</span>
         </div>
         <!-- Children items go here -->

@@ -138,10 +138,10 @@ class MyGlobalNav extends PageViewElement {
           ${topItems.map(({slot, key, label, short, icon}) => html`
             <unity-global-nav-top-item
               slot="${slot}"
-              key="${key}"
+              .key="${key}"
               .onSelect="${this._changeSelection}"
-              label="${label}"
-              icon="${icon}"
+              .label="${label}"
+              .icon="${icon}"
               .short="${short}"
               .selected="${this._selected === key}"
             ></unity-global-nav-top-item>
@@ -149,9 +149,9 @@ class MyGlobalNav extends PageViewElement {
           ${bottomItems.map(({slot, key, label, short, icon}) => html`
             <unity-global-nav-top-item
               slot="${slot}"
-              key="${key}"
+              .key="${key}"
               .onSelect="${this._changeSelection}"
-              label="${label}"
+              .label="${label}"
               icon="${icon}"
               .short="${short}"
               .selected="${this._selected === key}"
