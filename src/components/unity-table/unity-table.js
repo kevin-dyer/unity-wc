@@ -51,12 +51,12 @@ import '@bit/smartworks.unity.unity-table-cell'
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
-*         format: datum => `Building: ${datum}`
+*         format: (colValue, datum) => `Building: ${colValue}`
  *      },
  *      {
  *        key: 'columnN',
  *        label: 'Column #N'
- *        format: datum => html`<span style="${myStyle}">Room: ${datum}</span>`
+ *        format: (colValue, datum) => html`<span style="${myStyle}">Room: ${colValue}</span>`
  *      },
  *      {
  *        key: 'column1',
@@ -88,8 +88,8 @@ import '@bit/smartworks.unity.unity-table-cell'
 //   isLoading:              Boolean to show spinner instead of table
 //
 //   Internals for creating/editing
-//   _data:                  data marked w/ tableId for uniq references
-//   _selected:              array of elements that are selected, sent to onSelectionChange
+//   _data:                  data marked w/ rowId for uniq references
+//   _selected:              Set of keys of elements that are selected, sent to onSelectionChange
 //   _sortBy:                object with column to sort by and direction, default all unsorted
 //                           sorting is done off of data's values, which can cause disconnect if format changes rendered values too much
 //   _filter:                string to find in any column
@@ -108,6 +108,7 @@ import '@bit/smartworks.unity.unity-table-cell'
 //   onEndReached:           function to be called to request more pages to support infiniscroll
 //                           only works with controls set to EXT
 //   onEndReachedThreshold:  TBD
+//   keyExtractor         :  Function to define a unique key on each data element
 
 const ASC = 'Ascending'
 const DES = 'Descending'
@@ -118,7 +119,7 @@ class UnityTable extends LitElement {
   constructor() {
     super()
     // defaults of input
-    this._data = []
+    this._data = new Map()
     this.columns = []
     this.selectable = false
     this.headless = false
@@ -142,12 +143,14 @@ class UnityTable extends LitElement {
     this._filteredData = []
     this._sortedData = []
     this._allSelected = false
-    this._selected = {}
+    this._selected = new Set()
+    this._keyExtractor = (datum, index)=>index
   }
 
   // inputs
   static get properties() {
     return {
+      keyExtractor: {type: Function},
       data: { type: Array },
       columns: { type: Array },
       headless: { type: Boolean },
@@ -156,7 +159,6 @@ class UnityTable extends LitElement {
       emptyDisplay: { type: String },
       onSelectionChange: { type: Function },
       onClickRow: { type: Function },
-
       // internals, tracking for change
       _allSelected: { type: Boolean },
       // selected: { type: Array },
@@ -170,16 +172,26 @@ class UnityTable extends LitElement {
     }
   }
 
+  //data passed in as array, this._data is created as a Map, with key defined by this.keyExtractor
   set data(value) {
     const oldValue = this._data
     const columns = this.columns
+
     // default catcher for missing columns
     if ((!columns || !columns.length) && !!value && !!value.length) {
       const newCol = Object.keys(value[0])
       this.columns = newCol.map(name => ({key: name, label: name}))
     }
-    const newValue = value.map((datum, i) => ({...datum, tableId: i}))
-    // add tableId for better reference to source data
+
+    const newValue = new Map(value.map((datum, index) => {
+      const rowId = this.keyExtractor(datum, index)
+
+      return [
+        rowId,
+        datum
+      ]
+    }))
+
     // but now to worry about what if datum isn't obj?
     this._data = newValue
     this._process()
@@ -225,13 +237,30 @@ class UnityTable extends LitElement {
 
   get sortBy() { return this._sortBy }
 
-  set selected(value) {
+  set selected(selectedSet) {
     const oldValue = this._selected
-    this._selected = value
-    const flatSelected = Object.values(value)
-    this.onSelectionChange(flatSelected)
-    if (flatSelected.length === 0) this._allSelected = false
-    else if (flatSelected.length === this.data.length) this._allSelected = true
+    this._selected = new Set(selectedSet) // ensure that value is an iterable array of keys
+
+    // Array of selected data elements
+    const selectedData = Array.from(this._selected).reduce((out, id) => {
+      const newVal = this.data.get(id)
+      if (newVal !== undefined) out.push(newVal)
+      return out
+    }, [])
+
+    this.onSelectionChange(selectedData)
+    if (selectedData.length === 0) this._allSelected = false
+    else {
+      //Determine if any table row is unselected
+      const unselectedMap = new Map(this.data)
+      this._selected.forEach(id => {
+        unselectedMap.delete(id)
+      })
+
+      const hasUnselected = unselectedMap.size > 0
+
+      this._allSelected = !hasUnselected
+    }
     this.requestUpdate('selected', oldValue)
   }
 
@@ -250,6 +279,21 @@ class UnityTable extends LitElement {
 
   get filter() { return this._filter }
 
+  set keyExtractor(value) {
+    const oldExtractor = this._keyExtractor
+    this._keyExtractor = value
+
+    this.requestUpdate('keyExtractor', oldExtractor)
+
+    //Update this.data to use new keyExtractor
+    const dataArray = Array.from(this.data.values())
+    this.data = dataArray
+  }
+
+  get keyExtractor() {
+    return this._keyExtractor
+  }
+
   // possibly use setters for dynamic sort/filter update?
   /*
     if filter updates when changed, then _data can change
@@ -263,23 +307,24 @@ class UnityTable extends LitElement {
   // resizeColumns() {}
   _selectAll() {
     // all data are selected, make selected from all data
-    const newSelected = {...this.data}
-    this.selected = newSelected
+    this.selected = new Set(this.data.keys())
   }
 
   _selectNone() {
     // none selected, so replace with empty
-    this.selected = {}
+    this.selected = new Set()
   }
 
+  //NOTE: this may not trigger an update
   _selectOne(id) {
-    // copy selected
-    const newSelected = {...this._selected}
-    // if not selected, select
-    if (!newSelected[id]) newSelected[id] = this.data[id]
-    // if selected, delete from arr
-    else if (!!newSelected[id]) delete newSelected[id]
-    this.selected = newSelected
+    const nextSelected = new Set(this.selected)
+    if (nextSelected.has(id)) {
+      nextSelected.delete(id)
+    } else {
+      nextSelected.add(id)
+    }
+
+    this.selected = nextSelected
   }
 
   // takes name of column (or maybe whole column) to move and index to move it to
@@ -361,6 +406,8 @@ class UnityTable extends LitElement {
     return newColumns
   }
 
+  //Cannot use index, must use rowId
+  // Convert this.data map to an array, return filtered array
   _filterData() {
     const searchFor = this.filter || ''
     // if controls are external, callback and quit
@@ -371,13 +418,12 @@ class UnityTable extends LitElement {
     // }
     // return items only if any prop contains the string
     // might instead be based on currently visible columns
-    const columns = [...this.columns]
-    let filteredData = this.data.map((v,i) => i)
+    let filteredData = Array.from(this.data.entries())
     if (!!searchFor) {
-      filteredData = filteredData.filter(i => {
+      filteredData = filteredData.filter(([rowId, datum]) => {
         // need to consider different value types
-        return columns.some(({name: column}) => {
-          const point = this.data[i][column]
+        return this.columns.some(({name: column}) => {
+          const point = datum[column]
           // might need to turn below into recursive func if we are expecting data to include obj
           if (typeof point === 'string') {
             return point.includes(searchFor)
@@ -403,12 +449,12 @@ class UnityTable extends LitElement {
     //   return
     // }
     // sort data based on column and direction
-    let sortedData = [...this._filteredData]
+    let sortedData = [...this._filteredData] //[[rowId, datum]]
+
     if (!!direction) {
-      const data = this.data
-      sortedData = sortedData.sort((first, second) => {
-        const a = String(data[first][sortBy]).toLowerCase()
-        const b = String(data[second][sortBy]).toLowerCase()
+      sortedData = sortedData.sort(([rowId1, datum1], [rowId2, datum2]) => {
+        const a = String(datum1[sortBy]).toLowerCase()
+        const b = String(datum2[sortBy]).toLowerCase()
         if (a < b) {
           // return < 0, a first
           return direction === DES ? 1 : -1
@@ -420,6 +466,7 @@ class UnityTable extends LitElement {
         }
       })
     }
+
     this._sortedData = sortedData
   }
 
@@ -484,37 +531,35 @@ class UnityTable extends LitElement {
     `
   }
 
-  _renderRow(index, row) {
+  _renderRow(rowId, datum) {
     // returns a row element
     const columns = this.columns
-    const data = this.data
-    const datum = data[index]
     const {
-      tableId: id,
       icon,
       image
     } = datum
+
     // pull out
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
-      <tr class="row" key="row-${row}" @click="${e => this.onClickRow(datum, e)}">
+      <tr class="row" key="row-${rowId}" @click="${e => this.onClickRow(datum, e)}">
         ${columns.map(({key: column, format}, i) => {
           const value = datum[column]
-          const label = format instanceof Function ? format(value) : value
+          const label = format instanceof Function ? format(value, datum) : value
           return html`
-            <td class="cell" key="${row}-${i}">
+            <td class="cell" key="${rowId}-${column}">
               <unity-table-cell
                 .label="${label}"
                 .value="${value}"
                 .icon="${i === 0 && icon}"
                 .image="${i === 0 && image}"
-                .id="${id}"
+                .id="${rowId}"
                 ?selectable="${this.selectable && i === 0}"
-                ?selected="${this._selected[id]}"
+                ?selected="${this.selected.has(rowId)}"
                 .onSelect="${e => {
                   e.stopPropagation()
-                  this._selectOne(id)
+                  this._selectOne(rowId)
                 }}"
               />
             </td>`
@@ -546,7 +591,7 @@ class UnityTable extends LitElement {
                   }
                 </td>
               `
-            : data.map((index, row) => this._renderRow(index, row))
+            : data.map(([rowId, datum]) => this._renderRow(rowId, datum))
           }
         </table>
       </div>
@@ -674,6 +719,7 @@ class UnityTable extends LitElement {
         .row {
           height: var(--trow-height);
           border-collapse: collapse;
+          cursor: pointer;
         }
       `
     ]
