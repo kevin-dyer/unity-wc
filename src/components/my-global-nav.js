@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import './unity-global-nav/unity-global-nav.js'
+import './unity-global-nav/unity-global-nav-top-item.js'
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
@@ -49,16 +50,16 @@ class MyGlobalNav extends PageViewElement {
           <div slot="logo">
             This is a logo.
           </div>
-          <div slot="top">Top Item 0</div>
-          <div slot="top">Top Item 1</div>
-          <div slot="top">Top Item 2</div>
-          <div slot="top">Top Item 3</div>
-          <div slot="top">Top Item 4</div>
-          <div slot="bottom">Bottom Item 0</div>
-          <div slot="bottom">Bottom Item 1</div>
-          <div slot="bottom">Bottom Item 2</div>
-          <div slot="bottom">Bottom Item 3</div>
-          <div slot="bottom">Bottom Item 4</div>
+          <unity-global-nav-top-item slot="top" label="Top Item 0"></unity-global-nav-top-item>
+          <unity-global-nav-top-item slot="top" short label="Top Item 1"></unity-global-nav-top-item>
+          <unity-global-nav-top-item slot="top" label="Top Item 2"></unity-global-nav-top-item>
+          <unity-global-nav-top-item slot="top" short label="Top Item 3"></unity-global-nav-top-item>
+          <unity-global-nav-top-item slot="top" label="Top Item 4"></unity-global-nav-top-item>
+          <unity-global-nav-top-item slot="bottom" short label="Bottom Item 0"></unity-global-nav-top-item>
+          <unity-global-nav-top-item slot="bottom" label="Bottom Item 1"></unity-global-nav-top-item>
+          <unity-global-nav-top-item slot="bottom" short label="Bottom Item 2"></unity-global-nav-top-item>
+          <unity-global-nav-top-item slot="bottom" short label="Bottom Item 3"></unity-global-nav-top-item>
+          <unity-global-nav-top-item slot="bottom" label="Bottom Item 4"></unity-global-nav-top-item>
         </unity-global-nav>
       </div>
     `
