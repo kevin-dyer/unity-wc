@@ -6,24 +6,46 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * Renders a left-bound navigation bar
 * @name UnityGlobalNavTopItem
 * @param {bool} short, bool to control if element is short or tall
-* @param {bool} selected, whether item shows primary-brand-color
-* @param {func} onSelect, action handler for clicking the element, ignored if children are passed in
-* @param {''} label, logo image to place in menu header
+* @param {bool} selected, whether item shows primary-brand-color, ignored if children are passed in
+* @param {func} onSelect, action handler for clicking the element, sends (key, label), ignored if children are passed in
+* @param {''} icon, string iron-icon name, optional
+* @param {''} key, string key for referencing
+* @param {''} label, string label to render for item
 * @param {[]} children, TO BE IMPLEMENTED, list of child item elements, could be slots
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
 * @param {css} --primary-brand-color, var, css var used for coloring the component
-* @param {css} --global-nav-text-color, css var used for coloring the component
 * @param {css} --global-nav-border-color, css var used for coloring the component
+* @param {css} --global-nav-text-color, css var used for coloring the component
+* @param {css} --font-family, css var used for font
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-global-nav gutter>
 *   <img src="/path/to/logo" slot="logo" alt="Company Inc.">
-*   <div slot="top">Top Item #1</div>
-*   <div slot="top">Top Item #2</div>
-*   <div slot="top">Top Item #3</div>
-*   <div slot="bottom">Bottom Item #1</div>
-*   <div slot="bottom">Bottom Item #2</div>
+*   <unity-global-nav-top-item
+*     slot="top"
+*     label="Top Item #1">
+*     icon="iron-icon-name"
+*   </unity-global-nav-top-item>
+*   <unity-global-nav-top-item
+*     slot="top"
+*     label="Top Item #2">
+*   </unity-global-nav-top-item>
+*   <unity-global-nav-top-item
+*     slot="top"
+*     label="Top Item #3">
+*   </unity-global-nav-top-item>
+*   <unity-global-nav-top-item
+*     short
+*     slot="bottom"
+*     label="Bottom Item #1"
+*     selected>
+*   </unity-global-nav-top-item>
+*   <unity-global-nav-top-item
+*     short
+*     slot="bottom"
+*     label="Bottom Item #2">
+*   </unity-global-nav-top-item>
 * </unity-global-nav>
 **/
 
