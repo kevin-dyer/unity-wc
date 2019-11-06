@@ -41,6 +41,8 @@ class UnityGlobalNavTopItem extends LitElement {
     this.selected = false
     this.short = false
     this.label = ''
+    this.key = ''
+    this.onSelect = ()=>{}
     // this.children = []
 
     // internals
@@ -49,9 +51,11 @@ class UnityGlobalNavTopItem extends LitElement {
 
   static get properties() {
     return {
-      selected: { type: Boolean },
       short: { type: Boolean },
+      selected: { type: Boolean },
+      onSelect: { type: Function },
       label: { type: String },
+      key: { type: String },
       children: { type: Array },
 
       // internals
@@ -59,19 +63,31 @@ class UnityGlobalNavTopItem extends LitElement {
     }
   }
 
-  // toggle _expanded to show/hide children
-  // toggleOpen() {}
+  // either uses passed in onSelect, or toggles _expanded to show/hide children
+  _onSelect() {
+    // if (this.children.length > 0) {
+      // this._expanded = !this._expanded
+    // } else {
+      this.onSelect(this.key, this.label)
+    // }
+  }
 
   render() {
     const {
       short,
       selected,
-      label='',
+      _onSelect,
+      key='',
+      label=key,
       // children=[],
       // _expanded: open=false
     } = this
+
     return html`
-      <div class="container ${short ? 'short' : ''}">
+      <div
+        class="container ${short ? 'short' : ''} ${selected ? 'selected' : ''}"
+        @click=${_onSelect}
+      >
         <div class="label text ${short ? 'short-label' : ''}">${label}</div>
         <!-- Children items go here -->
       </div>
@@ -84,6 +100,7 @@ class UnityGlobalNavTopItem extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
+          font-family: var(--font-family, var(--default-font-family));
           --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
           --secondary-menu-color: var(--global-nav-expanded-color, var(--default-global-nav-expanded-color));
           --selected-color: var(--primary-brand-color, var(--default-primary-brand-color));
@@ -93,24 +110,31 @@ class UnityGlobalNavTopItem extends LitElement {
           --short-height: 32px;
           --label-padding: 16px;
           border-collapse: collapse;
+          user-select: none;
         }
         .container {
+          border-collapse: collapse;
           height: var(--tall-height);
           width: 100%;
           background-color: var(--primary-menu-color);
-          border-top: 1px solid var(--border-breakers)
+          border-top: 1px solid var(--border-breakers);
+          cursor: pointer;
+          box-sizing: border-box;
         }
         .short {
           height: var(--short-height);
+        }
+        .selected {
+          background-color: var(--selected-color);
         }
         .label {
           position: relative;
           top: calc(var(--tall-height) / 2);
           padding-left: var(--label-padding);
           padding-right: var(--label-padding);
-          font-weight: bold;
+          font-weight: 500;
           transform: translateY(-50%);
-          font-size: 14px;
+          font-size: 14pt;
         }
         .short-label {
           top: calc(var(--short-height) / 2);
