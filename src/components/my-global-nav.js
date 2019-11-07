@@ -170,7 +170,7 @@ class MyGlobalNav extends PageViewElement {
               .key="${key}"
               .onSelect="${this._changeSelection}"
               .label="${label}"
-              icon="${icon}"
+              .icon="${icon}"
               .short="${short}"
               .selected="${this._selected === key}"
               .children="${children}"

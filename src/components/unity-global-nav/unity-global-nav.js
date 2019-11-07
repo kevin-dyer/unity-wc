@@ -15,8 +15,9 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @param {css} --global-nav-border-color, css var used for coloring the component
 * @return {LitElement} returns a class extended from LitElement
 * @example
-* <unity-global-nav gutter>
-*   <img src="/path/to/logo" slot="logo" alt="Company Inc.">
+* <unity-global-nav gutter
+*   logo="../path/to/hosted/image"
+* >
 *   <div slot="top">Top Item #1</div>
 *   <div slot="top">Top Item #2</div>
 *   <div slot="top">Top Item #3</div>
