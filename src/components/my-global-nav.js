@@ -20,10 +20,17 @@ import { SharedStyles } from './shared-styles.js';
 const topItems = [
   {
     key: 'item-0',
-    label: 'Top Item 0',
+    label: 'Top Item 0aaaa',
     slot: 'top',
     short: false,
-    icon: 'account-balance'
+    icon: 'account-balance',
+    children: [
+      {
+        key: 'item-0-0',
+        label: 'Item 0-0',
+        icon: 'explore'
+      }
+    ]
   },
   {
     key: 'item-1',
@@ -44,7 +51,14 @@ const topItems = [
     label: 'Top Item 3',
     slot: 'top',
     short: true,
-    icon: 'android'
+    icon: 'android',
+    children: [
+      {
+        key: 'item-3-0',
+        label: 'Item 3-0',
+        icon: 'ero-symbol'
+      }
+    ]
   },
   {
     key: 'item-4',
@@ -143,9 +157,14 @@ class MyGlobalNav extends PageViewElement {
               .icon="${icon}"
               .short="${short}"
               .selected="${this._selected === key}"
+              .children="${children && children.map(child => ({
+                ...child,
+                onSelect: this._changeSelection,
+                selected: this._selected === key
+              }))}"
             ></unity-global-nav-top-item>
           `)}
-          ${bottomItems.map(({slot, key, label, short, icon}) => html`
+          ${bottomItems.map(({slot, key, label, short, icon, children}) => html`
             <unity-global-nav-top-item
               slot="${slot}"
               .key="${key}"
@@ -154,6 +173,7 @@ class MyGlobalNav extends PageViewElement {
               icon="${icon}"
               .short="${short}"
               .selected="${this._selected === key}"
+              .children="${children}"
             ></unity-global-nav-top-item>
           `)}
         </unity-global-nav>
