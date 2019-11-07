@@ -6,6 +6,29 @@ import '@polymer/iron-icons/image-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import {UnityDefaultThemeStyles} from '@bit/smartworks.unity.unity-default-theme-styles';
 
+/**
+ * Button with configurable styles.
+ * @name UnityButton
+ * @param {string} label, button text
+ * @param {string} leftIcon, iron icon name to be displayed to the left of the label
+ * @param {string} rightIcon, iron icon name to be displayed to the right of the label
+ * @param {string} centerIcon, iron icon name to be displayed in place of the label. Note: Do not pass in a label if used.
+ * @param {bool} gradient, style button with gradient background and white text
+ * @param {bool} outlined, style button with outline, white background and black text
+ * @param {bool} danger, style button red.
+ * @param {bool} loading, displays loading spinner in place of leftIcon
+ * @param {bool} small, to decrease size of button
+ * @param {function} click, event handler
+*  @example
+*   <unity-button
+*     label="example button"
+*     gradient
+*     ?loading=${fetching}
+*     leftIcon="add"
+*     @click=${() => console.log("button clicked")}
+*   />
+*/
+
 class UnityButton extends LitElement {
   static get styles() {
     return [
