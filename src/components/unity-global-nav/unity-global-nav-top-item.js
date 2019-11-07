@@ -89,11 +89,12 @@ class UnityGlobalNavTopItem extends LitElement {
 
   // either uses passed in onSelect, or toggles _expanded to show/hide children
   _onSelect() {
-    // if (this.children.length > 0) {
-      // this._expanded = !this._expanded
-    // } else {
+    const { children } = this
+    if (Array.isArray(children) && children.length > 0) {
+      this._expanded = !this._expanded
+    } else {
       this.onSelect(this.key, this.label)
-    // }
+    }
   }
 
   render() {
@@ -104,20 +105,28 @@ class UnityGlobalNavTopItem extends LitElement {
       key='',
       label=key,
       icon='',
-      // children=[],
-      // _expanded: open=false
+      children=[],
+      _expanded: open=false
     } = this
+    const hasChildren = Array.isArray(children) && children.length > 0
 
     return html`
       <div
-        class="container ${short ? 'short' : ''} ${selected ? 'selected' : ''}"
+        class="
+          container
+          ${short ? 'short' : ''}
+          ${!hasChildren && selected ? 'selected' : ''}
+        "
         @click=${_onSelect}
       >
-        <div class="label ${short ? 'short-label' : ''}">
-          ${!!icon && icon !== 'undefined' ? html`<iron-icon icon="${icon}"></iron-icon>` : ''}
-          <span class="text">${label}</span>
+        <div class="label ${short ? 'short' : ''}">
+          ${!!icon && icon !== 'undefined' ? html`<iron-icon class="icon ${short ? 'short-pos' : ''}" icon="${icon}"></iron-icon>` : null}
+          <div class="text ${short ? 'short' : ''}">${label}</div>
+          ${hasChildren ? html`<iron-icon class="expand ${short ? 'short-pos' : ''}" icon="${open ? 'expand-less' : 'expand-more'}"></iron-icon>` : null}
         </div>
-        <!-- Children items go here -->
+        ${hasChildren ? children.map(({key, label, icon, onSelect, selected}) => html`
+          <div>${label}</div>
+        `) : null}
       </div>
     `
   }
@@ -142,40 +151,52 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         .container {
           border-collapse: collapse;
-          height: var(--tall-height);
+          height: auto;
+          min-height: var(--tall-height);
           width: 100%;
           background-color: var(--primary-menu-color);
           border-top: 1px solid var(--border-breakers);
           cursor: pointer;
           box-sizing: border-box;
         }
-        .short {
-          height: var(--short-height);
-        }
         .selected {
           background-color: var(--selected-color);
         }
         .label {
+          display: flex;
+          flex-wrap: nowrap;
+          overflow: hidden;
           position: relative;
-          top: calc(var(--tall-height) / 2);
           padding-left: var(--label-padding);
           padding-right: var(--label-padding);
+          min-height: var(--tall-height);
           font-weight: 500;
-          transform: translateY(-50%);
-        }
-        .short-label {
-          top: calc(var(--short-height) / 2);
-          line-height: var(--short-height);
         }
         .text {
           font-size: 14pt;
-          color: var(--text-color)
+          color: var(--text-color);
           line-height: var(--tall-height);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         iron-icon {
-          top: -2px;
-          padding-right: 12px;
+          top: calc(var(--tall-height) / 2);
+          transform: translateY(-50%);
+        }
+        .icon {
           color: var(--text-color);
+          padding-right: 12px;
+        }
+        .expand {
+          color: var(--border-breakers)
+        }
+        .short {
+          min-height: var(--short-height);
+          line-height: var(--short-height);
+        }
+        .short-pos {
+          top: calc(var(--short-height) / 2);
         }
       `
     ]
