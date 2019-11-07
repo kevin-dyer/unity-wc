@@ -56,7 +56,7 @@ const topItems = [
       {
         key: 'item-3-0',
         label: 'Item 3-0',
-        icon: 'ero-symbol'
+        icon: 'euro-symbol'
       }
     ]
   },
