@@ -20,32 +20,27 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @param {css} --font-family, css var used for font
 * @return {LitElement} returns a class extended from LitElement
 * @example
-* <unity-global-nav gutter>
-*   <img src="/path/to/logo" slot="logo" alt="Company Inc.">
+* <unity-global-nav gutter
+*   logo="../path/to/hosted/logo"
+* >
 *   <unity-global-nav-top-item
 *     slot="top"
-*     label="Top Item #1">
-*     icon="iron-icon-name"
+*     key="home"
+*     label="Home View">
+*     icon="home"
+*     .selected="${selectionTracker === 'home'}"
+*     .onSelect="${() => select('home')}"
 *   </unity-global-nav-top-item>
-*   <unity-global-nav-top-item
-*     slot="top"
-*     label="Top Item #2">
-*   </unity-global-nav-top-item>
-*   <unity-global-nav-top-item
-*     slot="top"
-*     label="Top Item #3">
-*   </unity-global-nav-top-item>
-*   <unity-global-nav-top-item
-*     short
-*     slot="bottom"
-*     label="Bottom Item #1"
-*     selected>
-*   </unity-global-nav-top-item>
-*   <unity-global-nav-top-item
-*     short
-*     slot="bottom"
-*     label="Bottom Item #2">
-*   </unity-global-nav-top-item>
+*   ${menuItems.map(({slot, key, label, short, icon}) => html`
+*     <unity-global-nav-top-item
+*       slot="${slot}"
+*       .key="${key}"
+*       .label="${label}">
+*       .icon="${icon}"
+*       .selected="${selectionTracker === key}"
+*       .onSelect="${(key: itemKey, label) => select(itemKey)}"
+*     </unity-global-nav-top-item>
+*   `)}
 * </unity-global-nav>
 **/
 
