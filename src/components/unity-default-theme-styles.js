@@ -16,7 +16,9 @@ export const UnityDefaultThemeStyles = css`
     --default-secondary-brand-color: rgb(var(--default-secondary-brand-rgb));
     --default-danger-color: rgb(var(--default-danger-rgb));
     --default-background-color: white;
-    --default-global-nav-background-color: grey;
+    --default-global-nav-background-color: #122C33;
+    --default-global-nav-expanded-color: #07191E;
+    --default-global-nav-border-color: #464E57;
     --default-global-nav-section-color: #454545;
     --default-black-text-color: #000;
     --default-dark-grey-text-color: #5f6368;
