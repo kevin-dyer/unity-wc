@@ -29,6 +29,21 @@ const topItems = [
         key: 'item-0-0',
         label: 'Item 0-0',
         icon: 'explore'
+      },
+      {
+        key: 'item-0-1',
+        label: 'Item 0-1',
+        icon: 'font-download'
+      },
+      {
+        key: 'item-0-2',
+        label: 'Item 0-2',
+        icon: 'gavel'
+      },
+      {
+        key: 'item-0-3',
+        label: 'Item 0-3',
+        icon: 'motorcycle'
       }
     ]
   },

@@ -84,7 +84,6 @@ class UnityGlobalNavTopItem extends LitElement {
 
   // either uses passed in onSelect, or toggles _expanded to show/hide children
   _onSelect() {
-    console.log('in _onSelect')
     const { children } = this
     if (Array.isArray(children) && children.length > 0) {
       this._expanded = !this._expanded
