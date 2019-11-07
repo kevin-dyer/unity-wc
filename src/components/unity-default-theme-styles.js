@@ -7,12 +7,14 @@ import { css } from 'lit-element';
 export const UnityDefaultThemeStyles = css`
   :host {
     --default-primary-brand-rgb: 58, 188, 225;
-    --default-secondary-brand-rgb: 0, 94, 255;
+    --default-secondary-brand-rgb: 48, 128, 195;
+    --default-danger-rgb: 244, 67, 54;
     --default-selection-opacity: 0.5;
 
     /* Colors*/
     --default-primary-brand-color: rgb(var(--default-primary-brand-rgb));
     --default-secondary-brand-color: rgb(var(--default-secondary-brand-rgb));
+    --default-danger-color: rgb(var(--default-danger-rgb));
     --default-background-color: white;
     --default-global-nav-background-color: grey;
     --default-global-nav-section-color: #454545;
@@ -48,5 +50,9 @@ export const UnityDefaultThemeStyles = css`
 
     --default-small-text-selected-size: 11pt;
     --default-small-text-selected-weight: 600;
+
+    --default-medium-icon-size: 18pt;
+    --default-small-icon-size: 14pt;
+    --default-xsmall-icon-size: 10pt;
   }
 `;
