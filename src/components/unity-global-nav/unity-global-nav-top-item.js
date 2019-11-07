@@ -66,10 +66,10 @@ class UnityGlobalNavTopItem extends LitElement {
     this.key = ''
     this.icon = ''
     this.onSelect = ()=>{}
-    // this.children = []
+    this.children = []
 
     // internals
-    // this._expanded = false
+    this._expanded = false
   }
 
   static get properties() {
@@ -83,12 +83,13 @@ class UnityGlobalNavTopItem extends LitElement {
       children: { type: Array },
 
       // internals
-      // _expanded: { type: Boolean },
+      _expanded: { type: Boolean },
     }
   }
 
   // either uses passed in onSelect, or toggles _expanded to show/hide children
   _onSelect() {
+    console.log('in _onSelect')
     const { children } = this
     if (Array.isArray(children) && children.length > 0) {
       this._expanded = !this._expanded
@@ -124,7 +125,7 @@ class UnityGlobalNavTopItem extends LitElement {
           <div class="text ${short ? 'short' : ''}">${label}</div>
           ${hasChildren ? html`<iron-icon class="expand ${short ? 'short-pos' : ''}" icon="${open ? 'expand-less' : 'expand-more'}"></iron-icon>` : null}
         </div>
-        ${hasChildren ? children.map(({key, label, icon, onSelect, selected}) => html`
+        ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected}) => html`
           <div>${label}</div>
         `) : null}
       </div>
@@ -173,6 +174,7 @@ class UnityGlobalNavTopItem extends LitElement {
           font-weight: 500;
         }
         .text {
+          flex: 1;
           font-size: 14pt;
           color: var(--text-color);
           line-height: var(--tall-height);
