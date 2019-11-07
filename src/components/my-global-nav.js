@@ -148,7 +148,7 @@ class MyGlobalNav extends PageViewElement {
         <unity-global-nav gutter
           logo="../../../images/manifest/icon-48x48.png"
         >
-          ${topItems.map(({slot, key, label, short, icon}) => html`
+          ${topItems.map(({slot, key, label, short, icon, children}) => html`
             <unity-global-nav-top-item
               slot="${slot}"
               .key="${key}"
