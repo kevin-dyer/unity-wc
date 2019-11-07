@@ -5,7 +5,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * Renders a left-bound navigation bar
 * @name UnityGlobalNav
 * @param {bool} gutter, show or hide the side gutter
-* @param {slot} logo, logo image to place in menu header
+* @param {string} logo, path to hosted logo image
 * @param {slot} top, nav items to render in top list, scrollable
 * @param {slot} bottom, nav items to render in bottom list, has hard limit based on view space
 * @param {css} --global-nav-background-color, css var used for coloring the component
@@ -34,23 +34,25 @@ class UnityGlobalNav extends LitElement {
     super()
 
     this.gutter = false
+    this.logo = ''
   }
 
   static get properties() {
     return {
-      gutter: { type: Boolean }
+      gutter: { type: Boolean },
+      logo: { type: String }
     }
   }
 
   render() {
-    const gutter = this.gutter
+    const { gutter, logo } = this
     return html`
       ${gutter ? html`<div class="gutter">` : ''}
         <div class="menu text">
           <div class="logo-container">
-            <div class="logo">
-              <slot name="logo"></slot>
-            </div>
+            ${logo ? html`
+              <img class="logo" src="${logo}">
+            ` : ''}
           </div>
           <div class="menu-box">
             <div class="top-container">
@@ -104,9 +106,11 @@ class UnityGlobalNav extends LitElement {
           width: 100%;
           padding-left: var(--logo-padding);
           padding-right: var(--logo-padding);
+          overflow: hidden;
         }
         .logo {
           position: absolute;
+          height: 18px;
           top: calc(var(--logo-height) / 2);
           transform: translateY(-50%);
         }
