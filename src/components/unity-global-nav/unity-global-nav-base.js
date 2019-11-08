@@ -75,10 +75,7 @@ class UnityGlobalNavBase extends LitElement {
       css`
         :host {
           --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
-          --secondary-menu-color: var(--global-nav-expanded-color, var(--default-global-nav-expanded-color));
-          --selected-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --text-color: var(--global-nav-text-color, var(--default-global-nav-text-color));
-          --border-breakers: var(--global-nav-border-color, var(--default-global-nav-border-color));
+          --gutter-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --logo-height: 52px;
           --logo-padding: 18px;
           border-collapse: collapse;
@@ -89,7 +86,7 @@ class UnityGlobalNavBase extends LitElement {
           left: 0;
           height: 100%;
           width: 196px;
-          background-color: var(--selected-color);
+          background-color: var(--gutter-color);
         }
         .menu {
           position: absolute;

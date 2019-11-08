@@ -136,11 +136,14 @@ class MyGlobalNav extends PageViewElement {
     return [
       SharedStyles,
       css`
-        unity-global-nav {
-          --default-global-nav-background-color: #122C33;
-          --default-global-nav-expanded-color: #07191E;
-          --default-global-nav-text-color: white;
-          --global-nav-border-color: var(--default-dark-grey-text-color)
+        unity-global-nav-base {
+          --global-nav-background-color: #122C33;
+        }
+        unity-global-nav-top-item {
+          --font-family: Avenir;
+          --global-nav-expanded-color: #07191E;
+          --global-nav-border-color: var(--default-dark-grey-text-color);
+          --global-nav-text-color: white;
         }
         .example-container {
           position: relative;
@@ -190,7 +193,7 @@ class MyGlobalNav extends PageViewElement {
               .selected="${this._selected === key}"
             ></unity-global-nav-top-item>
           `)}
-        </unity-global-nav>
+        </unity-global-nav-base>
       </div>
     `
   }
