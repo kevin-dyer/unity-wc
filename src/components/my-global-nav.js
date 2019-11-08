@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import './unity-global-nav/unity-global-nav.js'
+import './unity-global-nav/unity-global-nav-base.js'
 import './unity-global-nav/unity-global-nav-top-item.js'
 
 // These are the shared styles needed by this element.
@@ -28,7 +28,7 @@ const topItems = [
       {
         key: 'item-0-0',
         label: 'Item 0-0',
-        icon: 'explore'
+        icon: 'query-builder'
       },
       {
         key: 'item-0-1',
@@ -136,11 +136,14 @@ class MyGlobalNav extends PageViewElement {
     return [
       SharedStyles,
       css`
-        unity-global-nav {
-          --default-global-nav-background-color: #122C33;
-          --default-global-nav-expanded-color: #07191E;
-          --default-global-nav-text-color: white;
-          --global-nav-border-color: var(--default-dark-grey-text-color)
+        unity-global-nav-base {
+          --global-nav-background-color: #122C33;
+        }
+        unity-global-nav-top-item {
+          --font-family: Avenir;
+          --global-nav-expanded-color: #07191E;
+          --global-nav-border-color: var(--default-dark-grey-text-color);
+          --global-nav-text-color: white;
         }
         .example-container {
           position: relative;
@@ -160,7 +163,7 @@ class MyGlobalNav extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-global-nav gutter
+        <unity-global-nav-base gutter
           logo="../../../images/manifest/icon-48x48.png"
         >
           ${topItems.map(({slot, key, label, short, icon, children}) => html`
@@ -175,11 +178,11 @@ class MyGlobalNav extends PageViewElement {
               .children="${children && children.map(child => ({
                 ...child,
                 onSelect: this._changeSelection,
-                selected: this._selected === key
+                selected: this._selected === child.key
               }))}"
             ></unity-global-nav-top-item>
           `)}
-          ${bottomItems.map(({slot, key, label, short, icon, children}) => html`
+          ${bottomItems.map(({slot, key, label, short, icon}) => html`
             <unity-global-nav-top-item
               slot="${slot}"
               .key="${key}"
@@ -188,10 +191,9 @@ class MyGlobalNav extends PageViewElement {
               .icon="${icon}"
               .short="${short}"
               .selected="${this._selected === key}"
-              .children="${children}"
             ></unity-global-nav-top-item>
           `)}
-        </unity-global-nav>
+        </unity-global-nav-base>
       </div>
     `
   }

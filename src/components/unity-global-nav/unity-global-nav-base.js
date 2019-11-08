@@ -3,7 +3,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 /**
 * Renders a left-bound navigation bar
-* @name UnityGlobalNav
+* @name UnityGlobalNavBase
 * @param {bool} gutter, show or hide the side gutter
 * @param {string} logo, path to hosted logo image
 * @param {slot} top, nav items to render in top list, scrollable
@@ -30,7 +30,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 // Has slots for top and bottom aligned items. They will be top or bottom mounted, but render in top-down order
 // To be used with 'unity-nav-top-item's. Others may be used, but may not have intended results.
 
-class UnityGlobalNav extends LitElement {
+class UnityGlobalNavBase extends LitElement {
   constructor() {
     super()
 
@@ -75,10 +75,7 @@ class UnityGlobalNav extends LitElement {
       css`
         :host {
           --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
-          --secondary-menu-color: var(--global-nav-expanded-color, var(--default-global-nav-expanded-color));
-          --selected-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --text-color: var(--global-nav-text-color, var(--default-global-nav-text-color));
-          --border-breakers: var(--global-nav-border-color, var(--default-global-nav-border-color));
+          --gutter-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --logo-height: 52px;
           --logo-padding: 18px;
           border-collapse: collapse;
@@ -89,7 +86,7 @@ class UnityGlobalNav extends LitElement {
           left: 0;
           height: 100%;
           width: 196px;
-          background-color: var(--selected-color);
+          background-color: var(--gutter-color);
         }
         .menu {
           position: absolute;
@@ -144,4 +141,4 @@ class UnityGlobalNav extends LitElement {
 
 }
 
-window.customElements.define('unity-global-nav', UnityGlobalNav)
+window.customElements.define('unity-global-nav-base', UnityGlobalNavBase)
