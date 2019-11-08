@@ -3,7 +3,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 /**
 * Renders a left-bound navigation bar
-* @name UnityGlobalNav
+* @name UnityGlobalNavBase
 * @param {bool} gutter, show or hide the side gutter
 * @param {string} logo, path to hosted logo image
 * @param {slot} top, nav items to render in top list, scrollable
@@ -30,7 +30,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 // Has slots for top and bottom aligned items. They will be top or bottom mounted, but render in top-down order
 // To be used with 'unity-nav-top-item's. Others may be used, but may not have intended results.
 
-class UnityGlobalNav extends LitElement {
+class UnityGlobalNavBase extends LitElement {
   constructor() {
     super()
 
@@ -144,4 +144,4 @@ class UnityGlobalNav extends LitElement {
 
 }
 
-window.customElements.define('unity-global-nav', UnityGlobalNav)
+window.customElements.define('unity-global-nav-base', UnityGlobalNavBase)

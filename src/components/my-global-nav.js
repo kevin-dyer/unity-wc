@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import './unity-global-nav/unity-global-nav.js'
+import './unity-global-nav/unity-global-nav-base.js'
 import './unity-global-nav/unity-global-nav-top-item.js'
 
 // These are the shared styles needed by this element.
@@ -160,7 +160,7 @@ class MyGlobalNav extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-global-nav gutter
+        <unity-global-nav-base gutter
           logo="../../../images/manifest/icon-48x48.png"
         >
           ${topItems.map(({slot, key, label, short, icon, children}) => html`
