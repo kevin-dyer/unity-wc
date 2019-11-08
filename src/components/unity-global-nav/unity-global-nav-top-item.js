@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import '@polymer/iron-icons/iron-icons.js'
-import './unity-global-nav-inner-item.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '@bit/smartworks.unity.unity-global-nav-inner-item'
 
 /**
 * Renders a left-bound navigation bar
