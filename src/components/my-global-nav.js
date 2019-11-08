@@ -28,7 +28,7 @@ const topItems = [
       {
         key: 'item-0-0',
         label: 'Item 0-0',
-        icon: 'explore'
+        icon: 'query-builder'
       },
       {
         key: 'item-0-1',
@@ -175,11 +175,11 @@ class MyGlobalNav extends PageViewElement {
               .children="${children && children.map(child => ({
                 ...child,
                 onSelect: this._changeSelection,
-                selected: this._selected === key
+                selected: this._selected === child.key
               }))}"
             ></unity-global-nav-top-item>
           `)}
-          ${bottomItems.map(({slot, key, label, short, icon, children}) => html`
+          ${bottomItems.map(({slot, key, label, short, icon}) => html`
             <unity-global-nav-top-item
               slot="${slot}"
               .key="${key}"
@@ -188,7 +188,6 @@ class MyGlobalNav extends PageViewElement {
               .icon="${icon}"
               .short="${short}"
               .selected="${this._selected === key}"
-              .children="${children}"
             ></unity-global-nav-top-item>
           `)}
         </unity-global-nav>

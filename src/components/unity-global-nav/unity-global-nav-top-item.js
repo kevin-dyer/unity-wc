@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 import '@polymer/iron-icons/iron-icons.js'
+import './unity-global-nav-inner-item.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 /**
@@ -122,7 +123,13 @@ class UnityGlobalNavTopItem extends LitElement {
           ${hasChildren ? html`<iron-icon class="expand ${short ? 'short-pos' : ''}" icon="${open ? 'expand-less' : 'expand-more'}"></iron-icon>` : null}
         </div>
         ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected}) => html`
-          <div>${label}</div>
+        <unity-global-nav-inner-item
+          .key="${key}"
+          .onSelect="${onSelect}"
+          .label="${label}"
+          .icon="${icon}"
+          .selected="${selected}"
+        ></unity-global-nav-inner-item>
         `) : null}
       </div>
     `
@@ -174,7 +181,7 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         .text {
           flex: 1;
-          font-size: 14pt;
+          font-size: 14px;
           color: var(--text-color);
           line-height: var(--tall-height);
           overflow: hidden;
