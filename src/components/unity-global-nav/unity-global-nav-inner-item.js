@@ -58,7 +58,7 @@ class UnityGlobalNavInnerItem extends LitElement {
   _onSelect(e) {
     const { onSelect } = this
     e.stopPropagation()
-    if (onSelect instanceof function) {
+    if (onSelect instanceof Function) {
       onSelect(this.key, this.label)
     }
   }

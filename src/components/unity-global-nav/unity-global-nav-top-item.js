@@ -87,7 +87,7 @@ class UnityGlobalNavTopItem extends LitElement {
     const { children, onSelect } = this
     if (Array.isArray(children) && children.length > 0) {
       this._expanded = !this._expanded
-    } else if (onSelect instanceof function) {
+    } else if (onSelect instanceof Function) {
       onSelect(this.key, this.label)
     }
   }
