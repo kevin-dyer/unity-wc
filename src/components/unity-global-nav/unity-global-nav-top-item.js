@@ -109,6 +109,7 @@ class UnityGlobalNavTopItem extends LitElement {
       <div
         class="
           container
+          ${open ? 'open' : ''}
           ${short ? 'short' : ''}
           ${!hasChildren && selected ? 'selected' : ''}
         "
@@ -156,6 +157,9 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         .selected {
           background-color: var(--selected-color);
+        }
+        .open {
+          background-color: var(--secondary-menu-color);
         }
         .label {
           display: flex;
