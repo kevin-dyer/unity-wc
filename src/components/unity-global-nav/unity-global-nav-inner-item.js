@@ -4,7 +4,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 /**
 * Renders a left-bound navigation bar
-* @name UnityGlobalNavTopItem
+* @name UnityGlobalNavInnerItem
 * @param {bool} selected, whether item shows primary-brand-color, ignored if children are passed in
 * @param {func} onSelect, action handler for clicking the element, sends (key, label), ignored if children are passed in
 * @param {''} icon, string iron-icon name, optional
