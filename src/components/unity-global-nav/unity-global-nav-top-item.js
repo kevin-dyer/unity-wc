@@ -104,6 +104,7 @@ class UnityGlobalNavTopItem extends LitElement {
       _expanded: open=false
     } = this
     const hasChildren = Array.isArray(children) && children.length > 0
+    const hasIcon = !!icon && icon !== String(undefined) && icon !== String(NaN) && icon !== String(null)
 
     return html`
       <div
@@ -116,7 +117,7 @@ class UnityGlobalNavTopItem extends LitElement {
         @click=${_onSelect}
       >
         <div class="label ${short ? 'short' : ''}">
-          ${!!icon && icon !== 'undefined' ? html`<iron-icon class="icon ${short ? 'short-pos' : ''}" icon="${icon}"></iron-icon>` : null}
+          ${hasIcon ? html`<iron-icon class="icon ${short ? 'short-pos' : ''}" icon="${icon}"></iron-icon>` : null}
           <div class="text ${short ? 'short' : ''}">${label}</div>
           ${hasChildren ? html`<iron-icon class="expand ${short ? 'short-pos' : ''}" icon="${open ? 'expand-less' : 'expand-more'}"></iron-icon>` : null}
         </div>
