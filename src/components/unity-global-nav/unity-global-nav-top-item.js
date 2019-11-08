@@ -45,12 +45,11 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * </unity-global-nav>
 **/
 
-// Left-mounted Global Navigation Bar, only internal variable is bool 'gutter'
-// Has slots for top and bottom aligned items. They will be top or bottom mounted, but render in top-down order
-// To be used with 'unity-nav-top-item's. Others may be used, but may not have intended results.
-
-// <iron-icon icon="expand-less"></iron-icon>
-// <iron-icon icon="expand-more"></iron-icon>
+// Menu items designed to fit inside of left-bound Global Nav
+// Has properties for key, label, and icon that are always available.
+// Has bool selected and func onSelect, which are disabled when children is passed in (see below).
+// Can take array chidlren for sub items, array of objects {key, label, selected, onSelect}
+// Disables selected and replaces onSelect with own expand/contract control
 
 class UnityGlobalNavTopItem extends LitElement {
   constructor() {
@@ -85,11 +84,11 @@ class UnityGlobalNavTopItem extends LitElement {
 
   // either uses passed in onSelect, or toggles _expanded to show/hide children
   _onSelect() {
-    const { children } = this
+    const { children, onSelect } = this
     if (Array.isArray(children) && children.length > 0) {
       this._expanded = !this._expanded
-    } else {
-      this.onSelect(this.key, this.label)
+    } else if (onSelect instanceof function) {
+      onSelect(this.key, this.label)
     }
   }
 

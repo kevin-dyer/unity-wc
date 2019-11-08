@@ -18,36 +18,20 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @param {css} --font-family, css var used for font
 * @return {LitElement} returns a class extended from LitElement
 * @example
-* <unity-global-nav gutter
-*   logo="../path/to/hosted/logo"
-* >
-*   <unity-global-nav-top-item
-*     slot="top"
-*     key="home"
-*     label="Home View">
-*     icon="home"
-*     .selected="${selectionTracker === 'home'}"
-*     .onSelect="${() => select('home')}"
-*   </unity-global-nav-top-item>
-*   ${menuItems.map(({slot, key, label, short, icon}) => html`
-*     <unity-global-nav-top-item
-*       slot="${slot}"
-*       .key="${key}"
-*       .label="${label}">
-*       .icon="${icon}"
-*       .selected="${selectionTracker === key}"
-*       .onSelect="${(key: itemKey, label) => select(itemKey)}"
-*     </unity-global-nav-top-item>
-*   `)}
-* </unity-global-nav>
+* ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected}) => html`
+* <unity-global-nav-inner-item
+*   .key="${key}"
+*   .onSelect="${onSelect}"
+*   .label="${label}"
+*   .icon="${icon}"
+*   .selected="${selected}"
+* ></unity-global-nav-inner-item>
 **/
 
 // Left-mounted Global Navigation Bar, only internal variable is bool 'gutter'
 // Has slots for top and bottom aligned items. They will be top or bottom mounted, but render in top-down order
 // To be used with 'unity-nav-top-item's. Others may be used, but may not have intended results.
-
-// <iron-icon icon="expand-less"></iron-icon>
-// <iron-icon icon="expand-more"></iron-icon>
+// This component is built into the unity-global-nav-top-item, but can be used on it's own
 
 class UnityGlobalNavInnerItem extends LitElement {
   constructor() {
@@ -72,8 +56,11 @@ class UnityGlobalNavInnerItem extends LitElement {
 
   // uses in onSelect
   _onSelect(e) {
+    const { onSelect } = this
     e.stopPropagation()
-    this.onSelect(this.key, this.label)
+    if (onSelect instanceof function) {
+      onSelect(this.key, this.label)
+    }
   }
 
   render() {
