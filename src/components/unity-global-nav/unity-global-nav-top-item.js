@@ -192,6 +192,8 @@ class UnityGlobalNavTopItem extends LitElement {
           transform: translateY(-50%);
         }
         .icon {
+          height: 16px;
+          width: 16px;
           color: var(--text-color);
           padding-right: 12px;
         }

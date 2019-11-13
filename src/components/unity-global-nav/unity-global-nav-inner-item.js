@@ -127,8 +127,8 @@ class UnityGlobalNavInnerItem extends LitElement {
           white-space: nowrap;
         }
         iron-icon {
-          height: 18px;
-          width: 18px;
+          height: 16px;
+          width: 16px;
           top: calc(var(--item-height) / 2);
           transform: translateY(-50%);
           color: var(--text-color);
