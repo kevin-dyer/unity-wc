@@ -87,15 +87,19 @@ class UnityGlobalNavTopItem extends LitElement {
   // either uses passed in onSelect, or toggles _expanded to show/hide children
   _onSelect() {
     const { children, onSelect } = this
-    if (Array.isArray(children) && children.length > 0) {
+    if (Array.isArray(children) && children.length > 1) {
       this._expanded = !this._expanded
+    } else if (Array.isArray(children) && children.length === 1) {
+      const { onSelect, key, label } = children[0]
+      console.log('calling children onSelect')
+      onSelect(key, label)
     } else if (onSelect instanceof Function) {
       onSelect(this.key, this.label)
     }
   }
 
   render() {
-    const {
+    let {
       short,
       selected,
       _onSelect,
@@ -105,8 +109,16 @@ class UnityGlobalNavTopItem extends LitElement {
       children=[],
       _expanded: open=false
     } = this
-    const hasChildren = Array.isArray(children) && children.length > 0
+    let hasChildren = Array.isArray(children) && children.length > 0
     const hasIcon = !!icon && icon !== String(undefined) && icon !== String(NaN) && icon !== String(null)
+    if (hasChildren && children.length === 1) {
+      const newItem = children[0]
+      selected = newItem.selected
+      key = newItem.key
+      label = newItem.label
+      icon = newItem.icon
+      hasChildren = false
+    }
 
     return html`
       <div
