@@ -110,7 +110,6 @@ class UnityGlobalNavTopItem extends LitElement {
       _expanded: open=false
     } = this
     let hasChildren = Array.isArray(children) && children.length > 0
-    const hasIcon = !!icon && icon !== String(undefined) && icon !== String(NaN) && icon !== String(null)
     if (hasChildren && children.length === 1) {
       const newItem = children[0]
       selected = newItem.selected
@@ -119,6 +118,7 @@ class UnityGlobalNavTopItem extends LitElement {
       icon = newItem.icon
       hasChildren = false
     }
+    const hasIcon = !!icon && icon !== String(undefined) && icon !== String(NaN) && icon !== String(null)
 
     return html`
       <div
