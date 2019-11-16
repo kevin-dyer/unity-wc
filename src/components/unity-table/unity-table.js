@@ -5,7 +5,10 @@ import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-table-cell'
-
+import {
+  filterData,
+  sortData
+} from './table-utils.js'
 
 /**
  * Displays table of data.
@@ -86,6 +89,10 @@ import '@bit/smartworks.unity.unity-table-cell'
 //   onSelectionChange:      callback function, recieves selected array when it changes
 //   emptyDisplay:           String to display when data array is empty
 //   isLoading:              Boolean to show spinner instead of table
+//   keyExtractor         :  Function to define a unique key on each data element
+//   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
+//   filter               :  String to find in any column, used to set internal _filter
+//   onExpandedChange     :  On Change Callback Function for expanded array
 //
 //   Internals for creating/editing
 //   _data:                  data marked w/ rowId for uniq references
@@ -108,7 +115,6 @@ import '@bit/smartworks.unity.unity-table-cell'
 //   onEndReached:           function to be called to request more pages to support infiniscroll
 //                           only works with controls set to EXT
 //   onEndReachedThreshold:  TBD
-//   keyExtractor         :  Function to define a unique key on each data element
 
 const ASC = 'Ascending'
 const DES = 'Descending'
@@ -119,16 +125,19 @@ class UnityTable extends LitElement {
   constructor() {
     super()
     // defaults of input
-    this._data = new Map()
+    this._data = []
     this.columns = []
     this.selectable = false
     this.headless = false
     this.isLoading = false
     this.emptyDisplay = 'No information found.'
+    this.childKeys = ['children']
+    this.filter = ''
 
     // action handlers
     this.onClickRow = ()=>{}
     this.onSelectionChange = ()=>{}
+    this.onExpandedChange = ()=>{}
 
     // action handlers, to be implemented later
     // this.controls = false
@@ -139,11 +148,14 @@ class UnityTable extends LitElement {
 
     // defaults of internal references
     this._filter = ''
-    this._sortBy = {column: '', direction: false}
+    this._sortBy = {column: '', direction: UNS}
     this._filteredData = []
     this._sortedData = []
+    this._flattenedData = []
     this._allSelected = false
+    this._dataMap = new Map()
     this._selected = new Set()
+    this._expanded = new Set()
     this._keyExtractor = (datum, index)=>index
   }
 
@@ -157,8 +169,11 @@ class UnityTable extends LitElement {
       selectable: { type: Boolean },
       isLoading: { type: Boolean },
       emptyDisplay: { type: String },
+      childKeys: { type: Array },
+      filter: { type: String },
       onSelectionChange: { type: Function },
       onClickRow: { type: Function },
+      onExpandedChange: { type: Function },
       // internals, tracking for change
       _allSelected: { type: Boolean },
       // selected: { type: Array },
@@ -172,28 +187,74 @@ class UnityTable extends LitElement {
     }
   }
 
-  //data passed in as array, this._data is created as a Map, with key defined by this.keyExtractor
+  //depth first search of hieararchy node, apply callback to each node
+  //NOTE: callback called with node, tabIndex, and childCount
+  dfsTraverse ({
+    node={},
+    callback=(node, tabIndex, childCount)=>{},
+    tabIndex=0 //this is internally managed
+  }) {
+    //If node is an array, loop over it
+    if (Array.isArray(node)) {
+      node.forEach(nodeElement => {
+        this.dfsTraverse({
+          node: nodeElement,
+          callback,
+          tabIndex
+        })
+      })
+    } else {
+      const nextTabIndex = tabIndex + 1
+      let childCount = 0
+      let childNodes = []
+
+      this.childKeys.forEach(childKey => {
+        const children = node[childKey]
+
+        if (Array.isArray(children)) {
+          childCount += children.length
+          childNodes = [...childNodes, ...children]
+        }
+      })
+
+      //NOTE: this may need to be called before iterating down children
+      callback(node, tabIndex, childCount)
+
+      childNodes.forEach(child => {
+        this.dfsTraverse({
+          node: child,
+          callback,
+          tabIndex: nextTabIndex
+        })
+      })
+    }
+  }
+
+  // Data passed in as array
   set data(value) {
     const oldValue = this._data
     const columns = this.columns
 
     // default catcher for missing columns
-    if ((!columns || !columns.length) && !!value && !!value.length) {
+    if ((!columns || !columns.length) && !!value && value.length > 0) {
       const newCol = Object.keys(value[0])
       this.columns = newCol.map(name => ({key: name, label: name}))
     }
 
-    const newValue = new Map(value.map((datum, index) => {
-      const rowId = this.keyExtractor(datum, index)
+    const dataMap = new Map()
 
-      return [
-        rowId,
-        datum
-      ]
-    }))
+    this.dfsTraverse({
+      node: value,
+      callback: (node, tabIndex, childCount) => {
+        const key = this.keyExtractor(node, tabIndex)
+        dataMap.set(key, node)
+      }
+    })
 
     // but now to worry about what if datum isn't obj?
-    this._data = newValue
+    this._data = value
+    this._dataMap = dataMap
+    this._expandAll()
     this._process()
     this.requestUpdate('data', oldValue)
   }
@@ -232,6 +293,7 @@ class UnityTable extends LitElement {
     }
     this._sortBy = {column, direction}
     this._sortData()
+    this._flattenData()
     this.requestUpdate('sortBy', oldValue)
   }
 
@@ -243,7 +305,7 @@ class UnityTable extends LitElement {
 
     // Array of selected data elements
     const selectedData = Array.from(this._selected).reduce((out, id) => {
-      const newVal = this.data.get(id)
+      const newVal = this._dataMap.get(id)
       if (newVal !== undefined) out.push(newVal)
       return out
     }, [])
@@ -266,14 +328,31 @@ class UnityTable extends LitElement {
 
   get selected() { return this._selected }
 
+  //NOTE: if setting from attribute, may need to pass in as Array
+  set expanded(expandedSet) {
+    const oldValue = this._expanded
+    this._expanded = new Set(expandedSet)
+
+    //Notify user expanded has changed
+    if (!!this.onExpandedChange) {
+      const expandedNodes = Array.from(this._expanded).map(rowId) => {
+        return this._dataMap.get(rowId)
+      }
+      this.onExpandedChange(expandedNodes)
+    }
+
+    this._flattenData()
+    this.requestUpdate('expanded', oldValue)
+  }
+
+  get expanded() {return this._expanded}
+
   set filter(value) {
     const oldValue = this._filter
     this._filter = value
-    if (this.controls) {
-      this.filterData()
-    } else {
-      this.process()
-    }
+
+    this._expandAll()
+    this._process()
     this.requestUpdate('filter', oldValue)
   }
 
@@ -286,8 +365,7 @@ class UnityTable extends LitElement {
     this.requestUpdate('keyExtractor', oldExtractor)
 
     //Update this.data to use new keyExtractor
-    const dataArray = Array.from(this.data.values())
-    this.data = dataArray
+    this.data = [...this.data]
   }
 
   get keyExtractor() {
@@ -305,9 +383,12 @@ class UnityTable extends LitElement {
 
   // actions
   // resizeColumns() {}
+
   _selectAll() {
-    // all data are selected, make selected from all data
-    this.selected = new Set(this.data.keys())
+    // all data are selected, make selected from all visible data
+
+    //NOTE: this is selecting all visible rows - including nested rows
+    this.selected = new Set(this._flattenedData.map(datum => datum._rowId))
   }
 
   _selectNone() {
@@ -406,8 +487,8 @@ class UnityTable extends LitElement {
     return newColumns
   }
 
-  //Cannot use index, must use rowId
-  // Convert this.data map to an array, return filtered array
+  //Return filtered hierarchy array - same nested structure as original hierarchy
+  //NOTE: this filter goes from the leaf nodes up (that way if a leaf node matches, then its parents are kept too)
   _filterData() {
     const searchFor = this.filter || ''
     // if controls are external, callback and quit
@@ -416,63 +497,90 @@ class UnityTable extends LitElement {
     //   this._filteredData = [...this.data]
     //   return
     // }
-    // return items only if any prop contains the string
-    // might instead be based on currently visible columns
-    let filteredData = Array.from(this.data.entries())
-    if (!!searchFor) {
-      filteredData = filteredData.filter(([rowId, datum]) => {
-        // need to consider different value types
-        return this.columns.some(({name: column}) => {
-          const point = datum[column]
-          // might need to turn below into recursive func if we are expecting data to include obj
-          if (typeof point === 'string') {
-            return point.includes(searchFor)
-          } else if (typeof point === 'number') {
-            return point === searchFor
-          } else {
-            return false
-          }
-        })
-      })
+
+    if (!searchFor) {
+      this._filteredData = this.data
+      return
     }
+
+    const filteredData = filterData({
+      filter: searchFor,
+      data: this.data,
+      childKeys: this.childKeys,
+      columnKeys: this.columns.map(col => col.key)
+    })
+
     this._filteredData = filteredData
   }
 
   _sortData() {
     const {
-      column: sortBy,
-      direction
-    } = this.sortBy
-    // if (this.controls) {
-    //   this.onColumnSort(sortBy, direction)
-    //   this._sortedData = [...this._filteredData]
-    //   return
-    // }
-    // sort data based on column and direction
-    let sortedData = [...this._filteredData] //[[rowId, datum]]
+      column: sortBy='',
+      direction=UNS
+    } = this.sortBy || {}
 
-    if (!!direction) {
-      sortedData = sortedData.sort(([rowId1, datum1], [rowId2, datum2]) => {
-        const a = String(datum1[sortBy]).toLowerCase()
-        const b = String(datum2[sortBy]).toLowerCase()
-        if (a < b) {
-          // return < 0, a first
-          return direction === DES ? 1 : -1
-        } else if (b < a) {
-          // return < 0, a first
-          return direction === DES ? -1 : 1
-        } else {
-          return 0
-        }
-      })
+    if (!sortBy || direction === UNS) {
+      this._sortedData = this._filteredData
+      return
     }
 
+    const sortedData = sortData({
+      sortBy,
+      direction,
+      data: this._filteredData,
+      childKeys: this.childKeys
+    })
+
     this._sortedData = sortedData
+  }
+
+  //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
+  //This should also remove children of non-expanded rows
+  _flattenData() {
+    let flatList = []
+
+    if (!this.keyExtractor) {
+      return flatList
+    }
+    this.dfsTraverse({
+      node: this._sortedData,
+      callback: (node, tabIndex, childCount) => {
+        flatList.push({
+          ...node,
+          _tabIndex: tabIndex,
+          _rowId: this.keyExtractor(node, tabIndex),
+          _childCount: childCount
+        })
+      }
+    })
+
+    //Remove children of collapsed nodes
+    //NOTE: collapsed parent nodes still need an accurate _childCount to show/hide expand control
+    let toRemove = false
+    let currentTabIndex = 0
+    flatList = flatList.filter(node => {
+      if (toRemove) {
+        if (currentTabIndex < node._tabIndex) {
+          return false
+        } else {
+          toRemove = false
+        }
+      }
+      if (node._childCount > 0 && !this.expanded.has(node._rowId)) {
+        toRemove = true
+        currentTabIndex = node._tabIndex
+      }
+
+      return true
+    })
+
+    this._flattenedData = flatList
   }
 
   _process() {
     this._filterData()
     this._sortData()
+    this._flattenData()
   }
 
   _handleHeaderSelect() {
@@ -481,6 +589,35 @@ class UnityTable extends LitElement {
     if (!!_allSelected) this._selectNone()
     // if !_allSelected, select all
     else if (!_allSelected) this._selectAll()
+  }
+
+  _toggleExpand(rowId) {
+    const nextExpanded = new Set(this.expanded)
+    const isExpanded = this.expanded.has(rowId)
+    if (isExpanded) {
+      nextExpanded.delete(rowId)
+    } else {
+      nextExpanded.add(rowId)
+    }
+
+    this.expanded = nextExpanded
+  }
+
+  _expandAll() {
+    let nextExpanded = new Set()
+
+    this.dfsTraverse({
+      node: this._data,
+      callback: (node, tabIndex, childCount) => {
+        const rowId = this.keyExtractor(node, tabIndex)
+
+        if (childCount > 0) {
+          nextExpanded.add(rowId)
+        }
+      }
+    })
+
+    this.expanded = nextExpanded
   }
 
   _renderTableHeader(columns) {
@@ -531,15 +668,21 @@ class UnityTable extends LitElement {
     `
   }
 
-  _renderRow(rowId, datum) {
+  _renderRow({
+    _rowId: rowId,
+    _tabIndex: tabIndex,
+    _childCount: childCount,
+    ...datum
+  }) {
     // returns a row element
     const columns = this.columns
     const {
       icon,
       image
     } = datum
+    const expandable = childCount > 0
+    const expanded = this.expanded.has(rowId)
 
-    // pull out
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
@@ -547,6 +690,7 @@ class UnityTable extends LitElement {
         ${columns.map(({key: column, format}, i) => {
           const value = datum[column]
           const label = format instanceof Function ? format(value, datum) : value
+
           return html`
             <td class="cell" key="${rowId}-${column}">
               <unity-table-cell
@@ -557,9 +701,15 @@ class UnityTable extends LitElement {
                 .id="${rowId}"
                 ?selectable="${this.selectable && i === 0}"
                 ?selected="${this.selected.has(rowId)}"
+                .tabIndex="${i === 0 ? tabIndex : 0}"
+                ?expandable="${i === 0 && expandable}"
+                ?expanded="${i === 0 && expanded}"
                 .onSelect="${e => {
                   e.stopPropagation()
                   this._selectOne(rowId)
+                }}"
+                .onExpand="${e => {
+                  this._toggleExpand(rowId)
                 }}"
               />
             </td>`
@@ -570,7 +720,7 @@ class UnityTable extends LitElement {
   }
 
   render() {
-    const data = this._sortedData
+    const data = this._flattenedData || []
     const hasData = data.length > 0
     const isLoading = this.isLoading
     const fill = isLoading || !hasData
@@ -591,7 +741,7 @@ class UnityTable extends LitElement {
                   }
                 </td>
               `
-            : data.map(([rowId, datum]) => this._renderRow(rowId, datum))
+            : data.map((datum) => this._renderRow(datum))
           }
         </table>
       </div>
