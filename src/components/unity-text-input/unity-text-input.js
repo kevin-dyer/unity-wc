@@ -38,16 +38,17 @@ class UnityTextInput extends LitElement {
   constructor() {
     super()
 
+    this.value = ""
     this.onChange = ()=>{}
 
     // internals
-    this._value = "Prefilled"
     this._valid = this.validation ? false : true
   }
 
   static get properties() {
     return {
-
+      value: { type: String },
+      onChange: { type: Function },
       // internals
       _valid: { type: Boolean }
     }
@@ -56,13 +57,13 @@ class UnityTextInput extends LitElement {
   _onChange(e) {
     const report = this.onChange
 
-    this._value = e.target.value
-    report instanceof Function && report(this._value)
+    this.value = e.target.value
+    report instanceof Function && report(this.value)
   }
 
   render() {
     return html`
-      <paper-input .value=${this._value} @input=${this._onChange}/>
+      <paper-input .value="${this.value}" @input="${this._onChange}"/>
     `
   }
 

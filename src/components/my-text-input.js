@@ -39,10 +39,14 @@ class MyTextInput extends PageViewElement {
     ]
   }
 
+  onInputChange(value) {
+    console.log(value)
+  }
+
   render() {
     return html`
       <div class="example-container">
-        <unity-text-input/>
+        <unity-text-input .value=${"BATMAN!"} .onChange="${this.onInputChange}"/>
       </div>
     `
   }
