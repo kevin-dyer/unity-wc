@@ -34,27 +34,27 @@ export const UnityDefaultThemeStyles = css`
     /* Fonts */
     --default-font-family: 'Nunito', sans-serif;
 
-    --default-header1-font-size: 18pt;
+    --default-header1-font-size: 18px;
     --default-header1-font-weight: 400;
 
-    --default-header2-font-size: 18pt;
+    --default-header2-font-size: 18px;
     --default-header2-font-weight: 400;
 
-    --default-header2-selected-font-size: 18pt;
+    --default-header2-selected-font-size: 18px;
     --default-header2-selected-font-weight: 600;
 
-    --default-paragraph-font-size: 11pt;
+    --default-paragraph-font-size: 11px;
     --default-paragraph-font-weight: 400;
 
     /* this font size should likely change */
-    --default-small-text-size: 11pt;
+    --default-small-text-size: 8px;
     --default-small-text-weight: 400;
 
-    --default-small-text-selected-size: 11pt;
+    --default-small-text-selected-size: 8px;
     --default-small-text-selected-weight: 600;
 
-    --default-medium-icon-size: 18pt;
-    --default-small-icon-size: 14pt;
-    --default-xsmall-icon-size: 10pt;
+    --default-medium-icon-size: 18px;
+    --default-small-icon-size: 14px;
+    --default-xsmall-icon-size: 10px;
   }
 `;
