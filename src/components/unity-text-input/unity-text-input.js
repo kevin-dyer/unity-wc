@@ -8,7 +8,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 /**
 * Renders a bordered text input
 * @name UnityTextInput
-* @param {''} text, the text defaulted text in the field
+* @param {''} value, the text defaulted text in the field
 * @param {func} onChange, function to handle changes to the field, receives current text value, false if validation fails
 * @param {''} title, floating header title
 * @param {''} placeholder, initial text to be overwritten
@@ -18,7 +18,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} password, converts characters to dots/password field
-* @param {func} validation, func that takes input, returns true/false to control if input is accepted
+* @param {func} validation, func used to show if value is valid, return falsey for invalid, truthy for valid. if in password mode, 1 will be considered weak (but valid) and 2 will be considered strong
 * @param {bool} validationIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @example
 * <unity-text-input>
@@ -38,7 +38,10 @@ class UnityTextInput extends LitElement {
   constructor() {
     super()
 
+    this.onChange = ()=>{}
+
     // internals
+    this._value = "Prefilled"
     this._valid = this.validation ? false : true
   }
 
@@ -50,11 +53,16 @@ class UnityTextInput extends LitElement {
     }
   }
 
+  _onChange(e) {
+    const report = this.onChange
+
+    this._value = e.target.value
+    report instanceof Function && report(this._value)
+  }
+
   render() {
     return html`
-      <div>
-        This is an input (eventually).
-      </div>
+      <paper-input .value=${this._value} @input=${this._onChange}/>
     `
   }
 
