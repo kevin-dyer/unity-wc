@@ -34,6 +34,13 @@ class MyTextInput extends PageViewElement {
           left: 50%;
           transform: translateX(-50%);
           border: 1px solid grey;
+          padding: 20px;
+          box-sizing: border-box;
+        }
+        .first-input {
+          position: relative;
+          width: 200px;
+          height: 35px;
         }
       `
     ]
@@ -46,7 +53,9 @@ class MyTextInput extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-text-input .value=${"BATMAN!"} .onChange="${this.onInputChange}"/>
+        <div class="first-input">
+          <unity-text-input .value="${"BATMAN!"}" .label="${"Demo Label"}" .onChange="${this.onInputChange}"/>
+        </div>
       </div>
     `
   }
