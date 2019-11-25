@@ -82,6 +82,12 @@ class UnityTableCell extends LitElement {
     }
   }
 
+  handleExpand(e) {
+
+    e.stopPropagation()
+    this.onExpand(e)
+  }
+
   render() {
     // if img > icon > nothing
     const imgUrl = this.image
@@ -109,7 +115,7 @@ class UnityTableCell extends LitElement {
           ? html `<paper-icon-button
               class="expand-control ${expanded ? 'expanded' : 'collapsed'}"
               icon="icons:arrow-drop-down"
-              @click="${this.onExpand}"
+              @click="${this.handleExpand}"
             ></paper-icon-button>`
           : ''
         }
