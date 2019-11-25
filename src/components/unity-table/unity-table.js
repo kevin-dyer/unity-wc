@@ -335,9 +335,10 @@ class UnityTable extends LitElement {
 
     //Notify user expanded has changed
     if (!!this.onExpandedChange) {
-      const expandedNodes = Array.from(this._expanded).map(rowId) => {
+      const expandedNodes = Array.from(this._expanded).map(rowId => {
         return this._dataMap.get(rowId)
-      }
+      })
+
       this.onExpandedChange(expandedNodes)
     }
 
