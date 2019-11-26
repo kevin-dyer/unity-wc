@@ -631,12 +631,18 @@ class UnityTable extends LitElement {
       <thead>
         <tr class="sticky-header-row">
           ${columns.map(({key, label, width: rootWidth}, i) => {
-            const icon = direction !== UNS && column === key ? 'filter-list' : 'menu'
-            const flip = direction === ASC
+            const icon = direction !== UNS && column === key
+              ? direction === ASC ? 'arrow-upward'
+              : 'arrow-downward'
+            : ''
+            // const flip = direction === ASC
             let width = undefined
             if (typeof rootWidth === 'string') width = rootWidth
             else if (rootWidth < 1) width = `${rootWidth*100}%`
             else if (width !== undefined) width = `${rootWidth}px`
+
+            //TODO: this should render unity-table-cell
+              // OR unity-table-cell and a header-cell should inherit from a base-cell
             return html`
               <th
                 class="cell"
@@ -650,16 +656,17 @@ class UnityTable extends LitElement {
                         noink
                         .checked="${this._allSelected}"
                         @click="${this._handleHeaderSelect}"
-                      />` : null
+                      ></paper-checkbox>` : null
                   }
-                  <span class="header-label" >${label || name}</span>
-                  <paper-icon-button
-                    noink
-                    icon="${icon}"
-                    title="${direction}"
-                    class="${flip ? 'flipped' : ''}"
-                    @click="${()=>{this.sortBy = key}}"
-                  />
+                  <div class="header-content" @click="${()=>{this.sortBy = key}}">
+                    <span class="header-label">${label || name}</span>
+                    <paper-icon-button
+                      noink
+                      icon="${icon}"
+                      title="${direction}"
+                      class="header-sort-icon"
+                    ></paper-icon-button>
+                  </div>
                 </div>
               </th>
             `
@@ -828,7 +835,7 @@ class UnityTable extends LitElement {
         .header {
           display: flex;
           flex-direction: row;
-          justify-content: space-between;
+          justify-content: flex-start;
           maring: 0;
           padding: 0 13px;
           box-sizing: border-box;
@@ -852,8 +859,15 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           background-color: var(--background-color, var(--default-background-color))
         }
-        .header-label {
+        .header-content {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
           flex: 1;
+        }
+        .header-label {
+          /*flex: 1;*/
           padding-top: 1px;
         }
         paper-checkbox {
@@ -871,6 +885,11 @@ class UnityTable extends LitElement {
           height: var(--trow-height);
           border-collapse: collapse;
           cursor: pointer;
+        }
+
+        paper-icon-button.header-sort-icon {
+          height: 30px;
+          width: 30px;
         }
       `
     ]
