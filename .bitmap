@@ -73,7 +73,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-cell@0.1.10": {
+    "smartworks.unity/unity-table-cell@0.1.12": {
         "files": [
             {
                 "name": "unity-table-cell.js",
@@ -85,8 +85,13 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.1.14": {
+    "smartworks.unity/unity-table@0.1.20": {
         "files": [
+            {
+                "relativePath": "src/components/unity-table/table-utils.js",
+                "test": false,
+                "name": "table-utils.js"
+            },
             {
                 "name": "unity-table.js",
                 "relativePath": "src/components/unity-table/unity-table.js",
@@ -97,5 +102,5 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "version": "14.4.3"
+    "version": "14.5.0"
 }
