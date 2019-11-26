@@ -9,25 +9,141 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import './unity-global-nav/unity-global-nav.js'
+import './unity-global-nav/unity-global-nav-base.js'
+import './unity-global-nav/unity-global-nav-top-item.js'
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
 // example table data, should eventually turn into controls
 // normally this would be taken from the store
-const exampleData = []
+const topItems = [
+  {
+    key: 'item-0',
+    label: 'Top Item 0aaaa',
+    slot: 'top',
+    short: false,
+    icon: 'account-balance',
+    children: [
+      {
+        key: 'item-0-0',
+        label: 'Item 0-0',
+        icon: 'query-builder'
+      },
+      {
+        key: 'item-0-1',
+        label: 'Item 0-1',
+        icon: 'font-download'
+      },
+      {
+        key: 'item-0-2',
+        label: 'Item 0-2',
+        icon: 'gavel'
+      },
+      {
+        key: 'item-0-3',
+        label: 'Item 0-3',
+        icon: 'motorcycle'
+      }
+    ]
+  },
+  {
+    key: 'item-1',
+    label: 'Top Item 1',
+    slot: 'top',
+    short: true,
+    icon: 'account-circle'
+  },
+  {
+    key: 'item-2',
+    label: 'Top Item 2',
+    slot: 'top',
+    short: false,
+    icon: 'add-circle-outline'
+  },
+  {
+    key: 'item-3',
+    label: 'Top Item 3',
+    slot: 'top',
+    short: true,
+    icon: 'android',
+    children: [
+      {
+        key: 'item-3-0',
+        label: 'Item 3-0',
+        icon: 'euro-symbol'
+      }
+    ]
+  },
+  {
+    key: 'item-4',
+    label: 'Top Item 4',
+    slot: 'top',
+    short: false,
+    icon: 'bug-report'
+  }
+]
+const bottomItems = [
+  {
+    key: 'item-5',
+    label: 'Bottom Item 0',
+    slot: 'bottom',
+    short: true
+  },
+  {
+    key: 'item-6',
+    label: 'Bottom Item 1',
+    slot: 'bottom',
+    short: false
+  },
+  {
+    key: 'item-7',
+    label: 'Bottom Item 2',
+    slot: 'bottom',
+    short: true
+  },
+  {
+    key: 'item-8',
+    label: 'Bottom Item 3',
+    slot: 'bottom',
+    short: true
+  },
+  {
+    key: 'item-9',
+    label: 'Bottom Item 4',
+    slot: 'bottom',
+    short: false
+  }
+]
+
+function reportSelection(key, label) { console.log(`I clicked on key[${key}] with label[${label}]`)}
 
 class MyGlobalNav extends PageViewElement {
+  constructor() {
+    super()
+    this._selected = topItems[0].key
+
+    this._changeSelection = this._changeSelection.bind(this)
+  }
+
+  static get properties() {
+    return {
+      _selected: { type: String }
+    }
+  }
+
   static get styles() {
     return [
       SharedStyles,
       css`
-        unity-global-nav {
-          --default-global-nav-background-color: #122C33;
-          --default-global-nav-expanded-color: #07191E;
-          --default-global-nav-text-color: white;
-          --global-nav-border-color: var(--default-dark-grey-text-color)
+        unity-global-nav-base {
+          --global-nav-background-color: #122C33;
+        }
+        unity-global-nav-top-item {
+          --font-family: Avenir;
+          --global-nav-expanded-color: #07191E;
+          --global-nav-border-color: var(--default-dark-grey-text-color);
+          --global-nav-text-color: white;
         }
         .example-container {
           position: relative;
@@ -42,24 +158,42 @@ class MyGlobalNav extends PageViewElement {
     ];
   }
 
+  _changeSelection(key) { this._selected = key }
+
   render() {
     return html`
       <div class="example-container">
-        <unity-global-nav gutter>
-          <div slot="logo">
-            This is a logo.
-          </div>
-          <div slot="top">Top Item 0</div>
-          <div slot="top">Top Item 1</div>
-          <div slot="top">Top Item 2</div>
-          <div slot="top">Top Item 3</div>
-          <div slot="top">Top Item 4</div>
-          <div slot="bottom">Bottom Item 0</div>
-          <div slot="bottom">Bottom Item 1</div>
-          <div slot="bottom">Bottom Item 2</div>
-          <div slot="bottom">Bottom Item 3</div>
-          <div slot="bottom">Bottom Item 4</div>
-        </unity-global-nav>
+        <unity-global-nav-base gutter
+          logo="../../../images/manifest/icon-48x48.png"
+        >
+          ${topItems.map(({slot, key, label, short, icon, children}) => html`
+            <unity-global-nav-top-item
+              slot="${slot}"
+              .key="${key}"
+              .onSelect="${this._changeSelection}"
+              .label="${label}"
+              .icon="${icon}"
+              .short="${short}"
+              .selected="${this._selected === key}"
+              .children="${children && children.map(child => ({
+                ...child,
+                onSelect: this._changeSelection,
+                selected: this._selected === child.key
+              }))}"
+            ></unity-global-nav-top-item>
+          `)}
+          ${bottomItems.map(({slot, key, label, short, icon}) => html`
+            <unity-global-nav-top-item
+              slot="${slot}"
+              .key="${key}"
+              .onSelect="${this._changeSelection}"
+              .label="${label}"
+              .icon="${icon}"
+              .short="${short}"
+              .selected="${this._selected === key}"
+            ></unity-global-nav-top-item>
+          `)}
+        </unity-global-nav-base>
       </div>
     `
   }

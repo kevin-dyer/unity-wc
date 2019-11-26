@@ -3,9 +3,9 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 /**
 * Renders a left-bound navigation bar
-* @name UnityGlobalNav
+* @name UnityGlobalNavBase
 * @param {bool} gutter, show or hide the side gutter
-* @param {slot} logo, logo image to place in menu header
+* @param {string} logo, path to hosted logo image
 * @param {slot} top, nav items to render in top list, scrollable
 * @param {slot} bottom, nav items to render in bottom list, has hard limit based on view space
 * @param {css} --global-nav-background-color, css var used for coloring the component
@@ -15,8 +15,9 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @param {css} --global-nav-border-color, css var used for coloring the component
 * @return {LitElement} returns a class extended from LitElement
 * @example
-* <unity-global-nav gutter>
-*   <img src="/path/to/logo" slot="logo" alt="Company Inc.">
+* <unity-global-nav gutter
+*   logo="../path/to/hosted/image"
+* >
 *   <div slot="top">Top Item #1</div>
 *   <div slot="top">Top Item #2</div>
 *   <div slot="top">Top Item #3</div>
@@ -29,28 +30,30 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 // Has slots for top and bottom aligned items. They will be top or bottom mounted, but render in top-down order
 // To be used with 'unity-nav-top-item's. Others may be used, but may not have intended results.
 
-class UnityGlobalNav extends LitElement {
+class UnityGlobalNavBase extends LitElement {
   constructor() {
     super()
 
     this.gutter = false
+    this.logo = ''
   }
 
   static get properties() {
     return {
-      gutter: { type: Boolean }
+      gutter: { type: Boolean },
+      logo: { type: String }
     }
   }
 
   render() {
-    const gutter = this.gutter
+    const { gutter, logo } = this
     return html`
       ${gutter ? html`<div class="gutter">` : ''}
         <div class="menu text">
           <div class="logo-container">
-            <div class="logo">
-              <slot name="logo"></slot>
-            </div>
+            ${logo ? html`
+              <img class="logo" src="${logo}">
+            ` : ''}
           </div>
           <div class="menu-box">
             <div class="top-container">
@@ -72,10 +75,7 @@ class UnityGlobalNav extends LitElement {
       css`
         :host {
           --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
-          --secondary-menu-color: var(--global-nav-expanded-color, var(--default-global-nav-expanded-color));
-          --selected-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --text-color: var(--global-nav-text-color, var(--default-global-nav-text-color));
-          --border-breakers: var(--global-nav-border-color, var(--default-global-nav-border-color));
+          --gutter-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --logo-height: 52px;
           --logo-padding: 18px;
           border-collapse: collapse;
@@ -86,7 +86,7 @@ class UnityGlobalNav extends LitElement {
           left: 0;
           height: 100%;
           width: 196px;
-          background-color: var(--selected-color);
+          background-color: var(--gutter-color);
         }
         .menu {
           position: absolute;
@@ -104,9 +104,11 @@ class UnityGlobalNav extends LitElement {
           width: 100%;
           padding-left: var(--logo-padding);
           padding-right: var(--logo-padding);
+          overflow: hidden;
         }
         .logo {
           position: absolute;
+          height: 18px;
           top: calc(var(--logo-height) / 2);
           transform: translateY(-50%);
         }
@@ -139,4 +141,4 @@ class UnityGlobalNav extends LitElement {
 
 }
 
-window.customElements.define('unity-global-nav', UnityGlobalNav)
+window.customElements.define('unity-global-nav-base', UnityGlobalNavBase)
