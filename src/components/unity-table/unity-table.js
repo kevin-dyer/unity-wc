@@ -126,7 +126,8 @@ class UnityTable extends LitElement {
     super()
     // defaults of input
     this._data = []
-    this.columns = []
+    this.columns = [] //TODO: convert to object with id as key
+    // this.displayColumns = []
     this.selectable = false
     this.headless = false
     this.isLoading = false
@@ -138,6 +139,7 @@ class UnityTable extends LitElement {
     this.onClickRow = ()=>{}
     this.onSelectionChange = ()=>{}
     this.onExpandedChange = ()=>{}
+    this.onDisplayColumnsChange = ()=>{}
 
     // action handlers, to be implemented later
     // this.controls = false
@@ -157,6 +159,8 @@ class UnityTable extends LitElement {
     this._selected = new Set()
     this._expanded = new Set()
     this._keyExtractor = (datum, index)=>index
+    this._columns = []
+    this._displayColumns = []
   }
 
   // inputs
@@ -165,6 +169,7 @@ class UnityTable extends LitElement {
       keyExtractor: {type: Function},
       data: { type: Array },
       columns: { type: Array },
+      displayColumns: {type: Array}, //NOTE: these are the visible columns, in order
       headless: { type: Boolean },
       selectable: { type: Boolean },
       isLoading: { type: Boolean },
@@ -174,6 +179,7 @@ class UnityTable extends LitElement {
       onSelectionChange: { type: Function },
       onClickRow: { type: Function },
       onExpandedChange: { type: Function },
+      onDisplayColumnsChange: { type: Function},
       // internals, tracking for change
       _allSelected: { type: Boolean },
       // selected: { type: Array },
@@ -187,6 +193,7 @@ class UnityTable extends LitElement {
     }
   }
 
+  //TODO: move into table utils
   //depth first search of hieararchy node, apply callback to each node
   //NOTE: callback called with node, tabIndex, and childCount
   dfsTraverse ({
@@ -234,32 +241,70 @@ class UnityTable extends LitElement {
   set data(value) {
     const oldValue = this._data
     const columns = this.columns
+    const childKeys = this.childKeys || []
 
     // default catcher for missing columns
+    // exclude childKeys from columns list
     if ((!columns || !columns.length) && !!value && value.length > 0) {
-      const newCol = Object.keys(value[0])
-      this.columns = newCol.map(name => ({key: name, label: name}))
+      const nextCols = Object.keys(value[0])
+      .filter(attrKey =>
+        !childKeys.some(childKey => childKey === attrKey)
+      ).map(name => ({
+        key: name,
+        label: name
+      }))
+      this.columns = nextCols
     }
-
-    const dataMap = new Map()
-
-    this.dfsTraverse({
-      node: value,
-      callback: (node, tabIndex, childCount) => {
-        const key = this.keyExtractor(node, tabIndex)
-        dataMap.set(key, node)
-      }
-    })
 
     // but now to worry about what if datum isn't obj?
     this._data = value
-    this._dataMap = dataMap
+    this.setDataMap(value)
     this._expandAll()
     this._process()
     this.requestUpdate('data', oldValue)
   }
 
   get data() { return this._data }
+
+  set columns(cols) {
+    const oldVal = this._columns
+
+    this._columns = cols
+
+    //Problem: this displayCols are initially set to default when data is passed in,
+    //Then it is not correctly set when columns is set
+    // Set defaultColumns internally if not explicitly passed in as property
+//     if (!this.displayColumns || this.displayColumns.length === 0) {
+//       this.displayColumns = cols.map(({key}) => key)
+// 
+//       // console.log("this.displayColumns: ", this.displayColumns, ", set cols to: ", cols)
+//     }
+    this.requestUpdate('columns', oldVal)
+  }
+
+  get columns() {
+    return this._columns
+  }
+
+  //NOTE: keep array empty unless it diverges from columns
+  //NOTE: columns argument is array of colKeys
+  set displayColumns(columns) {
+    const oldVal = this._displayColumns
+
+    this._displayColumns = columns
+
+    console.log("updated displayColumns to: ", columns)
+
+    const nextColumns = columns.map(colKey =>
+      this.columns.find(col => col.key === colKey)
+    )
+    this.onDisplayColumnsChange(nextColumns)
+    this.requestUpdate('displayColumns', oldVal)
+  }
+
+  get displayColumns() {
+    return this._displayColumns
+  }
 
   // sortBy will be cyclical: UNS -> ASC -> DES -> UNS
   set sortBy(value) {
@@ -371,6 +416,20 @@ class UnityTable extends LitElement {
 
   get keyExtractor() {
     return this._keyExtractor
+  }
+
+  setDataMap(value) {
+    const dataMap = new Map()
+
+    this.dfsTraverse({
+      node: value,
+      callback: (node, tabIndex, childCount) => {
+        const key = this.keyExtractor(node, tabIndex)
+        dataMap.set(key, node)
+      }
+    })
+
+    this._dataMap = dataMap
   }
 
   // possibly use setters for dynamic sort/filter update?
@@ -627,6 +686,9 @@ class UnityTable extends LitElement {
       direction: dir
     } = this._sortBy
     const direction = !!dir ? dir : UNS
+    const visibleColumns = !!this.displayColumns && this.displayColumns.length > 0
+      ? this.displayColumns.map(colKey => columns.find(col => col.id === colKey))
+      : columns
     return html`
       <thead>
         <tr class="sticky-header-row">
@@ -635,7 +697,7 @@ class UnityTable extends LitElement {
               ? direction === ASC ? 'arrow-upward'
               : 'arrow-downward'
             : ''
-            // const flip = direction === ASC
+
             let width = undefined
             if (typeof rootWidth === 'string') width = rootWidth
             else if (rootWidth < 1) width = `${rootWidth*100}%`
@@ -684,6 +746,9 @@ class UnityTable extends LitElement {
   }) {
     // returns a row element
     const columns = this.columns
+    const visibleColumns = !!this.displayColumns && this.displayColumns.length > 0
+      ? this.displayColumns.map(colKey => columns.find(col => col.id === colKey))
+      : columns
     const {
       icon,
       image
@@ -695,7 +760,7 @@ class UnityTable extends LitElement {
     // need to add handler for icon/img and label
     return html`
       <tr class="row" key="row-${rowId}" @click="${e => this.onClickRow(datum, e)}">
-        ${columns.map(({key: column, format}, i) => {
+        ${visibleColumns.map(({key: column, format}, i) => {
           const value = datum[column]
           const label = format instanceof Function ? format(value, datum) : value
 
