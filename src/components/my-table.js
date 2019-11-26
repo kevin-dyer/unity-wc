@@ -24,7 +24,7 @@ const exampleData = [
     hex: '#ff0000',
     favorite: true,
     image: 'show image',
-    _children: [{
+    children: [{
         id: 'innerRed1',
         name: 'inner red1',
         hex: '#ff0022',
@@ -117,12 +117,13 @@ class MyTable extends PageViewElement {
           selectable
           filter=""
           .keyExtractor="${(datum, index) => datum.name}"
-          .childKeys="${['_children']}"
+          .childKeys="${['children']}"
           .data="${exampleData}"
           .columns="${exampleColumns}"
 
           .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
           .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
+          .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
         />
       </div>
     `
