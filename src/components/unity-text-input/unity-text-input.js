@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/paper-input/paper-input.js'
+import '@polymer/iron-input/iron-input.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/iron-icons/image-icons.js'
 import '@polymer/iron-icons/social-icons.js'
@@ -40,6 +40,7 @@ class UnityTextInput extends LitElement {
 
     this.value = ""
     this.label = ""
+    this.disabled = false
     this.onChange = ()=>{}
 
     // internals
@@ -50,6 +51,7 @@ class UnityTextInput extends LitElement {
     return {
       value: { type: String },
       label: { type: String },
+      disabled: { type: Boolean },
       onChange: { type: Function },
       // internals
       _valid: { type: Boolean }
@@ -67,14 +69,31 @@ class UnityTextInput extends LitElement {
     const {
       value,
       label,
+      disabled,
       _onChange
     } = this
+    // .label="${label}"
     return html`
-      <paper-input
-        .value="${value}"
-        .label="${label}"
-        @input="${_onChange}
-      "/>
+      <div>
+        <div>
+          ${label}
+        </div>
+        <iron-input
+          bind-value="${value}"
+          @input="${_onChange}"
+        >
+          ${!!disabled ?
+            html`<input
+              value="{{value::input}}"
+              disabled
+            >`
+            :
+            html`<input
+              value="{{value::input}}"
+            >`
+          }
+        </iron-input>
+      </div>
     `
   }
 
@@ -93,46 +112,6 @@ class UnityTextInput extends LitElement {
           --label-padding: 16px;
           border-collapse: collapse;
           user-select: none;
-        }
-        paper-input:hover {
-          border: 1px solid var(--primary-brand-color, var(--default-primary-brand-color));
-        }
-        paper-input {
-          margin-bottom: 14px;
-          --primary-text-color: #01579B;
-          --paper-input-container-color: black;
-          --paper-input-container-focus-color: black;
-          --paper-input-container-invalid-color: black;
-          border: 1px solid var(--dark-grey-background-color, var(--default-dark-grey-background-color));
-          border-radius: 2px;
-
-          /* Reset some defaults */
-          --paper-input-container: { padding: 0;};
-          --paper-input-container-underline: { display: none; height: 0;};
-          --paper-input-container-underline-focus: { display: none; };
-
-          /* New custom styles */
-          --paper-input-container-input: {
-            box-sizing: border-box;
-            font-size: inherit;
-            padding: 4px;
-          };
-          --paper-input-container-input-focus: {
-            background: rgba(0, 0, 0, 0.1);
-          };
-          --paper-input-container-input-invalid: {
-            background: rgba(255, 0, 0, 0.3);
-          };
-          --paper-input-container-label: {
-            top: -8px;
-            left: 4px;
-            background: white;
-            padding: 2px;
-            font-weight: bold;
-          };
-          --paper-input-container-label-floating: {
-            width: auto;
-          };
         }
       `
     ]
