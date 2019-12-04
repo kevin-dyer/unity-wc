@@ -13,7 +13,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-default-theme-styles@0.0.9": {
+    "smartworks.unity/unity-default-theme-styles@0.0.10": {
         "files": [
             {
                 "name": "unity-default-theme-styles.js",
@@ -102,5 +102,5 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "version": "14.5.0"
+    "version": "14.6.0"
 }
