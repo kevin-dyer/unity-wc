@@ -6,6 +6,7 @@ import '@polymer/iron-icons/image-icons.js'
 import '@polymer/iron-icons/social-icons.js'
 import '@polymer/iron-icons/hardware-icons.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import './table-cell-base.js'
 
 const TAB_SIZE = 16
 /**
@@ -56,9 +57,13 @@ class UnityTableCell extends LitElement {
     this.tabIndex = 0
     this.expandable = false
     this.expanded = false
+    this.resizeable = false
 
     this.onSelect = ()=>{}
     this.onExpand = ()=>{}
+    this.onResizeStart = ()=>{}
+    this.onResize = ()=>{}
+    this.onResizeComplete = ()=>{}
   }
 
   static get properties() {
@@ -76,8 +81,12 @@ class UnityTableCell extends LitElement {
       tabIndex: { type: Number },
       expandable: { type: Boolean },
       expanded: { type: Boolean },
+      resizable: {type: Boolean },
       onSelect: { type: Function },
-      onExpand: { type: Function }
+      onExpand: { type: Function },
+      onResizeStart: { type: Function },
+      onResize: { type: Function },
+      onResizeComplete: { type: Function }
       // hierarchy stuff
     }
   }
@@ -97,36 +106,43 @@ class UnityTableCell extends LitElement {
     const expanded = this.expanded
 
     return html`
-      <div class="cell">
-        ${this.selectable
-          ? html`
-            <paper-checkbox
-              noink
-              .checked="${this.selected}"
-              @click="${this.onSelect}"
-            ></paper-checkbox>`
-          : null
-        }
-        ${tabIndex > 0
-          ? html`<div class="tab-indent" style="width:${tabIndex * TAB_SIZE}px"></div>`
-          : ''
-        }
-        ${expandable
-          ? html `<paper-icon-button
-              class="expand-control ${expanded ? 'expanded' : 'collapsed'}"
-              icon="icons:arrow-drop-down"
-              @click="${this.handleExpand}"
-            ></paper-icon-button>`
-          : ''
-        }
-        ${!!imgUrl
-          ? html`<iron-icon icon="image:broken-image"></iron-icon>`
-          : !!icon
-            ? html`<iron-icon icon="${icon}"></iron-icon>`
+      <table-cell-base
+        .resizable="${this.resizable}"
+        .onResizeStart="${this.onResizeStart.bind(this)}"
+        .onResize="${this.onResize.bind(this)}"
+        .onResizeComplete="${this.onResizeComplete.bind(this)}"
+      >
+        <div class="cell">
+          ${this.selectable
+            ? html`
+              <paper-checkbox
+                noink
+                .checked="${this.selected}"
+                @click="${this.onSelect}"
+              ></paper-checkbox>`
             : null
-        }
-        <span class="text">${this.label}</span>
-      </div>
+          }
+          ${tabIndex > 0
+            ? html`<div class="tab-indent" style="width:${tabIndex * TAB_SIZE}px"></div>`
+            : ''
+          }
+          ${expandable
+            ? html `<paper-icon-button
+                class="expand-control ${expanded ? 'expanded' : 'collapsed'}"
+                icon="icons:arrow-drop-down"
+                @click="${this.handleExpand}"
+              ></paper-icon-button>`
+            : ''
+          }
+          ${!!imgUrl
+            ? html`<iron-icon icon="image:broken-image"></iron-icon>`
+            : !!icon
+              ? html`<iron-icon icon="${icon}"></iron-icon>`
+              : null
+          }
+          <span class="text">${this.label}</span>
+        </div>
+      </table-cell-base>
     `
   }
 
