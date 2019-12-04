@@ -6,6 +6,7 @@ export const UnityThemeStyles = css`
     --secondary-brand-rgb: 48, 128, 195;
     --danger-rgb: 244, 67, 54;
     --selection-opacity: 0.5;
+    --black-text-rgb: 0, 0, 0;
 
     /* Colors*/
     --primary-brand-color: rgb(var(--primary-brand-rgb));
@@ -16,7 +17,7 @@ export const UnityThemeStyles = css`
     --global-nav-expanded-color: #07191E;
     --global-nav-border-color: #464E57;
     --global-nav-section-color: #454545;
-    --black-text-color: #000;
+    --black-text-color: rgb(var(--black-text-rgb));
     --dark-grey-text-color: #5f6368;
     --medium-grey-text-color: #80868b;
     --light-grey-text-color: #bdbdbd;
@@ -30,27 +31,27 @@ export const UnityThemeStyles = css`
     /* Fonts */
     --font-family: 'Nunito', sans-serif;
 
-    --header1-font-size: 18pt;
+    --header1-font-size: 18px;
     --header1-font-weight: 400;
 
-    --header2-font-size: 18pt;
+    --header2-font-size: 18px;
     --header2-font-weight: 400;
 
-    --header2-selected-font-size: 18pt;
+    --header2-selected-font-size: 18px;
     --header2-selected-font-weight: 600;
 
-    --paragraph-font-size: 11pt;
+    --paragraph-font-size: 11px;
     --paragraph-font-weight: 400;
 
     /* this font size should likely change */
-    --small-text-size: 9pt;
+    --small-text-size: 9px;
     --small-text-weight: 400;
 
-    --small-text-selected-size: 11pt;
+    --small-text-selected-size: 11px;
     --small-text-selected-weight: 600;
 
-    --medium-icon-size: 18pt;
-    --small-icon-size: 14pt;
-    --xsmall-icon-size: 10pt;
+    --medium-icon-size: 18px;
+    --small-icon-size: 14px;
+    --xsmall-icon-size: 10px;
   }
 `;

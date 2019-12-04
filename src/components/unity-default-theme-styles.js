@@ -10,6 +10,7 @@ export const UnityDefaultThemeStyles = css`
     --default-secondary-brand-rgb: 48, 128, 195;
     --default-danger-rgb: 244, 67, 54;
     --default-selection-opacity: 0.5;
+    --black-text-rgb: 0, 0, 0;
 
     /* Colors*/
     --default-primary-brand-color: rgb(var(--default-primary-brand-rgb));
@@ -20,7 +21,7 @@ export const UnityDefaultThemeStyles = css`
     --default-global-nav-expanded-color: #07191E;
     --default-global-nav-border-color: #464E57;
     --default-global-nav-section-color: #454545;
-    --default-black-text-color: #000;
+    --default-black-text-color: rgb(var(--black-text-rgb));
     --default-dark-grey-text-color: #5f6368;
     --default-medium-grey-text-color: #80868b;
     --default-light-grey-text-color: #b8b8b8;
