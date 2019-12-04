@@ -45,6 +45,7 @@ class UnityTextInput extends LitElement {
 
     // internals
     this._valid = this.validation ? false : true
+    this._error = ""
   }
 
   static get properties() {
@@ -54,7 +55,8 @@ class UnityTextInput extends LitElement {
       disabled: { type: Boolean },
       onChange: { type: Function },
       // internals
-      _valid: { type: Boolean }
+      _valid: { type: Boolean },
+      _error: { type: String }
     }
   }
 
@@ -70,12 +72,14 @@ class UnityTextInput extends LitElement {
       value,
       label,
       disabled,
-      _onChange
+      _onChange,
+      _valid,
+      _error
     } = this
     // .label="${label}"
     return html`
       <div>
-        <div>
+        <div class="label">
           ${label}
         </div>
         <iron-input
@@ -85,10 +89,12 @@ class UnityTextInput extends LitElement {
           ${!!disabled ?
             html`<input
               value="{{value::input}}"
+              class="disabled"
               disabled
             >`
             :
             html`<input
+              class="${!_valid ? 'invalid' : 'valid'}"
               value="{{value::input}}"
             >`
           }
@@ -103,15 +109,52 @@ class UnityTextInput extends LitElement {
       css`
         :host {
           font-family: var(--font-family, var(--default-font-family));
-          --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
-          --secondary-menu-color: var(--global-nav-expanded-color, var(--default-global-nav-expanded-color));
-          --text-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --border-breakers: var(--global-nav-border-color, var(--default-global-nav-border-color));
-          --tall-height: 52px;
-          --short-height: 32px;
-          --label-padding: 16px;
+          --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
+          --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
           border-collapse: collapse;
           user-select: none;
+        }
+        iron-input {
+          width: 100%;
+          min-width: 200px;
+        }
+        div.label {
+          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          color: var(--label-color);
+        }
+        input {
+          height: 24px;
+          width: 100%;
+          min-width: 200px;
+          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          color: rgb(var(--text-color));
+          padding: 0 8px;
+          box-sizing: border-box;
+          border-width: 1px;
+          border-color: var(--border-color);
+          border-style: solid;
+          border-radius: 2px;
+        }
+        input.valid {
+          border-color: black;
+        }
+        input.invalid {
+          border-color: var(--danger-color, var(--default-danger-color));
+          background-color: rgba(var(--danger-rgb, var(--default-danger-rgb)), .2);
+        }
+        input:hover {
+          border-color: var(--primary-brand-color, var(--default-primary-brand-color));
+        }
+        input:focus {
+          border-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          outline: none;
+          box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+        }
+        input.disabled {
+          border-color: var(--dark-grey-background, var(--default-dark-grey-background));
+          background-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
+          color: rgba(var(--text-color), .4);
         }
       `
     ]
