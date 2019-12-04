@@ -79,9 +79,9 @@ class UnityTextInput extends LitElement {
     // .label="${label}"
     return html`
       <div>
-        <div class="label">
+        <p class="label">
           ${label}
-        </div>
+        </p>
         <iron-input
           bind-value="${value}"
           @input="${_onChange}"
@@ -108,7 +108,8 @@ class UnityTextInput extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          font-family: var(--font-family, var(--default-font-family));
+          /* font-family: var(--font-family, var(--default-font-family)); */
+          font-family: Avenir;
           --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
@@ -118,8 +119,11 @@ class UnityTextInput extends LitElement {
         iron-input {
           width: 100%;
           min-width: 200px;
+          margin-top: 6px;
         }
-        div.label {
+        p.label {
+          margin: 0;
+          padding: 0;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           color: var(--label-color);
         }
