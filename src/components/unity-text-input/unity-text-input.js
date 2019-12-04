@@ -46,6 +46,7 @@ class UnityTextInput extends LitElement {
     this.password = false
     this.placeholder = ""
     this.units = ""
+    // this.validation = ()=>true
 
     // internals
     this._valid = this.validation ? false : true
@@ -62,6 +63,7 @@ class UnityTextInput extends LitElement {
       password: { type: Boolean },
       placeholder: { type: String },
       units: { type: String },
+      // validation: { type: Function },
       // internals
       _valid: { type: Boolean },
       _error: { type: String }
@@ -153,31 +155,30 @@ class UnityTextInput extends LitElement {
           font-family: var(--font-family, var(--default-font-family));
           --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
+          --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
-          --remark-color: var(--light-grey-text-color, var(--default-light-grey-text-color));
           border-collapse: collapse;
           user-select: none;
-        }
-        iron-input {
-          width: 100%;
-          min-width: 200px;
-          margin-top: 6px;
         }
         .label {
           margin: 0;
           padding: 0;
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          font-size: var(--text-size);
           color: var(--label-color);
         }
         .remark {
           margin: 0;
           padding: 0;
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
-          color: var(--remark-color);
+          font-size: var(--text-size);
+          color: var(--label-color);
+          padding-top: 4px;
         }
         .input-wrapper {
+          width: 100%;
+          min-width: 200px;
+          margin-top: 6px;
           background-color: var(--background-color, var(--default-background-color));
-          height: 24px;
+          height: 27px;
           width: 100%;
           min-width: 200px;
           padding: 0 8px;
@@ -201,24 +202,24 @@ class UnityTextInput extends LitElement {
           outline: none;
           box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
         }
-        input {
+        #input {
           padding: 0;
           margin: 0;
-          line-height: 2;
+          align-self: center;
           flex: 1;
           font-family: var(--font-family, var(--default-font-family));
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          font-size: var(--text-size);
           color: rgb(var(--text-color));
           border: 0;
           background-color: transparent;
         }
-        input:focus {
+        #input:focus {
           outline: none;
         }
         .units {
           flex: 0;
           padding-left: 8px;
-          line-height: 2;
+          align-self: center;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           color: rgb(var(--text-color));
           line-height: 2;
