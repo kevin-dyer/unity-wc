@@ -181,6 +181,7 @@ class MyTable extends PageViewElement {
 
           .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
           .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
+          .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
           .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
         >
         </unity-table>
