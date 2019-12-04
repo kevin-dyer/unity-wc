@@ -42,6 +42,9 @@ class UnityTextInput extends LitElement {
     this.label = ""
     this.disabled = false
     this.onChange = ()=>{}
+    this.password = false
+    this.placeholder = ""
+    this.units = ""
 
     // internals
     this._valid = this.validation ? false : true
@@ -54,6 +57,9 @@ class UnityTextInput extends LitElement {
       label: { type: String },
       disabled: { type: Boolean },
       onChange: { type: Function },
+      password: { type: Boolean },
+      placeholder: { type: String },
+      units: { type: String },
       // internals
       _valid: { type: Boolean },
       _error: { type: String }
@@ -67,37 +73,63 @@ class UnityTextInput extends LitElement {
     report instanceof Function && report(this.value)
   }
 
+  _clickUnits() {
+    const input = this.shadowRoot.getElementById('input')
+    input.focus()
+  }
+
   render() {
     const {
       value,
       label,
       disabled,
+      password,
+      placeholder,
+      units,
       _onChange,
       _valid,
-      _error
+      _error,
+      _clickUnits
     } = this
     // .label="${label}"
     return html`
       <div>
-        <p class="label">
-          ${label}
-        </p>
+        ${!!label ?
+          html`<p class="label">
+            ${label}
+            </p>`
+          : null
+        }
         <iron-input
+          class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''}"
           bind-value="${value}"
           @input="${_onChange}"
         >
           ${!!disabled ?
             html`<input
               value="{{value::input}}"
+              id="input"
               class="disabled"
+              type="${!!password ? 'password' : 'text'}"
+              placeholder="${!!placeholder ? placeholder : ''}"
               disabled
             >`
             :
             html`<input
-              class="${!_valid ? 'invalid' : 'valid'}"
+              id="input"
+              type="${!!password ? 'password' : 'text'}"
+              placeholder="${!!placeholder ? placeholder : ''}"
               value="{{value::input}}"
             >`
           }
+          ${!!units ?
+            html`<div
+              class="units ${!!disabled ? 'disabled' : ''}"
+              @click="${_clickUnits}"
+            >
+              ${units}
+            </div>`
+          : null}
         </iron-input>
       </div>
     `
@@ -108,8 +140,8 @@ class UnityTextInput extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          /* font-family: var(--font-family, var(--default-font-family)); */
-          font-family: Avenir;
+          --font-family: Avenir;
+          font-family: var(--font-family, var(--default-font-family));
           --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
@@ -127,35 +159,55 @@ class UnityTextInput extends LitElement {
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           color: var(--label-color);
         }
-        input {
+        .input-wrapper {
+          background-color: var(--background-color, var(--default-background-color));
           height: 24px;
           width: 100%;
           min-width: 200px;
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
-          color: rgb(var(--text-color));
           padding: 0 8px;
           box-sizing: border-box;
           border-width: 1px;
           border-color: var(--border-color);
           border-style: solid;
           border-radius: 2px;
+          display: flex;
+          flex-direction: row;
         }
-        input.valid {
-          border-color: black;
-        }
-        input.invalid {
+        .invalid {
           border-color: var(--danger-color, var(--default-danger-color));
           background-color: rgba(var(--danger-rgb, var(--default-danger-rgb)), .2);
         }
-        input:hover {
+        .input-wrapper:hover {
           border-color: var(--primary-brand-color, var(--default-primary-brand-color));
         }
-        input:focus {
+        .input-wrapper:focus-within {
           border-color: var(--primary-brand-color, var(--default-primary-brand-color));
           outline: none;
           box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
         }
-        input.disabled {
+        input {
+          padding: 0;
+          margin: 0;
+          line-height: 2;
+          flex: 1;
+          font-family: var(--font-family, var(--default-font-family));
+          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          color: rgb(var(--text-color));
+          border: 0;
+          background-color: transparent;
+        }
+        input:focus {
+          outline: none;
+        }
+        .units {
+          flex: 0;
+          padding-left: 8px;
+          line-height: 2;
+          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          color: rgb(var(--text-color));
+          line-height: 2;
+        }
+        .disabled {
           border-color: var(--dark-grey-background, var(--default-dark-grey-background));
           background-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
           color: rgba(var(--text-color), .4);
