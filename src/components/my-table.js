@@ -100,11 +100,8 @@ class MyTable extends PageViewElement {
       css`
         .example-container {
           position: relative;
-          width: 1000px;
           height: 500px;
-          top: 100px;
-          left: 50%;
-          transform: translate(-50%,0);
+          margin-top: 40px;
         }
       `
     ];
@@ -123,7 +120,7 @@ class MyTable extends PageViewElement {
 
           .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
           .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
-          .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
+          .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
         />
       </div>
     `
