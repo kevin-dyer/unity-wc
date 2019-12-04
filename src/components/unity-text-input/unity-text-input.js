@@ -40,6 +40,7 @@ class UnityTextInput extends LitElement {
 
     this.value = ""
     this.label = ""
+    this.remark = ""
     this.disabled = false
     this.onChange = ()=>{}
     this.password = false
@@ -55,6 +56,7 @@ class UnityTextInput extends LitElement {
     return {
       value: { type: String },
       label: { type: String },
+      remark: { type: String },
       disabled: { type: Boolean },
       onChange: { type: Function },
       password: { type: Boolean },
@@ -82,6 +84,7 @@ class UnityTextInput extends LitElement {
     const {
       value,
       label,
+      remark,
       disabled,
       password,
       placeholder,
@@ -131,6 +134,12 @@ class UnityTextInput extends LitElement {
             </div>`
           : null}
         </iron-input>
+        ${!!remark ?
+          html`<p class="remark">
+            ${remark}
+          </p>`
+          : null
+        }
       </div>
     `
   }
@@ -145,6 +154,7 @@ class UnityTextInput extends LitElement {
           --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
+          --remark-color: var(--light-grey-text-color, var(--default-light-grey-text-color));
           border-collapse: collapse;
           user-select: none;
         }
@@ -153,11 +163,17 @@ class UnityTextInput extends LitElement {
           min-width: 200px;
           margin-top: 6px;
         }
-        p.label {
+        .label {
           margin: 0;
           padding: 0;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           color: var(--label-color);
+        }
+        .remark {
+          margin: 0;
+          padding: 0;
+          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          color: var(--remark-color);
         }
         .input-wrapper {
           background-color: var(--background-color, var(--default-background-color));
