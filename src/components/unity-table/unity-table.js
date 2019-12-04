@@ -4,12 +4,20 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+
 import '@bit/smartworks.unity.unity-table-cell'
+import '@bit/smartworks.unity.table-cell-base'
+// import './unity-table-cell.js'
+// import './table-cell-base.js'
+
+
+
 import {
   filterData,
   sortData
 } from './table-utils.js'
 
+const MIN_CELL_WIDTH = 150
 /**
  * Displays table of data.
  * @name UnityTable
@@ -146,7 +154,7 @@ class UnityTable extends LitElement {
     // this.onSearchFilter = ()=>{}
     // this.onColumnSort = ()=>{}
     // this.onEndReached = ()=>{}
-    // this.onColumnChange = ()=>{}
+    this.onColumnChange=()=>{}
 
     // defaults of internal references
     this._filter = ''
@@ -160,7 +168,6 @@ class UnityTable extends LitElement {
     this._expanded = new Set()
     this._keyExtractor = (datum, index)=>index
     this._columns = []
-    this._displayColumns = []
   }
 
   // inputs
@@ -169,7 +176,6 @@ class UnityTable extends LitElement {
       keyExtractor: {type: Function},
       data: { type: Array },
       columns: { type: Array },
-      displayColumns: {type: Array}, //NOTE: these are the visible columns, in order
       headless: { type: Boolean },
       selectable: { type: Boolean },
       isLoading: { type: Boolean },
@@ -189,7 +195,7 @@ class UnityTable extends LitElement {
       // onSearchFilter: { type: Function },
       // onColumnSort: { type: Function },
       // onEndReached: { type: Function },
-      // onColumnChange: { type: Function },
+      onColumnChange: { type: Function },
     }
   }
 
@@ -271,39 +277,15 @@ class UnityTable extends LitElement {
 
     this._columns = cols
 
-    //Problem: this displayCols are initially set to default when data is passed in,
-    //Then it is not correctly set when columns is set
-    // Set defaultColumns internally if not explicitly passed in as property
-//     if (!this.displayColumns || this.displayColumns.length === 0) {
-//       this.displayColumns = cols.map(({key}) => key)
-// 
-//       // console.log("this.displayColumns: ", this.displayColumns, ", set cols to: ", cols)
-//     }
+    if (!!this.onColumnChange) {
+      this.onColumnChange(cols)
+    }
+
     this.requestUpdate('columns', oldVal)
   }
 
   get columns() {
     return this._columns
-  }
-
-  //NOTE: keep array empty unless it diverges from columns
-  //NOTE: columns argument is array of colKeys
-  set displayColumns(columns) {
-    const oldVal = this._displayColumns
-
-    this._displayColumns = columns
-
-    console.log("updated displayColumns to: ", columns)
-
-    const nextColumns = columns.map(colKey =>
-      this.columns.find(col => col.key === colKey)
-    )
-    this.onDisplayColumnsChange(nextColumns)
-    this.requestUpdate('displayColumns', oldVal)
-  }
-
-  get displayColumns() {
-    return this._displayColumns
   }
 
   // sortBy will be cyclical: UNS -> ASC -> DES -> UNS
@@ -441,9 +423,6 @@ class UnityTable extends LitElement {
     and filtering will remove elements which will make sorting faster
   */
 
-  // actions
-  // resizeColumns() {}
-
   _selectAll() {
     // all data are selected, make selected from all visible data
 
@@ -466,85 +445,6 @@ class UnityTable extends LitElement {
     }
 
     this.selected = nextSelected
-  }
-
-  // takes name of column (or maybe whole column) to move and index to move it to
-  // returns false if something went wrong, or new order
-  // mutates this.columns if successful
-  // changeColumnOrder(columnName, newIndex) {
-  //   // get old order and target column
-  //   const oldOrder = [...this.columns]
-  //   // TODO: can remove this step if whole column is passed in
-  //   const targetColumnIndex = oldOrder.findIndex(({name}) => name === columnName)
-  //   if (targetColumnIndex < 0) {
-  //     console.warn(`Column not found or already in index: ${newIndex}`)
-  //     return false
-  //   }
-  //   let newOrder = [...this.columns]
-  //   // remove column at old position
-  //   newOrder.splice(targetColumnIndex, 1)
-  //   // if new index is farther back, have to adjust for having removed element first
-  //   const newPos = targetColumnIndex > newIndex ? newIndex - 1 : newIndex
-  //   newOrder.splice(newPos, 0, oldOrder[targetColumnIndex])
-  //   if (oldOrder.length === newOrder.length) {
-  //     this.columns = newOrder
-  //     this.onColumnChange(newOrder)
-  //     return newOrder
-  //   } else {
-  //     console.warn(`There are ${newOrder.length > oldOrder.length ? 'extra' : 'missing'} columns. Old then New order:`, oldOrder, newOrder)
-  //     return false
-  //   }
-  // }
-
-  // takes name of column to add
-  // returns false if column already exists
-  // otherwise mutates and returns new columns order
-  _addColumn(name) {
-    // save old length, add new column, and save new length
-    let columns = [...this.columns]
-    // confirm column isn't already in list
-    const exists = columns.some(({name: columnName}) => columnName === name)
-    if (exists) {
-      console.warn('Column already exists')
-      return false
-    }
-    const oldLength = columns.length
-    columns.push({name, width: 1/oldLength})
-    const newLength = columns.length
-    if (oldLength >= newLength) {
-      console.warn('Columns length did not change correctly')
-      return false
-    }
-    const factor = oldLength / newLength
-    // iterate over new columns, adjusting for new column count
-    columns.forEach(column => column.width = column.width * factor)
-    this.columns = columns
-    // this.onColumnChange(columns)
-    return columns
-  }
-
-  _removeColumn(name) {
-    // iterate over columns arr to make new columns, save target column width
-    const oldColumns = [...this.columns]
-    let newColumns = []
-    let removedColumnWidth
-    oldColumns.forEach(column => {
-      const {
-        name: columnName,
-        width
-      } = column
-      if (columnName === name) removedColumnWidth = width
-      else newColumns.push(column)
-    })
-    if (oldColumns.length <= newColumns.length) {
-      return false
-    }
-    // iterate over new columns increasing width by even portion of removed column
-    let factor = removedColumnWidth / newColumns.length
-    newColumns.forEach(column => column.width = column.width + factor)
-    this.columns = newColumns
-    // this.onColumnChange(newColumns)
-    return newColumns
   }
 
   //Return filtered hierarchy array - same nested structure as original hierarchy
@@ -686,50 +586,66 @@ class UnityTable extends LitElement {
       direction: dir
     } = this._sortBy
     const direction = !!dir ? dir : UNS
-    const visibleColumns = !!this.displayColumns && this.displayColumns.length > 0
-      ? this.displayColumns.map(colKey => columns.find(col => col.id === colKey))
-      : columns
+
     return html`
       <thead>
         <tr class="sticky-header-row">
-          ${columns.map(({key, label, width: rootWidth}, i) => {
+          ${columns.map(({
+            key,
+            label,
+            width: rootWidth=0,
+            startingWidth,
+            xOffset=0
+          }, i) => {
             const icon = direction !== UNS && column === key
               ? direction === ASC ? 'arrow-upward'
               : 'arrow-downward'
             : ''
 
-            let width = undefined
-            if (typeof rootWidth === 'string') width = rootWidth
-            else if (rootWidth < 1) width = `${rootWidth*100}%`
-            else if (width !== undefined) width = `${rootWidth}px`
+            //NOTE: only working with px
+            const width = !!startingWidth
+              ? `${startingWidth + xOffset}px`
+              : !!rootWidth ? `${rootWidth}px` : 'auto'
 
-            //TODO: this should render unity-table-cell
-              // OR unity-table-cell and a header-cell should inherit from a base-cell
             return html`
               <th
                 class="cell"
+                id="col-header-${key}"
                 name="header-column-${key}"
-                style="width: ${width}"
+                style="width: ${width};"
               >
-                <div class="header">
-                  ${this.selectable && i === 0
-                    ? html`
-                      <paper-checkbox
+                <table-cell-base
+                  .resizable=${i < columns.length - 1}
+                  .onResizeStart="${() => {
+                    this._handleColumnResizeStart(key, i)
+                  }}"
+                  .onResize="${xOffset => {
+                    this._handleColumnResize(key, xOffset)
+                  }}"
+                  .onResizeComplete="${xOffset => {
+                    this._handleColumnResizeComplete(key)
+                  }}"
+                >
+                  <div class="header">
+                    ${this.selectable && i === 0
+                      ? html`
+                        <paper-checkbox
+                          noink
+                          .checked="${this._allSelected}"
+                          @click="${this._handleHeaderSelect}"
+                        ></paper-checkbox>` : null
+                    }
+                    <div class="header-content" @click="${()=>{this.sortBy = key}}">
+                      <span class="header-label">${label || name}</span>
+                      <paper-icon-button
                         noink
-                        .checked="${this._allSelected}"
-                        @click="${this._handleHeaderSelect}"
-                      ></paper-checkbox>` : null
-                  }
-                  <div class="header-content" @click="${()=>{this.sortBy = key}}">
-                    <span class="header-label">${label || name}</span>
-                    <paper-icon-button
-                      noink
-                      icon="${icon}"
-                      title="${direction}"
-                      class="header-sort-icon"
-                    ></paper-icon-button>
+                        icon="${icon}"
+                        title="${direction}"
+                        class="header-sort-icon"
+                      ></paper-icon-button>
+                    </div>
                   </div>
-                </div>
+                </table-cell-base>
               </th>
             `
           })}
@@ -746,9 +662,6 @@ class UnityTable extends LitElement {
   }) {
     // returns a row element
     const columns = this.columns
-    const visibleColumns = !!this.displayColumns && this.displayColumns.length > 0
-      ? this.displayColumns.map(colKey => columns.find(col => col.id === colKey))
-      : columns
     const {
       icon,
       image
@@ -759,8 +672,11 @@ class UnityTable extends LitElement {
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
-      <tr class="row" key="row-${rowId}" @click="${e => this.onClickRow(datum, e)}">
-        ${visibleColumns.map(({key: column, format}, i) => {
+      <tr class="row" key="row-${rowId}" @click="${e =>
+        //BIG NOTE: need to compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
+        this.onClickRow(datum, e)
+      }">
+        ${columns.map(({key: column, format, width}, i) => {
           const value = datum[column]
           const label = format instanceof Function ? format(value, datum) : value
 
@@ -784,12 +700,70 @@ class UnityTable extends LitElement {
                 .onExpand="${e => {
                   this._toggleExpand(rowId)
                 }}"
+                .resizable=${i < columns.length - 1}
+                .onResizeStart="${() => {
+                  this._handleColumnResizeStart(column, i)
+                }}"
+                .onResize="${xOffset => {
+                  this._handleColumnResize(column, xOffset)
+                }}"
+                .onResizeComplete="${xOffset => {
+                  this._handleColumnResizeComplete(column)
+                }}"
               />
             </td>`
           })
         }
       </tr>
     `
+  }
+
+  _handleColumnResizeStart(colKey, colIndex) {
+    this._columns = this._columns.map(col => {
+      const cell = this.shadowRoot.getElementById(`col-header-${col.key}`)
+      const cellWidth = !!cell ? cell.offsetWidth : 0
+
+      return {...col, startingWidth: cellWidth}
+    })
+  }
+
+  _handleColumnResize(colKey, xOffset) {
+    const oldColumns = this._columns
+    const colIndex = oldColumns.findIndex(col => col.key === colKey)
+    const nextColumns = [...this._columns]
+    const {startingWidth: currentWidth=0} = nextColumns[colIndex]
+    const {startingWidth: nextWidth=0} = nextColumns[colIndex + 1]
+
+    //Determine how much to offset column
+    const totalOffset = nextWidth - xOffset <= MIN_CELL_WIDTH
+      ? nextWidth - MIN_CELL_WIDTH
+      : currentWidth + xOffset <= MIN_CELL_WIDTH
+        ? MIN_CELL_WIDTH - currentWidth
+        : xOffset
+
+    //Update offsets of col to resize, and the following col
+    nextColumns[colIndex].xOffset = totalOffset
+    nextColumns[colIndex + 1].xOffset = -totalOffset
+
+    this._columns = nextColumns
+    this.requestUpdate('columns', oldColumns)
+  }
+
+  _handleColumnResizeComplete(colKey) {
+    const nextColumns = this._columns.map(col => {
+
+      const nextCol = {
+        ...col,
+        width: col.startingWidth + (col.xOffset || 0)
+      }
+
+      delete nextCol.xOffset
+      delete nextCol.startingWidth
+
+      return nextCol
+    })
+
+    this.columns = nextColumns
   }
 
   render() {
@@ -852,12 +826,9 @@ class UnityTable extends LitElement {
           overflow-x: hidden;
         }
         table {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
           width: 100%;
-          table-layout: fixed;
+          max-width: 100%;
+          table-layout: auto; /* NOTE: auto prevents table from overflowing passed 100% */
           border-collapse: collapse;
           border-spacing: 0;
           box-sizing: border-box;
