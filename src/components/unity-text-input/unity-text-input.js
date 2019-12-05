@@ -18,7 +18,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} password, converts characters to dots/password field
-* @param {func} validation, func used to show if value is valid, return falsey for invalid, truthy for valid. if in password mode, 1 will be considered weak (but valid) and 2 will be considered strong
+* @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 'strong' or 'weak' for strong/weak, otherwise considered failure
 * @param {bool} validationIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @example
 * <unity-text-input>
@@ -38,7 +38,7 @@ class UnityTextInput extends LitElement {
   constructor() {
     super()
 
-    this.value = ""
+    this._value = ""
     this.label = ""
     this.remark = ""
     this.disabled = false
@@ -47,10 +47,10 @@ class UnityTextInput extends LitElement {
     this.placeholder = ""
     this.units = ""
     this.charCount = false
-    // this.validation = ()=>true
+    this._validation = null
 
     // internals
-    this._valid = this.validation ? false : true
+    this._valid = true
     this._error = ""
   }
 
@@ -65,18 +65,54 @@ class UnityTextInput extends LitElement {
       placeholder: { type: String },
       units: { type: String },
       charCount: { type: Boolean },
-      // validation: { type: Function },
+      validation: { type: Function },
       // internals
       _valid: { type: Boolean },
       _error: { type: String }
     }
   }
 
+  set value(value) {
+    const oldValue = this._value
+    this._value = value
+    this._validate()
+    this.requestUpdate('value', oldValue)
+  }
+
+  get value() { return this._value }
+
+  set validation(value) {
+    const oldValue = this._validation
+    this._validation = value
+    this._validate()
+    this.requestUpdate('validation', oldValue)
+  }
+
+  get validation() { return this._validation}
+
   _onChange(e) {
     const report = this.onChange
-
-    this.value = e.target.value
+    const newValue = e.target.value
+    this.value = newValue
     report instanceof Function && report(this.value)
+  }
+
+  _validate() {
+    const {
+      validation,
+      value
+    } = this
+
+    if (validation instanceof Function) {
+      const isValid = validation(value)
+      if (isValid === true) {
+        this._valid = true
+        this._error = ''
+      } else {
+        this._valid = false
+        this._error = isValid || ''
+      }
+    }
   }
 
   _clickUnits() {
@@ -109,7 +145,7 @@ class UnityTextInput extends LitElement {
           : null
         }
         <iron-input
-          class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''}"
+          class="input-wrapper ${value.length && !_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''}"
           bind-value="${value}"
           @input="${_onChange}"
         >
@@ -141,7 +177,7 @@ class UnityTextInput extends LitElement {
         </iron-input>
         <div class="bottom">
           <span class="remark">
-            ${remark}
+            ${value.length && _error ? _error : remark}
           </span>
           ${!!charCount ?
             html`<span class="charCount">
