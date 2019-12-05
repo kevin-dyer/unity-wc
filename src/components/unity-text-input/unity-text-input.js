@@ -46,6 +46,7 @@ class UnityTextInput extends LitElement {
     this.password = false
     this.placeholder = ""
     this.units = ""
+    this.charCount = false
     // this.validation = ()=>true
 
     // internals
@@ -63,6 +64,7 @@ class UnityTextInput extends LitElement {
       password: { type: Boolean },
       placeholder: { type: String },
       units: { type: String },
+      charCount: { type: Boolean },
       // validation: { type: Function },
       // internals
       _valid: { type: Boolean },
@@ -91,6 +93,7 @@ class UnityTextInput extends LitElement {
       password,
       placeholder,
       units,
+      charCount,
       _onChange,
       _valid,
       _error,
@@ -100,9 +103,9 @@ class UnityTextInput extends LitElement {
     return html`
       <div>
         ${!!label ?
-          html`<p class="label">
+          html`<span class="label">
             ${label}
-            </p>`
+            </span>`
           : null
         }
         <iron-input
@@ -136,12 +139,17 @@ class UnityTextInput extends LitElement {
             </div>`
           : null}
         </iron-input>
-        ${!!remark ?
-          html`<p class="remark">
+        <div class="bottom">
+          <span class="remark">
             ${remark}
-          </p>`
-          : null
-        }
+          </span>
+          ${!!charCount ?
+            html`<span class="charCount">
+              ${value.length}
+            </span>`
+            : null
+          }
+        </div>
       </div>
     `
   }
@@ -166,12 +174,24 @@ class UnityTextInput extends LitElement {
           font-size: var(--text-size);
           color: var(--label-color);
         }
-        .remark {
+        .bottom {
           margin: 0;
-          padding: 0;
+          padding-top: 4px;
+          display: flex;
+          flex-direction: row;
+        }
+        .remark {
+          flex: 1;
+          word-break: break-word;
           font-size: var(--text-size);
           color: var(--label-color);
-          padding-top: 4px;
+        }
+        .charCount {
+          flex: 1;
+          padding-left: 4px;
+          text-align: right;
+          font-size: var(--text-size);
+          color: var(--label-color);
         }
         .input-wrapper {
           width: 100%;
