@@ -19,7 +19,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} password, converts characters to dots/password field
 * @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 'strong' or 'weak' for strong/weak, otherwise considered failure
-* @param {bool} validationIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
+* @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @example
 * <unity-text-input>
 * </unity-text-input>
@@ -48,6 +48,7 @@ class UnityTextInput extends LitElement {
     this.units = ""
     this.charCount = false
     this._validation = null
+    this.showIcon = false
 
     // internals
     this._valid = true
@@ -66,6 +67,7 @@ class UnityTextInput extends LitElement {
       units: { type: String },
       charCount: { type: Boolean },
       validation: { type: Function },
+      showIcon: { type: Boolean },
       // internals
       _valid: { type: Boolean },
       _error: { type: String }
@@ -130,12 +132,12 @@ class UnityTextInput extends LitElement {
       placeholder,
       units,
       charCount,
+      showIcon,
       _onChange,
       _valid,
       _error,
       _clickUnits
     } = this
-    // .label="${label}"
     return html`
       <div>
         ${!!label ?
@@ -145,7 +147,7 @@ class UnityTextInput extends LitElement {
           : null
         }
         <iron-input
-          class="input-wrapper ${value.length && !_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''}"
+          class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''}"
           bind-value="${value}"
           @input="${_onChange}"
         >
@@ -174,10 +176,18 @@ class UnityTextInput extends LitElement {
               ${units}
             </div>`
           : null}
+          ${!!showIcon || true ?
+            html`<div class="icon-circle ${!_valid ? 'invalid' : 'valid'}">
+              ${!_valid
+                ? html`<iron-icon class="icon icon-error" icon="icons:error-outline"></iron-icon>`
+                : html`<iron-icon class="icon icon-valid" icon="icons:check"></iron-icon>`
+              }
+            </div>`
+          : null}
         </iron-input>
         <div class="bottom">
           <span class="remark">
-            ${value.length && _error ? _error : remark}
+            ${_error || remark}
           </span>
           ${!!charCount ?
             html`<span class="charCount">
@@ -243,6 +253,7 @@ class UnityTextInput extends LitElement {
           border-color: var(--border-color);
           border-style: solid;
           border-radius: 2px;
+          position: relative;
           display: flex;
           flex-direction: row;
         }
@@ -284,6 +295,34 @@ class UnityTextInput extends LitElement {
           border-color: var(--dark-grey-background, var(--default-dark-grey-background));
           background-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
           color: rgba(var(--text-color), .4);
+        }
+        .icon-circle {
+          position: absolute;
+          right: -29px;
+          top: 50%;
+          transform: translateY(-50%);
+          height: 20px;
+          width: 20px;
+          border-radius: 10px;
+          background-color: var(--success-color, var(--default-success-color));
+        }
+        .icon-circle.invalid {
+          background-color: var(--danger-color, var(--default-danger-color));
+        }
+        .icon {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          height: 16px;
+          width: 16px;
+          color: white;
+        }
+        .icon-error {
+
+        }
+        .icon-valid {
+
         }
       `
     ]
