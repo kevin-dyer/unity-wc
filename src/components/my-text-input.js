@@ -36,12 +36,15 @@ class MyTextInput extends PageViewElement {
           border: 1px solid grey;
           padding: 20px;
           box-sizing: border-box;
+          display: flex;
+          border-collapse: collapse;
         }
-        .first-input {
+        .col {
+          flex: 1;
+        }
+        .input-box {
           position: relative;
-          width: 500px;
-          height: 35px;
-          border: 1px solid black;
+          width: 250px;
         }
       `
     ]
@@ -54,16 +57,125 @@ class MyTextInput extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <div class="first-input">
-          <unity-text-input
-            .value="${"BATMAN!"}"
-            .units="${"hwats"}"
-            .label="${"Demo Label"}"
-            charCount
-            .remark="${"Demo remark."}"
-            .validation="${val => val.length ? false : true}"
-            .onChange="${this.onInputChange}"
-          />
+        <div class="col">
+          <div class="input-box">
+            <unity-text-input
+              .value="${"Plain Input"}"
+              .onChange="${this.onInputChange}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .value="${"With Label"}"
+              .onChange="${this.onInputChange}"
+              .label="${"Input Label"}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .value="${"With Remark"}"
+              .remark="${"Input remark."}"
+              .onChange="${this.onInputChange}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .value="${"With Label and Remark"}"
+              .remark="${"Demo remark."}"
+              .onChange="${this.onInputChange}"
+              .label="${"Input Label"}"
+            ></unity-text-input>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-box">
+            <unity-text-input
+              disabled
+              .label="Disabled Input"
+              .value="${"Can't edit this text."}"
+              .onChange="${this.onInputChange}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .value="${"This one comes with a character count field. This way, you can see how many characters might be filling up a field."}"
+              .onChange="${this.onInputChange}"
+              .label="${"With Character Count"}"
+              charCount
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .label="${"Input with units"}"
+              .value="${"17500"}"
+              .units="kwh"
+              .onChange="${this.onInputChange}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .label="${"Validation with Remark"}"
+              .value="${"Will only be correct if this equals \"valid\","}"
+              .remark="${"This must equal \"valid\"."}"
+              .validation="${val => {
+                if (val.length === 0) return 'Cannot be empty.'
+                if (val !== 'valid') return 'Value must equal "valid".'
+                return true
+              }}"
+              .onChange="${this.onInputChange}"
+            ></unity-text-input>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-box">
+            <unity-text-input
+              .label="${"Validation Icon"}"
+              .value="${"Will only be correct if this equals \"valid\","}"
+              .remark="${"This must equal \"valid\""}"
+              .validation="${val => {
+                if (val.length === 0) return 'Cannot be empty.'
+                if (val !== 'valid') return 'Value must equal "valid".'
+                return true
+              }}"
+              .onChange="${this.onInputChange}"
+              showIcon
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .value="${"Cannotseecuzpazsswerd"}"
+              .onChange="${this.onInputChange}"
+              .label="${"Password Field"}"
+              password
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .label="${'Weak Validation'}"
+              .value="${"aweakpass"}"
+              .validation="${val=> {
+                if (val.length < 8) return 'Password should be at least 8 characters'
+                else return 1
+              }}"
+              .onChange="${this.onInputChange}"
+              password
+              showIcon
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .label="${'Strong Validation'}"
+              .value="${"astrongerpassword"}"
+              .validation="${val=> {
+                if (val.length < 8) return 'Password should be at least 8 characters'
+                else if (val.length < 16) return 1
+                else return 2
+              }}"
+              .onChange="${this.onInputChange}"
+              password
+              showIcon
+            ></unity-text-input>
+          </div>
         </div>
       </div>
     `
