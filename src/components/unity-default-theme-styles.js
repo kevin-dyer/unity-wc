@@ -8,14 +8,18 @@ export const UnityDefaultThemeStyles = css`
   :host {
     --default-primary-brand-rgb: 58, 188, 225;
     --default-secondary-brand-rgb: 48, 128, 195;
+    --default-success-rgb: 156, 204, 101;
     --default-danger-rgb: 244, 67, 54;
+    --default-danger-lite-rgb: 250, 179, 174;
     --default-selection-opacity: 0.5;
     --black-text-rgb: 0, 0, 0;
 
     /* Colors*/
     --default-primary-brand-color: rgb(var(--default-primary-brand-rgb));
     --default-secondary-brand-color: rgb(var(--default-secondary-brand-rgb));
+    --default-success-color: rgb(var(--default-success-rgb));
     --default-danger-color: rgb(var(--default-danger-rgb));
+    --default-danger-lite-color: rgb(var(--default-danger-light-color));
     --default-background-color: white;
     --default-global-nav-background-color: #122C33;
     --default-global-nav-expanded-color: #07191E;
