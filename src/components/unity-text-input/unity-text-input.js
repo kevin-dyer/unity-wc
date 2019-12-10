@@ -295,7 +295,7 @@ class UnityTextInput extends LitElement {
           color: var(--label-color);
         }
         .charCount {
-          flex: 1;
+          flex: 0;
           padding-left: 4px;
           text-align: right;
           font-size: var(--text-size);
@@ -402,6 +402,7 @@ class UnityTextInput extends LitElement {
           border-radius: 2.5px;
           background-color: var(--dark-grey-background-color, var(--default-dark-grey-background-color));
           margin: 0;
+          margin-right: 3px;
           padding: 0;
           display: inline-block;
         }
@@ -409,6 +410,7 @@ class UnityTextInput extends LitElement {
           background-color: var(--success-color, var(--default-success-color));
         }
         .circles-wrapper {
+          font-size: 0;
           margin-top: 3px;
           line-height: 0;
         }
