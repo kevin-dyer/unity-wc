@@ -18,7 +18,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} password, converts characters to dots/password field
-* @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 'strong' or 'weak' for strong/weak, otherwise considered failure
+* @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 2+ or 1 for strong/weak, otherwise considered failure
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @example
 * <unity-text-input>
@@ -43,7 +43,7 @@ class UnityTextInput extends LitElement {
     this.remark = ""
     this.disabled = false
     this.onChange = ()=>{}
-    this.password = false
+    this._password = false
     this.placeholder = ""
     this.units = ""
     this.charCount = false
@@ -52,6 +52,7 @@ class UnityTextInput extends LitElement {
 
     // internals
     this._valid = true
+    this._strength = 0
     this._error = ""
   }
 
@@ -70,10 +71,13 @@ class UnityTextInput extends LitElement {
       showIcon: { type: Boolean },
       // internals
       _valid: { type: Boolean },
+      _strength: { type: Number },
       _error: { type: String }
     }
   }
 
+  // these set/get are set to make sure that _validate is called
+  // when value/password/validation is set or altered
   set value(value) {
     const oldValue = this._value
     this._value = value
@@ -82,6 +86,15 @@ class UnityTextInput extends LitElement {
   }
 
   get value() { return this._value }
+
+  set password(value) {
+    const oldValue = this._password
+    this._password = value
+    this._validate()
+    this.requestUpdate('password', oldValue)
+  }
+
+  get password() { return this._password }
 
   set validation(value) {
     const oldValue = this._validation
@@ -102,24 +115,79 @@ class UnityTextInput extends LitElement {
   _validate() {
     const {
       validation,
+      password,
       value
     } = this
 
     if (validation instanceof Function) {
       const isValid = validation(value)
-      if (isValid === true) {
-        this._valid = true
-        this._error = ''
+      if (!!password) {
+        if (isValid === 2) {
+          this._valid = true
+          this._strength = 2
+          this._error = ''
+          return
+        } else if (isValid === 1) {
+          this._valid = true
+          this._strength = 1
+          this._error = ''
+          return
+        }
       } else {
-        this._valid = false
-        this._error = isValid || ''
+        if (isValid === true) {
+          this._valid = true
+          this._error = ''
+          return
+        }
       }
+      this._valid = false
+      this._strength = 0
+      this._error = isValid || ''
     }
   }
 
   _clickUnits() {
     const input = this.shadowRoot.getElementById('input')
     input.focus()
+  }
+
+  _renderIcon() {
+    const {
+      password,
+      showIcon,
+      _valid,
+      _strength,
+      _error
+    } = this
+
+    if (!!showIcon) {
+      if (!!password) {
+        if (_strength >= 1) {
+          const strong = _strength >= 2
+          return html`
+            <div class="icon-wrapper rect">
+              <div class="icon-text">${!!strong ? "Strong" : "Weak"}</div>
+              <div class="circles-wrapper">
+                <div class="password-circle ${strong ? 'green' : ''}" ></div>
+                <div class="password-circle ${strong ? 'green' : ''}" ></div>
+                <div class="password-circle ${strong ? 'green' : ''}" ></div>
+                <div class="password-circle ${strong ? 'green' : ''}" ></div>
+                <div class="password-circle ${strong ? 'green' : ''}" ></div>
+              </div>
+            </div>
+          `
+        }
+      }
+      const validClass = !_valid ? 'icon-error' : 'icon-valid'
+      const icon = !_valid ? 'icons:error-outline' : 'icons:check'
+      return html`
+        <div class="icon-wrapper circle ${!_valid ? 'invalid' : 'valid'}">
+          <iron-icon class="icon ${validClass}" icon="${icon}"></iron-icon>
+        </div>
+      `
+    } else {
+      return null
+    }
   }
 
   render() {
@@ -135,6 +203,7 @@ class UnityTextInput extends LitElement {
       showIcon,
       _onChange,
       _valid,
+      _strength,
       _error,
       _clickUnits
     } = this
@@ -176,14 +245,7 @@ class UnityTextInput extends LitElement {
               ${units}
             </div>`
           : null}
-          ${!!showIcon || true ?
-            html`<div class="icon-circle ${!_valid ? 'invalid' : 'valid'}">
-              ${!_valid
-                ? html`<iron-icon class="icon icon-error" icon="icons:error-outline"></iron-icon>`
-                : html`<iron-icon class="icon icon-valid" icon="icons:check"></iron-icon>`
-              }
-            </div>`
-          : null}
+          ${this._renderIcon()}
         </iron-input>
         <div class="bottom">
           <span class="remark">
@@ -296,18 +358,28 @@ class UnityTextInput extends LitElement {
           background-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
           color: rgba(var(--text-color), .4);
         }
-        .icon-circle {
+        .icon-wrapper {
           position: absolute;
-          right: -29px;
+          left: calc(100% + 8px);
           top: 50%;
           transform: translateY(-50%);
+        }
+        .circle {
           height: 20px;
           width: 20px;
           border-radius: 10px;
           background-color: var(--success-color, var(--default-success-color));
         }
-        .icon-circle.invalid {
+        .circle.invalid {
           background-color: var(--danger-color, var(--default-danger-color));
+        }
+        .rect {
+          width: 40px;
+        }
+        .icon-text {
+          font-size: 11px;
+          line-height: 16px;
+          color: var(--label-text)
         }
         .icon {
           position: absolute;
@@ -323,6 +395,23 @@ class UnityTextInput extends LitElement {
         }
         .icon-valid {
 
+        }
+        .password-circle {
+          height: 5px;
+          width: 5px;
+          border-radius: 2.5px;
+          background-color: var(--dark-grey-background-color, var(--default-dark-grey-background-color));
+          margin: 0;
+          padding: 0;
+          /* margin-right: 3px; */
+          display: inline-block;
+        }
+        .green {
+          background-color: var(--success-color, var(--default-success-color));
+        }
+        .circles-wrapper {
+          margin-top: 3px;
+          line-height: 0;
         }
       `
     ]
