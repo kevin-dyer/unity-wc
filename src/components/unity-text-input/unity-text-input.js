@@ -403,7 +403,6 @@ class UnityTextInput extends LitElement {
           background-color: var(--dark-grey-background-color, var(--default-dark-grey-background-color));
           margin: 0;
           padding: 0;
-          /* margin-right: 3px; */
           display: inline-block;
         }
         .green {
