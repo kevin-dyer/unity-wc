@@ -10,7 +10,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @name UnityTextInput
 * @param {''} value, the text defaulted text in the field
 * @param {func} onChange, function to handle changes to the field, receives current text value, false if validation fails
-* @param {''} title, floating header title
+* @param {''} label, floating header label
 * @param {''} placeholder, initial text to be overwritten
 * @param {''} remark, text to render below input field
 * @param {bool} charCount, show current char count
@@ -22,17 +22,18 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @example
 * <unity-text-input>
+*   .label="${'Strong Validation'}"
+*   .value="${"astrongerpassword"}"
+*   .validation="${val=> {
+*     if (val.length < 8) return 'Password should be at least 8 characters'
+*     else if (val.length < 16) return 1
+*     else return 2
+*   }}"
+*   .onChange="${this.onInputChange}"
+*   password
+*   showIcon
 * </unity-text-input>
 **/
-
-// Text Input for general use: login, password, setting values, etc
-// Can have text, title, placeholder, remark set by string
-// Can have internal string for unit type
-// Can have string for hover/click hint box
-// Requires function to send changed text to parent, should try to throttle from being called too often
-// Bool to control showing charCount and for disabling
-// Bool to change if field should be treated like a password
-// Can take a function and bool to control what validation function is used and if valid icon is shown
 
 class UnityTextInput extends LitElement {
   constructor() {
