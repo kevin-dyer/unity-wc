@@ -5,10 +5,10 @@ import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
-import '@bit/smartworks.unity.unity-table-cell'
-import '@bit/smartworks.unity.table-cell-base'
-// import './unity-table-cell.js'
-// import './table-cell-base.js'
+// import '@bit/smartworks.unity.unity-table-cell'
+// import '@bit/smartworks.unity.table-cell-base'
+import './unity-table-cell.js'
+import './table-cell-base.js'
 
 
 
@@ -18,6 +18,7 @@ import {
 } from './table-utils.js'
 
 const MIN_CELL_WIDTH = 150
+const MOUSE_MOVE_THRESHOLD = 5
 /**
  * Displays table of data.
  * @name UnityTable
@@ -680,10 +681,24 @@ class UnityTable extends LitElement {
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
-      <tr class="row" key="row-${rowId}" @click="${e =>
-        //BIG NOTE: need to compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
-        this.onClickRow(datum, e)
-      }">
+      <tr
+        class="row"
+        key="row-${rowId}"
+        @mousedown="${e => {
+          this.startingX = e.screenX
+        }}"
+        @click="${e => {
+          const deltaX = Math.abs(e.screenX - this.startingX)
+
+          //BIG NOTE: need to compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
+          if (deltaX < MOUSE_MOVE_THRESHOLD) {
+            console.log("row click caled! deltaX: ", deltaX)
+            this.onClickRow(datum, e)
+          } else {
+            console.log("skipping row click handler, deltaX above threshold: ", deltaX)
+          }
+        }}"
+      >
         ${columns.map(({key: column, format, width}, i) => {
           const value = datum[column]
           const label = format instanceof Function ? format(value, datum) : value
@@ -822,14 +837,16 @@ class UnityTable extends LitElement {
           --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
           --thead-height: 33px;
           --trow-height: 38px;
+          display: flex;
         }
         .container {
-          position: absolute;
+          /*position: absolute;
           top: 0;
           bottom: 0;
           left: 0;
           right: 0;
-          width: 100%;
+          width: 100%;*/
+          flex: 1;
           overflow-y: auto;
           overflow-x: hidden;
         }
