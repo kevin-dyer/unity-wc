@@ -9,7 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
+import './unity-layout/unity-page-header.js'
+import './unity-button/unity-button.js'
 import './unity-table/unity-table.js'
+import '@polymer/paper-input/paper-input.js';
 
 import './unity-layout/unity-page-header.js'
 import './unity-text-input/unity-text-input.js'
@@ -86,7 +89,7 @@ const exampleColumns = [
     key: 'name',
     label: 'Color',
     width: 300,
-    format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : null
+    format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
   },
   {
     key: 'favorite',
@@ -103,16 +106,19 @@ class MyTable extends PageViewElement {
 
     this._searchText = ''
   }
+
   static get styles() {
     return [
       SharedStyles,
       css`
         :host {
-          height: 100vh;
-          display: flex;
           flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
         }
         .example-container {
+          flex: 1;
           position: relative;
           /*width: 1000px;
           height: 500px;
@@ -151,6 +157,10 @@ class MyTable extends PageViewElement {
 
   onInputChange(e, value) {
     this._searchText = value
+
+  handleEditColumns() {
+    //TODO: display edit column modal!
+    console.log("handleEditColumns called!")
   }
 
   render() {
