@@ -61,7 +61,8 @@ class UnityPageHeader extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          flex: 1;
+          /*flex: 1;*/
+          width: 100%;
           display: flex;
           flex-direction: column;
           font-family: var(--font-family, var(--default-font-family));
@@ -90,7 +91,7 @@ class UnityPageHeader extends LitElement {
           align-items: center;
         }
 
-        #right-container {
+        #right-container::slotted(*) {
           display: flex;
           flex-direction: row;
           align-items: center;

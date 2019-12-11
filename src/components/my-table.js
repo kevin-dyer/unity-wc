@@ -9,7 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
+import './unity-layout/unity-page-header.js'
+import './unity-button/unity-button.js'
 import './unity-table/unity-table.js'
+import '@polymer/paper-input/paper-input.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
@@ -82,7 +85,7 @@ const exampleColumns = [
     key: 'name',
     label: 'Color',
     width: 300,
-    format: (name, datum) => `${name.charAt(0).toUpperCase()}${name.slice(1)}`
+    format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
   },
   {
     key: 'favorite',
@@ -94,34 +97,104 @@ const exampleColumns = [
 
 
 class MyTable extends PageViewElement {
+  constructor() {
+    super()
+
+    this.searchText = ''
+  }
+
+  static get properties() {
+    return {
+      searchText: {type: String}
+    }
+  }
+
   static get styles() {
     return [
       SharedStyles,
       css`
+        :host {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+        }
         .example-container {
+          flex: 1;
           position: relative;
-          height: 500px;
-          margin-top: 40px;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .header-container {
+          width: 100%;
+        }
+
+        .table-container {
+          flex: 1;
+          position: relative;
+        }
+
+        unity-table {
+        }
+
+        paper-input {
+          margin-right: 20px;
+          width: 300px;
         }
       `
     ];
   }
 
+  handleSearchInput(e={}) {
+    const {target: {value}={}} = e
+
+    this.searchText = value || ''
+  }
+
+  handleEditColumns() {
+    //TODO: display edit column modal!
+    console.log("handleEditColumns called!")
+  }
+
   render() {
     return html`
       <div class="example-container">
-        <unity-table
-          selectable
-          filter=""
-          .keyExtractor="${(datum, index) => datum.name}"
-          .childKeys="${['children']}"
-          .data="${exampleData}"
-          .columns="${exampleColumns}"
+        <div class="header-container">
+          <unity-page-header
+            title="MOCC2 Title2"
+          >
+            <div slot="right-content">
+              <paper-input
+                label="Search Input"
+                @input="${this.handleSearchInput}"
+              ></paper-input>
 
-          .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
-          .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
-          .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
-        />
+              <unity-button
+                label="Edit Columns"
+                ?gradient=${true}
+                ?disabled=${false}
+                @click=${this.handleEditColumns}
+              ></unity-button>
+            </div>
+          </unity-page-header>
+        </div>
+
+
+        <div class="table-container">
+          <unity-table
+            selectable
+            filter="${this.searchText}"
+            .keyExtractor="${(datum, index) => datum.name}"
+            .childKeys="${['children']}"
+            .data="${exampleData}"
+            .columns="${exampleColumns}"
+
+            .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+            .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
+            .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+          ></unity-table>
+        </div>
       </div>
     `
   }

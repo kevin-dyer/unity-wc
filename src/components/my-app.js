@@ -144,7 +144,8 @@ class MyApp extends connect(store)(LitElement) {
 
         /* Workaround for IE11 displaying <main> as inline */
         main {
-          display: block;
+          display: flex;
+
         }
 
         .main-content {
@@ -157,7 +158,8 @@ class MyApp extends connect(store)(LitElement) {
         }
 
         .page[active] {
-          display: block;
+          /*display: block;*/
+          display: flex;
         }
 
         footer {

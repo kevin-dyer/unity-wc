@@ -26,10 +26,7 @@ class TableCellBase extends LitElement {
 
   //TODO: start event listener to track mouse movement
   handleMouseDown(e) {
-    console.log("handleMouseDown e: ", e)
     this.startingX = e.clientX
-
-    //TODO: should fix the widths of the columns before this one
     this.mouseMoveListener = this.handleMouseMove.bind(this)
     this.mouseUpListener = this.handleMouseUp.bind(this)
     document.addEventListener('mousemove', this.mouseMoveListener)
@@ -44,10 +41,6 @@ class TableCellBase extends LitElement {
   handleMouseMove(e) {
     // this.currentX = e.clientX
     const deltaX = e.clientX - this.startingX
-    // console.log("mousemove listener called! deltaX: ", deltaX)
-
-    e.stopPropagation()
-    e.preventDefault()
 
     this.onResize(deltaX)
   }
@@ -59,31 +52,12 @@ class TableCellBase extends LitElement {
     document.removeEventListener('mousemove', this.mouseMoveListener)
     document.removeEventListener('mouseup', this.mouseUpListener)
 
-    e.stopPropagation()
-    e.preventDefault()
-
     this.onResizeComplete(deltaX)
-  }
-
-  handleClick(e) {
-    e.stopPropagation()
-    e.preventDefault()
-    console.log("handleClick e: ", e)
-
-    return false
   }
 
   render() {
     return html`
-      <div class="table-cell-base" @click="${e => {
-
-        //NOTE: this only stops click propagation if cursor ends up on same table cell. If it goes to neighboring cell, will not fire
-        //Will need to use logic in row click to compare mousedown and mouseup screenX - dont fire if dragged.
-        console.log("preventing table-cell-base @click.")
-        e.preventDefault()
-        e.stopPropagation()
-        return false
-      }}">
+      <div class="table-cell-base">
         <div class="content">
           <slot></slot>
         </div>
@@ -91,7 +65,6 @@ class TableCellBase extends LitElement {
           ? html`<div
               class="resize-handle"
               @mousedown="${this.handleMouseDown}"
-              @click="${this.handleClick}"
             ></div>`
           : ''
         }
