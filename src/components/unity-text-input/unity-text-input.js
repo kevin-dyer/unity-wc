@@ -8,7 +8,7 @@ import '../unity-icon-set/unity-icon-set'
 * Renders a bordered text input
 * @name UnityTextInput
 * @param {''} value, the text defaulted text in the field
-* @param {func} onChange, function to handle changes to the field, receives event and the new string value
+* @param {func} onChange, function to handle changes to the field, receives current text value, false if validation fails
 * @param {''} label, floating header label
 * @param {''} placeholder, initial text to be overwritten
 * @param {''} remark, text to render below input field
@@ -109,7 +109,7 @@ class UnityTextInput extends LitElement {
     const report = this.onChange
     const newValue = e.target.value
     this.value = newValue
-    report instanceof Function && report(e, this.value)
+    report instanceof Function && report(this.value)
   }
 
   _validate() {
@@ -270,12 +270,12 @@ class UnityTextInput extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --font-family: Avenir;
-          font-family: var(--font-family, var(--default-font-family));
+          --input-font: var(--font-family, var(--default-font-family));
           --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
+          font-family: var(--input-font);
           border-collapse: collapse;
           user-select: none;
         }
@@ -339,7 +339,7 @@ class UnityTextInput extends LitElement {
           margin: 0;
           align-self: center;
           flex: 1;
-          font-family: var(--font-family, var(--default-font-family));
+          font-family: var(--input-font);
           font-size: var(--text-size);
           color: rgb(var(--text-color));
           border: 0;
