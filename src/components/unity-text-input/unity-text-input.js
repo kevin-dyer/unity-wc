@@ -8,7 +8,7 @@ import '../unity-icon-set/unity-icon-set'
 * Renders a bordered text input
 * @name UnityTextInput
 * @param {''} value, the text defaulted text in the field
-* @param {func} onChange, function to handle changes to the field, receives current text value, false if validation fails
+* @param {func} onChange, function to handle changes to the field, receives event and the new string value
 * @param {''} label, floating header label
 * @param {''} placeholder, initial text to be overwritten
 * @param {''} remark, text to render below input field
@@ -109,7 +109,7 @@ class UnityTextInput extends LitElement {
     const report = this.onChange
     const newValue = e.target.value
     this.value = newValue
-    report instanceof Function && report(this.value)
+    report instanceof Function && report(e, this.value)
   }
 
   _validate() {
