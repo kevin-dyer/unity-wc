@@ -108,14 +108,14 @@ class MyTextInput extends PageViewElement {
             <unity-text-input
               .label="${"Input with units"}"
               .value="${"17500"}"
-              .units="kwh"
+              .units="${"kwh"}"
               .onChange="${this.onInputChange}"
             ></unity-text-input>
           </div>
           <div class="input-box">
             <unity-text-input
               .label="${"Validation with Remark"}"
-              .value="${"Will only be correct if this equals \"valid\","}"
+              .value="${"Will only be correct if this equals \"valid\"."}"
               .remark="${"This must equal \"valid\"."}"
               .validation="${val => {
                 if (val.length === 0) return 'Cannot be empty.'
@@ -130,7 +130,7 @@ class MyTextInput extends PageViewElement {
           <div class="input-box">
             <unity-text-input
               .label="${"Validation Icon"}"
-              .value="${"Will only be correct if this equals \"valid\","}"
+              .value="${"Will only be correct if this equals \"valid\"."}"
               .remark="${"This must equal \"valid\""}"
               .validation="${val => {
                 if (val.length === 0) return 'Cannot be empty.'

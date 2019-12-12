@@ -1,9 +1,8 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/iron-input/iron-input.js'
-import '@polymer/iron-icons/iron-icons.js'
-import '@polymer/iron-icons/image-icons.js'
-import '@polymer/iron-icons/social-icons.js'
+import '@polymer/iron-input/iron-input'
+import '@polymer/iron-icon/iron-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '../unity-icon-set/unity-icon-set'
 
 /**
 * Renders a bordered text input
@@ -180,7 +179,7 @@ class UnityTextInput extends LitElement {
         }
       }
       const validClass = !_valid ? 'icon-error' : 'icon-valid'
-      const icon = !_valid ? 'icons:error-outline' : 'icons:check'
+      const icon = !_valid ? 'unity:error' : 'unity:check'
       return html`
         <div class="icon-wrapper circle ${!_valid ? 'invalid' : 'valid'}">
           <iron-icon class="icon ${validClass}" icon="${icon}"></iron-icon>
@@ -208,6 +207,9 @@ class UnityTextInput extends LitElement {
       _error,
       _clickUnits
     } = this
+
+    // console.warn('this is a test')
+
     return html`
       <div>
         ${!!label ?
@@ -392,7 +394,7 @@ class UnityTextInput extends LitElement {
           color: white;
         }
         .icon-error {
-
+          top: calc(50% - 1px);
         }
         .icon-valid {
 
