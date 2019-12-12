@@ -13,7 +13,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-default-theme-styles@0.0.9": {
+    "smartworks.unity/unity-default-theme-styles@0.0.12": {
         "files": [
             {
                 "name": "unity-default-theme-styles.js",
@@ -61,6 +61,19 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-icon-set@0.1.0": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-icon-set/unity-icon-set.js",
+                "test": false,
+                "name": "unity-icon-set.js"
+            }
+        ],
+        "mainFile": "src/components/unity-icon-set/unity-icon-set.js",
+        "trackDir": "src/components/unity-icon-set",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "smartworks.unity/unity-page-header@0.0.19": {
         "files": [
             {
@@ -102,5 +115,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "version": "14.5.0"
+    "smartworks.unity/unity-text-input@0.1.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-text-input/unity-text-input.js",
+                "test": false,
+                "name": "unity-text-input.js"
+            }
+        ],
+        "mainFile": "src/components/unity-text-input/unity-text-input.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "version": "14.7.0"
 }
