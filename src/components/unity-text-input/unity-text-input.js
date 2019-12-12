@@ -109,7 +109,7 @@ class UnityTextInput extends LitElement {
     const report = this.onChange
     const newValue = e.target.value
     this.value = newValue
-    report instanceof Function && report(this.value)
+    report instanceof Function && report(e, this.value)
   }
 
   _validate() {
@@ -143,6 +143,8 @@ class UnityTextInput extends LitElement {
       this._valid = false
       this._strength = 0
       this._error = isValid || ''
+    } else {
+      this._valid = true
     }
   }
 
