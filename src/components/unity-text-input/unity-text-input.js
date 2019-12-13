@@ -137,7 +137,6 @@ class UnityTextInput extends LitElement {
       password,
       value
     } = this
-
     if (validation instanceof Function) {
       const isValid = validation(value)
       if (!!password) {
@@ -162,8 +161,6 @@ class UnityTextInput extends LitElement {
       this._valid = false
       this._strength = 0
       this._errorTex = isValid || ''
-    } else {
-      this._valid = true
     }
   }
 
@@ -227,8 +224,6 @@ class UnityTextInput extends LitElement {
       _errorText,
       _clickUnits
     } = this
-
-    // console.warn('this is a test')
 
     return html`
       <div>
