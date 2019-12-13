@@ -17,6 +17,7 @@ import '../unity-icon-set/unity-icon-set'
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} password, converts characters to dots/password field
+* @param {''} error, error message for external error control or default forcing, can give true to not render remark error text, if validation is also sent it it will overwrite error's effects
 * @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 2+ or 1 for strong/weak, otherwise considered failure
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @example
@@ -47,13 +48,14 @@ class UnityTextInput extends LitElement {
     this.placeholder = ""
     this.units = ""
     this.charCount = false
+    this._error = ''
     this._validation = null
     this.showIcon = false
 
     // internals
     this._valid = true
     this._strength = 0
-    this._error = ""
+    this._errorText = ""
   }
 
   static get properties() {
@@ -67,14 +69,31 @@ class UnityTextInput extends LitElement {
       placeholder: { type: String },
       units: { type: String },
       charCount: { type: Boolean },
+      error: { type: String },
       validation: { type: Function },
       showIcon: { type: Boolean },
       // internals
       _valid: { type: Boolean },
       _strength: { type: Number },
-      _error: { type: String }
+      _errorText: { type: String }
     }
   }
+
+  // this is to allow external control of errors/validity
+  // if given validation and error, validation will overwrite error's message
+  set error(value) {
+    const oldValue = this._error
+    this._error = value
+    if (value === true || JSON.parse(value) === true) this._valid = false
+    else if (!value) this._valid = true
+    else {
+      this._valid = false
+      this._errorText = value
+    }
+    this.requestUpdate('error', oldValue)
+  }
+
+  get error() { return this._error }
 
   // these set/get are set to make sure that _validate is called
   // when value/password/validation is set or altered
@@ -125,24 +144,24 @@ class UnityTextInput extends LitElement {
         if (isValid === 2) {
           this._valid = true
           this._strength = 2
-          this._error = ''
+          this._errorText = ''
           return
         } else if (isValid === 1) {
           this._valid = true
           this._strength = 1
-          this._error = ''
+          this._errorText = ''
           return
         }
       } else {
         if (isValid === true) {
           this._valid = true
-          this._error = ''
+          this._errorText = ''
           return
         }
       }
       this._valid = false
       this._strength = 0
-      this._error = isValid || ''
+      this._errorTex = isValid || ''
     } else {
       this._valid = true
     }
@@ -158,8 +177,7 @@ class UnityTextInput extends LitElement {
       password,
       showIcon,
       _valid,
-      _strength,
-      _error
+      _strength
     } = this
 
     if (!!showIcon) {
@@ -206,7 +224,7 @@ class UnityTextInput extends LitElement {
       _onChange,
       _valid,
       _strength,
-      _error,
+      _errorText,
       _clickUnits
     } = this
 
@@ -254,7 +272,7 @@ class UnityTextInput extends LitElement {
         </iron-input>
         <div class="bottom">
           <span class="remark">
-            ${_error || remark}
+            ${_errorText || remark}
           </span>
           ${!!charCount ?
             html`<span class="charCount">
