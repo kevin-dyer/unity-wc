@@ -85,7 +85,10 @@ class UnityTextInput extends LitElement {
     const oldValue = this._error
     this._error = value
     if (value === true || value === 'true') this._valid = false
-    else if (!value) this._valid = true
+    else if (!value) {
+      this._valid = true
+      this._errorText = ''
+    }
     else {
       this._valid = false
       this._errorText = value
