@@ -84,7 +84,7 @@ class UnityTextInput extends LitElement {
   set error(value) {
     const oldValue = this._error
     this._error = value
-    if (value === true || JSON.parse(value) === true) this._valid = false
+    if (value === true || value === 'true') this._valid = false
     else if (!value) this._valid = true
     else {
       this._valid = false
