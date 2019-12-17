@@ -335,8 +335,6 @@ class UnityTextInput extends LitElement {
           margin-top: 6px;
           background-color: var(--background-color, var(--default-background-color));
           height: 27px;
-          width: 100%;
-          min-width: 200px;
           padding: 0 8px;
           box-sizing: border-box;
           border-width: 1px;
