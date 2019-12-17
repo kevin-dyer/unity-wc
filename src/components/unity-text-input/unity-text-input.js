@@ -332,7 +332,6 @@ class UnityTextInput extends LitElement {
         }
         .input-wrapper {
           width: 100%;
-          min-width: 200px;
           margin-top: 6px;
           background-color: var(--background-color, var(--default-background-color));
           height: 27px;
