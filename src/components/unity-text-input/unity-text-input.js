@@ -16,6 +16,7 @@ import '../unity-icon-set/unity-icon-set'
 * @param {bool} disabled, controls if field is enabled/disabled, defaults: false (enabled)
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
+* @param {bool} time, option to have input by type time, overriden by password
 * @param {bool} password, converts characters to dots/password field
 * @param {''} error, error message for external error control or default forcing, can give true to not render remark error text, if validation is also sent it it will overwrite error's effects
 * @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 2+ or 1 for strong/weak, otherwise considered failure
@@ -44,6 +45,7 @@ class UnityTextInput extends LitElement {
     this.remark = ""
     this.disabled = false
     this.onChange = ()=>{}
+    this.time = false
     this._password = false
     this.placeholder = ""
     this.units = ""
@@ -65,6 +67,7 @@ class UnityTextInput extends LitElement {
       remark: { type: String },
       disabled: { type: Boolean },
       onChange: { type: Function },
+      time: { type: Boolean },
       password: { type: Boolean },
       placeholder: { type: String },
       units: { type: String },
@@ -216,6 +219,7 @@ class UnityTextInput extends LitElement {
       label,
       remark,
       disabled,
+      time,
       password,
       placeholder,
       units,
@@ -227,6 +231,10 @@ class UnityTextInput extends LitElement {
       _errorText,
       _clickUnits
     } = this
+
+    let type = 'text'
+    if (!!time) type = 'time'
+    if (!!password) type = 'password'
 
     return html`
       <div>
@@ -246,14 +254,14 @@ class UnityTextInput extends LitElement {
               value="{{value::input}}"
               id="input"
               class="disabled"
-              type="${!!password ? 'password' : 'text'}"
+              type="${type}"
               placeholder="${!!placeholder ? placeholder : ''}"
               disabled
             >`
             :
             html`<input
               id="input"
-              type="${!!password ? 'password' : 'text'}"
+              type="${type}"
               placeholder="${!!placeholder ? placeholder : ''}"
               value="{{value::input}}"
             >`
