@@ -11,7 +11,7 @@
 *If an error occurs, it should be listed in the console and the file will not be written*
 1) Delete the old file and remove the timestamp from the name of the new file, update the component with `bit`
 
-*The above filepaths are for the given defaults. Be aware of how custom paths will change where to put `.svg`'s to compile and where the iconset will be output to*
+*The above filepaths are for the given defaults. Be aware of how custom paths will change where to put `.svg`'s to compile and where the iconset will be output to.*
 
 ## What it Does
 
