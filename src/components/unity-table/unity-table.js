@@ -574,6 +574,11 @@ class UnityTable extends LitElement {
         currentTabIndex = node._tabIndex
       }
 
+      //remove rows with undefined _rowId
+      if (node._rowId === undefined) {
+        return false
+      }
+
       return true
     })
 
