@@ -314,7 +314,9 @@ class UnityTable extends LitElement {
     if (selectedData.length === 0) this._allSelected = false
     else {
       //Determine if any table row is unselected
-      const unselectedMap = new Map(this.data)
+      const unselectedMap = new Set(this._flattenedData.map((datum, index) =>
+        datum._rowId
+      ))
       this._selected.forEach(id => {
         unselectedMap.delete(id)
       })
@@ -829,7 +831,8 @@ class UnityTable extends LitElement {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          maring: 0;
+          align-items: center;
+          margin: 0;
           padding: 0 13px;
           box-sizing: border-box;
           border-collapse: collapse;
@@ -857,7 +860,6 @@ class UnityTable extends LitElement {
           padding-top: 1px;
         }
         paper-checkbox {
-          padding: calc((var(--thead-height) - 14px) / 2) 0;
         }
         paper-icon-button {
           color: var(--black-text-color, var(--default-black-text-color));
