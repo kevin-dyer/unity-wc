@@ -387,13 +387,13 @@ class UnityTextInput extends LitElement {
           top: 50%;
           transform: translateY(-50%);
         }
-        .hideBorder {
+        .showBorder {
           border-width: 1px;
           border-color: var(--border-color);
           border-style: solid;
           border-radius: 2px;
         }
-        .showBorder {
+        .hideBorder {
           border-width: 0px;
         }
         .circle {
