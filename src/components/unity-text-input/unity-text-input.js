@@ -226,6 +226,7 @@ class UnityTextInput extends LitElement {
       placeholder,
       units,
       charCount,
+      hideBorder,
       _onChange,
       _valid,
       _strength,
