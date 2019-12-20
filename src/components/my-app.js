@@ -157,7 +157,8 @@ class MyApp extends connect(store)(LitElement) {
         }
 
         .page[active] {
-          display: block;
+          /*display: block;*/
+          display: flex;
         }
 
         footer {
