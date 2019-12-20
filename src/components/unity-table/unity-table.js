@@ -509,6 +509,7 @@ class UnityTable extends LitElement {
     const filteredData = filterData({
       filter: searchFor,
       data: this.data,
+      columns: this.columns,
       childKeys: this.childKeys,
       columnKeys: this.columns.map(col => col.key)
     })

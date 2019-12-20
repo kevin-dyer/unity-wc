@@ -11,6 +11,10 @@ import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import './unity-table/unity-table.js'
 
+import './unity-layout/unity-page-header.js'
+import './unity-text-input/unity-text-input.js'
+
+
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
@@ -82,7 +86,7 @@ const exampleColumns = [
     key: 'name',
     label: 'Color',
     width: 300,
-    format: (name, datum) => `${name.charAt(0).toUpperCase()}${name.slice(1)}`
+    format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : null
   },
   {
     key: 'favorite',
@@ -94,28 +98,82 @@ const exampleColumns = [
 
 
 class MyTable extends PageViewElement {
+  constructor() {
+    super()
+
+    this._searchText = ''
+  }
   static get styles() {
     return [
       SharedStyles,
       css`
+        :host {
+          height: 100vh;
+          display: flex;
+          flex: 1;
+        }
         .example-container {
           position: relative;
-          width: 1000px;
+          /*width: 1000px;
           height: 500px;
           top: 100px;
           left: 50%;
-          transform: translate(-50%,0);
+          transform: translate(-50%,0);*/
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          margin: 0 40px;
+          flex: 1;
+        }
+        unity-page-header {
+          flex: 0;
+        }
+        .table-container {
+          position: relative;
+          flex: 1
+        }
+        unity-table {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
         }
       `
     ];
   }
 
+  static get properties() {
+    return {
+      _searchText: {type: String}
+    }
+  }
+
+  onInputChange(e, value) {
+    this._searchText = value
+  }
+
   render() {
+
+    console.log("")
     return html`
       <div class="example-container">
+        <unity-page-header
+          title="Unity Table"
+        >
+          <div slot="right-content">
+            <unity-text-input
+              .value="${this._searchText}"
+              .remark="${"Search input"}"
+              .onChange="${this.onInputChange.bind(this)}"
+            ></unity-text-input>
+          </div>
+        </unity-page-header>
+
+        <div class="table-container">
         <unity-table
           selectable
-          filter=""
+          filter="${this._searchText}"
           .keyExtractor="${(datum, index) => datum.name}"
           .childKeys="${['children']}"
           .data="${exampleData}"
@@ -124,7 +182,9 @@ class MyTable extends PageViewElement {
           .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
           .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
           .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
-        />
+        >
+        </unity-table>
+        </div>
       </div>
     `
   }
