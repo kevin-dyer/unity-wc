@@ -53,7 +53,7 @@ class UnityTextInput extends LitElement {
     this._error = ''
     this._validation = null
     this.showIcon = false
-    this.showBorder = true
+    this.hideBorder = false
 
     // internals
     this._valid = true
@@ -76,7 +76,7 @@ class UnityTextInput extends LitElement {
       error: { type: String },
       validation: { type: Function },
       showIcon: { type: Boolean },
-      showBorder: { type: Boolean },
+      hideBorder: { type: Boolean },
       // internals
       _valid: { type: Boolean },
       _strength: { type: Number },
@@ -246,7 +246,7 @@ class UnityTextInput extends LitElement {
           : null
         }
         <iron-input
-          class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''} ${!!showBorder ? 'showBorder' : 'hideBorder'}"
+          class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''} ${!!hideBorder ? 'hideBorder' : 'showBorder'}"
           bind-value="${value}"
           @input="${_onChange}"
         >
@@ -387,13 +387,13 @@ class UnityTextInput extends LitElement {
           top: 50%;
           transform: translateY(-50%);
         }
-        .showBorder {
+        .hideBorder {
           border-width: 1px;
           border-color: var(--border-color);
           border-style: solid;
           border-radius: 2px;
         }
-        .hideBorder {
+        .showBorder {
           border-width: 0px;
         }
         .circle {
