@@ -54,6 +54,7 @@ class UnityTextInput extends LitElement {
     this._validation = null
     this.showIcon = false
     this.hideBorder = false
+    this.rounded = false
 
     // internals
     this._valid = true
@@ -77,6 +78,7 @@ class UnityTextInput extends LitElement {
       validation: { type: Function },
       showIcon: { type: Boolean },
       hideBorder: { type: Boolean },
+      rounded: { type: Boolean }
       // internals
       _valid: { type: Boolean },
       _strength: { type: Number },
@@ -227,6 +229,7 @@ class UnityTextInput extends LitElement {
       units,
       charCount,
       hideBorder,
+      rounded,
       _onChange,
       _valid,
       _strength,
@@ -247,7 +250,7 @@ class UnityTextInput extends LitElement {
           : null
         }
         <iron-input
-          class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''} ${!!hideBorder ? 'hideBorder' : 'showBorder'}"
+          class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''} ${!!hideBorder ? 'hideBorder' : 'showBorder'} ${!!rounded ? 'rounded' : ''}"
           bind-value="${value}"
           @input="${_onChange}"
         >
@@ -396,6 +399,9 @@ class UnityTextInput extends LitElement {
         }
         .hideBorder {
           border-width: 0px;
+        }
+        .rounded {
+          border-radius: 20px;
         }
         .circle {
           height: 20px;
