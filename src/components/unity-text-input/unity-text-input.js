@@ -54,7 +54,7 @@ class UnityTextInput extends LitElement {
     this._validation = null
     this.showIcon = false
     this.hideBorder = false
-    this.rounded = false
+    this.borderRadiusPx = 2
 
     // internals
     this._valid = true
@@ -78,7 +78,7 @@ class UnityTextInput extends LitElement {
       validation: { type: Function },
       showIcon: { type: Boolean },
       hideBorder: { type: Boolean },
-      rounded: { type: Boolean }
+      borderRadiusPx: { type: Number }
       // internals
       _valid: { type: Boolean },
       _strength: { type: Number },
@@ -229,7 +229,7 @@ class UnityTextInput extends LitElement {
       units,
       charCount,
       hideBorder,
-      rounded,
+      borderRadiusPx,
       _onChange,
       _valid,
       _strength,
@@ -250,7 +250,7 @@ class UnityTextInput extends LitElement {
           : null
         }
         <iron-input
-          class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''} ${!!hideBorder ? 'hideBorder' : 'showBorder'} ${!!rounded ? 'rounded' : ''}"
+          class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''} ${!!hideBorder ? 'hideBorder' : 'showBorder'}"
           bind-value="${value}"
           @input="${_onChange}"
         >
@@ -297,6 +297,9 @@ class UnityTextInput extends LitElement {
   }
 
   static get styles() {
+    const {
+      borderRadiusPx=2
+    } = this
     return [
       UnityDefaultThemeStyles,
       css`
@@ -395,13 +398,10 @@ class UnityTextInput extends LitElement {
           border-width: 1px;
           border-color: var(--border-color);
           border-style: solid;
-          border-radius: 2px;
+          border-radius: ${!!borderRadiusPx ? `${borderRadiusPx}px` : '2px'};
         }
         .hideBorder {
           border-width: 0px;
-        }
-        .rounded {
-          border-radius: 20px;
         }
         .circle {
           height: 20px;
