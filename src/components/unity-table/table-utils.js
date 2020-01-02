@@ -8,7 +8,6 @@ const UNS = 'Unsorted'
 export function filterData({
   filter='',
   data=[],
-  columns=[],
   childKeys=['children'], //attribute names containing nested array of nodes
   columnKeys=['name'] //attribute names to apply filter to
 }) {
@@ -22,7 +21,6 @@ export function filterData({
   const filteredHierarchy = _filterHierarchy({
     searchRegex,
     node: originalHierarchy,
-    columns,
     path: [],
     filteredHierarchy: {},
     originalHierarchy,
@@ -43,7 +41,6 @@ function shouldDisplayNode(node={}, columnKeys=[], searchRegex = new RegExp()) {
 function _filterHierarchy({
   searchRegex= new RegExp(),
   node={},
-  columns=[],
   path=[],
   filteredHierarchy={},
   originalHierarchy={},
@@ -59,7 +56,6 @@ function _filterHierarchy({
         _filterHierarchy({
           searchRegex,
           node: child,
-          columns,
           path: [...path, childKey, childIndex],
           filteredHierarchy,
           originalHierarchy,
@@ -72,15 +68,9 @@ function _filterHierarchy({
 
   //TODO: also build up expanded map
   //Find nodes that match searchText
-  if (columnKeys.some((colKey, colIndex) => {
-    const {
-      key,
-      format=val=>val
-    } = columns[colIndex] || {}
-    const cellValue = format(node[key], node)
-
-    return searchRegex.test(cellValue)
-  })) {
+  if (columnKeys.some(colKey =>
+    searchRegex.test(node[colKey])
+  )) {
     let filterNode = filteredHierarchy
     let originalNode = originalHierarchy
 
