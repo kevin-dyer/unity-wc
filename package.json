@@ -92,6 +92,26 @@
         "env": {
           "compiler": "bit.envs/compilers/typescript@3.0.35"
         }
+      },
+      "smartworks.unity/unity-button": {
+        "env": {
+          "compiler": "bit.envs/compilers/typescript@3.0.35"
+        }
+      },
+      "smartworks.unity/unity-global-nav-base": {
+        "env": {
+          "compiler": "bit.envs/compilers/typescript@3.0.35"
+        }
+      },
+      "smartworks.unity/unity-global-nav-inner-item": {
+        "env": {
+          "compiler": "bit.envs/compilers/typescript@3.0.35"
+        }
+      },
+      "smartworks.unity/unity-global-nav-top-item": {
+        "env": {
+          "compiler": "bit.envs/compilers/typescript@3.0.35"
+        }
       }
     }
   }

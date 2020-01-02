@@ -4,9 +4,9 @@
     "smartworks.unity/unity-button@0.0.12": {
         "files": [
             {
+                "name": "unity-button.js",
                 "relativePath": "src/components/unity-button/unity-button.js",
-                "test": false,
-                "name": "unity-button.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-button/unity-button.js",
@@ -28,9 +28,9 @@
     "smartworks.unity/unity-global-nav-base@0.1.0": {
         "files": [
             {
+                "name": "unity-global-nav-base.js",
                 "relativePath": "src/components/unity-global-nav/unity-global-nav-base.js",
-                "test": false,
-                "name": "unity-global-nav-base.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-global-nav/unity-global-nav-base.js",
@@ -40,9 +40,9 @@
     "smartworks.unity/unity-global-nav-inner-item@0.0.3": {
         "files": [
             {
+                "name": "unity-global-nav-inner-item.js",
                 "relativePath": "src/components/unity-global-nav/unity-global-nav-inner-item.js",
-                "test": false,
-                "name": "unity-global-nav-inner-item.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-global-nav/unity-global-nav-inner-item.js",
@@ -52,9 +52,9 @@
     "smartworks.unity/unity-global-nav-top-item@0.1.4": {
         "files": [
             {
+                "name": "unity-global-nav-top-item.js",
                 "relativePath": "src/components/unity-global-nav/unity-global-nav-top-item.js",
-                "test": false,
-                "name": "unity-global-nav-top-item.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-global-nav/unity-global-nav-top-item.js",
@@ -101,9 +101,9 @@
     "smartworks.unity/unity-table@0.1.20": {
         "files": [
             {
+                "name": "table-utils.js",
                 "relativePath": "src/components/unity-table/table-utils.js",
-                "test": false,
-                "name": "table-utils.js"
+                "test": false
             },
             {
                 "name": "unity-table.js",
