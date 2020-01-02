@@ -46,17 +46,19 @@ class UnityTextInput extends LitElement {
     this.disabled = false
     this.onChange = ()=>{}
     this.time = false
-    this._password = false
     this.placeholder = ""
     this.units = ""
     this.charCount = false
-    this._error = ''
-    this._validation = null
     this.showIcon = false
+    this.leftIcon =
     this.hideBorder = false
     this.borderRadiusPx = 2
+    this.innerIcon = ""
 
     // internals
+    this._error = ''
+    this._validation = null
+    this._password = false
     this._valid = true
     this._strength = 0
     this._errorText = ""
@@ -71,6 +73,7 @@ class UnityTextInput extends LitElement {
       onChange: { type: Function },
       time: { type: Boolean },
       password: { type: Boolean },
+      innerIcon: { type: String },
       placeholder: { type: String },
       units: { type: String },
       charCount: { type: Boolean },
@@ -78,7 +81,7 @@ class UnityTextInput extends LitElement {
       validation: { type: Function },
       showIcon: { type: Boolean },
       hideBorder: { type: Boolean },
-      borderRadiusPx: { type: Number }
+      borderRadiusPx: { type: Number },
       // internals
       _valid: { type: Boolean },
       _strength: { type: Number },
@@ -217,6 +220,18 @@ class UnityTextInput extends LitElement {
     }
   }
 
+  _renderInnerIcon() {
+    const {
+      innerIcon
+    } = this
+    if (!innerIcon) return
+    return html`
+      <div class="icon-wrapper circle">
+        <iron-icon class="icon" icon="${innerIcon}"></iron-icon>
+      </div>
+    `
+  }
+
   render() {
     const {
       value,
@@ -241,6 +256,8 @@ class UnityTextInput extends LitElement {
     if (!!time) type = 'time'
     if (!!password) type = 'password'
 
+    console.log(`border radius for ${value} is ${borderRadiusPx} px`);
+
     return html`
       <div>
         ${!!label ?
@@ -253,7 +270,9 @@ class UnityTextInput extends LitElement {
           class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''} ${!!hideBorder ? 'hideBorder' : 'showBorder'}"
           bind-value="${value}"
           @input="${_onChange}"
+          style="border-radius: ${borderRadiusPx}px"
         >
+          ${this._renderInnerIcon()}
           ${!!disabled ?
             html`<input
               value="{{value::input}}"
@@ -297,9 +316,6 @@ class UnityTextInput extends LitElement {
   }
 
   static get styles() {
-    const {
-      borderRadiusPx=2
-    } = this
     return [
       UnityDefaultThemeStyles,
       css`
@@ -398,7 +414,6 @@ class UnityTextInput extends LitElement {
           border-width: 1px;
           border-color: var(--border-color);
           border-style: solid;
-          border-radius: ${!!borderRadiusPx ? `${borderRadiusPx}px` : '2px'};
         }
         .hideBorder {
           border-width: 0px;
