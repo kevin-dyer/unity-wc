@@ -54,6 +54,7 @@ class UnityTextInput extends LitElement {
     this.hideBorder = false
     this.borderRadiusPx = 2
     this.innerIcon = ""
+    this.iconOnLeftSide = false
 
     // internals
     this._error = ''
@@ -74,6 +75,7 @@ class UnityTextInput extends LitElement {
       time: { type: Boolean },
       password: { type: Boolean },
       innerIcon: { type: String },
+      iconOnLeftSide: { type: Boolean },
       placeholder: { type: String },
       units: { type: String },
       charCount: { type: Boolean },
@@ -222,12 +224,13 @@ class UnityTextInput extends LitElement {
 
   _renderInnerIcon() {
     const {
-      innerIcon
+      innerIcon,
+      iconOnLeftSide
     } = this
     if (!innerIcon) return
     return html`
-      <div class="icon-wrapper circle">
-        <iron-icon class="icon" icon="${innerIcon}"></iron-icon>
+      <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
+        <iron-icon class="inner-icon" icon="${innerIcon}"></iron-icon>
       </div>
     `
   }
@@ -245,6 +248,8 @@ class UnityTextInput extends LitElement {
       charCount,
       hideBorder,
       borderRadiusPx,
+      innerIcon,
+      iconOnLeftSide,
       _onChange,
       _valid,
       _strength,
@@ -255,8 +260,6 @@ class UnityTextInput extends LitElement {
     let type = 'text'
     if (!!time) type = 'time'
     if (!!password) type = 'password'
-
-    console.log(`border radius for ${value} is ${borderRadiusPx} px`);
 
     return html`
       <div>
@@ -272,7 +275,6 @@ class UnityTextInput extends LitElement {
           @input="${_onChange}"
           style="border-radius: ${borderRadiusPx}px"
         >
-          ${this._renderInnerIcon()}
           ${!!disabled ?
             html`<input
               value="{{value::input}}"
@@ -281,6 +283,7 @@ class UnityTextInput extends LitElement {
               type="${type}"
               placeholder="${!!placeholder ? placeholder : ''}"
               disabled
+              style="${!!iconOnLeftSide && "margin-left: 24px;"}"
             >`
             :
             html`<input
@@ -288,8 +291,10 @@ class UnityTextInput extends LitElement {
               type="${type}"
               placeholder="${!!placeholder ? placeholder : ''}"
               value="{{value::input}}"
+              style="${!!iconOnLeftSide && "margin-left: 24px;"}"
             >`
           }
+          ${this._renderInnerIcon()}
           ${!!units ?
             html`<div
               class="units ${!!disabled ? 'disabled' : ''}"
@@ -410,6 +415,22 @@ class UnityTextInput extends LitElement {
           top: 50%;
           transform: translateY(-50%);
         }
+        .icon-left-wrapper {
+          position: absolute;
+          left: 4px;
+          top: 50%;
+          transform: translateY(-50%);
+          height: 20px;
+          width: 20px;
+        }
+        .icon-right-wrapper {
+          position: relative;
+          left: 4px;
+          top: 50%;
+          transform: translateY(-50%);
+          height: 20px;
+          width: 20px;
+        }
         .showBorder {
           border-width: 1px;
           border-color: var(--border-color);
@@ -443,6 +464,15 @@ class UnityTextInput extends LitElement {
           height: 16px;
           width: 16px;
           color: white;
+        }
+        .inner-icon {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          height: 16px;
+          width: 16px;
+          color: black;
         }
         .icon-error {
           top: calc(50% - 1px);

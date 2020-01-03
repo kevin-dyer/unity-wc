@@ -51,8 +51,8 @@ class MyTextInput extends PageViewElement {
   }
 
   onInputChange(e, value) {
-    console.log('onChange e', e)
-    console.log('onChange value', value)
+    // console.log('onChange e', e)
+    // console.log('onChange value', value)
   }
 
   render() {
@@ -85,6 +85,13 @@ class MyTextInput extends PageViewElement {
               .remark="${"Demo remark."}"
               .onChange="${this.onInputChange}"
               .label="${"Input Label"}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .value="${"Rounded"}"
+              .onChange="${this.onInputChange}"
+              .borderRadiusPx="${20}"
             ></unity-text-input>
           </div>
         </div>
@@ -124,6 +131,23 @@ class MyTextInput extends PageViewElement {
                 return true
               }}"
               .onChange="${this.onInputChange}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+            .label="${"Inner Icon"}"
+            .value="${"Input field with Icon inside"}"
+            .onChange="${this.onInputChange}"
+            .innerIcon="${"unity:options"}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+            .label="${"Inner Icon on Left Side"}"
+            .value="${"Input field with Icon on Left Side"}"
+            .onChange="${this.onInputChange}"
+            .innerIcon="${"unity:search"}"
+            iconOnLeftSide
             ></unity-text-input>
           </div>
         </div>
