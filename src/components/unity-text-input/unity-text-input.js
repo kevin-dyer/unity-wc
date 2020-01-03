@@ -21,6 +21,10 @@ import '../unity-icon-set/unity-icon-set'
 * @param {''} error, error message for external error control or default forcing, can give true to not render remark error text, if validation is also sent it it will overwrite error's effects
 * @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 2+ or 1 for strong/weak, otherwise considered failure
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
+* @param {number} borderRadiusPx, set ths css border-radius of the element in pixels, defaults: 2 (2px)
+* @param {bool} hideBorder, hides the border of the element, defaults: false (show border)
+* @param {''} innerIcon, if specified, puts an icon (specified) from the unity icon set inside the text input
+* @param {bool} iconOnLeftSide, if innerIcon is specified, puts that icon on the left side of the text input (before the text)
 * @example
 * <unity-text-input>
 *   .label="${'Strong Validation'}"
@@ -283,7 +287,7 @@ class UnityTextInput extends LitElement {
               type="${type}"
               placeholder="${!!placeholder ? placeholder : ''}"
               disabled
-              style="${!!iconOnLeftSide && "margin-left: 24px;"}"
+              style="${!!iconOnLeftSide && !!innerIcon && "margin-left: 24px;"}"
             >`
             :
             html`<input
@@ -291,7 +295,7 @@ class UnityTextInput extends LitElement {
               type="${type}"
               placeholder="${!!placeholder ? placeholder : ''}"
               value="{{value::input}}"
-              style="${!!iconOnLeftSide && "margin-left: 24px;"}"
+              style="${!!iconOnLeftSide && !!innerIcon && "margin-left: 24px;"}"
             >`
           }
           ${this._renderInnerIcon()}
