@@ -4,7 +4,10 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-table-cell'
+
+// import '@bit/smartworks.unity.unity-table-cell'
+import './unity-table-cell.js'
+
 import {
   filterData,
   sortData

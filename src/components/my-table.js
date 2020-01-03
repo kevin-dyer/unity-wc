@@ -13,6 +13,7 @@ import './unity-table/unity-table.js'
 
 import './unity-layout/unity-page-header.js'
 import './unity-text-input/unity-text-input.js'
+import './unity-table/unity-column-editor.js'
 
 
 // These are the shared styles needed by this element.
@@ -167,6 +168,8 @@ class MyTable extends PageViewElement {
               .remark="${"Search input"}"
               .onChange="${this.onInputChange.bind(this)}"
             ></unity-text-input>
+
+            <unity-column-editor></unity-column-editor>
           </div>
         </unity-page-header>
 
