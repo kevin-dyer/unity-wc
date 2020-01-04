@@ -103,6 +103,10 @@ class MyTable extends PageViewElement {
     super()
 
     this._searchText = ''
+
+
+    this.columns = [...exampleColumns] //For Column Editor
+    this._visibleColumns = [...exampleColumns] //For Table display
   }
   static get styles() {
     return [
@@ -146,12 +150,20 @@ class MyTable extends PageViewElement {
 
   static get properties() {
     return {
-      _searchText: {type: String}
+      _searchText: {type: String},
+      columns: {type: Array},
+      _visibleColumns: {type: Array},
     }
   }
 
   onInputChange(e, value) {
     this._searchText = value
+  }
+
+  handleColUpdate(nextColumns) {
+    console.log("handleColUpdate nextColumns: ", nextColumns)
+    // this.columns = nextColumns
+    this._visibleColumns = nextColumns
   }
 
   render() {
@@ -165,11 +177,14 @@ class MyTable extends PageViewElement {
           <div slot="right-content">
             <unity-text-input
               .value="${this._searchText}"
-              .remark="${"Search input"}"
+              .placeholder="${"Search input"}"
               .onChange="${this.onInputChange.bind(this)}"
             ></unity-text-input>
 
-            <unity-column-editor></unity-column-editor>
+            <unity-column-editor
+              .columns=${this.columns}
+              .onUpdate=${this.handleColUpdate.bind(this)}
+            ></unity-column-editor>
           </div>
         </unity-page-header>
 
@@ -180,7 +195,7 @@ class MyTable extends PageViewElement {
           .keyExtractor="${(datum, index) => datum.name}"
           .childKeys="${['children']}"
           .data="${exampleData}"
-          .columns="${exampleColumns}"
+          .columns="${this._visibleColumns}"
 
           .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
           .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"

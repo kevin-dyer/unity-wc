@@ -2,57 +2,27 @@ import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
-// import '@polymer/paper-spinner/paper-spinner-lite.js'
-
-
 import '@polymer/paper-dialog/paper-dialog';
 import '@polymer/paper-dialog-scrollable';
 
-//TODO: Import from bit
+// Core SortableJS (without default plugins)
+import Sortable from 'sortablejs/modular/sortable.core.esm.js';
+
 import '../unity-button/unity-button.js'
+// import '@bit/smartworks.unity.unity-button';
+
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 /**
  * Displays button which will open column editor modal.
- * @name UnityTable
- * @param {[]} data, array of objects
- * @param {[]} columns, array of objects, relates to data's object keys
- * @param {bool} headless
- * @param {bool} selectable
- * @param {bool} isLoading
- * @param {string} emptyDisplay
- * @param {func} onClickRow, func that is sent the data of the element clicked, and the event of the click
- * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
+ * @name UnityColumnEditor
+ * @param {[]} columns, array of objects - same as what is passed into unity-table
+ * @param {[]} selectedColumns, array of column keys from columns that are visible
+ * @param {func} onUpdate, callback that is sent an array of sorted visible columns
  * @returns {LitElement} returns a class extended from LitElement
  * @example
- *  <unity-table
- *    ?headless="${false}"
- *    ?isLoading="${false}"
- *    emptyDisplay="No information found."
- *    .data="${[
- *      {
- *        column1: 'item 1 col1',
- *        column2: 'item 1 col2',
- *        column3: 'item 1 col3',
- *        columnN: 'item 1 colN',
- *        icon: 'iron-iconName'
- *      },
- *      {
- *        column1: 'item 2 col1',
- *        column2: 'item 2 col2',
- *        column3: 'item 2 col3',
- *        columnN: 'item 2 colN',
- *        icon: 'iron-iconName'
- *      },
- *      {
- *        column1: 'item n col1',
- *        column2: 'item n col2',
- *        column3: 'item n col3',
- *        columnN: 'item n colN',
- *        icon: 'iron-iconName'
- *      }
- *    ]}"
+ *  <unity-column-editor
  *    .columns="${[
  *      {
  *        key: 'column2',
@@ -70,99 +40,151 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *        format: column1Handler
  *      }
  *    ]}"
- *    ?selectable="${true}"
- *    .onSelectionChange="${selected => console.log('These elements are selected: ', selected')}"
+ *    .selectedColumns="${[column1, column2]}"
+ *    .onUpdate="${visibleColumns => console.log('These are the visible sorted columns: ', visibleColumns')}"
  *  />
  */
 
-//   Table, at minimum, takes an array of the data being passed in. Each data index
-//   should be an object with uniform keys. Actions are handled outside of table,
-//   but are dependant on what's selected. As such, if outside source wants access
-//   to the selected elements, a function should be passed in to process the
-//   selected data. In addition, a predefined column array can be passed in to
-//   determine order and size of columns in the table. If not passed in, then a
-//   default will be made from each key on the data object.
-//
-//   data:                   array of datum objects, non-uniform shape
-//                           each key is a viable column, with icon available for rendering leading row icon
-//   columns:                array of column objects, can contain format function (returns string or Lit HTML string)
-//                           {key (related to datum keys), label (label rendered) width, format (func to format cell data)}
-//   headless:               bool to control head render, include to have no table header
-//   selectable:             bool to control if rows should be selectable
-//   onSelectionChange:      callback function, recieves selected array when it changes
-//   emptyDisplay:           String to display when data array is empty
-//   isLoading:              Boolean to show spinner instead of table
-//   keyExtractor         :  Function to define a unique key on each data element
-//   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
-//   filter               :  String to find in any column, used to set internal _filter
-//   onExpandedChange     :  On Change Callback Function for expanded array
-//
-//   Internals for creating/editing
-//   _data:                  data marked w/ rowId for uniq references
-//   _selected:              Set of keys of elements that are selected, sent to onSelectionChange
-//   _sortBy:                object with column to sort by and direction, default all unsorted
-//                           sorting is done off of data's values, which can cause disconnect if format changes rendered values too much
-//   _filter:                string to find in any column
-//   _filteredList:          filtered list of indicies from _data
-//   _sortedList:            sorted version of _filteredList, this is what the displayed table is built from
-//
-//   Features to be implemented
-//   controls:               determines use of internal filter and sort, exclude if using internal sort/filter
-//   onSearchFilter:         function to be called when filter changes if controls are EXT
-//                           sends in string to filter by
-//   filterDebounceTimeout:  TBD
-//   filterThrottleTimeout:  TBD
-//   onColumnSort:           function to be called when sortBy changes if controls are EXT
-//                           sends string of column name and string for ascending or descending
-//   onColumnChange:         Callback to update changes to the rendered columns
-//   onEndReached:           function to be called to request more pages to support infiniscroll
-//                           only works with controls set to EXT
-//   onEndReachedThreshold:  TBD
+//   UnityColumnEditor should be passed at a minimum an array of column data,
+//   and an onUpdate callback that will be called on save of the modal
 
 
 class UnityColumnEditor extends LitElement {
-  // internals
   constructor() {
     super()
-    this.dialogVisible = true
-    this.columns = [{name: 'fake name'}, {name: 'kevin'}]
+
+    this.columns = []
+    this.selectedColumns = []
+    this.onUpdate = (columns) => {
+      console.log("updated columns array: ", columns)
+    }
+
+    this._dialogVisible = false
+    this._sortedColumns = []
+    this._sortable
   }
 
   // inputs
   static get properties() {
     return {
-      // keyExtractor: {type: Function},
-      dialogVisible: {type: Boolean}
+      columns: {type: Array},
+      selectedColumns: {type: Array},
+      onUpdate: {type: Function},
+
+      _dialogVisible: {type: Boolean},
     }
   }
 
-  toggleDialog() {
-    this.dialogVisible = !this.dialogVisible
-    console.log("this.dialogVisible: ", this.dialogVisible)
+  firstUpdated() {
+    this.initSortable()
   }
 
-  handleColumnCheck(colKey) {
-    console.log("handleColumnCheck colKey: ", colKey)
+  connectedCallback() {
+    super.connectedCallback();
+    this.resoleListener = this.resolveOpenChange.bind(this)
+    document.addEventListener('iron-overlay-canceled', this.resoleListener);
+  }
+  disconnectedCallback() {
+    document.removeEventListener('iron-overlay-canceled', this.resoleListener);
+    super.disconnectedCallback();
+  }
+
+  set columns(columns) {
+    const oldCols = this.columns
+    if (!this.selectedColumns || this.selectedColumns.length === 0) {
+      this.selectedColumns = columns.map(col => col.key)
+    }
+
+    this._sortedColumns = columns //NOTE: will this work?
+    this._columns = columns
+
+    this.requestUpdate('columns', oldCols)
+  }
+
+  get columns() {
+    return this._columns
+  }
+
+  initSortable() {
+    const listRef = this.shadowRoot.getElementById('column-list')
+    this._sortable = new Sortable(listRef, {
+      handle: '.drag-handle',
+      ghostClass: "sortable-ghost",  // Class name for the drop placeholder
+      chosenClass: "sortable-chosen",  // Class name for the chosen item
+      dragClass: "sortable-drag",
+      onUpdate: this.handleSort.bind(this)
+    })
+  }
+
+  toggleDialog() {
+    this._dialogVisible = !this._dialogVisible
+  }
+
+  handleColumnCheck(column) {
+    const index = this.selectedColumns.findIndex(colKey => colKey === column.key)
+    const isSelected = index > -1
+
+    if (isSelected) {
+      const nextSelected = [...this.selectedColumns]
+      nextSelected.splice(index, 1)
+      this.selectedColumns = nextSelected
+    } else {
+      this.selectedColumns = [...this.selectedColumns, column.key]
+    }
+  }
+
+  handleSort(e) {
+    this._sortedColumns = this._sortable.toArray().map(key =>
+      this.columns.find(col =>
+        col.key === key
+      )
+    )
+  }
+
+  handleCancel(e) {
+    //TODO: put list back the way it was - may need to unmount the component when modal is closed
+    this._sortedColumns = this.columns
+    this.selectedColumns = this.columns.map(col => col.key)
+    this.toggleDialog()
+  }
+
+  resolveOpenChange(e) {
+    if (this._dialogVisible) {
+      this.toggleDialog()
+    }
+  }
+
+  handleSave(e) {
+    const visibleColumns = this._sortedColumns.filter(col =>
+      this.selectedColumns.some(colKey =>
+        colKey === col.key
+      )
+    )
+
+    this.onUpdate(visibleColumns)
+    this.toggleDialog()
   }
 
   renderRow(col) {
+    const isSelected = this.selectedColumns.some(colKey => colKey === col.key)
     return html`
-      <div class="row">
+      <div class="row" data-id="${col.key}">
         <div class="checkbox-container">
           <paper-checkbox
             noink
-            .checked="${true}"
-            @click="${this.handleColumnCheck}"
+            .checked="${isSelected}"
+            @click="${e => this.handleColumnCheck(col)}"
           ></paper-checkbox>
         </div>
 
         <div class="column-content">
 
           <div class="column-name">
-            ${col.name}
+            ${col.label}
           </div>
 
           <paper-icon-button
+            class="drag-handle"
             icon="icons:menu"
             @click="${()=>{console.log("menu clicked")}}"
           ></paper-icon-button>
@@ -172,30 +194,39 @@ class UnityColumnEditor extends LitElement {
   }
 
   render() {
-
-    // if isLoading, show spinner
-    // if !hasData, show empty message
-    // show data
     return html`
       <unity-button
         label="Edit Columns"
         gradient
         @click=${this.toggleDialog.bind(this)}
       >
-
       </unity-button>
 
       <paper-dialog
         id="dialog"
-        ?opened="${this.dialogVisible}"
+        ?opened="${this._dialogVisible}"
       >
         <h2 class="dialog-title">Edit Columns</h2>
 
         <paper-dialog-scrollable>
-          <div class="list-container">
+          <div class="list-container" id="column-list">
             ${this.columns.map(this.renderRow.bind(this))}
           </div>
         </paper-dialog-scrollable>
+
+        <div class="buttons">
+          <unity-button
+            label="Cancel"
+            outlined
+            @click=${this.handleCancel.bind(this)}
+          ></unity-button>
+          <unity-button
+            label="Save"
+            autofocus
+            gradient
+            @click=${this.handleSave.bind(this)}
+          ></unity-button>
+        </div>
       </paper-dialog>
     `
   }
@@ -210,19 +241,15 @@ class UnityColumnEditor extends LitElement {
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           color: var(--black-text-color, var(--default-black-text-color));
-          border-collapse: collapse;
           --paper-checkbox-size: 14px;
           --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
           --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
           --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
-          --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
-          --thead-height: 33px;
-          --trow-height: 38px;
         }
 
         paper-dialog {
-          min-width: 450px;
+          min-width: 425px;
         }
 
         paper-dialog-scrollable {
@@ -273,6 +300,23 @@ class UnityColumnEditor extends LitElement {
           justify-content: space-between;
           align-items: center;
           padding: 0 12px;
+        }
+
+        .sortable-ghost {
+          opacity: 0.5;
+          background: #C8EBFB;
+        }
+
+        .sortable-drag {
+          background-color: #FFF;
+          opacity: 1;
+        }
+
+        .drag-handle {
+          cursor: move;
+        }
+
+        .buttons {
         }
       `
     ]

@@ -20,6 +20,7 @@
     "svgorg": "node ./utils/svg-organize/organize.js"
   },
   "dependencies": {
+    "@bit/smartworks.unity.unity-button": "0.0.13",
     "@bit/smartworks.unity.unity-default-theme-styles": "0.0.12",
     "@bit/smartworks.unity.unity-global-nav-inner-item": "0.0.3",
     "@bit/smartworks.unity.unity-table-cell": "^0.1.12",
@@ -42,6 +43,7 @@
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "sortablejs": "^1.10.2",
     "typeface-nunito": "0.0.72",
     "typeface-nunito-sans": "0.0.72"
   },
