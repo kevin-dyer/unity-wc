@@ -13,6 +13,18 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-column-editor@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-table/unity-column-editor.js",
+                "test": false,
+                "name": "unity-column-editor.js"
+            }
+        ],
+        "mainFile": "src/components/unity-table/unity-column-editor.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "smartworks.unity/unity-default-theme-styles@0.0.12": {
         "files": [
             {
