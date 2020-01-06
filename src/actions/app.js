@@ -51,6 +51,9 @@ const loadPage = (page) => (dispatch) => {
     case 'globalNav':
       import('../components/my-global-nav.js');
       break;
+    case 'textInput':
+      import('../components/my-text-input.js');
+      break;
     default:
       page = 'view404';
       import('../components/my-view404.js');

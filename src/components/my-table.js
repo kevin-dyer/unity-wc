@@ -14,6 +14,10 @@ import './unity-button/unity-button.js'
 import './unity-table/unity-table.js'
 import '@polymer/paper-input/paper-input.js';
 
+import './unity-layout/unity-page-header.js'
+import './unity-text-input/unity-text-input.js'
+
+
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
@@ -142,6 +146,14 @@ class MyTable extends PageViewElement {
           margin-right: 20px;
           width: 300px;
         }
+
+        unity-page-header {
+          flex: 0;
+        }
+        .table-container {
+          position: relative;
+          flex: 1
+        }
       `
     ];
   }
@@ -158,6 +170,8 @@ class MyTable extends PageViewElement {
   }
 
   render() {
+
+    console.log("")
     return html`
       <div class="example-container">
         <div class="header-container">

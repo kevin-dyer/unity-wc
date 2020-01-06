@@ -342,7 +342,9 @@ class UnityTable extends LitElement {
     if (selectedData.length === 0) this._allSelected = false
     else {
       //Determine if any table row is unselected
-      const unselectedMap = new Map(this.data)
+      const unselectedMap = new Set(this._flattenedData.map((datum, index) =>
+        datum._rowId
+      ))
       this._selected.forEach(id => {
         unselectedMap.delete(id)
       })
@@ -467,6 +469,7 @@ class UnityTable extends LitElement {
     const filteredData = filterData({
       filter: searchFor,
       data: this.data,
+      columns: this.columns,
       childKeys: this.childKeys,
       columnKeys: this.columns.map(col => col.key)
     })
@@ -530,6 +533,11 @@ class UnityTable extends LitElement {
       if (node._childCount > 0 && !this.expanded.has(node._rowId)) {
         toRemove = true
         currentTabIndex = node._tabIndex
+      }
+
+      //remove rows with undefined _rowId
+      if (node._rowId === undefined) {
+        return false
       }
 
       return true
@@ -888,8 +896,10 @@ class UnityTable extends LitElement {
         .header {
           display: flex;
           flex-direction: row;
-          justify-content: flex-start;
-          maring: 0;
+
+          justify-content: space-between;
+          align-items: center;
+          margin: 0;
           padding: 0 13px;
           box-sizing: border-box;
           border-collapse: collapse;
@@ -924,7 +934,6 @@ class UnityTable extends LitElement {
           padding-top: 1px;
         }
         paper-checkbox {
-          padding: calc((var(--thead-height) - 14px) / 2) 0;
         }
         paper-icon-button {
           color: var(--black-text-color, var(--default-black-text-color));

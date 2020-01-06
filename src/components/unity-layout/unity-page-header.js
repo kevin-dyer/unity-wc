@@ -104,7 +104,7 @@ class UnityPageHeader extends LitElement {
         }
 
         paper-tabs {
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          font-size: var(--small-text-size, var(--default-small-text-size));
           height: 28px;
           align-self: flex-start;
           --paper-tabs-selection-bar-color: var(--primary-brand-color, var(--default-primary-brand-color));

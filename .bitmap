@@ -16,16 +16,16 @@
     "smartworks.unity/unity-button@0.0.12": {
         "files": [
             {
+                "name": "unity-button.js",
                 "relativePath": "src/components/unity-button/unity-button.js",
-                "test": false,
-                "name": "unity-button.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-button/unity-button.js",
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-default-theme-styles@0.0.9": {
+    "smartworks.unity/unity-default-theme-styles@0.0.12": {
         "files": [
             {
                 "name": "unity-default-theme-styles.js",
@@ -40,9 +40,9 @@
     "smartworks.unity/unity-global-nav-base@0.1.0": {
         "files": [
             {
+                "name": "unity-global-nav-base.js",
                 "relativePath": "src/components/unity-global-nav/unity-global-nav-base.js",
-                "test": false,
-                "name": "unity-global-nav-base.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-global-nav/unity-global-nav-base.js",
@@ -52,9 +52,9 @@
     "smartworks.unity/unity-global-nav-inner-item@0.0.3": {
         "files": [
             {
+                "name": "unity-global-nav-inner-item.js",
                 "relativePath": "src/components/unity-global-nav/unity-global-nav-inner-item.js",
-                "test": false,
-                "name": "unity-global-nav-inner-item.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-global-nav/unity-global-nav-inner-item.js",
@@ -64,12 +64,25 @@
     "smartworks.unity/unity-global-nav-top-item@0.1.4": {
         "files": [
             {
+                "name": "unity-global-nav-top-item.js",
                 "relativePath": "src/components/unity-global-nav/unity-global-nav-top-item.js",
-                "test": false,
-                "name": "unity-global-nav-top-item.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-global-nav/unity-global-nav-top-item.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-icon-set@0.1.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-icon-set/unity-icon-set.js",
+                "test": false,
+                "name": "unity-icon-set.js"
+            }
+        ],
+        "mainFile": "src/components/unity-icon-set/unity-icon-set.js",
+        "trackDir": "src/components/unity-icon-set",
         "origin": "AUTHORED",
         "exported": true
     },
@@ -100,9 +113,9 @@
     "smartworks.unity/unity-table@0.1.22": {
         "files": [
             {
+                "name": "table-utils.js",
                 "relativePath": "src/components/unity-table/table-utils.js",
-                "test": false,
-                "name": "table-utils.js"
+                "test": false
             },
             {
                 "name": "unity-table.js",
@@ -114,5 +127,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "version": "14.5.0"
+    "smartworks.unity/unity-text-input@0.1.16": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-text-input/unity-text-input.js",
+                "test": false,
+                "name": "unity-text-input.js"
+            }
+        ],
+        "mainFile": "src/components/unity-text-input/unity-text-input.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "version": "14.7.1"
 }
