@@ -4,12 +4,21 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-table-cell'
+
+// import '@bit/smartworks.unity.unity-table-cell'
+// import '@bit/smartworks.unity.table-cell-base'
+import './unity-table-cell.js'
+import './table-cell-base.js'
+
+
+
 import {
   filterData,
   sortData
 } from './table-utils.js'
 
+const MIN_CELL_WIDTH = 150
+const MOUSE_MOVE_THRESHOLD = 5
 /**
  * Displays table of data.
  * @name UnityTable
@@ -126,7 +135,8 @@ class UnityTable extends LitElement {
     super()
     // defaults of input
     this._data = []
-    this.columns = []
+    this.columns = [] //TODO: convert to object with id as key
+    // this.displayColumns = []
     this.selectable = false
     this.headless = false
     this.isLoading = false
@@ -138,13 +148,14 @@ class UnityTable extends LitElement {
     this.onClickRow = ()=>{}
     this.onSelectionChange = ()=>{}
     this.onExpandedChange = ()=>{}
+    this.onDisplayColumnsChange = ()=>{}
 
     // action handlers, to be implemented later
     // this.controls = false
     // this.onSearchFilter = ()=>{}
     // this.onColumnSort = ()=>{}
     // this.onEndReached = ()=>{}
-    // this.onColumnChange = ()=>{}
+    this.onColumnChange=()=>{}
 
     // defaults of internal references
     this._filter = ''
@@ -157,6 +168,7 @@ class UnityTable extends LitElement {
     this._selected = new Set()
     this._expanded = new Set()
     this._keyExtractor = (datum, index)=>index
+    this._columns = []
   }
 
   // inputs
@@ -174,6 +186,7 @@ class UnityTable extends LitElement {
       onSelectionChange: { type: Function },
       onClickRow: { type: Function },
       onExpandedChange: { type: Function },
+      onDisplayColumnsChange: { type: Function},
       // internals, tracking for change
       _allSelected: { type: Boolean },
       // selected: { type: Array },
@@ -183,10 +196,11 @@ class UnityTable extends LitElement {
       // onSearchFilter: { type: Function },
       // onColumnSort: { type: Function },
       // onEndReached: { type: Function },
-      // onColumnChange: { type: Function },
+      onColumnChange: { type: Function },
     }
   }
 
+  //TODO: move into table utils
   //depth first search of hieararchy node, apply callback to each node
   //NOTE: callback called with node, tabIndex, and childCount
   dfsTraverse ({
@@ -234,32 +248,46 @@ class UnityTable extends LitElement {
   set data(value) {
     const oldValue = this._data
     const columns = this.columns
+    const childKeys = this.childKeys || []
 
     // default catcher for missing columns
+    // exclude childKeys from columns list
     if ((!columns || !columns.length) && !!value && value.length > 0) {
-      const newCol = Object.keys(value[0])
-      this.columns = newCol.map(name => ({key: name, label: name}))
+      const nextCols = Object.keys(value[0])
+      .filter(attrKey =>
+        !childKeys.some(childKey => childKey === attrKey)
+      ).map(name => ({
+        key: name,
+        label: name
+      }))
+      this.columns = nextCols
     }
-
-    const dataMap = new Map()
-
-    this.dfsTraverse({
-      node: value,
-      callback: (node, tabIndex, childCount) => {
-        const key = this.keyExtractor(node, tabIndex)
-        dataMap.set(key, node)
-      }
-    })
 
     // but now to worry about what if datum isn't obj?
     this._data = value
-    this._dataMap = dataMap
+    this.setDataMap(value)
     this._expandAll()
     this._process()
     this.requestUpdate('data', oldValue)
   }
 
   get data() { return this._data }
+
+  set columns(cols) {
+    const oldVal = this._columns
+
+    this._columns = cols
+
+    if (!!this.onColumnChange) {
+      this.onColumnChange(cols)
+    }
+
+    this.requestUpdate('columns', oldVal)
+  }
+
+  get columns() {
+    return this._columns
+  }
 
   // sortBy will be cyclical: UNS -> ASC -> DES -> UNS
   set sortBy(value) {
@@ -375,6 +403,20 @@ class UnityTable extends LitElement {
     return this._keyExtractor
   }
 
+  setDataMap(value) {
+    const dataMap = new Map()
+
+    this.dfsTraverse({
+      node: value,
+      callback: (node, tabIndex, childCount) => {
+        const key = this.keyExtractor(node, tabIndex)
+        dataMap.set(key, node)
+      }
+    })
+
+    this._dataMap = dataMap
+  }
+
   // possibly use setters for dynamic sort/filter update?
   /*
     if filter updates when changed, then _data can change
@@ -383,9 +425,6 @@ class UnityTable extends LitElement {
     actually, should sort after filtering, as sorting takes longer than filtering
     and filtering will remove elements which will make sorting faster
   */
-
-  // actions
-  // resizeColumns() {}
 
   _selectAll() {
     // all data are selected, make selected from all visible data
@@ -409,85 +448,6 @@ class UnityTable extends LitElement {
     }
 
     this.selected = nextSelected
-  }
-
-  // takes name of column (or maybe whole column) to move and index to move it to
-  // returns false if something went wrong, or new order
-  // mutates this.columns if successful
-  // changeColumnOrder(columnName, newIndex) {
-  //   // get old order and target column
-  //   const oldOrder = [...this.columns]
-  //   // TODO: can remove this step if whole column is passed in
-  //   const targetColumnIndex = oldOrder.findIndex(({name}) => name === columnName)
-  //   if (targetColumnIndex < 0) {
-  //     console.warn(`Column not found or already in index: ${newIndex}`)
-  //     return false
-  //   }
-  //   let newOrder = [...this.columns]
-  //   // remove column at old position
-  //   newOrder.splice(targetColumnIndex, 1)
-  //   // if new index is farther back, have to adjust for having removed element first
-  //   const newPos = targetColumnIndex > newIndex ? newIndex - 1 : newIndex
-  //   newOrder.splice(newPos, 0, oldOrder[targetColumnIndex])
-  //   if (oldOrder.length === newOrder.length) {
-  //     this.columns = newOrder
-  //     this.onColumnChange(newOrder)
-  //     return newOrder
-  //   } else {
-  //     console.warn(`There are ${newOrder.length > oldOrder.length ? 'extra' : 'missing'} columns. Old then New order:`, oldOrder, newOrder)
-  //     return false
-  //   }
-  // }
-
-  // takes name of column to add
-  // returns false if column already exists
-  // otherwise mutates and returns new columns order
-  _addColumn(name) {
-    // save old length, add new column, and save new length
-    let columns = [...this.columns]
-    // confirm column isn't already in list
-    const exists = columns.some(({name: columnName}) => columnName === name)
-    if (exists) {
-      console.warn('Column already exists')
-      return false
-    }
-    const oldLength = columns.length
-    columns.push({name, width: 1/oldLength})
-    const newLength = columns.length
-    if (oldLength >= newLength) {
-      console.warn('Columns length did not change correctly')
-      return false
-    }
-    const factor = oldLength / newLength
-    // iterate over new columns, adjusting for new column count
-    columns.forEach(column => column.width = column.width * factor)
-    this.columns = columns
-    // this.onColumnChange(columns)
-    return columns
-  }
-
-  _removeColumn(name) {
-    // iterate over columns arr to make new columns, save target column width
-    const oldColumns = [...this.columns]
-    let newColumns = []
-    let removedColumnWidth
-    oldColumns.forEach(column => {
-      const {
-        name: columnName,
-        width
-      } = column
-      if (columnName === name) removedColumnWidth = width
-      else newColumns.push(column)
-    })
-    if (oldColumns.length <= newColumns.length) {
-      return false
-    }
-    // iterate over new columns increasing width by even portion of removed column
-    let factor = removedColumnWidth / newColumns.length
-    newColumns.forEach(column => column.width = column.width + factor)
-    this.columns = newColumns
-    // this.onColumnChange(newColumns)
-    return newColumns
   }
 
   //Return filtered hierarchy array - same nested structure as original hierarchy
@@ -635,40 +595,66 @@ class UnityTable extends LitElement {
       direction: dir
     } = this._sortBy
     const direction = !!dir ? dir : UNS
+
     return html`
       <thead>
         <tr class="sticky-header-row">
-          ${columns.map(({key, label, width: rootWidth}, i) => {
-            const icon = direction !== UNS && column === key ? 'filter-list' : 'menu'
-            const flip = direction === ASC
-            let width = undefined
-            if (typeof rootWidth === 'string') width = rootWidth
-            else if (rootWidth < 1) width = `${rootWidth*100}%`
-            else if (width !== undefined) width = `${rootWidth}px`
+          ${columns.map(({
+            key,
+            label,
+            width: rootWidth=0,
+            startingWidth,
+            xOffset=0
+          }, i) => {
+            const icon = direction !== UNS && column === key
+              ? direction === ASC ? 'arrow-upward'
+              : 'arrow-downward'
+            : ''
+
+            //NOTE: only working with px
+            const width = !!startingWidth
+              ? `${startingWidth + xOffset}px`
+              : !!rootWidth ? `${rootWidth}px` : 'auto'
+
             return html`
               <th
                 class="cell"
+                id="col-header-${key}"
                 name="header-column-${key}"
-                style="width: ${width}"
+                style="width: ${width};"
               >
-                <div class="header">
-                  ${this.selectable && i === 0
-                    ? html`
-                      <paper-checkbox
+                <table-cell-base
+                  .resizable=${i < columns.length - 1}
+                  .onResizeStart="${() => {
+                    this._handleColumnResizeStart(key, i)
+                  }}"
+                  .onResize="${xOffset => {
+                    this._handleColumnResize(key, xOffset)
+                  }}"
+                  .onResizeComplete="${xOffset => {
+                    this._handleColumnResizeComplete(key)
+                  }}"
+                >
+                  <div class="header">
+                    ${this.selectable && i === 0
+                      ? html`
+                        <paper-checkbox
+                          noink
+                          .checked="${this._allSelected}"
+                          @click="${this._handleHeaderSelect}"
+                        ></paper-checkbox>` : null
+                    }
+                    <div class="header-content" @click="${()=>{this.sortBy = key}}">
+                      <span class="header-label">${label || name}</span>
+                      <paper-icon-button
                         noink
-                        .checked="${this._allSelected}"
-                        @click="${this._handleHeaderSelect}"
-                      />` : null
-                  }
-                  <span class="header-label" >${label || name}</span>
-                  <paper-icon-button
-                    noink
-                    icon="${icon}"
-                    title="${direction}"
-                    class="${flip ? 'flipped' : ''}"
-                    @click="${()=>{this.sortBy = key}}"
-                  />
-                </div>
+                        icon="${icon}"
+                        title="${direction}"
+                        class="header-sort-icon"
+                      ></paper-icon-button>
+                    </div>
+                  </div>
+                </table-cell-base>
               </th>
             `
           })}
@@ -695,8 +681,25 @@ class UnityTable extends LitElement {
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
-      <tr class="row" key="row-${rowId}" @click="${e => this.onClickRow(datum, e)}">
-        ${columns.map(({key: column, format}, i) => {
+      <tr
+        class="row"
+        key="row-${rowId}"
+        @mousedown="${e => {
+          this.startingX = e.screenX
+        }}"
+        @click="${e => {
+          const deltaX = Math.abs(e.screenX - this.startingX)
+
+          //BIG NOTE: need to compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
+          if (deltaX < MOUSE_MOVE_THRESHOLD) {
+            console.log("row click caled! deltaX: ", deltaX)
+            this.onClickRow(datum, e)
+          } else {
+            console.log("skipping row click handler, deltaX above threshold: ", deltaX)
+          }
+        }}"
+      >
+        ${columns.map(({key: column, format, width}, i) => {
           const value = datum[column]
           const label = format instanceof Function ? format(value, datum) : value
 
@@ -720,12 +723,70 @@ class UnityTable extends LitElement {
                 .onExpand="${e => {
                   this._toggleExpand(rowId)
                 }}"
+                .resizable=${i < columns.length - 1}
+                .onResizeStart="${() => {
+                  this._handleColumnResizeStart(column, i)
+                }}"
+                .onResize="${xOffset => {
+                  this._handleColumnResize(column, xOffset)
+                }}"
+                .onResizeComplete="${xOffset => {
+                  this._handleColumnResizeComplete(column)
+                }}"
               />
             </td>`
           })
         }
       </tr>
     `
+  }
+
+  _handleColumnResizeStart(colKey, colIndex) {
+    this._columns = this._columns.map(col => {
+      const cell = this.shadowRoot.getElementById(`col-header-${col.key}`)
+      const cellWidth = !!cell ? cell.offsetWidth : 0
+
+      return {...col, startingWidth: cellWidth}
+    })
+  }
+
+  _handleColumnResize(colKey, xOffset) {
+    const oldColumns = this._columns
+    const colIndex = oldColumns.findIndex(col => col.key === colKey)
+    const nextColumns = [...this._columns]
+    const {startingWidth: currentWidth=0} = nextColumns[colIndex]
+    const {startingWidth: nextWidth=0} = nextColumns[colIndex + 1]
+
+    //Determine how much to offset column
+    const totalOffset = nextWidth - xOffset <= MIN_CELL_WIDTH
+      ? nextWidth - MIN_CELL_WIDTH
+      : currentWidth + xOffset <= MIN_CELL_WIDTH
+        ? MIN_CELL_WIDTH - currentWidth
+        : xOffset
+
+    //Update offsets of col to resize, and the following col
+    nextColumns[colIndex].xOffset = totalOffset
+    nextColumns[colIndex + 1].xOffset = -totalOffset
+
+    this._columns = nextColumns
+    this.requestUpdate('columns', oldColumns)
+  }
+
+  _handleColumnResizeComplete(colKey) {
+    const nextColumns = this._columns.map(col => {
+
+      const nextCol = {
+        ...col,
+        width: col.startingWidth + (col.xOffset || 0)
+      }
+
+      delete nextCol.xOffset
+      delete nextCol.startingWidth
+
+      return nextCol
+    })
+
+    this.columns = nextColumns
   }
 
   render() {
@@ -776,24 +837,23 @@ class UnityTable extends LitElement {
           --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
           --thead-height: 33px;
           --trow-height: 38px;
+          display: flex;
         }
         .container {
-          position: absolute;
+          /*position: absolute;
           top: 0;
           bottom: 0;
           left: 0;
           right: 0;
-          width: 100%;
+          width: 100%;*/
+          flex: 1;
           overflow-y: auto;
           overflow-x: hidden;
         }
         table {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
           width: 100%;
-          table-layout: fixed;
+          max-width: 100%;
+          table-layout: auto; /* NOTE: auto prevents table from overflowing passed 100% */
           border-collapse: collapse;
           border-spacing: 0;
           box-sizing: border-box;
@@ -836,6 +896,7 @@ class UnityTable extends LitElement {
         .header {
           display: flex;
           flex-direction: row;
+
           justify-content: space-between;
           align-items: center;
           margin: 0;
@@ -861,8 +922,15 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           background-color: var(--background-color, var(--default-background-color))
         }
-        .header-label {
+        .header-content {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
           flex: 1;
+        }
+        .header-label {
+          /*flex: 1;*/
           padding-top: 1px;
         }
         paper-checkbox {
@@ -879,6 +947,11 @@ class UnityTable extends LitElement {
           height: var(--trow-height);
           border-collapse: collapse;
           cursor: pointer;
+        }
+
+        paper-icon-button.header-sort-icon {
+          height: 30px;
+          width: 30px;
         }
       `
     ]

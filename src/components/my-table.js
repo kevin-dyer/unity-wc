@@ -9,7 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
+import './unity-layout/unity-page-header.js'
+import './unity-button/unity-button.js'
 import './unity-table/unity-table.js'
+import '@polymer/paper-input/paper-input.js';
 
 import './unity-layout/unity-page-header.js'
 import './unity-text-input/unity-text-input.js'
@@ -86,7 +89,7 @@ const exampleColumns = [
     key: 'name',
     label: 'Color',
     width: 300,
-    format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : null
+    format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
   },
   {
     key: 'favorite',
@@ -101,30 +104,49 @@ class MyTable extends PageViewElement {
   constructor() {
     super()
 
-    this._searchText = ''
+    this.searchText = ''
   }
+
+  static get properties() {
+    return {
+      searchText: {type: String}
+    }
+  }
+
   static get styles() {
     return [
       SharedStyles,
       css`
         :host {
-          height: 100vh;
-          display: flex;
           flex: 1;
-        }
-        .example-container {
-          position: relative;
-          /*width: 1000px;
-          height: 500px;
-          top: 100px;
-          left: 50%;
-          transform: translate(-50%,0);*/
           display: flex;
           flex-direction: column;
           align-items: stretch;
-          margin: 0 40px;
-          flex: 1;
         }
+        .example-container {
+          flex: 1;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .header-container {
+          width: 100%;
+        }
+
+        .table-container {
+          flex: 1;
+          position: relative;
+        }
+
+        unity-table {
+        }
+
+        paper-input {
+          margin-right: 20px;
+          width: 300px;
+        }
+
         unity-page-header {
           flex: 0;
         }
@@ -132,25 +154,19 @@ class MyTable extends PageViewElement {
           position: relative;
           flex: 1
         }
-        unity-table {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-        }
       `
     ];
   }
 
-  static get properties() {
-    return {
-      _searchText: {type: String}
-    }
+  handleSearchInput(e={}) {
+    const {target: {value}={}} = e
+
+    this.searchText = value || ''
   }
 
-  onInputChange(e, value) {
-    this._searchText = value
+  handleEditColumns() {
+    //TODO: display edit column modal!
+    console.log("handleEditColumns called!")
   }
 
   render() {
@@ -158,32 +174,40 @@ class MyTable extends PageViewElement {
     console.log("")
     return html`
       <div class="example-container">
-        <unity-page-header
-          title="Unity Table"
-        >
-          <div slot="right-content">
-            <unity-text-input
-              .value="${this._searchText}"
-              .remark="${"Search input"}"
-              .onChange="${this.onInputChange.bind(this)}"
-            ></unity-text-input>
-          </div>
-        </unity-page-header>
+        <div class="header-container">
+          <unity-page-header
+            title="MOCC2 Title2"
+          >
+            <div slot="right-content">
+              <paper-input
+                label="Search Input"
+                @input="${this.handleSearchInput}"
+              ></paper-input>
+
+              <unity-button
+                label="Edit Columns"
+                ?gradient=${true}
+                ?disabled=${false}
+                @click=${this.handleEditColumns}
+              ></unity-button>
+            </div>
+          </unity-page-header>
+        </div>
+
 
         <div class="table-container">
-        <unity-table
-          selectable
-          filter="${this._searchText}"
-          .keyExtractor="${(datum, index) => datum.name}"
-          .childKeys="${['children']}"
-          .data="${exampleData}"
-          .columns="${exampleColumns}"
+          <unity-table
+            selectable
+            filter="${this.searchText}"
+            .keyExtractor="${(datum, index) => datum.name}"
+            .childKeys="${['children']}"
+            .data="${exampleData}"
+            .columns="${exampleColumns}"
 
-          .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
-          .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
-          .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
-        >
-        </unity-table>
+            .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+            .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
+            .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+          ></unity-table>
         </div>
       </div>
     `
