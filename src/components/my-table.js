@@ -9,7 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
+import './unity-layout/unity-page-header.js'
+import './unity-button/unity-button.js'
 import './unity-table/unity-table.js'
+import '@polymer/paper-input/paper-input.js';
 
 import './unity-layout/unity-page-header.js'
 import './unity-text-input/unity-text-input.js'
@@ -87,7 +90,7 @@ const exampleColumns = [
     key: 'name',
     label: 'Color',
     width: 300,
-    format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : null
+    format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
   },
   {
     key: 'favorite',
@@ -104,45 +107,56 @@ class MyTable extends PageViewElement {
 
     this._searchText = ''
 
-
     this.columns = [...exampleColumns] //For Column Editor
     this._visibleColumns = [...exampleColumns] //For Table display
   }
+
+  static get properties() {
+    return {
+      searchText: {type: String}
+    }
+  }
+
   static get styles() {
     return [
       SharedStyles,
       css`
         :host {
-          height: 100vh;
-          display: flex;
           flex: 1;
-        }
-        .example-container {
-          position: relative;
-          /*width: 1000px;
-          height: 500px;
-          top: 100px;
-          left: 50%;
-          transform: translate(-50%,0);*/
           display: flex;
           flex-direction: column;
           align-items: stretch;
-          margin: 0 40px;
-          flex: 1;
         }
+        .example-container {
+          flex: 1;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .header-container {
+          width: 100%;
+        }
+
+        .table-container {
+          flex: 1;
+          position: relative;
+        }
+
+        unity-table {
+        }
+
+        paper-input {
+          margin-right: 20px;
+          width: 300px;
+        }
+
         unity-page-header {
           flex: 0;
         }
         .table-container {
           position: relative;
           flex: 1
-        }
-        unity-table {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
         }
       `
     ];
@@ -154,10 +168,15 @@ class MyTable extends PageViewElement {
       columns: {type: Array},
       _visibleColumns: {type: Array},
     }
-  }
+
+//   handleSearchInput(e={}) {
+//     const {target: {value}={}} = e
+// 
+//     this._searchText = value || ''
+//   }
 
   onInputChange(e, value) {
-    this._searchText = value
+    this._searchText = value || ''
   }
 
   handleColUpdate(nextColumns) {
@@ -168,7 +187,6 @@ class MyTable extends PageViewElement {
 
   render() {
 
-    console.log("")
     return html`
       <div class="example-container">
         <unity-page-header
@@ -189,19 +207,20 @@ class MyTable extends PageViewElement {
         </unity-page-header>
 
         <div class="table-container">
-        <unity-table
-          selectable
-          filter="${this._searchText}"
-          .keyExtractor="${(datum, index) => datum.name}"
-          .childKeys="${['children']}"
-          .data="${exampleData}"
-          .columns="${this._visibleColumns}"
+          <unity-table
+            selectable
+            filter="${this._searchText}"
+            .keyExtractor="${(datum, index) => datum.name}"
+            .childKeys="${['children']}"
+            .data="${exampleData}"
+            .columns="${this._visibleColumns}"
 
-          .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
-          .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
-          .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
-        >
-        </unity-table>
+            .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+            .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
+            .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
+            .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+          >
+          </unity-table>
         </div>
       </div>
     `
