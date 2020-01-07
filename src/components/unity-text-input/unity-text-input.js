@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import '@polymer/iron-input/iron-input'
 import '@polymer/iron-icon/iron-icon'
-import { UnityDefaultThemeStyles } from '../unity-default-theme-styles'
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '../unity-icon-set/unity-icon-set'
 
 /**
