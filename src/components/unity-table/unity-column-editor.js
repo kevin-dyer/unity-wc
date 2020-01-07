@@ -8,8 +8,8 @@ import '@polymer/paper-dialog-scrollable';
 // Core SortableJS (without default plugins)
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 
-// import '../unity-button/unity-button.js'
-import '@bit/smartworks.unity.unity-button';
+import '../unity-button/unity-button.js'
+// import '@bit/smartworks.unity.unity-button';
 
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'

@@ -168,6 +168,7 @@ class MyTable extends PageViewElement {
       columns: {type: Array},
       _visibleColumns: {type: Array},
     }
+  }
 
 //   handleSearchInput(e={}) {
 //     const {target: {value}={}} = e
