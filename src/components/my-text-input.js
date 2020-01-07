@@ -91,7 +91,7 @@ class MyTextInput extends PageViewElement {
             <unity-text-input
               .value="${"Rounded"}"
               .onChange="${this.onInputChange}"
-              .borderRadiusPx="${20}"
+              rounded
             ></unity-text-input>
           </div>
         </div>
