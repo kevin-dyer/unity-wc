@@ -54,7 +54,6 @@ class UnityTextInput extends LitElement {
     this.units = ""
     this.charCount = false
     this.showIcon = false
-    this.leftIcon =
     this.hideBorder = false
     this.rounded = false
     this.innerRightIcon = ""
