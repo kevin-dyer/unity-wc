@@ -23,8 +23,8 @@ import '../unity-icon-set/unity-icon-set'
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @param {number} borderRadiusPx, set ths css border-radius of the element in pixels, defaults: 2 (2px)
 * @param {bool} hideBorder, hides the border of the element, defaults: false (show border)
-* @param {''} innerRightIcon, if defined, puts an icon (specified) from the unity icon set inside the text input
-* @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set inside the text input
+* @param {''} innerRightIcon, if defined, puts an icon (specified) from the unity icon set on the right side of the text input
+* @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
 * @example
 * <unity-text-input>
 *   .label="${'Strong Validation'}"
