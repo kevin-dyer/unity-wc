@@ -56,7 +56,7 @@ class MyButtons extends LitElement {
           <unity-button
             label="right icon"
             ?gradient=${true}
-            leftIcon="expand-more"
+            rightIcon="expand-more"
           ></unity-button>
 
           <unity-button
@@ -88,7 +88,7 @@ class MyButtons extends LitElement {
           ></unity-button>
 
           <unity-button
-            label="loading"
+            label="icon"
             ?outlined=${true}
             leftIcon="event-seat"
           ></unity-button>
@@ -99,20 +99,20 @@ class MyButtons extends LitElement {
             ?loading=${true}
           ></unity-button>
 
-
-          <unity-button
-            label="loading"
-            ?outlined=${true}
-            ?loading=${true}
-            ?disabled=${true}
-          ></unity-button>
-
           <unity-button
             label="disabled"
             ?outlined=${true}
             ?disabled=${true}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
+
+          <unity-button
+          label="loading disabled"
+          ?outlined=${true}
+          ?loading=${true}
+          ?disabled=${true}
+          ></unity-button>
+          
         </div>
       </div>
 
