@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import './unity-layout/unity-page-header.js'
-import './unity-button/unity-button.js'
+// import './unity-button/unity-button.js'
+import '@bit/smartworks.unity.unity-button'
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
