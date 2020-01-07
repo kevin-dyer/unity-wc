@@ -21,7 +21,7 @@ import '../unity-icon-set/unity-icon-set'
 * @param {''} error, error message for external error control or default forcing, can give true to not render remark error text, if validation is also sent it it will overwrite error's effects
 * @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 2+ or 1 for strong/weak, otherwise considered failure
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
-* @param {number} borderRadiusPx, set ths css border-radius of the element in pixels, defaults: 2 (2px)
+* @param {bool} rounded, if specified, makes the text input edges rounded, defaults: false (square corners)
 * @param {bool} hideBorder, hides the border of the element, defaults: false (show border)
 * @param {''} innerRightIcon, if defined, puts an icon (specified) from the unity icon set on the right side of the text input
 * @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
@@ -56,7 +56,7 @@ class UnityTextInput extends LitElement {
     this.showIcon = false
     this.leftIcon =
     this.hideBorder = false
-    this.borderRadiusPx = 2
+    this.rounded = false
     this.innerRightIcon = ""
     this.innerLeftIcon = ""
 
@@ -87,7 +87,7 @@ class UnityTextInput extends LitElement {
       validation: { type: Function },
       showIcon: { type: Boolean },
       hideBorder: { type: Boolean },
-      borderRadiusPx: { type: Number },
+      rounded: { type: Boolean },
       // internals
       _valid: { type: Boolean },
       _strength: { type: Number },
@@ -247,7 +247,7 @@ class UnityTextInput extends LitElement {
       units,
       charCount,
       hideBorder,
-      borderRadiusPx,
+      rounded,
       innerRightIcon,
       innerLeftIcon,
       _onChange,
@@ -273,7 +273,7 @@ class UnityTextInput extends LitElement {
           class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''} ${!!hideBorder ? 'hideBorder' : 'showBorder'}"
           bind-value="${value}"
           @input="${_onChange}"
-          style="border-radius: ${borderRadiusPx}px"
+          style="border-radius: ${!!rounded ? "20px" : "2px"}"
         >
           ${!!disabled ?
             html`<input
