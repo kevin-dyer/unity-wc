@@ -40,8 +40,9 @@ class UnityButton extends LitElement {
           font-family: var(--font-family, var(--default-font-family));
         }
 
+
         paper-button {
-          height: 30px;
+          height: var(--unity-button-height, 30px);
           border-radius: 30px;
           min-width: 79px;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
