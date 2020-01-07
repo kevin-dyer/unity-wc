@@ -135,19 +135,27 @@ class MyTextInput extends PageViewElement {
           </div>
           <div class="input-box">
             <unity-text-input
-            .label="${"Inner Icon"}"
-            .value="${"Input field with Icon inside"}"
+            .label="${"Inner Icon Right"}"
+            .value="${"Input field with icon on right side"}"
             .onChange="${this.onInputChange}"
-            .innerIcon="${"unity:options"}"
+            .innerRightIcon="${"unity:options"}"
             ></unity-text-input>
           </div>
           <div class="input-box">
             <unity-text-input
-            .label="${"Inner Icon on Left Side"}"
-            .value="${"Input field with Icon on Left Side"}"
+            .label="${"Inner Icon Left"}"
+            .value="${"Input field with Icon on left dide"}"
             .onChange="${this.onInputChange}"
-            .innerIcon="${"unity:search"}"
-            iconOnLeftSide
+            .innerLeftIcon="${"unity:search"}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+            .label="${"Two Inner Icons"}"
+            .value="${"Input field with two icons inside"}"
+            .onChange="${this.onInputChange}"
+            .innerLeftIcon="${"unity:lock"}"
+            .innerRightIcon="${"unity:step_in"}"
             ></unity-text-input>
           </div>
         </div>

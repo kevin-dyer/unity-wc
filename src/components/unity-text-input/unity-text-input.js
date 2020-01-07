@@ -23,8 +23,8 @@ import '../unity-icon-set/unity-icon-set'
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @param {number} borderRadiusPx, set ths css border-radius of the element in pixels, defaults: 2 (2px)
 * @param {bool} hideBorder, hides the border of the element, defaults: false (show border)
-* @param {''} innerIcon, if specified, puts an icon (specified) from the unity icon set inside the text input
-* @param {bool} iconOnLeftSide, if innerIcon is specified, puts that icon on the left side of the text input (before the text)
+* @param {''} innerRightIcon, if defined, puts an icon (specified) from the unity icon set inside the text input
+* @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set inside the text input
 * @example
 * <unity-text-input>
 *   .label="${'Strong Validation'}"
@@ -57,8 +57,8 @@ class UnityTextInput extends LitElement {
     this.leftIcon =
     this.hideBorder = false
     this.borderRadiusPx = 2
-    this.innerIcon = ""
-    this.iconOnLeftSide = false
+    this.innerRightIcon = ""
+    this.innerLeftIcon = ""
 
     // internals
     this._error = ''
@@ -78,8 +78,8 @@ class UnityTextInput extends LitElement {
       onChange: { type: Function },
       time: { type: Boolean },
       password: { type: Boolean },
-      innerIcon: { type: String },
-      iconOnLeftSide: { type: Boolean },
+      innerRightIcon: { type: String },
+      innerLeftIcon: { type: String },
       placeholder: { type: String },
       units: { type: String },
       charCount: { type: Boolean },
@@ -226,15 +226,11 @@ class UnityTextInput extends LitElement {
     }
   }
 
-  _renderInnerIcon() {
-    const {
-      innerIcon,
-      iconOnLeftSide
-    } = this
-    if (!innerIcon) return
+  _renderInnerIcon(icon, iconOnLeftSide) {
+    if (!icon) return
     return html`
       <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
-        <iron-icon class="inner-icon" icon="${innerIcon}"></iron-icon>
+        <iron-icon class="inner-icon" icon="${icon}"></iron-icon>
       </div>
     `
   }
@@ -252,8 +248,8 @@ class UnityTextInput extends LitElement {
       charCount,
       hideBorder,
       borderRadiusPx,
-      innerIcon,
-      iconOnLeftSide,
+      innerRightIcon,
+      innerLeftIcon,
       _onChange,
       _valid,
       _strength,
@@ -287,7 +283,7 @@ class UnityTextInput extends LitElement {
               type="${type}"
               placeholder="${!!placeholder ? placeholder : ''}"
               disabled
-              style="${!!iconOnLeftSide && !!innerIcon && "margin-left: 24px;"}"
+              style="${!!innerLeftIcon && "margin-left: 24px;"}"
             >`
             :
             html`<input
@@ -295,10 +291,11 @@ class UnityTextInput extends LitElement {
               type="${type}"
               placeholder="${!!placeholder ? placeholder : ''}"
               value="{{value::input}}"
-              style="${!!iconOnLeftSide && !!innerIcon && "margin-left: 24px;"}"
+              style="${!!innerLeftIcon && "margin-left: 24px;"}"
             >`
           }
-          ${this._renderInnerIcon()}
+          ${this._renderInnerIcon(innerRightIcon, false)}
+          ${this._renderInnerIcon(innerLeftIcon, true)}
           ${!!units ?
             html`<div
               class="units ${!!disabled ? 'disabled' : ''}"
