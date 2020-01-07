@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import '@polymer/iron-input/iron-input'
 import '@polymer/iron-icon/iron-icon'
-import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import { UnityDefaultThemeStyles } from '../unity-default-theme-styles'
 import '../unity-icon-set/unity-icon-set'
 
 /**
@@ -369,7 +369,7 @@ class UnityTextInput extends LitElement {
           width: 100%;
           margin-top: 6px;
           background-color: var(--background-color, var(--default-background-color));
-          height: var(--unity-text-input-height, --default-unity-text-input-height);
+          height: var(--unity-text-input-height, var(--default-unity-text-input-height));
           padding: 0 8px;
           box-sizing: border-box;
           position: relative;
@@ -389,10 +389,10 @@ class UnityTextInput extends LitElement {
           box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
         }
         .rounded {
-          borderRadius: var(--unity-text-input-height, --default-unity-text-input-height);
+          border-radius: calc(var(--unity-text-input-height, var(--default-unity-text-input-height)) * 0.5);
         }
         .notRounded {
-          borderRadius: 2px;
+          border-radius: 2px;
         }
         #input {
           padding: 0;
