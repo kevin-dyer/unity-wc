@@ -20,7 +20,7 @@
     "svgorg": "node ./utils/svg-organize/organize.js"
   },
   "dependencies": {
-    "@bit/smartworks.unity.unity-default-theme-styles": "0.0.12",
+    "@bit/smartworks.unity.unity-default-theme-styles": "0.0.13",
     "@bit/smartworks.unity.unity-global-nav-inner-item": "0.0.3",
     "@bit/smartworks.unity.unity-table-cell": "^0.1.12",
     "@polymer/app-layout": "^3.0.0",

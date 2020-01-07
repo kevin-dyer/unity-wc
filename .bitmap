@@ -13,7 +13,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-default-theme-styles@0.0.12": {
+    "smartworks.unity/unity-default-theme-styles@0.0.13": {
         "files": [
             {
                 "name": "unity-default-theme-styles.js",
@@ -115,7 +115,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@0.1.19": {
+    "smartworks.unity/unity-text-input@0.1.20": {
         "files": [
             {
                 "relativePath": "src/components/unity-text-input/unity-text-input.js",
