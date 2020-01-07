@@ -61,5 +61,10 @@ export const UnityDefaultThemeStyles = css`
     --default-medium-icon-size: 18px;
     --default-small-icon-size: 14px;
     --default-xsmall-icon-size: 10px;
+
+    /* Sizes and Spacing */
+    --default-unity-button-height: 30px;
+    --default-unity-border-radius: 30px;
+    --default-unity-button-padding: 0 20px;
   }
 `;

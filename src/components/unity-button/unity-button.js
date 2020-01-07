@@ -42,12 +42,12 @@ class UnityButton extends LitElement {
 
 
         paper-button {
-          height: var(--unity-button-height, 30px);
-          border-radius: 30px;
+          height: var(--unity-button-height, --default-unity-button-height);
+          border-radius: var(--unity-border-radius, --default-unity-border-radius);
           min-width: 79px;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
-          padding: 0 20px;
+          padding: var(--unity-button-padding, --default-unity-button-padding);
           text-transform: none;
         }
 
