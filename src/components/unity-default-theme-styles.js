@@ -66,5 +66,7 @@ export const UnityDefaultThemeStyles = css`
     --default-unity-button-height: 30px;
     --default-unity-button-border-radius: 30px;
     --default-unity-button-padding: 0 20px;
+
+    --default-unity-text-input-height: 27px;
   }
 `;

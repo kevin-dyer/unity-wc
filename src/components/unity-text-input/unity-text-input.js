@@ -270,10 +270,15 @@ class UnityTextInput extends LitElement {
           : null
         }
         <iron-input
-          class="input-wrapper ${!_valid ? 'invalid' : 'valid'} ${!!units ? 'units' : ''} ${!!disabled ? 'disabled' : ''} ${!!hideBorder ? 'hideBorder' : 'showBorder'}"
+          class="input-wrapper
+            ${!_valid ? 'invalid' : 'valid'}
+            ${!!units ? 'units' : ''}
+            ${!!disabled ? 'disabled' : ''}
+            ${!!hideBorder ? 'hideBorder' : 'showBorder'}
+            ${!!rounded ? 'rounded' : 'notRounded'}
+          "
           bind-value="${value}"
           @input="${_onChange}"
-          style="border-radius: ${!!rounded ? "20px" : "2px"}"
         >
           ${!!disabled ?
             html`<input
@@ -364,7 +369,7 @@ class UnityTextInput extends LitElement {
           width: 100%;
           margin-top: 6px;
           background-color: var(--background-color, var(--default-background-color));
-          height: 27px;
+          height: var(--unity-text-input-height, --default-unity-text-input-height);
           padding: 0 8px;
           box-sizing: border-box;
           position: relative;
@@ -382,6 +387,12 @@ class UnityTextInput extends LitElement {
           border-color: var(--primary-brand-color, var(--default-primary-brand-color));
           outline: none;
           box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+        }
+        .rounded {
+          borderRadius: var(--unity-text-input-height, --default-unity-text-input-height);
+        }
+        .notRounded {
+          borderRadius: 2px;
         }
         #input {
           padding: 0;
