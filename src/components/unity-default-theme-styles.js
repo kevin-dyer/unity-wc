@@ -64,7 +64,7 @@ export const UnityDefaultThemeStyles = css`
 
     /* Sizes and Spacing */
     --default-unity-button-height: 30px;
-    --default-unity-border-radius: 30px;
+    --default-unity-button-border-radius: 30px;
     --default-unity-button-padding: 0 20px;
   }
 `;
