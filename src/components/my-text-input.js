@@ -144,7 +144,7 @@ class MyTextInput extends PageViewElement {
           <div class="input-box">
             <unity-text-input
             .label="${"Inner Icon Left"}"
-            .value="${"Input field with Icon on left dide"}"
+            .value="${"Input field with Icon on left side"}"
             .onChange="${this.onInputChange}"
             .innerLeftIcon="${"unity:search"}"
             ></unity-text-input>
