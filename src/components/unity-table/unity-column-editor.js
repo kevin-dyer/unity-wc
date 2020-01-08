@@ -20,9 +20,13 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {[]} columns, array of objects - same as what is passed into unity-table
  * @param {[]} selectedColumns, array of column keys from columns that are visible
  * @param {func} onUpdate, callback that is sent an array of sorted visible columns
+ * @param {bool} buttonGradient, boolean to style action button with background gradient
+ * @param {bool} buttonOutlined, boolean to style action button with border outline
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-column-editor
+ *    ?buttonGradient=${true}
+ *    ?buttonOutlined=${false}
  *    .columns="${[
  *      {
  *        key: 'column2',
@@ -55,6 +59,8 @@ class UnityColumnEditor extends LitElement {
 
     this.columns = []
     this.selectedColumns = []
+    this.buttonGradient = false
+    this.buttonOutlined = false
     this.onUpdate = (columns) => {
       console.log("updated columns array: ", columns)
     }
@@ -70,7 +76,8 @@ class UnityColumnEditor extends LitElement {
       columns: {type: Array},
       selectedColumns: {type: Array},
       onUpdate: {type: Function},
-
+      buttonGradient: {type: Boolean},
+      buttonOutlined: {type: Boolean},
       _dialogVisible: {type: Boolean},
     }
   }
@@ -197,7 +204,8 @@ class UnityColumnEditor extends LitElement {
     return html`
       <unity-button
         label="Edit Columns"
-        gradient
+        ?gradient=${this.buttonGradient}
+        ?outlined=${this.buttonOutlined}
         @click=${this.toggleDialog.bind(this)}
       >
       </unity-button>

@@ -201,6 +201,8 @@ class MyTable extends PageViewElement {
             ></unity-text-input>
 
             <unity-column-editor
+              ?buttonGradient=${false}
+              ?buttonOutlined=${true}
               .columns=${this.columns}
               .onUpdate=${this.handleColUpdate.bind(this)}
             ></unity-column-editor>

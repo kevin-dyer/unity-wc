@@ -20,8 +20,8 @@
     "svgorg": "node ./utils/svg-organize/organize.js"
   },
   "dependencies": {
-    "@bit/smartworks.unity.unity-button": "0.0.13",
     "@bit/smartworks.unity.table-cell-base": "0.0.1",
+    "@bit/smartworks.unity.unity-button": "0.0.15",
     "@bit/smartworks.unity.unity-default-theme-styles": "0.0.12",
     "@bit/smartworks.unity.unity-global-nav-inner-item": "0.0.3",
     "@bit/smartworks.unity.unity-table-cell": "^0.1.13",
