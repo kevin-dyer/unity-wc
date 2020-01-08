@@ -124,8 +124,8 @@ class UnityGlobalNavTopItem extends LitElement {
       <div
         class="
           container
-          ${open ? 'open' : ''}
           ${short ? 'short' : ''}
+          ${hasChildren && open ? 'open' : ''}
           ${!hasChildren && selected ? 'selected' : ''}
         "
         @click=${_onSelect}
