@@ -66,7 +66,7 @@ class UnityGlobalNavTopItem extends LitElement {
     this.children = []
 
     // internals
-    this._expanded = false
+    this._expanded = true
   }
 
   static get properties() {

@@ -49,7 +49,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@0.1.4": {
+    "smartworks.unity/unity-global-nav-top-item@0.1.5": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",
@@ -74,7 +74,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-page-header@0.0.19": {
+    "smartworks.unity/unity-page-header@0.0.20": {
         "files": [
             {
                 "name": "unity-page-header.js",
@@ -86,7 +86,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-cell@0.1.12": {
+    "smartworks.unity/unity-table-cell@0.1.13": {
         "files": [
             {
                 "name": "unity-table-cell.js",
@@ -98,7 +98,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.1.20": {
+    "smartworks.unity/unity-table@0.1.23": {
         "files": [
             {
                 "name": "table-utils.js",
