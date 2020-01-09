@@ -157,6 +157,7 @@ class MyTable extends PageViewElement {
 
   onInputChange(e, value) {
     this._searchText = value
+  }
 
   handleEditColumns() {
     //TODO: display edit column modal!
