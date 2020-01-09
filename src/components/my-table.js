@@ -10,9 +10,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import './unity-layout/unity-page-header.js'
+
 // import './unity-button/unity-button.js'
 import '@bit/smartworks.unity.unity-button';
+
 import './unity-table/unity-table.js'
+import '@polymer/paper-input/paper-input.js';
 
 import './unity-layout/unity-page-header.js'
 import './unity-text-input/unity-text-input.js'
@@ -187,6 +190,11 @@ class MyTable extends PageViewElement {
     console.log("handleColUpdate nextColumns: ", nextColumns)
     // this.columns = nextColumns
     this._visibleColumns = nextColumns
+  }
+
+  handleEditColumns() {
+    //TODO: display edit column modal!
+    console.log("handleEditColumns called!")
   }
 
   render() {

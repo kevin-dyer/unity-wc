@@ -4,7 +4,7 @@ import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/iron-icon/iron-icon.js'
 import '@polymer/iron-icons/image-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
-import {UnityDefaultThemeStyles} from '@bit/smartworks.unity.unity-default-theme-styles';
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 /**
  * Button with configurable styles.
@@ -41,12 +41,12 @@ class UnityButton extends LitElement {
         }
 
         paper-button {
-          height: 30px;
-          border-radius: 30px;
+          height: var(--unity-button-height, var(--default-unity-button-height));
+          border-radius: var(--unity-border-radius, var(--default-unity-button-border-radius));
           min-width: 79px;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
-          padding: 0 20px;
+          padding: var(--unity-button-padding, var(--default-unity-button-padding));
           text-transform: none;
         }
 

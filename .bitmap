@@ -13,7 +13,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-button@0.0.12": {
+    "smartworks.unity/unity-button@0.0.15": {
         "files": [
             {
                 "name": "unity-button.js",
@@ -37,7 +37,19 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-default-theme-styles@0.0.12": {
+    "smartworks.unity/table-cell-base@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-table/table-cell-base.js",
+                "test": false,
+                "name": "table-cell-base.js"
+            }
+        ],
+        "mainFile": "src/components/unity-table/table-cell-base.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-default-theme-styles@0.0.13": {
         "files": [
             {
                 "name": "unity-default-theme-styles.js",
@@ -73,7 +85,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@0.1.4": {
+    "smartworks.unity/unity-global-nav-top-item@0.1.6": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",
@@ -139,7 +151,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@0.1.16": {
+    "smartworks.unity/unity-text-input@0.1.21": {
         "files": [
             {
                 "relativePath": "src/components/unity-text-input/unity-text-input.js",

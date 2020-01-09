@@ -66,7 +66,7 @@ class UnityGlobalNavTopItem extends LitElement {
     this.children = []
 
     // internals
-    this._expanded = false
+    this._expanded = true
   }
 
   static get properties() {
@@ -124,8 +124,8 @@ class UnityGlobalNavTopItem extends LitElement {
       <div
         class="
           container
-          ${open ? 'open' : ''}
           ${short ? 'short' : ''}
+          ${hasChildren && open ? 'open' : ''}
           ${!hasChildren && selected ? 'selected' : ''}
         "
         @click=${_onSelect}
