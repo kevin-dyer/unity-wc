@@ -16,6 +16,9 @@ import './unity-table/unity-table.js'
 
 import './unity-layout/unity-page-header.js'
 import './unity-text-input/unity-text-input.js'
+// import '@bit/smartworks.unity.unity-text-input';
+
+
 import './unity-table/unity-column-editor.js'
 
 
@@ -195,8 +198,10 @@ class MyTable extends PageViewElement {
         >
           <div slot="right-content">
             <unity-text-input
+              ?rounded=${true}
+              innerLeftIcon="icons:search"
               .value="${this._searchText}"
-              .placeholder="${"Search input"}"
+              placeholder="${"Search input"}"
               .onChange="${this.onInputChange.bind(this)}"
             ></unity-text-input>
 

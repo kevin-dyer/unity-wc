@@ -160,6 +160,7 @@ class MyApp extends connect(store)(LitElement) {
         .page[active] {
           /*display: block;*/
           display: flex;
+          flex: 1;
         }
 
         footer {
@@ -196,6 +197,10 @@ class MyApp extends connect(store)(LitElement) {
 
   render() {
     // Anything that's related to rendering should be done in here.
+
+    // <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
+    // <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
+    // <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
     return html`
       <!-- Header -->
       <app-header condenses reveals effects="waterfall">
@@ -206,9 +211,6 @@ class MyApp extends connect(store)(LitElement) {
 
         <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
-          <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
           <a ?selected="${this._page === 'table'}" href="/table">Table</a>
           <a ?selected="${this._page === 'globalNav'}" href="/globalNav">Global Nav</a>
           <a ?selected="${this._page === 'page-layout'}" href="/page-layout">Page Layout</a>
