@@ -109,7 +109,7 @@ class MyTextInput extends PageViewElement {
               .onChange="${this.onInputChange}"
               area
               charCount
-              .maxlength="${255}"
+              .maxlength="${500}"
             ></unity-text-input>
           </div>
         </div>
