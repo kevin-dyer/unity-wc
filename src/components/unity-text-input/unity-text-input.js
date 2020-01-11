@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 import '@polymer/iron-input/iron-input'
+import '@polymer/iron-autogrow-textarea'
 import '@polymer/iron-icon/iron-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '../unity-icon-set/unity-icon-set'
@@ -23,6 +24,7 @@ import '../unity-icon-set/unity-icon-set'
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @param {bool} rounded, if specified, makes the text input edges rounded, defaults: false (square corners)
 * @param {bool} hideBorder, hides the border of the element, defaults: false (show border)
+* @param {bool} area, field shows as text area with scrolling and multiline, disables many other features
 * @param {''} innerRightIcon, if defined, puts an icon (specified) from the unity icon set on the right side of the text input
 * @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
 * @example
@@ -58,6 +60,7 @@ class UnityTextInput extends LitElement {
     this.rounded = false
     this.innerRightIcon = ""
     this.innerLeftIcon = ""
+    this.area = false
 
     // internals
     this._error = ''
@@ -87,6 +90,8 @@ class UnityTextInput extends LitElement {
       showIcon: { type: Boolean },
       hideBorder: { type: Boolean },
       rounded: { type: Boolean },
+      area: { type: Boolean },
+
       // internals
       _valid: { type: Boolean },
       _strength: { type: Number },
@@ -226,12 +231,38 @@ class UnityTextInput extends LitElement {
   }
 
   _renderInnerIcon(icon, iconOnLeftSide) {
+    const { _clickUnits } = this
     if (!icon) return
     return html`
       <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
-        <iron-icon class="inner-icon" icon="${icon}"></iron-icon>
+        <iron-icon class="inner-icon" icon="${icon}" @click="${_clickUnits}"></iron-icon>
       </div>
     `
+  }
+
+  _getInputWrapperClasses() {
+    const {
+      area,
+      _valid,
+      units,
+      disabled,
+      hideBorder,
+      rounded
+    } = this
+    let classes = ['input-wrapper']
+    if (!!area) {
+      classes.push('area', 'showBorder', 'notRounded')
+    } else {
+      if (!!units) classes.push('units')
+      if (!!hideBorder) classes.push('hideBorder')
+      else classes.push('showBorder')
+      if (!!rounded) classes.push('rounded')
+      else classes.push('notRounded')
+    }
+    if (!_valid) classes.push('invalid')
+    else classes.push('valid')
+    if (!!disabled) classes.push('disabled')
+    return classes.join(" ")
   }
 
   render() {
@@ -240,8 +271,6 @@ class UnityTextInput extends LitElement {
       label,
       remark,
       disabled,
-      time,
-      password,
       placeholder,
       units,
       charCount,
@@ -249,16 +278,13 @@ class UnityTextInput extends LitElement {
       rounded,
       innerRightIcon,
       innerLeftIcon,
+      area,
       _onChange,
       _valid,
       _strength,
       _errorText,
       _clickUnits
     } = this
-
-    let type = 'text'
-    if (!!time) type = 'time'
-    if (!!password) type = 'password'
 
     return html`
       <div>
@@ -269,13 +295,7 @@ class UnityTextInput extends LitElement {
           : null
         }
         <iron-input
-          class="input-wrapper
-            ${!_valid ? 'invalid' : 'valid'}
-            ${!!units ? 'units' : ''}
-            ${!!disabled ? 'disabled' : ''}
-            ${!!hideBorder ? 'hideBorder' : 'showBorder'}
-            ${!!rounded ? 'rounded' : 'notRounded'}
-          "
+          class="${this._getInputWrapperClasses()}"
           bind-value="${value}"
           @input="${_onChange}"
         >
@@ -308,7 +328,7 @@ class UnityTextInput extends LitElement {
               ${units}
             </div>`
           : null}
-          ${this._renderIcon()}
+          ${!area ? this._renderIcon() : null}
         </iron-input>
         <div class="bottom">
           <span class="remark">
