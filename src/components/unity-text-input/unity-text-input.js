@@ -14,6 +14,7 @@ import '../unity-icon-set/unity-icon-set'
 * @param {''} placeholder, initial text to be overwritten
 * @param {''} remark, text to render below input field
 * @param {bool} charCount, show current char count
+* @param {int} maxlength, maximum number of characters to allow
 * @param {bool} disabled, controls if field is enabled/disabled, defaults: false (enabled)
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
@@ -55,6 +56,7 @@ class UnityTextInput extends LitElement {
     this.placeholder = ""
     this.units = ""
     this.charCount = false
+    this.maxlength = 0
     this.showIcon = false
     this.hideBorder = false
     this.rounded = false
@@ -85,6 +87,7 @@ class UnityTextInput extends LitElement {
       placeholder: { type: String },
       units: { type: String },
       charCount: { type: Boolean },
+      maxlength: { type: Number },
       error: { type: String },
       validation: { type: Function },
       showIcon: { type: Boolean },
@@ -272,6 +275,7 @@ class UnityTextInput extends LitElement {
       time,
       password,
       innerLeftIcon,
+      maxlength,
       value
     } = this
 
@@ -281,12 +285,14 @@ class UnityTextInput extends LitElement {
           id="textarea"
           value="{{value::iron-autogrow-textarea}}"
           class="disabled"
-          readonly
+          maxlength="${maxlength || null}"
+          disabled
         />`
       } else {
         return html`<iron-autogrow-textarea
           id="textarea"
           value="{{value::iron-autogrow-textarea}}"
+          maxlength="${maxlength || null}"
         />`
       }
     } else {
@@ -301,6 +307,7 @@ class UnityTextInput extends LitElement {
           id="input"
           class="disabled"
           type="${type}"
+          maxlength="${maxlength || null}"
           placeholder="${!!placeholder ? placeholder : ''}"
           disabled
           style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
@@ -310,6 +317,7 @@ class UnityTextInput extends LitElement {
           value="{{value::input}}"
           id="input"
           type="${type}"
+          maxlength="${maxlength || null}"
           placeholder="${!!placeholder ? placeholder : ''}"
           style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
         >`
@@ -331,6 +339,7 @@ class UnityTextInput extends LitElement {
       innerRightIcon,
       innerLeftIcon,
       area,
+      maxlength,
       _onChange,
       _valid,
       _strength,
@@ -370,7 +379,7 @@ class UnityTextInput extends LitElement {
           </span>
           ${!!charCount ?
             html`<span class="charCount">
-              ${value.length}
+              ${value.length}${!!maxlength ? `/${maxlength}` : null}
             </span>`
             : null
           }

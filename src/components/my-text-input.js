@@ -100,7 +100,6 @@ class MyTextInput extends PageViewElement {
               .label="${"Input Area"}"
               .onChange="${this.onInputChange}"
               area
-              rounded
             ></unity-text-input>
           </div>
           <div class="input-box">
@@ -109,7 +108,8 @@ class MyTextInput extends PageViewElement {
               .label="${"Input Area w/ Character Count Limit"}"
               .onChange="${this.onInputChange}"
               area
-              rounded
+              charCount
+              .maxlength="${255}"
             ></unity-text-input>
           </div>
         </div>
