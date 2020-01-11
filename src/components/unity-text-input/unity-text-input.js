@@ -265,6 +265,58 @@ class UnityTextInput extends LitElement {
     return classes.join(" ")
   }
 
+  _getInputComponent() {
+    const {
+      area,
+      disabled,
+      time,
+      password,
+      innerLeftIcon,
+      value
+    } = this
+
+    if (area) {
+      if (!!disabled) {
+        return html`<iron-autogrow-textarea
+          id="textarea"
+          value="{{value::iron-autogrow-textarea}}"
+          class="disabled"
+          readonly
+        />`
+      } else {
+        return html`<iron-autogrow-textarea
+          id="textarea"
+          value="{{value::iron-autogrow-textarea}}"
+        />`
+      }
+    } else {
+
+      let type = 'text'
+      if (!!time) type = 'time'
+      if (!!password) type = 'password'
+
+      if (!!disabled) {
+        return html`<input
+          value="{{value::input}}"
+          id="input"
+          class="disabled"
+          type="${type}"
+          placeholder="${!!placeholder ? placeholder : ''}"
+          disabled
+          style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
+        >`
+      } else {
+        return html`<input
+          value="{{value::input}}"
+          id="input"
+          type="${type}"
+          placeholder="${!!placeholder ? placeholder : ''}"
+          style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
+        >`
+      }
+    }
+  }
+
   render() {
     const {
       value,
@@ -299,28 +351,10 @@ class UnityTextInput extends LitElement {
           bind-value="${value}"
           @input="${_onChange}"
         >
-          ${!!disabled ?
-            html`<input
-              value="{{value::input}}"
-              id="input"
-              class="disabled"
-              type="${type}"
-              placeholder="${!!placeholder ? placeholder : ''}"
-              disabled
-              style="${!!innerLeftIcon && "margin-left: 24px;"}"
-            >`
-            :
-            html`<input
-              id="input"
-              type="${type}"
-              placeholder="${!!placeholder ? placeholder : ''}"
-              value="{{value::input}}"
-              style="${!!innerLeftIcon && "margin-left: 24px;"}"
-            >`
-          }
-          ${this._renderInnerIcon(innerRightIcon, false)}
-          ${this._renderInnerIcon(innerLeftIcon, true)}
-          ${!!units ?
+          ${this._getInputComponent()}
+          ${!area ? this._renderInnerIcon(innerRightIcon, false) : null}
+          ${!area ? this._renderInnerIcon(innerLeftIcon, true) : null}
+          ${(!area && !!units) ?
             html`<div
               class="units ${!!disabled ? 'disabled' : ''}"
               @click="${_clickUnits}"
@@ -395,6 +429,10 @@ class UnityTextInput extends LitElement {
           display: flex;
           flex-direction: row;
         }
+        .area {
+          height: auto;
+          padding: 6px 8px;
+        }
         .invalid {
           border-color: var(--danger-color, var(--default-danger-color));
           background-color: rgba(var(--danger-rgb, var(--default-danger-rgb)), .2);
@@ -425,6 +463,22 @@ class UnityTextInput extends LitElement {
           background-color: transparent;
         }
         #input:focus {
+          outline: none;
+        }
+        #textarea {
+          padding: 0;
+          margin: 0;
+          width: 100%;
+          font-family: var(--input-font);
+          font-size: var(--text-size);
+          color: rgb(var(--text-color));
+          border: 0;
+          background-color: transparent;
+          resize: none;
+          min-height: calc(var(--text-size) * 1.4545 * var(--area-min-lines, 4));
+          max-height: calc(var(--text-size) * 1.4545 * var(--area-max-lines, 12));
+        }
+        #textarea:focus {
           outline: none;
         }
         .units {
