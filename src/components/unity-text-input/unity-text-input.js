@@ -26,6 +26,8 @@ import '../unity-icon-set/unity-icon-set'
 * @param {bool} rounded, if specified, makes the text input edges rounded, defaults: false (square corners)
 * @param {bool} hideBorder, hides the border of the element, defaults: false (show border)
 * @param {bool} area, field shows as text area with scrolling and multiline, disables many other features
+* @param {number} minLines, minimum number of lines to show in a text area, default 4
+* @param {number} maxLines, maximum number of lines to show in a text area before scrolling, default 12
 * @param {''} innerRightIcon, if defined, puts an icon (specified) from the unity icon set on the right side of the text input
 * @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
 * @example
@@ -42,6 +44,9 @@ import '../unity-icon-set/unity-icon-set'
 *   showIcon
 * </unity-text-input>
 **/
+
+const MIN_LINES = 4
+const MAX_LINES = 12
 
 class UnityTextInput extends LitElement {
   constructor() {
@@ -63,6 +68,8 @@ class UnityTextInput extends LitElement {
     this.innerRightIcon = ""
     this.innerLeftIcon = ""
     this.area = false
+    this.minLines = MIN_LINES
+    this.maxLines = MAX_LINES
 
     // internals
     this._error = ''
@@ -94,6 +101,8 @@ class UnityTextInput extends LitElement {
       hideBorder: { type: Boolean },
       rounded: { type: Boolean },
       area: { type: Boolean },
+      minLines: { type: Number },
+      maxLines: { type: Number },
 
       // internals
       _valid: { type: Boolean },
@@ -276,12 +285,14 @@ class UnityTextInput extends LitElement {
       disabled,
       units,
       charCount,
+      maxlength,
       hideBorder,
       rounded,
       innerRightIcon,
       innerLeftIcon,
       area,
-      maxlength,
+      minLines: givenMinLines,
+      maxLines: givenMaxLines,
       time,
       password,
       placeholder,
@@ -291,6 +302,8 @@ class UnityTextInput extends LitElement {
       _errorText,
       _clickUnits
     } = this
+    const minLines = givenMinLines < 1 ? 1 : Math.floor(givenMinLines)
+    const maxLines = givenMaxLines < minLines ? minLines : Math.floor(givenMaxLines)
 
     let type = 'text'
     if (!area) {
@@ -318,6 +331,7 @@ class UnityTextInput extends LitElement {
               maxlength="${maxlength || null}"
               class="${!!disabled ? 'disabled' : ''}"
               ?disabled=${!!disabled}
+              style="--area-min-lines: ${minLines}; --area-max-lines: ${maxLines}"
             />`
             :
             html`<input
@@ -454,8 +468,8 @@ class UnityTextInput extends LitElement {
           border: 0;
           background-color: transparent;
           resize: none;
-          min-height: calc(var(--text-size) * 1.4545 * var(--area-min-lines, 4));
-          max-height: calc(var(--text-size) * 1.4545 * var(--area-max-lines, 12));
+          min-height: calc(var(--text-size) * 1.4545 * var(--area-min-lines, ${MIN_LINES}));
+          max-height: calc(var(--text-size) * 1.4545 * var(--area-max-lines, ${MAX_LINES}));
         }
         #textarea:focus {
           outline: none;
