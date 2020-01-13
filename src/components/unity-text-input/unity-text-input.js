@@ -268,70 +268,12 @@ class UnityTextInput extends LitElement {
     return classes.join(" ")
   }
 
-  _getInputComponent() {
-    const {
-      area,
-      disabled,
-      time,
-      password,
-      innerLeftIcon,
-      maxlength,
-      value
-    } = this
-
-    if (area) {
-      if (!!disabled) {
-        return html`<iron-autogrow-textarea
-          id="textarea"
-          value="{{value::iron-autogrow-textarea}}"
-          class="disabled"
-          maxlength="${maxlength || null}"
-          disabled
-        />`
-      } else {
-        return html`<iron-autogrow-textarea
-          id="textarea"
-          value="{{value::iron-autogrow-textarea}}"
-          maxlength="${maxlength || null}"
-        />`
-      }
-    } else {
-
-      let type = 'text'
-      if (!!time) type = 'time'
-      if (!!password) type = 'password'
-
-      if (!!disabled) {
-        return html`<input
-          value="{{value::input}}"
-          id="input"
-          class="disabled"
-          type="${type}"
-          maxlength="${maxlength || null}"
-          placeholder="${!!placeholder ? placeholder : ''}"
-          disabled
-          style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
-        >`
-      } else {
-        return html`<input
-          value="{{value::input}}"
-          id="input"
-          type="${type}"
-          maxlength="${maxlength || null}"
-          placeholder="${!!placeholder ? placeholder : ''}"
-          style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
-        >`
-      }
-    }
-  }
-
   render() {
     const {
       value,
       label,
       remark,
       disabled,
-      placeholder,
       units,
       charCount,
       hideBorder,
@@ -340,12 +282,21 @@ class UnityTextInput extends LitElement {
       innerLeftIcon,
       area,
       maxlength,
+      time,
+      password,
+      placeholder,
       _onChange,
       _valid,
       _strength,
       _errorText,
       _clickUnits
     } = this
+
+    let type = 'text'
+    if (!area) {
+      if (!!time) type = 'time'
+      if (!!password) type = 'password'
+    }
 
     return html`
       <div>
@@ -360,7 +311,26 @@ class UnityTextInput extends LitElement {
           bind-value="${value}"
           @input="${_onChange}"
         >
-          ${this._getInputComponent()}
+          ${!!area ?
+            html`<iron-autogrow-textarea
+              id="textarea"
+              value="{{value::iron-autogrow-textarea}}"
+              maxlength="${maxlength || null}"
+              class="${!!disabled ? 'disabled' : ''}"
+              ?disabled=${!!disabled}
+            />`
+            :
+            html`<input
+              value="{{value::input}}"
+              id="input"
+              type="${type}"
+              maxlength="${maxlength || null}"
+              placeholder="${!!placeholder ? placeholder : ''}"
+              style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
+              class="${!!disabled ? 'disabled' : ''}"
+              ?disabled=${!!disabled}
+            >`
+          }
           ${!area ? this._renderInnerIcon(innerRightIcon, false) : null}
           ${!area ? this._renderInnerIcon(innerLeftIcon, true) : null}
           ${(!area && !!units) ?
