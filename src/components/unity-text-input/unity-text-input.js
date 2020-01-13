@@ -331,6 +331,7 @@ class UnityTextInput extends LitElement {
               maxlength="${maxlength || null}"
               class="${!!disabled ? 'disabled' : ''}"
               ?disabled=${!!disabled}
+              placeholder="${!!placeholder ? placeholder : ''}"
               style="--area-min-lines: ${minLines}; --area-max-lines: ${maxLines}"
             />`
             :
