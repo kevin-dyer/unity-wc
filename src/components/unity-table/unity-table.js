@@ -687,14 +687,11 @@ class UnityTable extends LitElement {
           this.startingX = e.screenX
         }}"
         @click="${e => {
+          //Compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
           const deltaX = Math.abs(e.screenX - this.startingX)
 
-          //BIG NOTE: need to compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
           if (deltaX < MOUSE_MOVE_THRESHOLD) {
-            console.log("row click caled! deltaX: ", deltaX)
             this.onClickRow(datum, e)
-          } else {
-            console.log("skipping row click handler, deltaX above threshold: ", deltaX)
           }
         }}"
       >
