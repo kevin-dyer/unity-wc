@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import './unity-layout/unity-page-header.js'
-import './unity-button/unity-button.js'
+// import './unity-button/unity-button.js'
+import '@bit/smartworks.unity.unity-button'
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
@@ -9,7 +10,18 @@ import { SharedStyles } from './shared-styles.js';
 class MyLayout extends LitElement {
   static get styles() {
     return [
-      SharedStyles
+      SharedStyles,
+      css`
+        .container {
+          flex: 1;
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .header-wrapper {
+          /*flex: 0;*/
+          width: 100%;
+        }
+      `
     ];
   }
 
@@ -29,31 +41,35 @@ class MyLayout extends LitElement {
   }
 
   render() {
-    return html`<unity-page-header
-      title="MOCC2 Title"
-      ?showBackBtn=${true}
-      .tabs=${[
-        {
-          label: 'Users'
-        },
-        {
-          label: 'Rules'
-        },
-        {
-          label: 'API Keys'
-        }
-      ]}
-      .selectedTab=${1}
-    >
-      <div slot="action-content">
-        <unity-button
-          label="my button"
-          ?gradient=${true}
-          ?disabled=${false}
-          @click=${e => console.log("unity-button clicked! e: ", e)}
-        />
-      </div>
-    </unity-page-header>`
+    return html`<div class="container">
+    <div class="header-wrapper">
+      <unity-page-header
+        title="MOCC2 Title"
+        ?showBackBtn=${true}
+        .tabs=${[
+          {
+            label: 'Users'
+          },
+          {
+            label: 'Rules'
+          },
+          {
+            label: 'API Keys'
+          }
+        ]}
+        .selectedTab=${1}
+      >
+        <div slot="action-content">
+          <unity-button
+            label="my button"
+            ?gradient=${true}
+            ?disabled=${false}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          />
+        </div>
+      </unity-page-header>
+    </div>
+    </div>`
   }
 }
 

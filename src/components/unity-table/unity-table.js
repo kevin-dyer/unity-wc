@@ -6,11 +6,9 @@ import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 // import '@bit/smartworks.unity.unity-table-cell'
-// import '@bit/smartworks.unity.table-cell-base'
 import './unity-table-cell.js'
+// import '@bit/smartworks.unity.table-cell-base'
 import './table-cell-base.js'
-
-
 
 import {
   filterData,
@@ -688,14 +686,11 @@ class UnityTable extends LitElement {
           this.startingX = e.screenX
         }}"
         @click="${e => {
+          //Compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
           const deltaX = Math.abs(e.screenX - this.startingX)
 
-          //BIG NOTE: need to compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
           if (deltaX < MOUSE_MOVE_THRESHOLD) {
-            console.log("row click caled! deltaX: ", deltaX)
             this.onClickRow(datum, e)
-          } else {
-            console.log("skipping row click handler, deltaX above threshold: ", deltaX)
           }
         }}"
       >
@@ -896,6 +891,7 @@ class UnityTable extends LitElement {
         .header {
           display: flex;
           flex-direction: row;
+
           justify-content: space-between;
           align-items: center;
           margin: 0;

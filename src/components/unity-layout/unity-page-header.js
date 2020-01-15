@@ -110,6 +110,12 @@ class UnityPageHeader extends LitElement {
           --paper-tabs-selection-bar-color: var(--primary-brand-color, var(--default-primary-brand-color));
         }
 
+        ::slotted(*) {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+
       `
     ];
   }

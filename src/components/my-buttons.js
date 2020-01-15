@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
-import './unity-button/unity-button.js'
+// import './unity-button/unity-button.js'
+import '@bit/smartworks.unity.unity-button'
 import { SharedStyles } from './shared-styles.js';
 
 class MyButtons extends LitElement {
