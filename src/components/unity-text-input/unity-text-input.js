@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 import '@polymer/iron-input/iron-input'
+import '@polymer/iron-autogrow-textarea'
 import '@polymer/iron-icon/iron-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '../unity-icon-set/unity-icon-set'
@@ -13,6 +14,7 @@ import '../unity-icon-set/unity-icon-set'
 * @param {''} placeholder, initial text to be overwritten
 * @param {''} remark, text to render below input field
 * @param {bool} charCount, show current char count
+* @param {int} maxlength, maximum number of characters to allow
 * @param {bool} disabled, controls if field is enabled/disabled, defaults: false (enabled)
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
@@ -23,6 +25,9 @@ import '../unity-icon-set/unity-icon-set'
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @param {bool} rounded, if specified, makes the text input edges rounded, defaults: false (square corners)
 * @param {bool} hideBorder, hides the border of the element, defaults: false (show border)
+* @param {bool} area, field shows as text area with scrolling and multiline, disables many other features
+* @param {number} minLines, minimum number of lines to show in a text area, default 4
+* @param {number} maxLines, maximum number of lines to show in a text area before scrolling, default 12
 * @param {''} innerRightIcon, if defined, puts an icon (specified) from the unity icon set on the right side of the text input
 * @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
 * @example
@@ -40,6 +45,9 @@ import '../unity-icon-set/unity-icon-set'
 * </unity-text-input>
 **/
 
+const MIN_LINES = 4
+const MAX_LINES = 12
+
 class UnityTextInput extends LitElement {
   constructor() {
     super()
@@ -53,11 +61,15 @@ class UnityTextInput extends LitElement {
     this.placeholder = ""
     this.units = ""
     this.charCount = false
+    this.maxlength = 0
     this.showIcon = false
     this.hideBorder = false
     this.rounded = false
     this.innerRightIcon = ""
     this.innerLeftIcon = ""
+    this.area = false
+    this.minLines = MIN_LINES
+    this.maxLines = MAX_LINES
 
     // internals
     this._error = ''
@@ -82,11 +94,16 @@ class UnityTextInput extends LitElement {
       placeholder: { type: String },
       units: { type: String },
       charCount: { type: Boolean },
+      maxlength: { type: Number },
       error: { type: String },
       validation: { type: Function },
       showIcon: { type: Boolean },
       hideBorder: { type: Boolean },
       rounded: { type: Boolean },
+      area: { type: Boolean },
+      minLines: { type: Number },
+      maxLines: { type: Number },
+
       // internals
       _valid: { type: Boolean },
       _strength: { type: Number },
@@ -226,12 +243,38 @@ class UnityTextInput extends LitElement {
   }
 
   _renderInnerIcon(icon, iconOnLeftSide) {
+    const { _clickUnits } = this
     if (!icon) return
     return html`
       <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
-        <iron-icon class="inner-icon" icon="${icon}"></iron-icon>
+        <iron-icon class="inner-icon" icon="${icon}" @click="${_clickUnits}"></iron-icon>
       </div>
     `
+  }
+
+  _getInputWrapperClasses() {
+    const {
+      area,
+      _valid,
+      units,
+      disabled,
+      hideBorder,
+      rounded
+    } = this
+    let classes = ['input-wrapper']
+    if (!!area) {
+      classes.push('area', 'showBorder', 'notRounded')
+    } else {
+      if (!!units) classes.push('units')
+      if (!!hideBorder) classes.push('hideBorder')
+      else classes.push('showBorder')
+      if (!!rounded) classes.push('rounded')
+      else classes.push('notRounded')
+    }
+    if (!_valid) classes.push('invalid')
+    else classes.push('valid')
+    if (!!disabled) classes.push('disabled')
+    return classes.join(" ")
   }
 
   render() {
@@ -240,25 +283,33 @@ class UnityTextInput extends LitElement {
       label,
       remark,
       disabled,
-      time,
-      password,
-      placeholder,
       units,
       charCount,
+      maxlength,
       hideBorder,
       rounded,
       innerRightIcon,
       innerLeftIcon,
+      area,
+      minLines: givenMinLines,
+      maxLines: givenMaxLines,
+      time,
+      password,
+      placeholder,
       _onChange,
       _valid,
       _strength,
       _errorText,
       _clickUnits
     } = this
+    const minLines = givenMinLines < 1 ? 1 : Math.floor(givenMinLines)
+    const maxLines = givenMaxLines < minLines ? minLines : Math.floor(givenMaxLines)
 
     let type = 'text'
-    if (!!time) type = 'time'
-    if (!!password) type = 'password'
+    if (!area) {
+      if (!!time) type = 'time'
+      if (!!password) type = 'password'
+    }
 
     return html`
       <div>
@@ -269,38 +320,35 @@ class UnityTextInput extends LitElement {
           : null
         }
         <iron-input
-          class="input-wrapper
-            ${!_valid ? 'invalid' : 'valid'}
-            ${!!units ? 'units' : ''}
-            ${!!disabled ? 'disabled' : ''}
-            ${!!hideBorder ? 'hideBorder' : 'showBorder'}
-            ${!!rounded ? 'rounded' : 'notRounded'}
-          "
+          class="${this._getInputWrapperClasses()}"
           bind-value="${value}"
           @input="${_onChange}"
         >
-          ${!!disabled ?
-            html`<input
-              value="{{value::input}}"
-              id="input"
-              class="disabled"
-              type="${type}"
+          ${!!area ?
+            html`<iron-autogrow-textarea
+              id="textarea"
+              value="{{value::iron-autogrow-textarea}}"
+              maxlength="${maxlength || null}"
+              class="${!!disabled ? 'disabled' : ''}"
+              ?disabled=${!!disabled}
               placeholder="${!!placeholder ? placeholder : ''}"
-              disabled
-              style="${!!innerLeftIcon && "margin-left: 24px;"}"
-            >`
+              style="--area-min-lines: ${minLines}; --area-max-lines: ${maxLines}"
+            />`
             :
             html`<input
+              value="{{value::input}}"
               id="input"
               type="${type}"
+              maxlength="${maxlength || null}"
               placeholder="${!!placeholder ? placeholder : ''}"
-              value="{{value::input}}"
-              style="${!!innerLeftIcon && "margin-left: 24px;"}"
+              style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
+              class="${!!disabled ? 'disabled' : ''}"
+              ?disabled=${!!disabled}
             >`
           }
-          ${this._renderInnerIcon(innerRightIcon, false)}
-          ${this._renderInnerIcon(innerLeftIcon, true)}
-          ${!!units ?
+          ${!area ? this._renderInnerIcon(innerRightIcon, false) : null}
+          ${!area ? this._renderInnerIcon(innerLeftIcon, true) : null}
+          ${(!area && !!units) ?
             html`<div
               class="units ${!!disabled ? 'disabled' : ''}"
               @click="${_clickUnits}"
@@ -308,7 +356,7 @@ class UnityTextInput extends LitElement {
               ${units}
             </div>`
           : null}
-          ${this._renderIcon()}
+          ${!area ? this._renderIcon() : null}
         </iron-input>
         <div class="bottom">
           <span class="remark">
@@ -316,7 +364,7 @@ class UnityTextInput extends LitElement {
           </span>
           ${!!charCount ?
             html`<span class="charCount">
-              ${value.length}
+              ${value.length}${!!maxlength ? `/${maxlength}` : null}
             </span>`
             : null
           }
@@ -375,6 +423,10 @@ class UnityTextInput extends LitElement {
           display: flex;
           flex-direction: row;
         }
+        .area {
+          height: auto;
+          padding: 6px 8px;
+        }
         .invalid {
           border-color: var(--danger-color, var(--default-danger-color));
           background-color: rgba(var(--danger-rgb, var(--default-danger-rgb)), .2);
@@ -405,6 +457,22 @@ class UnityTextInput extends LitElement {
           background-color: transparent;
         }
         #input:focus {
+          outline: none;
+        }
+        #textarea {
+          padding: 0;
+          margin: 0;
+          width: 100%;
+          font-family: var(--input-font);
+          font-size: var(--text-size);
+          color: rgb(var(--text-color));
+          border: 0;
+          background-color: transparent;
+          resize: none;
+          min-height: calc(var(--text-size) * 1.4545 * var(--area-min-lines, ${MIN_LINES}));
+          max-height: calc(var(--text-size) * 1.4545 * var(--area-max-lines, ${MAX_LINES}));
+        }
+        #textarea:focus {
           outline: none;
         }
         .units {

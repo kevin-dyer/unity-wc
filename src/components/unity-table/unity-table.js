@@ -10,7 +10,6 @@ import './unity-table-cell.js'
 // import '@bit/smartworks.unity.table-cell-base'
 import './table-cell-base.js'
 
-
 import {
   filterData,
   sortData

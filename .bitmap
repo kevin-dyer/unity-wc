@@ -151,7 +151,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@0.1.21": {
+    "smartworks.unity/unity-text-input@0.1.24": {
         "files": [
             {
                 "relativePath": "src/components/unity-text-input/unity-text-input.js",
@@ -163,5 +163,5 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "version": "14.7.1"
+    "version": "14.7.2"
 }

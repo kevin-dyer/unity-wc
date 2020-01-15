@@ -51,8 +51,8 @@ class MyTextInput extends PageViewElement {
   }
 
   onInputChange(e, value) {
-    // console.log('onChange e', e)
-    // console.log('onChange value', value)
+    console.log('onChange e', e)
+    console.log('onChange value', value)
   }
 
   render() {
@@ -92,6 +92,25 @@ class MyTextInput extends PageViewElement {
               .value="${"Rounded"}"
               .onChange="${this.onInputChange}"
               rounded
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .value="${"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}"
+              .label="${"Input Area"}"
+              .onChange="${this.onInputChange}"
+              area
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .value="${"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}"
+              .label="${"Input Area w/ Character Count Limit"}"
+              .onChange="${this.onInputChange}"
+              area
+              charCount
+              .maxLines="${8}"
+              .maxlength="${500}"
             ></unity-text-input>
           </div>
         </div>

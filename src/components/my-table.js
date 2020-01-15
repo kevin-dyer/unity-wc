@@ -197,6 +197,11 @@ class MyTable extends PageViewElement {
     console.log("handleEditColumns called!")
   }
 
+  handleEditColumns() {
+    //TODO: display edit column modal!
+    console.log("handleEditColumns called!")
+  }
+
   render() {
 
     return html`
