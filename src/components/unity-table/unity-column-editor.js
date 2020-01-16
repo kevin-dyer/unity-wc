@@ -88,11 +88,11 @@ class UnityColumnEditor extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.resoleListener = this.resolveOpenChange.bind(this)
-    document.addEventListener('iron-overlay-canceled', this.resoleListener);
+    this.resolveListener = this.resolveOpenChange.bind(this)
+    document.addEventListener('iron-overlay-canceled', this.resolveListener);
   }
   disconnectedCallback() {
-    document.removeEventListener('iron-overlay-canceled', this.resoleListener);
+    document.removeEventListener('iron-overlay-canceled', this.resolveListener);
     super.disconnectedCallback();
   }
 
