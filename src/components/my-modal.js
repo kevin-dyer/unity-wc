@@ -18,11 +18,19 @@ import '@bit/smartworks.unity.unity-button'
 import { SharedStyles } from './shared-styles.js';
 
 const TYPE = "TYPE"
+const OTHER = "OTHER"
 
 const MODALS = {
   [TYPE]: {
     key: TYPE,
-    title: 'Title',
+    title: 'Type',
+    top: null,
+    body: null,
+    bottom: null
+  },
+  [OTHER]: {
+    key: OTHER,
+    title: 'Other',
     top: null,
     body: null,
     bottom: null
@@ -96,7 +104,11 @@ class MyModal extends LitElement {
           </div>
         `)}
         <div class="modal">
-          <unity-modal ?show="${this.open}" title="${title}"></unity-modal>
+          <unity-modal
+          ?show="${open}"
+          title="${title}"
+          .toggle="${() => this.toggleModal(type)}"
+        ></unity-modal>
         </div>
       </div>
     `

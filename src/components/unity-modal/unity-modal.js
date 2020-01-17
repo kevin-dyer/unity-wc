@@ -43,13 +43,31 @@ class UnityModal extends LitElement {
 
     this.show = false
     this.title = ''
+    this.toggle = () => this.show = !this.show
   }
 
   static get properties() {
      return {
        show: { type: Boolean },
-       title: { type: String }
+       title: { type: String },
+       toggle: { type: Function }
      }
+  }
+
+  resolveOpenChange() {
+    if (this.show) {
+      this.toggle()
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.resolveListener = this.resolveOpenChange.bind(this)
+    document.addEventListener('iron-overlay-canceled', this.resolveListener)
+  }
+  disconnectedCallback() {
+    document.removeEventListener('iron-overlay-canceled', this.resolveListener)
+    super.disconnectedCallback()
   }
 
   render() {
@@ -67,7 +85,7 @@ class UnityModal extends LitElement {
         <slot name="body"></slot>
 
         <div class="buttons">
-          
+
         </div>
       </paper-dialog>
     `
