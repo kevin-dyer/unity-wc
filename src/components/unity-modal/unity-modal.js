@@ -79,13 +79,19 @@ class UnityModal extends LitElement {
       <paper-dialog
         id="dialog"
         ?opened="${this.show}"
+        .noCancelOnOutsideClick="${true}"
       >
-        <h2 class="dialog-title">${title}</h2>
+        <div class="dialog-title">
+          <h2>${title}</h2>
+          <div class="title-options">
+            <slot name="top"></slot>
+          </div>
+        </div>
 
         <slot name="body"></slot>
 
         <div class="buttons">
-
+          <slot name="bottom"></slot>
         </div>
       </paper-dialog>
     `
@@ -114,6 +120,9 @@ class UnityModal extends LitElement {
           display: flex;
           flex-direction: row;
           align-items: center;
+        }
+        .buttons {
+
         }
       `
     ]
