@@ -5,36 +5,20 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 /**
  * Displays button which will open column editor modal.
  * @name UnityColumnEditor
- * @param {[]} columns, array of objects - same as what is passed into unity-table
- * @param {[]} selectedColumns, array of column keys from columns that are visible
- * @param {func} onUpdate, callback that is sent an array of sorted visible columns
- * @param {bool} buttonGradient, boolean to style action button with background gradient
- * @param {bool} buttonOutlined, boolean to style action button with border outline
+ * @param {''} title, string for modal title
+ * @param {bool} show, bool to control if modal is open or close
+ * @param {func} toggle, callback that controls modals open/close
  * @returns {LitElement} returns a class extended from LitElement
  * @example
- *  <unity-column-editor
- *    ?buttonGradient=${true}
- *    ?buttonOutlined=${false}
- *    .columns="${[
- *      {
- *        key: 'column2',
- *        label: 'Column #2'
-*         format: (colValue, datum) => `Building: ${colValue}`
- *      },
- *      {
- *        key: 'columnN',
- *        label: 'Column #N'
- *        format: (colValue, datum) => html`<span style="${myStyle}">Room: ${colValue}</span>`
- *      },
- *      {
- *        key: 'column1',
- *        label: 'Column #1'
- *        format: column1Handler
- *      }
- *    ]}"
- *    .selectedColumns="${[column1, column2]}"
- *    .onUpdate="${visibleColumns => console.log('These are the visible sorted columns: ', visibleColumns')}"
- *  />
+ *  <unity-modal
+ *    .title="My Modal"
+ *    ?show="${open}"
+ *    toggle
+ *  >
+ *    <div slot="top"/>top</div>
+ *    <div slot="body"/>body</div>
+ *    <div slot="bottom"/>bottom</div>
+ *  <unity-modal/>
  */
 
 class UnityModal extends LitElement {
