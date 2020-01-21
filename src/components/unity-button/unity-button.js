@@ -48,6 +48,7 @@ class UnityButton extends LitElement {
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           padding: var(--unity-button-padding, var(--default-unity-button-padding));
           text-transform: none;
+          white-space: nowrap;
         }
 
         paper-button.small {
