@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-dialog/paper-dialog'
+import '@polymer/paper-dialog-scrollable'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 /**
@@ -65,12 +66,14 @@ class UnityModal extends LitElement {
         ?opened="${this.show}"
         .noCancelOnOutsideClick="${true}"
       >
-        <div class="dialog-title">
+        <div class="mdoal-title">
           <h2 class="title">${title}</h2>
           <slot name="top"></slot>
         </div>
 
-        <slot name="body"></slot>
+        <paper-dialog-scrollable>
+          <slot name="body"></slot>
+        </paper-dialog-scrollable>
 
         <div class="buttons">
           <slot name="bottom"></slot>
@@ -92,7 +95,10 @@ class UnityModal extends LitElement {
         paper-dialog {
           min-width: 425px;
         }
-        .dialog-title {
+        paper-dialog-scrollable {
+          margin: 0;
+        }
+        .mdoal-title {
           font-size: var(--header2-selected-font-size, var(--default-header2-selected-font-size));
           font-weight: var(--header2-selected-font-weight, var(--default-header2-selected-font-weight));
           border-bottom: 1px solid var(--light-grey-text-color, var(--default-light-grey-text-color));
