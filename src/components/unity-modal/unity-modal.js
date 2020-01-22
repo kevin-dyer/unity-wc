@@ -66,10 +66,8 @@ class UnityModal extends LitElement {
         .noCancelOnOutsideClick="${true}"
       >
         <div class="dialog-title">
-          <h2>${title}</h2>
-          <div class="title-options">
-            <slot name="top"></slot>
-          </div>
+          <h2 class="title">${title}</h2>
+          <slot name="top"></slot>
         </div>
 
         <slot name="body"></slot>
@@ -105,8 +103,9 @@ class UnityModal extends LitElement {
           flex-direction: row;
           align-items: center;
         }
-        .buttons {
-
+        .title {
+          display: flex;
+          flex: 1;
         }
       `
     ]
