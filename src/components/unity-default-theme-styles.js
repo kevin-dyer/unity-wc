@@ -7,6 +7,7 @@ import { css } from 'lit-element';
 export const UnityDefaultThemeStyles = css`
   :host {
     --default-primary-brand-rgb: 58, 188, 225;
+    --default-primary-brand-rgb-light: 178,229,247;
     --default-secondary-brand-rgb: 48, 128, 195;
     --default-success-rgb: 156, 204, 101;
     --default-danger-rgb: 244, 67, 54;
@@ -16,6 +17,7 @@ export const UnityDefaultThemeStyles = css`
 
     /* Colors*/
     --default-primary-brand-color: rgb(var(--default-primary-brand-rgb));
+    --default-primary-brand-color-light: rgb(var(--default-primary-brand-rgb-light));
     --default-secondary-brand-color: rgb(var(--default-secondary-brand-rgb));
     --default-success-color: rgb(var(--default-success-rgb));
     --default-danger-color: rgb(var(--default-danger-rgb));
