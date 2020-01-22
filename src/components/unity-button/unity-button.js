@@ -281,7 +281,6 @@ class UnityButton extends LitElement {
       classList.push('icon-btn')
     }
 
-    console.log("getClassNames returns: ", classList.join(' '))
     return classList.join(' ')
   }
 

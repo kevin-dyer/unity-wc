@@ -13,7 +13,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-button@0.0.16": {
+    "smartworks.unity/unity-button@0.0.17": {
         "files": [
             {
                 "name": "unity-button.js",
