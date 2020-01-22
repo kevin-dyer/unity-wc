@@ -95,9 +95,11 @@ class UnityDropdownInputBase extends LitElement {
         ul{
           padding: 0;
           margin: 0;
+          list-style: none;
+        }
+        .options-box {
           border: 1px solid gray;
           border-radius: 0 0 2px 2px;
-          list-style: none;
         }
         .list-element {
           margin: 0;
@@ -153,11 +155,18 @@ class UnityDropdownInputBase extends LitElement {
           color: rgba(var(--text-color), .4);
         }
         .disabled #selected {
-          color: var(--medium-grey-text-color);
+          color: var(--dark-grey-text-color);
+        }
+        .placeholder {
+          color: var(--light-grey-text-color) !important;
         }
         .option-comment {
           font-size: 0.9em;
           line-height: 1.2em;
+        }
+        .helper-text {
+          font-size: 10px;
+          text-align: center;
         }
       `
     ];
@@ -167,25 +176,29 @@ class UnityDropdownInputBase extends LitElement {
   constructor() {
     super();
     this.label = "";
-    this.selected = 0;
+    this.placeholder = "List Hint";
+    this.selected = null;
     this.disabled = false;
     this.dropdown = () => this.toggleCollapse();
     this.changeValue = (index) => (e) => {this.selected = index;};
     this.collapsed = true;
     this.options = optionsList;
     this.selectIcon = true;
+    this.helperText = "Choose any option";
     
   }
 
   static get properties() {
     return {
       label: { type: String },
+      placeholder: { type: String },
       selected: { type: Number },
       disabled: { type: Boolean },
       dropdown: { type: Function },
       collapsed: { type: Boolean },
       options: { type: Array },
-      selectIcon: { type: Boolean }
+      selectIcon: { type: Boolean },
+      helperText: { type: String },
     };
   }
 
@@ -223,6 +236,16 @@ class UnityDropdownInputBase extends LitElement {
                 </div>`;
   }
 
+  getSelectedLabel() {
+    let initialLabel = this.placeholder? this.placeholder : optionsList[0].label;
+    if (this.selected === null) {
+      return html`<p id="selected" class="placeholder">${initialLabel}</p>`;
+    }
+    else {
+      return html`<p id="selected">${optionsList[this.selected].label}</p>`;
+    }
+  }
+
   render() {
     return html`
       <div>
@@ -235,22 +258,26 @@ class UnityDropdownInputBase extends LitElement {
         <div class="dropdown-menu">
           <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}" @click="${this.dropdown}">
             <div style="flex: 1;  display:flex" class="selected-wrapper">
-              ${!!optionsList[this.selected].icon? html`
+              ${this.selected !== null? !!optionsList[this.selected].icon? html`
                 <div class="icon-left-wrapper">
                   <iron-icon class="inner-icon" icon="${optionsList[this.selected].icon}"}"></iron-icon>
                 </div> ` 
-              : null }
-              <p id="selected">${optionsList[this.selected].label}</p>
+              : null : null }
+              ${this.getSelectedLabel()}
             </div>
             <div class="icon-right-wrapper">
               <iron-icon class="inner-icon" icon="${this.collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
             </div>
           </div>
           ${!this.collapsed? 
-            html`<ul>
-              ${this.options.map((option, index) => {return this.renderOption(option, index)})}
-              </ul>`:
-            null}
+            html`
+              <div class="options-box">
+                <ul>
+                ${this.options.map((option, index) => {return this.renderOption(option, index)})}
+                </ul>
+                ${!!this.helperText? html`<p class="helper-text">${this.helperText}</p>` :null}
+              </div>`
+            :null}
         </div>     
       </div>
     `;
