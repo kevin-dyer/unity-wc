@@ -76,7 +76,6 @@ class MyApp extends connect(store)(LitElement) {
         }
 
         app-header {
-          /*position: fixed;*/
           flex: 0;
           top: 0;
           left: 0;
@@ -157,17 +156,14 @@ class MyApp extends connect(store)(LitElement) {
 
         .main-content {
           flex: 1;
-          /*padding-top: 64px;*/
         }
 
         .page {
           display: none;
-          /*height: 100%;*/
           flex: 1;
         }
 
         .page[active] {
-          /*display: block;*/
           display: flex;
           flex: 1;
         }
@@ -191,13 +187,11 @@ class MyApp extends connect(store)(LitElement) {
           }
 
           .main-content {
-            /*padding-top: 107px;*/
           }
 
           /* The drawer button isn't shown in the wide layout, so we don't
           need to offset the title */
           [main-title] {
-            /*padding-right: 0px;*/
           }
         }
       `
