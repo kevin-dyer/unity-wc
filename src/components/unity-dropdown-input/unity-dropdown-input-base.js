@@ -15,15 +15,25 @@ import '@polymer/iron-icon/iron-icon';
 import '@bit/smartworks.unity.unity-icon-set';
 
 const optionsList = [
-  {"label": "Option 1", "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"},
-  {"label": "Option 2"},
-  {"label": "Option 3"}];
+  {
+    "label": "Option 1", 
+    "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
+    "icon": "unity:info_circle"},
+  {
+    "label": "Option 2",
+    "icon": "unity:share"},
+  {
+    "label": "Option 3",
+  }];
 
 
 /**
  * TODOS:
  * - Match colors to spec
  * - Add shadow to the component on focus
+ * - Collapse or not collapse? (when clicking option)
+ * - Check sizes - most are pixel, some are em, and some things get ugly when you change browser font size
+ * - Check icons size (different size for option listed and selected)
  */
 
 class UnityDropdownInputBase extends LitElement {
@@ -53,7 +63,6 @@ class UnityDropdownInputBase extends LitElement {
           box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);;
         }
         .label {
-          margin: 0;
           padding: 0;
           font-size: var(--text-size);
           color: var(--label-color);
@@ -62,8 +71,23 @@ class UnityDropdownInputBase extends LitElement {
           margin: 0;
         }
         .icon-right-wrapper {
-          position: relative;
-          left: 6px;
+        }
+        .icon-left-wrapper {
+          padding-right: 6px;
+        }
+        .inner-icon {
+          max-height: 1.8em;
+          max-width: 1.8em;
+        }
+        .selected-icon {
+          color: var(--primary-brand-color, var(--default-primary-brand-color));
+        }
+        .option-label-wrapper {
+          display: flex;
+          align-items: center;
+        }
+        .option-label {
+          flex: 1;
         }
         .text-box:not(.disabled) .icon-right-wrapper {
           cursor: pointer;
@@ -81,6 +105,7 @@ class UnityDropdownInputBase extends LitElement {
         li {
           font-size: var(--text-size);
           font-family: var(--input-font);
+          width: 100%;
         }
         .list-element:hover {
           background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
@@ -108,6 +133,7 @@ class UnityDropdownInputBase extends LitElement {
           box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
         }
         .selected-wrapper: {
+          display: flex;
           flex: 1;
         }
         #selected {
@@ -144,9 +170,10 @@ class UnityDropdownInputBase extends LitElement {
     this.selected = 0;
     this.disabled = false;
     this.dropdown = () => this.toggleCollapse();
-    this.changeValue = (index) => (e) => {this.selected = index};
+    this.changeValue = (index) => (e) => {this.selected = index;};
     this.collapsed = true;
     this.options = optionsList;
+    this.selectIcon = true;
     
   }
 
@@ -157,7 +184,8 @@ class UnityDropdownInputBase extends LitElement {
       disabled: { type: Boolean },
       dropdown: { type: Function },
       collapsed: { type: Boolean },
-      options: { type: Array }
+      options: { type: Array },
+      selectIcon: { type: Boolean }
     };
   }
 
@@ -178,7 +206,18 @@ class UnityDropdownInputBase extends LitElement {
     }
     return html`<div class="text-box list-element" @click=${this.changeValue(index)}>
                   <li>
-                    <p>${label}</p>
+                    <div class="option-label-wrapper">
+                      ${!!option.icon? html`<div class="icon-left-wrapper">
+                            <iron-icon class="inner-icon" icon="${option.icon}"}"></iron-icon>
+                          </div> ` 
+                        : null }
+                      <p class="option-label">${label}</p>
+                      ${this.selectIcon && (index === this.selected)? html`
+                        <div class="icon-right-wrapper selected-icon">
+                          <iron-icon class="inner-icon" icon="unity:check"}"></iron-icon>
+                        </div>` 
+                        : null}
+                    </div>
                     ${!!option.comment? html`<p class="option-comment">${option.comment}</p>`: null}
                   </li>
                 </div>`;
@@ -188,14 +227,19 @@ class UnityDropdownInputBase extends LitElement {
     return html`
       <div>
         ${!!this.label ?
-          html`<span class="label">
+          html`<p class="label">
             ${this.label}
-            </span>`
+            </p>`
           : null
         }
         <div class="dropdown-menu">
           <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}" @click="${this.dropdown}">
-            <div style="flex: 1" class="selected-wrapper">
+            <div style="flex: 1;  display:flex" class="selected-wrapper">
+              ${!!optionsList[this.selected].icon? html`
+                <div class="icon-left-wrapper">
+                  <iron-icon class="inner-icon" icon="${optionsList[this.selected].icon}"}"></iron-icon>
+                </div> ` 
+              : null }
               <p id="selected">${optionsList[this.selected].label}</p>
             </div>
             <div class="icon-right-wrapper">
