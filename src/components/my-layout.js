@@ -59,7 +59,7 @@ class MyLayout extends LitElement {
         ]}
         .selectedTab=${1}
       >
-        <div slot="action-content">
+        <div slot="right-content">
           <unity-button
             label="my button"
             ?gradient=${true}

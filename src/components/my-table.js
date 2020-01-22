@@ -225,7 +225,6 @@ class MyTable extends PageViewElement {
   }
 
   render() {
-
     return html`
       <div class="example-container">
         <unity-page-header
@@ -257,7 +256,13 @@ class MyTable extends PageViewElement {
             .childKeys="${['children']}"
             .data="${exampleData}"
             .columns="${this._visibleColumns}"
-            visibleRowCount="${20}"
+            visibleRowCount="${50}"
+            scrollLoadOffset=${25}
+            endReachedThreshold="${20}"
+            .onEndReached="${() => {
+              console.log("my-table end reached!")
+            }}"
+
 
             .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
             .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"

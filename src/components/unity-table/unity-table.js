@@ -7,6 +7,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js';
 
 
+
 // import '@bit/smartworks.unity.unity-table-cell'
 import './unity-table-cell.js'
 // import '@bit/smartworks.unity.table-cell-base'
@@ -19,6 +20,7 @@ import {
 
 const MIN_CELL_WIDTH = 150
 const MOUSE_MOVE_THRESHOLD = 5
+const ROW_HEIGHT = 40 //used to set scroll offset
 /**
  * Displays table of data.
  * @name UnityTable
@@ -121,10 +123,9 @@ const MOUSE_MOVE_THRESHOLD = 5
 //   onColumnSort:           function to be called when sortBy changes if controls are EXT
 //                           sends string of column name and string for ascending or descending
 //   onColumnChange:         Callback to update changes to the rendered columns
-//   onEndReached:           function to be called to request more pages to support infiniscroll
-//                           only works with controls set to EXT
-//   onEndReachedThreshold:  TBD
-
+//   onEndReached:           Callback fired when Scroll to within threshold of lower bound.
+//                           Useful for server side pagination to support infiniscroll
+//                           Only call when reached the end of the input data array
 const ASC = 'Ascending'
 const DES = 'Descending'
 const UNS = 'Unsorted'
@@ -157,7 +158,7 @@ class UnityTable extends LitElement {
     // this.controls = false
     // this.onSearchFilter = ()=>{}
     // this.onColumnSort = ()=>{}
-    // this.onEndReached = ()=>{}
+    this.onEndReached = ()=>{}
     this.onColumnChange=()=>{}
 
     // defaults of internal references
@@ -173,6 +174,7 @@ class UnityTable extends LitElement {
     this._keyExtractor = (datum, index)=>index
     this._columns = []
     this._rowOffset = 0 //used to track for infinite scroll
+    this._tableId = Date.now()//unique identifier for table element
   }
 
   // inputs
@@ -201,81 +203,71 @@ class UnityTable extends LitElement {
       // controls: { type: Boolean },
       // onSearchFilter: { type: Function },
       // onColumnSort: { type: Function },
-      // onEndReached: { type: Function },
+      onEndReached: { type: Function },
       onColumnChange: { type: Function },
     }
   }
 
+  //NOTE: #unity-table-container element is not mounted in intial connectedCallback, only after firstUpdated
   firstUpdated(changedProperties) {
-    // this.addEventListener('scroll', this.handleScroll);
-
-    //TODO: need to make unity-table-container unique
-//     const tableRef = this.shadowRoot.getElementById('unity-table-container')
-// 
-//     tableRef.onscroll = this.handleScroll.bind(this)
-
-    this.tableRef = this.shadowRoot.getElementById('unity-table-container')
-
-    console.log("this.tableRef: ", this.tableRef)
-    this.tableRef.addEventListener('lower-threshold', this.handleLowerThreshold.bind(this));
-
-    this.tableRef.addEventListener('upper-threshold', this.handleUpperThreshold.bind(this));
+    this.initTableRef()
   }
 
-//   connectedCallback() {
-//     super.connectedCallback();
-// 
-//     const tableRef = this.shadowRoot.getElementById('unity-table-container')
-// 
-//     console.log("tableRef: ", tableRef)
-//     tableRef.addEventListener('lower-threshold', this.handleChange);
-//   }
-  // disconnectedCallback() {
-  //   const tableRef = this.shadowRoot.getElementById('unity-table-container')
-  //   tableRef.removeEventListener('lower-threshold', this.handleChange);
-  //   super.disconnectedCallback();
-  // }
+  connectedCallback() {
+    super.connectedCallback()
+
+    this.initTableRef()
+  }
+  disconnectedCallback() {
+    if (!!this.tableRef) {
+      this.tableRef.removeEventListener('lower-threshold', this.boundLowerHandle)
+      this.tableRef.removeEventListener('upper-threshold', this.boundUpperHandle)
+      this.tableRef = undefined
+    }
+    super.disconnectedCallback();
+  }
+
+  initTableRef() {
+    //Only define tableRef and its boundry threshold events if not already defined.
+    if (!this.tableRef) {
+      this.tableRef = this.shadowRoot.getElementById(`unity-table-${this._tableId}`)
+      // this.tableRef = this.shadowRoot.getElementById('unity-table-container')
+
+      if (!!this.tableRef) {
+        this.tableRef.upperThreshold = this.endReachedThreshold
+        this.tableRef.lowerThreshold = this.endReachedThreshold
+
+        this.boundLowerHandle = this.handleLowerThreshold.bind(this)
+        this.boundUpperHandle = this.handleUpperThreshold.bind(this)
+        this.tableRef.addEventListener('lower-threshold', this.boundLowerHandle);
+        this.tableRef.addEventListener('upper-threshold', this.boundUpperHandle);
+      }
+    }
+  }
 
   handleLowerThreshold(e) {
-    console.log("handleLowerThreshold called")
+    const dataLength = this._flattenedData.length
+    const maxOffset = dataLength - this.visibleRowCount
+    const nextOffset = this._rowOffset + this.scrollLoadOffset
+    this._rowOffset = Math.min(maxOffset, nextOffset)
+
+    if ((nextOffset + this.visibleRowCount) >= dataLength && typeof this.onEndReached === 'function') {
+      //NOTE: this should throttled or debounced to prevent duplicate calls
+      this.onEndReached()
+    }
 
     setTimeout(() => {
       this.tableRef.clearTriggers();
-    }, 1000);
+    }, 60);
   }
 
   handleUpperThreshold(e) {
-    console.log("handleUpperThreshold called")
+    const minOffset = 0
+    this._rowOffset = Math.max(minOffset, this._rowOffset - this.scrollLoadOffset)
 
     setTimeout(() => {
       this.tableRef.clearTriggers();
-    }, 1000);
-  }
-
-
-  //TODO: make element id unique
-  handleScroll(e) {
-    const {
-      target: {
-        scrollTop=0,
-        scrollHeight=0,
-        offsetHeight=0
-      }={}
-    } = e
-    // console.log("handleScroll scroll height / position: ", scrollTop, " / ", scrollHeight, ", this._rowOffset: ", this._rowOffset)
-
-    if (scrollTop + offsetHeight > scrollHeight - this.endReachedThreshold) {
-      console.log("end reached!")
-
-      //increment this._rowOffset by this.scrollLoadOffset
-      //NOTE: ensure that row offset is no bigger than data.length - visibleRowCount
-      const maxOffset = this._flattenedData.length - this.visibleRowCount
-      this._rowOffset = Math.min(maxOffset, this._rowOffset + this.scrollLoadOffset)
-    }
-
-
-
-    //TODO: do same check at top of table
+    }, 60);
   }
 
   //TODO: move into table utils
@@ -479,6 +471,20 @@ class UnityTable extends LitElement {
 
   get keyExtractor() {
     return this._keyExtractor
+  }
+
+  updated(changedProps) {
+    const prevRowOffset = changedProps.get('_rowOffset')
+
+    //Update scroll offset when this._rowOffset has changed
+    if (prevRowOffset !== undefined) {
+      const rowOffsetDelta = this._rowOffset - prevRowOffset
+      const scrollOffset = -1 * rowOffsetDelta * ROW_HEIGHT
+      const scrollTop = this.tableRef._scrollTop
+      const nextScrollTop = scrollTop + scrollOffset
+
+      this.tableRef.scrollTop = nextScrollTop
+    }
   }
 
   setDataMap(value) {
@@ -864,13 +870,8 @@ class UnityTable extends LitElement {
     this.columns = nextColumns
   }
 
-  _handleLowerEndReached(e) {
-    console.log("_handleLowerEndReached e: ", e)
-  }
-
   render() {
-
-    console.log("this._rowOffset: ", this._rowOffset, ", visibleRowCount: ", this.visibleRowCount)
+    //Only display this.visibleRowCount number of rows, starting from this._rowOffset
     const data = this._flattenedData.slice(this._rowOffset, this._rowOffset + this.visibleRowCount) || []
     const hasData = data.length > 0
     const isLoading = this.isLoading
@@ -879,12 +880,8 @@ class UnityTable extends LitElement {
     // if isLoading, show spinner
     // if !hasData, show empty message
     // show data
-    //TODO: make table id unique
-
-    // <div class="container" id="unity-table-container"></div>
     return html`
-      <iron-scroll-threshold id="unity-table-container" class="container">
-      
+      <iron-scroll-threshold id="${`unity-table-${this._tableId}`}" class="container">
         <table class="${fill ? 'fullspace' : ''}">
           ${!this.headless ? this._renderTableHeader(this.columns) : null}
           ${fill
@@ -928,15 +925,7 @@ class UnityTable extends LitElement {
           flex: 1;
         }
         .container {
-          /*position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          width: 100%;*/
           flex: 1;
-          /*overflow-y: auto;*/
-          /*overflow-x: hidden;*/
           display: flex;
           flex-direction: column;
         }
@@ -950,7 +939,6 @@ class UnityTable extends LitElement {
           border-spacing: 0;
           box-sizing: border-box;
           overflow-x: hidden;
-          /*overflow-y: auto;*/
           border-right: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           border-bottom: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
