@@ -119,7 +119,7 @@ class UnityModal extends LitElement {
           min-width: 425px;
         }
         paper-dialog-scrollable {
-          margin: 0;
+          margin: 0 -24px;
         }
         .mdoal-title {
           font-size: var(--header2-selected-font-size, var(--default-header2-selected-font-size));
