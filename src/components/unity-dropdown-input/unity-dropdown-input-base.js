@@ -14,8 +14,17 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 import '@polymer/iron-icon/iron-icon';
 import '@bit/smartworks.unity.unity-icon-set';
 
+const optionsList = [
+  {"label": "Option 1", "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"},
+  {"label": "Option 2"},
+  {"label": "Option 3"}];
 
-const optionsList = [{"label": "Option 1"}, {"label": "Option 2"}, {"label": "Option 3"}];
+
+/**
+ * TODOS:
+ * - Match colors to spec
+ * - Add shadow to the component on focus
+ */
 
 class UnityDropdownInputBase extends LitElement {
   
@@ -35,6 +44,10 @@ class UnityDropdownInputBase extends LitElement {
           display: inline-block;
           width: 100%;
           max-width: 300px;
+        }
+        p {
+          margin-block-start: 0.5em;
+          margin-block-end: 0.5em;
         }
         .dropdown-menu:focus {
           box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);;
@@ -60,6 +73,7 @@ class UnityDropdownInputBase extends LitElement {
           margin: 0;
           border: 1px solid gray;
           border-radius: 0 0 2px 2px;
+          list-style: none;
         }
         .list-element {
           margin: 0;
@@ -72,19 +86,17 @@ class UnityDropdownInputBase extends LitElement {
           background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
         }
         .text-box {
-          width: 100%;
+          width: auto;
           background-color: var(--background-color, var(--default-background-color));
-          height: var(--unity-text-input-height, var(--default-unity-text-input-height));
           padding: 0 8px;
           box-sizing: border-box;
           position: relative;
           display: flex;
           flex-direction: row;
-          align-items: center;
+          align-items: center;          
         }
         .input-box {
           border: 1px solid gray;
-          margin-top: 6px;
           border-radius: 2px 2px 0 0;
         }
         .text-box:hover:not(.disabled){
@@ -115,9 +127,12 @@ class UnityDropdownInputBase extends LitElement {
           color: rgba(var(--text-color), .4);
         }
         .disabled #selected {
-          color: gray
+          color: var(--medium-grey-text-color);
         }
-        
+        .option-comment {
+          font-size: 0.9em;
+          line-height: 1.2em;
+        }
       `
     ];
   }
@@ -129,9 +144,10 @@ class UnityDropdownInputBase extends LitElement {
     this.selected = 0;
     this.disabled = false;
     this.dropdown = () => this.toggleCollapse();
-    this.changeValue = (index) => (e) => {this.selected = index}
+    this.changeValue = (index) => (e) => {this.selected = index};
     this.collapsed = true;
     this.options = optionsList;
+    
   }
 
   static get properties() {
@@ -151,14 +167,19 @@ class UnityDropdownInputBase extends LitElement {
     }
   }
 
+  collapse() {
+    this.collapsed = true;
+  }
+
   renderOption(option, index) {
     let label = option.label;
     if (index === this.selected) {
       label = html`<b>${label}</b>`;
     }
     return html`<div class="text-box list-element" @click=${this.changeValue(index)}>
-                  <li type="none">
-                    ${label}
+                  <li>
+                    <p>${label}</p>
+                    ${!!option.comment? html`<p class="option-comment">${option.comment}</p>`: null}
                   </li>
                 </div>`;
   }
@@ -178,7 +199,7 @@ class UnityDropdownInputBase extends LitElement {
               <p id="selected">${optionsList[this.selected].label}</p>
             </div>
             <div class="icon-right-wrapper">
-              <iron-icon class="inner-icon" icon="${this.collapsed? "unity:down" : "unity:up"}"></iron-icon>
+              <iron-icon class="inner-icon" icon="${this.collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
             </div>
           </div>
           ${!this.collapsed? 
