@@ -4,7 +4,7 @@ import '@polymer/paper-dialog-scrollable'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 /**
- * Displays button which will open column editor modal.
+ * Modal element that can be passed a title, top buttons, body, and bottom buttons
  * @name UnityColumnEditor
  * @param {''} title, string for modal title
  * @param {bool} show, bool to control if modal is open or close
@@ -14,11 +14,29 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *  <unity-modal
  *    .title="My Modal"
  *    ?show="${open}"
- *    toggle
+ *    .toggle="${()=> toggleClose()}"
  *  >
- *    <div slot="top"/>top</div>
- *    <div slot="body"/>body</div>
- *    <div slot="bottom"/>bottom</div>
+ *    <unity-button
+ *      slot="top"
+ *      label="Close"
+ *      outline
+ *      @click=${this.handleClose}>
+ *    </unity-button>
+ *    <div slot="body"/>
+ *      This is the body of the modal
+ *    </div>
+ *    <unity-button
+ *      slot="bottom"
+ *      label="Clear"
+ *      outline
+ *      @click=${this.handleClear}>
+ *    </unity-button>
+ *    <unity-button
+ *      slot="bottom"
+ *      label="Save"
+ *      gradient
+ *      @click=${this.handleSave}>
+ *    </unity-button>
  *  <unity-modal/>
  */
 
@@ -30,6 +48,8 @@ class UnityModal extends LitElement {
     this.title = ''
     this.toggle = () => this.show = !this.show
 
+    // this will set the opacity of the modal background to transparent
+    // the backdrop is attached to the body, so it must be done this way or through the user's app's styles
     document.querySelector('body').style.setProperty('--iron-overlay-backdrop-opacity', 0)
   }
 
