@@ -29,6 +29,8 @@ class UnityModal extends LitElement {
     this.show = false
     this.title = ''
     this.toggle = () => this.show = !this.show
+
+    document.querySelector('body').style.setProperty('--iron-overlay-backdrop-opacity', 0)
   }
 
   static get properties() {
@@ -65,6 +67,7 @@ class UnityModal extends LitElement {
         id="dialog"
         ?opened="${this.show}"
         .noCancelOnOutsideClick="${true}"
+        .withBackdrop="${true}"
       >
         <div class="mdoal-title">
           <h2 class="title">${title}</h2>
