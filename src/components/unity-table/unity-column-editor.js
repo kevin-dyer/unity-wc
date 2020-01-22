@@ -2,8 +2,7 @@ import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
-import '@polymer/paper-dialog/paper-dialog';
-import '@polymer/paper-dialog-scrollable';
+import '@bit/smartworks.unity.unity-modal'
 
 // Core SortableJS (without default plugins)
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
@@ -210,32 +209,31 @@ class UnityColumnEditor extends LitElement {
       >
       </unity-button>
 
-      <paper-dialog
+      <unity-modal
         id="dialog"
         ?opened="${this._dialogVisible}"
+        ?show="${this._dialogVisible}"
+        .title="${'Edit Columns'}"
+        .toggle="${this.toggleDialog.bind(this)}"
       >
-        <h2 class="dialog-title">Edit Columns</h2>
-
-        <paper-dialog-scrollable>
-          <div class="list-container" id="column-list">
-            ${this.columns.map(this.renderRow.bind(this))}
-          </div>
-        </paper-dialog-scrollable>
-
-        <div class="buttons">
-          <unity-button
-            label="Cancel"
-            outlined
-            @click=${this.handleCancel.bind(this)}
-          ></unity-button>
-          <unity-button
-            label="Save"
-            autofocus
-            gradient
-            @click=${this.handleSave.bind(this)}
-          ></unity-button>
+        <div class="list-container" id="column-list" slot="body">
+          ${this.columns.map(this.renderRow.bind(this))}
         </div>
-      </paper-dialog>
+
+        <unity-button
+          label="Cancel"
+          slot="bottom"
+          outlined
+          @click=${this.handleCancel.bind(this)}
+        ></unity-button>
+        <unity-button
+          label="Save"
+          slot="bottom"
+          autofocus
+          gradient
+          @click=${this.handleSave.bind(this)}
+        ></unity-button>
+      </unity-modal>
     `
   }
 
@@ -260,10 +258,6 @@ class UnityColumnEditor extends LitElement {
           min-width: 425px;
         }
 
-        paper-dialog-scrollable {
-          margin: 0;
-        }
-
         .dialog-title {
           font-size: var(--header2-selected-font-size, var(--default-header2-selected-font-size));
           font-weight: var(--header2-selected-font-weight, var(--default-header2-selected-font-weight));
@@ -277,7 +271,8 @@ class UnityColumnEditor extends LitElement {
         }
 
         .list-container {
-          margin: 0 -24px;
+          margin: 0;
+          height: 100%;
         }
 
         .row {
@@ -322,9 +317,6 @@ class UnityColumnEditor extends LitElement {
 
         .drag-handle {
           cursor: move;
-        }
-
-        .buttons {
         }
       `
     ]
