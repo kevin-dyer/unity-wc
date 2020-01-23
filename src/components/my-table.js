@@ -32,6 +32,7 @@ import { SharedStyles } from './shared-styles.js';
 // example table data, should eventually turn into controls
 // normally this would be taken from the store
 
+//Extra rows of fake data to test infinite scroll
 let fillerRows = []
 
 for(let i=0; i<200; i++) {

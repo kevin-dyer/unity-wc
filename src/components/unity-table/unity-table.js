@@ -252,7 +252,7 @@ class UnityTable extends LitElement {
     this._rowOffset = Math.min(maxOffset, nextOffset)
 
     if ((nextOffset + this.visibleRowCount) >= dataLength && typeof this.onEndReached === 'function') {
-      //NOTE: this should throttled or debounced to prevent duplicate calls
+      //NOTE: this should be throttled or debounced to prevent duplicate calls
       this.onEndReached()
     }
 
