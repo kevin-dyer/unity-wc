@@ -30,8 +30,12 @@ const ROW_HEIGHT = 40 //used to set scroll offset
  * @param {bool} selectable
  * @param {bool} isLoading
  * @param {string} emptyDisplay
+ * @param {number} visibleRowCount, maximum number of rows to render at once
+ * @param {number} scrollLoadOffset, number of rows to offset the viewing window when scroll boundry has been reached
+ * @param {number} endReachedThreshold, number of px before scroll boundry to update this._rowOffset
  * @param {func} onClickRow, func that is sent the data of the element clicked, and the event of the click
  * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
+ * @param {func} onEndReached, func that is fired when bottom of table has been reached. useful for external pagination.
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-table
@@ -103,6 +107,9 @@ const ROW_HEIGHT = 40 //used to set scroll offset
 //   keyExtractor         :  Function to define a unique key on each data element
 //   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
 //   filter               :  String to find in any column, used to set internal _filter
+//   visibleRowCount      :  Maximum number of rows to render at once
+//   scrollLoadOffset     :  Number of rows to offset the viewing window when scroll boundry has been reached
+//   endReachedThreshold  :  Number of px before scroll boundry to update this._rowOffset
 //   onExpandedChange     :  On Change Callback Function for expanded array
 //
 //   Internals for creating/editing
@@ -113,6 +120,7 @@ const ROW_HEIGHT = 40 //used to set scroll offset
 //   _filter:                string to find in any column
 //   _filteredList:          filtered list of indicies from _data
 //   _sortedList:            sorted version of _filteredList, this is what the displayed table is built from
+//   _tableId:               Unique identifier for table instance, defined via Date.now()
 //
 //   Features to be implemented
 //   controls:               determines use of internal filter and sort, exclude if using internal sort/filter
