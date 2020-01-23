@@ -54,6 +54,9 @@ const loadPage = (page) => (dispatch) => {
     case 'textInput':
       import('../components/my-text-input.js');
       break;
+    case 'dropdowns':
+      import('../components/my-dropdowns.js');
+      break;
     default:
       page = 'view404';
       import('../components/my-view404.js');

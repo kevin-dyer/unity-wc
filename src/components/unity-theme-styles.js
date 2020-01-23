@@ -3,7 +3,7 @@ import { css } from 'lit-element';
 export const UnityThemeStyles = css`
   :host {
     --primary-brand-rgb: 58, 188, 225;
-    --default-primary-brand-rgb-light: 178,229,247;
+    --default-primary-brand-rgb-light: 178, 229, 247;
     --secondary-brand-rgb: 48, 128, 195;
     --success-rgb: 156, 204, 101;
     --danger-rgb: 244, 67, 54;
