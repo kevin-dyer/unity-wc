@@ -84,12 +84,12 @@ class UnityModal extends LitElement {
     } = this
     return html`
       <paper-dialog
-        id="dialog"
+        id="modal"
         ?opened="${this.show}"
         .noCancelOnOutsideClick="${true}"
         .withBackdrop="${true}"
       >
-        <div class="mdoal-title">
+        <div class="modal-title">
           <h2 class="title">${title}</h2>
           <slot name="top"></slot>
         </div>
@@ -115,13 +115,10 @@ class UnityModal extends LitElement {
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           color: var(--black-text-color, var(--default-black-text-color));
         }
-        paper-dialog {
-          min-width: 425px;
-        }
         paper-dialog-scrollable {
           margin: 0 -24px;
         }
-        .mdoal-title {
+        .modal-title {
           font-size: var(--header2-selected-font-size, var(--default-header2-selected-font-size));
           font-weight: var(--header2-selected-font-weight, var(--default-header2-selected-font-weight));
           border-bottom: 1px solid var(--light-grey-text-color, var(--default-light-grey-text-color));
@@ -135,6 +132,7 @@ class UnityModal extends LitElement {
         .title {
           display: flex;
           flex: 1;
+          margin-right: 12px;
         }
       `
     ]

@@ -25,7 +25,7 @@
     "@bit/smartworks.unity.unity-default-theme-styles": "0.0.13",
     "@bit/smartworks.unity.unity-global-nav-inner-item": "0.0.3",
     "@bit/smartworks.unity.unity-icon-set": "^0.1.1",
-    "@bit/smartworks.unity.unity-modal": "^0.1.0",
+    "@bit/smartworks.unity.unity-modal": "^0.1.1",
     "@bit/smartworks.unity.unity-table-cell": "^0.1.13",
     "@bit/smartworks.unity.unity-text-input": "^0.1.21",
     "@polymer/app-layout": "^3.0.0",

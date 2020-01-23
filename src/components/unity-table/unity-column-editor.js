@@ -2,13 +2,13 @@ import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
-import '@bit/smartworks.unity.unity-modal'
 
 // Core SortableJS (without default plugins)
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 
 // import '../unity-button/unity-button.js'
 import '@bit/smartworks.unity.unity-button';
+import '@bit/smartworks.unity.unity-modal'
 
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
