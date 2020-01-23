@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { LitElement, html, css } from 'lit-element';
 
-import './unity-modal/unity-modal.js'
+import '@bit/smartworks.unity.unity-modal'
 import './unity-table/unity-table.js'
 
 // import './unity-button/unity-button.js'
