@@ -277,6 +277,32 @@ class UnityTextInput extends LitElement {
     return classes.join(" ")
   }
 
+  /**
+   * Render div with remark or input error message.
+   */
+  renderBottomDiv() {
+    const {
+      maxlength,
+      _errorText,
+      remark,
+      value,
+      charCount
+    } = this;
+
+    return html`
+      <div class="bottom">
+        <span class="remark">
+        ${_errorText || remark}
+      </span>
+      ${!!charCount ?
+        html`<span class="charCount">
+          ${value.length}${!!maxlength ? `/${maxlength}` : null}
+        </span>`
+        : null
+      }
+      </div>`;
+  }
+
   render() {
     const {
       value,
@@ -314,9 +340,9 @@ class UnityTextInput extends LitElement {
     return html`
       <div>
         ${!!label ?
-          html`<span class="label">
+          html`<p class="label">
             ${label}
-            </span>`
+            </p>`
           : null
         }
         <iron-input
@@ -358,17 +384,7 @@ class UnityTextInput extends LitElement {
           : null}
           ${!area ? this._renderIcon() : null}
         </iron-input>
-        <div class="bottom">
-          <span class="remark">
-            ${_errorText || remark}
-          </span>
-          ${!!charCount ?
-            html`<span class="charCount">
-              ${value.length}${!!maxlength ? `/${maxlength}` : null}
-            </span>`
-            : null
-          }
-        </div>
+        ${(_errorText || remark)? this.renderBottomDiv() : null}
       </div>
     `
   }
@@ -388,7 +404,7 @@ class UnityTextInput extends LitElement {
           user-select: none;
         }
         .label {
-          margin: 0;
+          margin-bottom: 6px;
           padding: 0;
           font-size: var(--text-size);
           color: var(--label-color);
@@ -414,7 +430,6 @@ class UnityTextInput extends LitElement {
         }
         .input-wrapper {
           width: 100%;
-          margin-top: 6px;
           background-color: var(--background-color, var(--default-background-color));
           height: var(--unity-text-input-height, var(--default-unity-text-input-height));
           padding: 0 8px;
