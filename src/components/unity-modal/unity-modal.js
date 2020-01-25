@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-dialog/paper-dialog'
 import '@polymer/paper-dialog-scrollable'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import { trimSlots } from '../unity-utils/unity-utils'
 
 /**
  * Modal element that can be passed a title, top buttons, body, and bottom buttons
@@ -40,6 +41,10 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *  <unity-modal/>
  */
 
+ const TOP_SLOT = "top"
+ const BODY_SLOT = "body"
+ const BOTTOM_SLOT = "bottom"
+
 class UnityModal extends LitElement {
   constructor() {
     super()
@@ -54,11 +59,11 @@ class UnityModal extends LitElement {
   }
 
   static get properties() {
-     return {
-       show: { type: Boolean },
-       title: { type: String },
-       toggle: { type: Function }
-     }
+    return {
+      show: { type: Boolean },
+      title: { type: String },
+      toggle: { type: Function }
+    }
   }
 
   resolveOpenChange() {
@@ -77,11 +82,47 @@ class UnityModal extends LitElement {
     super.disconnectedCallback()
   }
 
+  getSlots() {
+    const slots = [...this.shadowRoot.querySelectorAll('slot')]
+    const slotContent = slots.map(slot => slot && slot.assignedNodes() || [])
+    const [top, body, bottom] = slotContent.map(slot => trimSlots(slot))
+    return {
+      [TOP_SLOT]: top,
+      [BODY_SLOT]: body,
+      [BOTTOM_SLOT]: bottom
+    }
+  }
+
+  renderTitle({ [TOP_SLOT]: top=[] }) {
+    const {
+      title,
+    } = this
+    const classes = ["modal-title"]
+    if (!title && top.length === 0) classes.push('hide')
+    return html`
+      <div class="${classes.join(' ')}">
+        <h2 class="title">${title}</h2>
+        <slot name="${TOP_SLOT}"></slot>
+      </div>
+    `
+  }
+
+  renderBottom({ [BOTTOM_SLOT]: bottom=[] }) {
+    const classes = ["buttons"]
+    if (bottom.length === 0) classes.push('hide')
+    return html`
+      <div class="${classes.join(' ')}">
+        <slot name="${BOTTOM_SLOT}"></slot>
+      </div>
+    `
+  }
+
   render() {
     const {
       show,
       title
     } = this
+    const slots = this.getSlots()
     return html`
       <paper-dialog
         id="modal"
@@ -89,18 +130,14 @@ class UnityModal extends LitElement {
         .noCancelOnOutsideClick="${true}"
         .withBackdrop="${true}"
       >
-        <div class="modal-title">
-          <h2 class="title">${title}</h2>
-          <slot name="top"></slot>
-        </div>
+
+        ${this.renderTitle(slots)}
 
         <paper-dialog-scrollable>
-          <slot name="body"></slot>
+          <slot name="${BODY_SLOT}"></slot>
         </paper-dialog-scrollable>
 
-        <div class="buttons">
-          <slot name="bottom"></slot>
-        </div>
+        ${this.renderBottom(slots)}
       </paper-dialog>
     `
   }
@@ -133,6 +170,9 @@ class UnityModal extends LitElement {
           display: flex;
           flex: 1;
           margin-right: 12px;
+        }
+        .hide {
+          display: none;
         }
       `
     ]
