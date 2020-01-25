@@ -9,7 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { LitElement, html, css } from 'lit-element';
 
+// import './unity-modal/unity-modal'
 import '@bit/smartworks.unity.unity-modal'
+
 import './unity-table/unity-table.js'
 
 // import './unity-button/unity-button.js'
@@ -106,10 +108,10 @@ const MODALS = {
   },
   [OTHER]: {
     key: OTHER,
-    title: 'Other',
+    // title: 'Other',
     top: ()=>{},
     body: html`<div slot="body">There's nothing here.</div>`,
-    bottom: toggle => html`<unity-button slot="bottom" label="Cancel" outlined @click=${toggle}></unity-button>`
+    bottom: ()=>{} // toggle => html`<unity-button slot="bottom" label="Cancel" outlined @click=${toggle}></unity-button>`
   },
   [TABLE]: {
     key: TABLE,
@@ -162,6 +164,9 @@ class MyModal extends LitElement {
           align-items: center;
           flex-wrap: wrap;
         }
+        .modal {
+          display: flex;
+        }
       `
     ]
   }
@@ -205,8 +210,9 @@ class MyModal extends LitElement {
         <div class="modal">
           <unity-modal
             ?show="${open}"
-            title="${title}"
+            .title="${title}"
             .toggle="${() => this.toggleModal(type)}"
+            ?cancelOnOutsideClick="${!title}"
           >
             ${top(() => this.toggleModal(type))}
             ${body}

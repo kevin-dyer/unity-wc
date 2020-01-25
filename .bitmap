@@ -25,7 +25,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@0.0.5": {
+    "smartworks.unity/unity-column-editor@0.0.6": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/unity-column-editor.js",
@@ -98,7 +98,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-modal@0.1.1": {
+    "smartworks.unity/unity-modal@0.1.2": {
         "files": [
             {
                 "relativePath": "src/components/unity-modal/unity-modal.js",
@@ -160,6 +160,18 @@
             }
         ],
         "mainFile": "src/components/unity-text-input/unity-text-input.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-utils@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-utils/unity-utils.js",
+                "test": false,
+                "name": "unity-utils.js"
+            }
+        ],
+        "mainFile": "src/components/unity-utils/unity-utils.js",
         "origin": "AUTHORED",
         "exported": true
     },

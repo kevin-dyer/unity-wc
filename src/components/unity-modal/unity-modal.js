@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-dialog/paper-dialog'
 import '@polymer/paper-dialog-scrollable'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import { trimSlots } from '../unity-utils/unity-utils'
+import { trimSlots } from '@bit/smartworks.unity.unity-utils'
 
 /**
  * Modal element that can be passed a title, top buttons, body, and bottom buttons
