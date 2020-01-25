@@ -23,7 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <body>
     <test-fixture id="text-input">
       <template>
-        <unity-text-input label="label"> value.value</unity-text-input>
+        <unity-text-input label="label" value="myValue"></unity-text-input>
       </template>
     </test-fixture>
 
@@ -48,6 +48,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         test("text-input-a11y", function() {
           return axeReport(textInput);
         });
+
+        test("text-input value is correct", () => {
+          assert.equal(textInput.value, "myValue")
+        })
       });
     </script>
   </body>
