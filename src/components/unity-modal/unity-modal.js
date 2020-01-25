@@ -10,6 +10,7 @@ import { trimSlots } from '../unity-utils/unity-utils'
  * @param {''} title, string for modal title
  * @param {bool} show, bool to control if modal is open or close
  * @param {func} toggle, callback that controls modals open/close
+ * @param {bool} cancelOnOutsideClick, bool to control if clicking outside of modal will call toggle to close
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-modal
@@ -52,6 +53,7 @@ class UnityModal extends LitElement {
     this.show = false
     this.title = ''
     this.toggle = () => this.show = !this.show
+    this.cancelOnOutsideClick = false
 
     // this will set the opacity of the modal background to transparent
     // the backdrop is attached to the body, so it must be done this way or through the user's app's styles
@@ -62,7 +64,8 @@ class UnityModal extends LitElement {
     return {
       show: { type: Boolean },
       title: { type: String },
-      toggle: { type: Function }
+      toggle: { type: Function },
+      cancelOnOutsideClick: { type: Boolean }
     }
   }
 
@@ -120,14 +123,15 @@ class UnityModal extends LitElement {
   render() {
     const {
       show,
-      title
+      title,
+      cancelOnOutsideClick
     } = this
     const slots = this.getSlots()
     return html`
       <paper-dialog
         id="modal"
         ?opened="${this.show}"
-        .noCancelOnOutsideClick="${true}"
+        .noCancelOnOutsideClick="${!cancelOnOutsideClick}"
         .withBackdrop="${true}"
       >
 
