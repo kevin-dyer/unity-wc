@@ -42,7 +42,28 @@ export const isWhitespace = ({localName, textContent}) => {
   return false
 }
 
-// takes an array of slots, remove any that are just whitespace
+// takes an array of elements, remove any that are just whitespace
+// input:  array of elements
+// output: array of elements
 export const trimWhitespace = slots => slots.reduce((slots, current) => {
   return isWhitespace(current) ? slots : [...slots, current]
 }, [])
+
+// returns the previous/next valid sibling (non whitespace), false if there is no valid sibling
+// input:  lit element
+// output: lit element or false
+export const getPrevSibling = ({previousSibling}) => {
+  // no sibling, sibling not an object/element
+  if (!previousSibling || typeof previousSibling !== 'object') return false
+  // recurse if sibling is whitespace
+  if (isWhitespace(previousSibling)) return getPrevSibling(previousSibling)
+  return previousSibling
+}
+
+export const getNextSibling = ({nextSibling}) => {
+  // no sibling, sibling not an object/element
+  if (!nextSibling || typeof nextSibling !== 'object') return false
+  // recurse if sibling is whitespace
+  if (isWhitespace(nextSibling)) return getNextSibling(nextSibling)
+  return nextSibling
+}
