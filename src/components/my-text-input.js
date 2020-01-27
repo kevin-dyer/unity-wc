@@ -45,6 +45,7 @@ class MyTextInput extends PageViewElement {
         .input-box {
           position: relative;
           width: 250px;
+          margin: 1em 0;
         }
       `
     ]
