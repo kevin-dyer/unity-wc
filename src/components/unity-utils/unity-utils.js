@@ -29,11 +29,20 @@
   those parsing the whitespace elements out, as well as traversing sibling elements.
 */
 
-// takes an array of slots, remove any that are just whitespace
-export const trimSlots = slots => slots.reduce((slots, current) => {
+// determines if the passed in element is whitespace or not
+// input:  element
+// output: bool
+export const isWhitespace = ({localName, textContent}) => {
   // if has localname, not a text element
-  if (!!current && !!current.localName) return [...slots, current]
+  if (!!localName) return false
   // if text element, ignore if empty
-  if (!!current && current.textContent.trim().length === 0) return slots
-  return [...slots, current]
+  if (typeof textContent === 'string') {
+    if (!!textContent.trim().length === 0) return true
+  }
+  return false
+}
+
+// takes an array of slots, remove any that are just whitespace
+export const trimWhitespace = slots => slots.reduce((slots, current) => {
+  return isWhitespace(current) ? slots : [...slots, current]
 }, [])
