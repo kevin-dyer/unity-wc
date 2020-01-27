@@ -37,7 +37,7 @@ export const isWhitespace = ({localName, textContent}) => {
   if (!!localName) return false
   // if text element, ignore if empty
   if (typeof textContent === 'string') {
-    if (!!textContent.trim().length === 0) return true
+    if (textContent.trim().length === 0) return true
   }
   return false
 }
