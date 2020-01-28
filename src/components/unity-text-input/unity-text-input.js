@@ -537,6 +537,7 @@ class UnityTextInput extends LitElement {
         }
         .hideBorder {
           border-width: 0px;
+          height: 100%;
         }
         .hideBorder:focus-within {
           box-shadow: none;
