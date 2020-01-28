@@ -1,16 +1,14 @@
 import { LitElement, html, css } from 'lit-element';
-import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
-// import { UnityDefaultThemeStyles } from '../unity-default-theme-styles';
 import '@polymer/iron-icon/iron-icon';
 import "@polymer/paper-checkbox";
 
-import '../unity-icon-set/unity-icon-set';
-// import '@bit/smartworks.unity.unity-icon-set';
-import '../unity-text-input/unity-text-input';
-import './unity-select-menu';
-
-// import '@bit/smartworks.unity.unity-text-input';
 import '@bit/smartworks.unity.unity-button';
+import '@bit/smartworks.unity.unity-icon-set';
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
+
+import '../unity-text-input/unity-text-input';
+// import '@bit/smartworks.unity.unity-text-input';
+import './unity-select-menu';
 
 
 /**
