@@ -1,29 +1,20 @@
-/** 
- *  @fileOverview A dropdown select input web component
- * *
- *  @requires     NPM:lit-element
- * 
- *  @example
- *  <unity-dropdown-input-base
- *    .label="${"Label"}">
- *  </unity-dropdown-input-base>
- */
-
 import { LitElement, html, css } from 'lit-element';
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
+// import { UnityDefaultThemeStyles } from '../unity-default-theme-styles';
 import '@polymer/iron-icon/iron-icon';
 import "@polymer/paper-checkbox";
 
 import '../unity-icon-set/unity-icon-set';
 // import '@bit/smartworks.unity.unity-icon-set';
 import '../unity-text-input/unity-text-input';
-import '../unity-button/unity-button';
 // import '@bit/smartworks.unity.unity-text-input';
+import '@bit/smartworks.unity.unity-button';
 
 
 /**
 * Renders a dropdown component that displays a list of options for selection.
 * @name UnityTextInput
+* @fileOverview A dropdown select input web component
 * @param {''} label, floating header label
 * @param {''} inputType, type of the list of options that will be displayed. Possible values: menu, single-select or multi-select
 * @param {''} boxType, type of the dropdown box. Possible values: label, search, button-gradient, button-outlined or inline
@@ -51,7 +42,7 @@ import '../unity-button/unity-button';
 
 /**
  * PENDING:
- * - Integrate unity-menu component
+ * - Integrate unity-select-menu component
  * 
  * TODOS:
  * - Change unity imports to bit components

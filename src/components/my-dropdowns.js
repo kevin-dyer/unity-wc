@@ -1,5 +1,4 @@
 import { html, css } from 'lit-element';
-// import './unity-button/unity-button.js'
 import './unity-dropdown-input/unity-dropdown-input-base.js';
 import './unity-dropdown-input/unity-select-menu.js';
 
@@ -253,7 +252,7 @@ class MyDropdowns extends PageViewElement {
 
         <div class="input-box">
           <unity-dropdown-input-base
-            label="${"Gradient button"}"
+            label="${"Gradient button with menu"}"
             boxType="button-gradient"
             .options=${dataMock.labelsOnly}
           >
@@ -262,7 +261,7 @@ class MyDropdowns extends PageViewElement {
         
         <div class="input-box">
           <unity-dropdown-input-base 
-            label="${"Outlined button"}"
+            label="${"Outlined button with single-select"}"
             boxType="button-outlined"
             inputType="single-select"
             .options=${dataMock.labelsOnly}
