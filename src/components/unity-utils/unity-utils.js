@@ -32,13 +32,14 @@
 // determines if the passed in element is whitespace or not
 // input:  element
 // output: bool
-export const isWhitespace = ({localName, textContent}) => {
+export const isWhitespace = ({localName, textContent, nodeName}) => {
   // if has localname, not a text element
   if (!!localName) return false
+  // count as whitespace if comment
+  if (nodeName === '#comment' ||
   // if text element, ignore if empty
-  if (typeof textContent === 'string') {
-    if (textContent.trim().length === 0) return true
-  }
+      typeof textContent === 'string' && !textContent.trim().length
+    ) return true
   return false
 }
 
@@ -49,21 +50,19 @@ export const trimWhitespace = slots => slots.reduce((slots, current) => {
   return isWhitespace(current) ? slots : [...slots, current]
 }, [])
 
-// returns the previous/next valid sibling (non whitespace), false if there is no valid sibling
+// returns the specified element (non whitespace), false if there is no valid element
 // input:  lit element
 // output: lit element or false
-export const getPrevSibling = ({previousSibling}) => {
-  // no sibling, sibling not an object/element
-  if (!previousSibling || typeof previousSibling !== 'object') return false
-  // recurse if sibling is whitespace
-  if (isWhitespace(previousSibling)) return getPrevSibling(previousSibling)
-  return previousSibling
-}
+export const getParent = ({parentNode}) => getNode(getParent, parentNode)
 
-export const getNextSibling = ({nextSibling}) => {
-  // no sibling, sibling not an object/element
-  if (!nextSibling || typeof nextSibling !== 'object') return false
-  // recurse if sibling is whitespace
-  if (isWhitespace(nextSibling)) return getNextSibling(nextSibling)
-  return nextSibling
+export const getPrevSibling = ({previousSibling}) => getNode(getPrevSibling, previousSibling)
+
+export const getNextSibling = ({nextSibling}) => getNode(getNextSibling, nextSibling)
+
+export const getNode = (getFunc, node) => {
+  // no node, node not an object/element
+  if (!node || typeof node !== 'object') return false
+  // recurse if node is whitespace
+  if (isWhitespace(node)) return getFunc(node)
+  return node
 }
