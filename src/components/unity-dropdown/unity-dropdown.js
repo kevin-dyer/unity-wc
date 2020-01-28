@@ -7,6 +7,8 @@ import "@polymer/paper-checkbox";
 import '../unity-icon-set/unity-icon-set';
 // import '@bit/smartworks.unity.unity-icon-set';
 import '../unity-text-input/unity-text-input';
+import './unity-select-menu';
+
 // import '@bit/smartworks.unity.unity-text-input';
 import '@bit/smartworks.unity.unity-button';
 
@@ -241,6 +243,9 @@ class UnityDropdown extends LitElement {
         #select-all {
           border-bottom: 1px solid var(--global-nav-border-color, var(--default-global-nav-border-color));
         }
+        unity-select-menu {
+          width: 100%;
+        }
       `
     ];
   }
@@ -355,19 +360,8 @@ class UnityDropdown extends LitElement {
 
   // TODO: extract the different conditions in another component
   renderOption(option, index) {
-    let label = option.label;
-    if (this.inputType === "menu") {
-      return html`<div class="text-box selectable list-element" @click=${this.onMenuClick(index)}>
-        <li>
-          <div class="option-label-wrapper">
-            ${!!option.icon? this.renderLeftIcon(option.icon) : null }
-            <p class="option-label">${label}</p>
-          </div>
-          ${!!option.comment? html`<p class="option-comment">${option.comment}</p>`: null}
-        </li>
-      </div>`;
-    }
 
+    let label = option.label;
     let start = label.toLowerCase().indexOf(this._searchValue.toLowerCase());
 
     // highlight searched text
@@ -554,7 +548,15 @@ class UnityDropdown extends LitElement {
 
   renderList() {
     let optionsList = this.options.map((option, index) => {return this.renderOption(option, index)});
-    return optionsList.every(element => element === null)? html`<p class="helper-text">No matches</p>` 
+    return (this.inputType === "menu")?
+      html`
+        <unity-select-menu 
+          .items=${this.options}
+          .onMenuClick=${(index) => this.onMenuClick(index)}
+          borderless
+        >
+        </unity-select-menu>` 
+      : optionsList.every(element => element === null)? html`<p class="helper-text">No matches</p>` 
                                                          : html`<ul id="options-list">${optionsList}</ul>`;
   }
 
