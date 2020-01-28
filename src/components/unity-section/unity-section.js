@@ -45,7 +45,7 @@ class UnitySection extends LitElement {
     const classes = this.getClasses()
     return html`
       <div class="${classes}">
-        <slot id="slot"></slot>
+        <slot></slot>
       </div>
     `
   }
@@ -55,15 +55,16 @@ class UnitySection extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --section-color: var(--section-background-color, var(--default-section-background-color, white));
-          --border-color: var(--section-border-color, var(--default-section-border-color, black));
+          --section-color: var(--background-color, var(--default-background-color, white));
+          --border-color: var(--section-border-color, var(--default-medium-grey-background-color));
           flex: 1;
         }
         .section {
           background-color: var(--section-color);
-          border-right: 1px solid var(--border-color);
           display: flex;
           flex-direction: row;
+          align-items: center;
+          justify-content: center;
         }
         .top-border {
           border-top: 1px solid var(--border-color);
