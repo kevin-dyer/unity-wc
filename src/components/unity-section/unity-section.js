@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 
+import { getParent, getNextSibling} from '../unity-utils/unity-utils'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 /**
@@ -30,6 +31,13 @@ class UnitySection extends LitElement {
 
   getClasses() {
     let classes = ['section']
+    // parent is not a section
+    if (getParent(this).localName !== unity_section) classes.push('top-border')
+    else {
+      // nextSibling is a section
+      const next = getNextSibling(this)
+      if (!!next && next.localName === unity_section) classes.push('inner-border')
+    }
     return classes.join(' ')
   }
 
@@ -59,6 +67,9 @@ class UnitySection extends LitElement {
         }
         .top-border {
           border-top: 1px solid var(--border-color);
+        }
+        .inner-border {
+          border-right: 1px solid var(--border-color);
         }
       `
     ]
