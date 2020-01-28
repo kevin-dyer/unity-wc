@@ -1,6 +1,6 @@
 import { html, css } from 'lit-element';
-import './unity-dropdown-input/unity-dropdown-input-base.js';
-import './unity-dropdown-input/unity-select-menu.js';
+import './unity-dropdown/unity-dropdown.js';
+import './unity-dropdown/unity-select-menu.js';
 
 import { PageViewElement } from './page-view-element.js';
 
@@ -127,85 +127,85 @@ class MyDropdowns extends PageViewElement {
 
 
           <div class="input-box">
-            <unity-dropdown-input-base 
+            <unity-dropdown 
               label="${"Menu"}"
               .options=${dataMock.labelsOnly}
             >
-            </unity-dropdown-input-base>
+            </unity-dropdown>
           </div>
 
           <div class="input-box">
-            <unity-dropdown-input-base 
+            <unity-dropdown 
               label="${"Single select"}"
               inputType="single-select"
               .options=${dataMock.labelsOnly}
             >
-            </unity-dropdown-input-base>
+            </unity-dropdown>
           </div>
 
           <div class="input-box">
-            <unity-dropdown-input-base 
+            <unity-dropdown 
               label="${"Pre-selected option"}"
               inputType="single-select"
               .options=${dataMock.labelsOnly}
               .selected=${[0]}
 
             >
-            </unity-dropdown-input-base>
+            </unity-dropdown>
           </div>
 
           <div class="input-box">
-            <unity-dropdown-input-base 
+            <unity-dropdown 
               label="${"Single select disabled"}"
               inputType="single-select"
               disabled
               .options=${dataMock.labelsOnly}
 
             >
-            </unity-dropdown-input-base>
+            </unity-dropdown>
           </div>
 
           <div class="input-box">
-            <unity-dropdown-input-base 
+            <unity-dropdown 
               label="${"With comments"}"
               inputType="single-select"
               .options=${dataMock.withComments}
               
             >
-            </unity-dropdown-input-base>
+            </unity-dropdown>
           </div>
 
           <div class="input-box">
-            <unity-dropdown-input-base 
+            <unity-dropdown 
               label="${"With icons"}"
               inputType="single-select"
               .options=${dataMock.withIcons}
             >
-            </unity-dropdown-input-base>
+            </unity-dropdown>
           </div>
 
           <div class="input-box">
-            <unity-dropdown-input-base 
+            <unity-dropdown 
               label="${"With helper text"}"
               inputType="single-select"
               .options=${dataMock.labelsOnly}
               helperText="Choose any option"
             >
-            </unity-dropdown-input-base>
+            </unity-dropdown>
           </div>
 
           <div class="input-box">
-            <unity-dropdown-input-base 
+            <unity-dropdown 
               label="${"Inner search box"}"
               inputType="single-select"
               .options=${dataMock.labelsOnly}
               searchBox=${true}
             >
-            </unity-dropdown-input-base>
+            </unity-dropdown>
           </div>
 
           <div class="input-box">
-            <unity-dropdown-input-base 
+            <unity-dropdown 
               label="${"Full example"}"
               inputType="single-select"
               placeholder="Choose an option"
@@ -213,7 +213,7 @@ class MyDropdowns extends PageViewElement {
               searchBox=${true}
               helperText="Choose any option"
             >
-            </unity-dropdown-input-base>
+            </unity-dropdown>
           </div>
 
        </div>
@@ -221,52 +221,52 @@ class MyDropdowns extends PageViewElement {
        <div class="col">
 
        <div class="input-box">
-        <unity-dropdown-input-base 
+        <unity-dropdown 
           label="${"Search"}"
           boxType="search"
           inputType="single-select"
           .options=${dataMock.labelsOnly}
           
         >
-        </unity-dropdown-input-base>
+        </unity-dropdown>
        </div>
 
         <div class="input-box">
-          <unity-dropdown-input-base 
+          <unity-dropdown 
             label="${"Multi select"}"
             inputType="multi-select"
             .selected=${[0,2]}
             .options=${dataMock.labelsOnly}
           >
-          </unity-dropdown-input-base>
+          </unity-dropdown>
         </div>
 
         <div class="input-box">
-          <unity-dropdown-input-base
+          <unity-dropdown
             label="${"Inline"}"
             boxType="inline"
             .options=${dataMock.labelsOnly}
           >
-          </unity-dropdown-input-base>
+          </unity-dropdown>
         </div>
 
         <div class="input-box">
-          <unity-dropdown-input-base
+          <unity-dropdown
             label="${"Gradient button with menu"}"
             boxType="button-gradient"
             .options=${dataMock.labelsOnly}
           >
-          </unity-dropdown-input-base>
+          </unity-dropdown>
         </div>
         
         <div class="input-box">
-          <unity-dropdown-input-base 
+          <unity-dropdown 
             label="${"Outlined button with single-select"}"
             boxType="button-outlined"
             inputType="single-select"
             .options=${dataMock.labelsOnly}
           >
-          </unity-dropdown-input-base>
+          </unity-dropdown>
         </div>
        
       </div>

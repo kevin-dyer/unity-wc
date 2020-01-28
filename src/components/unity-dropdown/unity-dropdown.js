@@ -13,7 +13,7 @@ import '@bit/smartworks.unity.unity-button';
 
 /**
 * Renders a dropdown component that displays a list of options for selection.
-* @name UnityTextInput
+* @name UnityDropdown
 * @fileOverview A dropdown select input web component
 * @param {''} label, floating header label
 * @param {''} inputType, type of the list of options that will be displayed. Possible values: menu, single-select or multi-select
@@ -28,7 +28,7 @@ import '@bit/smartworks.unity.unity-button';
 * @param {bool} searchBox, when expanded, include a search box that highlights the searched text
 *
 * @example
-* <unity-dropdown-input-base 
+* <unity-dropdown 
 *   label="${"Full example"}"
 *   inputType="single-select"
 *   placeholder="Choose an option"
@@ -36,7 +36,7 @@ import '@bit/smartworks.unity.unity-button';
 *   searchBox=${true}
 *   helperText="Choose any option"
 * >
-* </unity-dropdown-input-base>
+* </unity-dropdown>
 **/
 
 
@@ -53,7 +53,7 @@ import '@bit/smartworks.unity.unity-button';
  * - Check sizes - most are pixel, some are em, and some things get ugly when you change browser font size
  */
 
-class UnityDropdownInputBase extends LitElement {
+class UnityDropdown extends LitElement {
   
   static get styles() {
     return [
@@ -611,4 +611,4 @@ class UnityDropdownInputBase extends LitElement {
   }
 }
 
-window.customElements.define('unity-dropdown-input-base', UnityDropdownInputBase);
+window.customElements.define('unity-dropdown', UnityDropdown);
