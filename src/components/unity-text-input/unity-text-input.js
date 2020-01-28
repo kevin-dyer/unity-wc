@@ -389,7 +389,7 @@ class UnityTextInput extends LitElement {
           : null}
           ${!area ? this._renderIcon() : null}
         </iron-input>
-        ${(_errorText || remark)? this.renderBottomDiv() : null}
+        ${(_errorText || remark || charCount)? this.renderBottomDiv() : null}
       </div>
     `
   }
