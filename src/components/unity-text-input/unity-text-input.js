@@ -3,7 +3,8 @@ import '@polymer/iron-input/iron-input'
 import '@polymer/iron-autogrow-textarea'
 import '@polymer/iron-icon/iron-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '../unity-icon-set/unity-icon-set'
+// import '../unity-icon-set/unity-icon-set'
+import '@bit/smartworks.unity.unity-icon-set'
 
 /**
 * Renders a bordered text input
@@ -389,7 +390,7 @@ class UnityTextInput extends LitElement {
           : null}
           ${!area ? this._renderIcon() : null}
         </iron-input>
-        ${(_errorText || remark)? this.renderBottomDiv() : null}
+        ${(_errorText || remark || charCount)? this.renderBottomDiv() : null}
       </div>
     `
   }
@@ -537,6 +538,7 @@ class UnityTextInput extends LitElement {
         }
         .hideBorder {
           border-width: 0px;
+          height: 100%;
         }
         .hideBorder:focus-within {
           box-shadow: none;

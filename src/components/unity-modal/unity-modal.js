@@ -2,7 +2,8 @@ import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-dialog/paper-dialog'
 import '@polymer/paper-dialog-scrollable'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import { trimSlots } from '@bit/smartworks.unity.unity-utils'
+import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
+// import { trimWhitespace } from '../unity-utils/unity-utils'
 
 /**
  * Modal element that can be passed a title, top buttons, body, and bottom buttons
@@ -88,7 +89,7 @@ class UnityModal extends LitElement {
   getSlots() {
     const slots = [...this.shadowRoot.querySelectorAll('slot')]
     const slotContent = slots.map(slot => slot && slot.assignedNodes() || [])
-    const [top, body, bottom] = slotContent.map(slot => trimSlots(slot))
+    const [top, body, bottom] = slotContent.map(slot => trimWhitespace(slot))
     return {
       [TOP_SLOT]: top,
       [BODY_SLOT]: body,
