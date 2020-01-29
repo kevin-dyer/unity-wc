@@ -390,7 +390,7 @@ class UnityTextInput extends LitElement {
           : null}
           ${!area ? this._renderIcon() : null}
         </iron-input>
-        ${(_errorText || remark)? this.renderBottomDiv() : null}
+        ${(_errorText || remark || charCount)? this.renderBottomDiv() : null}
       </div>
     `
   }
@@ -538,6 +538,7 @@ class UnityTextInput extends LitElement {
         }
         .hideBorder {
           border-width: 0px;
+          height: 100%;
         }
         .hideBorder:focus-within {
           box-shadow: none;
