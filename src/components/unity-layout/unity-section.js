@@ -70,6 +70,7 @@ class UnitySection extends LitElement {
           justify-content: center;
           flex-wrap: wrap;
           background-color: var(--section-color);
+          overflow: hidden;
         }
         .no-wrap {
           flex-wrap: nowrap;
