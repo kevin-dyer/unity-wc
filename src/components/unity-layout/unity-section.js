@@ -5,6 +5,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 /**
  * A container that will horizontally or vertically with siblings of the same component
+ * Intended to be used nested within eachother to form rows and auto adjusting columns.
  * @name UnitySection
  * @param {bool} nowrap, on row, control if column sections should wrap
  * @returns {LitElement} returns a class extended from LitElement
