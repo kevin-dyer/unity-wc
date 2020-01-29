@@ -37,10 +37,7 @@ class UnitySection extends LitElement {
     if (!!nowrap) classes.push('no-wrap')
     // parent is a section
     if (getParent(this).localName === unity_section) {
-      classes.push('top-border')
-      // nextSibling is a section
-      const next = getNextSibling(this)
-      if (!!next && next.localName === unity_section) classes.push('inner-border')
+      classes.push('border')
     }
     return classes.join(' ')
   }
@@ -48,9 +45,9 @@ class UnitySection extends LitElement {
   render() {
     const classes = this.getClasses()
     return html`
-      <!-- <div class="classes"> -->
+      <div class="${classes}">
         <slot></slot>
-      <!-- </div> -->
+      </div>
     `
   }
 
@@ -60,26 +57,26 @@ class UnitySection extends LitElement {
       css`
         :host {
           --section-color: var(--background-color, var(--default-background-color));
-          --border-color: black;
+          --border-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          align-self: stretch;
           flex: 1;
-          background-color: var(--section-color);
+          display: flex;
+        }
+        .section {
+          flex: 1;
           display: flex;
           flex-direction: row;
           align-items: center;
-          align-self: stretch;
           justify-content: center;
           flex-wrap: wrap;
-        }
-        .section {
+          background-color: var(--section-color);
         }
         .no-wrap {
           flex-wrap: nowrap;
         }
-        .top-border {
-          border-top: 1px solid black;
-        }
-        .inner-border {
-          border-right: 1px solid black;
+        .border {
+          border-top: 1px solid var(--border-color);
+          border-right: 1px solid var(--border-color);
         }
       `
     ]
