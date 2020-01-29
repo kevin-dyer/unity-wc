@@ -2,38 +2,12 @@ import { LitElement, html, css } from 'lit-element';
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
 
 
-const data = [
-  {
-    "label": "Option 1",
-    "icon": "unity:info_circle",
-    "submenu": [
-      {
-        "label": "Option 1", 
-        "icon": "unity:info_circle"
-      },
-      {
-        "label": "Option 2",
-        "icon": "unity:share"
-      }
-    ]
-  },
-  {
-    "label": "Option 2",
-    "icon": "unity:share"
-  },
-  {
-    "label": "Option 3",
-    "icon": "unity:download_alt1"
-  }
-];
-
-
 class UnitySelectMenu extends LitElement {
 
   constructor(){
     super();
-    this.onMenuClick = (index) => () => {window.alert(`Clicked item ${index + 1}!`);};
-    this.items = data;
+    this.onMenuClick = () => {};
+    this.items = [];
     this.borderless = false;
   }
 
@@ -137,13 +111,17 @@ class UnitySelectMenu extends LitElement {
     ]
   }
 
+  clickedMenu(index){
+    this.onMenuClick(index);
+  }
+
   renderItem(item, index) {
-    let label = item.label;
-    return html`<div class="text-box list-element" @click=${this.onMenuClick(index)}>
+    const {label, icon, comment, submenu } = item;
+    return html`<div class="text-box list-element" @click=${() => this.clickedMenu(index)}>
       <li>
         <div class="item-label-wrapper">
-          ${!!item.icon? html`<div class="icon-left-wrapper">
-                <iron-icon class="inner-icon" icon="${item.icon}"}"></iron-icon>
+          ${!!icon? html`<div class="icon-left-wrapper">
+                <iron-icon class="inner-icon" icon="${icon}"}"></iron-icon>
               </div> ` 
             : null }
           <p class="item-label">${label}</p>
@@ -153,10 +131,10 @@ class UnitySelectMenu extends LitElement {
             </div>` 
           : null }
         </div>
-        ${!!item.comment? html`<p class="item-comment">${item.comment}</p>`: null}
+        ${!!comment? html`<p class="item-comment">${comment}</p>`: null}
       </li>
     </div>
-    ${!!item.submenu? this.renderSubmenu(item.submenu) : null}
+    ${!!submenu? this.renderSubmenu(submenu) : null}
     `;
   }
 

@@ -101,6 +101,10 @@ class MyDropdowns extends PageViewElement {
     ];
   }
 
+  onMenuClick(index) {
+    window.alert(`Clicked option  with index=${index}`);
+  }
+
   render() {
     return html`
       <div class="example-container">
@@ -110,6 +114,7 @@ class MyDropdowns extends PageViewElement {
           <div class="input-box">
             <unity-select-menu 
               .items=${dataMock.withComments}
+              .onMenuClick=${this.onMenuClick}
             >
             </unity-select-menu>
           </div>
@@ -130,6 +135,7 @@ class MyDropdowns extends PageViewElement {
             <unity-dropdown 
               label="${"Menu"}"
               .options=${dataMock.labelsOnly}
+              .onMenuClick=${this.onMenuClick}
             >
             </unity-dropdown>
           </div>
@@ -245,6 +251,7 @@ class MyDropdowns extends PageViewElement {
           <unity-dropdown
             label="${"Inline"}"
             boxType="inline"
+            .onMenuClick=${this.onMenuClick}
             .options=${dataMock.labelsOnly}
           >
           </unity-dropdown>
@@ -254,6 +261,7 @@ class MyDropdowns extends PageViewElement {
           <unity-dropdown
             label="${"Gradient button with menu"}"
             boxType="button-gradient"
+            .onMenuClick=${this.onMenuClick}
             .options=${dataMock.labelsOnly}
           >
           </unity-dropdown>
