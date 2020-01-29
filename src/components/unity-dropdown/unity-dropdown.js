@@ -42,7 +42,7 @@ import './unity-select-menu';
 
 /**
  * TODOS:
- * - Fix button not closing options box
+ * - Fix click outside for button dropdown
  * - Change unity imports to bit components
  * - Match colors to spec
  */
@@ -314,10 +314,15 @@ class UnityDropdown extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener("iron-overlay-canceled", () => this.toggleCollapse()); // collapse component when clicking outside options box
-    window.addEventListener("scroll", () =>this.resizeOptionsBox());
+    this.addEventListener("iron-overlay-canceled", this.collapse); // collapse component when clicking outside options box
+    window.addEventListener("scroll", this.resizeOptionsBox.bind(this));
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("iron-overlay-canceled", this.collapse);
+    window.removeEventListener("scroll", this.resizeOptionsBox.bind(this));
+  }
 
   /**
    * Adjust options box size when scrolling
@@ -379,6 +384,19 @@ class UnityDropdown extends LitElement {
     }
   }
 
+
+  collapse(event) {
+    /** only for the button dropdown, when the menu is expanded and you press the button again to close it,
+     * both the iron-overlay cancel (click outside) and the button click event are triggered (in that order).
+     * The consequence is that the dropdown is closed due to the click outside, then opened again by the mouse click
+     * event, making it impossible to close the menu by clicking the button.
+     */
+    if(event.path[1].firstElementChild.localName == "unity-button") {
+      event.preventDefault();
+      return;
+    }
+    this._collapsed = true;
+  }
 
   toggleCollapse() {
     if(!this.disabled){
@@ -541,7 +559,6 @@ class UnityDropdown extends LitElement {
     }
     else if (this.boxType === "button-gradient" || this.boxType === "button-outlined") {
       return html`
-      <div class="selectable">
         <unity-button
           label="${this.getSelectedLabel()}"
           rightIcon="${this._collapsed? "unity:down_chevron" : "unity:up_chevron"}"
