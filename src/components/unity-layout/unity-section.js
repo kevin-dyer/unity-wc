@@ -37,9 +37,8 @@ class UnitySection extends LitElement {
     let classes = ['section']
     if (!!nowrap) classes.push('no-wrap')
     // parent is a section
-    if (getParent(this).localName === unity_section) {
-      classes.push('border')
-    }
+    if (getParent(this).localName === unity_section) classes.push('border')
+    else classes.push('row')
     return classes.join(' ')
   }
 
@@ -79,6 +78,9 @@ class UnitySection extends LitElement {
         .border {
           border-top: 1px solid var(--border-color);
           border-right: 1px solid var(--border-color);
+        }
+        .row {
+          margin-right: -1px
         }
       `
     ]
