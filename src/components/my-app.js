@@ -216,6 +216,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'page-layout'}" href="/page-layout">Page Layout</a>
           <a ?selected="${this._page === 'my-buttons'}" href="/my-buttons">Buttons</a>
           <a ?selected="${this._page === 'textInput'}" href="/textInput">Text Input</a>
+          <a ?selected="${this._page === 'dropdowns'}" href="/dropdowns">Dropdowns</a>
           <a ?selected="${this._page === 'modal'}" href="/modal">Modal</a>
         </nav>
       </app-header>
@@ -233,6 +234,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'page-layout'}" href="/page-layout">Page Layout</a>
           <a ?selected="${this._page === 'my-buttons'}" href="/my-buttons">Buttons</a>
           <a ?selected="${this._page === 'textInput'}" href="/textInput">Text Input</a>
+          <a ?selected="${this._page === 'dropdowns'}" href="/dropdowns">Dropdowns</a>
           <a ?selected="${this._page === 'modal'}" href="/modal">modal</a>
         </nav>
       </app-drawer>
@@ -248,6 +250,7 @@ class MyApp extends connect(store)(LitElement) {
         <my-layout class="page" ?active="${this._page === 'page-layout'}"></my-layout>
         <my-buttons class="page" ?active="${this._page === 'my-buttons'}"></my-buttons>
         <my-text-input class="page" ?active="${this._page === 'textInput'}"></my-text-input>
+        <my-dropdowns class="page" ?active="${this._page === 'dropdowns'}"></my-dropdowns>
         <my-modal class="page" ?active="${this._page === 'modal'}"></my-modal>
       </main>
 
