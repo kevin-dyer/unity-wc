@@ -2,13 +2,12 @@ import { LitElement, html, css } from 'lit-element';
 import '@polymer/iron-icon/iron-icon';
 import "@polymer/paper-checkbox";
 import "@polymer/paper-dialog";
+
 import '@bit/smartworks.unity.unity-button';
 import '@bit/smartworks.unity.unity-icon-set';
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
-
-import '../unity-text-input/unity-text-input';
-// import '@bit/smartworks.unity.unity-text-input';
-import './unity-select-menu';
+import '@bit/smartworks.unity.unity-text-input';
+import '@bit/smartworks.unity.unity-select-menu';
 
 
 /**
@@ -43,7 +42,6 @@ import './unity-select-menu';
 /**
  * TODOS:
  * - Fix button not closing
- * - Change unity imports to bit components
  * - Match colors to spec
  */
 

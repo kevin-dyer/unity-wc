@@ -49,6 +49,18 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-dropdown@0.1.0": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-dropdown/unity-dropdown.js",
+                "test": false,
+                "name": "unity-dropdown.js"
+            }
+        ],
+        "mainFile": "src/components/unity-dropdown/unity-dropdown.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "smartworks.unity/unity-global-nav-base@0.1.0": {
         "files": [
             {
@@ -131,6 +143,18 @@
             }
         ],
         "mainFile": "src/components/unity-layout/unity-section.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-select-menu@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-dropdown/unity-select-menu.js",
+                "test": false,
+                "name": "unity-select-menu.js"
+            }
+        ],
+        "mainFile": "src/components/unity-dropdown/unity-select-menu.js",
         "origin": "AUTHORED",
         "exported": true
     },
