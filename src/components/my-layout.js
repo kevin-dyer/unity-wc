@@ -177,8 +177,10 @@ class MyLayout extends LitElement {
       </unity-section>
       <unity-section>
         <unity-section>
-          <div style="height: 500px; width: 150px;">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <div style="height: 400px;">
+            <unity-typography>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </unity-typography>
           </div>
         </unity-section>
         <unity-section style="--background-color: #eef4FF;">
@@ -196,6 +198,13 @@ class MyLayout extends LitElement {
               .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
             >
             </unity-table>
+          </div>
+        </unity-section>
+        <unity-section>
+          <div style="height: 400px; overflow-y: scroll">
+            <unity-typography style="--font-size: 42px; --font-family: Avenir; --font-color: red; --font-weight: 800;" size="header1" color="light">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </unity-typography>
           </div>
         </unity-section>
       </unity-section>
