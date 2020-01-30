@@ -210,6 +210,7 @@ class UnityDropdown extends LitElement {
         }
         .search-box {
           margin: 2px;
+          padding: 0;
         }
         .text-highlight {
           background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
@@ -649,9 +650,9 @@ class UnityDropdown extends LitElement {
        
           ${!this._collapsed?
             html`
-              <paper-dialog id="options-dialog" opened
+              <paper-dialog .noAutoFocus="${true}" id="options-dialog" opened
                             class="options-box ${isButton? "button-options": ""}"
-                            refit>
+                            >
                 ${this.searchBox? this.renderSearchBox() : null}
                 ${this.inputType === "multi-select" ? this.renderSelectAll() : null}
                 ${this.renderList()}                
