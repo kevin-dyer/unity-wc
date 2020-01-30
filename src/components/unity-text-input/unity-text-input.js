@@ -3,7 +3,8 @@ import '@polymer/iron-input/iron-input'
 import '@polymer/iron-autogrow-textarea'
 import '@polymer/iron-icon/iron-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '../unity-icon-set/unity-icon-set'
+// import '../unity-icon-set/unity-icon-set'
+import '@bit/smartworks.unity.unity-icon-set'
 
 /**
 * Renders a bordered text input

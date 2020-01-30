@@ -98,7 +98,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-modal@0.1.2": {
+    "smartworks.unity/unity-modal@0.1.3": {
         "files": [
             {
                 "relativePath": "src/components/unity-modal/unity-modal.js",
@@ -119,6 +119,18 @@
             }
         ],
         "mainFile": "src/components/unity-layout/unity-page-header.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-section@0.1.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-layout/unity-section.js",
+                "test": false,
+                "name": "unity-section.js"
+            }
+        ],
+        "mainFile": "src/components/unity-layout/unity-section.js",
         "origin": "AUTHORED",
         "exported": true
     },
@@ -151,19 +163,19 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@0.1.26": {
+    "smartworks.unity/unity-text-input@0.1.27": {
         "files": [
             {
+                "name": "unity-text-input.js",
                 "relativePath": "src/components/unity-text-input/unity-text-input.js",
-                "test": false,
-                "name": "unity-text-input.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-text-input/unity-text-input.js",
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-utils@0.0.1": {
+    "smartworks.unity/unity-utils@0.0.2": {
         "files": [
             {
                 "relativePath": "src/components/unity-utils/unity-utils.js",
