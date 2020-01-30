@@ -12,7 +12,14 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   "And then you can give it any kind of text you want on the inside."
  * </unity-typography>
  *
- * There are a number of css vars expose for specific style overrides. These will
+ * There are a number of css vars expose for specific style overrides. These will override
+ * any of the attribute controled styles, allowing the classes matching the attributes
+ * to still show, but having the effect of the override.
+ * CSS variables:
+ *   --font-face   -  font family
+ *   --font-size   -  font size
+ *   --font-weight -  font weight
+ *   --font-color  -  font color
  **/
 
 const BLACK = 'black'
