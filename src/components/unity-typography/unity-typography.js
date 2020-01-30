@@ -28,8 +28,8 @@ class UnityTypography extends LitElement {
   constructor() {
     super()
 
-    this.color = BLACK
-    this.size = PARA
+    this.color = ''
+    this.size = ''
     this.weight = ''
   }
 
@@ -45,17 +45,18 @@ class UnityTypography extends LitElement {
     const { color, size } = this
     let classes = []
     switch(color) {
+      case BLACK:
+        classes.push('color-black')
+        break
       case DARK:
         classes.push('color-dark')
-        break
-      case LIGHT:
-        classes.push('color-light')
         break
       case MEDIUM:
         classes.push('color-medium')
         break
-      default:
-        classes.push('color-black')
+      case LIGHT:
+        classes.push('color-light')
+        break
     }
 
     switch(size) {
@@ -65,14 +66,15 @@ class UnityTypography extends LitElement {
       case HEADER_TWO:
         classes.push('size-header-2')
         break
+      case PARA:
+        classes.push('size-paragraph')
+        break
       case MEDIUM:
         classes.push('size-medium')
         break
       case SMALL:
         classes.push('size-small')
         break
-      default:
-        classes.push('size-paragraph')
     }
 
     const weight = this.weight || size
@@ -83,14 +85,15 @@ class UnityTypography extends LitElement {
       case HEADER_TWO:
         classes.push('weight-header-2')
         break
+      case PARA:
+        classes.push('weight-paragraph')
+        break
       case MEDIUM:
         classes.push('weight-medium')
         break
       case SMALL:
         classes.push('weight-small')
         break
-      default:
-        classes.push('weight-paragraph')
     }
 
     return classes.join(' ')
