@@ -42,7 +42,7 @@ import './unity-select-menu';
 
 /**
  * TODOS:
- * - Fix click outside for button dropdown
+ * - Fix button not closing
  * - Change unity imports to bit components
  * - Match colors to spec
  */
@@ -391,10 +391,6 @@ class UnityDropdown extends LitElement {
      * The consequence is that the dropdown is closed due to the click outside, then opened again by the mouse click
      * event, making it impossible to close the menu by clicking the button.
      */
-    if(event.path[1].firstElementChild.localName == "unity-button") {
-      event.preventDefault();
-      return;
-    }
     this._collapsed = true;
   }
 
