@@ -43,6 +43,7 @@ class UnitySelectMenu extends LitElement {
         margin-block-start: 0.5em;
         margin-block-end: 0.5em;
         padding: 0 8px;
+        box-sizing: border-box;
       }
       ul{
         padding: 0;
@@ -56,28 +57,17 @@ class UnitySelectMenu extends LitElement {
       li {
         font-size: var(--text-size);
         font-family: var(--input-font);
-        width: 100%;
-      }
-      .text-box {
-        width: auto;
         background-color: var(--background-color, var(--default-background-color));
         box-sizing: border-box;
-        position: relative;
+        margin: 0;
         display: flex;
-        flex-direction: row;
-        align-items: center;          
+        flex-direction: column;
       }
-      .text-box:hover:not(.disabled){
-        cursor:pointer;
+      li:hover {
+        background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
       }
       .list-element-wrapper {
         margin: 0;
-      }
-      .list-element {
-        margin: 0;
-      }
-      .list-element:hover {
-        background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
       }
       .icon-left-wrapper {
         padding-left: 8px;
@@ -98,6 +88,8 @@ class UnitySelectMenu extends LitElement {
       }
       .item-label {
         flex: 1;
+        align-items: center;
+        width: 100%;
       }
       .item-comment {
         font-size: 0.9em;
@@ -117,8 +109,8 @@ class UnitySelectMenu extends LitElement {
 
   renderItem(item, index) {
     const {label, icon, comment, submenu } = item;
-    return html`<div class="text-box list-element" @click=${() => this.clickedMenu(index)}>
-      <li>
+    return html`
+      <li @click=${() => this.clickedMenu(index)}>
         <div class="item-label-wrapper">
           ${!!icon? html`<div class="icon-left-wrapper">
                 <iron-icon class="inner-icon" icon="${icon}"}"></iron-icon>
@@ -127,17 +119,18 @@ class UnitySelectMenu extends LitElement {
           <p class="item-label">${label}</p>
           ${!!item.submenu? html`
             <div class="icon-right-wrapper chevron" @click=${this.openSubmenu(item.submenu)}>
-              <iron-icon class="inner-icon" icon="unity:right_chevron"}"></iron-icon>
+              <iron-icon class="inner-icon" icon="unity:right_chevron"></iron-icon>
             </div>` 
           : null }
         </div>
         ${!!comment? html`<p class="item-comment">${comment}</p>`: null}
       </li>
-    </div>
+  
     ${!!submenu? this.renderSubmenu(submenu) : null}
     `;
   }
 
+  //TODO
   openSubmenu(submenu) {
     console.log("submenu clicked")
     // return this.renderList(submenu);

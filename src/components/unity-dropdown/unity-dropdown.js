@@ -139,11 +139,21 @@ class UnityDropdown extends LitElement {
           z-index: 10;
           width: 100%;
         }
-        .list-element {
-          margin: 0;
-        }
         li {
-          width: 100%;
+          font-size: var(--text-size);
+          font-family: var(--input-font);
+          background-color: var(--background-color, var(--default-background-color));
+          box-sizing: border-box;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+        }
+        li:hover {
+          background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+        }
+  
+        li:hover:not(.disabled){
+          cursor:pointer;
         }
         .list-element:hover {
           background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
@@ -433,8 +443,8 @@ class UnityDropdown extends LitElement {
     
     if (this.inputType === "multi-select") {
       const isSelected = this.selected.includes(index)
-      return html`<div class="text-box selectable list-element" @click=${this._changeValue(index)}">
-        <li>
+      return html`
+        <li class="selectable" @click=${this._changeValue(index)}>
           <div class="option-label-wrapper">
               <paper-checkbox class="icon-left-wrapper custom-checkbox"
                 noink
@@ -444,25 +454,22 @@ class UnityDropdown extends LitElement {
             <p>${label}</p>
           </div>
           ${!!option.comment? html`<p class="option-comment">${option.comment}</p>`: null}
-        </li>
-      </div>`;
+        </li>`;
     }
 
     else {
-      return html`<div class="text-box selectable list-element" @click=${this._changeValue(index)}>
-                    <li>
-                      <div class="option-label-wrapper">
-                        ${!!option.icon? this.renderLeftIcon(option.icon) : null }
-                        <p class="option-label">${label}</p>
-                        ${this.selectIcon && (index === this.selected[0])? html`
-                          <div class="icon-right-wrapper selected-icon">
-                            <iron-icon class="inner-icon" icon="unity:check"}"></iron-icon>
-                          </div>` 
-                          : null}
-                      </div>
-                      ${!!option.comment? html`<p class="option-comment">${option.comment}</p>`: null}
-                    </li>
-                  </div>`;
+      return html`<li class="selectable" @click=${this._changeValue(index)}>
+                    <div class="option-label-wrapper">
+                      ${!!option.icon? this.renderLeftIcon(option.icon) : null }
+                      <p class="option-label">${label}</p>
+                      ${this.selectIcon && (index === this.selected[0])? html`
+                        <div class="icon-right-wrapper selected-icon">
+                          <iron-icon class="inner-icon" icon="unity:check"}"></iron-icon>
+                        </div>` 
+                        : null}
+                    </div>
+                    ${!!option.comment? html`<p class="option-comment">${option.comment}</p>`: null}
+                  </li>`;
     }
   }
 

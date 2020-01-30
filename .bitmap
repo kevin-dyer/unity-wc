@@ -49,7 +49,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@0.1.0": {
+    "smartworks.unity/unity-dropdown@0.1.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-dropdown/unity-dropdown.js",
@@ -146,7 +146,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-select-menu@0.0.1": {
+    "smartworks.unity/unity-select-menu@0.0.2": {
         "files": [
             {
                 "relativePath": "src/components/unity-dropdown/unity-select-menu.js",
