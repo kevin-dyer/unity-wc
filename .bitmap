@@ -122,7 +122,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-section@0.1.1": {
+    "smartworks.unity/unity-section@0.1.2": {
         "files": [
             {
                 "relativePath": "src/components/unity-layout/unity-section.js",
@@ -172,6 +172,18 @@
             }
         ],
         "mainFile": "src/components/unity-text-input/unity-text-input.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-typography@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-typography/unity-typography.js",
+                "test": false,
+                "name": "unity-typography.js"
+            }
+        ],
+        "mainFile": "src/components/unity-typography/unity-typography.js",
         "origin": "AUTHORED",
         "exported": true
     },
