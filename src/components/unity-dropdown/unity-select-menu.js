@@ -159,7 +159,7 @@ class UnitySelectMenu extends LitElement {
   }
 
   renderList(itemsList) {
-    return itemsList.map((item) => {return this.renderItem(item)})
+    return itemsList.map((item) => this.renderItem(item));
   }
 
   render() {
