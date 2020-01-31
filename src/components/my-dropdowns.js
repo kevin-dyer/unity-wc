@@ -1,5 +1,5 @@
 import { html, css } from 'lit-element';
-import './unity-dropdown/unity-dropdown.js';
+import '@bit/smartworks.unity.unity-dropdown';
 import '@bit/smartworks.unity.unity-select-menu';
 
 import { PageViewElement } from './page-view-element.js';
@@ -10,60 +10,117 @@ import { SharedStyles } from './shared-styles.js';
 const dataMock = {
   "labelsOnly": [
     {
-      "label": "Option 1"
+      "label": "Option 1",
+      "id": "1"
     },
     {
-      "label": "Option 2"
+      "label": "Option 2",
+      "id": "2"
     },
     {
-      "label": "Option 3"
+      "label": "Option 3",
+      "id": "3",
+      "disabled": true
+    }
+  ],
+  "submenus": [
+    {
+      "label": "Option 1",
+      "submenu": [     
+        {
+          "label": "Option 1",
+          "id": "1_1"
+        },
+        {
+          "label": "Option 2",
+          "id": "1_2"
+        },
+        {
+          "label": "Option 3",
+          "id": "1_3"
+        }
+      ]
+    },
+    {
+      "label": "Option 2",
+      "submenu": [     
+        {
+          "label": "Option 1",
+          "submenu": [     
+            {
+              "label": "Option 1",
+              "id": "2_1_1"
+            },
+            {
+              "label": "Option 2",
+              "id": "2_1_2"
+            }
+          ]
+        },
+        {
+          "label": "Option 2",
+          "id": "2_2"
+        },
+        {
+          "label": "Option 3",
+          "id": "2_3"
+        }
+      ]
     }
   ],
   "withComments": [
     {
       "label": "Option 1", 
-      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
+      "id": "1"
     },
     {
       "label": "Option 2",
-      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
+      "id": "2"
     },
     {
       "label": "Option 3",
-      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
+      "id": "3"
     }
   ],
   "withIcons": [
     {
       "label": "Option 1", 
-      "icon": "unity:info_circle"
+      "icon": "unity:info_circle",
+      "id": "1"
     },
     {
       "label": "Option 2",
-      "icon": "unity:share"
+      "icon": "unity:share",
+      "id": "2"
     },
     {
       "label": "Option 3",
-      "icon": "unity:download_alt1"
+      "icon": "unity:download_alt1",
+      "id": "3"
     }
   ],
   "withEverything": [
     {
       "label": "Option 1", 
       "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
-      "icon": "unity:info_circle"
+      "icon": "unity:info_circle",
+      "id": "1"
     },
     {
       "label": "Option 2",
       "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
-      "icon": "unity:share"
+      "icon": "unity:share",
+      "id": "2"
     },
     {
       "label": "Option 3",
       "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
-      "icon": "unity:download_alt1"
+      "icon": "unity:download_alt1",
+      "id": "3"
     }
-
   ]
 };
 
@@ -113,7 +170,7 @@ class MyDropdowns extends PageViewElement {
 
           <div class="input-box">
             <unity-select-menu 
-              .items=${dataMock.withComments}
+              .items=${dataMock.submenus}
               .onMenuClick=${this.onMenuClick}
             >
             </unity-select-menu>
@@ -134,7 +191,7 @@ class MyDropdowns extends PageViewElement {
           <div class="input-box">
             <unity-dropdown 
               label="${"Menu"}"
-              .options=${dataMock.labelsOnly}
+              .options=${dataMock.submenus}
               .onMenuClick=${this.onMenuClick}
             >
             </unity-dropdown>
