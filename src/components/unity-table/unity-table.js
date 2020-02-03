@@ -22,10 +22,11 @@ const MOUSE_MOVE_THRESHOLD = 5
  * @name UnityTable
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
- * @param {bool} headless
- * @param {bool} selectable
- * @param {bool} isLoading
- * @param {string} emptyDisplay
+ * @param {bool} headless, controls if the table has a header row
+ * @param {bool} selectable, controls if rows are selectable
+ * @param {bool} isLoading, shows spinner instead of table
+ * @param {string} emptyDisplay, string to show when table is empty
+ * @param {string} highlightedRow, id of row to highlight
  * @param {func} onClickRow, func that is sent the data of the element clicked, and the event of the click
  * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
  * @returns {LitElement} returns a class extended from LitElement
@@ -141,6 +142,7 @@ class UnityTable extends LitElement {
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
+    this.highlightedRow = ''
 
     // action handlers
     this.onClickRow = ()=>{}
@@ -185,6 +187,7 @@ class UnityTable extends LitElement {
       onClickRow: { type: Function },
       onExpandedChange: { type: Function },
       onDisplayColumnsChange: { type: Function},
+      highlightedRow: { type: String },
       // internals, tracking for change
       _allSelected: { type: Boolean },
       // selected: { type: Array },
