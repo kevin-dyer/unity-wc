@@ -832,6 +832,7 @@ class UnityTable extends LitElement {
           --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
           --thead-height: 33px;
           --trow-height: 38px;
+          --highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light))
           display: flex;
         }
         .container {
@@ -947,6 +948,9 @@ class UnityTable extends LitElement {
         paper-icon-button.header-sort-icon {
           height: 30px;
           width: 30px;
+        }
+        .highlight {
+          background-color: var(--highlight-color)
         }
       `
     ]
