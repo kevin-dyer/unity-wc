@@ -36,22 +36,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       suite("unity-text-input tests", function() {
         let textInput;
         setup(function() {
-            textInput = fixture("text-input");
+          textInput = fixture("text-input");
           // Make tests wait until element is rendered.
           return textInput.updateComplete;
         });
 
-        test("exists", () => {
+        test("text-input exists", () => {
           assert.exists(textInput, "text-input exists");
         });
 
+        test("text-input is correct", () => {
+          assert.equal(textInput.value, "myValue");
+        });
+
+        test("text-input on change handler functioning correctly", () => {
+          // // textInput.value['input'] = "myValue"
+          // const input = textInput.shadowRoot.querySelectorAll('input')
+          console.log(textInput)
+        })
+       
+
+        test("text-input label is correct", () => {
+          assert.equal(textInput.label, "label");
+        });
         test("text-input-a11y", function() {
           return axeReport(textInput);
         });
-
-        test("text-input value is correct", () => {
-          assert.equal(textInput.value, "myValue")
-        })
       });
     </script>
   </body>

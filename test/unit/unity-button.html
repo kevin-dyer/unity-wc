@@ -45,6 +45,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.exists(button, "button exists");
         });
 
+        test("button click function works", () => {
+          let btn = document.querySelector('unity-button')
+          console.log(btn)
+        })
+
         test("button-a11y", function() {
           return axeReport(button);
         });
