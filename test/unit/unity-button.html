@@ -23,7 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <body>
     <test-fixture id="button">
       <template>
-        <unity-button label="button"></unity-button>
+        <unity-button label="unity button"></unity-button>
       </template>
     </test-fixture>
 
@@ -45,10 +45,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.exists(button, "button exists");
         });
 
-        test("button click function works", () => {
-          let btn = document.querySelector('unity-button')
-          console.log(btn)
-        })
+        test("button is not disabled", () => {
+          assert.equal(button.disabled, false);
+        });
+        
+        test("button can be disabled", () => {
+          let btn = button.shadowRoot.querySelector('paper-button');
+          btn.disabled = true
+          assert.equal(btn.disabled, true);
+        });
 
         test("button-a11y", function() {
           return axeReport(button);

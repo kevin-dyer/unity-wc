@@ -23,7 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <body>
     <test-fixture id="text-input">
       <template>
-        <unity-text-input label="label" value="myValue"></unity-text-input>
+        <unity-text-input label="label" value=""></unity-text-input>
       </template>
     </test-fixture>
 
@@ -45,20 +45,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.exists(textInput, "text-input exists");
         });
 
-        test("text-input is correct", () => {
-          assert.equal(textInput.value, "myValue");
+        test("text-input is starts empty", () => {
+          assert.equal(textInput.value, "");
         });
 
         test("text-input on change handler functioning correctly", () => {
-          // // textInput.value['input'] = "myValue"
-          // const input = textInput.shadowRoot.querySelectorAll('input')
-          console.log(textInput)
-        })
-       
+          const input = textInput.shadowRoot.querySelector("input");
+          input.value = "H.E.R."
+          assert.equal(input.value, "H.E.R.")
+        });
 
         test("text-input label is correct", () => {
           assert.equal(textInput.label, "label");
         });
+
         test("text-input-a11y", function() {
           return axeReport(textInput);
         });

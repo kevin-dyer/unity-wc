@@ -11,6 +11,17 @@
           "-headless"
         ]
       }
+    },
+    "istanbul": {
+      "dir": "./coverage",
+      "reporters": ["text-summary", "lcov"],
+      "include": [
+        "**/*.js"
+      ],
+      "exclude": [
+        "/polymer/polymer.js",
+        "/platform/platform.js"
+      ]
     }
   }
 }
