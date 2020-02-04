@@ -838,7 +838,7 @@ class UnityTable extends LitElement {
           --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
           --thead-height: 33px;
           --trow-height: 38px;
-          --highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+          --default-highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
           display: flex;
         }
         .container {
@@ -922,7 +922,6 @@ class UnityTable extends LitElement {
         }
         .cell {
           border-collapse: collapse;
-          background-color: var(--background-color, var(--default-background-color))
         }
         .header-content {
           display: flex;
@@ -949,14 +948,17 @@ class UnityTable extends LitElement {
           height: var(--trow-height);
           border-collapse: collapse;
           cursor: pointer;
+          background-color: var(--background-color, var(--default-background-color))
         }
-
+        .sticky-header-row {
+          background-color: var(--background-color, var(--default-background-color))
+        }
         paper-icon-button.header-sort-icon {
           height: 30px;
           width: 30px;
         }
         .highlight {
-          background-color: var(--highlight-color);
+          background-color: var(--highlight-color, var(--default-highlight-color));
         }
       `
     ]
