@@ -679,9 +679,8 @@ class UnityTable extends LitElement {
     const expandable = childCount > 0
     const expanded = this.expanded.has(rowId)
     // check if highlightedRow matches keyExtractor
-    const key = this.keyExtractor(datum, rowId)
     let rowClasses = ['row']
-    if (key === this.highlightedRow) rowClasses.push('highlight')
+    if (rowId === this.highlightedRow) rowClasses.push('highlight')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
@@ -696,7 +695,7 @@ class UnityTable extends LitElement {
           const deltaX = Math.abs(e.screenX - this.startingX)
 
           if (deltaX < MOUSE_MOVE_THRESHOLD) {
-            this.onClickRow(datum, key, e)
+            this.onClickRow(datum, rowId, e)
           }
         }}"
       >
