@@ -305,6 +305,7 @@ class UnityTextInput extends LitElement {
     const minLines = givenMinLines < 1 ? 1 : Math.floor(givenMinLines)
     const maxLines = givenMaxLines < minLines ? minLines : Math.floor(givenMaxLines)
 
+    let title = 'text-input'
     let type = 'text'
     if (!area) {
       if (!!time) type = 'time'
@@ -314,9 +315,9 @@ class UnityTextInput extends LitElement {
     return html`
       <div>
         ${!!label ?
-          html`<span class="label">
+          html`<label class="label">
             ${label}
-            </span>`
+            </label>`
           : null
         }
         <iron-input
@@ -339,6 +340,7 @@ class UnityTextInput extends LitElement {
               value="{{value::input}}"
               id="input"
               type="${type}"
+              title="${title}"
               maxlength="${maxlength || null}"
               placeholder="${!!placeholder ? placeholder : ''}"
               style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
