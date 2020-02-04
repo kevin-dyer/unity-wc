@@ -678,13 +678,15 @@ class UnityTable extends LitElement {
     } = datum
     const expandable = childCount > 0
     const expanded = this.expanded.has(rowId)
-
+    // check if highlightedRow matches keyExtractor
     const key = this.keyExtractor(datum, rowId)
+    let rowClasses = ['row']
+    if (key === this.highlightedRow) rowClasses.push('highlight')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
       <tr
-        class="row"
+        class="${rowClasses.join(' ')}"
         key="row-${rowId}"
         @mousedown="${e => {
           this.startingX = e.screenX
@@ -836,7 +838,7 @@ class UnityTable extends LitElement {
           --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
           --thead-height: 33px;
           --trow-height: 38px;
-          --highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light))
+          --highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
           display: flex;
         }
         .container {
@@ -954,7 +956,7 @@ class UnityTable extends LitElement {
           width: 30px;
         }
         .highlight {
-          background-color: var(--highlight-color)
+          background-color: var(--highlight-color);
         }
       `
     ]
