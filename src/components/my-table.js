@@ -115,6 +115,7 @@ class MyTable extends PageViewElement {
 
     this.columns = [...exampleColumns] //For Column Editor
     this._visibleColumns = [...exampleColumns] //For Table display
+    this.highlightedRow = ''
   }
 
   static get properties() {
@@ -122,6 +123,7 @@ class MyTable extends PageViewElement {
       _searchText: { type: String },
       columns: { type: Array },
       _visibleColumns: { type: Array },
+      highlightedRow: { type: String }
     }
   }
 
@@ -191,9 +193,11 @@ class MyTable extends PageViewElement {
     console.log("handleEditColumns called!")
   }
 
-  handleEditColumns() {
-    //TODO: display edit column modal!
-    console.log("handleEditColumns called!")
+  handleClickRow(element, key, event) {
+    console.log('This element was clicked:', element)
+    console.log('This was the key of the element:', key)
+    console.log('This was the clicked event:', event)
+    this.highlightedRow = key
   }
 
   render() {
@@ -229,9 +233,10 @@ class MyTable extends PageViewElement {
             .childKeys="${['children']}"
             .data="${exampleData}"
             .columns="${this._visibleColumns}"
+            .highlightedRow="${this.highlightedRow}"
 
             .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
-            .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
+            .onClickRow="${this.handleClickRow.bind(this)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
           >
