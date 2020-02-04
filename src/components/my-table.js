@@ -119,7 +119,9 @@ class MyTable extends PageViewElement {
 
   static get properties() {
     return {
-      searchText: {type: String}
+      _searchText: { type: String },
+      columns: { type: Array },
+      _visibleColumns: { type: Array },
     }
   }
 
@@ -168,17 +170,9 @@ class MyTable extends PageViewElement {
     ];
   }
 
-  static get properties() {
-    return {
-      _searchText: {type: String},
-      columns: {type: Array},
-      _visibleColumns: {type: Array},
-    }
-  }
-
 //   handleSearchInput(e={}) {
 //     const {target: {value}={}} = e
-// 
+//
 //     this._searchText = value || ''
 //   }
 
