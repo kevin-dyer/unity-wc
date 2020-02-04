@@ -5,6 +5,8 @@ import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
+import '../unity-dropdown/unity-dropdown'
+
 // import '@bit/smartworks.unity.unity-table-cell'
 import './unity-table-cell.js'
 // import '@bit/smartworks.unity.table-cell-base'
@@ -141,6 +143,7 @@ class UnityTable extends LitElement {
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
+    this.columnFilter = []
 
     // action handlers
     this.onClickRow = ()=>{}
@@ -187,6 +190,7 @@ class UnityTable extends LitElement {
       onDisplayColumnsChange: { type: Function},
       // internals, tracking for change
       _allSelected: { type: Boolean },
+      columnFilter: {type: Array}, 
       // selected: { type: Array },
 
       // TBI
@@ -650,7 +654,20 @@ class UnityTable extends LitElement {
                         title="${direction}"
                         class="header-sort-icon"
                       ></paper-icon-button>
+                     
                     </div>
+                    <unity-button
+                    centerIcon="unity:filter"
+                    @click=${e => console.log("unity-button clicked! e: ", e)}
+                   ></unity-button>
+                   <unity-dropdown 
+                      inputType="multi-select"
+                      boxType="search"
+                      .onValueChange="${this.dropdownValueChange(key)}"
+                      .options=${this.getDropdownOptions(key)}
+                      .selected=${this.getSelected(key)}
+                    >
+                    </unity-dropdown>
                   </div>
                 </table-cell-base>
               </th>
@@ -660,6 +677,66 @@ class UnityTable extends LitElement {
       </thead>
     `
   }
+
+  connectedCallback(){
+    super.connectedCallback();
+    this._columnValues = this.getColumnValues();
+
+    this.dropdownValueChange = key => (values, selected) => {
+      //TODO: very inefficient, review
+      for(const value of values) {
+        let currentColumn = this.columnFilter.filter((f) => f.column === key)[0];
+        if (!!currentColumn) {
+          const currentColumnFilter = currentColumn.filter;
+          // add/remove value from filter
+          currentColumnFilter.includes(value)? 
+            currentColumnFilter.splice(currentColumnFilter.indexOf(value), 1)
+            :
+            currentColumnFilter.push(value);            
+        } 
+        else {
+          //add new filter for this column
+          this.columnFilter.push({column: key, filter: [value], action: selected?"include":"exclude"});
+        }
+      }
+      this.requestUpdate();
+    }
+  }
+
+  /**
+   * Get all possible values for every column.
+   * NOTE: in terms of efficienty, if there are a lot of columns with many values, maybe it would be better to generate this only for
+   * a given column when the dropdown is opened
+   */
+  getColumnValues() {
+    let columnValues = {};
+    this.columns.map( col => {
+      const key = col.key;
+      columnValues[key] = [...new Set(this.data.map(x => x[key].toString()))].sort(); // store values as String to use as id for the dropdown
+    }
+    )
+    return columnValues;
+  }
+
+  getDropdownOptions(key) {
+    return this._columnValues[key].map(x => ({label: x, id: x}));
+  }
+
+  getSelected(key) {
+    const selectedArray = this._columnValues[key];
+    const currentFilter = this.columnFilter.filter( (filter) => filter.column === key )[0];
+    let selectedValues = selectedArray;
+    if (!!currentFilter) {
+      if(currentFilter.action === "include") {
+        selectedValues = currentFilter.filter; 
+      }
+      else if (currentFilter.action === "exclude") {
+        selectedValues = selectedValues.filter(x => !currentFilter.filter.includes(x));
+      }
+    }
+    return selectedValues;
+  }
+
 
   _renderRow({
     _rowId: rowId,
@@ -784,6 +861,28 @@ class UnityTable extends LitElement {
     this.columns = nextColumns
   }
 
+  _renderTableData(data) {
+
+    console.log("RENDER TABLE DATA")
+    let filteredData = data;
+    if(this.columnFilter.length > 0){
+      for(const f of this.columnFilter) {
+        // add / exclude data from table depending on filters
+        filteredData = filteredData.filter( (datum) => 
+          {
+            if (f.action === "include") {
+              return f.filter.includes(datum[f.column].toString());
+            }
+            else if (f.action === "exclude") {
+              return !f.filter.includes(datum[f.column].toString());
+            }
+          }
+        );
+      }
+    }
+    return filteredData.map((datum) => this._renderRow(datum));
+  }
+
   render() {
     const data = this._flattenedData || []
     const hasData = data.length > 0
@@ -806,7 +905,7 @@ class UnityTable extends LitElement {
                   }
                 </td>
               `
-            : data.map((datum) => this._renderRow(datum))
+            : this._renderTableData(data) 
           }
         </table>
       </div>
@@ -833,6 +932,7 @@ class UnityTable extends LitElement {
           --thead-height: 33px;
           --trow-height: 38px;
           display: flex;
+          height: 100%;
         }
         .container {
           /*position: absolute;

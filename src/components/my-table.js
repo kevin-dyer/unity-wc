@@ -235,7 +235,7 @@ class MyTable extends PageViewElement {
             .childKeys="${['children']}"
             .data="${exampleData}"
             .columns="${this._visibleColumns}"
-
+            .columnFilter="${[{column: "name", filter: ["grey"], action: "exclude"} ]}"
             .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
             .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
@@ -248,4 +248,5 @@ class MyTable extends PageViewElement {
   }
 }
 
+// .columnFilter="${[{column: "favorite", filter: [false], action: "include"}, {column: "name", filter: ["grey"], action: "include"} ]}"
 window.customElements.define('my-table', MyTable);

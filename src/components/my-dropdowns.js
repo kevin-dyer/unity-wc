@@ -1,5 +1,6 @@
 import { html, css } from 'lit-element';
-import '@bit/smartworks.unity.unity-dropdown';
+// import '@bit/smartworks.unity.unity-dropdown';
+import './unity-dropdown/unity-dropdown'
 import '@bit/smartworks.unity.unity-select-menu';
 
 import { PageViewElement } from './page-view-element.js';
@@ -211,7 +212,7 @@ class MyDropdowns extends PageViewElement {
               label="${"Pre-selected option"}"
               inputType="single-select"
               .options=${dataMock.labelsOnly}
-              .selected=${[0]}
+              .selected=${["1"]}
 
             >
             </unity-dropdown>
@@ -298,7 +299,8 @@ class MyDropdowns extends PageViewElement {
           <unity-dropdown 
             label="${"Multi select"}"
             inputType="multi-select"
-            .selected=${[0,2]}
+            showTags
+            .selected=${["1","3"]}
             .options=${dataMock.labelsOnly}
           >
           </unity-dropdown>
