@@ -27,7 +27,7 @@ const MOUSE_MOVE_THRESHOLD = 5
  * @param {bool} isLoading, shows spinner instead of table
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
- * @param {func} onClickRow, func that is sent the data of the element clicked, and the event of the click
+ * @param {func} onClickRow, func that is sent the data of the element clicked, the key of the row as defined by keyExtractor, and the event of the click
  * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
  * @returns {LitElement} returns a class extended from LitElement
  * @example
@@ -679,6 +679,7 @@ class UnityTable extends LitElement {
     const expandable = childCount > 0
     const expanded = this.expanded.has(rowId)
 
+    const key = this.keyExtractor(datum, rowId)
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
@@ -693,7 +694,7 @@ class UnityTable extends LitElement {
           const deltaX = Math.abs(e.screenX - this.startingX)
 
           if (deltaX < MOUSE_MOVE_THRESHOLD) {
-            this.onClickRow(datum, e)
+            this.onClickRow(datum, key, e)
           }
         }}"
       >
