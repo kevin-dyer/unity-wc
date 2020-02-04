@@ -9,7 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import './unity-text-input/unity-text-input.js'
+// import './unity-text-input/unity-text-input.js'
+import '@bit/smartworks.unity.unity-text-input'
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
@@ -45,6 +46,7 @@ class MyTextInput extends PageViewElement {
         .input-box {
           position: relative;
           width: 250px;
+          margin: 1em 0;
         }
       `
     ]
