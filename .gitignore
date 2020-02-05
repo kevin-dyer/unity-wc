@@ -4,5 +4,5 @@ test/integration/screenshots-current/
 _site/
 .DS_Store
 coverage/
-coverage/lcov-report/
+coverage/
 .nyc_output/
