@@ -4,8 +4,8 @@
     "local": {
       "browserOptions": {
         "chrome": [
-          "headless",
-          "disable-gpu"
+          "-headless",
+          "-disable-gpu"
         ],
         "firefox": [
           "-headless"
@@ -16,11 +16,10 @@
       "dir": "./coverage",
       "reporters": ["text-summary", "lcov"],
       "include": [
-        "test/unit/*.html"
+        "/*.html"
       ],
       "exclude": [
-        "/polymer.js",
-        "/platform/platform.js"
+        "/polymer.json"
       ]
     }
   }

@@ -51,8 +51,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         test("text-input on change handler functioning correctly", () => {
           const input = textInput.shadowRoot.querySelector("input");
-          input.value = "H.E.R."
-          assert.equal(input.value, "H.E.R.")
+          input.value = "text input"
+          assert.equal(input.value, "text input")
         });
 
         test("text-input label is correct", () => {
