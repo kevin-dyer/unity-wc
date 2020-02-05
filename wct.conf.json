@@ -16,10 +16,10 @@
       "dir": "./coverage",
       "reporters": ["text-summary", "lcov"],
       "include": [
-        "**/*.js"
+        "test/unit/*.html"
       ],
       "exclude": [
-        "/polymer/polymer.js",
+        "/polymer.js",
         "/platform/platform.js"
       ]
     }
