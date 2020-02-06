@@ -62,7 +62,7 @@ const MOUSE_MOVE_THRESHOLD = 5
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
-*         format: (colValue, datum) => `Building: ${colValue}`
+ *        format: (colValue, datum) => `Building: ${colValue}`
  *      },
  *      {
  *        key: 'columnN',
@@ -687,6 +687,7 @@ class UnityTable extends LitElement {
       <tr
         class="${rowClasses.join(' ')}"
         key="row-${rowId}"
+        id="row-${rowId}"
         @mousedown="${e => {
           this.startingX = e.screenX
         }}"
