@@ -790,6 +790,19 @@ class UnityTable extends LitElement {
     this.columns = nextColumns
   }
 
+  // this will be called only on the first render
+  firstUpdated(old) {
+    // this is an internal promise, the last step of the update lifecycle (after render)
+    this.updateComplete.then(this.scrollToHighlightedRow.bind(this))
+  }
+
+  // this is written as a separate function in the case we want to scroll-to in the future
+  scrollToHighlightedRow() {
+    const row = this.shadowRoot.querySelector(`#row-${this.highlightedRow}`)
+    if (!!row)
+      row.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+  }
+
   render() {
     const data = this._flattenedData || []
     const hasData = data.length > 0
