@@ -3,7 +3,8 @@ import '@polymer/iron-input/iron-input'
 import '@polymer/iron-autogrow-textarea'
 import '@polymer/iron-icon/iron-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '../unity-icon-set/unity-icon-set'
+// import '../unity-icon-set/unity-icon-set'
+import '@bit/smartworks.unity.unity-icon-set'
 
 /**
 * Renders a bordered text input
@@ -25,6 +26,7 @@ import '../unity-icon-set/unity-icon-set'
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @param {bool} rounded, if specified, makes the text input edges rounded, defaults: false (square corners)
 * @param {bool} hideBorder, hides the border of the element, defaults: false (show border)
+* @param {bool} borderEffects, apply styles (color and shadow) on hover/focus, default: true
 * @param {bool} area, field shows as text area with scrolling and multiline, disables many other features
 * @param {number} minLines, minimum number of lines to show in a text area, default 4
 * @param {number} maxLines, maximum number of lines to show in a text area before scrolling, default 12
@@ -64,6 +66,7 @@ class UnityTextInput extends LitElement {
     this.maxlength = 0
     this.showIcon = false
     this.hideBorder = false
+    this.borderEffects = true
     this.rounded = false
     this.innerRightIcon = ""
     this.innerLeftIcon = ""
@@ -99,6 +102,7 @@ class UnityTextInput extends LitElement {
       validation: { type: Function },
       showIcon: { type: Boolean },
       hideBorder: { type: Boolean },
+      borderEffects: { type: Boolean},
       rounded: { type: Boolean },
       area: { type: Boolean },
       minLines: { type: Number },
@@ -259,7 +263,8 @@ class UnityTextInput extends LitElement {
       units,
       disabled,
       hideBorder,
-      rounded
+      rounded,
+      borderEffects
     } = this
     let classes = ['input-wrapper']
     if (!!area) {
@@ -274,7 +279,34 @@ class UnityTextInput extends LitElement {
     if (!_valid) classes.push('invalid')
     else classes.push('valid')
     if (!!disabled) classes.push('disabled')
+    if (borderEffects) classes.push('border-effects')
     return classes.join(" ")
+  }
+
+  /**
+   * Render div with remark or input error message.
+   */
+  renderBottomDiv() {
+    const {
+      maxlength,
+      _errorText,
+      remark,
+      value,
+      charCount
+    } = this;
+
+    return html`
+      <div class="bottom">
+        <span class="remark">
+        ${_errorText || remark}
+      </span>
+      ${!!charCount ?
+        html`<span class="charCount">
+          ${value.length}${!!maxlength ? `/${maxlength}` : null}
+        </span>`
+        : null
+      }
+      </div>`;
   }
 
   render() {
@@ -314,9 +346,9 @@ class UnityTextInput extends LitElement {
     return html`
       <div>
         ${!!label ?
-          html`<span class="label">
+          html`<p class="label">
             ${label}
-            </span>`
+            </p>`
           : null
         }
         <iron-input
@@ -358,17 +390,7 @@ class UnityTextInput extends LitElement {
           : null}
           ${!area ? this._renderIcon() : null}
         </iron-input>
-        <div class="bottom">
-          <span class="remark">
-            ${_errorText || remark}
-          </span>
-          ${!!charCount ?
-            html`<span class="charCount">
-              ${value.length}${!!maxlength ? `/${maxlength}` : null}
-            </span>`
-            : null
-          }
-        </div>
+        ${(_errorText || remark || charCount)? this.renderBottomDiv() : null}
       </div>
     `
   }
@@ -388,7 +410,7 @@ class UnityTextInput extends LitElement {
           user-select: none;
         }
         .label {
-          margin: 0;
+          margin-bottom: 6px;
           padding: 0;
           font-size: var(--text-size);
           color: var(--label-color);
@@ -414,7 +436,6 @@ class UnityTextInput extends LitElement {
         }
         .input-wrapper {
           width: 100%;
-          margin-top: 6px;
           background-color: var(--background-color, var(--default-background-color));
           height: var(--unity-text-input-height, var(--default-unity-text-input-height));
           padding: 0 8px;
@@ -431,10 +452,10 @@ class UnityTextInput extends LitElement {
           border-color: var(--danger-color, var(--default-danger-color));
           background-color: rgba(var(--danger-rgb, var(--default-danger-rgb)), .2);
         }
-        .input-wrapper:hover {
+        .input-wrapper.border-effects:hover {
           border-color: var(--primary-brand-color, var(--default-primary-brand-color));
         }
-        .input-wrapper:focus-within {
+        .input-wrapper.border-effects:focus-within {
           border-color: var(--primary-brand-color, var(--default-primary-brand-color));
           outline: none;
           box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
@@ -517,6 +538,10 @@ class UnityTextInput extends LitElement {
         }
         .hideBorder {
           border-width: 0px;
+          height: 100%;
+        }
+        .hideBorder:focus-within {
+          box-shadow: none;
         }
         .circle {
           height: 20px;

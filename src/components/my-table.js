@@ -18,8 +18,8 @@ import './unity-table/unity-table.js'
 import '@polymer/paper-input/paper-input.js';
 
 import './unity-layout/unity-page-header.js'
-import './unity-text-input/unity-text-input.js'
-// import '@bit/smartworks.unity.unity-text-input';
+// import './unity-text-input/unity-text-input.js'
+import '@bit/smartworks.unity.unity-text-input';
 
 
 import './unity-table/unity-column-editor.js'
