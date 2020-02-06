@@ -106,6 +106,7 @@ const exampleColumns = [
   }
 ]
 
+const exampleFilters = [{column: "name", filter: ["grey"], action: "exclude"} ]
 
 class MyTable extends PageViewElement {
   constructor() {
@@ -115,6 +116,7 @@ class MyTable extends PageViewElement {
 
     this.columns = [...exampleColumns] //For Column Editor
     this._visibleColumns = [...exampleColumns] //For Table display
+    this._columnFilters = exampleFilters
   }
 
   static get properties() {
@@ -202,6 +204,10 @@ class MyTable extends PageViewElement {
     console.log("handleEditColumns called!")
   }
 
+  onFilterChange(filters) {
+    this._columnFilters = filters;
+  }
+
   render() {
 
     return html`
@@ -235,7 +241,8 @@ class MyTable extends PageViewElement {
             .childKeys="${['children']}"
             .data="${exampleData}"
             .columns="${this._visibleColumns}"
-            .columnFilter="${[{column: "name", filter: ["grey"], action: "exclude"} ]}"
+            .columnFilter="${this._columnFilters}"
+            .onFilterChange="${this.onFilterChange}"
             .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
             .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"

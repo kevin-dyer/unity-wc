@@ -6,6 +6,7 @@ import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 import '../unity-dropdown/unity-dropdown'
+import './filter-dropdown'
 
 // import '@bit/smartworks.unity.unity-table-cell'
 import './unity-table-cell.js'
@@ -150,6 +151,7 @@ class UnityTable extends LitElement {
     this.onSelectionChange = ()=>{}
     this.onExpandedChange = ()=>{}
     this.onDisplayColumnsChange = ()=>{}
+    this.onFilterChange = () => {}
 
     // action handlers, to be implemented later
     // this.controls = false
@@ -170,6 +172,35 @@ class UnityTable extends LitElement {
     this._expanded = new Set()
     this._keyExtractor = (datum, index)=>index
     this._columns = []
+
+    this.dropdownValueChange = key => (values, selected) => this.filterColumn(key, values, selected)    
+  }
+
+
+  filterColumn(key, values, selected){
+    //TODO: very inefficient, review
+    for(const value of values) {
+      let currentColumn = this.columnFilter.find(f => f.column === key);
+      if (!!currentColumn) {
+        const currentColumnFilter = currentColumn.filter;
+        // add/remove value from filter
+        if (currentColumnFilter.includes(value)) {
+          currentColumnFilter.splice(currentColumnFilter.indexOf(value), 1)
+          if (currentColumnFilter.length === 0) {
+            this.columnFilter.splice(this.columnFilter.indexOf(currentColumn))}
+          console.log(this.columnFilter)
+        }
+        else {
+          currentColumnFilter.push(value);
+        }       
+      } 
+      else {
+        //add new filter for this column
+        this.columnFilter.push({column: key, filter: [value], action: selected?"include":"exclude"});
+      }
+    }
+    this.onFilterChange(this.columnFilter);
+    this.requestUpdate();
   }
 
   // inputs
@@ -270,6 +301,7 @@ class UnityTable extends LitElement {
     this.setDataMap(value)
     this._expandAll()
     this._process()
+    this._columnValues = this.getColumnValues(value);
     this.requestUpdate('data', oldValue)
   }
 
@@ -283,7 +315,7 @@ class UnityTable extends LitElement {
     if (!!this.onColumnChange) {
       this.onColumnChange(cols)
     }
-
+    this._columnValues = this.getColumnValues(this.data);
     this.requestUpdate('columns', oldVal)
   }
 
@@ -647,7 +679,7 @@ class UnityTable extends LitElement {
                         ></paper-checkbox>` : null
                     }
                     <div class="header-content" @click="${()=>{this.sortBy = key}}">
-                      <span class="header-label">${label || name}</span>
+                      <span class="header-label"><b>${label || name}</b></span>
                       <paper-icon-button
                         noink
                         icon="${icon}"
@@ -656,18 +688,11 @@ class UnityTable extends LitElement {
                       ></paper-icon-button>
                      
                     </div>
-                    <unity-button
-                    centerIcon="unity:filter"
-                    @click=${e => console.log("unity-button clicked! e: ", e)}
-                   ></unity-button>
-                   <unity-dropdown 
-                      inputType="multi-select"
-                      boxType="search"
+                    <filter-dropdown 
                       .onValueChange="${this.dropdownValueChange(key)}"
                       .options=${this.getDropdownOptions(key)}
-                      .selected=${this.getSelected(key)}
-                    >
-                    </unity-dropdown>
+                      .selected=${this.getSelected(key)}>
+                    </filter-dropdown>
                   </div>
                 </table-cell-base>
               </th>
@@ -678,44 +703,33 @@ class UnityTable extends LitElement {
     `
   }
 
-  connectedCallback(){
-    super.connectedCallback();
-    this._columnValues = this.getColumnValues();
-
-    this.dropdownValueChange = key => (values, selected) => {
-      //TODO: very inefficient, review
-      for(const value of values) {
-        let currentColumn = this.columnFilter.filter((f) => f.column === key)[0];
-        if (!!currentColumn) {
-          const currentColumnFilter = currentColumn.filter;
-          // add/remove value from filter
-          currentColumnFilter.includes(value)? 
-            currentColumnFilter.splice(currentColumnFilter.indexOf(value), 1)
-            :
-            currentColumnFilter.push(value);            
-        } 
-        else {
-          //add new filter for this column
-          this.columnFilter.push({column: key, filter: [value], action: selected?"include":"exclude"});
-        }
-      }
-      this.requestUpdate();
-    }
-  }
-
   /**
    * Get all possible values for every column.
    * NOTE: in terms of efficienty, if there are a lot of columns with many values, maybe it would be better to generate this only for
    * a given column when the dropdown is opened
    */
-  getColumnValues() {
+  getColumnValues(data) {
     let columnValues = {};
     this.columns.map( col => {
       const key = col.key;
-      columnValues[key] = [...new Set(this.data.map(x => x[key].toString()))].sort(); // store values as String to use as id for the dropdown
-    }
-    )
+      const values = [];
+      for (const row of data) {
+        values.push(...this.getAllTreeValues(row, key))
+      }
+      columnValues[key] = [...new Set(values)].sort(); // store values as String to use as id for the dropdown
+    })
     return columnValues;
+  }
+
+  getAllTreeValues(row, key) {
+    const value = [(row[key] || row[key] === false)? row[key].toString(): "-"]
+    // if children, get value of every children recursively
+    if (row.children){
+      for (const child of row.children) {
+        value.push(...this.getAllTreeValues(child, key))
+      }
+    }
+    return value
   }
 
   getDropdownOptions(key) {
@@ -724,7 +738,7 @@ class UnityTable extends LitElement {
 
   getSelected(key) {
     const selectedArray = this._columnValues[key];
-    const currentFilter = this.columnFilter.filter( (filter) => filter.column === key )[0];
+    const currentFilter = this.columnFilter.find( filter => filter.column === key);
     let selectedValues = selectedArray;
     if (!!currentFilter) {
       if(currentFilter.action === "include") {
@@ -883,17 +897,27 @@ class UnityTable extends LitElement {
     return filteredData.map((datum) => this._renderRow(datum));
   }
 
+  renderActiveFilters() {
+    return html`
+      <div class="active-filters">
+        <div class="filter-container">
+        ${this.columnFilter.map( f => html`<p style="margin: 0"><b>Column:</b> ${f.column}; <b>Filters:</b> ${f.filter.join(', ')}; <b>Action:</b> ${f.action}</p>`)}
+        </div>
+      </div>
+    `;
+  }
+
   render() {
     const data = this._flattenedData || []
     const hasData = data.length > 0
     const isLoading = this.isLoading
     const fill = isLoading || !hasData
-
     // if isLoading, show spinner
     // if !hasData, show empty message
     // show data
     return html`
       <div class="container">
+        ${this.renderActiveFilters()}
         <table class="${fill ? 'fullspace' : ''}">
           ${!this.headless ? this._renderTableHeader(this.columns) : null}
           ${fill
@@ -983,7 +1007,7 @@ class UnityTable extends LitElement {
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           text-align: left;
           padding: 0;
-          maring: 0;
+          margin: 0;
           line-height: var(--thead-height);
           border-collapse: collapse;
           z-index: 1;
@@ -995,7 +1019,7 @@ class UnityTable extends LitElement {
           justify-content: space-between;
           align-items: center;
           margin: 0;
-          padding: 0 13px;
+          padding-left: 13px;
           box-sizing: border-box;
           border-collapse: collapse;
           border-top: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
@@ -1047,6 +1071,19 @@ class UnityTable extends LitElement {
         paper-icon-button.header-sort-icon {
           height: 30px;
           width: 30px;
+        }
+        filter-dropdown {
+          z-index: 2;
+        }
+        .active-filters {
+          text-align: right;
+          margin-right: 8px;
+        }
+        .filter-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          padding: 8px;
         }
       `
     ]
