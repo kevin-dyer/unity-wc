@@ -7,7 +7,6 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js';
 
 
-
 // import '@bit/smartworks.unity.unity-table-cell'
 import './unity-table-cell.js'
 // import '@bit/smartworks.unity.table-cell-base'
@@ -18,9 +17,6 @@ import {
   sortData
 } from './table-utils.js'
 
-const MIN_CELL_WIDTH = 150
-const MOUSE_MOVE_THRESHOLD = 5
-const ROW_HEIGHT = 40 //used to set scroll offset
 /**
  * Displays table of data.
  * @name UnityTable
@@ -30,8 +26,6 @@ const ROW_HEIGHT = 40 //used to set scroll offset
  * @param {bool} selectable
  * @param {bool} isLoading
  * @param {string} emptyDisplay
- * @param {number} visibleRowCount, maximum number of rows to render at once
- * @param {number} scrollLoadOffset, number of rows to offset the viewing window when scroll boundary has been reached
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
  * @param {func} onClickRow, func that is sent the data of the element clicked, and the event of the click
  * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
@@ -107,8 +101,6 @@ const ROW_HEIGHT = 40 //used to set scroll offset
 //   keyExtractor         :  Function to define a unique key on each data element
 //   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
 //   filter               :  String to find in any column, used to set internal _filter
-//   visibleRowCount      :  Maximum number of rows to render at once
-//   scrollLoadOffset     :  Number of rows to offset the viewing window when scroll boundary has been reached
 //   endReachedThreshold  :  Number of px before scroll boundary to update this._rowOffset
 //   onExpandedChange     :  On Change Callback Function for expanded array
 //   onEndReached         :  Callback fired when bottom of table has been reached. useful for external pagination.
@@ -122,7 +114,9 @@ const ROW_HEIGHT = 40 //used to set scroll offset
 //   _filteredList:          filtered list of indicies from _data
 //   _sortedList:            sorted version of _filteredList, this is what the displayed table is built from
 //   _tableId:               Unique identifier for table instance, defined via Date.now()
-//
+//   _visibleRowCount      :  Maximum number of rows to render at once
+
+
 //   Features to be implemented
 //   controls:               determines use of internal filter and sort, exclude if using internal sort/filter
 //   onSearchFilter:         function to be called when filter changes if controls are EXT
@@ -138,6 +132,12 @@ const ROW_HEIGHT = 40 //used to set scroll offset
 const ASC = 'Ascending'
 const DES = 'Descending'
 const UNS = 'Unsorted'
+const MIN_CELL_WIDTH = 150 //minimum pixel width of each table cell
+const MOUSE_MOVE_THRESHOLD = 5 //pixels mouse is able to move horizontally before rowClick is cancelled
+const ROW_HEIGHT = 40 //used to set scroll offset
+const THRESHOLD_TIMEOUT = 60 //Timeout after scroll boundry is reached before callback can be fired again
+const END_REACHED_TIMEOUT = 2000 //Timeout after true end is reached before callback can be fired again
+const MIN_VISIBLE_ROWS = 50 //Minimum number of rows to render at once
 
 class UnityTable extends LitElement {
   // internals
@@ -145,17 +145,14 @@ class UnityTable extends LitElement {
     super()
     // defaults of input
     this._data = []
-    this.columns = [] //TODO: convert to object with id as key
-    // this.displayColumns = []
+    this.columns = []
     this.selectable = false
     this.headless = false
     this.isLoading = false
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
-    this.visibleRowCount = 50
-    this.scrollLoadOffset = 25 //number of rows to load onEndReached
-    this.endReachedThreshold = 20 //distance in px to fire onEndReached before getting to bottom
+    this.endReachedThreshold = 200 //distance in px to fire onEndReached before getting to bottom
 
     // action handlers
     this.onClickRow = ()=>{}
@@ -184,6 +181,7 @@ class UnityTable extends LitElement {
     this._columns = []
     this._rowOffset = 0 //used to track for infinite scroll
     this._tableId = Date.now()//unique identifier for table element
+    this._visibleRowCount = MIN_VISIBLE_ROWS
   }
 
   // inputs
@@ -198,8 +196,6 @@ class UnityTable extends LitElement {
       emptyDisplay: { type: String },
       childKeys: { type: Array },
       filter: { type: String },
-      visibleRowCount: { type: Number},
-      scrollLoadOffset: {type: Number},
       onSelectionChange: { type: Function },
       onClickRow: { type: Function },
       onExpandedChange: { type: Function },
@@ -240,43 +236,49 @@ class UnityTable extends LitElement {
     //Only define tableRef and its boundary threshold events if not already defined.
     if (!this.tableRef) {
       this.tableRef = this.shadowRoot.getElementById(`unity-table-${this._tableId}`)
-      // this.tableRef = this.shadowRoot.getElementById('unity-table-container')
 
       if (!!this.tableRef) {
         this.tableRef.upperThreshold = this.endReachedThreshold
         this.tableRef.lowerThreshold = this.endReachedThreshold
-
         this.boundLowerHandle = this.handleLowerThreshold.bind(this)
         this.boundUpperHandle = this.handleUpperThreshold.bind(this)
         this.tableRef.addEventListener('lower-threshold', this.boundLowerHandle);
         this.tableRef.addEventListener('upper-threshold', this.boundUpperHandle);
+
+        //Automatically set this._visibleRowCount to fill 200% of container height, or MIN_VISIBLE_ROWS rows, which ever is greater
+        this._visibleRowCount = Math.max(Math.ceil(this.tableRef.offsetHeight / ROW_HEIGHT) * 2, MIN_VISIBLE_ROWS)
       }
     }
   }
 
   handleLowerThreshold(e) {
     const dataLength = this._flattenedData.length
-    const maxOffset = dataLength - this.visibleRowCount
-    const nextOffset = this._rowOffset + this.scrollLoadOffset
+    const maxOffset = dataLength - this._visibleRowCount
+    const nextOffset = this._rowOffset + this._visibleRowCount
+
     this._rowOffset = Math.min(maxOffset, nextOffset)
 
-    if ((nextOffset + this.visibleRowCount) >= dataLength && typeof this.onEndReached === 'function') {
-      //NOTE: this should be throttled or debounced to prevent duplicate calls
+    if ((nextOffset + this._visibleRowCount) >= dataLength && typeof this.onEndReached === 'function') {
+      //NOTE: this is throttled via END_REACHED_TIMEOUT
       this.onEndReached()
-    }
 
-    setTimeout(() => {
-      this.tableRef.clearTriggers();
-    }, 60);
+      setTimeout(() => {
+        this.tableRef.clearTriggers()
+      }, END_REACHED_TIMEOUT)
+    } else {
+      setTimeout(() => {
+        this.tableRef.clearTriggers();
+      }, THRESHOLD_TIMEOUT);
+    }
   }
 
+  //NOTE: this should only be fired when at the very top
   handleUpperThreshold(e) {
-    const minOffset = 0
-    this._rowOffset = Math.max(minOffset, this._rowOffset - this.scrollLoadOffset)
+    this._rowOffset = 0
 
     setTimeout(() => {
       this.tableRef.clearTriggers();
-    }, 60);
+    }, THRESHOLD_TIMEOUT);
   }
 
   //TODO: move into table utils
@@ -483,16 +485,9 @@ class UnityTable extends LitElement {
   }
 
   updated(changedProps) {
-    const prevRowOffset = changedProps.get('_rowOffset')
-
-    //Update scroll offset when this._rowOffset has changed
-    if (prevRowOffset !== undefined) {
-      const rowOffsetDelta = this._rowOffset - prevRowOffset
-      const scrollOffset = -1 * rowOffsetDelta * ROW_HEIGHT
-      const scrollTop = this.tableRef._scrollTop
-      const nextScrollTop = scrollTop + scrollOffset
-
-      this.tableRef.scrollTop = nextScrollTop
+    // TODO: This should also apply to columnFiltering and column sorting
+    if (changedProps.has('filter')) {
+      this.tableRef.scrollTop = 0
     }
   }
 
@@ -880,8 +875,7 @@ class UnityTable extends LitElement {
   }
 
   render() {
-    //Only display this.visibleRowCount number of rows, starting from this._rowOffset
-    const data = this._flattenedData.slice(this._rowOffset, this._rowOffset + this.visibleRowCount) || []
+    const data = this._flattenedData.slice(0, this._rowOffset + this._visibleRowCount) || []
     const hasData = data.length > 0
     const isLoading = this.isLoading
     const fill = isLoading || !hasData
@@ -890,7 +884,10 @@ class UnityTable extends LitElement {
     // if !hasData, show empty message
     // show data
     return html`
-      <iron-scroll-threshold id="${`unity-table-${this._tableId}`}" class="container">
+      <iron-scroll-threshold
+        id="${`unity-table-${this._tableId}`}"
+        class="container"
+      >
         <table class="${fill ? 'fullspace' : ''}">
           ${!this.headless ? this._renderTableHeader(this.columns) : null}
           ${fill
