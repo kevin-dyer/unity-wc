@@ -257,9 +257,7 @@ class MyTable extends PageViewElement {
             .childKeys="${['children']}"
             .data="${exampleData}"
             .columns="${this._visibleColumns}"
-            visibleRowCount="${50}"
-            scrollLoadOffset=${25}
-            endReachedThreshold="${20}"
+            endReachedThreshold="${200}"
             .onEndReached="${() => {
               console.log("my-table end reached!")
             }}"
