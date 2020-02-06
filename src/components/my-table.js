@@ -115,11 +115,17 @@ class MyTable extends PageViewElement {
 
     this.columns = [...exampleColumns] //For Column Editor
     this._visibleColumns = [...exampleColumns] //For Table display
+    this.highlightedRow = ''
+    this.highlightColor = ''
   }
 
   static get properties() {
     return {
-      searchText: {type: String}
+      _searchText: { type: String },
+      columns: { type: Array },
+      _visibleColumns: { type: Array },
+      highlightedRow: { type: String },
+      highlightColor: { type: String }
     }
   }
 
@@ -168,17 +174,9 @@ class MyTable extends PageViewElement {
     ];
   }
 
-  static get properties() {
-    return {
-      _searchText: {type: String},
-      columns: {type: Array},
-      _visibleColumns: {type: Array},
-    }
-  }
-
 //   handleSearchInput(e={}) {
 //     const {target: {value}={}} = e
-// 
+//
 //     this._searchText = value || ''
 //   }
 
@@ -197,9 +195,12 @@ class MyTable extends PageViewElement {
     console.log("handleEditColumns called!")
   }
 
-  handleEditColumns() {
-    //TODO: display edit column modal!
-    console.log("handleEditColumns called!")
+  handleClickRow(element, key, event) {
+    console.log('This element was clicked:', element)
+    console.log('This was the key of the element:', key)
+    console.log('This was the clicked event:', event)
+    this.highlightedRow = key
+    this.highlightColor = element.hex
   }
 
   render() {
@@ -235,11 +236,14 @@ class MyTable extends PageViewElement {
             .childKeys="${['children']}"
             .data="${exampleData}"
             .columns="${this._visibleColumns}"
+            .highlightedRow="${this.highlightedRow}"
 
             .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
-            .onClickRow="${(element, event) => console.log('This element was clicked:', element, '\nThis was the clicked event:', event)}"
+            .onClickRow="${this.handleClickRow.bind(this)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+
+            style="--highlight-color: ${this.highlightColor}"
           >
           </unity-table>
         </div>
