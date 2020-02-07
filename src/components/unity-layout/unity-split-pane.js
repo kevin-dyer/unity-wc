@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 
-import { UnitydefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 /**
  * A container to hold two views:
@@ -35,7 +35,7 @@ class UnitySplitPane extends LitElement {
   static get properties() {
     return {
       show: { type: Boolean },
-      onClose: { type: onClose }
+      onClose: { type: Function }
     }
   }
 
@@ -50,8 +50,8 @@ class UnitySplitPane extends LitElement {
       <div class="main">
         <slot name="main"></slot>
       </div>
-      <div class="pane">
-        <!-- ${/*
+      <div class="pane ${!show ? 'hide' : ''}">
+        <!--
 
           X button that calls onClose on click
 
@@ -59,7 +59,7 @@ class UnitySplitPane extends LitElement {
             centerIcon="close"
             @click=${onClose}
           ></unity-button>
-        */} -->
+        -->
         <slot name="pane"></slot>
       </div>
     `
@@ -69,12 +69,10 @@ class UnitySplitPane extends LitElement {
     return [
       UnityDefaultThemeStyles,
       css`
-        main {}
-        pane {
+        .main {}
+        .pane {}
+        .hide {
           display: none;
-        }
-        show {
-          display: show;
         }
       `
     ]
