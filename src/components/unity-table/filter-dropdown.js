@@ -31,6 +31,8 @@ class FilterDropdown extends LitElement {
           top: 0;
           right: 0;
           margin: 2px;
+          width: 200px;
+          max-width: 80%;
         }
         unity-button.active {
           color: var(--primary-brand-color, var(--default-primary-brand-color));

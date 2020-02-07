@@ -64,12 +64,12 @@ const MOUSE_MOVE_THRESHOLD = 5
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
-*         format: (colValue, datum) => `Building: ${colValue}`
+*         format: (colValue, datum) => ({label: `Building: ${colValue}`})
  *      },
  *      {
  *        key: 'columnN',
  *        label: 'Column #N'
- *        format: (colValue, datum) => html`<span style="${myStyle}">Room: ${colValue}</span>`
+ *        format: (colValue, datum) => ({label: colValue, content: html`<span style="${myStyle}">Room: ${colValue}</span>`})
  *      },
  *      {
  *        key: 'column1',
@@ -897,7 +897,6 @@ class UnityTable extends LitElement {
               return f.filter.includes(formattedLabel);
             }
             else if (f.action === "exclude") {
-              // console.log(datum[f.column])
               return !f.filter.includes(formattedLabel);
             }
           }
@@ -1020,7 +1019,7 @@ class UnityTable extends LitElement {
           margin: 0;
           line-height: var(--thead-height);
           border-collapse: collapse;
-          z-index: 1;
+          z-index: 3;
         }
         .header {
           display: flex;
