@@ -8,6 +8,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * Intended to be used nested within eachother to form rows and auto adjusting columns.
  * @name UnitySection
  * @param {bool} nowrap, on row, control if column sections should wrap
+ * @param {bool} bordered, on column, control if section pieces should have stacking borders
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *   <unity-section
@@ -23,22 +24,25 @@ class UnitySection extends LitElement {
     super()
 
     this.nowrap = false
+    this.bordered = false
   }
 
   static get properties() {
     return {
-      nowrap: { type: Boolean }
+      nowrap: { type: Boolean },
+      bordered: { type: Boolean }
     }
   }
 
 
   getClasses() {
-    const { nowrap } = this
+    const { nowrap, bordered } = this
     let classes = ['section']
     if (!!nowrap) classes.push('no-wrap')
     // parent is a section
-    if (getParent(this).localName === unity_section) classes.push('border')
-    else classes.push('row')
+    const hasParent = getParent(this).localName === unity_section
+    if (hasParent && !!bordered) classes.push('bordered')
+    if (!hasParent) classes.push('row')
     return classes.join(' ')
   }
 
@@ -61,6 +65,7 @@ class UnitySection extends LitElement {
           align-self: stretch;
           flex: 1;
           display: flex;
+          overflow-x: visible;
         }
         .section {
           flex: 1;
@@ -75,12 +80,12 @@ class UnitySection extends LitElement {
         .no-wrap {
           flex-wrap: nowrap;
         }
-        .border {
+        .bordered {
           border-top: 1px solid var(--border-color);
           border-right: 1px solid var(--border-color);
         }
         .row {
-          margin-right: -1px
+          margin-right: -1px;
         }
       `
     ]
