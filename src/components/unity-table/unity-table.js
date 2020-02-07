@@ -22,12 +22,13 @@ import {
  * @name UnityTable
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
- * @param {bool} headless
- * @param {bool} selectable
- * @param {bool} isLoading
- * @param {string} emptyDisplay
+ * @param {bool} headless, controls if the table has a header row
+ * @param {bool} selectable, controls if rows are selectable
+ * @param {bool} isLoading, shows spinner instead of table
+ * @param {string} emptyDisplay, string to show when table is empty
+ * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
- * @param {func} onClickRow, func that is sent the data of the element clicked, and the event of the click
+ * @param {func} onClickRow, func that is sent the data of the element clicked, the key of the row as defined by keyExtractor, and the event of the click
  * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
  * @param {func} onEndReached, func that is fired when bottom of table has been reached. useful for external pagination.
  * @returns {LitElement} returns a class extended from LitElement
@@ -63,7 +64,7 @@ import {
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
-*         format: (colValue, datum) => `Building: ${colValue}`
+ *        format: (colValue, datum) => `Building: ${colValue}`
  *      },
  *      {
  *        key: 'columnN',
@@ -153,6 +154,7 @@ class UnityTable extends LitElement {
     this.childKeys = ['children']
     this.filter = ''
     this.endReachedThreshold = 200 //distance in px to fire onEndReached before getting to bottom
+    this.highlightedRow = ''
 
     // action handlers
     this.onClickRow = ()=>{}
@@ -200,6 +202,7 @@ class UnityTable extends LitElement {
       onClickRow: { type: Function },
       onExpandedChange: { type: Function },
       onDisplayColumnsChange: { type: Function},
+      highlightedRow: { type: String },
       // internals, tracking for change
       _allSelected: { type: Boolean },
       _rowOffset: {type: Number},
@@ -765,13 +768,16 @@ class UnityTable extends LitElement {
     } = datum
     const expandable = childCount > 0
     const expanded = this.expanded.has(rowId)
-
+    // check if highlightedRow matches keyExtractor
+    let rowClasses = ['row']
+    if (rowId === this.highlightedRow) rowClasses.push('highlight')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
       <tr
-        class="row"
+        class="${rowClasses.join(' ')}"
         key="row-${rowId}"
+        id="row-${rowId}"
         @mousedown="${e => {
           this.startingX = e.screenX
         }}"
@@ -780,7 +786,7 @@ class UnityTable extends LitElement {
           const deltaX = Math.abs(e.screenX - this.startingX)
 
           if (deltaX < MOUSE_MOVE_THRESHOLD) {
-            this.onClickRow(datum, e)
+            this.onClickRow(datum, rowId, e)
           }
         }}"
       >
@@ -874,6 +880,19 @@ class UnityTable extends LitElement {
     this.columns = nextColumns
   }
 
+  // this will be called only on the first render
+  firstUpdated(old) {
+    // this is an internal promise, the last step of the update lifecycle (after render)
+    this.updateComplete.then(this.scrollToHighlightedRow.bind(this))
+  }
+
+  // this is written as a separate function in the case we want to scroll-to in the future
+  scrollToHighlightedRow() {
+    const row = this.shadowRoot.querySelector(`#row-${this.highlightedRow}`)
+    if (!!row)
+      row.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+  }
+
   render() {
     const data = this._flattenedData.slice(0, this._rowOffset + this._visibleRowCount) || []
     const hasData = data.length > 0
@@ -927,6 +946,7 @@ class UnityTable extends LitElement {
           --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
           --thead-height: 33px;
           --trow-height: 38px;
+          --default-highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
           display: flex;
           flex: 1;
         }
@@ -1007,7 +1027,6 @@ class UnityTable extends LitElement {
         }
         .cell {
           border-collapse: collapse;
-          background-color: var(--background-color, var(--default-background-color))
         }
         .header-content {
           display: flex;
@@ -1034,11 +1053,17 @@ class UnityTable extends LitElement {
           height: var(--trow-height);
           border-collapse: collapse;
           cursor: pointer;
+          background-color: var(--background-color, var(--default-background-color))
         }
-
+        .sticky-header-row {
+          background-color: var(--background-color, var(--default-background-color))
+        }
         paper-icon-button.header-sort-icon {
           height: 30px;
           width: 30px;
+        }
+        .highlight {
+          background-color: var(--highlight-color, var(--default-highlight-color));
         }
       `
     ]
