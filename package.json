@@ -38,6 +38,7 @@
     "@polymer/iron-iconset-svg": "^3.0.1",
     "@polymer/iron-input": "^3.0.1",
     "@polymer/iron-resizable-behavior": "^3.0.1",
+    "@polymer/iron-scroll-threshold": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
     "@polymer/paper-checkbox": "^3.1.0",
     "@polymer/paper-dialog": "^3.0.1",
