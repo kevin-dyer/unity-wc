@@ -987,6 +987,7 @@ class UnityTable extends LitElement {
         }
         thead {
           width: 100%;
+          z-index: 3;
         }
         th {
           position: sticky;
@@ -999,6 +1000,7 @@ class UnityTable extends LitElement {
           line-height: var(--thead-height);
           border-collapse: collapse;
           z-index: 3;
+          background-color: inherit;
         }
         .header {
           display: flex;
