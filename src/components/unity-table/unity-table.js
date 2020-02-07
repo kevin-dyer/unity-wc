@@ -4,7 +4,7 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js';
+import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
 
 
 // import '@bit/smartworks.unity.unity-table-cell'
@@ -219,6 +219,15 @@ class UnityTable extends LitElement {
   //NOTE: #unity-table-container element is not mounted in intial connectedCallback, only after firstUpdated
   firstUpdated(changedProperties) {
     this.initTableRef()
+
+    this.updateComplete.then(this.scrollToHighlightedRow.bind(this))
+  }
+
+  updated(changedProps) {
+    // TODO: This should also apply to columnFiltering and column sorting
+    if (changedProps.has('filter') && !!this.tableRef) {
+      this.tableRef.scrollTop = 0
+    }
   }
 
   connectedCallback() {
@@ -245,6 +254,7 @@ class UnityTable extends LitElement {
         this.tableRef.lowerThreshold = this.endReachedThreshold
         this.boundLowerHandle = this.handleLowerThreshold.bind(this)
         this.boundUpperHandle = this.handleUpperThreshold.bind(this)
+
         this.tableRef.addEventListener('lower-threshold', this.boundLowerHandle);
         this.tableRef.addEventListener('upper-threshold', this.boundUpperHandle);
 
@@ -485,13 +495,6 @@ class UnityTable extends LitElement {
 
   get keyExtractor() {
     return this._keyExtractor
-  }
-
-  updated(changedProps) {
-    // TODO: This should also apply to columnFiltering and column sorting
-    if (changedProps.has('filter') && !!this.tableRef) {
-      this.tableRef.scrollTop = 0
-    }
   }
 
   setDataMap(value) {
@@ -878,12 +881,6 @@ class UnityTable extends LitElement {
     })
 
     this.columns = nextColumns
-  }
-
-  // this will be called only on the first render
-  firstUpdated(old) {
-    // this is an internal promise, the last step of the update lifecycle (after render)
-    this.updateComplete.then(this.scrollToHighlightedRow.bind(this))
   }
 
   // this is written as a separate function in the case we want to scroll-to in the future
