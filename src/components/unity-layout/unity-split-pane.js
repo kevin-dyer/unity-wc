@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 
+import '@bit/smartworks.unity.unity-button'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 /**
@@ -51,15 +52,10 @@ class UnitySplitPane extends LitElement {
         <slot name="main"></slot>
       </div>
       <div class="pane ${!show ? 'hide' : ''}">
-        <!--
-
-          X button that calls onClose on click
-
-          <unity-button
-            centerIcon="close"
-            @click=${onClose}
-          ></unity-button>
-        -->
+        <unity-button
+          centerIcon="close"
+          @click=${onClose}
+        ></unity-button>
         <slot name="pane"></slot>
       </div>
     `
