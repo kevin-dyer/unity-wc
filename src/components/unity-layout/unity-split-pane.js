@@ -48,8 +48,10 @@ class UnitySplitPane extends LitElement {
     // need .main to fill the entire space as if .pane didn't exist
     // .main needs to shrink itself when pane is open, but not what's inside of it
     return html`
-      <div class="main">
-        <slot name="main"></slot>
+      <div class="wrapper">
+        <div class="main">
+          <slot name="main"></slot>
+        </div>
       </div>
       <div class="pane ${!show ? 'hide' : ''}">
         <unity-button
@@ -65,8 +67,28 @@ class UnitySplitPane extends LitElement {
     return [
       UnityDefaultThemeStyles,
       css`
-        .main {}
-        .pane {}
+        :host {
+          display: flex;
+          flex-direction: row;
+          height: 100%;
+          width: 100%;
+        }
+        .wrapper {
+          flex: 1;
+          overflow: auto;
+        }
+        .main {
+          height: 100%;
+          width: max-content;
+        }
+        .pane {
+          height: 100%;
+          border: 1px solid black;
+          background-color: white;
+          min-width: 33%;
+          box-sizing: border-box;
+          // z-index: 1;
+        }
         .hide {
           display: none;
         }
