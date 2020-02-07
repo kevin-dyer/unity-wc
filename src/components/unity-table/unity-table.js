@@ -489,7 +489,7 @@ class UnityTable extends LitElement {
 
   updated(changedProps) {
     // TODO: This should also apply to columnFiltering and column sorting
-    if (changedProps.has('filter')) {
+    if (changedProps.has('filter') && !!this.tableRef) {
       this.tableRef.scrollTop = 0
     }
   }
