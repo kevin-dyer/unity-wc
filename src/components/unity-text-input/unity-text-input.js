@@ -476,6 +476,7 @@ class UnityTextInput extends LitElement {
           color: rgb(var(--text-color));
           border: 0;
           background-color: transparent;
+          max-width: 90%;
         }
         #input:focus {
           outline: none;
