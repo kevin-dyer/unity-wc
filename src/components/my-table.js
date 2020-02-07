@@ -21,6 +21,9 @@ import './unity-layout/unity-page-header.js'
 // import './unity-text-input/unity-text-input.js'
 import '@bit/smartworks.unity.unity-text-input';
 
+import './unity-layout/unity-split-pane.js'
+// import '@bit/smartworks.unity.unity-split-pane'
+
 
 import './unity-table/unity-column-editor.js'
 
@@ -134,6 +137,7 @@ class MyTable extends PageViewElement {
     this._visibleColumns = [...exampleColumns] //For Table display
     this.highlightedRow = ''
     this.highlightColor = ''
+    this.showDetails = false
   }
 
   static get properties() {
@@ -142,7 +146,8 @@ class MyTable extends PageViewElement {
       columns: { type: Array },
       _visibleColumns: { type: Array },
       highlightedRow: { type: String },
-      highlightColor: { type: String }
+      highlightColor: { type: String },
+      showDetails: { type: Boolean }
     }
   }
 
@@ -224,6 +229,7 @@ class MyTable extends PageViewElement {
     console.log('This was the clicked event:', event)
     this.highlightedRow = key
     this.highlightColor = element.hex
+    this.showDetails = true
   }
 
   render() {
@@ -271,8 +277,47 @@ class MyTable extends PageViewElement {
 
             style="--highlight-color: ${this.highlightColor}"
           >
-          </unity-table>
-        </div>
+            <div slot="right-content">
+              <unity-text-input
+                ?rounded=${true}
+                innerLeftIcon="icons:search"
+                .value="${this._searchText}"
+                placeholder="${"Search input"}"
+                .onChange="${this.onInputChange.bind(this)}"
+              ></unity-text-input>
+
+              <unity-column-editor
+                ?buttonGradient=${false}
+                ?buttonOutlined=${true}
+                .columns=${this.columns}
+                .onUpdate=${this.handleColUpdate.bind(this)}
+              ></unity-column-editor>
+            </div>
+          </unity-page-header>
+
+          <div slot="main" class="table-container">
+            <unity-table
+              selectable
+              filter="${this._searchText}"
+              .keyExtractor="${(datum, index) => datum.name}"
+              .childKeys="${['children']}"
+              .data="${exampleData}"
+              .columns="${this._visibleColumns}"
+              .highlightedRow="${this.highlightedRow}"
+
+              .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+              .onClickRow="${this.handleClickRow.bind(this)}"
+              .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
+              .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+
+              style="--highlight-color: ${this.highlightColor}"
+            >
+            </unity-table>
+          </div>
+          <div slot="pane">
+            ${this.highlightedRow}
+          </div>
+        </unity-split-pane>
       </div>
     `
   }
