@@ -711,22 +711,27 @@ class UnityTable extends LitElement {
   getColumnValues(data) {
     let columnValues = {};
     this.columns.map( col => {
-      const key = col.key;
+      const {
+        key,
+        format = (val) => val
+      } = col;
       const values = [];
       for (const row of data) {
-        values.push(...this.getAllTreeValues(row, key))
+        values.push(...this.getAllTreeValues(row, key, format))
       }
       columnValues[key] = [...new Set(values)].sort(); // store values as String to use as id for the dropdown
     })
     return columnValues;
   }
 
-  getAllTreeValues(row, key) {
-    const value = [(row[key] || row[key] === false)? row[key].toString(): "-"]
+  getAllTreeValues(row, key, format) {
+    const value = [(row[key] || row[key] === false)? 
+      format instanceof Function ? format(row[key]).label : row[key].toString()
+      : "-"]
     // if children, get value of every children recursively
     if (row.children){
       for (const child of row.children) {
-        value.push(...this.getAllTreeValues(child, key))
+        value.push(...this.getAllTreeValues(child, key, format))
       }
     }
     return value
@@ -787,7 +792,8 @@ class UnityTable extends LitElement {
       >
         ${columns.map(({key: column, format, width}, i) => {
           const value = datum[column]
-          const label = format instanceof Function ? format(value, datum) : value
+          const formattedContent = format instanceof Function ? format(value, datum) : null
+          const label = formattedContent? (formattedContent.content || formattedContent.label) : value
 
           return html`
             <td class="cell" key="${rowId}-${column}">
@@ -879,16 +885,20 @@ class UnityTable extends LitElement {
 
     console.log("RENDER TABLE DATA")
     let filteredData = data;
+
     if(this.columnFilter.length > 0){
       for(const f of this.columnFilter) {
         // add / exclude data from table depending on filters
         filteredData = filteredData.filter( (datum) => 
           {
+            const format = this.columns.find(col=> col.key === f.column).format
+            const formattedLabel = !!format ? format(datum[f.column]).label : datum[f.column].toString()
             if (f.action === "include") {
-              return f.filter.includes(datum[f.column].toString());
+              return f.filter.includes(formattedLabel);
             }
             else if (f.action === "exclude") {
-              return !f.filter.includes(datum[f.column].toString());
+              // console.log(datum[f.column])
+              return !f.filter.includes(formattedLabel);
             }
           }
         );
