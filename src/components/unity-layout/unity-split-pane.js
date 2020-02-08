@@ -95,6 +95,11 @@ class UnitySplitPane extends LitElement {
         .hide {
           display: none;
         }
+        unity-button {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
       `
     ]
   }
