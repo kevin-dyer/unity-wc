@@ -145,6 +145,11 @@ class MySplitPane extends PageViewElement {
           align-items: stretch;
         }
         .example-container {
+          border: 1px dashed black;
+          position: relative;
+          top: 50px;
+          margin: 0 auto;
+          width: 800px;
         }
 
         .header-container {
@@ -208,6 +213,54 @@ class MySplitPane extends PageViewElement {
   render() {
     console.log('this.showDetails', this.showDetails)
     return html`
+      <div>
+        <unity-split-pane ?show="${this.showDetails}" .onClose="${this.toggleDetails.bind(this)}">
+          <unity-page-header
+            slot="main"
+            title="Unity Table"
+          >
+            <div slot="right-content">
+              <unity-text-input
+                ?rounded=${true}
+                innerLeftIcon="icons:search"
+                .value="${this._searchText}"
+                placeholder="${"Search input"}"
+                .onChange="${this.onInputChange.bind(this)}"
+              ></unity-text-input>
+
+              <unity-column-editor
+                ?buttonGradient=${false}
+                ?buttonOutlined=${true}
+                .columns=${this.columns}
+                .onUpdate=${this.handleColUpdate.bind(this)}
+              ></unity-column-editor>
+            </div>
+          </unity-page-header>
+
+          <div slot="main" class="table-container">
+            <unity-table
+              selectable
+              filter="${this._searchText}"
+              .keyExtractor="${(datum, index) => datum.name}"
+              .childKeys="${['children']}"
+              .data="${exampleData}"
+              .columns="${this._visibleColumns}"
+              .highlightedRow="${this.highlightedRow}"
+
+              .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+              .onClickRow="${this.handleClickRow.bind(this)}"
+              .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
+              .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+
+              style="--highlight-color: ${this.highlightColor}"
+            >
+            </unity-table>
+          </div>
+          <div slot="pane">
+            ${this.highlightedRow}
+          </div>
+        </unity-split-pane>
+      </div>
       <div class="example-container">
         <unity-split-pane ?show="${this.showDetails}" .onClose="${this.toggleDetails.bind(this)}">
           <unity-page-header
