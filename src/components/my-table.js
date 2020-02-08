@@ -15,15 +15,12 @@ import './unity-layout/unity-page-header.js'
 import '@bit/smartworks.unity.unity-button';
 
 import './unity-table/unity-table.js'
+
 import '@polymer/paper-input/paper-input.js';
 
 import './unity-layout/unity-page-header.js'
 // import './unity-text-input/unity-text-input.js'
 import '@bit/smartworks.unity.unity-text-input';
-
-import './unity-layout/unity-split-pane.js'
-// import '@bit/smartworks.unity.unity-split-pane'
-
 
 import './unity-table/unity-column-editor.js'
 
@@ -256,7 +253,7 @@ class MyTable extends PageViewElement {
           </div>
         </unity-page-header>
 
-        <div class="table-container">
+        <div slot="main" class="table-container">
           <unity-table
             selectable
             filter="${this._searchText}"
@@ -264,10 +261,6 @@ class MyTable extends PageViewElement {
             .childKeys="${['children']}"
             .data="${exampleData}"
             .columns="${this._visibleColumns}"
-            endReachedThreshold="${200}"
-            .onEndReached="${() => {
-              console.log("my-table end reached!")
-            }}"
             .highlightedRow="${this.highlightedRow}"
 
             .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
@@ -277,47 +270,11 @@ class MyTable extends PageViewElement {
 
             style="--highlight-color: ${this.highlightColor}"
           >
-            <div slot="right-content">
-              <unity-text-input
-                ?rounded=${true}
-                innerLeftIcon="icons:search"
-                .value="${this._searchText}"
-                placeholder="${"Search input"}"
-                .onChange="${this.onInputChange.bind(this)}"
-              ></unity-text-input>
-
-              <unity-column-editor
-                ?buttonGradient=${false}
-                ?buttonOutlined=${true}
-                .columns=${this.columns}
-                .onUpdate=${this.handleColUpdate.bind(this)}
-              ></unity-column-editor>
-            </div>
-          </unity-page-header>
-
-          <div slot="main" class="table-container">
-            <unity-table
-              selectable
-              filter="${this._searchText}"
-              .keyExtractor="${(datum, index) => datum.name}"
-              .childKeys="${['children']}"
-              .data="${exampleData}"
-              .columns="${this._visibleColumns}"
-              .highlightedRow="${this.highlightedRow}"
-
-              .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
-              .onClickRow="${this.handleClickRow.bind(this)}"
-              .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
-              .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
-
-              style="--highlight-color: ${this.highlightColor}"
-            >
-            </unity-table>
-          </div>
-          <div slot="pane">
-            ${this.highlightedRow}
-          </div>
-        </unity-split-pane>
+          </unity-table>
+        </div>
+        <div slot="pane">
+          ${this.highlightedRow}
+        </div>
       </div>
     `
   }
