@@ -25,6 +25,9 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   </unity-split-pane>
  */
 
+const stretch = overlapPercent => (100 / (100 - overlapPercent)) * 100
+const panelWidth = 50
+
 class UnitySplitPane extends LitElement {
   constructor() {
     super()
@@ -45,11 +48,10 @@ class UnitySplitPane extends LitElement {
       show,
       onClose
     } = this
-    // need .main to fill the entire space as if .pane didn't exist
-    // .main needs to shrink itself when pane is open, but not what's inside of it
+
     return html`
       <div class="wrapper">
-        <div class="main">
+        <div class="main ${!!show ? 'stretch' : ''}">
           <slot name="main"></slot>
         </div>
       </div>
@@ -79,15 +81,16 @@ class UnitySplitPane extends LitElement {
         }
         .main {
           height: 100%;
-          width: max-content;
+          width: 100%;
         }
         .pane {
           height: 100%;
           border: 1px solid black;
-          background-color: white;
-          min-width: 33%;
+          width: ${panelWidth}%;
           box-sizing: border-box;
-          // z-index: 1;
+        }
+        .stretch {
+          width: ${stretch(panelWidth)}%;
         }
         .hide {
           display: none;
