@@ -70,6 +70,9 @@ class UnitySplitPane extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
+          --border-color: var(--border-color, var(--black-text-color, var(--default-black-text-color)));
+          --background: var(--background-color, var(--default-background-color));
+          background-color: var(--background);
           display: flex;
           flex-direction: row;
           height: 100%;
@@ -84,8 +87,10 @@ class UnitySplitPane extends LitElement {
           width: 100%;
         }
         .pane {
+          position: relative;
           height: 100%;
           border: 1px solid black;
+          border-right: 0;
           width: ${panelWidth}%;
           box-sizing: border-box;
         }
