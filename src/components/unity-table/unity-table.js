@@ -198,14 +198,14 @@ class UnityTable extends LitElement {
     for(const value of values) {
       let currentColumn = this.columnFilter.find(f => f.column === key);
       if (!!currentColumn) {
-        const currentColumnFilter = currentColumn.filter;
+        const currentColumnFilter = currentColumn.values;
         // add/remove value from filter
         if (currentColumnFilter.includes(value)) {
           currentColumnFilter.splice(currentColumnFilter.indexOf(value), 1)
           // change exclude/include filter depending on size 
           if(currentColumnFilter.length > this._columnValues[key].length/2) {
-            currentColumn.action = currentColumn.action === "include"? "exclude" : "include"
-            currentColumn.filter = this._columnValues[key].filter(option => !currentColumnFilter.includes(option))
+            currentColumn.include = !currentColumn.include
+            currentColumn.values = this._columnValues[key].filter(option => !currentColumnFilter.includes(option))
           }
           // remove filter if list is empty
           if (currentColumnFilter.length === 0) {
@@ -217,7 +217,7 @@ class UnityTable extends LitElement {
       } 
       else {
         //add new filter for this column
-        this.columnFilter.push({column: key, filter: [value], action: selected?"include":"exclude"});
+        this.columnFilter.push({column: key, values: [value], include: selected });
       }
     }
     this.onFilterChange(this.columnFilter);
@@ -844,11 +844,11 @@ class UnityTable extends LitElement {
     const currentFilter = this.columnFilter.find( filter => filter.column === key);
     let selectedValues = selectedArray;
     if (!!currentFilter) {
-      if(currentFilter.action === "include") {
-        selectedValues = currentFilter.filter; 
+      if(currentFilter.include) {
+        selectedValues = currentFilter.values; 
       }
-      else if (currentFilter.action === "exclude") {
-        selectedValues = selectedValues.filter(x => !currentFilter.filter.includes(x));
+      else {
+        selectedValues = selectedValues.filter(x => !currentFilter.values.includes(x));
       }
     }
     return selectedValues;
@@ -994,11 +994,11 @@ class UnityTable extends LitElement {
           {
             const format = this.columns.find(col=> col.key === f.column).format
             const formattedLabel = !!format ? format(datum[f.column]).label : datum[f.column].toString()
-            if (f.action === "include") {
-              return f.filter.includes(formattedLabel);
+            if (f.include) {
+              return f.values.includes(formattedLabel);
             }
-            else if (f.action === "exclude") {
-              return !f.filter.includes(formattedLabel);
+            else {
+              return !f.values.includes(formattedLabel);
             }
           }
         );
@@ -1013,9 +1013,9 @@ class UnityTable extends LitElement {
         <div class="filter-container">
         ${this.columnFilter.map( f => html`<p style="margin: 0">
                                             <b>Column:</b> ${f.column}; 
-                                            <b>Filters:</b> ${f.filter.length === this._columnValues[f.column].length?
-                                                              "ALL_VALUES" : f.filter.join(', ')}; 
-                                            <b>Action:</b> ${f.action}
+                                            <b>Filters:</b> ${f.values.length === this._columnValues[f.column].length?
+                                                              "ALL_VALUES" : f.values.join(', ')}; 
+                                            <b>Action:</b> ${f.include? "include": "exclude"}
                                           </p>`)}
         </div>
       </div>

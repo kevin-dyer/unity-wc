@@ -123,7 +123,7 @@ const exampleColumns = [
   }
 ]
 
-const exampleFilters = [{column: "name", filter: ["Grey"], action: "exclude"} ]
+const exampleFilters = [{column: "name", values: ["Grey"], include: false} ]
 
 class MyTable extends PageViewElement {
   constructor() {
