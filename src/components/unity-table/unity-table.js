@@ -6,14 +6,11 @@ import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
 
-import '../unity-dropdown/unity-dropdown'
-import './filter-dropdown'
-
-
 // import '@bit/smartworks.unity.unity-table-cell'
 import './unity-table-cell.js'
 // import '@bit/smartworks.unity.table-cell-base'
 import './table-cell-base.js'
+import './filter-dropdown'
 
 import {
   filterData,
