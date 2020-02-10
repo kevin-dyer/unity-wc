@@ -51,7 +51,12 @@ class MyApp extends connect(store)(LitElement) {
       UnityThemeStyles,
       css`
         :host {
-          display: block;
+          display: inline-flex;
+          flex-direction: column;
+          height: 100%;
+          width: 100%;
+          flex: 1;
+
 
           --app-drawer-width: 256px;
           --app-primary-color: #E91E63;
@@ -71,7 +76,7 @@ class MyApp extends connect(store)(LitElement) {
         }
 
         app-header {
-          position: fixed;
+          flex: 0;
           top: 0;
           left: 0;
           width: 100%;
@@ -144,21 +149,21 @@ class MyApp extends connect(store)(LitElement) {
 
         /* Workaround for IE11 displaying <main> as inline */
         main {
+          flex: 1;
+          min-height: 0;
           display: flex;
-
         }
 
         .main-content {
-          padding-top: 64px;
-          min-height: 100vh;
+          flex: 1;
         }
 
         .page {
           display: none;
+          flex: 1;
         }
 
         .page[active] {
-          /*display: block;*/
           display: flex;
           flex: 1;
         }
@@ -182,13 +187,11 @@ class MyApp extends connect(store)(LitElement) {
           }
 
           .main-content {
-            padding-top: 107px;
           }
 
           /* The drawer button isn't shown in the wide layout, so we don't
           need to offset the title */
           [main-title] {
-            padding-right: 0px;
           }
         }
       `
@@ -222,7 +225,7 @@ class MyApp extends connect(store)(LitElement) {
       </app-header>
 
       <!-- Drawer content -->
-      <app-drawer
+      <!-- <app-drawer
           .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}">
         <nav class="drawer-list">
@@ -237,7 +240,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'dropdowns'}" href="/dropdowns">Dropdowns</a>
           <a ?selected="${this._page === 'modal'}" href="/modal">modal</a>
         </nav>
-      </app-drawer>
+      </app-drawer> -->
 
       <!-- Main content -->
       <main role="main" class="main-content">
@@ -254,9 +257,6 @@ class MyApp extends connect(store)(LitElement) {
         <my-modal class="page" ?active="${this._page === 'modal'}"></my-modal>
       </main>
 
-      <footer>
-        <p>Made with &hearts; by the Polymer team.</p>
-      </footer>
 
       <snack-bar ?active="${this._snackbarOpened}">
         You are now ${this._offline ? 'offline' : 'online'}.

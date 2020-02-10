@@ -4,19 +4,19 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
 
 // import '@bit/smartworks.unity.unity-table-cell'
 import './unity-table-cell.js'
 // import '@bit/smartworks.unity.table-cell-base'
 import './table-cell-base.js'
+import './filter-dropdown'
 
 import {
   filterData,
   sortData
 } from './table-utils.js'
 
-const MIN_CELL_WIDTH = 150
-const MOUSE_MOVE_THRESHOLD = 5
 /**
  * Displays table of data.
  * @name UnityTable
@@ -27,8 +27,10 @@ const MOUSE_MOVE_THRESHOLD = 5
  * @param {bool} isLoading, shows spinner instead of table
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
+ * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
  * @param {func} onClickRow, func that is sent the data of the element clicked, the key of the row as defined by keyExtractor, and the event of the click
  * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
+ * @param {func} onEndReached, func that is fired when bottom of table has been reached. useful for external pagination.
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-table
@@ -62,12 +64,12 @@ const MOUSE_MOVE_THRESHOLD = 5
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
- *        format: (colValue, datum) => `Building: ${colValue}`
+*         format: (colValue, datum) => ({label: `Building: ${colValue}`})
  *      },
  *      {
  *        key: 'columnN',
  *        label: 'Column #N'
- *        format: (colValue, datum) => html`<span style="${myStyle}">Room: ${colValue}</span>`
+ *        format: (colValue, datum) => ({label: colValue, content: html`<span style="${myStyle}">Room: ${colValue}</span>`})
  *      },
  *      {
  *        key: 'column1',
@@ -100,7 +102,9 @@ const MOUSE_MOVE_THRESHOLD = 5
 //   keyExtractor         :  Function to define a unique key on each data element
 //   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
 //   filter               :  String to find in any column, used to set internal _filter
+//   endReachedThreshold  :  Number of px before scroll boundary to update this._rowOffset
 //   onExpandedChange     :  On Change Callback Function for expanded array
+//   onEndReached         :  Callback fired when bottom of table has been reached. useful for external pagination.
 //
 //   Internals for creating/editing
 //   _data:                  data marked w/ rowId for uniq references
@@ -110,7 +114,10 @@ const MOUSE_MOVE_THRESHOLD = 5
 //   _filter:                string to find in any column
 //   _filteredList:          filtered list of indicies from _data
 //   _sortedList:            sorted version of _filteredList, this is what the displayed table is built from
-//
+//   _tableId:               Unique identifier for table instance, defined via Date.now()
+//   _visibleRowCount      :  Maximum number of rows to render at once
+
+
 //   Features to be implemented
 //   controls:               determines use of internal filter and sort, exclude if using internal sort/filter
 //   onSearchFilter:         function to be called when filter changes if controls are EXT
@@ -120,13 +127,18 @@ const MOUSE_MOVE_THRESHOLD = 5
 //   onColumnSort:           function to be called when sortBy changes if controls are EXT
 //                           sends string of column name and string for ascending or descending
 //   onColumnChange:         Callback to update changes to the rendered columns
-//   onEndReached:           function to be called to request more pages to support infiniscroll
-//                           only works with controls set to EXT
-//   onEndReachedThreshold:  TBD
-
+//   onEndReached:           Callback fired when Scroll to within threshold of lower bound.
+//                           Useful for server side pagination to support infiniscroll
+//                           Only call when reached the end of the input data array
 const ASC = 'Ascending'
 const DES = 'Descending'
 const UNS = 'Unsorted'
+const MIN_CELL_WIDTH = 150 //minimum pixel width of each table cell
+const MOUSE_MOVE_THRESHOLD = 5 //pixels mouse is able to move horizontally before rowClick is cancelled
+const ROW_HEIGHT = 40 //used to set scroll offset
+const THRESHOLD_TIMEOUT = 60 //Timeout after scroll boundry is reached before callback can be fired again
+const END_REACHED_TIMEOUT = 2000 //Timeout after true end is reached before callback can be fired again
+const MIN_VISIBLE_ROWS = 50 //Minimum number of rows to render at once
 
 class UnityTable extends LitElement {
   // internals
@@ -134,14 +146,15 @@ class UnityTable extends LitElement {
     super()
     // defaults of input
     this._data = []
-    this.columns = [] //TODO: convert to object with id as key
-    // this.displayColumns = []
+    this.columns = []
     this.selectable = false
     this.headless = false
     this.isLoading = false
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
+    this.columnFilter = []
+    this.endReachedThreshold = 200 //distance in px to fire onEndReached before getting to bottom
     this.highlightedRow = ''
 
     // action handlers
@@ -149,12 +162,13 @@ class UnityTable extends LitElement {
     this.onSelectionChange = ()=>{}
     this.onExpandedChange = ()=>{}
     this.onDisplayColumnsChange = ()=>{}
+    this.onFilterChange = () => {}
 
     // action handlers, to be implemented later
     // this.controls = false
     // this.onSearchFilter = ()=>{}
     // this.onColumnSort = ()=>{}
-    // this.onEndReached = ()=>{}
+    this.onEndReached = ()=>{}
     this.onColumnChange=()=>{}
 
     // defaults of internal references
@@ -169,6 +183,42 @@ class UnityTable extends LitElement {
     this._expanded = new Set()
     this._keyExtractor = (datum, index)=>index
     this._columns = []
+    this._rowOffset = 0 //used to track for infinite scroll
+    this._tableId = Date.now()//unique identifier for table element
+    this._visibleRowCount = MIN_VISIBLE_ROWS
+    this.dropdownValueChange = key => (values, selected) => this.filterColumn(key, values, selected)    
+  }
+
+
+  filterColumn(key, values, selected){
+    //TODO: very inefficient, review
+    for(const value of values) {
+      let currentColumn = this.columnFilter.find(f => f.column === key);
+      if (!!currentColumn) {
+        const currentColumnFilter = currentColumn.values;
+        // add/remove value from filter
+        if (currentColumnFilter.includes(value)) {
+          currentColumnFilter.splice(currentColumnFilter.indexOf(value), 1)
+          // change exclude/include filter depending on size 
+          if(currentColumnFilter.length > this._columnValues[key].length/2) {
+            currentColumn.include = !currentColumn.include
+            currentColumn.values = this._columnValues[key].filter(option => !currentColumnFilter.includes(option))
+          }
+          // remove filter if list is empty
+          if (currentColumnFilter.length === 0) {
+            this.columnFilter.splice(this.columnFilter.indexOf(currentColumn))}
+        }
+        else {
+          currentColumnFilter.push(value);
+        }       
+      } 
+      else {
+        //add new filter for this column
+        this.columnFilter.push({column: key, values: [value], include: selected });
+      }
+    }
+    this.onFilterChange(this.columnFilter);
+    this.requestUpdate();
   }
 
   // inputs
@@ -190,15 +240,94 @@ class UnityTable extends LitElement {
       highlightedRow: { type: String },
       // internals, tracking for change
       _allSelected: { type: Boolean },
-      // selected: { type: Array },
+      _rowOffset: {type: Number},
+      columnFilter: {type: Array}, 
 
       // TBI
       // controls: { type: Boolean },
       // onSearchFilter: { type: Function },
       // onColumnSort: { type: Function },
-      // onEndReached: { type: Function },
+      onEndReached: { type: Function },
       onColumnChange: { type: Function },
     }
+  }
+
+  //NOTE: #unity-table-container element is not mounted in intial connectedCallback, only after firstUpdated
+  firstUpdated(changedProperties) {
+    this.initTableRef()
+
+    this.updateComplete.then(this.scrollToHighlightedRow.bind(this))
+  }
+
+  updated(changedProps) {
+    // TODO: This should also apply to columnFiltering and column sorting
+    if (changedProps.has('filter') && !!this.tableRef) {
+      this.tableRef.scrollTop = 0
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+
+    this.initTableRef()
+  }
+  disconnectedCallback() {
+    if (!!this.tableRef) {
+      this.tableRef.removeEventListener('lower-threshold', this.boundLowerHandle)
+      this.tableRef.removeEventListener('upper-threshold', this.boundUpperHandle)
+      this.tableRef = undefined
+    }
+    super.disconnectedCallback();
+  }
+
+  initTableRef() {
+    //Only define tableRef and its boundary threshold events if not already defined.
+    if (!this.tableRef) {
+      this.tableRef = this.shadowRoot.getElementById(`unity-table-${this._tableId}`)
+
+      if (!!this.tableRef) {
+        this.tableRef.upperThreshold = this.endReachedThreshold
+        this.tableRef.lowerThreshold = this.endReachedThreshold
+        this.boundLowerHandle = this.handleLowerThreshold.bind(this)
+        this.boundUpperHandle = this.handleUpperThreshold.bind(this)
+
+        this.tableRef.addEventListener('lower-threshold', this.boundLowerHandle);
+        this.tableRef.addEventListener('upper-threshold', this.boundUpperHandle);
+
+        //Automatically set this._visibleRowCount to fill 200% of container height, or MIN_VISIBLE_ROWS rows, which ever is greater
+        this._visibleRowCount = Math.max(Math.ceil(this.tableRef.offsetHeight / ROW_HEIGHT) * 2, MIN_VISIBLE_ROWS)
+      }
+    }
+  }
+
+  handleLowerThreshold(e) {
+    const dataLength = this._flattenedData.length
+    const maxOffset = dataLength - this._visibleRowCount
+    const nextOffset = this._rowOffset + this._visibleRowCount
+
+    this._rowOffset = Math.min(maxOffset, nextOffset)
+
+    if ((nextOffset + this._visibleRowCount) >= dataLength && typeof this.onEndReached === 'function') {
+      //NOTE: this is throttled via END_REACHED_TIMEOUT
+      this.onEndReached()
+
+      setTimeout(() => {
+        this.tableRef.clearTriggers()
+      }, END_REACHED_TIMEOUT)
+    } else {
+      setTimeout(() => {
+        this.tableRef.clearTriggers();
+      }, THRESHOLD_TIMEOUT);
+    }
+  }
+
+  //NOTE: this should only be fired when at the very top
+  handleUpperThreshold(e) {
+    this._rowOffset = 0
+
+    setTimeout(() => {
+      this.tableRef.clearTriggers();
+    }, THRESHOLD_TIMEOUT);
   }
 
   //TODO: move into table utils
@@ -269,6 +398,7 @@ class UnityTable extends LitElement {
     this.setDataMap(value)
     this._expandAll()
     this._process()
+    this._columnValues = this.getColumnValues(value);
     this.requestUpdate('data', oldValue)
   }
 
@@ -282,7 +412,7 @@ class UnityTable extends LitElement {
     if (!!this.onColumnChange) {
       this.onColumnChange(cols)
     }
-
+    this._columnValues = this.getColumnValues(this.data);
     this.requestUpdate('columns', oldVal)
   }
 
@@ -646,14 +776,20 @@ class UnityTable extends LitElement {
                         ></paper-checkbox>` : null
                     }
                     <div class="header-content" @click="${()=>{this.sortBy = key}}">
-                      <span class="header-label">${label || name}</span>
+                      <span class="header-label"><b>${label || name}</b></span>
                       <paper-icon-button
                         noink
                         icon="${icon}"
                         title="${direction}"
                         class="header-sort-icon"
                       ></paper-icon-button>
+                     
                     </div>
+                    <filter-dropdown 
+                      .onValueChange="${this.dropdownValueChange(key)}"
+                      .options=${this.getDropdownOptions(key)}
+                      .selected=${this.getSelected(key)}>
+                    </filter-dropdown>
                   </div>
                 </table-cell-base>
               </th>
@@ -663,6 +799,58 @@ class UnityTable extends LitElement {
       </thead>
     `
   }
+
+  /**
+   * Get all possible values for every column.
+   */
+  getColumnValues(data) {
+    let columnValues = {};
+    this.columns.map( col => {
+      const {
+        key,
+        format = (val) => val
+      } = col;
+      const values = [];
+      for (const row of data) {
+        values.push(...this.getAllTreeValues(row, key, format))
+      }
+      columnValues[key] = [...new Set(values)].sort();
+    })
+    return columnValues;
+  }
+
+  getAllTreeValues(row, key, format) {
+    const value = [(row[key] || row[key] === false)? 
+      format instanceof Function ? format(row[key]).label : row[key].toString()
+      : "-"]
+    // if children, get value of every children recursively
+    if (row.children){
+      for (const child of row.children) {
+        value.push(...this.getAllTreeValues(child, key, format))
+      }
+    }
+    return value
+  }
+
+  getDropdownOptions(key) {
+    return this._columnValues[key].map(x => ({label: x, id: x}));
+  }
+
+  getSelected(key) {
+    const selectedArray = this._columnValues[key];
+    const currentFilter = this.columnFilter.find( filter => filter.column === key);
+    let selectedValues = selectedArray;
+    if (!!currentFilter) {
+      if(currentFilter.include) {
+        selectedValues = currentFilter.values; 
+      }
+      else {
+        selectedValues = selectedValues.filter(x => !currentFilter.values.includes(x));
+      }
+    }
+    return selectedValues;
+  }
+
 
   _renderRow({
     _rowId: rowId,
@@ -702,7 +890,8 @@ class UnityTable extends LitElement {
       >
         ${columns.map(({key: column, format, width}, i) => {
           const value = datum[column]
-          const label = format instanceof Function ? format(value, datum) : value
+          const formattedContent = format instanceof Function ? format(value, datum) : null
+          const label = formattedContent? (formattedContent.content || formattedContent.label) : value
 
           return html`
             <td class="cell" key="${rowId}-${column}">
@@ -790,6 +979,46 @@ class UnityTable extends LitElement {
     this.columns = nextColumns
   }
 
+  _renderTableData(data) {
+
+    console.log("RENDER TABLE DATA")
+    let filteredData = data;
+
+    if(this.columnFilter.length > 0){
+      for(const f of this.columnFilter) {
+        // add / exclude data from table depending on filters
+        filteredData = filteredData.filter( (datum) => 
+          {
+            const format = this.columns.find(col=> col.key === f.column).format
+            const formattedLabel = !!format ? format(datum[f.column]).label : datum[f.column].toString()
+            if (f.include) {
+              return f.values.includes(formattedLabel);
+            }
+            else {
+              return !f.values.includes(formattedLabel);
+            }
+          }
+        );
+      }
+    }
+    return filteredData.map((datum) => this._renderRow(datum));
+  }
+
+  renderActiveFilters() {
+    return html`
+      <div class="active-filters">
+        <div class="filter-container">
+        ${this.columnFilter.map( f => html`<p style="margin: 0">
+                                            <b>Column:</b> ${f.column}; 
+                                            <b>Filters:</b> ${f.values.length === this._columnValues[f.column].length?
+                                                              "ALL_VALUES" : f.values.join(', ')}; 
+                                            <b>Action:</b> ${f.include? "include": "exclude"}
+                                          </p>`)}
+        </div>
+      </div>
+    `;
+  }
+
   // this will be called only on the first render
   firstUpdated(old) {
     // this is an internal promise, the last step of the update lifecycle (after render)
@@ -804,16 +1033,19 @@ class UnityTable extends LitElement {
   }
 
   render() {
-    const data = this._flattenedData || []
+    const data = this._flattenedData.slice(0, this._rowOffset + this._visibleRowCount) || []
     const hasData = data.length > 0
     const isLoading = this.isLoading
     const fill = isLoading || !hasData
-
     // if isLoading, show spinner
     // if !hasData, show empty message
     // show data
     return html`
-      <div class="container">
+      <iron-scroll-threshold
+        id="${`unity-table-${this._tableId}`}"
+        class="container"
+      >
+        ${this.renderActiveFilters()}
         <table class="${fill ? 'fullspace' : ''}">
           ${!this.headless ? this._renderTableHeader(this.columns) : null}
           ${fill
@@ -825,10 +1057,10 @@ class UnityTable extends LitElement {
                   }
                 </td>
               `
-            : data.map((datum) => this._renderRow(datum))
+            : this._renderTableData(data) 
           }
         </table>
-      </div>
+      </iron-scroll-threshold>
     `
   }
 
@@ -838,6 +1070,8 @@ class UnityTable extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
+          height: 100%;
+          width: 100%;
           font-family: var(--font-family, var(--default-font-family));
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
@@ -853,19 +1087,17 @@ class UnityTable extends LitElement {
           --trow-height: 38px;
           --default-highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
           display: flex;
+          height: 100%;
+          flex: 1;
         }
         .container {
-          /*position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          width: 100%;*/
           flex: 1;
-          overflow-y: auto;
-          overflow-x: hidden;
+          display: flex;
+          flex-direction: column;
         }
         table {
+          flex: 1;
+          min-height: 0;
           width: 100%;
           max-width: 100%;
           table-layout: auto; /* NOTE: auto prevents table from overflowing passed 100% */
@@ -895,6 +1127,7 @@ class UnityTable extends LitElement {
         }
         thead {
           width: 100%;
+          z-index: 3;
         }
         th {
           position: sticky;
@@ -903,10 +1136,11 @@ class UnityTable extends LitElement {
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           text-align: left;
           padding: 0;
-          maring: 0;
+          margin: 0;
           line-height: var(--thead-height);
           border-collapse: collapse;
-          z-index: 1;
+          z-index: 3;
+          background-color: inherit;
         }
         .header {
           display: flex;
@@ -915,7 +1149,7 @@ class UnityTable extends LitElement {
           justify-content: space-between;
           align-items: center;
           margin: 0;
-          padding: 0 13px;
+          padding-left: 13px;
           box-sizing: border-box;
           border-collapse: collapse;
           border-top: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
@@ -969,6 +1203,18 @@ class UnityTable extends LitElement {
         paper-icon-button.header-sort-icon {
           height: 30px;
           width: 30px;
+        }
+        .active-filters {
+          text-align: right;
+          margin-right: 8px;
+          overflow: auto;
+          max-height: 66px;
+        }
+        .filter-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          padding: 8px;
         }
         .highlight {
           background-color: var(--highlight-color, var(--default-highlight-color));
