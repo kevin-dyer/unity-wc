@@ -64,7 +64,6 @@ class FilterDropdown extends LitElement {
   }
 
   render() {
-    console.log("render")
     const buttonClass = (this.selected.length < this.options.length)? "active" : ""
     return html`
       ${this.show?
