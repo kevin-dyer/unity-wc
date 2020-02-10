@@ -132,6 +132,8 @@ class UnityDropdown extends LitElement {
           padding: 0;
           margin: 0;
           list-style: none;
+          overflow-y: auto;
+          max-height: 330px;
         }
         .options-box {
           border: 1px solid var(--medium-grey-text-color, var(--default-medium-grey-text-color));
@@ -140,6 +142,7 @@ class UnityDropdown extends LitElement {
           position: absolute;
           z-index: 10;
           width: 100%;
+          max-height: 400px;
         }
         li {
           font-size: var(--text-size);
@@ -624,6 +627,7 @@ class UnityDropdown extends LitElement {
   }
 
   renderList() {
+    // if this._visibleOptions.length > 50
     let optionsList = this._visibleOptions.map(option => this.renderOption(option));
     
     return (this.inputType === "menu")?
