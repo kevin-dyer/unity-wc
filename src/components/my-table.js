@@ -31,6 +31,19 @@ import { SharedStyles } from './shared-styles.js';
 
 // example table data, should eventually turn into controls
 // normally this would be taken from the store
+
+//Extra rows of fake data to test infinite scroll
+let fillerRows = []
+
+for(let i=0; i<200; i++) {
+  fillerRows.push({
+    id: `grey-${i}`,
+    name: `grey-${i}`,
+    hex: `#4545${i % 45}`,
+    favorite: false,
+    icon: 'icons:add'
+  })
+}
 const exampleData = [
   {
     id: 'red',
@@ -83,6 +96,10 @@ const exampleData = [
   {id: 'green', name: 'green', hex: '#00ff00', favorite: true, icon: 'work'},
   {id: 'grey', name: 'grey', hex: '#888888', favorite: false, image: 'show image', icon: 'build'},
   {id: 'magenta', name: 'magenta', hex: '#ff00ff', favorite: false, icon: 'social:domain'},
+
+
+  //TO add extra rows
+  ...fillerRows
 ]
 
 const exampleColumns = [
@@ -143,18 +160,24 @@ class MyTable extends PageViewElement {
         }
         .example-container {
           flex: 1;
+          height: 100%;
           position: relative;
-          display: flex;
+          display: inline-flex;
           flex-direction: column;
+          flex-wrap: nowrap;
         }
 
         .header-container {
           width: 100%;
+          flex: 0;
         }
 
         .table-container {
+          /*flex: 1 1 auto;*/
+          /*flex: 0;*/
+          /*flex-grow: 0;*/
           flex: 1;
-          position: relative;
+          min-height: 0;
         }
 
         unity-table {
@@ -210,7 +233,6 @@ class MyTable extends PageViewElement {
   }
 
   render() {
-
     return html`
       <div class="example-container">
         <unity-page-header
@@ -244,6 +266,10 @@ class MyTable extends PageViewElement {
             .columns="${this._visibleColumns}"
             .columnFilter="${this._columnFilters}"
             .onFilterChange="${this.onFilterChange}"
+            endReachedThreshold="${200}"
+            .onEndReached="${() => {
+              console.log("my-table end reached!")
+            }}"
             .highlightedRow="${this.highlightedRow}"
 
             .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
