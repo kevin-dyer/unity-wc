@@ -202,9 +202,14 @@ class UnityTable extends LitElement {
         // add/remove value from filter
         if (currentColumnFilter.includes(value)) {
           currentColumnFilter.splice(currentColumnFilter.indexOf(value), 1)
+          // change exclude/include filter depending on size 
+          if(currentColumnFilter.length > this._columnValues[key].length/2) {
+            currentColumn.action = currentColumn.action === "include"? "exclude" : "include"
+            currentColumn.filter = this._columnValues[key].filter(option => !currentColumnFilter.includes(option))
+          }
+          // remove filter if list is empty
           if (currentColumnFilter.length === 0) {
             this.columnFilter.splice(this.columnFilter.indexOf(currentColumn))}
-          console.log(this.columnFilter)
         }
         else {
           currentColumnFilter.push(value);
@@ -800,8 +805,6 @@ class UnityTable extends LitElement {
 
   /**
    * Get all possible values for every column.
-   * NOTE: in terms of efficienty, if there are a lot of columns with many values, maybe it would be better to generate this only for
-   * a given column when the dropdown is opened
    */
   getColumnValues(data) {
     let columnValues = {};
@@ -814,7 +817,7 @@ class UnityTable extends LitElement {
       for (const row of data) {
         values.push(...this.getAllTreeValues(row, key, format))
       }
-      columnValues[key] = [...new Set(values)].sort(); // store values as String to use as id for the dropdown
+      columnValues[key] = [...new Set(values)].sort();
     })
     return columnValues;
   }
@@ -1008,7 +1011,12 @@ class UnityTable extends LitElement {
     return html`
       <div class="active-filters">
         <div class="filter-container">
-        ${this.columnFilter.map( f => html`<p style="margin: 0"><b>Column:</b> ${f.column}; <b>Filters:</b> ${f.filter.join(', ')}; <b>Action:</b> ${f.action}</p>`)}
+        ${this.columnFilter.map( f => html`<p style="margin: 0">
+                                            <b>Column:</b> ${f.column}; 
+                                            <b>Filters:</b> ${f.filter.length === this._columnValues[f.column].length?
+                                                              "ALL_VALUES" : f.filter.join(', ')}; 
+                                            <b>Action:</b> ${f.action}
+                                          </p>`)}
         </div>
       </div>
     `;
@@ -1202,6 +1210,8 @@ class UnityTable extends LitElement {
         .active-filters {
           text-align: right;
           margin-right: 8px;
+          overflow: auto;
+          max-height: 60px;
         }
         .filter-container {
           display: flex;
