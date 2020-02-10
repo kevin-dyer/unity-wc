@@ -107,22 +107,23 @@ const exampleColumns = [
     key: 'hex',
     label: 'Hex value',
     width: 200,
-    format: (hex, datum) => html`<span style="color: ${hex}">${hex}</span>`
+    format: (hex, datum) => ({label: hex, content: html`<span style="color: ${hex}">${hex}</span>`})
   },
   {
     key: 'name',
     label: 'Color',
     width: 300,
-    format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
+    format: (name, datum) => ({label: !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''})
   },
   {
     key: 'favorite',
     label: 'Favourite?',
     width: 500,
-    format: (value, datum) => value ? 'I love it!' : 'passible, I guess'
+    format: (value, datum) => ({label: value ? 'I love it!' : 'passible, I guess'})
   }
 ]
 
+const exampleFilters = [{column: "name", values: ["Grey"], include: false} ]
 
 class MyTable extends PageViewElement {
   constructor() {
@@ -132,6 +133,7 @@ class MyTable extends PageViewElement {
 
     this.columns = [...exampleColumns] //For Column Editor
     this._visibleColumns = [...exampleColumns] //For Table display
+    this._columnFilters = exampleFilters
     this.highlightedRow = ''
     this.highlightColor = ''
   }
@@ -226,6 +228,10 @@ class MyTable extends PageViewElement {
     this.highlightColor = element.hex
   }
 
+  onFilterChange(filters) {
+    this._columnFilters = filters;
+  }
+
   render() {
     return html`
       <div class="example-container">
@@ -258,6 +264,8 @@ class MyTable extends PageViewElement {
             .childKeys="${['children']}"
             .data="${exampleData}"
             .columns="${this._visibleColumns}"
+            .columnFilter="${this._columnFilters}"
+            .onFilterChange="${this.onFilterChange}"
             endReachedThreshold="${200}"
             .onEndReached="${() => {
               console.log("my-table end reached!")

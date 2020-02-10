@@ -3,7 +3,6 @@ import '@polymer/iron-input/iron-input'
 import '@polymer/iron-autogrow-textarea'
 import '@polymer/iron-icon/iron-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-// import '../unity-icon-set/unity-icon-set'
 import '@bit/smartworks.unity.unity-icon-set'
 
 /**
@@ -476,6 +475,7 @@ class UnityTextInput extends LitElement {
           color: rgb(var(--text-color));
           border: 0;
           background-color: transparent;
+          max-width: 90%;
         }
         #input:focus {
           outline: none;
