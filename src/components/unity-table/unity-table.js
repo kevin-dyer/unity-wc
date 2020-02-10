@@ -1211,7 +1211,7 @@ class UnityTable extends LitElement {
           text-align: right;
           margin-right: 8px;
           overflow: auto;
-          max-height: 60px;
+          max-height: 66px;
         }
         .filter-container {
           display: flex;
