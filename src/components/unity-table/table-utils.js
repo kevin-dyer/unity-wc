@@ -161,6 +161,22 @@ const _sortNode = ({
   return sortedNode
 }
 
+// sort flattened data while preserving hierarchy structure
+export function sortFlattenedData(data, childKeys) {
+  return data.sort((a, b) =>  getHierarchyString(a, childKeys) > getHierarchyString(b, childKeys)) 
+}
+
+/**
+ * Create a string representing the hierarchy by joining array of element's parents
+ * @param {object} datum 
+ * @param {string[]} childKeys 
+ */
+function getHierarchyString(datum, childKeys) {
+  return childKeys.some(key => datum[key]) ?
+    [...datum._parents, datum.id].join('-')
+    :
+    [...datum._parents].join('-') // excluding deepest children ids allows grouping with parent
+}
 
 //Pass in data array, sortBy key and direction
 const _sortList = (data=[], sortBy='', direction=UNS) => {
