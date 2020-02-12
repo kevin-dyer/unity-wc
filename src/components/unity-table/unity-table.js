@@ -14,7 +14,8 @@ import './filter-dropdown'
 
 import {
   filterData,
-  sortData
+  sortData,
+  sortFlattenedData
 } from './table-utils.js'
 
 /**
@@ -335,16 +336,19 @@ class UnityTable extends LitElement {
   //NOTE: callback called with node, tabIndex, and childCount
   dfsTraverse ({
     node={},
-    callback=(node, tabIndex, childCount)=>{},
-    tabIndex=0 //this is internally managed
+    callback=(node, tabIndex, childCount, parents)=>{},
+    tabIndex=0, //this is internally managed
+    parents=[]
   }) {
     //If node is an array, loop over it
+
     if (Array.isArray(node)) {
       node.forEach(nodeElement => {
         this.dfsTraverse({
           node: nodeElement,
           callback,
-          tabIndex
+          tabIndex,
+          parents
         })
       })
     } else {
@@ -362,13 +366,13 @@ class UnityTable extends LitElement {
       })
 
       //NOTE: this may need to be called before iterating down children
-      callback(node, tabIndex, childCount)
-
+      callback(node, tabIndex, childCount, parents)
       childNodes.forEach(child => {
         this.dfsTraverse({
           node: child,
           callback,
-          tabIndex: nextTabIndex
+          tabIndex: nextTabIndex,
+          parents: [...parents, node.id]
         })
       })
     }
@@ -539,7 +543,7 @@ class UnityTable extends LitElement {
 
     this.dfsTraverse({
       node: value,
-      callback: (node, tabIndex, childCount) => {
+      callback: (node, tabIndex, childCount, parents) => {
         const key = this.keyExtractor(node, tabIndex)
         dataMap.set(key, node)
       }
@@ -639,12 +643,13 @@ class UnityTable extends LitElement {
     }
     this.dfsTraverse({
       node: this._sortedData,
-      callback: (node, tabIndex, childCount) => {
+      callback: (node, tabIndex, childCount, parents) => {
         flatList.push({
           ...node,
           _tabIndex: tabIndex,
           _rowId: this.keyExtractor(node, tabIndex),
-          _childCount: childCount
+          _childCount: childCount,
+          _parents: parents
         })
       }
     })
@@ -708,7 +713,7 @@ class UnityTable extends LitElement {
 
     this.dfsTraverse({
       node: this._data,
-      callback: (node, tabIndex, childCount) => {
+      callback: (node, tabIndex, childCount, parents) => {
         const rowId = this.keyExtractor(node, tabIndex)
 
         if (childCount > 0) {
@@ -980,10 +985,15 @@ class UnityTable extends LitElement {
   }
 
   _renderTableData(data) {
-
     console.log("RENDER TABLE DATA")
-    let filteredData = data;
+    let filteredData = this.getFilteredData(data)
+    filteredData = sortFlattenedData(filteredData, this.childKeys)
+    return filteredData.map((datum) => this._renderRow(datum));
+  }
 
+
+  getFilteredData(data) {
+    let filteredData = [...data];
     if(this.columnFilter.length > 0){
       for(const f of this.columnFilter) {
         // add / exclude data from table depending on filters
@@ -1001,7 +1011,9 @@ class UnityTable extends LitElement {
         );
       }
     }
-    return filteredData.map((datum) => this._renderRow(datum));
+    const parents = [... new Set(filteredData.map(d => d._parents).flat())]
+    filteredData = [...new Set([...data.filter(d => parents.includes(d.id)), ...filteredData])]
+    return filteredData
   }
 
   renderActiveFilters() {
