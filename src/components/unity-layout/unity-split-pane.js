@@ -94,7 +94,7 @@ class UnitySplitPane extends LitElement {
         }
         .scroller {
           flex: 1;
-          overflow: auto;
+          overflow-x: auto;
         }
         .main {
           height: 100%;
