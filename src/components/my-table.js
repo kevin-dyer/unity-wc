@@ -23,107 +23,13 @@ import '@bit/smartworks.unity.unity-text-input';
 
 
 import './unity-table/unity-column-editor.js'
+import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
+import {devices, colors} from './unity-table/fakeData'
 
-
-// These are the shared styles needed by this element.
-import { SharedStyles } from './shared-styles.js';
-
-
-// example table data, should eventually turn into controls
-// normally this would be taken from the store
-
-//Extra rows of fake data to test infinite scroll
-let fillerRows = []
-
-for(let i=0; i<200; i++) {
-  fillerRows.push({
-    id: `grey-${i}`,
-    name: `grey-${i}`,
-    hex: `#4545${i % 45}`,
-    favorite: false,
-    icon: 'icons:add'
-  })
-}
-const exampleData = [
-  {
-    id: 'red',
-    name: 'red',
-    hex: '#ff0000',
-    favorite: true,
-    image: 'show image',
-    children: [{
-        id: 'innerRed1',
-        name: 'inner red1',
-        hex: '#ff0022',
-        favorite: true,
-        icon: 'icons:add'
-      },
-      {
-        id: 'innerRed2',
-        name: 'inner red2',
-        hex: '#ff0066',
-        favorite: true,
-        icon: 'icons:delete',
-        _children: [
-          {
-            id: 'redGrandchild1',
-            name: 'red grandchild',
-            hex: '#73a123',
-            favorite: false,
-            icon: 'icons:bug-report',
-            _children: [
-              {
-                id: 'redGrandchild2',
-                name: 'red grandchild2',
-                hex: '#73a199',
-                favorite: false,
-                icon: 'icons:build',
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id: 'innerBlue1',
-        name: 'inner blue1',
-        hex: '#ff0066',
-        favorite: true,
-        icon: 'icons:delete'
-      }],
-  },
-  {id: 'black', name: 'black', hex: '#000000', favorite: true, icon: 'work'},
-  {id: 'yellow', name: 'yellow', hex: '#ffff00', favorite: false, icon: 'social:domain'},
-  {id: 'green', name: 'green', hex: '#00ff00', favorite: true, icon: 'work'},
-  {id: 'grey', name: 'grey', hex: '#888888', favorite: false, image: 'show image', icon: 'build'},
-  {id: 'magenta', name: 'magenta', hex: '#ff00ff', favorite: false, icon: 'social:domain'},
-
-
-  //TO add extra rows
-  ...fillerRows
-]
-
-const exampleColumns = [
-  {
-    key: 'hex',
-    label: 'Hex value',
-    width: 200,
-    format: (hex, datum) => ({label: hex, content: html`<span style="color: ${hex}">${hex}</span>`})
-  },
-  {
-    key: 'name',
-    label: 'Color',
-    width: 300,
-    format: (name, datum) => ({label: !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''})
-  },
-  {
-    key: 'favorite',
-    label: 'Favourite?',
-    width: 500,
-    format: (value, datum) => ({label: value ? 'I love it!' : 'passible, I guess'})
-  }
-]
-
-const exampleFilters = [{column: "name", values: ["Grey"], include: false} ]
+const data = devices.data
+const columns = devices.columns
+const childKeys = devices.childKeys
+const filters = devices.filters
 
 class MyTable extends PageViewElement {
   constructor() {
@@ -131,9 +37,9 @@ class MyTable extends PageViewElement {
 
     this._searchText = ''
 
-    this.columns = [...exampleColumns] //For Column Editor
-    this._visibleColumns = [...exampleColumns] //For Table display
-    this._columnFilters = exampleFilters
+    this.columns = [...columns] //For Column Editor
+    this._visibleColumns = [...columns] //For Table display
+    this._columnFilters = filters
     this.highlightedRow = ''
     this.highlightColor = ''
   }
@@ -261,8 +167,8 @@ class MyTable extends PageViewElement {
             selectable
             filter="${this._searchText}"
             .keyExtractor="${(datum, index) => datum.name}"
-            .childKeys="${['children']}"
-            .data="${exampleData}"
+            .childKeys=${childKeys}
+            .data="${data}"
             .columns="${this._visibleColumns}"
             .columnFilter="${this._columnFilters}"
             .onFilterChange="${this.onFilterChange}"
