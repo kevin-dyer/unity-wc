@@ -259,34 +259,29 @@ class MyTable extends PageViewElement {
           </div>
         </unity-page-header>
 
-        <div slot="main" class="table-container">
-          <unity-table
-            selectable
-            filter="${this._searchText}"
-            .keyExtractor="${(datum, index) => datum.name}"
-            .childKeys="${['children']}"
-            .data="${exampleData}"
-            .columns="${this._visibleColumns}"
-            .columnFilter="${this._columnFilters}"
-            .onFilterChange="${this.onFilterChange}"
-            endReachedThreshold="${200}"
-            .onEndReached="${() => {
-              console.log("my-table end reached!")
-            }}"
-            .highlightedRow="${this.highlightedRow}"
+        <unity-table
+          selectable
+          filter="${this._searchText}"
+          .keyExtractor="${(datum, index) => datum.name}"
+          .childKeys="${['children']}"
+          .data="${exampleData}"
+          .columns="${this._visibleColumns}"
+          .columnFilter="${this._columnFilters}"
+          .onFilterChange="${this.onFilterChange}"
+          endReachedThreshold="${200}"
+          .onEndReached="${() => {
+            console.log("my-table end reached!")
+          }}"
+          .highlightedRow="${this.highlightedRow}"
 
-            .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
-            .onClickRow="${this.handleClickRow.bind(this)}"
-            .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
-            .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+          .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+          .onClickRow="${this.handleClickRow.bind(this)}"
+          .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
+          .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
 
-            style="--highlight-color: ${this.highlightColor}"
-          >
-          </unity-table>
-        </div>
-        <div slot="pane">
-          ${this.highlightedRow}
-        </div>
+          style="--highlight-color: ${this.highlightColor}"
+        >
+        </unity-table>
       </div>
     `
   }

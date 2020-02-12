@@ -32,8 +32,18 @@ import './unity-table/unity-column-editor.js'
 import { SharedStyles } from './shared-styles.js';
 
 
-// example table data, should eventually turn into controls
-// normally this would be taken from the store
+//Extra rows of fake data to test infinite scroll
+let fillerRows = []
+
+for(let i=0; i<200; i++) {
+  fillerRows.push({
+    id: `grey-${i}`,
+    name: `grey-${i}`,
+    hex: `#4545${i % 45}`,
+    favorite: false,
+    icon: 'icons:add'
+  })
+}
 const exampleData = [
   {
     id: 'red',
@@ -86,6 +96,10 @@ const exampleData = [
   {id: 'green', name: 'green', hex: '#00ff00', favorite: true, icon: 'work'},
   {id: 'grey', name: 'grey', hex: '#888888', favorite: false, image: 'show image', icon: 'build'},
   {id: 'magenta', name: 'magenta', hex: '#ff00ff', favorite: false, icon: 'social:domain'},
+
+
+  //TO add extra rows
+  ...fillerRows
 ]
 
 const exampleColumns = [
@@ -93,21 +107,23 @@ const exampleColumns = [
     key: 'hex',
     label: 'Hex value',
     width: 200,
-    format: (hex, datum) => html`<span style="color: ${hex}">${hex}</span>`
+    format: (hex, datum) => ({label: hex, content: html`<span style="color: ${hex}">${hex}</span>`})
   },
   {
     key: 'name',
     label: 'Color',
     width: 300,
-    format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
+    format: (name, datum) => ({label: !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''})
   },
   {
     key: 'favorite',
     label: 'Favourite?',
     width: 500,
-    format: (value, datum) => value ? 'I love it!' : 'passible, I guess'
+    format: (value, datum) => ({label: value ? 'I love it!' : 'passible, I guess'})
   }
 ]
+
+const exampleFilters = [{column: "name", values: ["Grey"], include: false} ]
 
 
 class MySplitPane extends PageViewElement {
@@ -118,6 +134,7 @@ class MySplitPane extends PageViewElement {
 
     this.columns = [...exampleColumns] //For Column Editor
     this._visibleColumns = [...exampleColumns] //For Table display
+    this._columnFilters = exampleFilters
     this.highlightedRow = ''
     this.highlightColor = ''
     this.showDetails = false
@@ -197,118 +214,77 @@ class MySplitPane extends PageViewElement {
     console.log("handleEditColumns called!")
   }
 
+  onFilterChange(filters) {
+    this._columnFilters = filters;
+  }
+
   handleClickRow(element, key, event) {
     console.log('This element was clicked:', element)
     console.log('This was the key of the element:', key)
     console.log('This was the clicked event:', event)
-    this.highlightedRow = key
+    this.highlightedRow = this.highlightedRow === key ? '' : key
     this.highlightColor = element.hex
     this.showDetails = true
   }
 
   toggleDetails() {
-    this.showDetails = !this.showDetails
+    this.highlightedRow = ''
   }
 
   render() {
-    console.log('this.showDetails', this.showDetails)
+    console.log('exampleData', exampleData)
     return html`
-      <div>
-        <unity-split-pane ?show="${this.showDetails}" .onClose="${this.toggleDetails.bind(this)}">
-          <unity-page-header
-            slot="main"
-            title="Unity Table"
-          >
-            <div slot="right-content">
-              <unity-text-input
-                ?rounded=${true}
-                innerLeftIcon="icons:search"
-                .value="${this._searchText}"
-                placeholder="${"Search input"}"
-                .onChange="${this.onInputChange.bind(this)}"
-              ></unity-text-input>
+      <unity-split-pane ?show="${!!this.highlightedRow}" .onClose="${this.toggleDetails.bind(this)}">
+        <unity-page-header
+          slot="header"
+          title="Unity Table"
+        >
+          <div slot="right-content">
+            <unity-text-input
+              ?rounded=${true}
+              innerLeftIcon="icons:search"
+              .value="${this._searchText}"
+              placeholder="${"Search input"}"
+              .onChange="${this.onInputChange.bind(this)}"
+            ></unity-text-input>
 
-              <unity-column-editor
-                ?buttonGradient=${false}
-                ?buttonOutlined=${true}
-                .columns=${this.columns}
-                .onUpdate=${this.handleColUpdate.bind(this)}
-              ></unity-column-editor>
-            </div>
-          </unity-page-header>
-
-          <div slot="main" class="table-container">
-            <unity-table
-              selectable
-              filter="${this._searchText}"
-              .keyExtractor="${(datum, index) => datum.name}"
-              .childKeys="${['children']}"
-              .data="${exampleData}"
-              .columns="${this._visibleColumns}"
-              .highlightedRow="${this.highlightedRow}"
-
-              .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
-              .onClickRow="${this.handleClickRow.bind(this)}"
-              .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
-              .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
-
-              style="--highlight-color: ${this.highlightColor}"
-            >
-            </unity-table>
+            <unity-column-editor
+              ?buttonGradient=${false}
+              ?buttonOutlined=${true}
+              .columns=${this.columns}
+              .onUpdate=${this.handleColUpdate.bind(this)}
+            ></unity-column-editor>
           </div>
-          <div slot="pane">
-            ${this.highlightedRow}
-          </div>
-        </unity-split-pane>
-      </div>
-      <div class="example-container">
-        <unity-split-pane ?show="${this.showDetails}" .onClose="${this.toggleDetails.bind(this)}">
-          <unity-page-header
-            slot="main"
-            title="Unity Table"
-          >
-            <div slot="right-content">
-              <unity-text-input
-                ?rounded=${true}
-                innerLeftIcon="icons:search"
-                .value="${this._searchText}"
-                placeholder="${"Search input"}"
-                .onChange="${this.onInputChange.bind(this)}"
-              ></unity-text-input>
+        </unity-page-header>
 
-              <unity-column-editor
-                ?buttonGradient=${false}
-                ?buttonOutlined=${true}
-                .columns=${this.columns}
-                .onUpdate=${this.handleColUpdate.bind(this)}
-              ></unity-column-editor>
-            </div>
-          </unity-page-header>
+        <unity-table
+          slot="main"
+          selectable
+          filter="${this._searchText}"
+          .keyExtractor="${(datum, index) => datum.name}"
+          .childKeys="${['children']}"
+          .data="${exampleData}"
+          .columns="${this._visibleColumns}"
+          .columnFilter="${this._columnFilters}"
+          .onFilterChange="${this.onFilterChange}"
+          endReachedThreshold="${200}"
+          .onEndReached="${() => {
+            console.log("my-table end reached!")
+          }}"
+          .highlightedRow="${this.highlightedRow}"
 
-          <div slot="main" class="table-container">
-            <unity-table
-              selectable
-              filter="${this._searchText}"
-              .keyExtractor="${(datum, index) => datum.name}"
-              .childKeys="${['children']}"
-              .data="${exampleData}"
-              .columns="${this._visibleColumns}"
-              .highlightedRow="${this.highlightedRow}"
+          .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+          .onClickRow="${this.handleClickRow.bind(this)}"
+          .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
+          .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
 
-              .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
-              .onClickRow="${this.handleClickRow.bind(this)}"
-              .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
-              .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
-
-              style="--highlight-color: ${this.highlightColor}"
-            >
-            </unity-table>
-          </div>
-          <div slot="pane">
-            ${this.highlightedRow}
-          </div>
-        </unity-split-pane>
-      </div>
+          style="--highlight-color: ${this.highlightColor}"
+        >
+        </unity-table>
+        <div slot="pane">
+          ${this.highlightedRow}
+        </div>
+      </unity-split-pane>
     `
   }
 }
