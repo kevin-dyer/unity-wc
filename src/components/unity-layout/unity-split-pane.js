@@ -51,8 +51,13 @@ class UnitySplitPane extends LitElement {
 
     return html`
       <div class="wrapper">
-        <div class="main ${!!show ? 'stretch' : ''}">
-          <slot name="main"></slot>
+        <div class="header">
+          <slot name="header"></slot>
+        </div>
+        <div class="scroller">
+          <div class="main ${!!show ? 'stretch' : ''}">
+            <slot name="main"></slot>
+          </div>
         </div>
       </div>
       <div class="pane ${!show ? 'hide' : ''}">
@@ -79,12 +84,22 @@ class UnitySplitPane extends LitElement {
           width: 100%;
         }
         .wrapper {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          overflow: hidden;
+        }
+        .header {
+          flex: 0;
+        }
+        .scroller {
           flex: 1;
           overflow: auto;
         }
         .main {
           height: 100%;
           width: 100%;
+          overflow: auto;
         }
         .pane {
           position: relative;
