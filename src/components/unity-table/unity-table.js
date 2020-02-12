@@ -23,6 +23,7 @@ import {
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
  * @param {bool} headless, controls if the table has a header row
+ * @param {bool} startExpanded, controls if the table data begins as expanded (true) or collapsed (false / default)
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
  * @param {string} emptyDisplay, string to show when table is empty
@@ -35,6 +36,7 @@ import {
  * @example
  *  <unity-table
  *    ?headless="${false}"
+ *    ?startExpanded="${false}"
  *    ?isLoading="${false}"
  *    emptyDisplay="No information found."
  *    .data="${[
@@ -95,6 +97,7 @@ import {
 //   columns:                array of column objects, can contain format function (returns string or Lit HTML string)
 //                           {key (related to datum keys), label (label rendered) width, format (func to format cell data)}
 //   headless:               bool to control head render, include to have no table header
+//   startExpanded:          bool to control whether data starts as expanded or collapsed
 //   selectable:             bool to control if rows should be selectable
 //   onSelectionChange:      callback function, recieves selected array when it changes
 //   emptyDisplay:           String to display when data array is empty
@@ -149,6 +152,7 @@ class UnityTable extends LitElement {
     this.columns = []
     this.selectable = false
     this.headless = false
+    this.startExpanded = false
     this.isLoading = false
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
@@ -186,7 +190,7 @@ class UnityTable extends LitElement {
     this._rowOffset = 0 //used to track for infinite scroll
     this._tableId = Date.now()//unique identifier for table element
     this._visibleRowCount = MIN_VISIBLE_ROWS
-    this.dropdownValueChange = key => (values, selected) => this.filterColumn(key, values, selected)    
+    this.dropdownValueChange = key => (values, selected) => this.filterColumn(key, values, selected)
   }
 
 
@@ -199,7 +203,7 @@ class UnityTable extends LitElement {
         // add/remove value from filter
         if (currentColumnFilter.includes(value)) {
           currentColumnFilter.splice(currentColumnFilter.indexOf(value), 1)
-          // change exclude/include filter depending on size 
+          // change exclude/include filter depending on size
           if(currentColumnFilter.length > this._columnValues[key].length/2) {
             currentColumn.include = !currentColumn.include
             currentColumn.values = this._columnValues[key].filter(option => !currentColumnFilter.includes(option))
@@ -210,8 +214,8 @@ class UnityTable extends LitElement {
         }
         else {
           currentColumnFilter.push(value);
-        }       
-      } 
+        }
+      }
       else {
         //add new filter for this column
         this.columnFilter.push({column: key, values: [value], include: selected });
@@ -238,10 +242,11 @@ class UnityTable extends LitElement {
       onExpandedChange: { type: Function },
       onDisplayColumnsChange: { type: Function},
       highlightedRow: { type: String },
+      startExpanded: { type: Boolean },
       // internals, tracking for change
       _allSelected: { type: Boolean },
       _rowOffset: {type: Number},
-      columnFilter: {type: Array}, 
+      columnFilter: {type: Array},
 
       // TBI
       // controls: { type: Boolean },
@@ -396,7 +401,9 @@ class UnityTable extends LitElement {
     // but now to worry about what if datum isn't obj?
     this._data = value
     this.setDataMap(value)
-    this._expandAll()
+
+    if (this.startExpanded) this._expandAll()
+
     this._process()
     this._columnValues = this.getColumnValues(value);
     this.requestUpdate('data', oldValue)
@@ -783,9 +790,9 @@ class UnityTable extends LitElement {
                         title="${direction}"
                         class="header-sort-icon"
                       ></paper-icon-button>
-                     
+
                     </div>
-                    <filter-dropdown 
+                    <filter-dropdown
                       .onValueChange="${this.dropdownValueChange(key)}"
                       .options=${this.getDropdownOptions(key)}
                       .selected=${this.getSelected(key)}>
@@ -820,7 +827,7 @@ class UnityTable extends LitElement {
   }
 
   getAllTreeValues(row, key, format) {
-    const value = [(row[key] || row[key] === false)? 
+    const value = [(row[key] || row[key] === false)?
       format instanceof Function ? format(row[key]).label : row[key].toString()
       : "-"]
     // if children, get value of every children recursively
@@ -842,7 +849,7 @@ class UnityTable extends LitElement {
     let selectedValues = selectedArray;
     if (!!currentFilter) {
       if(currentFilter.include) {
-        selectedValues = currentFilter.values; 
+        selectedValues = currentFilter.values;
       }
       else {
         selectedValues = selectedValues.filter(x => !currentFilter.values.includes(x));
@@ -981,13 +988,12 @@ class UnityTable extends LitElement {
 
   _renderTableData(data) {
 
-    console.log("RENDER TABLE DATA")
     let filteredData = data;
 
     if(this.columnFilter.length > 0){
       for(const f of this.columnFilter) {
         // add / exclude data from table depending on filters
-        filteredData = filteredData.filter( (datum) => 
+        filteredData = filteredData.filter( (datum) =>
           {
             const format = this.columns.find(col=> col.key === f.column).format
             const formattedLabel = !!format ? format(datum[f.column]).label : datum[f.column].toString()
@@ -1009,9 +1015,9 @@ class UnityTable extends LitElement {
       <div class="active-filters">
         <div class="filter-container">
         ${this.columnFilter.map( f => html`<p style="margin: 0">
-                                            <b>Column:</b> ${f.column}; 
+                                            <b>Column:</b> ${f.column};
                                             <b>Filters:</b> ${f.values.length === this._columnValues[f.column].length?
-                                                              "ALL_VALUES" : f.values.join(', ')}; 
+                                                              "ALL_VALUES" : f.values.join(', ')};
                                             <b>Action:</b> ${f.include? "include": "exclude"}
                                           </p>`)}
         </div>
@@ -1057,7 +1063,7 @@ class UnityTable extends LitElement {
                   }
                 </td>
               `
-            : this._renderTableData(data) 
+            : this._renderTableData(data)
           }
         </table>
       </iron-scroll-threshold>
