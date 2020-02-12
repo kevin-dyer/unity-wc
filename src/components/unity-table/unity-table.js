@@ -140,6 +140,7 @@ const ROW_HEIGHT = 40 //used to set scroll offset
 const THRESHOLD_TIMEOUT = 60 //Timeout after scroll boundry is reached before callback can be fired again
 const END_REACHED_TIMEOUT = 2000 //Timeout after true end is reached before callback can be fired again
 const MIN_VISIBLE_ROWS = 50 //Minimum number of rows to render at once
+const CELL_PLACEHOLDER = "-" //Consider adding this as a table property
 
 class UnityTable extends LitElement {
   // internals
@@ -825,12 +826,15 @@ class UnityTable extends LitElement {
   }
 
   getAllTreeValues(row, key, format) {
-    const value = [(row[key] || row[key] === false)? 
-      format instanceof Function ? format(row[key]).label : row[key].toString()
-      : "-"]
+    const value = [(row[key] || row[key] === false)?
+      format instanceof Function ? 
+        typeof(format(row[key])) === 'string'? format(row[key]) : row[key].toString()
+      : row[key].toString()
+    : CELL_PLACEHOLDER]
     // if children, get value of every children recursively
-    if (row.children){
-      for (const child of row.children) {
+    const childKey = this.childKeys.find(key => row[key])
+    if (!!childKey){
+      for (const child of row[childKey]) {
         value.push(...this.getAllTreeValues(child, key, format))
       }
     }
@@ -896,7 +900,7 @@ class UnityTable extends LitElement {
         ${columns.map(({key: column, format, width}, i) => {
           const value = datum[column]
           const formattedContent = format instanceof Function ? format(value, datum) : null
-          const label = formattedContent? (formattedContent.content || formattedContent.label) : value
+          const label = formattedContent? formattedContent : value
 
           return html`
             <td class="cell" key="${rowId}-${column}">
@@ -1000,12 +1004,25 @@ class UnityTable extends LitElement {
         filteredData = filteredData.filter( (datum) => 
           {
             const format = this.columns.find(col=> col.key === f.column).format
-            const formattedLabel = !!format ? format(datum[f.column]).label : datum[f.column].toString()
+            let formattedValue;
+            try {
+              formattedValue = datum[f.column].toString()
+            }
+            catch (error){
+              formattedValue = CELL_PLACEHOLDER
+            }
+            if(format instanceof Function) {
+              const formatted = format(datum[f.column])
+              if(typeof(formatted)==='string') {
+                formattedValue = formatted
+              }
+            }
+            if (!formattedValue) {formattedValue=CELL_PLACEHOLDER}
             if (f.include) {
-              return f.values.includes(formattedLabel);
+              return f.values.includes(formattedValue);
             }
             else {
-              return !f.values.includes(formattedLabel);
+              return !f.values.includes(formattedValue);
             }
           }
         );
