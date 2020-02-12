@@ -402,7 +402,9 @@ class UnityTable extends LitElement {
     this._data = value
     this.setDataMap(value)
 
-    if (this.startExpanded) this._expandAll()
+    // Expand all nodes if the User has indicated to do so, but not if changes to the expansion of nodes have already been made
+    // NOTE: this assumes this.expanded is undefined initially
+    if (this.startExpanded && (!this.expanded || this.expanded.size === 0)) this._expandAll()
 
     this._process()
     this._columnValues = this.getColumnValues(value);
