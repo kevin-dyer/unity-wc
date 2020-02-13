@@ -14,8 +14,7 @@ import './filter-dropdown'
 
 import {
   filterData,
-  sortData,
-  sortFlattenedData
+  sortData
 } from './table-utils.js'
 
 /**
@@ -413,7 +412,6 @@ class UnityTable extends LitElement {
     // Expand all nodes if the User has indicated to do so, but not if changes to the expansion of nodes have already been made
     // NOTE: this assumes this.expanded is undefined initially
     if (this.startExpanded && (!this.expanded || this.expanded.size === 0)) this._expandAll()
-
     this._process()
     this._columnValues = this.getColumnValues(value);
     this.requestUpdate('data', oldValue)
@@ -1039,14 +1037,12 @@ class UnityTable extends LitElement {
   }
 
   _renderTableData(data) {
-    let filteredData = this.getFilteredData(data)
-    filteredData = sortFlattenedData(filteredData, this.childKeys)
-    return filteredData.map((datum) => this._renderRow(datum));
+    return data.map((datum) => this._renderRow(datum));
   }
 
 
-  getFilteredData(data) {
-    let filteredData = [...data];
+  getFilteredData() {
+    let filteredData = [...this._flattenedData];
     if(this.columnFilter.length > 0){
       for(const f of this.columnFilter) {
         // add / exclude data from table depending on filters
@@ -1064,10 +1060,47 @@ class UnityTable extends LitElement {
         );
       }
     }
-    const parents = [... new Set(filteredData.map(d => d._parents).flat())]
-    filteredData = [...new Set([...data.filter(d => parents.includes(d.id)), ...filteredData])]
+    filteredData = this.addParentRows(filteredData)
     return filteredData
   }
+
+  /**
+   * Add missing parent rows in their right position
+   * @param {object[]} data 
+   */
+  addParentRows(data) {
+    for(let i = data.length-1; i>=0; i--) {
+      const parents = data[i].parents
+      if(parents) {
+        const inmediateParent = parents.pop()
+        // if parent row is not in the array already, insert it
+        if(!data.find(d => d.id === inmediateParent)){
+          let insertionIndex = findInsertionIndex(data, inmediateParent, i);
+          data = data.splice(insertionIndex, 0, this._flattenedData.find(d => d.id === inmediateParent))
+          i++ // to check added element's parents 
+        }
+      }
+    }
+    return data
+  }
+
+  /**
+   * Find the position of the first element in the array with the specified parent
+   * @param {object[]} sortedData 
+   * @param {string} parent
+   * @param {number} index
+   */
+  findInsertionIndex(sortedData, parent, index) {
+    // start from index and go up until an element without the searched parent is found
+    if(sortedData[index].parents.splice(-1) === parent) {
+      index--
+      this.findInsertionIndex(sortedData, parent, index)
+    }
+    else {
+      return index
+    }
+  }
+
 
   renderActiveFilters() {
     return html`
@@ -1092,7 +1125,8 @@ class UnityTable extends LitElement {
   }
 
   render() {
-    const data = this._flattenedData.slice(0, this._rowOffset + this._visibleRowCount) || []
+    const rowsToShow = Math.max(this._rowOffset + this._visibleRowCount, MIN_VISIBLE_ROWS)
+    const data = this.getFilteredData().slice(0, rowsToShow) || []
     const hasData = data.length > 0
     const isLoading = this.isLoading
     const fill = isLoading || !hasData
