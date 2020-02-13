@@ -31,6 +31,9 @@ const loadPage = (page) => (dispatch) => {
     case 'page-layout':
       import('../components/my-layout.js')
       break;
+    case 'split-pane':
+      import('../components/my-split-pane.js')
+      break;
     case 'view1':
       import('../components/my-view1.js').then((module) => {
         // Put code in here that you want to run every time when
@@ -48,6 +51,7 @@ const loadPage = (page) => (dispatch) => {
       break;
     case 'my-buttons':
       import('../components/my-buttons.js');
+      break;
     case 'globalNav':
       import('../components/my-global-nav.js');
       break;

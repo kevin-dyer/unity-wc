@@ -15,12 +15,15 @@ import './unity-layout/unity-page-header.js'
 import '@bit/smartworks.unity.unity-button';
 
 import './unity-table/unity-table.js'
-
 import '@polymer/paper-input/paper-input.js';
 
 import './unity-layout/unity-page-header.js'
 // import './unity-text-input/unity-text-input.js'
 import '@bit/smartworks.unity.unity-text-input';
+
+import './unity-layout/unity-split-pane.js'
+// import '@bit/smartworks.unity.unity-split-pane'
+
 
 import './unity-table/unity-column-editor.js'
 
@@ -28,9 +31,6 @@ import './unity-table/unity-column-editor.js'
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
-
-// example table data, should eventually turn into controls
-// normally this would be taken from the store
 
 //Extra rows of fake data to test infinite scroll
 let fillerRows = []
@@ -125,7 +125,8 @@ const exampleColumns = [
 
 const exampleFilters = [{column: "name", values: ["Grey"], include: false} ]
 
-class MyTable extends PageViewElement {
+
+class MySplitPane extends PageViewElement {
   constructor() {
     super()
 
@@ -161,25 +162,20 @@ class MyTable extends PageViewElement {
           align-items: stretch;
         }
         .example-container {
-          flex: 1;
-          height: 100%;
+          border: 1px dashed black;
           position: relative;
-          display: inline-flex;
-          flex-direction: column;
-          flex-wrap: nowrap;
+          top: 50px;
+          margin: 0 auto;
+          width: 800px;
         }
 
         .header-container {
           width: 100%;
-          flex: 0;
         }
 
         .table-container {
-          /*flex: 1 1 auto;*/
-          /*flex: 0;*/
-          /*flex-grow: 0;*/
           flex: 1;
-          min-height: 0;
+          position: relative;
         }
 
         unity-table {
@@ -192,10 +188,6 @@ class MyTable extends PageViewElement {
 
         unity-page-header {
           flex: 0;
-        }
-        .table-container {
-          position: relative;
-          flex: 1
         }
       `
     ];
@@ -222,23 +214,29 @@ class MyTable extends PageViewElement {
     console.log("handleEditColumns called!")
   }
 
-  handleClickRow(element, key, event) {
-    console.log('This element was clicked:', element)
-    console.log('This was the key of the element:', key)
-    console.log('This was the clicked event:', event)
-    this.highlightedRow = key
-    this.highlightColor = element.hex
-    this.showDetails = true
-  }
-
   onFilterChange(filters) {
     this._columnFilters = filters;
   }
 
+  handleClickRow(element, key, event) {
+    console.log('This element was clicked:', element)
+    console.log('This was the key of the element:', key)
+    console.log('This was the clicked event:', event)
+    this.highlightedRow = this.highlightedRow === key ? '' : key
+    this.highlightColor = element.hex
+    this.showDetails = true
+  }
+
+  toggleDetails() {
+    this.highlightedRow = ''
+  }
+
   render() {
+    console.log('exampleData', exampleData)
     return html`
-      <div class="example-container">
+      <unity-split-pane ?show="${!!this.highlightedRow}" .onClose="${this.toggleDetails.bind(this)}">
         <unity-page-header
+          slot="header"
           title="Unity Table"
         >
           <div slot="right-content">
@@ -260,6 +258,7 @@ class MyTable extends PageViewElement {
         </unity-page-header>
 
         <unity-table
+          slot="main"
           selectable
           filter="${this._searchText}"
           .keyExtractor="${(datum, index) => datum.name}"
@@ -282,9 +281,12 @@ class MyTable extends PageViewElement {
           style="--highlight-color: ${this.highlightColor}"
         >
         </unity-table>
-      </div>
+        <div slot="pane">
+          ${this.highlightedRow}
+        </div>
+      </unity-split-pane>
     `
   }
 }
 
-window.customElements.define('my-table', MyTable);
+window.customElements.define('my-split-pane', MySplitPane);
