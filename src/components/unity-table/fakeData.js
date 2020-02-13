@@ -1,5 +1,6 @@
 // example table data, should eventually turn into controls
 // normally this would be taken from the store
+import { html } from 'lit-element';
 
 export const devices = {
   data: [
@@ -320,5 +321,5 @@ export const colors = {
   ],
 
   filters: [{column: "name", values: ["Grey"], include: false} ],
-  childKeys: ['children']
+  childKeys: ['children', '_children']
 }
