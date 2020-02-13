@@ -826,11 +826,7 @@ class UnityTable extends LitElement {
   }
 
   getAllTreeValues(row, key, format) {
-    const value = [(row[key] || row[key] === false)?
-      format instanceof Function ? 
-        typeof(format(row[key])) === 'string'? format(row[key]) : row[key].toString()
-      : row[key].toString()
-    : CELL_PLACEHOLDER]
+    let value = [this.getFormattedValue(row[key], format)]
     // if children, get value of every children recursively
     const childKey = this.childKeys.find(key => row[key])
     if (!!childKey){
@@ -839,6 +835,26 @@ class UnityTable extends LitElement {
       }
     }
     return value
+  }
+
+  getFormattedValue(value, format) {
+    let formattedValue
+    try {
+      try {
+        const formatted = format(value)
+        if(typeof(formatted) === 'string') {formattedValue = formatted} else {throw TypeError}
+      }
+      catch (error){
+        formattedValue = value.toString()
+      }
+      finally {
+        if (!formattedValue) throw TypeError
+      }
+    }
+    catch (error){
+      formattedValue = CELL_PLACEHOLDER
+    }
+    return formattedValue
   }
 
   getDropdownOptions(key) {
@@ -1004,20 +1020,7 @@ class UnityTable extends LitElement {
         filteredData = filteredData.filter( (datum) => 
           {
             const format = this.columns.find(col=> col.key === f.column).format
-            let formattedValue;
-            try {
-              formattedValue = datum[f.column].toString()
-            }
-            catch (error){
-              formattedValue = CELL_PLACEHOLDER
-            }
-            if(format instanceof Function) {
-              const formatted = format(datum[f.column])
-              if(typeof(formatted)==='string') {
-                formattedValue = formatted
-              }
-            }
-            if (!formattedValue) {formattedValue=CELL_PLACEHOLDER}
+            const formattedValue = this.getFormattedValue(datum[f.column], format);
             if (f.include) {
               return f.values.includes(formattedValue);
             }
