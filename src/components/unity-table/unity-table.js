@@ -1076,7 +1076,7 @@ class UnityTable extends LitElement {
 
   /**
    * Add missing parent rows in their right position
-   * @param {object[]} data 
+   * @param {object[]} data
    */
   addParentRows(filteredData, fullDataArray) {
     for(let i = 0; i<filteredData.length; i++) {
@@ -1089,7 +1089,7 @@ class UnityTable extends LitElement {
         // if parent row is not in the array already, insert it
         if(!filteredData.find(d => d.id === inmediateParent)){
           filteredData.splice(i, 0, fullDataArray.find(d => d.id === inmediateParent))
-          i-- // to check added element's parents 
+          i-- // to check added element's parents
         }
       }
     }
