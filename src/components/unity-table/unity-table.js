@@ -307,7 +307,7 @@ class UnityTable extends LitElement {
 
   handleLowerThreshold(e) {
     const dataLength = this._flattenedData.length
-    const maxOffset = dataLength - this._visibleRowCount
+    const maxOffset = Math.max((dataLength - this._visibleRowCount), 0) //Ensure that this is never negative, even if dataLength < this.visibleRowCount
     const nextOffset = this._rowOffset + this._visibleRowCount
 
     this._rowOffset = Math.min(maxOffset, nextOffset)
@@ -1091,6 +1091,7 @@ class UnityTable extends LitElement {
           display: flex;
           height: 100%;
           flex: 1;
+          min-height: 0;
         }
         .container {
           flex: 1;

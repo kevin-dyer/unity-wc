@@ -89,17 +89,15 @@ const exampleData = [
         hex: '#ff0066',
         favorite: true,
         icon: 'icons:delete'
-      }],
+      },
+      ...fillerRows
+      ],
   },
   {id: 'black', name: 'black', hex: '#000000', favorite: true, icon: 'work'},
   {id: 'yellow', name: 'yellow', hex: '#ffff00', favorite: false, icon: 'social:domain'},
   {id: 'green', name: 'green', hex: '#00ff00', favorite: true, icon: 'work'},
   {id: 'grey', name: 'grey', hex: '#888888', favorite: false, image: 'show image', icon: 'build'},
   {id: 'magenta', name: 'magenta', hex: '#ff00ff', favorite: false, icon: 'social:domain'},
-
-
-  //TO add extra rows
-  ...fillerRows
 ]
 
 const exampleColumns = [
@@ -149,58 +147,6 @@ class MyTable extends PageViewElement {
       showDetails: { type: Boolean }
     }
   }
-
-  static get styles() {
-    return [
-      SharedStyles,
-      css`
-        :host {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
-        }
-        .example-container {
-          flex: 1;
-          height: 100%;
-          position: relative;
-          display: inline-flex;
-          flex-direction: column;
-          flex-wrap: nowrap;
-        }
-
-        .header-container {
-          width: 100%;
-          flex: 0;
-        }
-
-        .table-container {
-          /*flex: 1 1 auto;*/
-          /*flex: 0;*/
-          /*flex-grow: 0;*/
-          flex: 1;
-          min-height: 0;
-        }
-
-        unity-table {
-        }
-
-        paper-input {
-          margin-right: 20px;
-          width: 300px;
-        }
-
-        unity-page-header {
-          flex: 0;
-        }
-        .table-container {
-          position: relative;
-          flex: 1
-        }
-      `
-    ];
-  }
-
 //   handleSearchInput(e={}) {
 //     const {target: {value}={}} = e
 //
@@ -285,6 +231,52 @@ class MyTable extends PageViewElement {
       </div>
     `
   }
+
+  static get styles() {
+    return [
+      SharedStyles,
+      css`
+        :host {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .example-container {
+          flex: 1;
+          min-height: 0;
+          position: relative;
+          display: inline-flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+        }
+
+        .header-container {
+          width: 100%;
+          flex: 0;
+        }
+
+        .table-container {
+          flex: 1;
+          min-height: 0;
+        }
+
+        paper-input {
+          margin-right: 20px;
+          width: 300px;
+        }
+
+        unity-page-header {
+          flex: 0;
+        }
+        .table-container {
+          position: relative;
+          flex: 1
+        }
+      `
+    ];
+  }
+
 }
 
 window.customElements.define('my-table', MyTable);
