@@ -464,7 +464,7 @@ class UnityTable extends LitElement {
     }
     this._sortBy = {column, direction}
     this._sortData()
-    this._flattenData()
+    this._setVisibleRowsArray()
     this.requestUpdate('sortBy', oldValue)
   }
 
@@ -515,7 +515,7 @@ class UnityTable extends LitElement {
       this.onExpandedChange(expandedNodes)
     }
 
-    this._flattenData()
+    this._setVisibleRowsArray()
     this.requestUpdate('expanded', oldValue)
   }
 
@@ -643,14 +643,19 @@ class UnityTable extends LitElement {
 
   //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
   //This should also remove children of non-expanded rows
-  _flattenData() {
-    let flatList = []
+  _setVisibleRowsArray() {
+    const flatList = this._flattenData(this._sortedData)
+    this._flattenedData = this.removeCollapsedChildren(flatList)
+  }
 
+
+  _flattenData(data) {
+    let flatList = []
     if (!this.keyExtractor) {
       return flatList
     }
     this.dfsTraverse({
-      node: this._sortedData,
+      node: data,
       callback: (node, tabIndex, childCount, parents) => {
         flatList.push({
           ...node,
@@ -661,12 +666,13 @@ class UnityTable extends LitElement {
         })
       }
     })
+    return flatList
+  }
 
-    //Remove children of collapsed nodes
-    //NOTE: collapsed parent nodes still need an accurate _childCount to show/hide expand control
+  removeCollapsedChildren(data) {
     let toRemove = false
     let currentTabIndex = 0
-    flatList = flatList.filter(node => {
+    data = data.filter(node => {
       if (toRemove) {
         if (currentTabIndex < node._tabIndex) {
           return false
@@ -686,14 +692,14 @@ class UnityTable extends LitElement {
 
       return true
     })
+    return data
 
-    this._flattenedData = flatList
   }
 
   _process() {
     this._filterData()
     this._sortData()
-    this._flattenData()
+    this._setVisibleRowsArray()
   }
 
   _handleHeaderSelect() {
@@ -1016,8 +1022,12 @@ class UnityTable extends LitElement {
   }
 
 
+  /**
+   * Filter data from the full sorted data array. Non-matching parents of matching rows are kept.
+   */
   getFilteredData() {
-    let filteredData = [...this._flattenedData];
+    const fullDataArray = this._flattenData(this._sortedData);
+    let filteredData = [...fullDataArray]
     if(this.columnFilter.length > 0){
       for(const f of this.columnFilter) {
         // add / exclude data from table depending on filters
@@ -1035,7 +1045,7 @@ class UnityTable extends LitElement {
         );
       }
     }
-    filteredData = this.addParentRows(filteredData)
+    filteredData = this.addParentRows(filteredData, fullDataArray)
     return filteredData
   }
 
@@ -1043,19 +1053,22 @@ class UnityTable extends LitElement {
    * Add missing parent rows in their right position
    * @param {object[]} data 
    */
-  addParentRows(data) {
-    for(let i = 0; i<data.length; i++) {
-      const parents = data[i]._parents
+  addParentRows(filteredData, fullDataArray) {
+    for(let i = 0; i<filteredData.length; i++) {
+      console.log({
+        i, filteredData: filteredData[i]
+      })
+      const parents = filteredData[i]._parents
       if(parents.length > 0) {
         const inmediateParent = parents[parents.length - 1]
         // if parent row is not in the array already, insert it
-        if(!data.find(d => d.id === inmediateParent)){
-          data.splice(i, 0, this._flattenedData.find(d => d.id === inmediateParent))
+        if(!filteredData.find(d => d.id === inmediateParent)){
+          filteredData.splice(i, 0, fullDataArray.find(d => d.id === inmediateParent))
           i-- // to check added element's parents 
         }
       }
     }
-    return data
+    return filteredData
   }
 
 
@@ -1082,8 +1095,9 @@ class UnityTable extends LitElement {
   }
 
   render() {
-    const rowsToShow = Math.max(this._rowOffset + this._visibleRowCount, MIN_VISIBLE_ROWS)
-    const data = this.getFilteredData().slice(0, rowsToShow) || []
+    let data = this.getFilteredData()
+    data = this.removeCollapsedChildren(data)
+    data = data.slice(0, this._rowOffset + this._visibleRowCount) || []
     const hasData = data.length > 0
     const isLoading = this.isLoading
     const fill = isLoading || !hasData
