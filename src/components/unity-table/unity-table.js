@@ -1044,36 +1044,18 @@ class UnityTable extends LitElement {
    * @param {object[]} data 
    */
   addParentRows(data) {
-    for(let i = data.length-1; i>=0; i--) {
-      const parents = data[i].parents
-      if(parents) {
-        const inmediateParent = parents.pop()
+    for(let i = 0; i<data.length; i++) {
+      const parents = data[i]._parents
+      if(parents.length > 0) {
+        const inmediateParent = parents[parents.length - 1]
         // if parent row is not in the array already, insert it
         if(!data.find(d => d.id === inmediateParent)){
-          let insertionIndex = findInsertionIndex(data, inmediateParent, i);
-          data = data.splice(insertionIndex, 0, this._flattenedData.find(d => d.id === inmediateParent))
-          i++ // to check added element's parents 
+          data.splice(i, 0, this._flattenedData.find(d => d.id === inmediateParent))
+          i-- // to check added element's parents 
         }
       }
     }
     return data
-  }
-
-  /**
-   * Find the position of the first element in the array with the specified parent
-   * @param {object[]} sortedData 
-   * @param {string} parent
-   * @param {number} index
-   */
-  findInsertionIndex(sortedData, parent, index) {
-    // start from index and go up until an element without the searched parent is found
-    if(sortedData[index].parents.splice(-1) === parent) {
-      index--
-      this.findInsertionIndex(sortedData, parent, index)
-    }
-    else {
-      return index
-    }
   }
 
 
