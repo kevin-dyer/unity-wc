@@ -257,14 +257,6 @@ class MyTable extends PageViewElement {
         }
 
         .table-container {
-          /*flex: 1 1 auto;*/
-          /*flex: 0;*/
-          /*flex-grow: 0;*/
-          flex: 1;
-          min-height: 0;
-        }
-
-        unity-table {
           flex: 1;
           min-height: 0;
         }
