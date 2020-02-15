@@ -5,6 +5,7 @@ import '@polymer/iron-icon/iron-icon.js'
 import '@polymer/iron-icons/image-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '@bit/smartworks.unity.unity-typography'
 
 /**
  * Button with configurable styles.
@@ -13,6 +14,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {string} leftIcon, iron icon name to be displayed to the left of the label
  * @param {string} rightIcon, iron icon name to be displayed to the right of the label
  * @param {string} centerIcon, iron icon name to be displayed in place of the label. Note: Do not pass in a label if used.
+ * @param {bool} solid, style button with solid primary color and white text
  * @param {bool} gradient, style button with gradient background and white text
  * @param {bool} outlined, style button with outline, white background and black text
  * @param {bool} danger, style button red.
@@ -37,7 +39,6 @@ class UnityButton extends LitElement {
         :host {
           --gradient-background: transparent linear-gradient(90deg, var(--secondary-brand-color, var(--primary-brand-color, var(--default-primary-brand-color))) 0%, var(--primary-brand-color, var(--default-primary-brand-color)) 100%) 0% 0% no-repeat padding-box;
           flex-shrink: 0;
-          font-family: var(--font-family, var(--default-font-family));
         }
 
         paper-button {
@@ -56,8 +57,8 @@ class UnityButton extends LitElement {
           padding: 0 10px;
           min-width: 22px;
           border-radius: 22px;
-          font-size: var(--small-text-size, var(--default-small-text-size));
-          font-weight: var(--small-text-weight, var(--default-small-text-weight));
+          --font-size: var(--small-text-size, var(--default-small-text-size));
+          --font-weight: var(--small-text-weight, var(--default-small-text-weight));
         }
 
         paper-button:hover {
@@ -68,10 +69,17 @@ class UnityButton extends LitElement {
         /*Including .unity-button selector for increased specificity and override other class styles*/
         paper-button.unity-button.disabled {
           color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --font-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           background: var(--light-grey-background-color, var(--default-light-grey-background-color));
           border: none;
         }
 
+        /*Solid Styles*/
+        paper-button.solid {
+          background-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          color: #FFF;
+          --font-color: #FFF;
+        }
 
         /*Gradient Styles*/
         paper-button.gradient {
@@ -79,6 +87,7 @@ class UnityButton extends LitElement {
           /* If secondary brand color does not exist, use primary brand color to creat solid background color */
           background: var(--gradient-background);
           color: #FFF;
+          --font-color: #FFF;
         }
 
         /*NOTE: commenting this out. Looks weird with ripple effect*/
@@ -91,22 +100,27 @@ class UnityButton extends LitElement {
           background: white;
           border: 1px solid var(--primary-brand-color, var(--default-primary-brand-color));
           color: var(--black-text-color, var(--default-black-text-color));
+          --font-color: var(--black-text-color, var(--default-black-text-color));
         }
 
         paper-button.outlined iron-icon {
-          color: var(--primary-brand-color, var(--default-primary-brand-color))
+          color: var(--primary-brand-color, var(--default-primary-brand-color));
+          --font-color: var(--primary-brand-color, var(--default-primary-brand-color));
         }
 
         paper-button.outlined paper-spinner-lite {
-          color: var(--primary-brand-color, var(--default-primary-brand-color))
+          color: var(--primary-brand-color, var(--default-primary-brand-color));
+          --font-color: var(--primary-brand-color, var(--default-primary-brand-color));
         }
 
         paper-button.outlined.disabled iron-icon {
           color: inherit;
+          --font-color: inherit;
         }
 
         paper-button.outlined.disabled paper-spinner-lite {
           color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          --font-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
 
         paper-button.outlined:hover {
@@ -124,6 +138,7 @@ class UnityButton extends LitElement {
           background: white;
           border: 1px solid var(--danger-color, var(--default-danger-color));
           color: var(--danger-color, var(--default-danger-color));
+          --font-color: var(--danger-color, var(--default-danger-color));
         }
 
         paper-button.danger:hover {
@@ -133,6 +148,7 @@ class UnityButton extends LitElement {
         paper-button.unity-button.danger.disabled {
           border: 1px solid rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.2);
           color: rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.5);
+          --font-color: rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.5);
           background: white;
         }
 
@@ -208,6 +224,9 @@ class UnityButton extends LitElement {
       disabled: {
         type: Boolean
       },
+      solid : {
+        type: Boolean
+      },
       gradient: {
         type: Boolean
       },
@@ -239,6 +258,7 @@ class UnityButton extends LitElement {
     super()
 
     this.label=''
+    this.solid=false
     this.gradient=false
     this.disabled=false
     this.outlined=false
@@ -252,6 +272,10 @@ class UnityButton extends LitElement {
 
   _getClassNames() {
     let classList = ['unity-button']
+
+    if (this.solid) {
+      classList.push('solid')
+    }
 
     if (this.gradient) {
       classList.push('gradient')
@@ -301,7 +325,9 @@ class UnityButton extends LitElement {
               ></iron-icon>`
             : ''
         }
-        ${this.label}
+        <unity-typography>
+          ${this.label}
+        </unity-typography>
 
         ${this.centerIcon && !this.loading
           ? html`<iron-icon

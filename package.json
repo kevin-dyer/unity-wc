@@ -32,6 +32,7 @@
     "@bit/smartworks.unity.unity-select-menu": "0.0.3",
     "@bit/smartworks.unity.unity-table-cell": "^0.1.14",
     "@bit/smartworks.unity.unity-text-input": "^0.1.28",
+    "@bit/smartworks.unity.unity-typography": "0.0.1",
     "@bit/smartworks.unity.unity-utils": "0.0.2",
     "@polymer/app-layout": "^3.0.0",
     "@polymer/iron-autogrow-textarea": "^3.0.1",
