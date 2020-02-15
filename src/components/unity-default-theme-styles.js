@@ -4,17 +4,22 @@ import { css } from 'lit-element';
 // Therefore any specified font should be loaded in parent app
 // import 'typeface-nunito-sans';
 
+// old succes light green: --default-success-rgb: 156, 204, 101;
+// old danger light red: --default-danger-rgb: 244, 67, 54;
+// old danger-lite light red: --default-danger-lite-rgb: 250, 179, 174;
+
 export const UnityDefaultThemeStyles = css`
   :host {
-    --default-primary-brand-rgb: 58, 188, 225;
-    --default-primary-brand-rgb-light: 178, 229, 247;
-    --default-primary-brand-rgb-dark: 5, 137, 180;
-    --default-secondary-brand-rgb: 48, 128, 195;
-    --default-success-rgb: 156, 204, 101;
-    --default-danger-rgb: 244, 67, 54;
-    --default-danger-lite-rgb: 250, 179, 174;
+    --default-primary-brand-rgb: 250, 70, 22;
+    --default-primary-brand-rgb-light: 253, 181, 162;
+    --default-primary-brand-rgb-dark: 200, 51, 5;
+    --default-secondary-brand-rgb: 45, 204, 211;
+    --default-success-rgb: 71, 162, 63;
+    --default-danger-rgb: 255, 198, 0;
+    --default-danger-lite-rgb: 255, 232, 153;
     --default-selection-opacity: 0.5;
     --black-text-rgb: 0, 0, 0;
+    --white-text-rgb: 255, 255, 255;
 
     /* Colors*/
     --default-primary-brand-color: rgb(var(--default-primary-brand-rgb));
@@ -25,10 +30,10 @@ export const UnityDefaultThemeStyles = css`
     --default-danger-color: rgb(var(--default-danger-rgb));
     --default-danger-lite-color: rgb(var(--default-danger-light-rgb));
     --default-background-color: white;
-    --default-global-nav-background-color: #122C33;
-    --default-global-nav-expanded-color: #07191E;
+    --default-global-nav-background-color: #005776;
+    --default-global-nav-expanded-color: #00465e;
     --default-global-nav-border-color: #464E57;
-    --default-global-nav-section-color: #454545;
+    --default-global-nav-text-color: rgb(var(--white-text-rgb));
     --default-black-text-color: rgb(var(--black-text-rgb));
     --default-dark-grey-text-color: #5f6368;
     --default-medium-grey-text-color: #80868b;
@@ -41,7 +46,7 @@ export const UnityDefaultThemeStyles = css`
     --default-selection-highlight-color: rgba(var(--default-primary-brand-rgb), var(--default-selection-opacity));
 
     /* Fonts */
-    --default-font-family: 'Nunito', sans-serif;
+    --default-font-family: 'Noto', sans-serif;
 
     --default-header1-font-size: 18px;
     --default-header1-font-weight: 400;
