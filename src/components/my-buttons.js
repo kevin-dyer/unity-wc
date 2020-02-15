@@ -32,6 +32,52 @@ class MyButtons extends LitElement {
       <h1>Unity Buttons</h1>
 
       <div class="section">
+        <h4>Solid button</h4>
+
+        <div class="button-container">
+          <unity-button
+            label="solid"
+            ?solid=${true}
+            ?disabled=${false}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="loading"
+            ?solid=${true}
+            ?loading=${true}
+          ></unity-button>
+
+          <unity-button
+            label="left icon"
+            ?solid=${true}
+            leftIcon="add"
+          ></unity-button>
+
+          <unity-button
+            label="right icon"
+            ?solid=${true}
+            rightIcon="expand-more"
+          ></unity-button>
+
+          <unity-button
+            label="disabled"
+            ?solid=${true}
+            ?disabled=${true}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="loading disabled"
+            ?solid=${true}
+            ?loading=${true}
+            ?disabled=${true}
+          ></unity-button>
+
+        </div>
+      </div>
+
+      <div class="section">
         <h4>Gradient button</h4>
 
         <div class="button-container">
@@ -113,7 +159,7 @@ class MyButtons extends LitElement {
           ?loading=${true}
           ?disabled=${true}
           ></unity-button>
-          
+
         </div>
       </div>
 
