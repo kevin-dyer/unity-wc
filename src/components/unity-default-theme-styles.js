@@ -32,7 +32,7 @@ export const UnityDefaultThemeStyles = css`
     --default-background-color: white;
     --default-global-nav-background-color: #005776;
     --default-global-nav-expanded-color: #00465e;
-    --default-global-nav-border-color: #464E57;
+    --default-global-nav-border-color: #669aad;
     --default-global-nav-text-color: rgb(var(--white-text-rgb));
     --default-black-text-color: rgb(var(--black-text-rgb));
     --default-dark-grey-text-color: #5f6368;
