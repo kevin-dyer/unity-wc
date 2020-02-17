@@ -43,7 +43,7 @@ export const UnityDefaultThemeStyles = css`
     --default-light-grey-background-color: #f1f3f4;
 
     /*Composite style based on variables above*/
-    --default-selection-highlight-color: rgba(var(--default-primary-brand-rgb), var(--default-selection-opacity));
+    --default-selection-highlight-color: #c1c5c8;
 
     /* Fonts */
     --default-font-family: 'Noto', sans-serif;
