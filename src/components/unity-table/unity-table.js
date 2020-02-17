@@ -242,8 +242,9 @@ class UnityTable extends LitElement {
         this.columnFilter.push({column: key, values: [value], include: selected });
       }
     }
+    this._flattenedData = this.removeCollapsedChildren(this.getFilteredData())
     this.onFilterChange(this.columnFilter);
-    this.requestUpdate();
+    // this.requestUpdate();
   }
 
   // inputs
@@ -282,7 +283,7 @@ class UnityTable extends LitElement {
   //NOTE: #unity-table-container element is not mounted in intial connectedCallback, only after firstUpdated
   firstUpdated(changedProperties) {
     this.initTableRef()
-
+    this._setVisibleRowsArray()
     this.updateComplete.then(this.scrollToHighlightedRow.bind(this))
   }
 
@@ -686,8 +687,8 @@ class UnityTable extends LitElement {
   //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
   //This should also remove children of non-expanded rows
   _setVisibleRowsArray() {
-    const flatList = this._flattenData(this._sortedData)
-    this._flattenedData = this.removeCollapsedChildren(flatList)
+    this._flattenedData = this.removeCollapsedChildren(this.getFilteredData())
+    this.requestUpdate()
   }
 
 
@@ -1137,9 +1138,7 @@ class UnityTable extends LitElement {
   }
 
   render() {
-    let data = this.getFilteredData()
-    data = this.removeCollapsedChildren(data)
-    data = data.slice(0, this._rowOffset + this._visibleRowCount) || []
+    const data = this._flattenedData.slice(0, this._rowOffset + this._visibleRowCount) || []
     const hasData = data.length > 0
     const isLoading = this.isLoading
     const fill = isLoading || !hasData
