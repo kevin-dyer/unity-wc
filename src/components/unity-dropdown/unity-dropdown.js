@@ -497,7 +497,7 @@ class UnityDropdown extends LitElement {
         <unity-text-input
         .value="${this._searchValue}"
         .onChange="${this._onInputSearchChange}"
-        .innerRightIcon="${"unity:search"}"
+        .innerLeftIcon="${"unity:search"}"
         .borderEffects=${false}
         ></unity-text-input>
       </div>`
