@@ -243,6 +243,7 @@ class UnityTable extends LitElement {
       }
     }
     this._flattenedData = this.removeCollapsedChildren(this.getFilteredData())
+    this._expandAll()
     this.onFilterChange(this.columnFilter);
     // this.requestUpdate();
   }
