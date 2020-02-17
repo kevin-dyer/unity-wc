@@ -203,21 +203,39 @@ class UnityTable extends LitElement {
       let currentColumn = this.columnFilter.find(f => f.column === key);
       if (!!currentColumn) {
         const currentColumnFilter = currentColumn.values;
+
+        // if exclude all, delete * and change to include
+        if(currentColumnFilter[0] === '*') {
+          currentColumnFilter.splice(0,1)
+          currentColumn.include = true 
+        }
+
         // add/remove value from filter
         if (currentColumnFilter.includes(value)) {
           currentColumnFilter.splice(currentColumnFilter.indexOf(value), 1)
-          // change exclude/include filter depending on size
-          if(currentColumnFilter.length > this._columnValues[key].length/2) {
-            currentColumn.include = !currentColumn.include
-            currentColumn.values = this._columnValues[key].filter(option => !currentColumnFilter.includes(option))
-          }
-          // remove filter if list is empty
-          if (currentColumnFilter.length === 0) {
-            this.columnFilter.splice(this.columnFilter.indexOf(currentColumn))}
         }
         else {
-          currentColumnFilter.push(value);
+            currentColumnFilter.push(value);
         }
+
+        // change exclude/include filter depending on size
+        if(currentColumnFilter.length > this._columnValues[key].length/2) {
+          currentColumn.include = !currentColumn.include
+          currentColumn.values = this._columnValues[key].filter(option => !currentColumnFilter.includes(option))
+        }
+
+        // // remove filter if list is empty
+        if (currentColumnFilter.length === 0) {
+          // if include is empty, change to exclude all (*)
+          if(currentColumn.include) {
+            currentColumn.values = ['*']
+            currentColumn.include = false
+          }
+          else {
+            this.columnFilter.splice(this.columnFilter.indexOf(currentColumn))
+          }
+        }
+          
       }
       else {
         //add new filter for this column
@@ -575,7 +593,6 @@ class UnityTable extends LitElement {
         dataMap.set(key, node)
       }
     })
-
     this._dataMap = dataMap
   }
 
@@ -760,7 +777,6 @@ class UnityTable extends LitElement {
         }
       }
     })
-
     this.expanded = nextExpanded
   }
 
@@ -904,7 +920,7 @@ class UnityTable extends LitElement {
     const currentFilter = this.columnFilter.find( filter => filter.column === key);
     let selectedValues = selectedArray;
     if (!!currentFilter) {
-      if(currentFilter.include) {
+      if(currentFilter.include || (!currentFilter.include && currentFilter.values[0] === '*')) {
         selectedValues = currentFilter.values;
       }
       else {
@@ -1053,24 +1069,28 @@ class UnityTable extends LitElement {
   getFilteredData() {
     const fullDataArray = this._flattenData(this._sortedData);
     let filteredData = [...fullDataArray]
-    if(this.columnFilter.length > 0){
-      for(const f of this.columnFilter) {
-        // add / exclude data from table depending on filters
-        filteredData = filteredData.filter( (datum) =>
-          {
-            const format = this.columns.find(col=> col.key === f.column).format
-            const formattedValue = this.getFormattedValue(datum[f.column], format);
-            if (f.include) {
-              return f.values.includes(formattedValue);
+    try {
+      if(this.columnFilter.length > 0){
+        for(const f of this.columnFilter) {
+          // add / exclude data from table depending on filters
+          filteredData = filteredData.filter( (datum) =>
+            {
+              const format = this.columns.find(col=> col.key === f.column).format
+              const formattedValue = this.getFormattedValue(datum[f.column], format);
+              if ((f.include) || (!f.include && f.values[0] === '*')) {
+                return f.values.includes(formattedValue);
+              }
+              else {
+                return !f.values.includes(formattedValue);
+              }
             }
-            else {
-              return !f.values.includes(formattedValue);
-            }
-          }
-        );
+          );
+        }
       }
+      filteredData = this.addParentRows(filteredData, fullDataArray)
+    } 
+    catch (error) {
     }
-    filteredData = this.addParentRows(filteredData, fullDataArray)
     return filteredData
   }
 
@@ -1080,9 +1100,6 @@ class UnityTable extends LitElement {
    */
   addParentRows(filteredData, fullDataArray) {
     for(let i = 0; i<filteredData.length; i++) {
-      console.log({
-        i, filteredData: filteredData[i]
-      })
       const parents = filteredData[i]._parents
       if(parents.length > 0) {
         const inmediateParent = parents[parents.length - 1]
