@@ -527,14 +527,13 @@ class UnityDropdown extends LitElement {
   // TODO: possibly needs refactoring
   getInputBox() {
     const selectedOption = this.options.find(option => option.id === this.selected[0])
-    const selectedLabel = this.getSelectedLabel();
+    let selectedLabel
     if (this.boxType === "fixed") {
       return html`
           <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}">
           ${(this.inputType === "multi-select" && this.showTags)? this.renderTags() : null}
           <div class="input-label-div"">
             <div style="flex: 1;  display:flex" class="displayed-wrapper">
-
                 <p id="displayed">
                   <b>${this.placeholder}</b>
                 </p>
@@ -567,6 +566,7 @@ class UnityDropdown extends LitElement {
         </div>`;
     }
     else if (this.boxType === "search") {
+      selectedLabel = this.getSelectedLabel();
       return html`
         <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}">
             <unity-text-input id="search-input"
