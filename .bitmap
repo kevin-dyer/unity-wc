@@ -52,6 +52,11 @@
     "smartworks.unity/unity-dropdown@0.1.7": {
         "files": [
             {
+                "relativePath": "src/components/unity-dropdown/strings.js",
+                "test": false,
+                "name": "strings.js"
+            },
+            {
                 "relativePath": "src/components/unity-dropdown/unity-dropdown.js",
                 "test": false,
                 "name": "unity-dropdown.js"
@@ -187,7 +192,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.1.34": {
+    "smartworks.unity/unity-table@0.2.0": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/filter-dropdown.js",
