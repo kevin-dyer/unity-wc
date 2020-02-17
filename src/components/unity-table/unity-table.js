@@ -1120,12 +1120,14 @@ class UnityTable extends LitElement {
     return html`
       <div class="active-filters">
         <div class="filter-container">
-        ${this.columnFilter.map( f => html`<p style="margin: 0">
+        ${this.columnFilter.length > 0?
+          this.columnFilter.map( f => html`<p style="margin: 0">
                                             <b>Column:</b> ${f.column};
-                                            <b>Filters:</b> ${f.values.length === this._columnValues[f.column].length?
-                                                              "ALL_VALUES" : f.values.join(', ')};
+                                            <b>Filters:</b> ${f.values.join(', ')};
                                             <b>Action:</b> ${f.include? "include": "exclude"}
-                                          </p>`)}
+                                          </p>`)
+          : html`<p style="margin: 0">${'No active filters'}</p>`
+        }
         </div>
       </div>
     `;
@@ -1315,7 +1317,11 @@ class UnityTable extends LitElement {
           text-align: right;
           margin-right: 8px;
           overflow: auto;
-          max-height: 66px;
+          min-height: 49px;
+          max-height: 49px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
         }
         .filter-container {
           display: flex;
