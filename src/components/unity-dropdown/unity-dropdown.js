@@ -8,7 +8,7 @@ import '@bit/smartworks.unity.unity-icon-set';
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
 import '@bit/smartworks.unity.unity-text-input';
 import '@bit/smartworks.unity.unity-select-menu';
-
+import * as strings from './strings'
 
 /**
 * Renders a dropdown component that displays a list of options for selection.
@@ -638,7 +638,7 @@ class UnityDropdown extends LitElement {
           borderless
         >
         </unity-select-menu>` 
-      : optionsList.every(element => element === null)? html`<p class="helper-text">No matches</p>` 
+      : optionsList.every(element => element === null)? html`<p class="helper-text">${strings.NO_MATCHES}</p>` 
                                                          : html`<ul id="options-list">${optionsList}</ul>`;
   }
 
@@ -650,7 +650,7 @@ class UnityDropdown extends LitElement {
     return html`
       <div id="select-all" class="text-box selectable" @click=${()=>this.selectAll(select)}>
         ${this.renderLeftIcon("unity:box_minus")}
-        <p>${select? "Select all" : "Deselect all"}</p>
+        <p>${select? strings.SELECT_VISIBLE : strings.DESELECT_VISIBLE}</p>
       </div>
     `
   }
