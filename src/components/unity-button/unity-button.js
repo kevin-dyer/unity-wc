@@ -14,7 +14,7 @@ import '@bit/smartworks.unity.unity-typography'
  * @param {string} leftIcon, iron icon name to be displayed to the left of the label
  * @param {string} rightIcon, iron icon name to be displayed to the right of the label
  * @param {string} centerIcon, iron icon name to be displayed in place of the label. Note: Do not pass in a label if used.
- * @param {string} type, type of button to render: solid (default), gradient, outlined
+ * @param {string} type, type of button to render (optional): solid , gradient, outlined
  * @param {bool} danger, style button red.
  * @param {bool} loading, displays loading spinner in place of leftIcon
  * @param {bool} small, to decrease size of button
@@ -254,7 +254,7 @@ class UnityButton extends LitElement {
     super()
 
     this.label=''
-    this.type='solid'
+    this.type=''
     this.disabled=false
     this.danger=false
     this.loading=false
@@ -269,6 +269,10 @@ class UnityButton extends LitElement {
     const { type } = this
 
     switch (type) {
+      case SOLID: {
+        classList.push('solid')
+        break
+      }
       case GRADIENT: {
         classList.push('gradient')
         break
@@ -277,10 +281,7 @@ class UnityButton extends LitElement {
         classList.push('outlined')
         break
       }
-      // if not gradient or outline, will appear solid
-      default: {
-        classList.push('solid')
-      }
+      default: break
     }
 
     if (this.danger) {
