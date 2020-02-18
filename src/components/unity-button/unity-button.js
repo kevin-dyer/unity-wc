@@ -40,7 +40,19 @@ class UnityButton extends LitElement {
       css`
         :host {
           --gradient-background: transparent linear-gradient(90deg, var(--secondary-brand-color, var(--primary-brand-color, var(--default-primary-brand-color))) 0%, var(--primary-brand-color, var(--default-primary-brand-color)) 100%) 0% 0% no-repeat padding-box;
+          --button-color: var(--primary-brand-color, var(--default-primary-brand-color));
           flex-shrink: 0;
+        }
+
+        /*Danger Styles*/
+        paper-button.danger {
+          --button-color: var(--danger-color, var(--default-danger-color));
+          --black-text-color: var(--danger-color, var(--default-danger-color));
+          color: var(--button-color);
+        }
+
+        paper-button.danger:hover {
+          filter: brightness(93%);
         }
 
         paper-button {
@@ -68,17 +80,9 @@ class UnityButton extends LitElement {
           filter: brightness(85%);
         }
 
-        /*Including .unity-button selector for increased specificity and override other class styles*/
-        paper-button.unity-button.disabled {
-          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --font-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          background: var(--light-grey-background-color, var(--default-light-grey-background-color));
-          border: none;
-        }
-
         /*Solid Styles*/
         paper-button.solid {
-          background-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          background-color: var(--button-color);
           color: #FFF;
           --font-color: #FFF;
         }
@@ -100,29 +104,25 @@ class UnityButton extends LitElement {
         /*Outlined Styles*/
         paper-button.outlined {
           background: white;
-          border: 1px solid var(--primary-brand-color, var(--default-primary-brand-color));
-          color: var(--black-text-color, var(--default-black-text-color));
+          border: 1px solid var(--button-color);
+          color: var(--button-color);
           --font-color: var(--black-text-color, var(--default-black-text-color));
         }
 
         paper-button.outlined iron-icon {
-          color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --font-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          color: var(--button-color);
         }
 
         paper-button.outlined paper-spinner-lite {
-          color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --font-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          color: var(--button-color);
         }
 
         paper-button.outlined.disabled iron-icon {
-          color: inherit;
-          --font-color: inherit;
+          color: var(--button-color);
         }
 
         paper-button.outlined.disabled paper-spinner-lite {
-          color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --font-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
         }
 
         paper-button.outlined:hover {
@@ -135,28 +135,9 @@ class UnityButton extends LitElement {
           border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
 
-        /*Danger Styles*/
-        paper-button.danger {
-          background: white;
-          border: 1px solid var(--danger-color, var(--default-danger-color));
-          color: var(--danger-color, var(--default-danger-color));
-          --font-color: var(--danger-color, var(--default-danger-color));
-        }
-
-        paper-button.danger:hover {
-          background: rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.2);
-        }
-
-        paper-button.unity-button.danger.disabled {
-          border: 1px solid rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.2);
-          color: rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.5);
-          --font-color: rgba(var(--danger-rgb, var(--default-danger-rgb)), 0.5);
-          background: white;
-        }
-
         paper-spinner-lite.icon {
           height: var(--small-icon-size, var(--default-small-icon-size));
-          width: var(--small-icon-size, var(--default-small-icon-size));;
+          width: var(--small-icon-size, var(--default-small-icon-size));
           --paper-spinner-color: 'inherit';
           --paper-spinner-stroke-width: 2px;
         }
@@ -213,6 +194,23 @@ class UnityButton extends LitElement {
         paper-button.icon-btn .icon {
           --iron-icon-width: var(--medium-icon-size, var(--default-medium-icon-size));
           --iron-icon-height: var(--medium-icon-size, var(--default-medium-icon-size));
+        }
+
+        /*Including .unity-button selector for increased specificity and override other class styles*/
+        paper-button.unity-button.disabled {
+          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --paper-spinner-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --font-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          background: var(--light-grey-background-color, var(--default-light-grey-background-color));
+          border: none;
+        }
+
+        paper-button.unity-button.disabled paper-spinner-lite{
+          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+        }
+
+        paper-button.unity-button.disabled iron-icon{
+          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
         }
       `
     ];
