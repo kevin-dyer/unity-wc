@@ -14,9 +14,7 @@ import '@bit/smartworks.unity.unity-typography'
  * @param {string} leftIcon, iron icon name to be displayed to the left of the label
  * @param {string} rightIcon, iron icon name to be displayed to the right of the label
  * @param {string} centerIcon, iron icon name to be displayed in place of the label. Note: Do not pass in a label if used.
- * @param {bool} solid, style button with solid primary color and white text
- * @param {bool} gradient, style button with gradient background and white text
- * @param {bool} outlined, style button with outline, white background and black text
+ * @param {string} type, type of button to render: solid (default), gradient, outlined
  * @param {bool} danger, style button red.
  * @param {bool} loading, displays loading spinner in place of leftIcon
  * @param {bool} small, to decrease size of button
@@ -30,6 +28,10 @@ import '@bit/smartworks.unity.unity-typography'
 *     @click=${() => console.log("button clicked")}
 *   />
 */
+
+const SOLID = 'solid'
+const GRADIENT = 'gradient'
+const OUTLINED = 'outlined'
 
 class UnityButton extends LitElement {
   static get styles() {
@@ -224,14 +226,8 @@ class UnityButton extends LitElement {
       disabled: {
         type: Boolean
       },
-      solid : {
-        type: Boolean
-      },
-      gradient: {
-        type: Boolean
-      },
-      outlined: {
-        type: Boolean
+      type: {
+        type: String
       },
       danger: {
         type: Boolean
@@ -258,10 +254,8 @@ class UnityButton extends LitElement {
     super()
 
     this.label=''
-    this.solid=false
-    this.gradient=false
+    this.type='solid'
     this.disabled=false
-    this.outlined=false
     this.danger=false
     this.loading=false
     this.small=false
@@ -272,17 +266,21 @@ class UnityButton extends LitElement {
 
   _getClassNames() {
     let classList = ['unity-button']
+    const { type } = this
 
-    if (this.solid) {
-      classList.push('solid')
-    }
-
-    if (this.gradient) {
-      classList.push('gradient')
-    }
-
-    if (this.outlined) {
-      classList.push('outlined')
+    switch (type) {
+      case GRADIENT: {
+        classList.push('gradient')
+        break
+      }
+      case OUTLINED: {
+        classList.push('outlined')
+        break
+      }
+      // if not gradient or outline, will appear solid
+      default: {
+        classList.push('solid')
+      }
     }
 
     if (this.danger) {
