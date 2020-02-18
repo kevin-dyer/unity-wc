@@ -1056,7 +1056,7 @@ class UnityTable extends LitElement {
   scrollToHighlightedRow() {
     const row = this.shadowRoot.querySelector(`#row-${this.highlightedRow}`)
     if (!!row)
-      row.scrollIntoView({behavior: "smooth", block: "center")
+      row.scrollIntoView({behavior: "smooth", block: "center"})
   }
 
   render() {
