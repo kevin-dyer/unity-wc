@@ -552,7 +552,10 @@ class UnityTable extends LitElement {
     this._highlightedRow = value
 
     this.requestUpdate('highlightedRow', oldHighlight)
-    this._findHighlight(value)
+    // this is to make sure that updates happen at a pace to trigger
+    // proper outer updates. without this, the pane would be one update
+    // behind or the pane's wrapper would have to have it
+    this.updateComplete.then(()=>this._findHighlight(value))
   }
 
   get highlightedRow() {
@@ -655,14 +658,9 @@ class UnityTable extends LitElement {
   }
 
   // sees if the requested highlighted row exists
-  // returns true if it does, false if it doesn't
+  // returns highlighted row data if it does, false if it doesn't
   _findHighlight() {
-    const row = this._dataMap.get(this.highlightedRow) || false
-
-    // this is to make sure that updates happen at a pace to trigger
-    // proper outer updates. without this, the pane would be one update
-    // behind or the pane's wrapper would have to have it
-    this.updateComplete.then(()=>{this.onHighlight(row)})
+    this.onHighlight(this._dataMap.get(this.highlightedRow) || false)
   }
 
   //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
@@ -1058,7 +1056,7 @@ class UnityTable extends LitElement {
   scrollToHighlightedRow() {
     const row = this.shadowRoot.querySelector(`#row-${this.highlightedRow}`)
     if (!!row)
-      row.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+      row.scrollIntoView({behavior: "smooth", block: "center")
   }
 
   render() {
