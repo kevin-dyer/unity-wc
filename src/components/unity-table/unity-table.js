@@ -30,6 +30,7 @@ import {
  * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
  * @param {func} onClickRow, func that is sent the data of the element clicked, the key of the row as defined by keyExtractor, and the event of the click
+ * @param {func} onHighlight, func that is sent the data of the highlighted element if it is found
  * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
  * @param {func} onEndReached, func that is fired when bottom of table has been reached. useful for external pagination.
  * @returns {LitElement} returns a class extended from LitElement
@@ -159,7 +160,7 @@ class UnityTable extends LitElement {
     this.filter = ''
     this.columnFilter = []
     this.endReachedThreshold = 200 //distance in px to fire onEndReached before getting to bottom
-    this.highlightedRow = ''
+    this._highlightedRow = ''
 
     // action handlers
     this.onClickRow = ()=>{}
@@ -167,6 +168,7 @@ class UnityTable extends LitElement {
     this.onExpandedChange = ()=>{}
     this.onDisplayColumnsChange = ()=>{}
     this.onFilterChange = () => {}
+    this.onHighlight = ()=>{}
 
     // action handlers, to be implemented later
     // this.controls = false
@@ -241,6 +243,7 @@ class UnityTable extends LitElement {
       onClickRow: { type: Function },
       onExpandedChange: { type: Function },
       onDisplayColumnsChange: { type: Function},
+      onHighlight: { type: Function },
       highlightedRow: { type: String },
       startExpanded: { type: Boolean },
       // internals, tracking for change
@@ -543,6 +546,22 @@ class UnityTable extends LitElement {
     return this._keyExtractor
   }
 
+  // when the highlightedRow changes, run onHighlight
+  set highlightedRow(value) {
+    const oldHighlight = this._highlightedRow
+    this._highlightedRow = value
+
+    this.requestUpdate('highlightedRow', oldHighlight)
+    // this is to make sure that updates happen at a pace to trigger
+    // proper outer updates. without this, the pane would be one update
+    // behind or the pane's wrapper would have to have it
+    this.updateComplete.then(()=>this._findHighlight(value))
+  }
+
+  get highlightedRow() {
+    return this._highlightedRow
+  }
+
   setDataMap(value) {
     const dataMap = new Map()
 
@@ -636,6 +655,12 @@ class UnityTable extends LitElement {
     })
 
     this._sortedData = sortedData
+  }
+
+  // sees if the requested highlighted row exists
+  // passes highlighted row data if it does, undefined if it doesn't
+  _findHighlight() {
+    this.onHighlight(this._dataMap.get(this.highlightedRow))
   }
 
   //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
@@ -1031,7 +1056,7 @@ class UnityTable extends LitElement {
   scrollToHighlightedRow() {
     const row = this.shadowRoot.querySelector(`#row-${this.highlightedRow}`)
     if (!!row)
-      row.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+      row.scrollIntoView({behavior: "smooth", block: "center"})
   }
 
   render() {
