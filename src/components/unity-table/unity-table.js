@@ -925,8 +925,8 @@ class UnityTable extends LitElement {
         ${columns.map(({key: column, format, width}, i) => {
           const value = datum[column]
           const {
-            label=value,
-            content: customContent
+            content: customContent,
+            label=!customContent ? value : '',
           } = format instanceof Function ? format(value, datum) : {}
           const slotId = `${rowId}-${column}`
 
