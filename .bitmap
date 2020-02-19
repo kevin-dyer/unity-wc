@@ -187,7 +187,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.1.31": {
+    "smartworks.unity/unity-table@0.1.32": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/filter-dropdown.js",
