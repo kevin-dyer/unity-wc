@@ -105,13 +105,22 @@ const exampleColumns = [
     key: 'hex',
     label: 'Hex value',
     width: 200,
-    format: (hex, datum) => ({label: hex, content: html`<span style="color: ${hex}">${hex}</span>`})
+    // format: (hex, datum) => ({label: hex, content: html`<span slot="${datum.id}-${hex}" style="color: ${hex}">${hex}</span>`})
+    format: (hex, datum={}) => {
+      return {
+        //NOTE: label renders in front of content,
+        // label: hex,
+        content: html`<span slot="${datum.id}-hex" style="color: ${hex}">${hex}</span>`
+      }
+    }
   },
   {
     key: 'name',
     label: 'Color',
     width: 300,
-    format: (name, datum) => ({label: !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''})
+    format: (name, datum) => ({
+      label: !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
+    })
   },
   {
     key: 'favorite',
@@ -227,6 +236,7 @@ class MyTable extends PageViewElement {
 
           style="--highlight-color: ${this.highlightColor}"
         >
+
         </unity-table>
       </div>
     `

@@ -56,6 +56,7 @@ class UnityTableCell extends LitElement {
     this.selectable = false
     this.selected = false
     this.id = undefined
+    this.slotId = ''
     this.tabIndex = 0
     this.expandable = false
     this.expanded = false
@@ -80,6 +81,7 @@ class UnityTableCell extends LitElement {
       selectable: { type: Boolean },
       selected: { type: Boolean },
       id: { type: Number },
+      slotId: { type: String },
       tabIndex: { type: Number },
       expandable: { type: Boolean },
       expanded: { type: Boolean },
@@ -143,6 +145,8 @@ class UnityTableCell extends LitElement {
               : null
           }
           <span class="text">${this.label}</span>
+
+          <slot name="${this.slotId}"></slot>
         </div>
       </table-cell-base>
     `

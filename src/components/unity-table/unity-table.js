@@ -899,8 +899,11 @@ class UnityTable extends LitElement {
       >
         ${columns.map(({key: column, format, width}, i) => {
           const value = datum[column]
-          const formattedContent = format instanceof Function ? format(value, datum) : null
-          const label = formattedContent? (formattedContent.content || formattedContent.label) : value
+          const {
+            label=value,
+            content: customContent
+          } = format instanceof Function ? format(value, datum) : {}
+          const slotId = `${rowId}-${column}`
 
           return html`
             <td class="cell" key="${rowId}-${column}">
@@ -910,6 +913,7 @@ class UnityTable extends LitElement {
                 .icon="${i === 0 && icon}"
                 .image="${i === 0 && image}"
                 .id="${rowId}"
+                .slotId="${slotId}"
                 ?selectable="${this.selectable && i === 0}"
                 ?selected="${this.selected.has(rowId)}"
                 .tabIndex="${i === 0 ? tabIndex : 0}"
@@ -932,7 +936,9 @@ class UnityTable extends LitElement {
                 .onResizeComplete="${xOffset => {
                   this._handleColumnResizeComplete(column)
                 }}"
-              />
+              >
+                ${customContent}
+              </unity-table-cell>
             </td>`
           })
         }
