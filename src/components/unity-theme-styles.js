@@ -24,7 +24,7 @@ export const UnityThemeStyles = css`
     --background-color: white;
     --global-nav-background-color: #005776;
     --global-nav-expanded-color: #00465e;
-    --global-nav-border-color: #669aad;
+    --global-nav-border-color: #a2aaad;
     --global-nav-text-color: rgb(var(--white-text-rgb));
     --black-text-color: rgb(var(--black-text-rgb));
     --dark-grey-text-color: #5f6368;
@@ -35,7 +35,7 @@ export const UnityThemeStyles = css`
     --light-grey-background-color: #f1f3f4;
 
     /*Composite style based on variables above*/
-    --selection-highlight-color: #c1c5c8;
+    --selection-highlight-color: #a2aaad;
 
     /* Fonts */
     --font-family: 'Noto', sans-serif;
