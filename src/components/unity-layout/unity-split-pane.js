@@ -103,8 +103,7 @@ class UnitySplitPane extends LitElement {
         }
         .pane {
           position: relative;
-          border: 1px solid black;
-          border-right: 0;
+          border-left: 1px solid var(--border-color);
           width: ${panelWidth}%;
           box-sizing: border-box;
         }
