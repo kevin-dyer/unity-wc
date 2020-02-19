@@ -135,7 +135,8 @@ class MySplitPane extends PageViewElement {
     this.columns = [...exampleColumns] //For Column Editor
     this._visibleColumns = [...exampleColumns] //For Table display
     this._columnFilters = exampleFilters
-    this.highlightedRow = ''
+    this.highlightedRowId = ''
+    this.highlightedRow = {}
     this.highlightColor = ''
     this.showDetails = false
   }
@@ -145,7 +146,8 @@ class MySplitPane extends PageViewElement {
       _searchText: { type: String },
       columns: { type: Array },
       _visibleColumns: { type: Array },
-      highlightedRow: { type: String },
+      highlightedRowId: { type: String },
+      highlightedRow: { type: Object },
       highlightColor: { type: String },
       showDetails: { type: Boolean }
     }
@@ -222,19 +224,24 @@ class MySplitPane extends PageViewElement {
     console.log('This element was clicked:', element)
     console.log('This was the key of the element:', key)
     console.log('This was the clicked event:', event)
-    this.highlightedRow = this.highlightedRow === key ? '' : key
+    this.highlightedRowId = this.highlightedRowId === key ? '' : key
+  }
+
+  handleRowHighlighted(element={}) {
+    console.log('This element was highlighted:', element)
     this.highlightColor = element.hex
-    this.showDetails = true
+    this.highlightedRow = element
   }
 
   toggleDetails() {
-    this.highlightedRow = ''
+    this.highlightedRowId = ''
   }
 
   render() {
     console.log('exampleData', exampleData)
+    console.log('this.highlightedRow', this.highlightedRow)
     return html`
-      <unity-split-pane ?show="${!!this.highlightedRow}" .onClose="${this.toggleDetails.bind(this)}">
+      <unity-split-pane ?show="${!!this.highlightedRowId}" .onClose="${this.toggleDetails.bind(this)}">
         <unity-page-header
           slot="header"
           title="Unity Table"
@@ -271,8 +278,8 @@ class MySplitPane extends PageViewElement {
           .onEndReached="${() => {
             console.log("my-table end reached!")
           }}"
-          .highlightedRow="${this.highlightedRow}"
-
+          .highlightedRow="${this.highlightedRowId}"
+          .onHighlight="${this.handleRowHighlighted.bind(this)}"
           .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
           .onClickRow="${this.handleClickRow.bind(this)}"
           .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
@@ -282,7 +289,7 @@ class MySplitPane extends PageViewElement {
         >
         </unity-table>
         <div slot="pane">
-          ${this.highlightedRow}
+          ${JSON.stringify(this.highlightedRow)}
         </div>
       </unity-split-pane>
     `
