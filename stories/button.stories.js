@@ -1,7 +1,7 @@
 import '@bit/smartworks.unity.unity-button'
 import { html } from 'lit-element'
 import { action } from '@storybook/addon-actions';
-import { withKnobs, text, boolean } from "@storybook/addon-knobs";
+import { withKnobs, text, boolean, select } from "@storybook/addon-knobs";
 
 export default {
   title: 'Buttons',
@@ -13,22 +13,33 @@ export default {
 export const Outlined = () => {
   const label = text("Button text", "Button")
   const disabled = boolean("Disabled", false)
+  const typeOptions = {
+    None: null,
+    Solid: 'solid',
+    Outlined: 'outlined',
+    Gradient: 'gradient'
+  }
+  const type = select("Button Type", typeOptions, 'None')
   return html`
-  <unity-button label=${label} outlined ?disabled=${disabled} @click=${action("clicked")}></unity-button>
+  <unity-button label=${label} type="${type}" ?disabled=${disabled} @click=${action("clicked")}></unity-button>
 `;}
 
 
 export const Gradient = () => html`
-  <unity-button label="Button" ?gradient=${true}></unity-button>
+  <unity-button label="Button" .type=${'gradient'}></unity-button>
 `;
 
 
 export const Loading = () => html`
-  <unity-button label="Button" ?gradient=${true} ?loading=${true}></unity-button>
+  <unity-button label="Button" .type=${'gradient'} ?loading=${true}></unity-button>
 `;
 
 export const NoOutline = () => html`
   <unity-button label="Button"></unity-button>
+`;
+
+export const Solid = () => html`
+  <unity-button label="Button" .type=${'solid'}></unity-button>
 `;
 
 export const CenterIcon = () => html`
