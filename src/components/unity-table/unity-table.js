@@ -658,9 +658,9 @@ class UnityTable extends LitElement {
   }
 
   // sees if the requested highlighted row exists
-  // returns highlighted row data if it does, false if it doesn't
+  // passes highlighted row data if it does, undefined if it doesn't
   _findHighlight() {
-    this.onHighlight(this._dataMap.get(this.highlightedRow) || false)
+    this.onHighlight(this._dataMap.get(this.highlightedRow))
   }
 
   //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
