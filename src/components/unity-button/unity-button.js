@@ -91,7 +91,8 @@ class UnityButton extends LitElement {
         paper-button.gradient {
           /*NOTE: gradient from left to right: secondary brand color(if exists) -> primary brand color*/
           /* If secondary brand color does not exist, use primary brand color to creat solid background color */
-          background: var(--gradient-background);
+          --button-color: var(--gradient-background);
+          background: var(--button-color);
           color: #FFF;
           --font-color: #FFF;
         }
@@ -199,10 +200,9 @@ class UnityButton extends LitElement {
         /*Including .unity-button selector for increased specificity and override other class styles*/
         paper-button.unity-button.disabled {
           color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --paper-spinner-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --font-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          background: var(--light-grey-background-color, var(--default-light-grey-background-color));
-          border: none;
+          --button-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
+          border-color: var(--font-color);
         }
 
         paper-button.unity-button.disabled paper-spinner-lite{
