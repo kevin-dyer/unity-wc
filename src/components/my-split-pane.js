@@ -225,11 +225,11 @@ class MySplitPane extends PageViewElement {
     console.log('This was the key of the element:', key)
     console.log('This was the clicked event:', event)
     this.highlightedRowId = this.highlightedRowId === key ? '' : key
-    this.highlightColor = element.hex
   }
 
-  handleRowHighlighted(element) {
+  handleRowHighlighted(element={}) {
     console.log('This element was highlighted:', element)
+    this.highlightColor = element.hex
     this.highlightedRow = element
   }
 
