@@ -25,7 +25,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@0.0.8": {
+    "smartworks.unity/unity-column-editor@0.0.9": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/unity-column-editor.js",
@@ -49,8 +49,13 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@0.1.7": {
+    "smartworks.unity/unity-dropdown@0.1.8": {
         "files": [
+            {
+                "relativePath": "src/components/unity-dropdown/strings.js",
+                "test": false,
+                "name": "strings.js"
+            },
             {
                 "relativePath": "src/components/unity-dropdown/unity-dropdown.js",
                 "test": false,
@@ -85,7 +90,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@0.1.7": {
+    "smartworks.unity/unity-global-nav-top-item@0.1.8": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",
@@ -122,7 +127,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-page-header@0.0.21": {
+    "smartworks.unity/unity-page-header@0.0.22": {
         "files": [
             {
                 "name": "unity-page-header.js",
@@ -175,7 +180,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-cell@0.1.15": {
+    "smartworks.unity/unity-table-cell@0.1.16": {
         "files": [
             {
                 "name": "unity-table-cell.js",
@@ -187,7 +192,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.1.34": {
+    "smartworks.unity/unity-table@0.2.3": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/filter-dropdown.js",

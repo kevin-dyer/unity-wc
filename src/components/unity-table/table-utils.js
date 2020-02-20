@@ -161,21 +161,23 @@ const _sortNode = ({
   return sortedNode
 }
 
-
 //Pass in data array, sortBy key and direction
 const _sortList = (data=[], sortBy='', direction=UNS) => {
   return data.sort((datum1, datum2) => {
     const a = String(datum1[sortBy]).toLowerCase()
     const b = String(datum2[sortBy]).toLowerCase()
-
-    if (a < b) {
-      // return < 0, a first
-      return direction === DES ? 1 : -1
-    } else if (b < a) {
-      // return < 0, a first
-      return direction === DES ? -1 : 1
-    } else {
-      return 0
-    }
+    return compare(a, b, direction)
   })
+}
+
+function compare(a, b, direction=UNS) {
+  if (a < b) {
+    // return < 0, a first
+    return direction === DES ? 1 : -1
+  } else if (b < a) {
+    // return < 0, a first
+    return direction === DES ? -1 : 1
+  } else {
+    return 0
+  }
 }

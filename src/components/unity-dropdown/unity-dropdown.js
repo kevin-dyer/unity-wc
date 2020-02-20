@@ -8,7 +8,7 @@ import '@bit/smartworks.unity.unity-icon-set';
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
 import '@bit/smartworks.unity.unity-text-input';
 import '@bit/smartworks.unity.unity-select-menu';
-
+import * as strings from './strings'
 
 /**
 * Renders a dropdown component that displays a list of options for selection.
@@ -497,7 +497,7 @@ class UnityDropdown extends LitElement {
         <unity-text-input
         .value="${this._searchValue}"
         .onChange="${this._onInputSearchChange}"
-        .innerRightIcon="${"unity:search"}"
+        .innerLeftIcon="${"unity:search"}"
         .borderEffects=${false}
         ></unity-text-input>
       </div>`
@@ -527,14 +527,13 @@ class UnityDropdown extends LitElement {
   // TODO: possibly needs refactoring
   getInputBox() {
     const selectedOption = this.options.find(option => option.id === this.selected[0])
-    const selectedLabel = this.getSelectedLabel();
+    let selectedLabel
     if (this.boxType === "fixed") {
       return html`
           <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}">
           ${(this.inputType === "multi-select" && this.showTags)? this.renderTags() : null}
           <div class="input-label-div"">
             <div style="flex: 1;  display:flex" class="displayed-wrapper">
-
                 <p id="displayed">
                   <b>${this.placeholder}</b>
                 </p>
@@ -567,6 +566,7 @@ class UnityDropdown extends LitElement {
         </div>`;
     }
     else if (this.boxType === "search") {
+      selectedLabel = this.getSelectedLabel();
       return html`
         <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}">
             <unity-text-input id="search-input"
@@ -638,7 +638,7 @@ class UnityDropdown extends LitElement {
           borderless
         >
         </unity-select-menu>` 
-      : optionsList.every(element => element === null)? html`<p class="helper-text">No matches</p>` 
+      : optionsList.every(element => element === null)? html`<p class="helper-text">${strings.NO_MATCHES}</p>` 
                                                          : html`<ul id="options-list">${optionsList}</ul>`;
   }
 
@@ -650,7 +650,7 @@ class UnityDropdown extends LitElement {
     return html`
       <div id="select-all" class="text-box selectable" @click=${()=>this.selectAll(select)}>
         ${this.renderLeftIcon("unity:box_minus")}
-        <p>${select? "Select all" : "Deselect all"}</p>
+        <p>${select? strings.SELECT_VISIBLE : strings.DESELECT_VISIBLE}</p>
       </div>
     `
   }

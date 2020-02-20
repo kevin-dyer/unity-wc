@@ -1,6 +1,5 @@
 import { html, css } from 'lit-element';
-// import '@bit/smartworks.unity.unity-dropdown';
-import './unity-dropdown/unity-dropdown'
+import '@bit/smartworks.unity.unity-dropdown';
 import '@bit/smartworks.unity.unity-select-menu';
 
 import { PageViewElement } from './page-view-element.js';
