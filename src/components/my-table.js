@@ -107,7 +107,7 @@ const exampleColumns = [
     key: 'hex',
     label: 'Hex value',
     width: 200,
-    format: (hex, datum) => ({label: hex, content: html`<span slot="${datum.id}-${hex}" style="color: ${hex}">${hex}</span>`})
+    format: (hex, datum) => ({label: hex, content: html`<span style="color: ${hex}">${hex}</span>`})
   },
   {
     key: 'name',
