@@ -22,6 +22,8 @@ import {
  * @name UnityTable
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
+ * @param {func} keyExtractor, func with row datum and row index as arguments. Retuns unique row identifier.
+ * @param {func} slotIdExtractor, func with row datum and column datum as arguments. Returns unique cell identifier.
  * @param {bool} headless, controls if the table has a header row
  * @param {bool} startExpanded, controls if the table data begins as expanded (true) or collapsed (false / default)
  * @param {bool} selectable, controls if rows are selectable
@@ -104,6 +106,7 @@ import {
 //   emptyDisplay:           String to display when data array is empty
 //   isLoading:              Boolean to show spinner instead of table
 //   keyExtractor         :  Function to define a unique key on each data element
+//   slotIdExtractor      :  Function to define a unique slot name for each table cell. Used for adding custom content to specific table cells.
 //   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
 //   filter               :  String to find in any column, used to set internal _filter
 //   endReachedThreshold  :  Number of px before scroll boundary to update this._rowOffset
@@ -160,6 +163,8 @@ class UnityTable extends LitElement {
     this.filter = ''
     this.columnFilter = []
     this.endReachedThreshold = 200 //distance in px to fire onEndReached before getting to bottom
+    this.slotIdExtractor = (row={}, column={}) => `${row._rowId}-${column.key}`
+
     this._highlightedRow = ''
 
     // action handlers
@@ -231,6 +236,7 @@ class UnityTable extends LitElement {
   static get properties() {
     return {
       keyExtractor: {type: Function},
+      slotIdExtractor: {type: Function},
       data: { type: Array },
       columns: { type: Array },
       headless: { type: Boolean },
@@ -886,12 +892,13 @@ class UnityTable extends LitElement {
   }
 
 
-  _renderRow({
-    _rowId: rowId,
-    _tabIndex: tabIndex,
-    _childCount: childCount,
-    ...datum
-  }) {
+  _renderRow(row={}) {
+    const {
+      _rowId: rowId,
+      _tabIndex: tabIndex,
+      _childCount: childCount,
+      ...datum
+    } = row
     // returns a row element
     const columns = this.columns
     const {
@@ -922,16 +929,17 @@ class UnityTable extends LitElement {
           }
         }}"
       >
-        ${columns.map(({key: column, format, width}, i) => {
-          const value = datum[column]
+        ${columns.map((col={}, i) => {
+          const {key: columnKey, format, width} = col
+          const value = datum[columnKey]
           const {
             content: customContent,
             label=!customContent ? value : '',
           } = format instanceof Function ? format(value, datum) : {}
-          const slotId = `${rowId}-${column}`
+          const slotId = this.slotIdExtractor(row, col)
 
           return html`
-            <td class="cell" key="${rowId}-${column}">
+            <td class="cell" key="${slotId}">
               <unity-table-cell
                 .label="${label}"
                 .value="${value}"
@@ -953,16 +961,16 @@ class UnityTable extends LitElement {
                 }}"
                 .resizable=${i < columns.length - 1}
                 .onResizeStart="${() => {
-                  this._handleColumnResizeStart(column, i)
+                  this._handleColumnResizeStart(columnKey, i)
                 }}"
                 .onResize="${xOffset => {
-                  this._handleColumnResize(column, xOffset)
+                  this._handleColumnResize(columnKey, xOffset)
                 }}"
                 .onResizeComplete="${xOffset => {
-                  this._handleColumnResizeComplete(column)
+                  this._handleColumnResizeComplete(columnKey)
                 }}"
               >
-                ${customContent}
+                <slot name="${slotId}" slot="${slotId}"></slot>
               </unity-table-cell>
             </td>`
           })

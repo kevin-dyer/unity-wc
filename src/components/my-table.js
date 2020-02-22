@@ -24,6 +24,8 @@ import '@bit/smartworks.unity.unity-text-input';
 
 import './unity-table/unity-column-editor.js'
 
+import '@polymer/iron-icons/av-icons.js'
+
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
@@ -107,20 +109,14 @@ const exampleColumns = [
     width: 200,
     // format: (hex, datum) => ({label: hex, content: html`<span slot="${datum.id}-${hex}" style="color: ${hex}">${hex}</span>`})
     format: (hex, datum={}) => {
-      return {
-        //NOTE: label renders in front of content,
-        // label: hex,
-        content: html`<span slot="${datum.id}-hex" style="color: ${hex}">${hex}</span>`
-      }
+      return {label: hex, content: html`<span slot="${datum.id}-hex" style="color: ${hex}">${hex}</span>`}
     }
   },
   {
     key: 'name',
     label: 'Color',
     width: 300,
-    format: (name, datum) => ({
-      label: !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
-    })
+    format: (name, datum) => ({label: !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''})
   },
   {
     key: 'favorite',
@@ -190,6 +186,26 @@ class MyTable extends PageViewElement {
     this._columnFilters = filters;
   }
 
+  _keyExtractor(datum, index) {
+    return datum.name
+  }
+
+  _slotIdExtractor(row, column) {
+    return `${row._rowId}-${column.key}`
+  }
+
+  _renderStatusIcons() {
+    const columnKey = 'name'
+    return exampleData.map((row, index) => {
+      const rowId = this._keyExtractor(row, index)
+
+      return html`<iron-icon
+        slot="${rowId}-${columnKey}""
+        icon="av:fiber-manual-record"
+        style="color: ${row.name};"></iron-icon>`
+    })
+  }
+
   render() {
     return html`
       <div class="example-container">
@@ -217,7 +233,8 @@ class MyTable extends PageViewElement {
         <unity-table
           selectable
           filter="${this._searchText}"
-          .keyExtractor="${(datum, index) => datum.name}"
+          .keyExtractor="${this._keyExtractor}"
+          .slotIdExtractor="${this._slotIdExtractor}"
           .childKeys="${['children']}"
           .data="${exampleData}"
           .columns="${this._visibleColumns}"
@@ -236,7 +253,7 @@ class MyTable extends PageViewElement {
 
           style="--highlight-color: ${this.highlightColor}"
         >
-
+          ${this._renderStatusIcons()}
         </unity-table>
       </div>
     `
