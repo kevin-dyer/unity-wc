@@ -193,13 +193,27 @@ class MyTable extends PageViewElement {
 
   _renderStatusIcons() {
     const columnKey = 'name'
-    return exampleData.map((row, index) => {
+    const childKeys = ['children']
+    let nodes = exampleData
+
+    //Breadth First Search traverse to flatten hierarchy
+    for(let i = 0; i < nodes.length; i++) {
+      const node = nodes[i]
+      childKeys.forEach(childKey => {
+        const children = node[childKey]
+        if (Array.isArray(children)) {
+          nodes = [...nodes, ...children]
+        }
+      })
+    }
+
+    return nodes.map((row, index) => {
       const rowId = this._keyExtractor(row, index)
 
       return html`<iron-icon
-        slot="${rowId}-${columnKey}""
+        slot="${rowId}-${columnKey}"
         icon="av:fiber-manual-record"
-        style="color: ${row.name};"></iron-icon>`
+        style="color: ${row.hex};"></iron-icon>`
     })
   }
 
