@@ -75,7 +75,7 @@ class UnitySplitPane extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --border-color: var(--border-color, var(--black-text-color, var(--default-black-text-color)));
+          --border-color: var(--black-text-color, var(--default-black-text-color));
           --background: var(--background-color, var(--default-background-color));
           background-color: var(--background);
           display: flex;
