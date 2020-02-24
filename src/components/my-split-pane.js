@@ -241,7 +241,11 @@ class MySplitPane extends PageViewElement {
     console.log('exampleData', exampleData)
     console.log('this.highlightedRow', this.highlightedRow)
     return html`
-      <unity-split-pane ?show="${!!this.highlightedRowId}" .onClose="${this.toggleDetails.bind(this)}">
+      <unity-split-pane
+        closeButton
+        ?show="${!!this.highlightedRowId}"
+        .onClose="${this.toggleDetails.bind(this)}"
+      >
         <unity-page-header
           slot="header"
           title="Unity Table"
