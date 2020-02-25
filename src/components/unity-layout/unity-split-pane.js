@@ -14,6 +14,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {func} onClose, function to call whent he close button is clicked
  * @example
  *   <unity-split-pane
+ *     closeButton
  *     show=${showDetails}
  *     onClose="${toggleShowDetails}"
  *   >
