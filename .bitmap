@@ -168,12 +168,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-split-pane@0.1.4": {
+    "smartworks.unity/unity-split-pane@0.1.5": {
         "files": [
             {
                 "relativePath": "src/components/unity-layout/unity-split-pane.js",
                 "test": false,
                 "name": "unity-split-pane.js"
+            },
+            {
+                "relativePath": "src/components/unity-layout/unity-split-pane.md",
+                "test": false,
+                "name": "unity-split-pane.md"
             }
         ],
         "mainFile": "src/components/unity-layout/unity-split-pane.js",

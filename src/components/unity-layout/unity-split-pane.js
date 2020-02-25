@@ -10,9 +10,11 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *      the other view to shrink in view but not in function
  * @name UnitySplitPane
  * @param {bool} show, controls if the other pane should be visible or not
+ * @param {bool} closeButton, controls if the overlapping close button is rendered
  * @param {func} onClose, function to call whent he close button is clicked
  * @example
  *   <unity-split-pane
+ *     closeButton
  *     show=${showDetails}
  *     onClose="${toggleShowDetails}"
  *   >
@@ -33,12 +35,14 @@ class UnitySplitPane extends LitElement {
     super()
 
     this.show = false
+    this.closeButton = false
     this.onClose = ()=>{}
   }
 
   static get properties() {
     return {
       show: { type: Boolean },
+      closeButton: { type: Boolean },
       onClose: { type: Function }
     }
   }
@@ -46,9 +50,9 @@ class UnitySplitPane extends LitElement {
   render() {
     const {
       show,
+      closeButton,
       onClose
     } = this
-
     return html`
       <div class="wrapper">
         <div class="header">
@@ -61,10 +65,14 @@ class UnitySplitPane extends LitElement {
         </div>
       </div>
       <div class="pane ${!show ? 'hide' : ''}">
-        <unity-button
-          centerIcon="close"
-          @click=${onClose}
-        ></unity-button>
+        ${!!closeButton ?
+          html`
+            <unity-button
+              centerIcon="close"
+              @click=${onClose}
+            ></unity-button>`
+          : null
+        }
         <slot name="pane"></slot>
       </div>
     `
