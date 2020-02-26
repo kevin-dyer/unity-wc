@@ -1,4 +1,5 @@
-// import '@bit/smartworks.unity.unity-text-input';
+import '@bit/smartworks.unity.unity-text-input';
+// import '../src/components/unity-text-input/unity-text-input.js'
 import { html } from 'lit-element';
 import {
   withKnobs,
@@ -7,9 +8,6 @@ import {
   number
 } from "@storybook/addon-knobs";
 import { action } from '@storybook/addon-actions';
-
-// import '@bit/smartworks.unity.unity-text-input'
-import '../src/components/unity-text-input/unity-text-input.js'
 
 
 export default {

@@ -13,7 +13,7 @@ export default {
 export const SingleInput = () => {
   const disabled = boolean("Disabled", false)
   return html`
-    <unity-dropdown 
+    <unity-dropdown
       label="${"Single select"}"
       inputType="single-select"
       .options=${[{label: "Option 1", id: "1"}, {label: "Option 2", id: "2"}]}
