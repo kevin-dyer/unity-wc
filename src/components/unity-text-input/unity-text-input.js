@@ -611,9 +611,10 @@ class UnityTextInput extends LitElement {
         .changes {
           background-color: var(--changes-color);
           width: 5px;
-          height: 100%;
+          height: calc(100% + 2px);
           position: absolute;
           left: -10px;
+          top: -1px;
         }
       `
     ]
