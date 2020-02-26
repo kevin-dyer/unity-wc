@@ -31,6 +31,7 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @param {number} maxLines, maximum number of lines to show in a text area before scrolling, default 12
 * @param {''} innerRightIcon, if defined, puts an icon (specified) from the unity icon set on the right side of the text input
 * @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
+* @param {bool} changes, if true, will render left-side bar to show that the element has been changed from it's original contents
 * @example
 * <unity-text-input>
 *   .label="${'Strong Validation'}"
@@ -72,6 +73,7 @@ class UnityTextInput extends LitElement {
     this.area = false
     this.minLines = MIN_LINES
     this.maxLines = MAX_LINES
+    this.changes = false
 
     // internals
     this._error = ''
@@ -106,6 +108,7 @@ class UnityTextInput extends LitElement {
       area: { type: Boolean },
       minLines: { type: Number },
       maxLines: { type: Number },
+      changes: { type: Boolean },
 
       // internals
       _valid: { type: Boolean },
@@ -327,6 +330,7 @@ class UnityTextInput extends LitElement {
       time,
       password,
       placeholder,
+      changes,
       _onChange,
       _valid,
       _strength,
@@ -377,6 +381,7 @@ class UnityTextInput extends LitElement {
               ?disabled=${!!disabled}
             >`
           }
+          ${!!changes ? html`<div class="changes" />` : null}
           ${!area ? this._renderInnerIcon(innerRightIcon, false) : null}
           ${!area ? this._renderInnerIcon(innerLeftIcon, true) : null}
           ${(!area && !!units) ?
@@ -404,6 +409,7 @@ class UnityTextInput extends LitElement {
           --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
+          --changes-color: var(--danger-color, var(--defualt-danger-color));
           font-family: var(--input-font);
           border-collapse: collapse;
           user-select: none;
@@ -601,6 +607,13 @@ class UnityTextInput extends LitElement {
           font-size: 0;
           margin-top: 3px;
           line-height: 0;
+        }
+        .changes {
+          background-color: var(--changes-color);
+          width: 5px;
+          height: 100%;
+          position: absolute;
+          left: -10px;
         }
       `
     ]
