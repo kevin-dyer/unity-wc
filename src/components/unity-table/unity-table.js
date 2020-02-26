@@ -941,12 +941,9 @@ class UnityTable extends LitElement {
           return html`
             <td class="cell" key="${slotId}">
               <unity-table-cell
-                .label="${label}"
-                .value="${value}"
                 .icon="${i === 0 && icon}"
                 .image="${i === 0 && image}"
                 .id="${rowId}"
-                .slotId="${slotId}"
                 ?selectable="${this.selectable && i === 0}"
                 ?selected="${this.selected.has(rowId)}"
                 .tabIndex="${i === 0 ? tabIndex : 0}"
@@ -970,7 +967,9 @@ class UnityTable extends LitElement {
                   this._handleColumnResizeComplete(columnKey)
                 }}"
               >
-                <slot name="${slotId}" slot="${slotId}"></slot>
+                <slot name="${slotId}">
+                  <span class="text">${label}</span>
+                </slot>
               </unity-table-cell>
             </td>`
           })

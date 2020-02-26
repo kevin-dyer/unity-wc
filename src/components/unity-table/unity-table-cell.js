@@ -14,32 +14,31 @@ const TAB_SIZE = 16
 /**
  * Displays table of data.
  * @name UnityTableCell
- * @param {string} label, info to display in the cell
- * @param {*} label, the actual value of the datum ascribed to the cell
  * @param {string} icon, iron-icon to display in the cell
  * @param {string} id, relational id to the data, used in selection
  * @param {integer} tabIndex, level of indentation required between checkbox and icon
  * @param {bool} selectable
  * @param {bool} selected
  * @param {function} onSelect, action handler on being selected
+ * @slot {HTML}, default slot passed in as child, used to display cell content
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-table-cell
- *    label="Cell Content"
- *    value="datum"
  *    .icon="${index === 0 && 'work'}"
  *    .id="${1}"
  *    .tabIndex="${0}"
  *    selectable
  *    ?selected="${false}"
  *    .onSelect="${reportSelected}"
- *  />
+ *  >
+ *    <slot name="${slotId}">
+ *      <span class="text">Cell content</span>
+ *    </slot>
+ *  </unity-table-cell>
  */
 
 //   Table Cell to be used with Unity Table. Could be used elsewhere, matching styleguides
 //
-//   label:       string of the data to show in the cell
-//   value:       actual value of the datum
 //   icon:        string of the name of the iron-icon to show in the cell
 //   id:          the id related to the row/cell/datum being displayed, used with select functions
 //   selectable:  bool to control if cell is selectable
@@ -49,14 +48,11 @@ const TAB_SIZE = 16
 class UnityTableCell extends LitElement {
   constructor() {
     super()
-    this.label = ''
-    this.value = null
     this.icon = ''
     this.image = ''
     this.selectable = false
     this.selected = false
     this.id = undefined
-    this.slotId = ''
     this.tabIndex = 0
     this.expandable = false
     this.expanded = false
@@ -71,9 +67,6 @@ class UnityTableCell extends LitElement {
 
   static get properties() {
     return {
-      label: { type: Object },
-      // since value can be anything, best to make object for default handler
-      value: { type: Object },
       // need to separate between img and icon
       icon: { type: String },
       // term with util handler? url to img?
@@ -81,7 +74,6 @@ class UnityTableCell extends LitElement {
       selectable: { type: Boolean },
       selected: { type: Boolean },
       id: { type: Number },
-      slotId: { type: String },
       tabIndex: { type: Number },
       expandable: { type: Boolean },
       expanded: { type: Boolean },
@@ -144,9 +136,8 @@ class UnityTableCell extends LitElement {
               ? html`<iron-icon icon="${icon}"></iron-icon>`
               : null
           }
-          <span class="text">${this.label}</span>
 
-          <slot name="${this.slotId}"></slot>
+          <slot></slot>
         </div>
       </table-cell-base>
     `
