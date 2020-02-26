@@ -2,6 +2,21 @@
 // normally this would be taken from the store
 import { html } from 'lit-element';
 
+//Extra rows of fake data to test infinite scroll
+let fillerRows = []
+for(let i=0; i<200; i++) {
+  fillerRows.push({
+    id: `filler-${i}`,
+    name: `filler-${i}`,
+    icon: 'unity:cube',
+    description: 'Filler row',
+    deployments: 'Test App, Control center Video Wall',
+    firmwareVersion: '2.1.0',
+    status: 'Active',
+    createdAt: 'January 13, 2018 7:06pm',
+  })
+}
+
 export const devices = {
   data: [
     {
@@ -184,7 +199,8 @@ export const devices = {
                   firmwareVersion: '1.0.0',
                   status: 'Active',
                   createdAt: 'January 12, 2018 7:06pm',
-                }
+                },
+                ...fillerRows
               ]
             },
           ]
@@ -225,20 +241,10 @@ export const devices = {
     },
   ]
   ,
-  filters: [{column: "status", values: ["Active"], include: true} ],
+  //filters: [{column: "status", values: ["Active"], include: true} ],
   childKeys: ['groups', 'devices']
 }
-//Extra rows of fake data to test infinite scroll
-let fillerRows = []
-for(let i=0; i<200; i++) {
-  fillerRows.push({
-    id: `grey-${i}`,
-    name: null,
-    hex: `#4545${i % 45}`,
-    favorite: false,
-    icon: 'icons:add'
-  })
-}
+
 
 export const colors = {
   data: [

@@ -138,7 +138,7 @@ class MyTable extends PageViewElement {
       return html`<iron-icon
         slot="${rowId}-${columnKey}"
         icon="av:fiber-manual-record"
-        style="color: ${color};"
+        style="color: ${color}; flex:1;"
       ></iron-icon>`
     })
   }

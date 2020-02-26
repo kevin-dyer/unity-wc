@@ -203,9 +203,10 @@ class UnityTable extends LitElement {
 
 
   filterColumn(key, values, selected){
+    const {columnFilter=[]} = this
     //TODO: very inefficient, review
     for(const value of values) {
-      let currentColumn = this.columnFilter.find(f => f.column === key);
+      let currentColumn = columnFilter.find(f => f.column === key);
       if (!!currentColumn) {
         const currentColumnFilter = currentColumn.values;
 
@@ -924,8 +925,13 @@ class UnityTable extends LitElement {
   }
 
   getSelected(key) {
-    const selectedArray = this._columnValues[key];
-    const currentFilter = this.columnFilter.find( filter => filter.column === key);
+    const {
+      columnFilter=[],
+      _columnValues: {
+        [key]: selectedArray=[]
+    }={}} = this
+
+    const currentFilter = columnFilter.find( filter => filter.column === key);
     let selectedValues = selectedArray;
     if (!!currentFilter) {
       if(currentFilter.include || (!currentFilter.include && currentFilter.values[0] === '*')) {
@@ -1086,11 +1092,12 @@ class UnityTable extends LitElement {
    * Filter data from the full sorted data array. Non-matching parents of matching rows are kept.
    */
   getFilteredData() {
+    const {columnFilter=[]} = this
     const fullDataArray = this._flattenData(this._sortedData);
     let filteredData = [...fullDataArray]
     try {
-      if(this.columnFilter.length > 0){
-        for(const f of this.columnFilter) {
+      if(columnFilter.length > 0){
+        for(const f of columnFilter) {
           // add / exclude data from table depending on filters
           filteredData = filteredData.filter( (datum) =>
             {
@@ -1134,11 +1141,13 @@ class UnityTable extends LitElement {
 
 
   renderActiveFilters() {
+    const {columnFilter=[]} = this
+
     return html`
       <div class="active-filters">
         <div class="filter-container">
-        ${this.columnFilter.length > 0?
-          this.columnFilter.map( f => html`<p style="margin: 0">
+        ${columnFilter.length > 0?
+          columnFilter.map( f => html`<p style="margin: 0">
                                             <b>Column:</b> ${f.column};
                                             <b>Filters:</b> ${f.values.join(', ')};
                                             <b>Action:</b> ${f.include? "include": "exclude"}
