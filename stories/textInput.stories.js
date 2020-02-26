@@ -38,8 +38,8 @@ export const Standard = () => {
   const minLines = number("Minimum Rendered Lines", 4)
   const maxLines = number("Lines before Scrolling", 12)
   const innerRightIcon = text("Inside Right Icon (iron/unity icon)", "")
-  const innerLeftIcon = text("Inside Lft Icon (iron/unity icon)", "")
-  const changes = boolean("Content Changed Gutter", false)
+  const innerLeftIcon = text("Inside Left Icon (iron/unity icon)", "")
+  const dirty = boolean("Dirty Marker", false)
   return html`
     <unity-text-input
       .onChange=${action("onChange")}
@@ -50,7 +50,7 @@ export const Standard = () => {
       ?rounded="${rounded}"
       ?hideBorder="${hideBorder}"
       ?borderEffects="${borderEffects}"
-      ?changes="${changes}"
+      ?dirty="${dirty}"
       ?time="${time}"
       ?password="${password}"
       .placeholder="${placeholder}"

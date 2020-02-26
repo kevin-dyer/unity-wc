@@ -87,7 +87,7 @@ class MyTextInput extends PageViewElement {
               .remark="${"Demo remark."}"
               .onChange="${this.onInputChange}"
               .label="${"Input Label"}"
-              changes
+              dirty
             ></unity-text-input>
           </div>
           <div class="input-box">
@@ -95,7 +95,7 @@ class MyTextInput extends PageViewElement {
               .value="${"Rounded"}"
               .onChange="${this.onInputChange}"
               rounded
-              changes
+              dirty
             ></unity-text-input>
           </div>
           <div class="input-box">
@@ -104,7 +104,7 @@ class MyTextInput extends PageViewElement {
               .label="${"Input Area"}"
               .onChange="${this.onInputChange}"
               area
-              changes
+              dirty
             ></unity-text-input>
           </div>
           <div class="input-box">
