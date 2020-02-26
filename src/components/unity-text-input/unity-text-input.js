@@ -213,11 +213,11 @@ class UnityTextInput extends LitElement {
   }
 
   _clickRightIcon() {
+    this._clickUnits()
+    // if password, toggles password
     if (!!this.password) {
       this.togglePassword()
     }
-    this._clickUnits()
-    // if password, toggles password
   }
 
   _renderIcon() {
@@ -259,11 +259,15 @@ class UnityTextInput extends LitElement {
   }
 
   _renderInnerIcon(icon, iconOnLeftSide) {
-    const { _clickUnits, _clickRightIcon } = this
+    const {
+      password,
+      _clickUnits,
+      _clickRightIcon
+    } = this
     if (!icon) return
     return html`
       <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
-        <iron-icon class="inner-icon" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _clickUnits}"></iron-icon>
+        <iron-icon class="inner-icon${password ? ' password' : ''}" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _clickUnits}"></iron-icon>
       </div>
     `
   }
@@ -366,7 +370,10 @@ class UnityTextInput extends LitElement {
         type = 'password'
         // set icon to eye
         // closed if _showPassword
-        if (!!_showPassword) innerRightIcon = 'unity:hide'
+        if (!!_showPassword) {
+          type = 'text'
+          innerRightIcon = 'unity:hide'
+        }
         // else open
         else innerRightIcon = 'unity:show'
       }
@@ -609,6 +616,9 @@ class UnityTextInput extends LitElement {
           height: 16px;
           width: 16px;
           color: black;
+        }
+        .inner-icon.password {
+          cursor: pointer;
         }
         .icon-error {
           top: calc(50% - 1px);
