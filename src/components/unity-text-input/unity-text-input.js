@@ -114,7 +114,8 @@ class UnityTextInput extends LitElement {
       // internals
       _valid: { type: Boolean },
       _strength: { type: Number },
-      _errorText: { type: String }
+      _errorText: { type: String },
+      _showPassword: { type: Boolean }
     }
   }
 
@@ -209,9 +210,14 @@ class UnityTextInput extends LitElement {
   _clickUnits() {
     const input = this.shadowRoot.getElementById('input')
     input.focus()
+  }
+
+  _clickRightIcon() {
+    if (!!this.password) {
+      this.togglePassword()
+    }
+    this._clickUnits()
     // if password, toggles password
-    // might have to make icon-only version of this
-    // unless password doesn't allow for units
   }
 
   _renderIcon() {
@@ -253,11 +259,11 @@ class UnityTextInput extends LitElement {
   }
 
   _renderInnerIcon(icon, iconOnLeftSide) {
-    const { _clickUnits } = this
+    const { _clickUnits, _clickRightIcon } = this
     if (!icon) return
     return html`
       <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
-        <iron-icon class="inner-icon" icon="${icon}" @click="${_clickUnits}"></iron-icon>
+        <iron-icon class="inner-icon" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _clickUnits}"></iron-icon>
       </div>
     `
   }
