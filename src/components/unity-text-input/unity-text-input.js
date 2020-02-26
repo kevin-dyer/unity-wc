@@ -19,7 +19,7 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} time, option to have input by type time, overriden by password
-* @param {bool} password, converts characters to dots/password field
+* @param {bool} password, converts characters to dots/password field, overwrites rightIcon
 * @param {''} error, error message for external error control or default forcing, can give true to not render remark error text, if validation is also sent it it will overwrite error's effects
 * @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 2+ or 1 for strong/weak, otherwise considered failure
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
@@ -82,6 +82,7 @@ class UnityTextInput extends LitElement {
     this._valid = true
     this._strength = 0
     this._errorText = ""
+    this._showPassword = false
   }
 
   static get properties() {
@@ -208,6 +209,9 @@ class UnityTextInput extends LitElement {
   _clickUnits() {
     const input = this.shadowRoot.getElementById('input')
     input.focus()
+    // if password, toggles password
+    // might have to make icon-only version of this
+    // unless password doesn't allow for units
   }
 
   _renderIcon() {
@@ -286,6 +290,13 @@ class UnityTextInput extends LitElement {
   }
 
   /**
+   * Toggles whether password styled text is hidden or visible
+   */
+  togglePassword() {
+    this._showPassword = !this._showPassword
+  }
+
+  /**
    * Render div with remark or input error message.
    */
   renderBottomDiv() {
@@ -322,7 +333,7 @@ class UnityTextInput extends LitElement {
       maxlength,
       hideBorder,
       rounded,
-      innerRightIcon,
+      innerRightIcon: originalRightIcon,
       innerLeftIcon,
       area,
       minLines: givenMinLines,
@@ -339,11 +350,17 @@ class UnityTextInput extends LitElement {
     } = this
     const minLines = givenMinLines < 1 ? 1 : Math.floor(givenMinLines)
     const maxLines = givenMaxLines < minLines ? minLines : Math.floor(givenMaxLines)
+    let innerRightIcon = originalRightIcon
 
     let type = 'text'
     if (!area) {
       if (!!time) type = 'time'
-      if (!!password) type = 'password'
+      if (!!password) {
+        type = 'password'
+        // set icon to eye
+          // open if _showPassword unity:show
+          // else closed unity:hide
+      }
     }
 
     return html`
