@@ -3,7 +3,7 @@
 ## Changelog:
 
 ### v0.1.30
-- Add changes bar, using danger color as default.
+- Add dirty bar, using danger color as default. Add Password show/hide in right icon slot.
 
 ### v0.1.29
 - Input and Area with various mixable styles.
