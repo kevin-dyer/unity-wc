@@ -147,18 +147,15 @@ class UnityPageHeader extends LitElement {
   }
 
   _handleTabSelect(tab, index) {
-    console.log("_handleTabSelect called in unity-page-header component. tab: ", tab, ", index: ", index)
     this.onTabSelect(tab, index)
   }
 
   //This may need to be passed in as a property, could replace showBackBtn bool
   handleBack(e) {
-    console.log("Go back here!")
     window.history.back()
   }
 
   render() {
-    console.log("this.tabs: ", this.tabs)
     return html`
       <div id="header">
         <div id="left-wrapper">

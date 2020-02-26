@@ -13,7 +13,7 @@ import '@bit/smartworks.unity.unity-text-input'
 
 import './unity-table/unity-table.js'
 
-import './unity-typography/unity-typography.js'
+import '@bit/smartworks.unity.unity-typography'
 // import '@bit/smartworks.unity.unity-typography'
 
 // These are the shared styles needed by this element.

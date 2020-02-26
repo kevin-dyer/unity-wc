@@ -91,7 +91,6 @@ class UnityGlobalNavTopItem extends LitElement {
       this._expanded = !this._expanded
     } else if (Array.isArray(children) && children.length === 1) {
       const { onSelect, key, label } = children[0]
-      console.log('calling children onSelect')
       onSelect(key, label)
     } else if (onSelect instanceof Function) {
       onSelect(this.key, this.label)

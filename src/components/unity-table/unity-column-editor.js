@@ -60,9 +60,7 @@ class UnityColumnEditor extends LitElement {
     this.selectedColumns = []
     this.buttonGradient = false
     this.buttonOutlined = false
-    this.onUpdate = (columns) => {
-      console.log("updated columns array: ", columns)
-    }
+    this.onUpdate = (columns) => {}
 
     this._dialogVisible = false
     this._sortedColumns = []
@@ -192,7 +190,7 @@ class UnityColumnEditor extends LitElement {
           <paper-icon-button
             class="drag-handle"
             icon="icons:menu"
-            @click="${()=>{console.log("menu clicked")}}"
+            @click="${()=>{}}"
           ></paper-icon-button>
         </div>
       </div>

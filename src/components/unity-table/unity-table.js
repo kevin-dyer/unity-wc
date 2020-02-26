@@ -69,17 +69,17 @@ import {
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
-*         format: (colValue, datum) => ({label: `Building: ${colValue}`})
+*         formatLabel: (colValue, datum) => `Building: ${colValue}`
  *      },
  *      {
  *        key: 'columnN',
  *        label: 'Column #N'
- *        format: (colValue, datum) => ({label: colValue, content: html`<span style="${myStyle}">Room: ${colValue}</span>`})
+ *        formatLabel: (colValue, datum) => colValue
  *      },
  *      {
  *        key: 'column1',
  *        label: 'Column #1'
- *        format: column1Handler
+ *        formatLabel: column1Handler
  *      }
  *    ]}"
  *    ?selectable="${true}"
@@ -97,8 +97,8 @@ import {
 //
 //   data:                   array of datum objects, non-uniform shape
 //                           each key is a viable column, with icon available for rendering leading row icon
-//   columns:                array of column objects, can contain format function (returns string or Lit HTML string)
-//                           {key (related to datum keys), label (label rendered) width, format (func to format cell data)}
+//   columns:                array of column objects, can contain formatLabel function (returns string)
+//                           {key (related to datum keys), label (label rendered) width, formatLabel (func to format cell label)}
 //   headless:               bool to control head render, include to have no table header
 //   startExpanded:          bool to control whether data starts as expanded or collapsed
 //   selectable:             bool to control if rows should be selectable
@@ -146,6 +146,7 @@ const ROW_HEIGHT = 40 //used to set scroll offset
 const THRESHOLD_TIMEOUT = 60 //Timeout after scroll boundry is reached before callback can be fired again
 const END_REACHED_TIMEOUT = 2000 //Timeout after true end is reached before callback can be fired again
 const MIN_VISIBLE_ROWS = 50 //Minimum number of rows to render at once
+const CELL_PLACEHOLDER = "-" //Consider adding this as a table property
 
 class UnityTable extends LitElement {
   // internals
@@ -207,29 +208,49 @@ class UnityTable extends LitElement {
       let currentColumn = this.columnFilter.find(f => f.column === key);
       if (!!currentColumn) {
         const currentColumnFilter = currentColumn.values;
+
+        // if exclude all, delete * and change to include
+        if(currentColumnFilter[0] === '*') {
+          currentColumnFilter.splice(0,1)
+          currentColumn.include = true 
+        }
+
         // add/remove value from filter
         if (currentColumnFilter.includes(value)) {
           currentColumnFilter.splice(currentColumnFilter.indexOf(value), 1)
-          // change exclude/include filter depending on size
-          if(currentColumnFilter.length > this._columnValues[key].length/2) {
-            currentColumn.include = !currentColumn.include
-            currentColumn.values = this._columnValues[key].filter(option => !currentColumnFilter.includes(option))
-          }
-          // remove filter if list is empty
-          if (currentColumnFilter.length === 0) {
-            this.columnFilter.splice(this.columnFilter.indexOf(currentColumn))}
         }
         else {
-          currentColumnFilter.push(value);
+            currentColumnFilter.push(value);
         }
+
+        // change exclude/include filter depending on size
+        if(currentColumnFilter.length > this._columnValues[key].length/2) {
+          currentColumn.include = !currentColumn.include
+          currentColumn.values = this._columnValues[key].filter(option => !currentColumnFilter.includes(option))
+        }
+
+        // // remove filter if list is empty
+        if (currentColumnFilter.length === 0) {
+          // if include is empty, change to exclude all (*)
+          if(currentColumn.include) {
+            currentColumn.values = ['*']
+            currentColumn.include = false
+          }
+          else {
+            this.columnFilter.splice(this.columnFilter.indexOf(currentColumn))
+          }
+        }
+          
       }
       else {
         //add new filter for this column
         this.columnFilter.push({column: key, values: [value], include: selected });
       }
     }
+    this._flattenedData = this.removeCollapsedChildren(this.getFilteredData())
+    this._expandAll()
     this.onFilterChange(this.columnFilter);
-    this.requestUpdate();
+    // this.requestUpdate();
   }
 
   // inputs
@@ -269,7 +290,7 @@ class UnityTable extends LitElement {
   //NOTE: #unity-table-container element is not mounted in intial connectedCallback, only after firstUpdated
   firstUpdated(changedProperties) {
     this.initTableRef()
-
+    this._setVisibleRowsArray()
     this.updateComplete.then(this.scrollToHighlightedRow.bind(this))
   }
 
@@ -349,16 +370,19 @@ class UnityTable extends LitElement {
   //NOTE: callback called with node, tabIndex, and childCount
   dfsTraverse ({
     node={},
-    callback=(node, tabIndex, childCount)=>{},
-    tabIndex=0 //this is internally managed
+    callback=(node, tabIndex, childCount, parents)=>{},
+    tabIndex=0, //this is internally managed
+    parents=[]
   }) {
     //If node is an array, loop over it
+
     if (Array.isArray(node)) {
       node.forEach(nodeElement => {
         this.dfsTraverse({
           node: nodeElement,
           callback,
-          tabIndex
+          tabIndex,
+          parents
         })
       })
     } else {
@@ -376,13 +400,13 @@ class UnityTable extends LitElement {
       })
 
       //NOTE: this may need to be called before iterating down children
-      callback(node, tabIndex, childCount)
-
+      callback(node, tabIndex, childCount, parents)
       childNodes.forEach(child => {
         this.dfsTraverse({
           node: child,
           callback,
-          tabIndex: nextTabIndex
+          tabIndex: nextTabIndex,
+          parents: [...parents, node.id]
         })
       })
     }
@@ -414,7 +438,6 @@ class UnityTable extends LitElement {
     // Expand all nodes if the User has indicated to do so, but not if changes to the expansion of nodes have already been made
     // NOTE: this assumes this.expanded is undefined initially
     if (this.startExpanded && (!this.expanded || this.expanded.size === 0)) this._expandAll()
-
     this._process()
     this._columnValues = this.getColumnValues(value);
     this.requestUpdate('data', oldValue)
@@ -470,7 +493,7 @@ class UnityTable extends LitElement {
     }
     this._sortBy = {column, direction}
     this._sortData()
-    this._flattenData()
+    this._setVisibleRowsArray()
     this.requestUpdate('sortBy', oldValue)
   }
 
@@ -521,7 +544,7 @@ class UnityTable extends LitElement {
       this.onExpandedChange(expandedNodes)
     }
 
-    this._flattenData()
+    this._setVisibleRowsArray()
     this.requestUpdate('expanded', oldValue)
   }
 
@@ -573,12 +596,11 @@ class UnityTable extends LitElement {
 
     this.dfsTraverse({
       node: value,
-      callback: (node, tabIndex, childCount) => {
+      callback: (node, tabIndex, childCount, parents) => {
         const key = this.keyExtractor(node, tabIndex)
         dataMap.set(key, node)
       }
     })
-
     this._dataMap = dataMap
   }
 
@@ -671,29 +693,36 @@ class UnityTable extends LitElement {
 
   //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
   //This should also remove children of non-expanded rows
-  _flattenData() {
-    let flatList = []
+  _setVisibleRowsArray() {
+    this._flattenedData = this.removeCollapsedChildren(this.getFilteredData())
+    this.requestUpdate()
+  }
 
+
+  _flattenData(data) {
+    let flatList = []
     if (!this.keyExtractor) {
       return flatList
     }
     this.dfsTraverse({
-      node: this._sortedData,
-      callback: (node, tabIndex, childCount) => {
+      node: data,
+      callback: (node, tabIndex, childCount, parents) => {
         flatList.push({
           ...node,
           _tabIndex: tabIndex,
           _rowId: this.keyExtractor(node, tabIndex),
-          _childCount: childCount
+          _childCount: childCount,
+          _parents: parents
         })
       }
     })
+    return flatList
+  }
 
-    //Remove children of collapsed nodes
-    //NOTE: collapsed parent nodes still need an accurate _childCount to show/hide expand control
+  removeCollapsedChildren(data) {
     let toRemove = false
     let currentTabIndex = 0
-    flatList = flatList.filter(node => {
+    data = data.filter(node => {
       if (toRemove) {
         if (currentTabIndex < node._tabIndex) {
           return false
@@ -713,14 +742,14 @@ class UnityTable extends LitElement {
 
       return true
     })
+    return data
 
-    this._flattenedData = flatList
   }
 
   _process() {
     this._filterData()
     this._sortData()
-    this._flattenData()
+    this._setVisibleRowsArray()
   }
 
   _handleHeaderSelect() {
@@ -748,7 +777,7 @@ class UnityTable extends LitElement {
 
     this.dfsTraverse({
       node: this._data,
-      callback: (node, tabIndex, childCount) => {
+      callback: (node, tabIndex, childCount, parents) => {
         const rowId = this.keyExtractor(node, tabIndex)
 
         if (childCount > 0) {
@@ -756,7 +785,6 @@ class UnityTable extends LitElement {
         }
       }
     })
-
     this.expanded = nextExpanded
   }
 
@@ -848,28 +876,47 @@ class UnityTable extends LitElement {
     this.columns.map( col => {
       const {
         key,
-        format = (val) => val
+        formatLabel = (val) => val
       } = col;
       const values = [];
       for (const row of data) {
-        values.push(...this.getAllTreeValues(row, key, format))
+        values.push(...this.getAllTreeValues(row, key, formatLabel))
       }
       columnValues[key] = [...new Set(values)].sort();
     })
     return columnValues;
   }
 
-  getAllTreeValues(row, key, format) {
-    const value = [(row[key] || row[key] === false)?
-      format instanceof Function ? format(row[key]).label : row[key].toString()
-      : "-"]
+  getAllTreeValues(row, key, formatLabel) {
+    let value = [this.getFormattedValue(row[key], formatLabel)]
     // if children, get value of every children recursively
-    if (row.children){
-      for (const child of row.children) {
-        value.push(...this.getAllTreeValues(child, key, format))
+    const childKey = this.childKeys.find(key => row[key])
+    if (!!childKey){
+      for (const child of row[childKey]) {
+        value.push(...this.getAllTreeValues(child, key, formatLabel))
       }
     }
     return value
+  }
+
+  getFormattedValue(value, formatLabel) {
+    let formattedValue
+    try {
+      try {
+        const formatted = formatLabel(value)
+        if(typeof(formatted) === 'string') {formattedValue = formatted} else {throw TypeError}
+      }
+      catch (error){
+        formattedValue = value.toString()
+      }
+      finally {
+        if (!formattedValue) throw TypeError
+      }
+    }
+    catch (error){
+      formattedValue = CELL_PLACEHOLDER
+    }
+    return formattedValue
   }
 
   getDropdownOptions(key) {
@@ -881,7 +928,7 @@ class UnityTable extends LitElement {
     const currentFilter = this.columnFilter.find( filter => filter.column === key);
     let selectedValues = selectedArray;
     if (!!currentFilter) {
-      if(currentFilter.include) {
+      if(currentFilter.include || (!currentFilter.include && currentFilter.values[0] === '*')) {
         selectedValues = currentFilter.values;
       }
       else {
@@ -929,14 +976,18 @@ class UnityTable extends LitElement {
           }
         }}"
       >
-        ${columns.map((col={}, i) => {
-          const {key: columnKey, format, width} = col
-          const value = datum[columnKey]
+
+        ${columns.map((column, i) => {
           const {
-            content: customContent,
-            label=!customContent ? value : '',
-          } = format instanceof Function ? format(value, datum) : {}
-          const slotId = this.slotIdExtractor(row, col)
+            key: columnKey,
+            formatLabel,
+            width
+          } = column
+          const {[columnKey]: columnValue=''} = datum || {}
+          const label = formatLabel instanceof Function
+            ? formatLabel(columnValue, datum)
+            : columnValue
+          const slotId = this.slotIdExtractor(row, column)
 
           return html`
             <td class="cell" key="${slotId}">
@@ -1027,39 +1078,73 @@ class UnityTable extends LitElement {
   }
 
   _renderTableData(data) {
+    return data.map((datum) => this._renderRow(datum));
+  }
 
-    let filteredData = data;
 
-    if(this.columnFilter.length > 0){
-      for(const f of this.columnFilter) {
-        // add / exclude data from table depending on filters
-        filteredData = filteredData.filter( (datum) =>
-          {
-            const format = this.columns.find(col=> col.key === f.column).format
-            const formattedLabel = !!format ? format(datum[f.column]).label : datum[f.column].toString()
-            if (f.include) {
-              return f.values.includes(formattedLabel);
+  /**
+   * Filter data from the full sorted data array. Non-matching parents of matching rows are kept.
+   */
+  getFilteredData() {
+    const fullDataArray = this._flattenData(this._sortedData);
+    let filteredData = [...fullDataArray]
+    try {
+      if(this.columnFilter.length > 0){
+        for(const f of this.columnFilter) {
+          // add / exclude data from table depending on filters
+          filteredData = filteredData.filter( (datum) =>
+            {
+              const {formatLabel} = this.columns.find(col=> col.key === f.column) || {}
+              const formattedValue = this.getFormattedValue(datum[f.column], formatLabel);
+              if ((f.include) || (!f.include && f.values[0] === '*')) {
+                return f.values.includes(formattedValue);
+              }
+              else {
+                return !f.values.includes(formattedValue);
+              }
             }
-            else {
-              return !f.values.includes(formattedLabel);
-            }
-          }
-        );
+          );
+        }
+      }
+      filteredData = this.addParentRows(filteredData, fullDataArray)
+    } 
+    catch (error) {
+    }
+    return filteredData
+  }
+
+  /**
+   * Add missing parent rows in their right position
+   * @param {object[]} data
+   */
+  addParentRows(filteredData, fullDataArray) {
+    for(let i = 0; i<filteredData.length; i++) {
+      const parents = filteredData[i]._parents
+      if(parents.length > 0) {
+        const inmediateParent = parents[parents.length - 1]
+        // if parent row is not in the array already, insert it
+        if(!filteredData.find(d => d.id === inmediateParent)){
+          filteredData.splice(i, 0, fullDataArray.find(d => d.id === inmediateParent))
+          i-- // to check added element's parents
+        }
       }
     }
-    return filteredData.map((datum) => this._renderRow(datum));
+    return filteredData
   }
+
 
   renderActiveFilters() {
     return html`
       <div class="active-filters">
         <div class="filter-container">
-        ${this.columnFilter.map( f => html`<p style="margin: 0">
+        ${this.columnFilter.length > 0?
+          this.columnFilter.map( f => html`<p style="margin: 0">
                                             <b>Column:</b> ${f.column};
-                                            <b>Filters:</b> ${f.values.length === this._columnValues[f.column].length?
-                                                              "ALL_VALUES" : f.values.join(', ')};
+                                            <b>Filters:</b> ${f.values.join(', ')};
                                             <b>Action:</b> ${f.include? "include": "exclude"}
-                                          </p>`)}
+                                          </p>`)
+          : html`<p style="margin: 0">${'No active filters'}</p>`
+        }
         </div>
       </div>
     `;
@@ -1249,7 +1334,11 @@ class UnityTable extends LitElement {
           text-align: right;
           margin-right: 8px;
           overflow: auto;
-          max-height: 66px;
+          min-height: 49px;
+          max-height: 49px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
         }
         .filter-container {
           display: flex;
