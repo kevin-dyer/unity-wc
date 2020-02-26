@@ -346,7 +346,8 @@ class UnityTextInput extends LitElement {
       _valid,
       _strength,
       _errorText,
-      _clickUnits
+      _clickUnits,
+      _showPassword
     } = this
     const minLines = givenMinLines < 1 ? 1 : Math.floor(givenMinLines)
     const maxLines = givenMaxLines < minLines ? minLines : Math.floor(givenMaxLines)
@@ -358,8 +359,10 @@ class UnityTextInput extends LitElement {
       if (!!password) {
         type = 'password'
         // set icon to eye
-          // open if _showPassword unity:show
-          // else closed unity:hide
+        // closed if _showPassword
+        if (!!_showPassword) innerRightIcon = 'unity:hide'
+        // else open
+        else innerRightIcon = 'unity:show'
       }
     }
 
