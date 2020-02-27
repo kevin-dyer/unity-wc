@@ -49,7 +49,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@0.1.8": {
+    "smartworks.unity/unity-dropdown@0.1.9": {
         "files": [
             {
                 "relativePath": "src/components/unity-dropdown/strings.js",
@@ -197,7 +197,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.2.3": {
+    "smartworks.unity/unity-table@0.2.4": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/filter-dropdown.js",
@@ -219,7 +219,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@0.1.29": {
+    "smartworks.unity/unity-text-input@0.1.30": {
         "files": [
             {
                 "name": "unity-text-input.js",
