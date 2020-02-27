@@ -217,27 +217,27 @@ export const devices = {
     {
       key: 'deployments',
       label: 'Used in Deployments',
-      format: (deployments='') => deployments
+      formatLabel: (deployments='') => deployments
     },
     {
       key: 'firmwareVersion',
       label: 'Firmware Version',
-      format: (version='') => version
+      formatLabel: (version='') => version
     },
     {
       key: 'description',
       label: 'Description',
-      format: (description='') => description
+      formatLabel: (description='') => description
     },
     {
       key: 'status',
       label: 'Status',
-      format: (status='') => status
+      formatLabel: (status='...') => status
     },
     {
       key: 'createdAt',
       label: 'Created at',
-      format: (createdAt='') => createdAt
+      formatLabel: (createdAt='') => createdAt
     },
   ]
   ,
