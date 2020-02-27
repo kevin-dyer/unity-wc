@@ -25,6 +25,7 @@ import '@bit/smartworks.unity.unity-text-input';
 import './unity-table/unity-column-editor.js'
 import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
 import {devices} from './unity-table/fakeData'
+import {deviceData} from './unity-table/largeDataSet'
 
 import '@polymer/iron-icons/av-icons.js'
 
@@ -40,7 +41,8 @@ class MyTable extends PageViewElement {
 
     this._searchText = ''
 
-    this.data = [...data]
+    // this.data = [...data]
+    this.data = [...deviceData]
     this.columns = [...columns] //For Column Editor
     this.childKeys = [...childKeys]
     this._visibleColumns = [...columns] //For Table display
@@ -174,7 +176,7 @@ class MyTable extends PageViewElement {
             .keyExtractor="${(datum, index) => datum.name}"
             .slotIdExtractor="${this._slotIdExtractor}"
             .childKeys=${childKeys}
-            .data="${data}"
+            .data="${this.data}"
             .columns="${this._visibleColumns}"
             .columnFilter="${this._columnFilters}"
             .onFilterChange="${this.onFilterChange}"
