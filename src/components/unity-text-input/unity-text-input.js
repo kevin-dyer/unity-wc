@@ -19,7 +19,7 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} time, option to have input by type time, overriden by password
-* @param {bool} password, converts characters to dots/password field
+* @param {bool} password, converts characters to dots/password field, overwrites rightIcon
 * @param {''} error, error message for external error control or default forcing, can give true to not render remark error text, if validation is also sent it it will overwrite error's effects
 * @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 2+ or 1 for strong/weak, otherwise considered failure
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
@@ -31,6 +31,7 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @param {number} maxLines, maximum number of lines to show in a text area before scrolling, default 12
 * @param {''} innerRightIcon, if defined, puts an icon (specified) from the unity icon set on the right side of the text input
 * @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
+* @param {bool} dirty, if true, will render left-side bar to show that the element has been changed from it's original contents
 * @example
 * <unity-text-input>
 *   .label="${'Strong Validation'}"
@@ -72,6 +73,7 @@ class UnityTextInput extends LitElement {
     this.area = false
     this.minLines = MIN_LINES
     this.maxLines = MAX_LINES
+    this.dirty = false
 
     // internals
     this._error = ''
@@ -80,6 +82,7 @@ class UnityTextInput extends LitElement {
     this._valid = true
     this._strength = 0
     this._errorText = ""
+    this._showPassword = false
   }
 
   static get properties() {
@@ -106,11 +109,13 @@ class UnityTextInput extends LitElement {
       area: { type: Boolean },
       minLines: { type: Number },
       maxLines: { type: Number },
+      dirty: { type: Boolean },
 
       // internals
       _valid: { type: Boolean },
       _strength: { type: Number },
-      _errorText: { type: String }
+      _errorText: { type: String },
+      _showPassword: { type: Boolean }
     }
   }
 
@@ -207,6 +212,14 @@ class UnityTextInput extends LitElement {
     input.focus()
   }
 
+  _clickRightIcon() {
+    this._clickUnits()
+    // if password, toggles password
+    if (!!this.password) {
+      this.togglePassword()
+    }
+  }
+
   _renderIcon() {
     const {
       password,
@@ -246,11 +259,15 @@ class UnityTextInput extends LitElement {
   }
 
   _renderInnerIcon(icon, iconOnLeftSide) {
-    const { _clickUnits } = this
+    const {
+      password,
+      _clickUnits,
+      _clickRightIcon
+    } = this
     if (!icon) return
     return html`
       <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
-        <iron-icon class="inner-icon" icon="${icon}" @click="${_clickUnits}"></iron-icon>
+        <iron-icon class="inner-icon${password ? ' password' : ''}" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _clickUnits}"></iron-icon>
       </div>
     `
   }
@@ -280,6 +297,13 @@ class UnityTextInput extends LitElement {
     if (!!disabled) classes.push('disabled')
     if (borderEffects) classes.push('border-effects')
     return classes.join(" ")
+  }
+
+  /**
+   * Toggles whether password styled text is hidden or visible
+   */
+  togglePassword() {
+    this._showPassword = !this._showPassword
   }
 
   /**
@@ -319,7 +343,7 @@ class UnityTextInput extends LitElement {
       maxlength,
       hideBorder,
       rounded,
-      innerRightIcon,
+      innerRightIcon: originalRightIcon,
       innerLeftIcon,
       area,
       minLines: givenMinLines,
@@ -327,19 +351,32 @@ class UnityTextInput extends LitElement {
       time,
       password,
       placeholder,
+      dirty,
       _onChange,
       _valid,
       _strength,
       _errorText,
-      _clickUnits
+      _clickUnits,
+      _showPassword
     } = this
     const minLines = givenMinLines < 1 ? 1 : Math.floor(givenMinLines)
     const maxLines = givenMaxLines < minLines ? minLines : Math.floor(givenMaxLines)
+    let innerRightIcon = originalRightIcon
 
     let type = 'text'
     if (!area) {
       if (!!time) type = 'time'
-      if (!!password) type = 'password'
+      if (!!password) {
+        type = 'password'
+        // set icon to eye
+        // closed if _showPassword
+        if (!!_showPassword) {
+          type = 'text'
+          innerRightIcon = 'unity:hide'
+        }
+        // else open
+        else innerRightIcon = 'unity:show'
+      }
     }
 
     return html`
@@ -377,6 +414,7 @@ class UnityTextInput extends LitElement {
               ?disabled=${!!disabled}
             >`
           }
+          ${!!dirty ? html`<div class="dirty" />` : null}
           ${!area ? this._renderInnerIcon(innerRightIcon, false) : null}
           ${!area ? this._renderInnerIcon(innerLeftIcon, true) : null}
           ${(!area && !!units) ?
@@ -404,6 +442,7 @@ class UnityTextInput extends LitElement {
           --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
+          --dirty-color: var(--danger-color, var(--defualt-danger-color));
           font-family: var(--input-font);
           border-collapse: collapse;
           user-select: none;
@@ -475,7 +514,6 @@ class UnityTextInput extends LitElement {
           color: rgb(var(--text-color));
           border: 0;
           background-color: transparent;
-          max-width: 90%;
         }
         #input:focus {
           outline: none;
@@ -578,6 +616,9 @@ class UnityTextInput extends LitElement {
           width: 16px;
           color: black;
         }
+        .inner-icon.password {
+          cursor: pointer;
+        }
         .icon-error {
           top: calc(50% - 1px);
         }
@@ -601,6 +642,14 @@ class UnityTextInput extends LitElement {
           font-size: 0;
           margin-top: 3px;
           line-height: 0;
+        }
+        .dirty {
+          background-color: var(--dirty-color);
+          width: 5px;
+          height: calc(100% + 2px);
+          position: absolute;
+          left: -10px;
+          top: -1px;
         }
       `
     ]
