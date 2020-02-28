@@ -148,6 +148,7 @@ class UnityTableCell extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
+          min-width: 0;
           font-family: var(--font-family, var(--default-font-family));
           font-size: var(--paragraph-text-size, var(--default-paragraph-text-size));
           font-weight: var(--small-text-weight, var(--default-small-text-weight));
@@ -165,17 +166,18 @@ class UnityTableCell extends LitElement {
         .cell {
           padding: 0 13px;
           border-spacing: 0;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
           display: flex;
           flex-direction: row;
           align-items: center;
+          min-width: 0;
         }
         .text {
           position: relative;
           padding-top: 1px;
           line-height: 38px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         iron-icon {
           color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));

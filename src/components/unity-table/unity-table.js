@@ -846,12 +846,16 @@ class UnityTable extends LitElement {
                     }
                     <div class="header-content" @click="${()=>{this.sortBy = key}}">
                       <span class="header-label"><b>${label || name}</b></span>
-                      <paper-icon-button
-                        noink
-                        icon="${icon}"
-                        title="${direction}"
-                        class="header-sort-icon"
-                      ></paper-icon-button>
+
+                      ${direction !== UNS
+                        ? html`<paper-icon-button
+                            noink
+                            icon="${icon}"
+                            title="${direction}"
+                            class="header-sort-icon"
+                          ></paper-icon-button>`
+                        : null
+                      }
 
                     </div>
                     <filter-dropdown
@@ -1235,7 +1239,8 @@ class UnityTable extends LitElement {
           min-height: 0;
           width: 100%;
           max-width: 100%;
-          table-layout: auto; /* NOTE: auto prevents table from overflowing passed 100% */
+          /*table-layout: auto;*/
+          table-layout: fixed;
           border-collapse: collapse;
           border-spacing: 0;
           box-sizing: border-box;
@@ -1308,16 +1313,30 @@ class UnityTable extends LitElement {
           overflow: hidden;
           text-overflow: ellipsis;
         }
+        .text {
+          flex: 1;
+          min-width: 0;
+          overflow: hidden;
+
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         .header-content {
           display: flex;
           flex-direction: row;
           justify-content: flex-start;
           align-items: center;
           flex: 1;
+          min-width: 0;
         }
         .header-label {
           /*flex: 1;*/
           padding-top: 1px;
+          min-width: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         paper-checkbox {
         }
