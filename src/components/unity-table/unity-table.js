@@ -140,7 +140,7 @@ import {
 const ASC = 'Ascending'
 const DES = 'Descending'
 const UNS = 'Unsorted'
-const MIN_CELL_WIDTH = 150 //minimum pixel width of each table cell
+const MIN_CELL_WIDTH = 20 //minimum pixel width of each table cell
 const MOUSE_MOVE_THRESHOLD = 5 //pixels mouse is able to move horizontally before rowClick is cancelled
 const ROW_HEIGHT = 40 //used to set scroll offset
 const THRESHOLD_TIMEOUT = 60 //Timeout after scroll boundry is reached before callback can be fired again
