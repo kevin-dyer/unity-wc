@@ -1,9 +1,13 @@
-// import '@bit/smartworks.unity.unity-text-input';
+import '@bit/smartworks.unity.unity-text-input';
+// import '../src/components/unity-text-input/unity-text-input.js'
 import { html } from 'lit-element';
-import { withKnobs, text } from "@storybook/addon-knobs";
+import {
+  withKnobs,
+  text,
+  boolean,
+  number
+} from "@storybook/addon-knobs";
 import { action } from '@storybook/addon-actions';
-
-import '@bit/smartworks.unity.unity-text-input'
 
 
 export default {
@@ -14,12 +18,55 @@ export default {
 
 export const Standard = () => {
   const value = text("Editor text", "");
+  const placeholder = text("Placeholder Text", "Write here...")
+  const label = text("Label", "")
+  const remark = text("Remark", "")
+  const charCount = boolean("Character Count", false)
+  const maxLength = number("Maximum Length", undefined)
+  const units = text("Units", "")
+  const hint = text("Tooltip Hint", "")
+  const time = boolean("Time Format", false)
+  const password = boolean("Password Format", false)
+  const error = text("Error text", "")
+  const showIcon = boolean("Icon Toggle", false)
+  const rounded = boolean("Rounded Input", false)
+  const hideBorder = boolean("Borderless Input", false)
+  const borderEffects = boolean("Border Hover Effects", true)
+  const area = boolean("Text Area Mode", false)
+  const minLines = number("Minimum Rendered Lines", 4)
+  const maxLines = number("Lines before Scrolling", 12)
+  const innerRightIcon = text("Inside Right Icon (iron/unity icon)", "")
+  const innerLeftIcon = text("Inside Left Icon (iron/unity icon)", "")
+  const dirty = boolean("Dirty Marker", false)
   return html`
-   <unity-text-input placeholder="Write here" .value="${value}" .onChange=${action("onChange")}></unity-text-input>
+    <unity-text-input
+      .onChange=${action("onChange")}
+      .value="${value}"
+      ?area="${area}"
+      ?charCount="${charCount}"
+      ?showIcon="${showIcon}"
+      ?rounded="${rounded}"
+      ?hideBorder="${hideBorder}"
+      ?borderEffects="${borderEffects}"
+      ?dirty="${dirty}"
+      ?time="${time}"
+      ?password="${password}"
+      .placeholder="${placeholder}"
+      .label="${label}"
+      .remark="${remark}"
+      .maxLength="${maxLength}"
+      .units="${units}"
+      .hint="${hint}"
+      .error="${error}"
+      .minLines="${minLines}"
+      .maxLines="${maxLines}"
+      .innerRightIcon="${innerRightIcon}"
+      .innerLeftIcon="${innerLeftIcon}"
+    >
+    </unity-text-input>
   `;
 }
 
 export const Password = () => html`
   <unity-text-input label="Password" password></unity-text-input>
 `;
-
