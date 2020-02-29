@@ -24,7 +24,11 @@ import '@bit/smartworks.unity.unity-text-input';
 
 import './unity-table/unity-column-editor.js'
 import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
-import {devices, colors} from './unity-table/fakeData'
+import {devices} from './unity-table/fakeData'
+import {deviceData} from './unity-table/largeDataSet'
+
+import '@polymer/iron-icons/av-icons.js'
+
 
 const data = devices.data
 const columns = devices.columns
@@ -37,7 +41,10 @@ class MyTable extends PageViewElement {
 
     this._searchText = ''
 
+    // this.data = [...data]
+    this.data = [...deviceData] //For testing Large Data Set
     this.columns = [...columns] //For Column Editor
+    this.childKeys = [...childKeys]
     this._visibleColumns = [...columns] //For Table display
     this._columnFilters = filters
     this.highlightedRow = ''
@@ -89,6 +96,56 @@ class MyTable extends PageViewElement {
     this._columnFilters = filters;
   }
 
+  _keyExtractor(datum, index) {
+    // return datum.name
+    return datum.id
+  }
+
+  _slotIdExtractor(row, column) {
+    return `${row._rowId}-${column.key}`
+  }
+
+  _renderStatusIcons() {
+    const columnKey = 'status'
+    let nodes = this.data
+
+    //Breadth First Search traverse to flatten hierarchy
+    for(let i = 0; i < nodes.length; i++) {
+      const node = nodes[i]
+      this.childKeys.forEach(childKey => {
+        const children = node[childKey]
+        if (Array.isArray(children)) {
+          nodes = [...nodes, ...children]
+        }
+      })
+    }
+
+    return nodes.map((row, index) => {
+      const rowId = this._keyExtractor(row, index)
+      let color
+      switch(row[columnKey]) {
+        case 'Active':
+          color = 'green'
+          break
+        case 'Not Responding':
+          color = 'red'
+          break
+        case 'Probable to fail':
+          color = 'yellow'
+          break
+        default:
+          return
+      }
+
+
+      return html`<iron-icon
+        slot="${rowId}-${columnKey}"
+        icon="av:fiber-manual-record"
+        style="color: ${color}; flex:1;"
+      ></iron-icon>`
+    })
+  }
+
   render() {
     return html`
       <div class="example-container">
@@ -117,9 +174,10 @@ class MyTable extends PageViewElement {
           <unity-table
             selectable
             filter="${this._searchText}"
-            .keyExtractor="${(datum, index) => datum.name}"
+            .keyExtractor="${this._keyExtractor}"
+            .slotIdExtractor="${this._slotIdExtractor}"
             .childKeys=${childKeys}
-            .data="${data}"
+            .data="${this.data}"
             .columns="${this._visibleColumns}"
             .columnFilter="${this._columnFilters}"
             .onFilterChange="${this.onFilterChange}"
@@ -136,6 +194,7 @@ class MyTable extends PageViewElement {
 
             style="--highlight-color: ${this.highlightColor}"
           >
+            ${this._renderStatusIcons()}
           </unity-table>
         </div>
       </div>

@@ -22,6 +22,8 @@ import {
  * @name UnityTable
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
+ * @param {func} keyExtractor, func with row datum and row index as arguments. Retuns unique row identifier.
+ * @param {func} slotIdExtractor, func with row datum and column datum as arguments. Returns unique cell identifier.
  * @param {bool} headless, controls if the table has a header row
  * @param {bool} startExpanded, controls if the table data begins as expanded (true) or collapsed (false / default)
  * @param {bool} selectable, controls if rows are selectable
@@ -67,17 +69,17 @@ import {
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
-*         format: (colValue, datum) => ({label: `Building: ${colValue}`})
+*         formatLabel: (colValue, datum) => `Building: ${colValue}`
  *      },
  *      {
  *        key: 'columnN',
  *        label: 'Column #N'
- *        format: (colValue, datum) => ({label: colValue, content: html`<span style="${myStyle}">Room: ${colValue}</span>`})
+ *        formatLabel: (colValue, datum) => colValue
  *      },
  *      {
  *        key: 'column1',
  *        label: 'Column #1'
- *        format: column1Handler
+ *        formatLabel: column1Handler
  *      }
  *    ]}"
  *    ?selectable="${true}"
@@ -95,8 +97,8 @@ import {
 //
 //   data:                   array of datum objects, non-uniform shape
 //                           each key is a viable column, with icon available for rendering leading row icon
-//   columns:                array of column objects, can contain format function (returns string or Lit HTML string)
-//                           {key (related to datum keys), label (label rendered) width, format (func to format cell data)}
+//   columns:                array of column objects, can contain formatLabel function (returns string)
+//                           {key (related to datum keys), label (label rendered) width, formatLabel (func to format cell label)}
 //   headless:               bool to control head render, include to have no table header
 //   startExpanded:          bool to control whether data starts as expanded or collapsed
 //   selectable:             bool to control if rows should be selectable
@@ -104,6 +106,7 @@ import {
 //   emptyDisplay:           String to display when data array is empty
 //   isLoading:              Boolean to show spinner instead of table
 //   keyExtractor         :  Function to define a unique key on each data element
+//   slotIdExtractor      :  Function to define a unique slot name for each table cell. Used for adding custom content to specific table cells.
 //   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
 //   filter               :  String to find in any column, used to set internal _filter
 //   endReachedThreshold  :  Number of px before scroll boundary to update this._rowOffset
@@ -137,7 +140,7 @@ import {
 const ASC = 'Ascending'
 const DES = 'Descending'
 const UNS = 'Unsorted'
-const MIN_CELL_WIDTH = 150 //minimum pixel width of each table cell
+const MIN_CELL_WIDTH = 20 //minimum pixel width of each table cell
 const MOUSE_MOVE_THRESHOLD = 5 //pixels mouse is able to move horizontally before rowClick is cancelled
 const ROW_HEIGHT = 40 //used to set scroll offset
 const THRESHOLD_TIMEOUT = 60 //Timeout after scroll boundry is reached before callback can be fired again
@@ -161,6 +164,8 @@ class UnityTable extends LitElement {
     this.filter = ''
     this.columnFilter = []
     this.endReachedThreshold = 200 //distance in px to fire onEndReached before getting to bottom
+    this.slotIdExtractor = (row={}, column={}) => `${row._rowId}-${column.key}`
+
     this._highlightedRow = ''
 
     // action handlers
@@ -198,9 +203,10 @@ class UnityTable extends LitElement {
 
 
   filterColumn(key, values, selected){
+    const {columnFilter=[]} = this
     //TODO: very inefficient, review
     for(const value of values) {
-      let currentColumn = this.columnFilter.find(f => f.column === key);
+      let currentColumn = columnFilter.find(f => f.column === key);
       if (!!currentColumn) {
         const currentColumnFilter = currentColumn.values;
 
@@ -252,6 +258,7 @@ class UnityTable extends LitElement {
   static get properties() {
     return {
       keyExtractor: {type: Function},
+      slotIdExtractor: {type: Function},
       data: { type: Array },
       columns: { type: Array },
       headless: { type: Boolean },
@@ -839,12 +846,16 @@ class UnityTable extends LitElement {
                     }
                     <div class="header-content" @click="${()=>{this.sortBy = key}}">
                       <span class="header-label"><b>${label || name}</b></span>
-                      <paper-icon-button
-                        noink
-                        icon="${icon}"
-                        title="${direction}"
-                        class="header-sort-icon"
-                      ></paper-icon-button>
+
+                      ${direction !== UNS
+                        ? html`<paper-icon-button
+                            noink
+                            icon="${icon}"
+                            title="${direction}"
+                            class="header-sort-icon"
+                          ></paper-icon-button>`
+                        : null
+                      }
 
                     </div>
                     <filter-dropdown
@@ -870,34 +881,34 @@ class UnityTable extends LitElement {
     this.columns.map( col => {
       const {
         key,
-        format = (val) => val
+        formatLabel = (val) => val
       } = col;
       const values = [];
       for (const row of data) {
-        values.push(...this.getAllTreeValues(row, key, format))
+        values.push(...this.getAllTreeValues(row, key, formatLabel))
       }
       columnValues[key] = [...new Set(values)].sort();
     })
     return columnValues;
   }
 
-  getAllTreeValues(row, key, format) {
-    let value = [this.getFormattedValue(row[key], format)]
+  getAllTreeValues(row, key, formatLabel) {
+    let value = [this.getFormattedValue(row[key], formatLabel)]
     // if children, get value of every children recursively
     const childKey = this.childKeys.find(key => row[key])
     if (!!childKey){
       for (const child of row[childKey]) {
-        value.push(...this.getAllTreeValues(child, key, format))
+        value.push(...this.getAllTreeValues(child, key, formatLabel))
       }
     }
     return value
   }
 
-  getFormattedValue(value, format) {
+  getFormattedValue(value, formatLabel) {
     let formattedValue
     try {
       try {
-        const formatted = format(value)
+        const formatted = formatLabel(value)
         if(typeof(formatted) === 'string') {formattedValue = formatted} else {throw TypeError}
       }
       catch (error){
@@ -918,8 +929,13 @@ class UnityTable extends LitElement {
   }
 
   getSelected(key) {
-    const selectedArray = this._columnValues[key];
-    const currentFilter = this.columnFilter.find( filter => filter.column === key);
+    const {
+      columnFilter=[],
+      _columnValues: {
+        [key]: selectedArray=[]
+    }={}} = this
+
+    const currentFilter = columnFilter.find( filter => filter.column === key);
     let selectedValues = selectedArray;
     if (!!currentFilter) {
       if(currentFilter.include || (!currentFilter.include && currentFilter.values[0] === '*')) {
@@ -933,12 +949,13 @@ class UnityTable extends LitElement {
   }
 
 
-  _renderRow({
-    _rowId: rowId,
-    _tabIndex: tabIndex,
-    _childCount: childCount,
-    ...datum
-  }) {
+  _renderRow(row={}) {
+    const {
+      _rowId: rowId,
+      _tabIndex: tabIndex,
+      _childCount: childCount,
+      ...datum
+    } = row
     // returns a row element
     const columns = this.columns
     const {
@@ -969,16 +986,22 @@ class UnityTable extends LitElement {
           }
         }}"
       >
-        ${columns.map(({key: column, format, width}, i) => {
-          const value = datum[column]
-          const formattedContent = format instanceof Function ? format(value, datum) : null
-          const label = formattedContent? formattedContent : value
+
+        ${columns.map((column, i) => {
+          const {
+            key: columnKey,
+            formatLabel,
+            width
+          } = column
+          const {[columnKey]: columnValue=''} = datum || {}
+          const label = formatLabel instanceof Function
+            ? formatLabel(columnValue, datum)
+            : columnValue
+          const slotId = this.slotIdExtractor(row, column)
 
           return html`
-            <td class="cell" key="${rowId}-${column}">
+            <td class="cell" key="${slotId}">
               <unity-table-cell
-                .label="${label}"
-                .value="${value}"
                 .icon="${i === 0 && icon}"
                 .image="${i === 0 && image}"
                 .id="${rowId}"
@@ -996,15 +1019,19 @@ class UnityTable extends LitElement {
                 }}"
                 .resizable=${i < columns.length - 1}
                 .onResizeStart="${() => {
-                  this._handleColumnResizeStart(column, i)
+                  this._handleColumnResizeStart(columnKey, i)
                 }}"
                 .onResize="${xOffset => {
-                  this._handleColumnResize(column, xOffset)
+                  this._handleColumnResize(columnKey, xOffset)
                 }}"
                 .onResizeComplete="${xOffset => {
-                  this._handleColumnResizeComplete(column)
+                  this._handleColumnResizeComplete(columnKey)
                 }}"
-              />
+              >
+                <slot name="${slotId}">
+                  <span class="text">${label}</span>
+                </slot>
+              </unity-table-cell>
             </td>`
           })
         }
@@ -1069,16 +1096,17 @@ class UnityTable extends LitElement {
    * Filter data from the full sorted data array. Non-matching parents of matching rows are kept.
    */
   getFilteredData() {
+    const {columnFilter=[]} = this
     const fullDataArray = this._flattenData(this._sortedData);
     let filteredData = [...fullDataArray]
     try {
-      if(this.columnFilter.length > 0){
-        for(const f of this.columnFilter) {
+      if(columnFilter.length > 0){
+        for(const f of columnFilter) {
           // add / exclude data from table depending on filters
           filteredData = filteredData.filter( (datum) =>
             {
-              const format = this.columns.find(col=> col.key === f.column).format
-              const formattedValue = this.getFormattedValue(datum[f.column], format);
+              const {formatLabel} = this.columns.find(col=> col.key === f.column) || {}
+              const formattedValue = this.getFormattedValue(datum[f.column], formatLabel);
               if ((f.include) || (!f.include && f.values[0] === '*')) {
                 return f.values.includes(formattedValue);
               }
@@ -1117,11 +1145,13 @@ class UnityTable extends LitElement {
 
 
   renderActiveFilters() {
+    const {columnFilter=[]} = this
+
     return html`
       <div class="active-filters">
         <div class="filter-container">
-        ${this.columnFilter.length > 0?
-          this.columnFilter.map( f => html`<p style="margin: 0">
+        ${columnFilter.length > 0?
+          columnFilter.map( f => html`<p style="margin: 0">
                                             <b>Column:</b> ${f.column};
                                             <b>Filters:</b> ${f.values.join(', ')};
                                             <b>Action:</b> ${f.include? "include": "exclude"}
@@ -1209,7 +1239,8 @@ class UnityTable extends LitElement {
           min-height: 0;
           width: 100%;
           max-width: 100%;
-          table-layout: auto; /* NOTE: auto prevents table from overflowing passed 100% */
+          /*table-layout: auto;*/
+          table-layout: fixed;
           border-collapse: collapse;
           border-spacing: 0;
           box-sizing: border-box;
@@ -1278,6 +1309,18 @@ class UnityTable extends LitElement {
         }
         .cell {
           border-collapse: collapse;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .text {
+          flex: 1;
+          min-width: 0;
+          overflow: hidden;
+
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .header-content {
           display: flex;
@@ -1285,10 +1328,15 @@ class UnityTable extends LitElement {
           justify-content: flex-start;
           align-items: center;
           flex: 1;
+          min-width: 0;
         }
         .header-label {
           /*flex: 1;*/
           padding-top: 1px;
+          min-width: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         paper-checkbox {
         }

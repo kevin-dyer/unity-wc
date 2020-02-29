@@ -77,6 +77,8 @@ class TableCellBase extends LitElement {
       css`
         :host {
           flex: 1;
+          min-width: 0;
+          display: flex;
         }
         .table-cell-base {
           flex: 1;
@@ -84,9 +86,11 @@ class TableCellBase extends LitElement {
           flex-direction: row;
           align-items: stretch;
           position: relative;
+          min-width: 0;
         }
         .content {
           flex: 1;
+          min-width: 0;
         }
         .resize-handle{
           position: absolute;

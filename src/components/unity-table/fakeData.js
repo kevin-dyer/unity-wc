@@ -2,6 +2,21 @@
 // normally this would be taken from the store
 import { html } from 'lit-element';
 
+//Extra rows of fake data to test infinite scroll
+let fillerRows = []
+for(let i=0; i<200; i++) {
+  fillerRows.push({
+    id: `filler-${i}`,
+    name: `filler-${i}`,
+    icon: 'unity:cube',
+    description: 'Filler row',
+    deployments: 'Test App, Control center Video Wall',
+    firmwareVersion: '2.1.0',
+    status: 'Active',
+    createdAt: 'January 13, 2018 7:06pm',
+  })
+}
+
 export const devices = {
   data: [
     {
@@ -184,7 +199,8 @@ export const devices = {
                   firmwareVersion: '1.0.0',
                   status: 'Active',
                   createdAt: 'January 12, 2018 7:06pm',
-                }
+                },
+                ...fillerRows
               ]
             },
           ]
@@ -201,44 +217,34 @@ export const devices = {
     {
       key: 'deployments',
       label: 'Used in Deployments',
-      format: (deployments='') => deployments
+      formatLabel: (deployments='') => deployments
     },
     {
       key: 'firmwareVersion',
       label: 'Firmware Version',
-      format: (version='') => version
+      formatLabel: (version='') => version
     },
     {
       key: 'description',
       label: 'Description',
-      format: (description='') => description
+      formatLabel: (description='') => description
     },
     {
       key: 'status',
       label: 'Status',
-      format: (status='') => status
+      formatLabel: (status='...') => status
     },
     {
       key: 'createdAt',
       label: 'Created at',
-      format: (createdAt='') => createdAt
+      formatLabel: (createdAt='') => createdAt
     },
   ]
   ,
-  filters: [{column: "status", values: ["Active"], include: true} ],
+  //filters: [{column: "status", values: ["Active"], include: true} ],
   childKeys: ['groups', 'devices']
 }
-//Extra rows of fake data to test infinite scroll
-let fillerRows = []
-for(let i=0; i<200; i++) {
-  fillerRows.push({
-    id: `grey-${i}`,
-    name: null,
-    hex: `#4545${i % 45}`,
-    favorite: false,
-    icon: 'icons:add'
-  })
-}
+
 
 export const colors = {
   data: [
@@ -304,19 +310,21 @@ export const colors = {
       key: 'hex',
       label: 'Hex value',
       width: 200,
-      format: (hex, datum) => html`<span style="color: ${hex}">${hex}</span>`
+
+      //TODO: add renderCustomContent
+      formatLabel: (hex, datum) => html`<span style="color: ${hex}">${hex}</span>`
     },
     {
       key: 'name',
       label: 'Color',
       width: 300,
-      format: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
+      formatLabel: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
     },
     {
       key: 'favorite',
       label: 'Favourite?',
       width: 500,
-      format: (value, datum) => value ? 'I love it!' : 'passible, I guess'
+      formatLabel: (value, datum) => value ? 'I love it!' : 'passible, I guess'
     }
   ],
 
