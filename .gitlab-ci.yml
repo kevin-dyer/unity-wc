@@ -1,0 +1,44 @@
+
+default:
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+  image: 
+    name: atlassianlabs/docker-node-jdk-chrome-firefox
+
+stages:
+  - setup
+  - test
+
+setup:
+  stage: setup
+  script:
+  - echo "Set up"
+  - echo "**************"
+  - echo ""
+  - echo "***************************** installing deps for the project and building the app"
+  - echo -e "@bit:registry=https://node.bit.dev\n//node.bit.dev/:_authToken=${BIT_TOKEN}\nalways-auth=true" > .npmrc
+  - npm install
+  rules:
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+  - if: '$CI_COMMIT_REF_NAME == "develop"'
+  allow_failure: false
+
+test:
+  stage: test
+  script:
+  - echo "Running tests"
+  - npm test
+  artifacts:
+    paths:
+      - junit/report.xml
+      - coverage
+    reports:
+      junit: junit/report.xml
+  coverage: /Statements.*?(\d+(?:\.\d+)?)%/
+  rules:
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+  - if: '$CI_COMMIT_REF_NAME == "develop"'
+  allow_failure: false
+
