@@ -41,3 +41,12 @@ gives you the following features:
 - [x] Setup Safari testing on Travis.
 - [x] Deploy all templates as demos.
 - [ ] Update to latest [Material Web Components](https://github.com/material-components/material-components-web-components).
+
+
+## Testing
+
+Test files must be located in the `test/unit/` folder and end with `.test.js`. We use the `@open-wc/testing` library to set up and run tests (see [open-wc testing](https://open-wc.org/testing/)). This uses [Karma](https://karma-runner.github.io/latest/index.html) as a runner, [Mocha](https://mochajs.org/) for setting up tests, and [Chai](https://www.chaijs.com/) for assertions.
+
+To run the tests, run `npm test`. It will display success/errors and code coverage on console, and also will create a `coverage` folder with complete coverage results. The tests will fail if a minimum of coverage is not reached. To see the complete coverage results, open the `coverage/index.html` file in the browser. There you can inspect the code to see how many times each line of code is executed in the tests, and which statements/functions/branches are not executed at all.
+
+A CI pipeline is configured in Gitlab to run unit tests when pushing or merging to `develop`. The pipeline is triggered with each merge request created or when new code is pushed to it. If the unit tests fail (because of test failure or insufficient coverage), it will prevent the user from merging.
