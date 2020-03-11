@@ -24,6 +24,7 @@ import '@bit/smartworks.unity.unity-text-input';
 import './unity-layout/unity-split-pane.js'
 // import '@bit/smartworks.unity.unity-split-pane'
 
+import '@bit/smartworks.unity.unity-typography';
 
 import './unity-table/unity-column-editor.js'
 
@@ -175,6 +176,13 @@ class MySplitPane extends PageViewElement {
           width: 100%;
         }
 
+        .footer-container {
+          height: 40px;
+          border-top: 2px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          text-align: center;
+          padding-top: 10px;
+        }
+
         .table-container {
           flex: 1;
           position: relative;
@@ -267,6 +275,13 @@ class MySplitPane extends PageViewElement {
             ></unity-column-editor>
           </div>
         </unity-page-header>
+
+        <div
+          slot="footer"
+          class="footer-container"
+        >
+            <unity-typography size='header2'>Footer</unity-typography>
+        </div>
 
         <unity-table
           slot="main"
