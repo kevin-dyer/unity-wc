@@ -54,6 +54,7 @@ build:
   - echo "**************"
   - echo ""
   - echo "***************************** installing deps for the project and building the app"
+  - echo -e "@bit:registry=https://node.bit.dev\n//node.bit.dev/:_authToken=${BIT_TOKEN}\nalways-auth=true" > .npmrc
   - yarn
   - npm run build-storybook
   artifacts:
