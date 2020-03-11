@@ -154,7 +154,7 @@ class MyGlobalNav extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-global-nav-base gutter
+        <unity-global-nav-base gutter collapsible
           logo="../../../images/manifest/icon-48x48.png"
         >
           ${topItems.map(({slot, key, label, short, icon, children}) => html`
@@ -180,7 +180,7 @@ class MyGlobalNav extends PageViewElement {
               .onSelect="${this._changeSelection}"
               .label="${label}"
               .icon="${icon}"
-              .short="${short}"
+              .short="${false}"
               .selected="${this._selected === key}"
             ></unity-global-nav-top-item>
           `)}
