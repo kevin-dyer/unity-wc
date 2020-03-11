@@ -48,7 +48,7 @@ test:
 build:
   stage: build
   image: 
-    name: node
+    name: node:erbium
   script:
   - echo "A WIP pipeline"
   - echo "**************"
@@ -67,7 +67,7 @@ build:
 package:
   stage: package
   image: 
-    name: node
+    name: node:erbium
   script:
   - echo "***************************** moving static content to be serverd by Nginx"
   - rm -rf /tmp/build
@@ -85,7 +85,7 @@ package:
 deploy:
   stage: deploy
   image: 
-    name: node
+    name: node:erbium
   script:
   - echo "***************************** deploying to K8s"
   # - docker login -u $REGROU -p $REGROP $REGSRV
