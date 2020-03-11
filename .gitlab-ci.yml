@@ -1,0 +1,93 @@
+
+default:
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+
+stages:
+  - setup
+  - test
+  - build
+  - package
+  - deploy
+
+setup:
+  stage: setup
+  image: 
+    name: atlassianlabs/docker-node-jdk-chrome-firefox
+  script:
+  - echo "Set up"
+  - echo "**************"
+  - echo ""
+  - echo "***************************** installing deps for the project and building the app"
+  - echo -e "@bit:registry=https://node.bit.dev\n//node.bit.dev/:_authToken=${BIT_TOKEN}\nalways-auth=true" > .npmrc
+  - npm install
+  rules:
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+  - if: '$CI_COMMIT_REF_NAME == "develop"'
+
+test:
+  stage: test
+  image: 
+    name: atlassianlabs/docker-node-jdk-chrome-firefox
+  script:
+  - echo "Running tests"
+  - npm test
+  artifacts:
+    paths:
+      - junit/report.xml
+      - coverage
+    reports:
+      junit: junit/report.xml
+  coverage: /Statements.*?(\d+(?:\.\d+)?)%/
+  rules:
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+  - if: '$CI_COMMIT_REF_NAME == "develop"'
+
+build:
+  stage: build
+  image: 
+    name: node
+  script:
+  - echo "A WIP pipeline"
+  - echo "**************"
+  - echo ""
+  - echo "***************************** installing deps for the project and building the app"
+  - yarn
+  - npm run build-storybook
+  artifacts:
+    paths:
+    - ./storybook-static
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == "master"'
+
+package:
+  stage: package
+  image: 
+    name: node
+  script:
+  - echo "***************************** moving static content to be serverd by Nginx"
+  - rm -rf /tmp/build
+  - mv ./storybook-static /tmp
+  # - echo "***************************** pulling changes from the Packer repo"
+##  - git -C /home/gitlab-runner/packer pull https://$DEPLOYERU:$DEPLOYERP@carritosdev.carriots.com/devops/kubernetes-and-containers/packer.git
+  # - cd /home/gitlab-runner/packer && git fetch --all && git reset --hard origin/master
+  # - echo "***************************** creating Docker image"
+  # - sed -i "s/__CI_COMMIT_SHORT_SHA__/$CI_COMMIT_SHORT_SHA/g" /home/gitlab-runner/packer/2020-smartworks-frontend.json
+  # - cd /home/gitlab-runner/packer && packer build 2020-smartworks-frontend.json
+  # - echo ""
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == "master"'
+
+deploy:
+  stage: deploy
+  image: 
+    name: node
+  script:
+  - echo "***************************** deploying to K8s"
+  # - docker login -u $REGROU -p $REGROP $REGSRV
+  # - echo "Going to deploy smartworks-frontend:$CI_COMMIT_SHORT_SHA-dev"
+  # - kubectl -n dev-iot set image deployment/frontend frontend=smartcoredevacr.azurecr.io/packer/smartworks-frontend:$CI_COMMIT_SHORT_SHA-dev --record
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == "master"'
