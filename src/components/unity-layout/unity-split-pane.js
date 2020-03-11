@@ -63,6 +63,9 @@ class UnitySplitPane extends LitElement {
             <slot name="main"></slot>
           </div>
         </div>
+        <div class="footer">
+          <slot name="footer"></slot>
+        </div>
       </div>
       <div class="pane ${!show ? 'hide' : ''}">
         ${!!closeButton ?
@@ -98,6 +101,9 @@ class UnitySplitPane extends LitElement {
           overflow: hidden;
         }
         .header {
+          flex: 0;
+        }
+        .footer {
           flex: 0;
         }
         .scroller {
