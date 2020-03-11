@@ -1,7 +1,7 @@
 import { html } from 'lit-element';
 import { withKnobs, boolean } from "@storybook/addon-knobs";
 import { action } from '@storybook/addon-actions';
-import "../src/components/unity-dropdown/unity-dropdown"
+import "@bit/smartworks.unity.unity-dropdown"
 
 export default {
   title: 'Dropdown Inputs',
