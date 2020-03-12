@@ -44,6 +44,7 @@ class UnityGlobalNavInnerItem extends LitElement {
     this.key = ''
     this.icon = ''
     this.onSelect = ()=>{}
+    this.collapsed = false
   }
 
   static get properties() {
@@ -52,7 +53,8 @@ class UnityGlobalNavInnerItem extends LitElement {
       onSelect: { type: Function },
       label: { type: String },
       key: { type: String },
-      icon: { type: String }
+      icon: { type: String },
+      collapsed: { type: Boolean }
     }
   }
 
@@ -72,13 +74,14 @@ class UnityGlobalNavInnerItem extends LitElement {
       key='',
       label=key,
       icon='',
+      collapsed
     } = this
 
     return html`
       <div class="container ${selected ? 'selected' : ''}" @click=${_onSelect}>
         <div class="label">
           ${!!icon && icon !== 'undefined' ? html`<iron-icon class="icon" icon="${icon}"></iron-icon>` : null}
-          <div class="text">${label}</div>
+          ${!collapsed? html`<div class="text">${label}</div>` : '' }
         </div>
       </div>
     `
@@ -96,7 +99,7 @@ class UnityGlobalNavInnerItem extends LitElement {
           --selected-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --text-color: var(--global-nav-text-color, var(--default-global-nav-text-color));
           --item-height: 32px;
-          --label-padding: 16px;
+          --label-margin: 12px;
           border-collapse: collapse;
           user-select: none;
         }
@@ -116,8 +119,7 @@ class UnityGlobalNavInnerItem extends LitElement {
           flex-wrap: nowrap;
           overflow: hidden;
           position: relative;
-          padding-left: var(--label-padding);
-          padding-right: var(--label-padding);
+          height: var(--item-height)
         }
         .text {
           flex: 1;
@@ -127,6 +129,8 @@ class UnityGlobalNavInnerItem extends LitElement {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          margin: 0 var(--label-margin);
+
         }
         iron-icon {
           height: 16px;
@@ -134,7 +138,7 @@ class UnityGlobalNavInnerItem extends LitElement {
           top: calc(var(--item-height) / 2);
           transform: translateY(-50%);
           color: var(--text-color);
-          padding-right: 12px;
+          margin-left: var(--label-margin);
         }
       `
     ]

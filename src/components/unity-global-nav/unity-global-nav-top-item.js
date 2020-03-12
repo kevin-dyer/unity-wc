@@ -3,7 +3,7 @@ import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/iron-icons/image-icons.js'
 import '@polymer/iron-icons/social-icons.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-global-nav-inner-item'
+import './unity-global-nav-inner-item'
 
 /**
 * Renders a left-bound navigation bar
@@ -64,6 +64,7 @@ class UnityGlobalNavTopItem extends LitElement {
     this.icon = ''
     this.onSelect = ()=>{}
     this.children = []
+    this.collapsed = false
 
     // internals
     this._expanded = true
@@ -78,7 +79,7 @@ class UnityGlobalNavTopItem extends LitElement {
       key: { type: String },
       icon: { type: String },
       children: { type: Array },
-
+      collapsed: { type: Boolean },
       // internals
       _expanded: { type: Boolean },
     }
@@ -97,6 +98,19 @@ class UnityGlobalNavTopItem extends LitElement {
     }
   }
 
+  getLabel(hasIcon) {
+    let { collapsed, label=this.key, short } = this
+    if(collapsed || !label) {
+      if(!hasIcon) {
+        label = label[0]
+      }
+      else {
+        return ''  
+      }
+    }
+    return html`<div class="text ${short ? 'short' : ''}">${label}</div>`
+  }
+
   render() {
     let {
       short,
@@ -106,7 +120,8 @@ class UnityGlobalNavTopItem extends LitElement {
       label=key,
       icon='',
       children=[],
-      _expanded: open=false
+      _expanded: open=false,
+      collapsed
     } = this
     let hasChildren = Array.isArray(children) && children.length > 0
     if (hasChildren && children.length === 1) {
@@ -131,8 +146,8 @@ class UnityGlobalNavTopItem extends LitElement {
       >
         <div class="label ${short ? 'short' : ''}">
           ${hasIcon ? html`<iron-icon class="icon ${short ? 'short-pos' : ''}" icon="${icon}"></iron-icon>` : null}
-          <div class="text ${short ? 'short' : ''}">${label}</div>
-          ${hasChildren ? html`<iron-icon class="expand ${short ? 'short-pos' : ''}" icon="${open ? 'expand-less' : 'expand-more'}"></iron-icon>` : null}
+          ${this.getLabel(hasIcon)}
+          ${!collapsed && hasChildren ? html`<iron-icon class="expand ${short ? 'short-pos' : ''}" icon="${open ? 'expand-less' : 'expand-more'}"></iron-icon>` : null}
         </div>
         ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected}) => html`
         <unity-global-nav-inner-item
@@ -141,6 +156,7 @@ class UnityGlobalNavTopItem extends LitElement {
           .label="${label}"
           .icon="${icon}"
           .selected="${selected}"
+          ?collapsed=${collapsed}
         ></unity-global-nav-inner-item>
         `) : null}
       </div>
@@ -161,7 +177,7 @@ class UnityGlobalNavTopItem extends LitElement {
           --border-breakers: var(--global-nav-border-color, var(--default-global-nav-border-color));
           --tall-height: 52px;
           --short-height: 32px;
-          --label-padding: 16px;
+          --label-margin: 12px;
           border-collapse: collapse;
           user-select: none;
         }
@@ -186,8 +202,6 @@ class UnityGlobalNavTopItem extends LitElement {
           flex-wrap: nowrap;
           overflow: hidden;
           position: relative;
-          padding-left: var(--label-padding);
-          padding-right: var(--label-padding);
           min-height: var(--tall-height);
           font-weight: 500;
         }
@@ -199,6 +213,7 @@ class UnityGlobalNavTopItem extends LitElement {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          margin: 0 var(--label-margin);
         }
         iron-icon {
           top: calc(var(--tall-height) / 2);
@@ -208,7 +223,7 @@ class UnityGlobalNavTopItem extends LitElement {
           height: 16px;
           width: 16px;
           color: var(--text-color);
-          padding-right: 12px;
+          margin-left: var(--label-margin);
         }
         .expand {
           color: var(--border-breakers)
