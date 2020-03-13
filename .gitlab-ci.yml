@@ -25,6 +25,8 @@ setup:
   rules:
   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
   - if: '$CI_COMMIT_REF_NAME == "develop"'
+  tags:
+  - docker
 
 test:
   stage: test
@@ -43,6 +45,8 @@ test:
   rules:
   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
   - if: '$CI_COMMIT_REF_NAME == "develop"'
+  tags:
+  - docker
 
 build:
   stage: build
@@ -61,7 +65,9 @@ build:
     paths:
     - ./storybook-static
   rules:
-  - if: '$CI_COMMIT_REF_NAME == "master"'
+  - if: '$CI_COMMIT_REF_NAME == "master"
+  tags:
+  - docker
 
 package:
   stage: package
@@ -78,6 +84,8 @@ package:
   - echo ""
   rules:
   - if: '$CI_COMMIT_REF_NAME == "master"'
+  tags:
+  - shell
 
 deploy:
   stage: deploy
@@ -88,3 +96,6 @@ deploy:
   - kubectl -n dev-iot set image deployment/webcomponents frontend=smartcoredevacr.azurecr.io/packer/smartworks-webcomponents:$CI_COMMIT_SHORT_SHA-dev --record
   rules:
   - if: '$CI_COMMIT_REF_NAME == "master"'
+  tags:
+  - shell
+
