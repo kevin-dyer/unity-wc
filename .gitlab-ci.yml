@@ -65,7 +65,7 @@ build:
     paths:
     - ./storybook-static
   rules:
-  - if: '$CI_COMMIT_REF_NAME == "master"
+  - if: '$CI_COMMIT_REF_NAME == "master"'
   tags:
   - docker
 
