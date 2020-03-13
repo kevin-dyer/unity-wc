@@ -1,4 +1,3 @@
-
 default:
   cache:
     key: ${CI_COMMIT_REF_SLUG}
@@ -72,13 +71,13 @@ package:
   - echo "***************************** moving static content to be serverd by Nginx"
   - rm -rf /tmp/build
   - mv ./storybook-static /tmp
-  # - echo "***************************** pulling changes from the Packer repo"
-##  - git -C /home/gitlab-runner/packer pull https://$DEPLOYERU:$DEPLOYERP@carritosdev.carriots.com/devops/kubernetes-and-containers/packer.git
-  # - cd /home/gitlab-runner/packer && git fetch --all && git reset --hard origin/master
-  # - echo "***************************** creating Docker image"
-  # - sed -i "s/__CI_COMMIT_SHORT_SHA__/$CI_COMMIT_SHORT_SHA/g" /home/gitlab-runner/packer/2020-smartworks-frontend.json
-  # - cd /home/gitlab-runner/packer && packer build 2020-smartworks-frontend.json
-  # - echo ""
+  - echo "***************************** pulling changes from the Packer repo"
+  - git -C /home/gitlab-runner/packer pull https://$DEPLOYERU:$DEPLOYERP@carritosdev.carriots.com/devops/kubernetes-and-containers/packer.git
+  - cd /home/gitlab-runner/packer && git fetch --all && git reset --hard origin/master
+  - echo "***************************** creating Docker image"
+  - sed -i "s/__CI_COMMIT_SHORT_SHA__/$CI_COMMIT_SHORT_SHA/g" /home/gitlab-runner/packer/2020-smartworks-webcomponents.json
+  - cd /home/gitlab-runner/packer && packer build 2020-smartworks-webcomponents.json
+  - echo ""
   rules:
   - if: '$CI_COMMIT_REF_NAME == "master"'
 
@@ -89,7 +88,7 @@ deploy:
   script:
   - echo "***************************** deploying to K8s"
   # - docker login -u $REGROU -p $REGROP $REGSRV
-  # - echo "Going to deploy smartworks-frontend:$CI_COMMIT_SHORT_SHA-dev"
-  # - kubectl -n dev-iot set image deployment/frontend frontend=smartcoredevacr.azurecr.io/packer/smartworks-frontend:$CI_COMMIT_SHORT_SHA-dev --record
+  # - echo "Going to deploy smartworks-webcomponents:$CI_COMMIT_SHORT_SHA-dev"
+  # - kubectl -n dev-iot set image deployment/webcomponents frontend=smartcoredevacr.azurecr.io/packer/smartworks-webcomponents:$CI_COMMIT_SHORT_SHA-dev --record
   rules:
   - if: '$CI_COMMIT_REF_NAME == "master"'
