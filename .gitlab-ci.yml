@@ -80,6 +80,7 @@ package:
   - cd /home/gitlab-runner/packer && git fetch --all && git reset --hard origin/master
   - echo "***************************** creating Docker image"
   - sed -i "s/__CI_COMMIT_SHORT_SHA__/$CI_COMMIT_SHORT_SHA/g" /home/gitlab-runner/packer/2020-smartworks-webcomponents.json
+  - docker login -u $REGROU -p $REGROP $REGSRV
   - cd /home/gitlab-runner/packer && packer build 2020-smartworks-webcomponents.json
   - echo ""
   rules:
