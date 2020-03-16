@@ -4,7 +4,7 @@ import '../../src/components/unity-tooltip/unity-tooltip';
 describe('tooltip test', () => {
   it('without arrow', async () => {
     const el = await fixture('<unity-tooltip label="hi"></unity-tooltip>');
-    expect(el).shadowDom.to.equal('<span class="tooltip"><unity-typography size="paragraph">hi<unity-typography></span>');
+    expect(el).shadowDom.to.equal('<span class="tooltip"><unity-typography size="paragraph">hi</unity-typography></span>');
   });
 });
 

@@ -37,7 +37,7 @@ class UnityTooltip extends LitElement {
     if (!!arrow) {
       classes += ` arrow ${arrow}`
     }
-    return html`<span class=${classes}><unity-typography size="paragraph">${label}<unity-typography></span>`
+    return html`<span class=${classes}><unity-typography size="paragraph">${label}</unity-typography></span>`
   }
 
   static get styles() {
