@@ -10,7 +10,7 @@ setup:
   image: 
     name: atlassianlabs/docker-node-jdk-chrome-firefox
   script:
-  - echo "Set up"
+  - echo "Set upp"
   - echo "**************"
   - echo ""
   - echo "***************************** installing deps for the project and building the app"
