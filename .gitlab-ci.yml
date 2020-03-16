@@ -1,9 +1,3 @@
-default:
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
-
 stages:
   - setup
   - test
@@ -25,6 +19,11 @@ setup:
   rules:
   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
   - if: '$CI_COMMIT_REF_NAME == "develop"'
+  cache:
+    key: node_modules
+    paths:
+      - node_modules/
+    policy: push
   tags:
   - docker
 
@@ -45,6 +44,11 @@ test:
   rules:
   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
   - if: '$CI_COMMIT_REF_NAME == "develop"'
+  cache:
+    key: node_modules
+    paths:
+      - node_modules/
+    policy: pull
   tags:
   - docker
 
