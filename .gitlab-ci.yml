@@ -73,7 +73,7 @@ package:
   stage: package
   script:
   - echo "***************************** moving static content to be serverd by Nginx"
-  - rm -rf /tmp/build
+  - rm -rf /tmp/storybook-static
   - mv ./storybook-static /tmp
   - echo "***************************** pulling changes from the Packer repo"
   - git -C /home/gitlab-runner/packer pull https://$DEPLOYERU:$DEPLOYERP@carritosdev.carriots.com/devops/kubernetes-and-containers/packer.git
