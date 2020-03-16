@@ -34,7 +34,7 @@ class UnityTooltip extends LitElement {
   render() {
     const { label, arrow } = this
     let classes = 'tooltip'
-    if (arrow) {
+    if (!!arrow) {
       classes += ` arrow ${arrow}`
     }
     return html`<span class=${classes}><unity-typography size="paragraph">${label}<unity-typography></span>`
