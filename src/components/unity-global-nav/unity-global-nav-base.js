@@ -168,7 +168,6 @@ class UnityGlobalNavBase extends LitElement {
           display: flex;
           flex-direction: column;
           flex-wrap: nowrap;
-          overflow: hidden;
           top: var(--logo-height);
           bottom: 0;
           width: 100%;
