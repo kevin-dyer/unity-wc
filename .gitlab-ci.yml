@@ -15,6 +15,7 @@ setup:
   - echo ""
   - echo "***************************** installing deps for the project and building the app"
   - echo -e "@bit:registry=https://node.bit.dev\n//node.bit.dev/:_authToken=${BIT_TOKEN}\nalways-auth=true" > .npmrc
+  - rm -rf node_modules && npm cache clean --force && rm package-lock.json
   - npm install
   rules:
   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
