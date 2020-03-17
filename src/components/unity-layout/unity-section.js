@@ -62,7 +62,7 @@ class UnitySection extends LitElement {
         :host {
           --section-color: var(--background-color, var(--default-background-color));
           --border-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --vert-pos: var(--vertical-position);
+          --vert-pos: var(--vertical-position, center);
           --horz-pos: var(--horizontal-position, center);
           align-self: stretch;
           flex: 1;
