@@ -2,8 +2,8 @@
 
 ## Changelog:
 
-### v0.1.5
+### v0.2.0
 - Add css var and defaulting for content alignment
 
-### v0.1.4
+### v0.1.3
 - Previous current working version of unity-section
