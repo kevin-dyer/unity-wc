@@ -145,6 +145,11 @@
                 "relativePath": "src/components/unity-layout/unity-section.js",
                 "test": false,
                 "name": "unity-section.js"
+            },
+            {
+                "relativePath": "src/components/unity-layout/unity-section.md",
+                "test": false,
+                "name": "unity-section.md"
             }
         ],
         "mainFile": "src/components/unity-layout/unity-section.js",
