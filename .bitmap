@@ -236,6 +236,24 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-tooltip@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-tooltip/unity-tooltip.js",
+                "test": false,
+                "name": "unity-tooltip.js"
+            },
+            {
+                "relativePath": "src/components/unity-tooltip/unity-tooltip.md",
+                "test": false,
+                "name": "unity-tooltip.md"
+            }
+        ],
+        "mainFile": "src/components/unity-tooltip/unity-tooltip.js",
+        "trackDir": "src/components/unity-tooltip",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "smartworks.unity/unity-typography@0.0.2": {
         "files": [
             {
