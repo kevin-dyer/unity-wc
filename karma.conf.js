@@ -4,6 +4,7 @@ const merge = require('deepmerge');
 module.exports = config => {
   config.set(
     merge(createDefaultConfig(config), {
+      frameworks: ['mocha'],
       files: [
         // runs all files ending with .test in the test folder,
         // can be overwritten by passing a --grep flag. examples:

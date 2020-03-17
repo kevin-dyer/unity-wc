@@ -22,6 +22,9 @@ export const SplitPane = () => {
       <div slot="main">
         ${text("'main' slot", "This is the main body.")}
       </div>
+      <div slot="footer">
+        ${text("'footer' slot", "This is the footer.")}
+      </div>
       <div slot="pane">
         ${text("'pane' slot", "This is the pane that can be hidden.")}
       </div>
