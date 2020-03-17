@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import './unity-global-nav-top-item.js'
-import '@bit/smartworks.unity.unity-icon-set';
+import '@bit/smartworks.unity.unity-icon-set'
 
 /**
 * Renders a left-bound navigation bar

@@ -4,6 +4,8 @@ import '@polymer/iron-icons/image-icons.js'
 import '@polymer/iron-icons/social-icons.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import './unity-global-nav-inner-item'
+// import '@bit/smartworks.unity.unity-tooltip'
+import '../unity-tooltip/unity-tooltip'
 
 /**
 * Renders a left-bound navigation bar
@@ -145,8 +147,9 @@ class UnityGlobalNavTopItem extends LitElement {
         @click=${_onSelect}
       >
         <div class="label ${short ? 'short' : ''}">
-          ${hasIcon ? html`<iron-icon class="icon ${short ? 'short-pos' : ''}" icon="${icon}"></iron-icon>` : null}
+          ${hasIcon ? html`<iron-icon class="icon" icon="${icon}"></iron-icon>` : null}
           ${this.getLabel(hasIcon)}
+          ${collapsed? html`<unity-tooltip label=${label}></unity-tooltip>` : ''}
           ${!collapsed && hasChildren ? html`<iron-icon class="expand ${short ? 'short-pos' : ''}" icon="${open ? 'expand-less' : 'expand-more'}"></iron-icon>` : null}
         </div>
         ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected}) => html`
@@ -200,10 +203,9 @@ class UnityGlobalNavTopItem extends LitElement {
         .label {
           display: flex;
           flex-wrap: nowrap;
-          overflow: hidden;
-          position: relative;
           min-height: var(--tall-height);
           font-weight: 500;
+          align-items: center;
         }
         .text {
           flex: 1;
@@ -214,10 +216,6 @@ class UnityGlobalNavTopItem extends LitElement {
           text-overflow: ellipsis;
           white-space: nowrap;
           margin: 0 var(--label-margin);
-        }
-        iron-icon {
-          top: calc(var(--tall-height) / 2);
-          transform: translateY(-50%);
         }
         .icon {
           height: 16px;
@@ -232,8 +230,14 @@ class UnityGlobalNavTopItem extends LitElement {
           min-height: var(--short-height);
           line-height: var(--short-height);
         }
-        .short-pos {
-          top: calc(var(--short-height) / 2);
+        unity-tooltip {
+          position: absolute;
+          left: 90%;
+          display: none;
+          margin-top: -20px;
+        }
+        .label:hover unity-tooltip {
+          display: block;
         }
       `
     ]

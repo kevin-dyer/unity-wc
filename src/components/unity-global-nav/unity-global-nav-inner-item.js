@@ -3,6 +3,8 @@ import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/iron-icons/image-icons.js'
 import '@polymer/iron-icons/social-icons.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+// import '@bit/smartworks.unity.unity-tooltip'
+import '../unity-tooltip/unity-tooltip'
 
 /**
 * Renders a left-bound navigation bar
@@ -81,7 +83,7 @@ class UnityGlobalNavInnerItem extends LitElement {
       <div class="container ${selected ? 'selected' : ''}" @click=${_onSelect}>
         <div class="label">
           ${!!icon && icon !== 'undefined' ? html`<iron-icon class="icon" icon="${icon}"></iron-icon>` : null}
-          ${!collapsed? html`<div class="text">${label}</div>` : '' }
+          ${!collapsed? html`<div class="text">${label}</div>` : html`<unity-tooltip label=${label}></unity-tooltip>` }
         </div>
       </div>
     `
@@ -117,8 +119,6 @@ class UnityGlobalNavInnerItem extends LitElement {
         .label {
           display: flex;
           flex-wrap: nowrap;
-          overflow: hidden;
-          position: relative;
           height: var(--item-height)
         }
         .text {
@@ -139,6 +139,15 @@ class UnityGlobalNavInnerItem extends LitElement {
           transform: translateY(-50%);
           color: var(--text-color);
           margin-left: var(--label-margin);
+        }
+        unity-tooltip {
+          position: absolute;
+          left: 90%;
+          margin-top: 6px;
+          display: none;
+        }
+        .label:hover unity-tooltip {
+          display: block;
         }
       `
     ]
