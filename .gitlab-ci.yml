@@ -100,7 +100,7 @@ deploy:
   - echo "***************************** deploying to K8s"
   - docker login -u $REGROU -p $REGROP $REGSRV
   - echo "Going to deploy smartworks-webcomponents:$CI_COMMIT_SHORT_SHA-dev"
-  - kubectl -n dev-iot set image deployment/webcomponents webcomponents=smartcoredevacr.azurecr.io/packer/smartworks-webcomponents:$CI_COMMIT_SHORT_SHA-dev --record
+  - kubectl -n dev-iot set image deployment/webcomponents webcomponents=iotaltairacr.azurecr.io/dev/iot/common/packer/smartworks-webcomponents:$CI_COMMIT_SHORT_SHA-dev --record
   rules:
   - if: '$CI_COMMIT_REF_NAME == "master"'
   tags:
