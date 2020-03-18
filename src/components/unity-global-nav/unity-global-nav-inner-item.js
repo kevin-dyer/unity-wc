@@ -119,7 +119,8 @@ class UnityGlobalNavInnerItem extends LitElement {
         .label {
           display: flex;
           flex-wrap: nowrap;
-          height: var(--item-height)
+          height: var(--item-height);
+          align-items: center;
         }
         .text {
           flex: 1;
@@ -135,15 +136,12 @@ class UnityGlobalNavInnerItem extends LitElement {
         iron-icon {
           height: 16px;
           width: 16px;
-          top: calc(var(--item-height) / 2);
-          transform: translateY(-50%);
           color: var(--text-color);
           margin-left: var(--label-margin);
         }
         unity-tooltip {
           position: absolute;
           left: 90%;
-          margin-top: 6px;
           display: none;
         }
         .label:hover unity-tooltip {

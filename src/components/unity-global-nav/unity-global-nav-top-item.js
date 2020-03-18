@@ -234,7 +234,6 @@ class UnityGlobalNavTopItem extends LitElement {
           position: absolute;
           left: 90%;
           display: none;
-          margin-top: -20px;
         }
         .label:hover unity-tooltip {
           display: block;
