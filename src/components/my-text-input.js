@@ -52,9 +52,10 @@ class MyTextInput extends PageViewElement {
     ]
   }
 
-  onInputChange(e, value) {
-    console.log('onChange e', e)
-    console.log('onChange value', value)
+  onInputChange(e, value, isValid) {
+    console.log('onChange e: ', e)
+    console.log('onChange value: ', value)
+    console.log('onChange isValid: ', isValid)
   }
 
   render() {
