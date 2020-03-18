@@ -85,6 +85,7 @@ class UnityDropdown extends LitElement {
           margin-block-start: 0.5em;
           margin-block-end: 0.5em;
           padding: 0 8px;
+          white-space: normal;
         }
         .dropdown-menu.expanded {
           box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);;
