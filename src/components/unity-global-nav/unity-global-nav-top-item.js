@@ -3,9 +3,8 @@ import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/iron-icons/image-icons.js'
 import '@polymer/iron-icons/social-icons.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import './unity-global-nav-inner-item'
-// import '@bit/smartworks.unity.unity-tooltip'
-import '../unity-tooltip/unity-tooltip'
+import '@bit/smartworks.unity.unity-global-nav-inner-item'
+import '@bit/smartworks.unity.unity-tooltip'
 
 /**
 * Renders a left-bound navigation bar
