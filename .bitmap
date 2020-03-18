@@ -78,12 +78,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-inner-item@0.0.4": {
+    "smartworks.unity/unity-global-nav-inner-item@0.2.0": {
         "files": [
             {
                 "name": "unity-global-nav-inner-item.js",
                 "relativePath": "src/components/unity-global-nav/unity-global-nav-inner-item.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-global-nav/unity-global-nav-inner-item.md",
+                "test": false,
+                "name": "unity-global-nav-inner-item.md"
             }
         ],
         "mainFile": "src/components/unity-global-nav/unity-global-nav-inner-item.js",
