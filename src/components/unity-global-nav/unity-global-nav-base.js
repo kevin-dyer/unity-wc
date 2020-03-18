@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import './unity-global-nav-top-item.js'
+import '@bit/smartworks.unity.unity-global-nav-top-item'
 import '@bit/smartworks.unity.unity-icon-set'
 
 /**
@@ -8,8 +8,10 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @name UnityGlobalNavBase
 * @param {bool} gutter, show or hide the side gutter
 * @param {string} logo, path to hosted logo image
-* @param {slot} top, nav items to render in top list, scrollable
-* @param {slot} bottom, nav items to render in bottom list, has hard limit based on view space
+* @param {bool} collapsible, render button at the bottom to collapse bar 
+* @param {bool} collapsed, if the bar is collapsed or not
+* @param {Object} items, object containing the menu items
+* @param {Function} onSelect, callback for when a menu item is selected
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
 * @param {css} --primary-brand-color, var, css var used for coloring the component
@@ -19,12 +21,16 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @example
 * <unity-global-nav gutter
 *   logo="../path/to/hosted/image"
+*   items={{
+      top: [
+      {
+        key: 'item-0',
+        label: 'Top Item 0',
+        short: false,
+        icon: 'account-balance'
+      }]
+    }}
 * >
-*   <div slot="top">Top Item #1</div>
-*   <div slot="top">Top Item #2</div>
-*   <div slot="top">Top Item #3</div>
-*   <div slot="bottom">Bottom Item #1</div>
-*   <div slot="bottom">Bottom Item #2</div>
 * </unity-global-nav>
 **/
 

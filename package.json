@@ -28,6 +28,7 @@
     "@bit/smartworks.unity.unity-default-theme-styles": "^0.0.15",
     "@bit/smartworks.unity.unity-dropdown": "^0.1.9",
     "@bit/smartworks.unity.unity-global-nav-inner-item": "^0.2.0",
+    "@bit/smartworks.unity.unity-global-nav-top-item": "^0.2.0",
     "@bit/smartworks.unity.unity-icon-set": "^0.1.1",
     "@bit/smartworks.unity.unity-modal": "^0.1.4",
     "@bit/smartworks.unity.unity-select-menu": "^0.0.4",

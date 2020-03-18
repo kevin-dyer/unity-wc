@@ -66,12 +66,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@0.1.1": {
+    "smartworks.unity/unity-global-nav-base@0.2.0": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
                 "relativePath": "src/components/unity-global-nav/unity-global-nav-base.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-global-nav/unity-global-nav-base.md",
+                "test": false,
+                "name": "unity-global-nav-base.md"
             }
         ],
         "mainFile": "src/components/unity-global-nav/unity-global-nav-base.js",
