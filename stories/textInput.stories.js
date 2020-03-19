@@ -70,3 +70,30 @@ export const Standard = () => {
 export const Password = () => html`
   <unity-text-input label="Password" password></unity-text-input>
 `;
+
+export const Validation = () => {
+  const value = text("Editor text", "");
+  const placeholder = text("Placeholder Text", "Will only be valid when value is `valid`")
+  const label = text("Label", "")
+  const remark = text("Remark", "")
+  const error = text("Error text", "")
+  const showIcon = boolean("Icon Toggle", false)
+  const validation = val => {
+    if (val.length === 0) return 'Cannot be empty.'
+    if (val !== 'valid') return 'Value must equal "valid".'
+    return true
+  }
+  return html`
+    <unity-text-input
+      .onChange=${action("onChange")}
+      .value="${value}"
+      ?showIcon="${showIcon}"
+      .placeholder="${placeholder}"
+      .label="${label}"
+      .remark="${remark}"
+      .error="${error}"
+      .validation="${validation}"
+    >
+    </unity-text-input>
+  `;
+}
