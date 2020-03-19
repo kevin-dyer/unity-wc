@@ -437,12 +437,10 @@ class UnityTable extends LitElement {
     this._data = value
     this.setDataMap(value)
 
-    //NOTE: the following two methods update this.selection.
-    //TODO: this.selection should only be updated once!
+    //Update this.selection.
     //Add new children of selected nodes to this.selection
-    this.addSelectedChildren(originalDataMap)
     //Remove nodes from that are no longer present
-    this.removeDeletedSelections()
+    this.updateSelected(originalDataMap)
 
     // Expand all nodes if the User has indicated to do so, but not if changes to the expansion of nodes have already been made
     // NOTE: this assumes this.expanded is undefined initially
@@ -613,6 +611,18 @@ class UnityTable extends LitElement {
     this._dataMap = dataMap
   }
 
+  updateSelected(originalDataMap) {
+    const originalSelected = this._selected
+
+    this.addSelectedChildren(originalDataMap)
+    this.removeDeletedSelections()
+
+    //request update if selected has changed
+    if (this._selected !== originalSelected) {
+      this.selected = this._selected
+    }
+  }
+
   //If datum does not exist in original data map, AND it has a parent that is selected, add to this.selected
   addSelectedChildren(originalDataMap) {
     const originalSelected = this._selected
@@ -631,7 +641,7 @@ class UnityTable extends LitElement {
     })
 
     if (selectionHasChanged) {
-      this.selected = nextSelected
+      this._selected = nextSelected
     }
   }
 
@@ -649,7 +659,7 @@ class UnityTable extends LitElement {
     })
 
     if (selectionHasChanged) {
-      this.selected = nextSelected
+      this._selected = nextSelected
     }
   }
 
