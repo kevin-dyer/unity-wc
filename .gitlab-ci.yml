@@ -19,15 +19,15 @@ setup:
   - npm install
   - npm audit fix
   rules:
-  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
-  - if: '$CI_COMMIT_REF_NAME == "develop"'
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  - if: '$CI_COMMIT_REF_NAME == "master"'
   cache:
     key: node_modules
     paths:
       - node_modules/
     policy: push
   tags:
-  - shell
+  - docker
 
 test:
   stage: test
@@ -44,15 +44,15 @@ test:
       junit: junit/report.xml
   coverage: /Statements.*?(\d+(?:\.\d+)?)%/
   rules:
-  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
-  - if: '$CI_COMMIT_REF_NAME == "develop"'
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  - if: '$CI_COMMIT_REF_NAME == "master"'
   cache:
     key: node_modules
     paths:
       - node_modules/
     policy: pull
   tags:
-  - shell
+  - docker
 
 build:
   stage: build
@@ -71,7 +71,7 @@ build:
     paths:
     - ./storybook-static
   rules:
-  - if: '$CI_COMMIT_REF_NAME == "master"'
+  - if: '$CI_COMMIT_REF_NAME == "production"'
   tags:
   - docker
 
@@ -90,7 +90,7 @@ package:
   - cd /home/gitlab-runner/packer && packer build 2020-smartworks-webcomponents.json
   - echo ""
   rules:
-  - if: '$CI_COMMIT_REF_NAME == "master"'
+  - if: '$CI_COMMIT_REF_NAME == "production"'
   tags:
   - shell
 
@@ -102,7 +102,7 @@ deploy:
   - echo "Going to deploy smartworks-webcomponents:$CI_COMMIT_SHORT_SHA-dev"
   - kubectl -n dev-iot set image deployment/webcomponents webcomponents=iotaltairacr.azurecr.io/dev/iot/common/packer/smartworks-webcomponents:$CI_COMMIT_SHORT_SHA-dev --record
   rules:
-  - if: '$CI_COMMIT_REF_NAME == "master"'
+  - if: '$CI_COMMIT_REF_NAME == "production"'
   tags:
   - shell
 

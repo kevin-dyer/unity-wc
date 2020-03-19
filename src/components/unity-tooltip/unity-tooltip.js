@@ -81,6 +81,10 @@ class UnityTooltip extends LitElement {
         transform: rotate(-90deg);
         right: 0;
         margin-right: -8px;
+      }
+      unity-typography {
+        line-height: normal;
+      }
       `
     ]
   }
