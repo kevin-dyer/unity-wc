@@ -1282,6 +1282,10 @@ class UnityTable extends LitElement {
           z-index: 3;
           background-color: inherit;
         }
+
+        th.cell {
+          overflow: visible;
+        }
         .header {
           display: flex;
           flex-direction: row;

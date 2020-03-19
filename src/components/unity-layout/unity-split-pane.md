@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.1.6
+- Added footer slot.
+
 ### v0.1.5
 - Made close button optional, controlled by bool.
 

@@ -1,13 +1,17 @@
 import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '@bit/smartworks.unity.unity-global-nav-top-item'
+import '@bit/smartworks.unity.unity-icon-set'
 
 /**
 * Renders a left-bound navigation bar
 * @name UnityGlobalNavBase
 * @param {bool} gutter, show or hide the side gutter
 * @param {string} logo, path to hosted logo image
-* @param {slot} top, nav items to render in top list, scrollable
-* @param {slot} bottom, nav items to render in bottom list, has hard limit based on view space
+* @param {bool} collapsible, render button at the bottom to collapse bar 
+* @param {bool} collapsed, if the bar is collapsed or not
+* @param {Object} items, object containing the menu items
+* @param {Function} onSelect, callback for when a menu item is selected
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
 * @param {css} --primary-brand-color, var, css var used for coloring the component
@@ -17,12 +21,16 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @example
 * <unity-global-nav gutter
 *   logo="../path/to/hosted/image"
+*   items={{
+      top: [
+      {
+        key: 'item-0',
+        label: 'Top Item 0',
+        short: false,
+        icon: 'account-balance'
+      }]
+    }}
 * >
-*   <div slot="top">Top Item #1</div>
-*   <div slot="top">Top Item #2</div>
-*   <div slot="top">Top Item #3</div>
-*   <div slot="bottom">Bottom Item #1</div>
-*   <div slot="bottom">Bottom Item #2</div>
 * </unity-global-nav>
 **/
 
@@ -36,20 +44,63 @@ class UnityGlobalNavBase extends LitElement {
 
     this.gutter = false
     this.logo = ''
+    this.collapsible = false
+    this.collapsed = false
+    this.items = {}
+    this.onSelect = () => {}
+    this.selected = ''
+    
+    this._itemClicked = (key) => { this._changeSelection(key)}
   }
 
   static get properties() {
     return {
       gutter: { type: Boolean },
-      logo: { type: String }
+      logo: { type: String },
+      collapsible: { type: Boolean },
+      collapsed: { type: Boolean },
+      items: { type: Object },
+      onSelect: { type: Function },
+      selected: { type: String },
+
+      _itemClicked: { type: Function }
     }
   }
 
+  _changeSelection(key) {
+    this.selected = key
+    this.onSelect(key)
+  }
+
+
+
+  _toggleCollapse() {
+    this.collapsed = !this.collapsed
+  }
+
+  renderItems(items) {
+    return items.map(({key, label, short, icon, children}) => html`
+      <unity-global-nav-top-item
+        .key="${key}"
+        .onSelect="${this._itemClicked}"
+        .label="${label}"
+        .icon="${icon}"
+        .short="${short}"
+        .selected="${this.selected === key}"
+        .children="${children && children.map(child => ({
+          ...child,
+          onSelect: this._itemClicked,
+          selected: this.selected === child.key
+        }))}"
+        ?collapsed=${this.collapsed}
+      ></unity-global-nav-top-item>`)
+  }
+
   render() {
-    const { gutter, logo } = this
+    const { gutter, logo, collapsible, collapsed, items } = this
+    const { bottom, top } = items
     return html`
-      ${gutter ? html`<div class="gutter">` : ''}
-        <div class="menu text">
+        <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}">
           <div class="logo-container">
             ${logo ? html`
               <img class="logo" src="${logo}">
@@ -57,10 +108,18 @@ class UnityGlobalNavBase extends LitElement {
           </div>
           <div class="menu-box">
             <div class="top-container">
-              <slot name="top"></slot>
+              ${top? this.renderItems(top) : ''}
             </div>
             <div class="bottom-container">
-              <slot name="bottom"></slot>
+              ${bottom? this.renderItems(bottom) : '' }
+              ${collapsible ? html`
+                <unity-global-nav-top-item
+                  .key="collapse"
+                  .onSelect="${() => this._toggleCollapse()}"
+                  .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}
+                  .short="${false}"
+                ></unity-global-nav-top-item>
+              `  : ''}
             </div>
           </div>
         </div>
@@ -77,16 +136,11 @@ class UnityGlobalNavBase extends LitElement {
           --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
           --gutter-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --logo-height: 52px;
-          --logo-padding: 18px;
+          --logo-padding: 12px;
           border-collapse: collapse;
         }
         .gutter {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 196px;
-          background-color: var(--gutter-color);
+          border-right: 5px solid var(--gutter-color);
         }
         .menu {
           position: absolute;
@@ -98,6 +152,9 @@ class UnityGlobalNavBase extends LitElement {
         }
         .text {
           color: var(--text-color)
+        }
+        .collapsed {
+          width: 40px;
         }
         .logo-container {
           height: var(--logo-height);
@@ -117,7 +174,6 @@ class UnityGlobalNavBase extends LitElement {
           display: flex;
           flex-direction: column;
           flex-wrap: nowrap;
-          overflow: hidden;
           top: var(--logo-height);
           bottom: 0;
           width: 100%;
