@@ -63,7 +63,7 @@ class UnityTextInput extends LitElement {
     this.placeholder = ""
     this.units = ""
     this.charCount = false
-    this.maxlength = 0
+    this._maxlength = 0
     this.showIcon = false
     this.hideBorder = false
     this.borderEffects = true
@@ -180,10 +180,20 @@ class UnityTextInput extends LitElement {
     }
   }
 
+  set maxlength(value) {
+    const oldValue = this._maxlength
+    this._maxlength = value
+    this._validate()
+    this.requestUpdate('maxlength', oldValue)
+  }
+
+  get maxlength () { return this._maxlength }
+
   _validate() {
     const {
       validation,
       password,
+      maxlength,
       value
     } = this
     if (validation instanceof Function) {
@@ -211,6 +221,8 @@ class UnityTextInput extends LitElement {
       this._strength = 0
       this._errorTex = isValid || ''
     }
+    if (!!maxlength && value.length > maxlength)
+      this.value = value.slice(0, maxlength)
   }
 
   _clickUnits() {
