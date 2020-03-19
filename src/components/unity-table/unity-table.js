@@ -387,6 +387,7 @@ class UnityTable extends LitElement {
         })
       })
     } else {
+      const rowId = this.keyExtractor(node, tabIndex)
       const nextTabIndex = tabIndex + 1
       let childCount = 0
       let childNodes = []
@@ -407,17 +408,19 @@ class UnityTable extends LitElement {
           node: child,
           callback,
           tabIndex: nextTabIndex,
-          parents: [...parents, node.id]
+          parents: [...parents, rowId]
         })
       })
     }
   }
 
   // Data passed in as array
+  // Also updates this._dataMap, and this._selected
   set data(value) {
     const oldValue = this._data
     const columns = this.columns
     const childKeys = this.childKeys || []
+    const originalDataMap = this._dataMap
 
     // default catcher for missing columns
     // exclude childKeys from columns list
@@ -432,9 +435,13 @@ class UnityTable extends LitElement {
       this.columns = nextCols
     }
 
-    // but now to worry about what if datum isn't obj?
     this._data = value
     this.setDataMap(value)
+
+    //Update this.selection.
+    //Add new children of selected nodes to this.selection
+    //Remove nodes from that are no longer present
+    this.updateSelected(originalDataMap)
 
     // Expand all nodes if the User has indicated to do so, but not if changes to the expansion of nodes have already been made
     // NOTE: this assumes this.expanded is undefined initially
@@ -599,10 +606,69 @@ class UnityTable extends LitElement {
       node: value,
       callback: (node, tabIndex, childCount, parents) => {
         const key = this.keyExtractor(node, tabIndex)
-        dataMap.set(key, node)
+        dataMap.set(key, {...node, parents})
       }
     })
     this._dataMap = dataMap
+  }
+
+  updateSelected(originalDataMap) {
+    const originalSelected = this._selected
+
+    this.addSelectedChildren(originalDataMap)
+    this.removeDeletedSelections()
+
+    //request update if selected has changed
+    if (this._selected !== originalSelected) {
+      this.selected = this._selected
+    }
+  }
+
+  //If datum does not exist in original data map, AND it has a parent that is selected, add to this.selected
+  addSelectedChildren(originalDataMap) {
+    const originalSelected = this._selected
+    const nextSelected = new Set(originalSelected)
+    let selectionHasChanged = false
+
+    this.dfsTraverse({
+      node: this.data,
+      callback: (node, tabIndex, childCount, parents=[]) => {
+        const key = this.keyExtractor(node, tabIndex)
+        if (!originalDataMap.has(key) && this.includesSelectedNode(parents)) {
+          nextSelected.add(key)
+          selectionHasChanged = true
+        }
+      }
+    })
+
+    if (selectionHasChanged) {
+      this._selected = nextSelected
+    }
+  }
+
+  //remove rowId's in this.selection that are no longer present in this.dataMap
+  removeDeletedSelections() {
+    const originalSelected = this._selected
+    const nextSelected = new Set(originalSelected)
+    let selectionHasChanged = false
+
+    Array.from(this._selected).forEach(rowId => {
+      if (!this._dataMap.has(rowId)) {
+        nextSelected.delete(rowId)
+        selectionHasChanged = true
+      }
+    })
+
+    if (selectionHasChanged) {
+      this._selected = nextSelected
+    }
+  }
+
+  //pass in array of node IDs, returns true if any are selected
+  includesSelectedNode(nodeIds) {
+    return nodeIds.some(nodeId => {
+      return this._selected.has(nodeId)
+    })
   }
 
   // possibly use setters for dynamic sort/filter update?
@@ -626,16 +692,47 @@ class UnityTable extends LitElement {
     this.selected = new Set()
   }
 
-  //NOTE: this may not trigger an update
+  // If node is selected, all its children are also selected
+  // If node is unselected, all its parents are also unselected
   _selectOne(id) {
     const nextSelected = new Set(this.selected)
+    const node = this._dataMap.get(id)
+    const nodeAndChildren = this._getAllChildren(node)
+
     if (nextSelected.has(id)) {
-      nextSelected.delete(id)
+      //Delete node and all its children from nextSelected
+      nodeAndChildren.forEach(childId => {
+        nextSelected.delete(childId)
+      })
+
+      //Unselect parents
+      node.parents.forEach(parentId => {
+        nextSelected.delete(parentId)
+      })
+
     } else {
-      nextSelected.add(id)
+      //Add node and all its children to nextSelected
+      nodeAndChildren.forEach(childId => {
+        nextSelected.add(childId)
+      })
     }
 
     this.selected = nextSelected
+  }
+
+  //returns flat list of all children
+  _getAllChildren(node) {
+    let children = []
+
+    this.dfsTraverse({
+      node,
+      callback: (node, tabIndex, childCount, parents) => {
+        const rowId = this.keyExtractor(node, tabIndex)
+        children.push(rowId)
+      }
+    })
+
+    return children
   }
 
   //Return filtered hierarchy array - same nested structure as original hierarchy
@@ -1134,8 +1231,14 @@ class UnityTable extends LitElement {
       if(parents.length > 0) {
         const inmediateParent = parents[parents.length - 1]
         // if parent row is not in the array already, insert it
-        if(!filteredData.find(d => d.id === inmediateParent)){
-          filteredData.splice(i, 0, fullDataArray.find(d => d.id === inmediateParent))
+        if(!filteredData.find(d => {
+          const rowId = this.keyExtractor(d)
+          return rowId === inmediateParent
+        })){
+          filteredData.splice(i, 0, fullDataArray.find(d => {
+            const rowId = this.keyExtractor(d)
+            return rowId === inmediateParent
+          }))
           i-- // to check added element's parents
         }
       }
