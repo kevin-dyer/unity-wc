@@ -387,6 +387,7 @@ class UnityTable extends LitElement {
         })
       })
     } else {
+      const rowId = this.keyExtractor(node, tabIndex)
       const nextTabIndex = tabIndex + 1
       let childCount = 0
       let childNodes = []
@@ -407,7 +408,7 @@ class UnityTable extends LitElement {
           node: child,
           callback,
           tabIndex: nextTabIndex,
-          parents: [...parents, node.id]
+          parents: [...parents, rowId]
         })
       })
     }
@@ -726,7 +727,8 @@ class UnityTable extends LitElement {
     this.dfsTraverse({
       node,
       callback: (node, tabIndex, childCount, parents) => {
-        children.push(node.id)
+        const rowId = this.keyExtractor(node, tabIndex)
+        children.push(rowId)
       }
     })
 
@@ -1229,8 +1231,14 @@ class UnityTable extends LitElement {
       if(parents.length > 0) {
         const inmediateParent = parents[parents.length - 1]
         // if parent row is not in the array already, insert it
-        if(!filteredData.find(d => d.id === inmediateParent)){
-          filteredData.splice(i, 0, fullDataArray.find(d => d.id === inmediateParent))
+        if(!filteredData.find(d => {
+          const rowId = this.keyExtractor(d)
+          return rowId === inmediateParent
+        })){
+          filteredData.splice(i, 0, fullDataArray.find(d => {
+            const rowId = this.keyExtractor(d)
+            return rowId === inmediateParent
+          }))
           i-- // to check added element's parents
         }
       }
