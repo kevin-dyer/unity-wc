@@ -14,7 +14,7 @@ export const SplitPane = () => {
   const closeButton = boolean("Close button", false)
   return html`
     <unity-split-pane
-      style="height: 200px;"
+      style="height: 400px; border: 1px solid grey;"
       ?show="${show}"
       ?closeButton="${closeButton}"
       .onClose="${action('onClose')}"
