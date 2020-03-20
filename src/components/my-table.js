@@ -120,9 +120,14 @@ class MyTable extends PageViewElement {
       })
     }
 
-    return nodes.map((row, index) => {
+    const slots = nodes.filter((row, index) => {
+      const status = row[columnKey] || ''
+
+      return /Online|Offline|Not responding/.test(status)
+    }).map((row, index) => {
       const rowId = this._keyExtractor(row, index)
       let color
+
       switch(row[columnKey]) {
         case 'Active':
           color = 'green'
@@ -133,8 +138,21 @@ class MyTable extends PageViewElement {
         case 'Probable to fail':
           color = 'yellow'
           break
+
+        //From largeDataSet
+        case 'Offline':
+          color = 'black'
+          break
+        case 'Not responding':
+          color = 'red'
+          break
+        case 'Online':
+          color = 'green'
+          break
+
         default:
-          return
+          color = 'white'
+          break
       }
 
 
@@ -144,6 +162,8 @@ class MyTable extends PageViewElement {
         style="color: ${color}; flex:1;"
       ></iron-icon>`
     })
+
+    return slots
   }
 
   render() {
@@ -195,6 +215,7 @@ class MyTable extends PageViewElement {
             style="--highlight-color: ${this.highlightColor}"
           >
             ${this._renderStatusIcons()}
+
           </unity-table>
         </div>
       </div>
