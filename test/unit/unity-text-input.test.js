@@ -140,6 +140,54 @@ describe('unity-text-input', () => {
       expect(input.type).to.equal('password')
       expect(icon.icon).to.equal('unity:show')
     })
+
+    it('should overwrite remark with error', async () => {
+      const remarkText = "this is a remark"
+      const errorText = "this is an error"
+      const el = await fixture(`<unity-text-input remark="${remarkText}" error="${errorText}"></unity-text-input>`)
+      const remark = el.shadowRoot.querySelector('div.bottom span.remark')
+      expect(remark.innerText).to.not.equal(remarkText)
+      expect(remark.innerText).to.equal(errorText)
+    })
+
+    it('should show remark when error is string or bool true, or falsey', async () => {
+      const remarkText = "this is a remark"
+      const errorText = "true"
+      const errorBool = true
+      const errorEmpty = ''
+      const errorFalse = false
+      let el = await fixture(`<unity-text-input remark="${remarkText}" .error="${errorText}"></unity-text-input>`)
+      let remark = el.shadowRoot.querySelector('div.bottom span.remark')
+      expect(remark.innerText).to.not.equal(errorText)
+      expect(remark.innerText).to.equal(remarkText)
+      el = await fixture(`<unity-text-input remark="${remarkText}" .error="${errorBool}"></unity-text-input>`)
+      remark = el.shadowRoot.querySelector('div.bottom span.remark')
+      expect(remark.innerText).to.equal(remarkText)
+      el = await fixture(`<unity-text-input remark="${remarkText}" .error="${errorEmpty}"></unity-text-input>`)
+      remark = el.shadowRoot.querySelector('div.bottom span.remark')
+      expect(remark.innerText).to.equal(remarkText)
+      el = await fixture(`<unity-text-input remark="${remarkText}" .error="${errorFalse}"></unity-text-input>`)
+      remark = el.shadowRoot.querySelector('div.bottom span.remark')
+      expect(remark.innerText).to.equal(remarkText)
+    })
   })
 })
 
+it('should ', async () => {
+  const el = await fixture(`<unity-text-input ></unity-text-input>`)
+})
+
+/*
+  error
+  validation
+  showIcon
+  rounded
+  hideBorder
+  borderEffects
+  area
+  minLines
+  maxLines
+  innerRightIcon
+  innerLeftIcon
+  dirty
+*/
