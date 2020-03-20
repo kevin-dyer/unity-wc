@@ -212,12 +212,11 @@ class UnityTextInput extends LitElement {
           this._errorText = ''
           return
         }
-      } else {
-        if (isValid === true) {
-          this._valid = true
-          this._errorText = ''
-          return
-        }
+      }
+      if (isValid === true) {
+        this._valid = true
+        this._errorText = ''
+        return
       }
       this._valid = false
       this._strength = 0
