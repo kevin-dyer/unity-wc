@@ -1,9 +1,6 @@
 /* eslint-disable no-unused-expressions */
-import {
-  fixture,
-  expect,
-  oneEvent
-} from '@open-wc/testing'
+import { fixture, expect, oneEvent } from '@open-wc/testing'
+import { LitElement, html, css } from 'lit-element'
 import '../../src/components/unity-text-input/unity-text-input'
 
 describe('unity-text-input', () => {
@@ -156,26 +153,38 @@ describe('unity-text-input', () => {
       const errorBool = true
       const errorEmpty = ''
       const errorFalse = false
-      let el = await fixture(`<unity-text-input remark="${remarkText}" .error="${errorText}"></unity-text-input>`)
+      let el = await fixture(`<unity-text-input remark="${remarkText}" error="${errorText}"></unity-text-input>`)
       let remark = el.shadowRoot.querySelector('div.bottom span.remark')
       expect(remark.innerText).to.not.equal(errorText)
       expect(remark.innerText).to.equal(remarkText)
       el = await fixture(`<unity-text-input remark="${remarkText}" .error="${errorBool}"></unity-text-input>`)
       remark = el.shadowRoot.querySelector('div.bottom span.remark')
       expect(remark.innerText).to.equal(remarkText)
-      el = await fixture(`<unity-text-input remark="${remarkText}" .error="${errorEmpty}"></unity-text-input>`)
+      el = await fixture(`<unity-text-input remark="${remarkText}" error="${errorEmpty}"></unity-text-input>`)
       remark = el.shadowRoot.querySelector('div.bottom span.remark')
       expect(remark.innerText).to.equal(remarkText)
       el = await fixture(`<unity-text-input remark="${remarkText}" .error="${errorFalse}"></unity-text-input>`)
       remark = el.shadowRoot.querySelector('div.bottom span.remark')
       expect(remark.innerText).to.equal(remarkText)
     })
+
+    it('should use validation if passed in', async () => {
+      const remarkText = 'this is the remark text'
+      const valid = 'valid'
+      const notValid = 'not valid'
+      const validation = val => val === valid ? true : notValid
+      let el = await fixture(html`<unity-text-input .value="${notValid}" .validation="${validation}" .remark="${remarkText}"></unity-text-input>`)
+      let remark = el.shadowRoot.querySelector('div.bottom span.remark')
+      expect(remark.innerText).to.not.equal(remarkText)
+      expect(remark.innerText).to.equal(notValid)
+      el = await fixture(html`<unity-text-input .value="${valid}" .validation="${validation}" .remark="${remarkText}"></unity-text-input>`)
+      remark = el.shadowRoot.querySelector('div.bottom span.remark')
+      expect(remark.innerText).to.equal(remarkText)
+      expect(remark.innerText).to.not.equal(notValid)
+    })
   })
 })
 
-it('should ', async () => {
-  const el = await fixture(`<unity-text-input ></unity-text-input>`)
-})
 
 /*
   error
