@@ -4,6 +4,11 @@ import { LitElement, html, css } from 'lit-element'
 import '../../src/components/unity-text-input/unity-text-input'
 
 describe('unity-text-input', () => {
+  // testing consts
+  const remarkText = 'this is the remark text'
+  const valid = 'valid'
+  const notValid = 'notValid'
+  const validation = val => val === valid ? true : notValid
   describe('input mode', () => {
     it('should render', async () => {
       const el = await fixture('<unity-text-input value="test"></unity-text-input>')
@@ -139,8 +144,7 @@ describe('unity-text-input', () => {
     })
 
     it('should overwrite remark with error', async () => {
-      const remarkText = "this is a remark"
-      const errorText = "this is an error"
+      const errorText = "this is the error text"
       const el = await fixture(`<unity-text-input remark="${remarkText}" error="${errorText}"></unity-text-input>`)
       const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.invalid')
       const remark = el.shadowRoot.querySelector('div.bottom span.remark')
@@ -150,7 +154,6 @@ describe('unity-text-input', () => {
     })
 
     it('should show remark when error is string or bool true, or falsey', async () => {
-      const remarkText = "this is a remark"
       const errorText = "true"
       const errorBool = true
       const errorEmpty = ''
@@ -171,10 +174,6 @@ describe('unity-text-input', () => {
     })
 
     it('should use validation if passed in', async () => {
-      const remarkText = 'this is the remark text'
-      const valid = 'valid'
-      const notValid = 'not valid'
-      const validation = val => val === valid ? true : notValid
       let el = await fixture(html`<unity-text-input .value="${notValid}" .validation="${validation}" .remark="${remarkText}"></unity-text-input>`)
       let remark = el.shadowRoot.querySelector('div.bottom span.remark')
       let ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.invalid')
@@ -203,6 +202,61 @@ describe('unity-text-input', () => {
       const showBorderIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.showBorder')
       expect(hideBorderIronInput).to.exist
       expect(showBorderIronInput).to.not.exist
+    })
+
+    it('should have no border effects', async () => {
+      const el = await fixture(html`<unity-text-input .borderEffects="${false}"></unity-text-input>`)
+      const borderEffectIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.border-effects')
+      const noBorderEffectIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper')
+      expect(borderEffectIronInput).to.not.exist
+      expect(noBorderEffectIronInput).to.exist
+    })
+
+    it('should show as dirty', async () => {
+      const el = await fixture(`<unity-text-input dirty></unity-text-input>`)
+      const dirtyBar = el.shadowRoot.querySelector('iron-input.input-wrapper div.dirty')
+      expect(dirtyBar).to.exist
+    })
+
+    it('should not show icon without showIcon', async () => {
+      let el = await fixture(html`<unity-text-input .validation="${validation}" .value="${valid}"></unity-text-input>`)
+      let circIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle iron-icon.icon')
+      let rectIconText = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect div.icon-text')
+      let rectIconCircles = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect div.circles-wrapper')
+      expect(circIcon).to.not.exist
+      expect(rectIconText).to.not.exist
+      expect(rectIconCircles).to.not.exist
+    })
+
+    it('should show valid icon without validation', async () => {
+      let el = await fixture(html`<unity-text-input showIcon .value="${valid}"></unity-text-input>`)
+      let validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.valid iron-icon.icon.icon-valid')
+      let invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.invalid iron-icon.icon.icon-error')
+      let rectIconText = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect div.icon-text')
+      let rectIconCircles = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect div.circles-wrapper')
+      expect(invalidCircleIcon).to.not.exist
+      expect(rectIconText).to.not.exist
+      expect(rectIconCircles).to.not.exist
+      expect(validCircleIcon).to.exist
+    })
+
+    it('should show correct icon based on validation', async () => {
+      let el = await fixture(html`<unity-text-input showIcon .validation="${validation}" .value="${notValid}"></unity-text-input>`)
+      let validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.valid iron-icon.icon.icon-valid')
+      let invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.invalid iron-icon.icon.icon-error')
+      let rectIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect')
+      expect(validCircleIcon).to.not.exist
+      expect(rectIcon).to.not.exist
+      expect(invalidCircleIcon).to.exist
+      expect(invalidCircleIcon.icon).to.equal('unity:error')
+      el = await fixture(html`<unity-text-input showIcon .validation="${validation}" .value="${valid}"></unity-text-input>`)
+      validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.valid iron-icon.icon.icon-valid')
+      invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.invalid iron-icon.icon.icon-error')
+      rectIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect')
+      expect(invalidCircleIcon).to.not.exist
+      expect(rectIcon).to.not.exist
+      expect(validCircleIcon).to.exist
+      expect(validCircleIcon.icon).to.equal('unity:check')
     })
   })
 })
