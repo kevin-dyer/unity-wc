@@ -11,12 +11,15 @@ export default {
 
 export const SplitPane = () => {
   const show = boolean('Show', false)
+  const closeButton = boolean("Close button", false)
   return html`
     <unity-split-pane
+      style="height: 200px;"
       ?show="${show}"
+      ?closeButton="${closeButton}"
       .onClose="${action('onClose')}"
     >
-      <div slot="header">
+      <div style="padding-left: 20px" slot="header">
         ${text("'header' slot", "This is the header.")}
       </div>
       <div slot="main">
@@ -25,7 +28,7 @@ export const SplitPane = () => {
       <div slot="footer">
         ${text("'footer' slot", "This is the footer.")}
       </div>
-      <div slot="pane">
+      <div style="padding: 8px" slot="pane">
         ${text("'pane' slot", "This is the pane that can be hidden.")}
       </div>
     </unity-split-pane>
