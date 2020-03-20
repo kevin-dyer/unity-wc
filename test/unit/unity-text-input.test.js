@@ -142,7 +142,9 @@ describe('unity-text-input', () => {
       const remarkText = "this is a remark"
       const errorText = "this is an error"
       const el = await fixture(`<unity-text-input remark="${remarkText}" error="${errorText}"></unity-text-input>`)
+      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.invalid')
       const remark = el.shadowRoot.querySelector('div.bottom span.remark')
+      expect(ironInput).to.exist
       expect(remark.innerText).to.not.equal(remarkText)
       expect(remark.innerText).to.equal(errorText)
     })
@@ -175,12 +177,32 @@ describe('unity-text-input', () => {
       const validation = val => val === valid ? true : notValid
       let el = await fixture(html`<unity-text-input .value="${notValid}" .validation="${validation}" .remark="${remarkText}"></unity-text-input>`)
       let remark = el.shadowRoot.querySelector('div.bottom span.remark')
+      let ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.invalid')
       expect(remark.innerText).to.not.equal(remarkText)
       expect(remark.innerText).to.equal(notValid)
+      expect(ironInput).to.exist
       el = await fixture(html`<unity-text-input .value="${valid}" .validation="${validation}" .remark="${remarkText}"></unity-text-input>`)
       remark = el.shadowRoot.querySelector('div.bottom span.remark')
+      ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.invalid')
       expect(remark.innerText).to.equal(remarkText)
       expect(remark.innerText).to.not.equal(notValid)
+      expect(ironInput).to.not.exist
+    })
+
+    it('should be rounded', async () => {
+      const el = await fixture(`<unity-text-input rounded></unity-text-input>`)
+      const roundedIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.rounded')
+      const notRoundedIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.notRounded')
+      expect(roundedIronInput).to.exist
+      expect(notRoundedIronInput).to.not.exist
+    })
+
+    it('should hide border', async () => {
+      const el = await fixture(`<unity-text-input hideBorder></unity-text-input>`)
+      const hideBorderIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.hideBorder')
+      const showBorderIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.showBorder')
+      expect(hideBorderIronInput).to.exist
+      expect(showBorderIronInput).to.not.exist
     })
   })
 })
