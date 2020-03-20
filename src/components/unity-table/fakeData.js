@@ -302,7 +302,7 @@ export const colors = {
 
 
     //TO add extra rows
-    ...fillerRows
+    // ...fillerRows
   ],
 
   columns: [
