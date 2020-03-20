@@ -258,6 +258,83 @@ describe('unity-text-input', () => {
       expect(validCircleIcon).to.exist
       expect(validCircleIcon.icon).to.equal('unity:check')
     })
+
+    it('should show simple icon based on validation when password', async () => {
+      let el = await fixture(html`<unity-text-input showIcon password .validation="${validation}" .value="${notValid}"></unity-text-input>`)
+      let validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.valid iron-icon.icon.icon-valid')
+      let invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.invalid iron-icon.icon.icon-error')
+      let rectIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect')
+      expect(validCircleIcon).to.not.exist
+      expect(rectIcon).to.not.exist
+      expect(invalidCircleIcon).to.exist
+      expect(invalidCircleIcon.icon).to.equal('unity:error')
+      el = await fixture(html`<unity-text-input showIcon password .validation="${validation}" .value="${valid}"></unity-text-input>`)
+      validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.valid iron-icon.icon.icon-valid')
+      invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.invalid iron-icon.icon.icon-error')
+      rectIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect')
+      expect(invalidCircleIcon).to.not.exist
+      expect(rectIcon).to.not.exist
+      expect(validCircleIcon).to.exist
+      expect(validCircleIcon.icon).to.equal('unity:check')
+    })
+
+    it('should show complex icon based on validation when password', async () => {
+      const strong = 'strong'
+      const weak = 'weak'
+      const validation = val => {
+        if (val === weak) return 1
+        if (val === strong) return 2
+        return false
+      }
+
+      let el = await fixture(html`<unity-text-input showIcon password .validation="${validation}" .value="${notValid}"></unity-text-input>`)
+      let validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.valid iron-icon.icon.icon-valid')
+      let invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.invalid iron-icon.icon.icon-error')
+      let rectIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect')
+      let rectIconText = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect div.icon-text')
+      let rectIconCircles = el.shadowRoot.querySelectorAll('iron-input.input-wrapper div.icon-wrapper.rect div.circles-wrapper div.password-circle')
+      let rectIconGreenCircles = el.shadowRoot.querySelectorAll('iron-input.input-wrapper div.icon-wrapper.rect div.circles-wrapper div.password-circle.green')
+
+      expect(validCircleIcon).to.not.exist
+      expect(rectIcon).to.not.exist
+      expect(rectIconText).to.not.exist
+      expect(rectIconCircles.length).to.equal(0)
+      expect(rectIconGreenCircles.length).to.equal(0)
+      expect(invalidCircleIcon).to.exist
+      expect(invalidCircleIcon.icon).to.equal('unity:error')
+
+      el = await fixture(html`<unity-text-input showIcon password .validation="${validation}" .value="${weak}"></unity-text-input>`)
+      validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.valid iron-icon.icon.icon-valid')
+      invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.invalid iron-icon.icon.icon-error')
+      rectIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect')
+      rectIconText = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect div.icon-text')
+      rectIconCircles = el.shadowRoot.querySelectorAll('iron-input.input-wrapper div.icon-wrapper.rect div.circles-wrapper div.password-circle')
+      rectIconGreenCircles = el.shadowRoot.querySelectorAll('iron-input.input-wrapper div.icon-wrapper.rect div.circles-wrapper div.password-circle.green')
+
+      expect(validCircleIcon).to.not.exist
+      expect(invalidCircleIcon).to.not.exist
+      expect(rectIcon).to.exist
+      expect(rectIconText).to.exist
+      expect(rectIconText.innerText).to.equal('Weak')
+      expect(rectIconCircles.length).to.equal(5)
+      expect(rectIconGreenCircles.length).to.equal(0)
+
+      el = await fixture(html`<unity-text-input showIcon password .validation="${validation}" .value="${strong}"></unity-text-input>`)
+      validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.valid iron-icon.icon.icon-valid')
+      invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.circle.invalid iron-icon.icon.icon-error')
+      rectIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect')
+      rectIconText = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper.rect div.icon-text')
+      rectIconCircles = el.shadowRoot.querySelectorAll('iron-input.input-wrapper div.icon-wrapper.rect div.circles-wrapper div.password-circle')
+      rectIconGreenCircles = el.shadowRoot.querySelectorAll('iron-input.input-wrapper div.icon-wrapper.rect div.circles-wrapper div.password-circle.green')
+
+      expect(validCircleIcon).to.not.exist
+      expect(invalidCircleIcon).to.not.exist
+      expect(rectIcon).to.exist
+      expect(rectIconText).to.exist
+      expect(rectIconText.innerText).to.equal('Strong')
+      expect(rectIconCircles.length).to.equal(5)
+      expect(rectIconGreenCircles.length).to.equal(5)
+    })
   })
 })
 
