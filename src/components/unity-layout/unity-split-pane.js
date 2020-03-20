@@ -45,6 +45,7 @@ class UnitySplitPane extends LitElement {
     return {
       show: { type: Boolean },
       closeButton: { type: Boolean },
+      collapsed: { type: Boolean },
       onClose: { type: Function }
     }
   }
