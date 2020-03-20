@@ -1,5 +1,9 @@
 /* eslint-disable no-unused-expressions */
-import { fixture, expect } from '@open-wc/testing'
+import {
+  fixture,
+  expect,
+  oneEvent
+} from '@open-wc/testing'
 import '../../src/components/unity-text-input/unity-text-input'
 
 describe('unity-text-input', () => {
@@ -7,6 +11,12 @@ describe('unity-text-input', () => {
     it('should render', async () => {
       const el = await fixture('<unity-text-input value="test"></unity-text-input>')
       expect(el).shadowDom.to.equal('<div><iron-input class="input-wrapper showBorder notRounded valid border-effects" bind-value="test"><input value="{{value::input}}" id="input" type="text" maxlength="null" placeholder="" style="" class=""></iron-input></div>')
+    })
+
+    it('should default to text', async () => {
+      const el = await fixture('<unity-text-input value="test"></unity-text-input>')
+      const input = el.shadowRoot.querySelector('input#input')
+      expect(input.type).to.equal('text')
     })
 
     it('should have no value', async () => {
@@ -85,6 +95,50 @@ describe('unity-text-input', () => {
       expect(ironInput).to.exist
       expect(input).to.exist
       expect(input.disabled).to.be.true
+    })
+
+    it('should have units adjacent to input', async () => {
+      const testUnits = 'test'
+      const el = await fixture(`<unity-text-input units="${testUnits}"></unity-text-input>`)
+      const input = el.shadowRoot.querySelector('iron-input.input-wrapper input#input')
+      const units = el.shadowRoot.querySelector('iron-input.input-wrapper div.units')
+      expect(units).to.exist
+      expect(units.innerText).to.include(testUnits)
+      expect(units.previousElementSibling).to.equal(input)
+    })
+
+    it('should have type time', async () => {
+      const el = await fixture(`<unity-text-input time></unity-text-input>`)
+      const input = el.shadowRoot.querySelector('input#input')
+      expect(input.type).to.equal('time')
+    })
+
+    it('should should have type password and icon', async () => {
+      const el = await fixture(`<unity-text-input password></unity-text-input>`)
+      const input = el.shadowRoot.querySelector('input#input')
+      const iconWrapper = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper')
+      const icon = iconWrapper.querySelector('iron-icon.inner-icon.password')
+      expect(input.type).to.equal('password')
+      expect(iconWrapper.previousElementSibling).to.equal(input)
+      expect(icon).to.exist
+      expect(icon.icon).to.equal('unity:show')
+    })
+
+    it('should toggle type and icon when icon is clicked', async () => {
+      const el = await fixture(`<unity-text-input password></unity-text-input>`)
+      let input = el.shadowRoot.querySelector('input#input')
+      let icon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper iron-icon.inner-icon.password')
+      const listener = oneEvent(el, 'click')
+      expect(input.type).to.equal('password')
+      expect(icon.icon).to.equal('unity:show')
+      icon.click()
+      await listener
+      expect(input.type).to.equal('text')
+      expect(icon.icon).to.equal('unity:hide')
+      icon.click()
+      await listener
+      expect(input.type).to.equal('password')
+      expect(icon.icon).to.equal('unity:show')
     })
   })
 })
