@@ -49,22 +49,22 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@0.1.10": {
+    "smartworks.unity/unity-dropdown@0.1.11": {
         "files": [
             {
+                "name": "strings.js",
                 "relativePath": "src/components/unity-dropdown/strings.js",
-                "test": false,
-                "name": "strings.js"
+                "test": false
             },
             {
+                "name": "unity-dropdown.js",
                 "relativePath": "src/components/unity-dropdown/unity-dropdown.js",
-                "test": false,
-                "name": "unity-dropdown.js"
+                "test": false
             },
             {
+                "name": "unity-dropdown.md",
                 "relativePath": "src/components/unity-dropdown/unity-dropdown.md",
-                "test": false,
-                "name": "unity-dropdown.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-dropdown/unity-dropdown.js",
@@ -222,12 +222,12 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.3.10": {
+    "smartworks.unity/unity-table@0.3.14": {
         "files": [
             {
+                "name": "filter-dropdown.js",
                 "relativePath": "src/components/unity-table/filter-dropdown.js",
-                "test": false,
-                "name": "filter-dropdown.js"
+                "test": false
             },
             {
                 "name": "table-utils.js",
@@ -240,9 +240,9 @@
                 "test": false
             },
             {
+                "name": "unity-table.md",
                 "relativePath": "src/components/unity-table/unity-table.md",
-                "test": false,
-                "name": "unity-table.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-table/unity-table.js",

@@ -108,12 +108,20 @@ class UnitySplitPane extends LitElement {
         }
         .scroller {
           flex: 1;
+          display: flex;
           overflow-x: auto;
+        }
+        .scroller ::slotted(*) {
+          flex: 1;
+          display: flex;
         }
         .main {
           height: 100%;
           width: 100%;
           overflow: auto;
+          flex: 1;
+          display: flex;
+
         }
         .pane {
           position: relative;
