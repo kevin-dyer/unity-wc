@@ -196,6 +196,8 @@ class UnityTextInput extends LitElement {
       maxlength,
       value
     } = this
+    if (!!maxlength && value.length > maxlength)
+      this.value = value.slice(0, maxlength)
     if (validation instanceof Function) {
       const isValid = validation(value)
       if (!!password) {
@@ -219,10 +221,8 @@ class UnityTextInput extends LitElement {
       }
       this._valid = false
       this._strength = 0
-      this._errorTex = isValid || ''
+      this._errorText = isValid || ''
     }
-    if (!!maxlength && value.length > maxlength)
-      this.value = value.slice(0, maxlength)
   }
 
   _clickUnits() {
