@@ -10,6 +10,11 @@ describe('unity-text-input', () => {
   const notValid = 'notValid'
   const validation = val => val === valid ? true : notValid
   const innerIcon = 'unity:radar_chart'
+  const makeOnChange = injector => (e, value, isValid) => {
+    injector.e = e
+    injector.value = value
+    injector.isValid = isValid
+  }
 
   describe('input mode', () => {
     it('should render', async () => {
@@ -362,6 +367,36 @@ describe('unity-text-input', () => {
       expect(leftIcon).to.exist
       expect(rightIcon).to.not.exist
       expect(leftIcon.icon).to.equal(innerIcon)
+    })
+
+    it('should report new value through onChange', async () => {
+      let ref = {}
+      const onChange = makeOnChange(ref)
+      const first = 'first'
+      const second = 'second'
+
+      const el = await fixture(html`<unity-text-input .value="${first}" .onChange="${onChange}"></unity-text-input>`)
+      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper')
+      const input = el.shadowRoot.querySelector('input#input')
+
+      // making input event
+      const eventName = 'input'
+      const event = new Event(eventName)
+      const listener = oneEvent(ironInput, eventName)
+
+      expect(ironInput.bindValue).to.equal(first)
+      expect(ironInput.bindValue).to.not.equal(second)
+      expect(input.value).to.equal(ironInput.bindValue)
+
+      // changing value and firing event
+      input.value = second
+      ironInput.dispatchEvent(event)
+      await listener
+
+      expect(ironInput.bindValue).to.not.equal(first)
+      expect(ironInput.bindValue).to.equal(second)
+      expect(ref.value).to.not.equal(first)
+      expect(ref.value).to.equal(second)
     })
   })
 })
