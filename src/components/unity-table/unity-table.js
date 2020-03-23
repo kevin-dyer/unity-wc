@@ -5,6 +5,7 @@ import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
+import { debounce } from 'throttle-debounce'
 
 // import '@bit/smartworks.unity.unity-table-cell'
 import './unity-table-cell.js'
@@ -199,6 +200,11 @@ class UnityTable extends LitElement {
     this._tableId = Date.now()//unique identifier for table element
     this._visibleRowCount = MIN_VISIBLE_ROWS
     this.dropdownValueChange = key => (values, selected) => this.filterColumn(key, values, selected)
+
+    //Debounced update request called on @slotchange event
+    //used to keep slot content up to date
+    //NOTE: still not working in storybook
+    this.debouncedRequestUpdate = debounce(500, this.requestUpdate.bind(this))
   }
 
 
@@ -1125,7 +1131,9 @@ class UnityTable extends LitElement {
                   this._handleColumnResizeComplete(columnKey)
                 }}"
               >
-                <slot name="${slotId}">
+                <slot name="${slotId}" @slotchange=${e => {
+                  this.debouncedRequestUpdate()
+                }}>
                   <span class="text">${label}</span>
                 </slot>
               </unity-table-cell>
