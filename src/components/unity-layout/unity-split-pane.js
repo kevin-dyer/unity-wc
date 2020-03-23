@@ -12,7 +12,7 @@ const MIN_PANE_WIDTH = 20 // %
  * @name UnitySplitPane
  * @param {bool} show, controls if the other pane should be visible or not
  * @param {bool} closeButton, controls if the overlapping close button is rendered
- * @param {func} onClose, function to call whent he close button is clicked
+ * @param {func} onClose, function to call whent he close button is clicked, sends new pane width in %
  * @param {number} paneWidth, width for the pane in percentage
  * @param {func} onResize, function to call when panel is being resized
  * @example
@@ -71,7 +71,7 @@ class UnitySplitPane extends LitElement {
     
     this.paneWidth = this._clipPaneWidth(newWidth)  
     this._startingX = e.clientX
-    this.onResize() // callback
+    this.onResize(this.paneWidth) // callback
     this.requestUpdate('paneWidth')
   }
 

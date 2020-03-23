@@ -15,6 +15,7 @@ export const SplitPane = () => {
     <unity-split-pane
       ?show="${show}"
       .onClose="${action('onClose')}"
+      .onResize=${action('onResize')}
     >
       <div slot="header">
         ${text("'header' slot", "This is the header.")}
