@@ -39,36 +39,40 @@ export const Standard = () => {
   const innerLeftIcon = text("Inside Left Icon (iron/unity icon)", "")
   const dirty = boolean("Dirty Marker", false)
   return html`
-    <unity-text-input
-      .onChange=${action("onChange")}
-      .value="${value}"
-      ?area="${area}"
-      ?charCount="${charCount}"
-      ?showIcon="${showIcon}"
-      ?rounded="${rounded}"
-      ?hideBorder="${hideBorder}"
-      ?borderEffects="${borderEffects}"
-      ?dirty="${dirty}"
-      ?time="${time}"
-      ?password="${password}"
-      .placeholder="${placeholder}"
-      .label="${label}"
-      .remark="${remark}"
-      .maxLength="${maxLength}"
-      .units="${units}"
-      .hint="${hint}"
-      .error="${error}"
-      .minLines="${minLines}"
-      .maxLines="${maxLines}"
-      .innerRightIcon="${innerRightIcon}"
-      .innerLeftIcon="${innerLeftIcon}"
-    >
-    </unity-text-input>
+    <div style="width: 500px; margin: 50px 100px;">
+      <unity-text-input
+        .onChange=${action("onChange")}
+        .value="${value}"
+        ?area="${area}"
+        ?charCount="${charCount}"
+        ?showIcon="${showIcon}"
+        ?rounded="${rounded}"
+        ?hideBorder="${hideBorder}"
+        ?borderEffects="${borderEffects}"
+        ?dirty="${dirty}"
+        ?time="${time}"
+        ?password="${password}"
+        .placeholder="${placeholder}"
+        .label="${label}"
+        .remark="${remark}"
+        .maxLength="${maxLength}"
+        .units="${units}"
+        .hint="${hint}"
+        .error="${error}"
+        .minLines="${minLines}"
+        .maxLines="${maxLines}"
+        .innerRightIcon="${innerRightIcon}"
+        .innerLeftIcon="${innerLeftIcon}"
+      >
+      </unity-text-input>
+    </div>
   `;
 }
 
 export const Password = () => html`
-  <unity-text-input label="Password" password></unity-text-input>
+  <div style="width: 500px; margin: 50px 100px;">
+    <unity-text-input label="Password" password></unity-text-input>
+  </div>
 `;
 
 export const Validation = () => {
@@ -84,16 +88,18 @@ export const Validation = () => {
     return true
   }
   return html`
-    <unity-text-input
-      .onChange=${action("onChange")}
-      .value="${value}"
-      ?showIcon="${showIcon}"
-      .placeholder="${placeholder}"
-      .label="${label}"
-      .remark="${remark}"
-      .error="${error}"
-      .validation="${validation}"
-    >
-    </unity-text-input>
+    <div style="width: 500px; margin: 50px 100px;">
+      <unity-text-input
+        .onChange=${action("onChange")}
+        .value="${value}"
+        ?showIcon="${showIcon}"
+        .placeholder="${placeholder}"
+        .label="${label}"
+        .remark="${remark}"
+        .error="${error}"
+        .validation="${validation}"
+      >
+      </unity-text-input>
+    </div>
   `;
 }
