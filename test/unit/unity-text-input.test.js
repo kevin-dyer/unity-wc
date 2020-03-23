@@ -5,11 +5,20 @@ import '../../src/components/unity-text-input/unity-text-input'
 
 describe('unity-text-input', () => {
   // testing consts
+  const testText = 'test text'
+  const longTestInput = "i am greater than twenty characters"
+  const maxlength = 20
   const remarkText = 'this is the remark text'
+  const testUnits = 'test units'
   const valid = 'valid'
   const notValid = 'notValid'
   const validation = val => val === valid ? true : notValid
   const innerIcon = 'unity:radar_chart'
+  const defaultMinLines = 4
+  const defaultMaxLines = 12
+  const negativeLines = -2
+  const minLinesStyle = "--area-min-lines"
+  const maxLinesStyle = "--area-max-lines"
   const makeOnChange = injector => (e, value, isValid) => {
     injector.e = e
     injector.value = value
@@ -23,26 +32,29 @@ describe('unity-text-input', () => {
     })
 
     it('should default to text', async () => {
-      const el = await fixture('<unity-text-input value="test"></unity-text-input>')
+      const el = await fixture(`<unity-text-input value="${testText}"></unity-text-input>`)
       const input = el.shadowRoot.querySelector('input#input')
-      expect(input.type).to.equal('text')
+      expect(input.type).to.equal("text")
     })
 
     it('should have no value', async () => {
       const el = await fixture('<unity-text-input></unity-text-input>')
       const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper')
+      const input = el.shadowRoot.querySelector('iron-input.input-wrapper input#input')
       expect(ironInput.bindValue).to.equal("")
+      expect(ironInput.value).to.equal("")
     })
 
-    it('should have value "test"', async () => {
-      const el = await fixture('<unity-text-input value="test"></unity-text-input>')
+    it(`should have value "${testText}"`, async () => {
+      const el = await fixture(`<unity-text-input value="${testText}"></unity-text-input>`)
       const ironInput = el.shadowRoot.querySelector('iron-input')
-      expect(ironInput.bindValue).to.equal("test")
+      const input = el.shadowRoot.querySelector('iron-input.input-wrapper input#input')
+      expect(ironInput.bindValue).to.equal(testText)
+      expect(ironInput.value).to.equal(testText)
     })
 
-    // el.shadowRoot.querySelector('')
     it('should render a label', async () => {
-      const el = await fixture('<unity-text-input label="label" value="test"></unity-text-input>')
+      const el = await fixture(`<unity-text-input label="label" value="${testText}"></unity-text-input>`)
       const label = el.shadowRoot.querySelector('p.label')
       expect(label).to.exist
       expect(label.className).to.include('label')
@@ -50,20 +62,19 @@ describe('unity-text-input', () => {
     })
 
     it('should have placeholder', async () => {
-      const el = await fixture('<unity-text-input placeholder="test"></unity-text-input>')
+      const el = await fixture(`<unity-text-input placeholder="${testText}"></unity-text-input>`)
       const input = el.shadowRoot.querySelector('input#input')
-      expect(input.placeholder).to.equal('test')
+      expect(input.placeholder).to.equal(testText)
     })
 
     it('should have a remark', async () => {
-      const el = await fixture('<unity-text-input remark="test"></unity-text-input>')
+      const el = await fixture(`<unity-text-input remark="${testText}"></unity-text-input>`)
       const remark = el.shadowRoot.querySelector('div.bottom span.remark')
       expect(remark).to.exist
-      expect(remark.innerText).to.include('test')
+      expect(remark.innerText).to.include(testText)
     })
 
     it('should have a charCount that matches value\'s length', async () => {
-      const testText = "test text"
       const el = await fixture(`<unity-text-input value="${testText}" charCount></unity-text-input>`)
       const remark = el.shadowRoot.querySelector('div.bottom span.remark')
       const charCount = el.shadowRoot.querySelector('div.bottom span.charCount')
@@ -73,15 +84,16 @@ describe('unity-text-input', () => {
     })
 
     it('should have a character limit', async () => {
-      const testInput = "i am greater than twenty characters"
-      const maxlength = 20
-      const el = await fixture(`<unity-text-input value="${testInput}" maxlength="${maxlength}"></unity-text-input>`)
+      const el = await fixture(`<unity-text-input value="${longTestInput}" maxlength="${maxlength}"></unity-text-input>`)
       const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper')
       const input = el.shadowRoot.querySelector('input#input')
       expect(input.maxLength).to.equal(maxlength)
       expect(ironInput.bindValue.length).to.equal(maxlength)
-      expect(ironInput.bindValue).to.not.equal(testInput)
-      expect(ironInput.bindValue).to.equal(testInput.slice(0, maxlength))
+      expect(ironInput.bindValue).to.not.equal(longTestInput)
+      expect(ironInput.bindValue).to.equal(longTestInput.slice(0, maxlength))
+      expect(input.value.length).to.equal(maxlength)
+      expect(input.value).to.not.equal(longTestInput)
+      expect(input.value).to.equal(longTestInput.slice(0, maxlength))
     })
 
     it('should show current and max character count', async () => {
@@ -107,7 +119,6 @@ describe('unity-text-input', () => {
     })
 
     it('should have units adjacent to input', async () => {
-      const testUnits = 'test'
       const el = await fixture(`<unity-text-input units="${testUnits}"></unity-text-input>`)
       const input = el.shadowRoot.querySelector('iron-input.input-wrapper input#input')
       const units = el.shadowRoot.querySelector('iron-input.input-wrapper div.units')
@@ -399,20 +410,114 @@ describe('unity-text-input', () => {
       expect(ref.value).to.equal(second)
     })
   })
+
+  describe('area mode', () => {
+    it('should render', async () => {
+      const el = await fixture('<unity-text-input area value="test"></unity-text-input>')
+      expect(el).shadowDom.to.equal('<div><iron-input class="input-wrapper area showBorder notRounded valid border-effects" bind-value="test"><iron-autogrow-textarea id="textarea" value="{{value::iron-autogrow-textarea}}" maxlength="null" class="" placeholder="" style="--area-min-lines: 4; --area-max-lines: 12" aria-disabled="false"></iron-autogrow-textarea></iron-input></div>')
+    })
+
+    it('should have no value', async () => {
+      const el = await fixture('<unity-text-input area></unity-text-input>')
+      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.area')
+      const textArea = el.shadowRoot.querySelector('iron-input.input-wrapper.area iron-autogrow-textarea#textarea')
+      expect(ironInput.bindValue).to.equal("")
+      expect(textArea.value).to.equal("")
+    })
+
+    it('should have value "test text"', async () => {
+      const el = await fixture(`<unity-text-input area value="${testText}"></unity-text-input>`)
+      const ironInput = el.shadowRoot.querySelector('iron-input')
+      const textArea = el.shadowRoot.querySelector('iron-input.input-wrapper.area iron-autogrow-textarea#textarea')
+      expect(ironInput.bindValue).to.equal(testText)
+      expect(textArea.value).to.equal(testText)
+    })
+
+    it('should not be affected by password nor time', async () => {
+      let el = await fixture(`<unity-text-input area password></unity-text-input>`)
+      expect(el).shadowDom.to.equal('<div><iron-input class="input-wrapper area showBorder notRounded valid border-effects" bind-value=""><iron-autogrow-textarea id="textarea" value="{{value::iron-autogrow-textarea}}" maxlength="null" class="" placeholder="" style="--area-min-lines: 4; --area-max-lines: 12" aria-disabled="false"></iron-autogrow-textarea></iron-input></div>')
+      el = await fixture(`<unity-text-input area time></unity-text-input>`)
+      expect(el).shadowDom.to.equal('<div><iron-input class="input-wrapper area showBorder notRounded valid border-effects" bind-value=""><iron-autogrow-textarea id="textarea" value="{{value::iron-autogrow-textarea}}" maxlength="null" class="" placeholder="" style="--area-min-lines: 4; --area-max-lines: 12" aria-disabled="false"></iron-autogrow-textarea></iron-input></div>')
+    })
+
+    it('should not be affected by units, hideBorder, nor rounded', async () => {
+      const el = await fixture(`<unity-text-input area value="${testText}" units="${testUnits}" hideBorder rounded></unity-text-input>`)
+      const unitsClass = el.shadowRoot.querySelector('iron-input.input-wrapper.area.units')
+      const hideBorder = el.shadowRoot.querySelector('iron-input.input-wrapper.area.hideBorder')
+      const showBorder = el.shadowRoot.querySelector('iron-input.input-wrapper.area.showBorder')
+      const rounded = el.shadowRoot.querySelector('iron-input.input-wrapper.area.rounded')
+      const notRounded = el.shadowRoot.querySelector('iron-input.input-wrapper.area.notRounded')
+
+      expect(unitsClass).to.not.exist
+      expect(hideBorder).to.not.exist
+      expect(showBorder).to.exist
+      expect(rounded).to.not.exist
+      expect(notRounded).to.exist
+    })
+
+    it('should not render left or right icons', async () => {
+      const el = await fixture(`<unity-text-input area innerRightIcon="${innerIcon}" innerLeftIcon="${innerIcon}"></unity-text-input>`)
+      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper.area div.icon-right-wrapper iron-icon.inner-icon')
+      const leftIcon = el.shadowRoot.querySelector('iron-input.input-wrapper.area div.icon-left-wrapper iron-icon.inner-icon')
+      expect(rightIcon).to.not.exist
+      expect(leftIcon).to.not.exist
+
+    })
+
+    it('should be disabled', async () => {
+      const el = await fixture(`<unity-text-input area disabled ></unity-text-input>`)
+      const textArea = el.shadowRoot.querySelector('iron-autogrow-textarea#textarea.disabled')
+      expect(textArea).to.exist
+      expect(textArea.disabled).to.be.true
+    })
+
+    it('should have maxlength', async () => {
+      const el = await fixture(`<unity-text-input area value="${longTestInput}" maxlength="${maxlength}" ></unity-text-input>`)
+      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.area')
+      const textArea = el.shadowRoot.querySelector('iron-autogrow-textarea#textarea')
+      expect(ironInput.bindValue.length).to.equal(maxlength)
+      expect(ironInput.bindValue).to.not.equal(longTestInput)
+      expect(ironInput.bindValue).to.equal(longTestInput.slice(0, maxlength))
+      expect(textArea.maxlength).to.equal(maxlength)
+      expect(textArea.value.length).to.equal(maxlength)
+      expect(textArea.value).to.not.equal(longTestInput)
+      expect(textArea.value).to.equal(longTestInput.slice(0, maxlength))
+    })
+
+    it('should have placeholder', async () => {
+      const el = await fixture(`<unity-text-input area placeholder="${testText}" ></unity-text-input>`)
+      const textArea = el.shadowRoot.querySelector('iron-autogrow-textarea#textarea')
+      expect(textArea.placeholder).to.equal(testText)
+    })
+
+    it('should have minLines default to 4 and maxLines default to 12', async () => {
+      const el = await fixture(`<unity-text-input area></unity-text-input>`)
+      const textArea = el.shadowRoot.querySelector('iron-autogrow-textarea#textarea')
+      expect(textArea.style.getPropertyValue(minLinesStyle)).to.include(defaultMinLines)
+      expect(textArea.style.getPropertyValue(maxLinesStyle)).to.include(defaultMaxLines)
+    })
+
+    it('should have minLines be minimum 1', async () => {
+      const el = await fixture(`<unity-text-input area minLines="${negativeLines}"></unity-text-input>`)
+      const textArea = el.shadowRoot.querySelector('iron-autogrow-textarea#textarea')
+      expect(textArea.style.getPropertyValue(minLinesStyle)).to.not.include(negativeLines)
+      expect(textArea.style.getPropertyValue(minLinesStyle)).to.include(1)
+    })
+
+    it('should have maxLines be minimum minLines', async () => {
+      const el = await fixture(`<unity-text-input area maxLines="${negativeLines}"></unity-text-input>`)
+      const textArea = el.shadowRoot.querySelector('iron-autogrow-textarea#textarea')
+      expect(textArea.style.getPropertyValue(minLinesStyle)).to.not.include(negativeLines)
+      expect(textArea.style.getPropertyValue(minLinesStyle)).to.include(defaultMinLines)
+      expect(textArea.style.getPropertyValue(maxLinesStyle)).to.not.include(negativeLines)
+      expect(textArea.style.getPropertyValue(maxLinesStyle)).to.not.include(defaultMaxLines)
+      expect(textArea.style.getPropertyValue(maxLinesStyle)).to.include(defaultMinLines)
+    })
+
+    it('should not show validation/error icon', async () => {
+      const el = await fixture(`<unity-text-input area showIcon error="${true}"></unity-text-input>`)
+      const iconWrapper = el.shadowRoot.querySelector('div.icon-wrapper')
+      expect(iconWrapper).to.not.exist
+    })
+  })
 })
-
-
-/*
-  error
-  validation
-  showIcon
-  rounded
-  hideBorder
-  borderEffects
-  area
-  minLines
-  maxLines
-  innerRightIcon
-  innerLeftIcon
-  dirty
-*/
