@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { fixture, expect } from '@open-wc/testing';
 
-import '../../src/components/unity-button/unity-button';
+import '@bit/smartworks.unity.unity-button'
 
 
 describe('button test', () => {
