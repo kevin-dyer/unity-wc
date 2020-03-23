@@ -222,7 +222,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.3.14": {
+    "smartworks.unity/unity-table@0.3.15": {
         "files": [
             {
                 "name": "filter-dropdown.js",
