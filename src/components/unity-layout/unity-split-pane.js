@@ -3,6 +3,7 @@ import { LitElement, html, css } from 'lit-element'
 import '@bit/smartworks.unity.unity-button'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
+const MIN_PANE_WIDTH = 20 // %
 /**
  * A container to hold two views:
  *   1) one which will hold main content to always be rendered and fit to the full view
@@ -12,6 +13,8 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {bool} show, controls if the other pane should be visible or not
  * @param {bool} closeButton, controls if the overlapping close button is rendered
  * @param {func} onClose, function to call whent he close button is clicked
+ * @param {number} paneWidth, width for the pane in percentage
+ * @param {func} onResize, function to call when panel is being resized
  * @example
  *   <unity-split-pane
  *     closeButton
@@ -28,7 +31,6 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  */
 
 const stretch = overlapPercent => (100 / (100 - overlapPercent)) * 100
-const panelWidth = 50
 
 class UnitySplitPane extends LitElement {
   constructor() {
@@ -37,13 +39,57 @@ class UnitySplitPane extends LitElement {
     this.show = false
     this.closeButton = false
     this.onClose = ()=>{}
+    this.paneWidth = 50
+    this.onResize=()=>{}
+    this._startingX = 0
   }
 
   static get properties() {
     return {
       show: { type: Boolean },
       closeButton: { type: Boolean },
-      onClose: { type: Function }
+      onClose: { type: Function },
+      paneWidth: { type: Number },
+      onResize: Function,
+    }
+  }
+
+  handleMouseDown(e) {
+    this._startingX = e.clientX
+    this.mouseMoveListener = this.handleMouseMove.bind(this)
+    this.mouseUpListener = this.handleMouseUp.bind(this)
+    document.addEventListener('mousemove', this.mouseMoveListener)
+    document.addEventListener('mouseup', this.mouseUpListener)
+  }
+
+  handleMouseMove(e) {
+    const pane = this.shadowRoot.getElementById('pane')
+    const splitPaneWidth = pane.clientWidth * 100 / this.paneWidth // get splitpane total width
+    
+    const deltaX = e.clientX - this._startingX
+    const newWidth = this.paneWidth - (deltaX * 100 / splitPaneWidth) // curent % - increment %
+    
+    this.paneWidth = this._clipPaneWidth(newWidth)  
+    this._startingX = e.clientX
+    this.onResize() // callback
+    this.requestUpdate('paneWidth')
+  }
+
+  //clean up event listener
+  handleMouseUp() {
+    document.removeEventListener('mousemove', this.mouseMoveListener)
+    document.removeEventListener('mouseup', this.mouseUpListener)
+  }
+
+  _clipPaneWidth(width) {
+    if (width < MIN_PANE_WIDTH) {
+      return MIN_PANE_WIDTH  
+    }
+    else if (width > 100 - MIN_PANE_WIDTH) {
+      return 100 - MIN_PANE_WIDTH
+    }
+    else {
+      return width  
     }
   }
 
@@ -51,7 +97,8 @@ class UnitySplitPane extends LitElement {
     const {
       show,
       closeButton,
-      onClose
+      onClose,
+      paneWidth
     } = this
     return html`
       <div class="wrapper">
@@ -59,7 +106,7 @@ class UnitySplitPane extends LitElement {
           <slot name="header"></slot>
         </div>
         <div class="scroller">
-          <div class="main ${!!show ? 'stretch' : ''}">
+          <div class="main" style="width: ${show? stretch(paneWidth) : "100"}%;">
             <slot name="main"></slot>
           </div>
         </div>
@@ -67,7 +114,11 @@ class UnitySplitPane extends LitElement {
           <slot name="footer"></slot>
         </div>
       </div>
-      <div class="pane ${!show ? 'hide' : ''}">
+      <div id="pane" class="pane ${!show ? 'hide' : ''}" style="width: ${paneWidth}%;">
+        <div
+          class="resize-handle"
+          @mousedown="${this.handleMouseDown}"
+        ></div>
         ${!!closeButton ?
           html`
             <unity-button
@@ -76,6 +127,7 @@ class UnitySplitPane extends LitElement {
             ></unity-button>`
           : null
         }
+       
         <slot name="pane"></slot>
       </div>
     `
@@ -126,11 +178,7 @@ class UnitySplitPane extends LitElement {
         .pane {
           position: relative;
           border-left: 1px solid var(--border-color);
-          width: ${panelWidth}%;
           box-sizing: border-box;
-        }
-        .stretch {
-          width: ${stretch(panelWidth)}%;
         }
         .hide {
           display: none;
@@ -139,6 +187,15 @@ class UnitySplitPane extends LitElement {
           position: absolute;
           top: 0;
           right: 0;
+          z-index: 2;
+        }
+        .resize-handle{
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 8px;
+          cursor: col-resize;
           z-index: 2;
         }
       `

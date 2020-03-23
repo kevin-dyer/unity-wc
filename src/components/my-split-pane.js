@@ -199,6 +199,11 @@ class MySplitPane extends PageViewElement {
         unity-page-header {
           flex: 0;
         }
+        .pane {
+          height: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       `
     ];
   }
@@ -307,7 +312,7 @@ class MySplitPane extends PageViewElement {
           style="--highlight-color: ${this.highlightColor}"
         >
         </unity-table>
-        <div slot="pane">
+        <div class="pane" slot="pane">
           ${JSON.stringify(this.highlightedRow)}
         </div>
       </unity-split-pane>
