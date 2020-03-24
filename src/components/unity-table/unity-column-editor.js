@@ -28,22 +28,22 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *    .columns="${[
  *      {
  *        key: 'column2',
- *        label: 'Column #2'
+ *        label: 'Column #2',
 *         format: (colValue, datum) => `Building: ${colValue}`
  *      },
  *      {
  *        key: 'columnN',
- *        label: 'Column #N'
+ *        label: 'Column #N',
  *        format: (colValue, datum) => html`<span style="${myStyle}">Room: ${colValue}</span>`
  *      },
  *      {
- *        key: 'column1',
+ *        key: 'column1',,
  *        label: 'Column #1'
  *        format: column1Handler
  *      }
  *    ]}"
  *    .selectedColumns="${[column1, column2]}"
- *    .onUpdate="${visibleColumns => console.log('These are the visible sorted columns: ', visibleColumns')}"
+ *    .onUpdate="${visibleColumns => console.log('These are the visible sorted columns: ', visibleColumns)}"
  *  />
  */
 
