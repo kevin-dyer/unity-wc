@@ -1069,7 +1069,9 @@ class UnityTable extends LitElement {
     const expanded = this.expanded.has(rowId)
     // check if highlightedRow matches keyExtractor
     let rowClasses = ['row']
-    if (rowId === this.highlightedRow) rowClasses.push('highlight')
+
+    //NOTE: using == so that rowId can be number or string
+    if (rowId == this.highlightedRow) rowClasses.push('highlight')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
