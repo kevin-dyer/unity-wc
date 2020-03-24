@@ -8,7 +8,8 @@ import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 
 // import '../unity-button/unity-button.js'
 import '@bit/smartworks.unity.unity-button';
-import '@bit/smartworks.unity.unity-modal'
+import '../unity-modal/unity-modal'
+// import '@bit/smartworks.unity.unity-modal'
 
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
