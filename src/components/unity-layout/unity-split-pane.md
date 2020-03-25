@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v0.2.0
+- Allow main pane to be collapsible.
+- Resizable split pane.
+
 ### v0.1.6
 - Added footer slot.
 

@@ -50,16 +50,34 @@ describe('split pane test', () => {
 
   });
 
-  it('expands main pane when close button is clicked', async () => {
+  it('expands main pane when close pane button is clicked', async () => {
     const el = await fixture('<unity-split-pane show collapsed closeButton></unity-split-pane>')
     const listener = oneEvent(el, 'click')
-    const splitPaneWrapper = el.shadowRoot.querySelector('.wrapper')
-    expect(splitPaneWrapper).to.have.class('hide')
-
     const closeButton = el.shadowRoot.querySelector('.close-button')
+    let splitPaneWrapper = el.shadowRoot.querySelector('.wrapper')
+    expect(splitPaneWrapper).to.have.class('hide')
     closeButton.click()
     await listener
     expect(splitPaneWrapper).not.to.have.class('hide')
+  });
 
+  it('mousedown handler should set starting position properly', async () => {
+    const el = await fixture('<unity-split-pane show></unity-split-pane>')
+    el.handleMouseDown({clientX: 500})
+    expect(el._startingX).to.equal(500)
+  });
+
+  it('mousemove handler should set pane width properly', async () => {
+    const el = await fixture('<unity-split-pane style="width:1000px;" panewidth=50 show></unity-split-pane>')
+    el._startingX = 500
+    el.handleMouseMove({clientX: 450})
+    expect(Math.round(el.paneWidth)).to.equal(55)
+  });
+
+  it('clip pane function should keep value in the 20-80 range', async () => {
+    const el = await fixture('<unity-split-pane></unity-split-pane>')
+    expect(el._clipPaneWidth(90)).to.equal(80)
+    expect(el._clipPaneWidth(10)).to.equal(20)
+    expect(el._clipPaneWidth(50)).to.equal(50)
   });
 });

@@ -20,6 +20,7 @@ export const SplitPane = () => {
       ?collapsed=${collapsed}
       ?closeButton="${closeButton}"
       .onClose="${action('onClose')}"
+      .onResize=${action('onResize')}
     >
       <div style="padding-left: 20px" slot="header">
         ${text("'header' slot", "This is the header.")}
