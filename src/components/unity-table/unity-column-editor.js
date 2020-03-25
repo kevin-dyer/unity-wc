@@ -8,7 +8,8 @@ import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 
 // import '../unity-button/unity-button.js'
 import '@bit/smartworks.unity.unity-button';
-import '@bit/smartworks.unity.unity-modal'
+import '../unity-modal/unity-modal'
+// import '@bit/smartworks.unity.unity-modal'
 
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
@@ -19,32 +20,30 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {[]} columns, array of objects - same as what is passed into unity-table
  * @param {[]} selectedColumns, array of column keys from columns that are visible
  * @param {func} onUpdate, callback that is sent an array of sorted visible columns
- * @param {bool} buttonGradient, boolean to style action button with background gradient
- * @param {bool} buttonOutlined, boolean to style action button with border outline
+ * @param {bool} buttonType, action button type for styling ('solid', 'gradient', 'outlined'), default ''
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-column-editor
- *    ?buttonGradient=${true}
- *    ?buttonOutlined=${false}
+ *    buttonType="solid"
  *    .columns="${[
  *      {
  *        key: 'column2',
- *        label: 'Column #2'
+ *        label: 'Column #2',
 *         format: (colValue, datum) => `Building: ${colValue}`
  *      },
  *      {
  *        key: 'columnN',
- *        label: 'Column #N'
+ *        label: 'Column #N',
  *        format: (colValue, datum) => html`<span style="${myStyle}">Room: ${colValue}</span>`
  *      },
  *      {
- *        key: 'column1',
+ *        key: 'column1',,
  *        label: 'Column #1'
  *        format: column1Handler
  *      }
  *    ]}"
  *    .selectedColumns="${[column1, column2]}"
- *    .onUpdate="${visibleColumns => console.log('These are the visible sorted columns: ', visibleColumns')}"
+ *    .onUpdate="${visibleColumns => console.log('These are the visible sorted columns: ', visibleColumns)}"
  *  />
  */
 
@@ -58,8 +57,7 @@ class UnityColumnEditor extends LitElement {
 
     this.columns = []
     this.selectedColumns = []
-    this.buttonGradient = false
-    this.buttonOutlined = false
+    this.buttonType = ''
     this.onUpdate = (columns) => {}
 
     this._dialogVisible = false
@@ -73,8 +71,7 @@ class UnityColumnEditor extends LitElement {
       columns: {type: Array},
       selectedColumns: {type: Array},
       onUpdate: {type: Function},
-      buttonGradient: {type: Boolean},
-      buttonOutlined: {type: Boolean},
+      buttonType: {type: String},
       _dialogVisible: {type: Boolean},
     }
   }
@@ -201,8 +198,7 @@ class UnityColumnEditor extends LitElement {
     return html`
       <unity-button
         label="Edit Columns"
-        ?gradient=${this.buttonGradient}
-        ?outlined=${this.buttonOutlined}
+        type=${this.buttonType}
         @click=${this.toggleDialog.bind(this)}
       >
       </unity-button>
@@ -221,14 +217,14 @@ class UnityColumnEditor extends LitElement {
         <unity-button
           label="Cancel"
           slot="bottom"
-          outlined
+          type="outlined"
           @click=${this.handleCancel.bind(this)}
         ></unity-button>
         <unity-button
           label="Save"
           slot="bottom"
           autofocus
-          gradient
+          type="solid"
           @click=${this.handleSave.bind(this)}
         ></unity-button>
       </unity-modal>
