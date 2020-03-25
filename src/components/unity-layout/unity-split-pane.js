@@ -51,9 +51,9 @@ class UnitySplitPane extends LitElement {
       show: { type: Boolean },
       closeButton: { type: Boolean },
       collapsed: { type: Boolean },
-      onClose: { type: Function }
+      onClose: { type: Function },
       paneWidth: { type: Number },
-      onResize: Function,
+      onResize: { type: Function }
     }
   }
 
@@ -135,7 +135,7 @@ class UnitySplitPane extends LitElement {
           <slot name="footer"></slot>
         </div>
       </div>
-      <div id="pane" class="pane ${!show ? 'hide' : ''} style="width: ${collapsed?'100':paneWidth}%;">
+      <div id="pane" class="pane ${!show ? 'hide' : ''}" style="width: ${collapsed?'100':paneWidth}%;">
         <div
           class="resize-handle"
           @mousedown="${this.handleMouseDown}"
