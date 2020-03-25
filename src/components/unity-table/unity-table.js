@@ -611,8 +611,8 @@ class UnityTable extends LitElement {
     this.dfsTraverse({
       node: value,
       callback: (node, tabIndex, childCount, parents) => {
-        const key = this.keyExtractor(node, tabIndex)
-        dataMap.set(key, {...node, parents})
+        const key = this.keyExtractor(node, tabIndex) || ''
+        dataMap.set(key.toString(), {...node, parents})
       }
     })
     this._dataMap = dataMap
@@ -792,7 +792,7 @@ class UnityTable extends LitElement {
   // sees if the requested highlighted row exists
   // passes highlighted row data if it does, undefined if it doesn't
   _findHighlight() {
-    this.onHighlight(this._dataMap.get(this.highlightedRow))
+    this.onHighlight(this._dataMap.get(this.highlightedRow.toString()))
   }
 
   //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
@@ -1069,7 +1069,9 @@ class UnityTable extends LitElement {
     const expanded = this.expanded.has(rowId)
     // check if highlightedRow matches keyExtractor
     let rowClasses = ['row']
-    if (rowId === this.highlightedRow) rowClasses.push('highlight')
+
+    //NOTE: using == so that rowId can be number or string
+    if (rowId == this.highlightedRow) rowClasses.push('highlight')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
