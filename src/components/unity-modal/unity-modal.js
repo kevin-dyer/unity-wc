@@ -2,8 +2,8 @@ import { LitElement, html, css } from 'lit-element'
 import '@polymer/paper-dialog/paper-dialog'
 import '@polymer/paper-dialog-scrollable'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '@bit/smartworks.unity.unity-typography'
 import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
-// import { trimWhitespace } from '../unity-utils/unity-utils'
 
 /**
  * Modal element that can be passed a title, top buttons, body, and bottom buttons
@@ -105,7 +105,7 @@ class UnityModal extends LitElement {
     if (!title && top.length === 0) classes.push('hide')
     return html`
       <div class="${classes.join(' ')}">
-        <h2 class="title">${title}</h2>
+        <unity-typography size="header2">${title}</unity-typography>
         <slot name="${TOP_SLOT}"></slot>
       </div>
     `
@@ -152,17 +152,12 @@ class UnityModal extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          font-family: var(--font-family, var(--default-font-family));
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
-          font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           color: var(--black-text-color, var(--default-black-text-color));
         }
         paper-dialog-scrollable {
           margin: 0 -24px;
         }
         .modal-title {
-          font-size: var(--header2-selected-font-size, var(--default-header2-selected-font-size));
-          font-weight: var(--header2-selected-font-weight, var(--default-header2-selected-font-weight));
           border-bottom: 1px solid var(--light-grey-text-color, var(--default-light-grey-text-color));
           margin-top: 0;
           padding: 0 12px;

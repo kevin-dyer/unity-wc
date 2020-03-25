@@ -25,12 +25,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@0.0.9": {
+    "smartworks.unity/unity-column-editor@0.0.11": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/unity-column-editor.js",
                 "test": false,
                 "name": "unity-column-editor.js"
+            },
+            {
+                "relativePath": "src/components/unity-table/unity-column-editor.md",
+                "test": false,
+                "name": "unity-column-editor.md"
             }
         ],
         "mainFile": "src/components/unity-table/unity-column-editor.js",
@@ -49,7 +54,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@0.1.11": {
+    "smartworks.unity/unity-dropdown@0.1.12": {
         "files": [
             {
                 "name": "strings.js",
@@ -135,12 +140,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-modal@0.1.4": {
+    "smartworks.unity/unity-modal@0.1.5": {
         "files": [
             {
                 "relativePath": "src/components/unity-modal/unity-modal.js",
                 "test": false,
                 "name": "unity-modal.js"
+            },
+            {
+                "relativePath": "src/components/unity-modal/unity-modal.md",
+                "test": false,
+                "name": "unity-modal.md"
             }
         ],
         "mainFile": "src/components/unity-modal/unity-modal.js",
@@ -222,7 +232,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.3.14": {
+    "smartworks.unity/unity-table@0.3.18": {
         "files": [
             {
                 "name": "filter-dropdown.js",
@@ -249,7 +259,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@0.1.30": {
+    "smartworks.unity/unity-text-input@0.1.31": {
         "files": [
             {
                 "name": "unity-text-input.js",

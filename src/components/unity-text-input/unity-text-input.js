@@ -9,7 +9,7 @@ import '@bit/smartworks.unity.unity-icon-set'
 * Renders a bordered text input
 * @name UnityTextInput
 * @param {''} value, the text defaulted text in the field
-* @param {func} onChange, function to handle changes to the field, receives current text value, false if validation fails
+* @param {func} onChange, function to handle changes to the field, receives current text value, and true/false if validation is in effect
 * @param {''} label, floating header label
 * @param {''} placeholder, initial text to be overwritten
 * @param {''} remark, text to render below input field
@@ -63,7 +63,7 @@ class UnityTextInput extends LitElement {
     this.placeholder = ""
     this.units = ""
     this.charCount = false
-    this.maxlength = 0
+    this._maxlength = 0
     this.showIcon = false
     this.hideBorder = false
     this.borderEffects = true
@@ -171,15 +171,33 @@ class UnityTextInput extends LitElement {
     const report = this.onChange
     const newValue = e.target.value
     this.value = newValue
-    report instanceof Function && report(e, this.value)
+    if (report instanceof Function) {
+      if (this.validation instanceof Function) {
+        report(e, this.value, this._valid)
+      } else {
+        report(e, this.value)
+      }
+    }
   }
+
+  set maxlength(value) {
+    const oldValue = this._maxlength
+    this._maxlength = value
+    this._validate()
+    this.requestUpdate('maxlength', oldValue)
+  }
+
+  get maxlength () { return this._maxlength }
 
   _validate() {
     const {
       validation,
       password,
+      maxlength,
       value
     } = this
+    if (!!maxlength && value.length > maxlength)
+      this.value = value.slice(0, maxlength)
     if (validation instanceof Function) {
       const isValid = validation(value)
       if (!!password) {
@@ -194,16 +212,15 @@ class UnityTextInput extends LitElement {
           this._errorText = ''
           return
         }
-      } else {
-        if (isValid === true) {
-          this._valid = true
-          this._errorText = ''
-          return
-        }
+      }
+      if (isValid === true) {
+        this._valid = true
+        this._errorText = ''
+        return
       }
       this._valid = false
       this._strength = 0
-      this._errorTex = isValid || ''
+      this._errorText = isValid || ''
     }
   }
 

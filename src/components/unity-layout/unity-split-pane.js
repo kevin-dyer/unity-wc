@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 
 import '@bit/smartworks.unity.unity-button'
+import '@bit/smartworks.unity.unity-icon-set'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 const MIN_PANE_WIDTH = 20 // %
@@ -38,6 +39,7 @@ class UnitySplitPane extends LitElement {
 
     this.show = false
     this.closeButton = false
+    this.collapsed = false
     this.onClose = ()=>{}
     this.paneWidth = 50
     this.onResize=()=>{}
@@ -48,7 +50,8 @@ class UnitySplitPane extends LitElement {
     return {
       show: { type: Boolean },
       closeButton: { type: Boolean },
-      onClose: { type: Function },
+      collapsed: { type: Boolean },
+      onClose: { type: Function }
       paneWidth: { type: Number },
       onResize: Function,
     }
@@ -93,15 +96,33 @@ class UnitySplitPane extends LitElement {
     }
   }
 
+  collapse() {
+    this.collapsed = true
+    this.requestUpdate('collapsed')
+  }
+
+  expand() {
+    this.collapsed = false
+    this.requestUpdate('collapsed')
+  }
+
+  closePane() {
+    this.expand()
+    this.onClose()
+  }
+
   render() {
     const {
       show,
       closeButton,
+      collapsed,
       onClose,
       paneWidth
     } = this
     return html`
-      <div class="wrapper">
+      ${collapsed? html`<div class="bar" @click=${()=>this.expand()}><iron-icon icon="unity:double_right_chevron"></iron-icon></div>` : ''}
+      <div class="wrapper ${collapsed?'hide':''}">
+        ${show ? html`<unity-button class="collapse-button" centerIcon="unity:double_left_chevron" @click=${()=>this.collapse()}></unity-button>`: ''}
         <div class="header">
           <slot name="header"></slot>
         </div>
@@ -114,7 +135,7 @@ class UnitySplitPane extends LitElement {
           <slot name="footer"></slot>
         </div>
       </div>
-      <div id="pane" class="pane ${!show ? 'hide' : ''}" style="width: ${paneWidth}%;">
+      <div id="pane" class="pane ${!show ? 'hide' : ''} style="width: ${collapsed?'100':paneWidth}%;">
         <div
           class="resize-handle"
           @mousedown="${this.handleMouseDown}"
@@ -122,8 +143,9 @@ class UnitySplitPane extends LitElement {
         ${!!closeButton ?
           html`
             <unity-button
+              class="close-button"
               centerIcon="close"
-              @click=${onClose}
+              @click=${() => this.closePane()}
             ></unity-button>`
           : null
         }
@@ -139,7 +161,9 @@ class UnitySplitPane extends LitElement {
       css`
         :host {
           --border-color: var(--black-text-color, var(--default-black-text-color));
+          --bar-border-color: var(--light-grey-text-color, var(--default-light-grey-text-color));
           --background: var(--background-color, var(--default-background-color));
+          --bar-background: var(--background-color, var(--default-background-color));
           background-color: var(--background);
           display: flex;
           flex-direction: row;
@@ -151,6 +175,9 @@ class UnitySplitPane extends LitElement {
           flex-direction: column;
           flex: 1;
           overflow: hidden;
+        }
+        .wrapper.hide {
+          display: none;
         }
         .header {
           flex: 0;
@@ -185,9 +212,25 @@ class UnitySplitPane extends LitElement {
         }
         unity-button {
           position: absolute;
+          z-index: 2;
+        }
+        .collapse-button {
+          margin-top: -8px;
+          margin-left: -8px;
+        }
+        unity-button.close-button {
           top: 0;
           right: 0;
-          z-index: 2;
+        }
+        .bar {
+          width: 40px;
+          display: flex;
+          cursor: pointer;
+          border-right: 1px solid var(--bar-border-color);
+          background-color: var(--bar-background);
+        }
+        .bar iron-icon {
+          margin: auto;
         }
         .resize-handle{
           position: absolute;
