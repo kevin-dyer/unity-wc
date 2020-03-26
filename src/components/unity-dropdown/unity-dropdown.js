@@ -542,16 +542,26 @@ class UnityDropdown extends LitElement {
 
   // TODO: possibly needs refactoring
   getInputBox() {
-    const selectedOption = this.options.find(option => option.id === this.selected[0])
-    let selectedLabel
-    if (this.boxType === "fixed") {
+    const {
+      boxType,
+      options,
+      disabled,
+      showTags,
+      placeholder,
+      inputType,
+      _dropdown,
+      _collapsed,
+    } = this
+    const selectedOption = this.getSelectedOption()
+    const { label='', icon } = selectedOption
+    if (boxType === "fixed") {
       return html`
-          <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}">
-          ${(this.inputType === "multi-select" && this.showTags)? this.renderTags() : null}
+          <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
+          ${(inputType === "multi-select" && showTags)? this.renderTags() : null}
           <div class="input-label-div"">
             <div style="flex: 1;  display:flex" class="displayed-wrapper">
                 <p id="displayed">
-                  <b>${this.placeholder}</b>
+                  <b>${placeholder}</b>
                 </p>
             </div>
 
@@ -560,70 +570,69 @@ class UnityDropdown extends LitElement {
     }
     if (this.boxType === "label") {
       return html`
-        <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}">
-          ${(this.inputType === "multi-select" && this.showTags)? this.renderTags() : null}
-          <div class="input-label-div selectable" @click="${this._dropdown}">
+        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
+          ${(inputType === "multi-select" && showTags)? this.renderTags() : null}
+          <div class="input-label-div selectable" @click="${_dropdown}">
             <div style="flex: 1;  display:flex" class="displayed-wrapper">
 
               ${this.selected.length > 0?
-                !!selectedOption.icon?
-                  this.renderLeftIcon(selectedOption.icon)
+                !!icon?
+                  this.renderLeftIcon(icon)
               : null
               : null }
-              ${(this.inputType === "multi-select" && this.selected.length > 0)? null : html`
-                <p id="displayed" class=${(this.selected.length===0 && this.inputType !== "menu")? "placeholder": ""}>
-                  ${selectedLabel? selectedLabel : this.placeholder}
+              ${(inputType === "multi-select" && this.selected.length > 0)? null : html`
+                <p id="displayed" class=${(this.selected.length===0 && inputType !== "menu")? "placeholder": ""}>
+                  ${label || placeholder}
                 </p>`}
             </div>
             <div class="icon-right-wrapper chevron">
-              <iron-icon class="inner-icon" icon="${this._collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
+              <iron-icon class="inner-icon" icon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
             </div>
           </div>
         </div>`;
     }
-    else if (this.boxType === "search") {
-      selectedLabel = this.getSelectedLabel();
+    else if (boxType === "search") {
       return html`
-        <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}">
+        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
             <unity-text-input id="search-input"
               hideBorder=${true}
-              .value="${this.getSelectedLabel()}"
+              .value="${label}"
               .onChange="${this._onInputSearchChange}"
-              placeholder=${this.placeholder}
+              placeholder=${placeholder}
               .borderEffects=${false}
             >
           </unity-text-input>
-          <div class="icon-right-wrapper chevron" @click="${this._dropdown}">
-            <iron-icon class="inner-icon" icon="${this._collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
+          <div class="icon-right-wrapper chevron" @click="${_dropdown}">
+            <iron-icon class="inner-icon" icon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
           </div>
         </div>
         `
       ;
     }
-    else if (this.boxType === "button-gradient" || this.boxType === "button-outlined") {
+    else if (boxType === "button-gradient" || boxType === "button-outlined") {
       return html`
         <unity-button
-          label="${selectedLabel? selectedLabel : this.placeholder}"
-          rightIcon="${this._collapsed? "unity:down_chevron" : "unity:up_chevron"}"
-          type="${this.boxType==="button-gradient" ? "gradient" : "outlined" }"
-          ?disabled=${this.disabled}
-          @click="${this._dropdown}"
+          label="${label || placeholder}"
+          rightIcon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"
+          type="${boxType==="button-gradient" ? "gradient" : "outlined" }"
+          ?disabled=${disabled}
+          @click="${_dropdown}"
         ></unity-button>
       `;
     }
-    else if (this.boxType === "inline") {
+    else if (boxType === "inline") {
       return html`
-        <div class="selectable text-box inline ${!!this.disabled ? 'disabled' : ''}" @click="${this._dropdown}">
+        <div class="selectable text-box inline ${!!disabled ? 'disabled' : ''}" @click="${_dropdown}">
           <div style="flex: 1;  display:flex" class="displayed-wrapper">
             ${this.selected.length > 0?
-              !!this.options[this.selected[0]].icon?
-                this.renderLeftIcon(this.options[this.selected[0]].icon)
+              !!icon?
+                this.renderLeftIcon(icon)
               : null
             : null }
-            ${this.placeholder}
+            ${label || placeholder}
           </div>
           <div class="icon-right-wrapper chevron">
-            <iron-icon class="inner-icon" icon="${this._collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
+            <iron-icon class="inner-icon" icon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
           </div>
         </div>`;
     }
