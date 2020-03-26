@@ -26,9 +26,10 @@ import * as strings from './strings'
 * @param {''} helperText, a helper text to show below the options list
 * @param {bool} searchBox, when expanded, include a search box that highlights the searched text
 * @param {bool} showTags, show tags with selected options (only for multi-select)
+* @param {func} onValueChange, callback when a value is clicked
 *
 * @example
-* <unity-dropdown 
+* <unity-dropdown
 *   label="${"Full example"}"
 *   inputType="single-select"
 *   placeholder="Choose an option"
@@ -47,7 +48,7 @@ import * as strings from './strings'
  */
 
 class UnityDropdown extends LitElement {
-  
+
   static get styles() {
     return [
       UnityDefaultThemeStyles,
@@ -157,7 +158,7 @@ class UnityDropdown extends LitElement {
         li:hover {
           background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
         }
-  
+
         li:hover:not(.disabled){
           cursor:pointer;
         }
@@ -173,7 +174,7 @@ class UnityDropdown extends LitElement {
           flex-direction: row;
           align-items: center;
           font-family: var(--input-font);
-          font-size: var(--text-size);     
+          font-size: var(--text-size);
         }
         .input-box {
           border: 1px solid var(--medium-grey-text-color, var(--default-medium-grey-text-color));
@@ -187,7 +188,7 @@ class UnityDropdown extends LitElement {
         .selectable:hover:not(.disabled){
           cursor:pointer;
         }
-        
+
         .displayed-wrapper: {
           display: flex;
           flex: 1;
@@ -364,7 +365,7 @@ class UnityDropdown extends LitElement {
 
   /**
    * Substitute array of selected values for array with new value, or empty array if the value was already selected.
-   * @param {String} id 
+   * @param {String} id
    */
   handleSingleSelect(id) {
     this._collapsed = true;
@@ -373,7 +374,7 @@ class UnityDropdown extends LitElement {
 
   /**
    * Update array of selected values by adding / removing the new value from the array.
-   * @param {String} id 
+   * @param {String} id
    */
   handleMultiSelect(id) {
     const selectedIndex = this.selected.indexOf(id)
@@ -424,7 +425,7 @@ class UnityDropdown extends LitElement {
   renderLeftIcon(icon) {
     return html`<div class="icon-left-wrapper">
       <iron-icon class="inner-icon" icon="${icon}"}"></iron-icon>
-    </div> ` 
+    </div> `
   }
 
 
@@ -472,7 +473,7 @@ class UnityDropdown extends LitElement {
                       ${this.selectIcon && (option.id === this.selected[0])? html`
                         <div class="icon-right-wrapper selected-icon">
                           <iron-icon class="inner-icon" icon="unity:check"}"></iron-icon>
-                        </div>` 
+                        </div>`
                         : null}
                     </div>
                     ${!!option.comment? html`<p class="option-comment">${option.comment}</p>`: null}
@@ -539,7 +540,7 @@ class UnityDropdown extends LitElement {
                   <b>${this.placeholder}</b>
                 </p>
             </div>
-            
+
           </div>
         </div>`;
     }
@@ -549,14 +550,14 @@ class UnityDropdown extends LitElement {
           ${(this.inputType === "multi-select" && this.showTags)? this.renderTags() : null}
           <div class="input-label-div selectable" @click="${this._dropdown}">
             <div style="flex: 1;  display:flex" class="displayed-wrapper">
-              
-              ${this.selected.length > 0? 
-                !!selectedOption.icon? 
+
+              ${this.selected.length > 0?
+                !!selectedOption.icon?
                   this.renderLeftIcon(selectedOption.icon)
               : null
               : null }
               ${(this.inputType === "multi-select" && this.selected.length > 0)? null : html`
-                <p id="displayed" class=${(this.selected.length===0 && this.inputType !== "menu")? "placeholder": ""}> 
+                <p id="displayed" class=${(this.selected.length===0 && this.inputType !== "menu")? "placeholder": ""}>
                   ${selectedLabel? selectedLabel : this.placeholder}
                 </p>`}
             </div>
@@ -590,8 +591,7 @@ class UnityDropdown extends LitElement {
         <unity-button
           label="${selectedLabel? selectedLabel : this.placeholder}"
           rightIcon="${this._collapsed? "unity:down_chevron" : "unity:up_chevron"}"
-          ?gradient=${this.boxType==="button-gradient"? true : false}
-          ?outlined=${this.boxType==="button-outlined"? true : false}
+          type="${this.boxType==="button-gradient" ? "gradient" : "outlined" }"
           ?disabled=${this.disabled}
           @click="${this._dropdown}"
         ></unity-button>
@@ -601,8 +601,8 @@ class UnityDropdown extends LitElement {
       return html`
         <div class="selectable text-box inline ${!!this.disabled ? 'disabled' : ''}" @click="${this._dropdown}">
           <div style="flex: 1;  display:flex" class="displayed-wrapper">
-            ${this.selected.length > 0? 
-              !!this.options[this.selected[0]].icon? 
+            ${this.selected.length > 0?
+              !!this.options[this.selected[0]].icon?
                 this.renderLeftIcon(this.options[this.selected[0]].icon)
               : null
             : null }
@@ -630,16 +630,16 @@ class UnityDropdown extends LitElement {
   renderList() {
     // if this._visibleOptions.length > 50
     let optionsList = this._visibleOptions.map(option => this.renderOption(option));
-    
+
     return (this.inputType === "menu")?
       html`
-        <unity-select-menu 
+        <unity-select-menu
           .items=${this.options}
           .onMenuClick=${(index) => this.clickedMenu(index)}
           borderless
         >
-        </unity-select-menu>` 
-      : optionsList.every(element => element === null)? html`<p class="helper-text">${strings.NO_MATCHES}</p>` 
+        </unity-select-menu>`
+      : optionsList.every(element => element === null)? html`<p class="helper-text">${strings.NO_MATCHES}</p>`
                                                          : html`<ul id="options-list">${optionsList}</ul>`;
   }
 
@@ -659,7 +659,7 @@ class UnityDropdown extends LitElement {
 
   /**
    * Check / uncheck all checkboxes and update selected values.
-   * @param {bool} select 
+   * @param {bool} select
    */
   selectAll(select) {
 
@@ -696,7 +696,7 @@ class UnityDropdown extends LitElement {
         <div class=${this.getMenuClass()}>
 
           ${this.getInputBox()}
-       
+
           ${!this._collapsed?
             html`
               <paper-dialog .noAutoFocus="${true}" id="options-dialog" opened
@@ -704,11 +704,11 @@ class UnityDropdown extends LitElement {
                             >
                 ${this.searchBox? this.renderSearchBox() : null}
                 ${this.inputType === "multi-select" ? this.renderSelectAll() : null}
-                ${this.renderList()}                
+                ${this.renderList()}
                 ${!!this.helperText? html`<p class="helper-text">${this.helperText}</p>` :null}
               </paper-dialog>`
             :null}
-        </div>     
+        </div>
       </div>
     `;
   }
