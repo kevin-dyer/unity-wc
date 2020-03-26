@@ -518,8 +518,8 @@ class UnityTable extends LitElement {
     this._selected = new Set(selectedSet) // ensure that value is an iterable array of keys
 
     // Array of selected data elements
-    const selectedData = Array.from(this._selected).reduce((out, id) => {
-      const newVal = this._dataMap.get(id)
+    const selectedData = Array.from(this._selected).reduce((out, id='') => {
+      const newVal = this._dataMap.get(id.toString())
       if (newVal !== undefined) out.push(newVal)
       return out
     }, [])
@@ -551,8 +551,8 @@ class UnityTable extends LitElement {
 
     //Notify user expanded has changed
     if (!!this.onExpandedChange) {
-      const expandedNodes = Array.from(this._expanded).map(rowId => {
-        return this._dataMap.get(rowId)
+      const expandedNodes = Array.from(this._expanded).map((rowId='') => {
+        return this._dataMap.get(rowId.toString())
       })
 
       this.onExpandedChange(expandedNodes)
@@ -658,8 +658,8 @@ class UnityTable extends LitElement {
     const nextSelected = new Set(originalSelected)
     let selectionHasChanged = false
 
-    Array.from(this._selected).forEach(rowId => {
-      if (!this._dataMap.has(rowId)) {
+    Array.from(this._selected).forEach((rowId='') => {
+      if (!this._dataMap.has(rowId.toString())) {
         nextSelected.delete(rowId)
         selectionHasChanged = true
       }
@@ -700,9 +700,9 @@ class UnityTable extends LitElement {
 
   // If node is selected, all its children are also selected
   // If node is unselected, all its parents are also unselected
-  _selectOne(id) {
+  _selectOne(id='') {
     const nextSelected = new Set(this.selected)
-    const node = this._dataMap.get(id)
+    const node = this._dataMap.get(id.toString())
     const nodeAndChildren = this._getAllChildren(node)
 
     if (nextSelected.has(id)) {
