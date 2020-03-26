@@ -233,6 +233,7 @@ class UnityDropdown extends LitElement {
         unity-text-input {
           width: 100%;
           height: var(--unity-text-input-height, var(--default-unity-text-input-height) - 2px);
+          padding-top: 5px;
         }
         .tag {
           display: flex;
