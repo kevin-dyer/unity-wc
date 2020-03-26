@@ -76,7 +76,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@0.2.0": {
+    "smartworks.unity/unity-global-nav-base@0.2.1": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
@@ -232,7 +232,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.3.18": {
+    "smartworks.unity/unity-table@0.3.19": {
         "files": [
             {
                 "name": "filter-dropdown.js",
