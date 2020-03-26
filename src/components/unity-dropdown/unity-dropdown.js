@@ -26,7 +26,7 @@ import * as strings from './strings'
 * @param {''} helperText, a helper text to show below the options list
 * @param {bool} searchBox, when expanded, include a search box that highlights the searched text
 * @param {bool} showTags, show tags with selected options (only for multi-select)
-* @param {func} onValueChange, callback when a value is clicked
+* @param {func} onValueChange, callback on clicking a value that returns current seelcted for single select, and option and bool selected when multiselect
 *
 * @example
 * <unity-dropdown
@@ -282,7 +282,6 @@ class UnityDropdown extends LitElement {
     ];
   }
 
-
   constructor() {
     super();
     this.label = "";
@@ -370,7 +369,9 @@ class UnityDropdown extends LitElement {
    */
   handleSingleSelect(id) {
     this._collapsed = true;
-    return this.selected[0] === id ? [] : [id]
+    const newSelected = this.selected[0] === id ? [] : [id]
+    this.onValueChange(newSelected[0])
+    return newSelected
   }
 
   /**
