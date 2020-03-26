@@ -143,9 +143,6 @@ class UnityGlobalNavBase extends LitElement {
           border-right: 5px solid var(--gutter-color);
         }
         .menu {
-          position: absolute;
-          top: 0;
-          left: 0;
           height: 100%;
           width: 191px;
           background-color: var(--primary-menu-color);
