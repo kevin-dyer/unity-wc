@@ -553,24 +553,26 @@ class UnityDropdown extends LitElement {
 
   /**
    * Get label to show in the input box.
-   * @return {String} Current selected value or placeholder if none
+   * @return {Object} Current selected value or or values, empty object if none
    */
-  getSelectedOption() {
+  getSelectedOptions() {
     const {
       options,
-      selected
+      selected,
+      inputType
     } = this
-    for (let i = 0; i < selected.length; i++) {
-      const option = options.find(({id}) => id === selected[i])
-      if (!!option) {
-        // if it took more than one pass, invalid options were found
-        // remove invalids until [0] is valid
-        if (i > 0) this.selected = selected.slice(i)
-        return option
-      }
+    if (inputType === SINGLE_SELECT) {
+      return options.find(({id}) => id === selected[0]) || {}
     }
-    // if no valid option was found, clear selected
-    this.selected = []
+    if (inputType === MULTI_SELECT) {
+      const label = selected.reduce((selectedLabels, selection) => {
+        const { label } = options.find(({id}) => id === selection) || {}
+        if (!label) return selectedLabels
+        if (!selectedLabels) return label
+        return `${selectedLabels}, ${label}`
+      }, '')
+      return {label}
+    }
     return {}
   }
 
