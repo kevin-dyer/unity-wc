@@ -310,8 +310,8 @@ class UnityDropdown extends LitElement {
     this.inputType = MENU; // valid values: "menu" | "single-select" | "multi-select"
     this.boxType = LABEL; // valid values: "label" | "search" | "button-gradient" | "button-outlined" | "inline"
     this.placeholder = "Choose below";
-    this.options = [];
-    this.selected = [];
+    this._options = [];
+    this._selected = [];
     this.disabled = false;
     this.onMenuClick = () => {}
     this.selectIcon = true;
@@ -352,6 +352,48 @@ class UnityDropdown extends LitElement {
       _onInputSearchChange: { type: Function },
       _searchValue: { type: String }
     };
+  }
+
+  set selected(value) {
+    const oldValue = this._selected
+    let newSelected = [...value]
+
+    // run parse selection only if there are options
+    if (this.options.length > 0) newSelected = this.filterSelection(newSelected)
+
+    this._selected = newSelected
+    this.requestUpdate('selected', oldValue)
+  }
+
+  get selected() { return this._selected }
+
+  set options(value) {
+    const oldValue = this._options
+    this._options = value
+
+    // run filterSelection to remove invalid options
+    if (value.length > 0) this.selected = this.filterSelection(this.selected)
+    this.requestUpdate('options', oldValue)
+  }
+
+  get options() { return this._options }
+
+  // takes the list of selected ids and parses out invalids
+  // keeps only one if single-select
+  filterSelection(selected) {
+    const { options, inputType } = this
+    const isMulti = inputType === MULTI_SELECT
+    return selected.reduce((newSelected, currentId) => {
+      // single-select : keep first found
+      if (inputType === SINGLE_SELECT && newSelected.length === 1) return newSelected
+      // find selection in options
+      const found = options.find(({id}) => id === currentId)
+      isMulti && console.log('found', found)
+      // if valid, keep in selected
+      if (!!found) return [...newSelected, currentId]
+      // else remove from selected
+      return newSelected
+    }, [])
   }
 
   connectedCallback() {
