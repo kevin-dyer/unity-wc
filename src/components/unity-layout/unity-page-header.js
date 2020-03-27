@@ -66,6 +66,8 @@ class UnityPageHeader extends LitElement {
           display: flex;
           flex-direction: column;
           font-family: var(--font-family, var(--default-font-family));
+          --tab-height: 38px;
+          --tab-padding: 0 19px;
         }
 
         #header {
@@ -108,6 +110,7 @@ class UnityPageHeader extends LitElement {
           height: 28px;
           align-self: flex-start;
           --paper-tabs-selection-bar-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          height: var(--tab-height);
         }
 
         ::slotted(*) {
@@ -115,7 +118,9 @@ class UnityPageHeader extends LitElement {
           flex-direction: row;
           align-items: center;
         }
-
+        paper-tab {
+          padding: var(--tab-padding);
+        }
       `
     ];
   }
