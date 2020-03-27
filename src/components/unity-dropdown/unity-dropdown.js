@@ -65,7 +65,6 @@ class UnityDropdown extends LitElement {
           display: inline-block;
           width: 100%;
           max-width: 300px;
-          position: relative;
         }
         * {
           -moz-box-sizing: border-box;
@@ -141,9 +140,10 @@ class UnityDropdown extends LitElement {
           border: 1px solid var(--medium-grey-text-color, var(--default-medium-grey-text-color));
           border-radius: 0 0 2px 2px;
           background-color: var(--background-color, var(--default-background-color));
-          position: absolute;
           z-index: 10;
           width: 100%;
+          position: absolute;
+          max-width: 300px;
           max-height: 400px;
         }
         li {
@@ -169,7 +169,6 @@ class UnityDropdown extends LitElement {
           width: auto;
           background-color: var(--background-color, var(--default-background-color));
           box-sizing: border-box;
-          position: relative;
           display: flex;
           flex-direction: row;
           align-items: center;
