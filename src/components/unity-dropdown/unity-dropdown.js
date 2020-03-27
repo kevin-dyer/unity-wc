@@ -616,7 +616,7 @@ class UnityDropdown extends LitElement {
   getInputBox() {
     const {
       boxType,
-      options,
+      selected,
       disabled,
       showTags,
       placeholder,
@@ -624,15 +624,21 @@ class UnityDropdown extends LitElement {
       _dropdown,
       _collapsed,
     } = this
-    const selectedOption = this.getSelectedOption()
-    const { label='', icon } = selectedOption
+    const anySelected = selected.length > 0
+    let label, icon
+    if (anySelected) {
+      const option = this.getSelectedOptions()
+      label = option.label
+      icon = option.icon
+    }
+    const isMulti = inputType === MULTI_SELECT
     const isButton = boxType === GRADIENT || boxType === OUTLINED
     if (boxType === "fixed") {
       return html`
           <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
-          ${(inputType === "multi-select" && showTags)? this.renderTags() : null}
-          <div class="input-label-div"">
-            <div style="flex: 1;  display:flex" class="displayed-wrapper">
+          ${(isMulti && showTags)? this.renderTags() : null}
+          <div class="input-label-div${!showTags ? " no-tags" : ""}">
+            <div class="displayed-wrapper">
                 <p id="displayed">
                   <b>${placeholder}</b>
                 </p>
@@ -644,17 +650,15 @@ class UnityDropdown extends LitElement {
     if (boxType === LABEL) {
       return html`
         <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
-          ${(inputType === MULTI_SELECT && showTags)? this.renderTags() : null}
-          <div class="input-label-div selectable" @click="${_dropdown}">
-            <div style="flex: 1;  display:flex" class="displayed-wrapper">
-
-              ${selected.length > 0?
-                !!icon?
-                  this.renderLeftIcon(icon)
-              : null
-              : null }
-              ${(inputType === MULTI_SELECT && selected.length > 0)? null : html`
-                <p id="displayed" class=${(selected.length===0 && inputType !== MENU)? "placeholder": ""}>
+          ${(anySelected && showTags)? this.renderTags() : null}
+          <div class="input-label-div${!showTags ? " no-tags" : ""} selectable" @click="${_dropdown}">
+            <div class="displayed-wrapper">
+              ${(!showTags && !isMulti && !!icon)
+                ? this.renderLeftIcon(icon)
+                : null
+              }
+              ${(showTags && anySelected)? null : html`
+                <p id="displayed" class=${(!anySelected && inputType !== MENU)? "placeholder": ""}>
                   ${label || placeholder}
                 </p>`}
             </div>
