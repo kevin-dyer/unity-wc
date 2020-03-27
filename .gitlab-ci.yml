@@ -1,9 +1,12 @@
 stages:
   - setup
   - test
+  - cq
+  - version
   - build
   - package
   - deploy
+  - int
 
 setup:
   stage: setup
@@ -17,10 +20,8 @@ setup:
   - rm -rf node_modules && rm package-lock.json
   - echo -e "@bit:registry=https://node.bit.dev\n//node.bit.dev/:_authToken=${BIT_TOKEN}\nalways-auth=true" > .npmrc
   - npm install
-  - npm audit fix
   rules:
   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
-  - if: '$CI_COMMIT_REF_NAME == "master"'
   cache:
     key: node_modules
     paths:
@@ -45,7 +46,6 @@ test:
   coverage: /Statements.*?(\d+(?:\.\d+)?)%/
   rules:
   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
-  - if: '$CI_COMMIT_REF_NAME == "master"'
   cache:
     key: node_modules
     paths:
@@ -53,6 +53,26 @@ test:
     policy: pull
   tags:
   - docker
+
+code-quality:
+  stage: cq
+  script:
+    - echo "Launching code quality tests"
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  tags:
+#CHANGE TO DOCKER WHEN WE HAVE INTEGRATION TEST
+    - shell
+
+version:
+  stage: version
+  image: iotaltairacr.azurecr.io/dev/iot/common/docker/gitlab-semver:v1.0.0
+  script:
+  - python3 /version-update/version-update.py
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+  tags:
+    - docker
 
 build:
   stage: build
@@ -64,14 +84,14 @@ build:
   - echo ""
   - echo "***************************** installing deps for the project and building the app"
   - echo -e "@bit:registry=https://node.bit.dev\n//node.bit.dev/:_authToken=${BIT_TOKEN}\nalways-auth=true" > .npmrc
+  - rm -rf node_modules && rm package-lock.json
   - npm install
-  - npm audit fix
   - npm run build-storybook
   artifacts:
     paths:
     - ./storybook-static
   rules:
-  - if: '$CI_COMMIT_REF_NAME == "production"'
+  - if: '$CI_COMMIT_REF_NAME == "master"'
   tags:
   - docker
 
@@ -79,18 +99,19 @@ package:
   stage: package
   script:
   - echo "***************************** moving static content to be serverd by Nginx"
+  - TAG=$(git describe --tags --abbrev=0)
   - rm -rf /tmp/storybook-static
   - mv ./storybook-static /tmp
   - echo "***************************** pulling changes from the Packer repo"
   - git -C /home/gitlab-runner/packer pull https://$DEPLOYERU:$DEPLOYERP@carritosdev.carriots.com/devops/kubernetes-and-containers/packer.git
   - cd /home/gitlab-runner/packer && git fetch --all && git reset --hard origin/master
   - echo "***************************** creating Docker image"
-  - sed -i "s/__CI_COMMIT_SHORT_SHA__/$CI_COMMIT_SHORT_SHA/g" /home/gitlab-runner/packer/2020-smartworks-webcomponents.json
+  - sed -i "s/__CI_COMMIT_SHORT_SHA__/$TAG/g" /home/gitlab-runner/packer/2020-smartworks-webcomponents.json
   - docker login -u $REGROU -p $REGROP $REGSRV
   - cd /home/gitlab-runner/packer && packer build 2020-smartworks-webcomponents.json
   - echo ""
   rules:
-  - if: '$CI_COMMIT_REF_NAME == "production"'
+  - if: '$CI_COMMIT_REF_NAME == "master"'
   tags:
   - shell
 
@@ -98,11 +119,22 @@ deploy:
   stage: deploy
   script:
   - echo "***************************** deploying to K8s"
+  - TAG=$(git describe --tags --abbrev=0)
   - docker login -u $REGROU -p $REGROP $REGSRV
-  - echo "Going to deploy smartworks-webcomponents:$CI_COMMIT_SHORT_SHA-dev"
-  - kubectl -n dev-iot set image deployment/webcomponents webcomponents=iotaltairacr.azurecr.io/dev/iot/common/packer/smartworks-webcomponents:$CI_COMMIT_SHORT_SHA-dev --record
+  - echo "Going to deploy smartworks-webcomponents:$TAG"
+  - kubectl -n dev-iot set image deployment/webcomponents webcomponents=iotaltairacr.azurecr.io/dev/iot/common/packer/smartworks-webcomponents:$TAG --record
   rules:
-  - if: '$CI_COMMIT_REF_NAME == "production"'
+  - if: '$CI_COMMIT_REF_NAME == "master"'
   tags:
   - shell
+
+integration-test:
+  stage: int
+  script:
+    - echo "Launching integration tests"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+#CHANGE TO DOCKER WHEN WE HAVE INTEGRATION TEST
+  tags:
+    - shell
 
