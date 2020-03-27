@@ -448,10 +448,13 @@ class UnityDropdown extends LitElement {
 
   renderLeftIcon(icon) {
     return html`<div class="icon-left-wrapper">
-      <iron-icon class="inner-icon" icon="${icon}"}"></iron-icon>
+      ${this.renderIcon(icon)}
     </div> `
   }
 
+  renderIcon(icon) {
+    return html`<iron-icon class="inner-icon" icon="${icon}"}"></iron-icon>`
+  }
 
   // TODO: extract the different conditions in another component
   renderOption(option) {
@@ -543,11 +546,12 @@ class UnityDropdown extends LitElement {
   }
 
   renderTag(id) {
-    const option = this.options.find(option => option.id === id)
+    const { label='', icon } = this.options.find(option => option.id === id) || {}
     return html`
       <div class="tag">
-        ${option.label}
-        <div @click="${()=> this.changeSelected(option.id)}">
+        ${icon && this.renderIcon(icon)}
+        <span class="tag-text">${label}</span>
+        <div @click="${()=> this.changeSelected(id)}">
           <iron-icon class="inner-icon selectable" icon="unity:close"></iron-icon>
         </div>
       </div>
