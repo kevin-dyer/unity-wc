@@ -582,6 +582,7 @@ class UnityDropdown extends LitElement {
     } = this
     const selectedOption = this.getSelectedOption()
     const { label='', icon } = selectedOption
+    const isButton = boxType === GRADIENT || boxType === OUTLINED
     if (boxType === "fixed") {
       return html`
           <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
@@ -637,12 +638,12 @@ class UnityDropdown extends LitElement {
         `
       ;
     }
-    if (boxType === GRADIENT || boxType === OUTLINED) {
+    if (isButton) {
       return html`
         <unity-button
           label="${label || placeholder}"
           rightIcon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"
-          type="${boxType===GRADIENT ? "gradient" : "outlined" }"
+          type="${boxType === GRADIENT ? "gradient" : "outlined" }"
           ?disabled=${disabled}
           @click="${_dropdown}"
         ></unity-button>
@@ -651,12 +652,11 @@ class UnityDropdown extends LitElement {
     if (boxType === INLINE) {
       return html`
         <div class="selectable text-box inline ${!!disabled ? 'disabled' : ''}" @click="${_dropdown}">
-          <div style="flex: 1;  display:flex" class="displayed-wrapper">
-            ${selected.length > 0?
-              !!icon?
-                this.renderLeftIcon(icon)
+          <div class="displayed-wrapper">
+            ${(!isMulti && !!icon)
+              ? this.renderLeftIcon(icon)
               : null
-            : null }
+            }
             ${label || placeholder}
           </div>
           <div class="icon-right-wrapper chevron">
@@ -739,7 +739,7 @@ class UnityDropdown extends LitElement {
     return html`
       <div>
         ${!!this.label ?
-          html`<p class=LABEL>
+          html`<p class="label">
             ${this.label}
             </p>`
           : null
