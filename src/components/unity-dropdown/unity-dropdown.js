@@ -47,6 +47,15 @@ import * as strings from './strings'
  * - Match colors to spec
  */
 
+const MENU = "menu"
+const SINGLE_SELECT = "single-select"
+const MULTI_SELECT = "multi-select"
+const LABEL = "label"
+const SEARCH = "search"
+const GRADIENT = "button-gradient"
+const OUTLINED = "button-outlined"
+const INLINE = "inline"
+
 class UnityDropdown extends LitElement {
 
   static get styles() {
@@ -284,8 +293,8 @@ class UnityDropdown extends LitElement {
   constructor() {
     super();
     this.label = "";
-    this.inputType = "menu"; // valid values: "menu" | "single-select" | "multi-select"
-    this.boxType = "label"; // valid values: "label" | "search" | "button-gradient" | "button-outlined" | "inline"
+    this.inputType = MENU; // valid values: "menu" | "single-select" | "multi-select"
+    this.boxType = LABEL; // valid values: "label" | "search" | "button-gradient" | "button-outlined" | "inline"
     this.placeholder = "Choose below";
     this.options = [];
     this.selected = [];
@@ -359,7 +368,7 @@ class UnityDropdown extends LitElement {
    * @param {Number} value selected value
    */
   changeSelected(value) {
-    this.selected = (this.inputType === "single-select")? this.handleSingleSelect(value) : this.handleMultiSelect(value);
+    this.selected = (this.inputType === SINGLE_SELECT)? this.handleSingleSelect(value) : this.handleMultiSelect(value);
   }
 
   /**
@@ -398,7 +407,7 @@ class UnityDropdown extends LitElement {
   updateSearchValue(newValue) {
     this._searchValue = newValue;
     // expand options list when some text is written
-    if(this.boxType === "search") {
+    if(this.boxType === SEARCH) {
       this._collapsed = !(this._searchValue.length > 0);
     }
     // match and update visible values
@@ -449,7 +458,7 @@ class UnityDropdown extends LitElement {
     if (this.selected.includes(option.id)) {
       label = html`<b>${label}</b>`;
     }
-    if (this.inputType === "multi-select") {
+    if (this.inputType === MULTI_SELECT) {
       const isSelected = this.selected.includes(option.id);
       return html`
         <li class="selectable" @click=${this._changeValue(option.id)}>
@@ -532,6 +541,7 @@ class UnityDropdown extends LitElement {
   }
 
   renderTags() {
+    this.inputType === MULTI_SELECT && console.log('this.selected', this.selected)
     return html`
       <div class="tag-list">
         ${this.selected.map(id => this.renderTag(id))}
@@ -568,20 +578,20 @@ class UnityDropdown extends LitElement {
           </div>
         </div>`;
     }
-    if (this.boxType === "label") {
+    if (boxType === LABEL) {
       return html`
         <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
-          ${(inputType === "multi-select" && showTags)? this.renderTags() : null}
+          ${(inputType === MULTI_SELECT && showTags)? this.renderTags() : null}
           <div class="input-label-div selectable" @click="${_dropdown}">
             <div style="flex: 1;  display:flex" class="displayed-wrapper">
 
-              ${this.selected.length > 0?
+              ${selected.length > 0?
                 !!icon?
                   this.renderLeftIcon(icon)
               : null
               : null }
-              ${(inputType === "multi-select" && this.selected.length > 0)? null : html`
-                <p id="displayed" class=${(this.selected.length===0 && inputType !== "menu")? "placeholder": ""}>
+              ${(inputType === MULTI_SELECT && selected.length > 0)? null : html`
+                <p id="displayed" class=${(selected.length===0 && inputType !== MENU)? "placeholder": ""}>
                   ${label || placeholder}
                 </p>`}
             </div>
@@ -591,7 +601,7 @@ class UnityDropdown extends LitElement {
           </div>
         </div>`;
     }
-    else if (boxType === "search") {
+    if (boxType === SEARCH) {
       return html`
         <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
             <unity-text-input id="search-input"
@@ -609,22 +619,22 @@ class UnityDropdown extends LitElement {
         `
       ;
     }
-    else if (boxType === "button-gradient" || boxType === "button-outlined") {
+    if (boxType === GRADIENT || boxType === OUTLINED) {
       return html`
         <unity-button
           label="${label || placeholder}"
           rightIcon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"
-          type="${boxType==="button-gradient" ? "gradient" : "outlined" }"
+          type="${boxType===GRADIENT ? "gradient" : "outlined" }"
           ?disabled=${disabled}
           @click="${_dropdown}"
         ></unity-button>
       `;
     }
-    else if (boxType === "inline") {
+    if (boxType === INLINE) {
       return html`
         <div class="selectable text-box inline ${!!disabled ? 'disabled' : ''}" @click="${_dropdown}">
           <div style="flex: 1;  display:flex" class="displayed-wrapper">
-            ${this.selected.length > 0?
+            ${selected.length > 0?
               !!icon?
                 this.renderLeftIcon(icon)
               : null
@@ -644,7 +654,7 @@ class UnityDropdown extends LitElement {
    */
   getMenuClass() {
     let className = "dropdown-menu";
-    if(!this._collapsed && (this.boxType === "label" || this.boxType === "search")) {
+    if(!this._collapsed && (this.boxType === LABEL || this.boxType === SEARCH)) {
       className += " expanded"; // for box shadow and border
     }
     return className;
@@ -654,7 +664,7 @@ class UnityDropdown extends LitElement {
     // if this._visibleOptions.length > 50
     let optionsList = this._visibleOptions.map(option => this.renderOption(option));
 
-    return (this.inputType === "menu")?
+    return (this.inputType === MENU)?
       html`
         <unity-select-menu
           .items=${this.options}
@@ -707,11 +717,11 @@ class UnityDropdown extends LitElement {
   // }
 
   render() {
-    const isButton = (this.boxType === "button-outlined" || this.boxType === "button-gradient");
+    const isButton = (this.boxType === OUTLINED || this.boxType === GRADIENT);
     return html`
       <div>
         ${!!this.label ?
-          html`<p class="label">
+          html`<p class=LABEL>
             ${this.label}
             </p>`
           : null
@@ -726,7 +736,7 @@ class UnityDropdown extends LitElement {
                             class="options-box ${isButton? "button-options": ""}"
                             >
                 ${this.searchBox? this.renderSearchBox() : null}
-                ${this.inputType === "multi-select" ? this.renderSelectAll() : null}
+                ${this.inputType === MULTI_SELECT ? this.renderSelectAll() : null}
                 ${this.renderList()}
                 ${!!this.helperText? html`<p class="helper-text">${this.helperText}</p>` :null}
               </paper-dialog>`
