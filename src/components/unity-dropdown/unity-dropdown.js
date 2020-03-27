@@ -108,6 +108,8 @@ class UnityDropdown extends LitElement {
           margin: 0;
         }
         .icon-right-wrapper {
+          display: flex;
+          flex: 0;
           padding-right: 8px;
         }
         .icon-right-wrapper.chevron {
@@ -196,19 +198,18 @@ class UnityDropdown extends LitElement {
         .selectable:hover:not(.disabled){
           cursor:pointer;
         }
-
-        .displayed-wrapper: {
+        .displayed-wrapper {
           display: flex;
           flex: 1;
+          overflow: hidden;
         }
-
         #displayed {
           margin: 0;
           align-self: center;
-          flex: 1;
           color: rgb(var(--text-color));
           border: 0;
           background-color: transparent;
+          white-space: nowrap;
         }
         .disabled {
           border-color: var(--dark-grey-background, var(--default-dark-grey-background));
@@ -245,6 +246,7 @@ class UnityDropdown extends LitElement {
         }
         .tag {
           display: flex;
+          flex: 0;
           align-items: center;
           background-color: #D8D8D8;
           width: auto;
@@ -254,15 +256,27 @@ class UnityDropdown extends LitElement {
         }
         .tag-list {
           display: flex;
+          flex: 1;
+          flex-basis: auto;
+          overflow: hidden;
+        }
+        .tag-text {
+          padding: 0 4px;
+          white-space: nowrap;
         }
         .button-options {
           margin-top: 5px;
           margin-left: 10px;
         }
+        /* these two styles are required to get proper rendering
+           of all tags and multi-select options */
         .input-label-div {
           display: flex;
-          width: auto;
           flex: 1;
+          flex-basis: auto;
+        }
+        .input-label-div.no-tags {
+          width: 100%;
         }
         .inline {
           width: max-content;
