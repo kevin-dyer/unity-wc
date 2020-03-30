@@ -12,6 +12,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {''} onLabel, string for label on 'on' side, right
  * @param {''} offLabel, string for label on 'off' side, left
  * @param {''} remark, string for comment under the switch
+ * @param {bool} disabled, whether the switch should be disabled or not
  * @param {func} onChange, function for responding to change, receives true/false
  * @example
  * <unity-toggle-switch
@@ -33,6 +34,7 @@ class UnityToggleSwitch extends LitElement {
     this.onLabel = ''
     this.offLabel = ''
     this.remark = ''
+    this.disabled = false
     this.onChange = ()=>{}
   }
 
@@ -43,14 +45,17 @@ class UnityToggleSwitch extends LitElement {
       onLabel: { type: String },
       offLabel: { type: String },
       remark: { type: String },
+      disabled: { type: Boolean },
       onChange: { type: Function }
     }
   }
 
   toggle() {
-    const next = !this.value
-    this.onChange(next)
-    this.value = next
+    if (!this.disabled) {
+      const next = !this.value
+      this.onChange(next)
+      this.value = next
+    }
   }
 
   render() {
@@ -60,6 +65,7 @@ class UnityToggleSwitch extends LitElement {
       onLabel,
       offLabel,
       remark,
+      disabled,
       toggle
     } = this
     const switchMode = `unity:toggle_${value ? 'on' : 'off'}`
@@ -71,7 +77,7 @@ class UnityToggleSwitch extends LitElement {
         ${offLabel ? html`<unity-typography size="paragraph" class="off-label switch">
           ${offLabel}
         </unity-typography>` : null}
-        <iron-icon class="switch toggle" icon="${switchMode}" @click="${toggle}"></iron-icon>
+        <iron-icon class="switch toggle${disabled ? ' disabled' : ''}" icon="${switchMode}" @click="${toggle}"></iron-icon>
         ${onLabel ? html`<unity-typography size="paragraph" class="on-label switch">
           ${onLabel}
         </unity-typography>` : null}
@@ -118,7 +124,9 @@ class UnityToggleSwitch extends LitElement {
           cursor: pointer;
           color: var(--color);
         }
-
+        iron-icon.disabled {
+          color: var(--dark-grey-background-color, var(--default-dark-grey-background-color));
+        }
       `
     ]
   }

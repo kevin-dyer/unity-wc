@@ -39,6 +39,14 @@ class MyToggleSwitch extends LitElement {
       </div>
       <div class="switch-box">
         <unity-toggle-switch
+          label="My Switch w/ Disabled"
+          disabled
+          ?value="${val}"
+          .onChange="${v => this.flip(v)}"
+        ></unity-toggle-switch>
+      </div>
+      <div class="switch-box">
+        <unity-toggle-switch
           label="My Switch w/ Remark"
           ?value="${val}"
           remark="A remark goes here"
