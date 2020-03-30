@@ -136,7 +136,6 @@ class UnityTypography extends LitElement {
           --paragraph-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           --medium-weight: var(--medium-text-weight, var(--default-medium-text-weight));
           --small-weight: var(--small-text-weight, var(--default-small-text-weight));
-
           --font-size: var(--font-size, var(--paragraph-size));
         }
         div {
@@ -144,6 +143,8 @@ class UnityTypography extends LitElement {
           font-size: var(--font-size, var(--paragraph-weight));
           font-weight: var(--font-weight, var(--paragraph-weight));
           color: var(--font-color, var(--font-color-black));
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .color-light {
           color: var(--font-color, var(--font-color-light));
