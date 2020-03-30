@@ -104,6 +104,10 @@ class UnityToggleSwitch extends LitElement {
         }
         .off-label {
           justify-content: flex-end;
+          color: var(--off-label-color);
+        }
+        .on-label {
+          color: var(--on-label-color);
         }
         .toggle {
           flex: 0;
