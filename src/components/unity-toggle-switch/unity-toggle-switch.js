@@ -91,6 +91,7 @@ class UnityToggleSwitch extends LitElement {
           --size: var(--switch-size, 24px);
           --on-color: var(--on-label-color, var(--default-black-text-color));
           --off-color: var(--off-label-color, var(--default-black-text-color));
+          user-select: none;
         }
         .switch-container {
           display: flex;
