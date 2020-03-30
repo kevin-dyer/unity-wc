@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.3.20
+- Updated for dropdown fixes. Presumably other types of fixes between last changelog update.
+
 ### v0.3.11
 - Updated checkbox selection logic. If a parent is selected, all children are selected. If any child is unselected, its parent is unselected as well. If table data changes (things are added or removed) the selection map will also update.
 
