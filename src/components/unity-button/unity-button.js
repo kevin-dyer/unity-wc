@@ -65,14 +65,14 @@ class UnityButton extends LitElement {
           text-transform: none;
           white-space: nowrap;
         }
-        paper-button.inline {
+        paper-button.text-button {
           padding: 0 10px;
           min-width: 0;
         }
-        paper-button.inline.left-icon:not(.loading) {
+        paper-button.text-button.left-icon:not(.loading) {
           padding-left: var(--unity-button-padding, var(--default-unity-button-padding));
         }
-        paper-button.inline.right-icon {
+        paper-button.text-button.right-icon {
           padding-right: var(--unity-button-padding, var(--default-unity-button-padding));
         }
         paper-button.small {
@@ -298,7 +298,7 @@ class UnityButton extends LitElement {
         break
       }
       default: {
-        classList.push('inline')
+        classList.push('text-button')
         break
       }
     }
