@@ -3,9 +3,9 @@ import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
-// These are the shared custom styles to be used as defaults
+
 import {UnityDefaultThemeStyles} from '@bit/smartworks.unity.unity-default-theme-styles';
-// import {UnityDefaultThemeStyles} from '../unity-default-theme-styles'
+import  '@bit/smartworks.unity.unity-typography';
 
 /**
  * Displays a Top level Page Header.
@@ -41,7 +41,7 @@ import {UnityDefaultThemeStyles} from '@bit/smartworks.unity.unity-default-theme
  *    ]}
  *    .selectedTab=${1}
  *  >
- *    <div slot="action-content">
+ *    <div slot="right-content">
  *      <unity-button
  *        label="my button"
  *        ?gradient=${true}
@@ -61,13 +61,14 @@ class UnityPageHeader extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          /*flex: 1;*/
           width: 100%;
           display: flex;
           flex-direction: column;
           font-family: var(--font-family, var(--default-font-family));
           --tab-height: 38px;
           --tab-padding: 0 19px;
+          --left-wrapper-overflow: hidden;
+          --title-white-space: nowrap;
         }
 
         #header {
@@ -85,6 +86,7 @@ class UnityPageHeader extends LitElement {
           display: flex;
           flex-direction: row;
           align-items: center;
+          overflow: var(--left-wrapper-overflow);
         }
 
         #left-container {
@@ -100,9 +102,9 @@ class UnityPageHeader extends LitElement {
         }
 
         #title {
-          font-size: var(--header1-font-size, var(--default-header1-font-size));
-          font-weight: var(--header1-font-weight, var(--default-header1-font-weight));
           margin-left: 16px;
+          overflow: var(--left-wrapper-overflow);
+          white-space: var(--title-white-space);
         }
 
         paper-tabs {
@@ -165,7 +167,7 @@ class UnityPageHeader extends LitElement {
       <div id="header">
         <div id="left-wrapper">
           <slot name="left-content" id="left-container"></slot>
-          <span id="title">${this.title}</span>
+          <unity-typography size="header1" id="title">${this.title}</unity-typography>
         </div>
         <slot name="right-content" id="right-container"></slot>
       </div>
