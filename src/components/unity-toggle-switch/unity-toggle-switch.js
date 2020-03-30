@@ -70,21 +70,23 @@ class UnityToggleSwitch extends LitElement {
     } = this
     const switchMode = `unity:toggle_${value ? 'on' : 'off'}`
     return html`
-      ${label ? html`<unity-typography size="paragraph" color="medium" class="label">
-        ${label}
-      </unity-typography>` : null}
-      <div class="switch-container">
-        ${offLabel ? html`<unity-typography size="paragraph" class="off-label switch">
-          ${offLabel}
+      <div class="wrapper">
+        ${label ? html`<unity-typography size="paragraph" color="medium" class="label">
+          ${label}
         </unity-typography>` : null}
-        <iron-icon class="switch toggle${disabled ? ' disabled' : ''}" icon="${switchMode}" @click="${toggle}"></iron-icon>
-        ${onLabel ? html`<unity-typography size="paragraph" class="on-label switch">
-          ${onLabel}
+        <div class="switch-container">
+          ${offLabel ? html`<unity-typography size="paragraph" class="off-label switch">
+            ${offLabel}
+          </unity-typography>` : null}
+          <iron-icon class="switch toggle${disabled ? ' disabled' : ''}" icon="${switchMode}" @click="${toggle}"></iron-icon>
+          ${onLabel ? html`<unity-typography size="paragraph" class="on-label switch">
+            ${onLabel}
+          </unity-typography>` : null}
+        </div>
+        ${remark ? html`<unity-typography size="paragraph" color="dark" class="remark">
+          ${remark}
         </unity-typography>` : null}
       </div>
-      ${remark ? html`<unity-typography size="paragraph" color="dark" class="remark">
-        ${remark}
-      </unity-typography>` : null}
     `
   }
 
@@ -97,19 +99,22 @@ class UnityToggleSwitch extends LitElement {
           --size: var(--switch-size, 24px);
           --on-color: var(--on-label-color, var(--default-black-text-color));
           --off-color: var(--off-label-color, var(--default-black-text-color));
+          display: inline-block;
           user-select: none;
         }
-        .switch-container {
+        .wrapper {
           display: flex;
+          flex: 1;
+          flex-direction: column;
+        }
+        .switch-container {
           white-space: nowrap;
         }
         .switch {
-          display: flex;
-          flex: 1;
+          display: inline-block;
           align-self: center;
         }
         .off-label {
-          justify-content: flex-end;
           color: var(--off-label-color);
         }
         .on-label {
