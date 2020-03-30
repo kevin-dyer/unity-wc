@@ -388,7 +388,6 @@ class UnityDropdown extends LitElement {
       if (inputType === SINGLE_SELECT && newSelected.length === 1) return newSelected
       // find selection in options
       const found = options.find(({id}) => id === currentId)
-      isMulti && console.log('found', found)
       // if valid, keep in selected
       if (!!found) return [...newSelected, currentId]
       // else remove from selected
@@ -603,7 +602,6 @@ class UnityDropdown extends LitElement {
   }
 
   renderTags() {
-    this.inputType === MULTI_SELECT && console.log('this.selected', this.selected)
     return html`
       <div class="tag-list">
         ${this.selected.map(id => this.renderTag(id))}
