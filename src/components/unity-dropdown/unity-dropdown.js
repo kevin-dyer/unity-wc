@@ -26,9 +26,10 @@ import * as strings from './strings'
 * @param {''} helperText, a helper text to show below the options list
 * @param {bool} searchBox, when expanded, include a search box that highlights the searched text
 * @param {bool} showTags, show tags with selected options (only for multi-select)
+* @param {func} onValueChange, callback on clicking a value that returns current seelcted for single select, and option and bool selected when multiselect
 *
 * @example
-* <unity-dropdown 
+* <unity-dropdown
 *   label="${"Full example"}"
 *   inputType="single-select"
 *   placeholder="Choose an option"
@@ -46,8 +47,17 @@ import * as strings from './strings'
  * - Match colors to spec
  */
 
+const MENU = "menu"
+const SINGLE_SELECT = "single-select"
+const MULTI_SELECT = "multi-select"
+const LABEL = "label"
+const SEARCH = "search"
+const GRADIENT = "button-gradient"
+const OUTLINED = "button-outlined"
+const INLINE = "inline"
+
 class UnityDropdown extends LitElement {
-  
+
   static get styles() {
     return [
       UnityDefaultThemeStyles,
@@ -64,7 +74,6 @@ class UnityDropdown extends LitElement {
           display: inline-block;
           width: 100%;
           max-width: 300px;
-          position: relative;
         }
         * {
           -moz-box-sizing: border-box;
@@ -99,6 +108,8 @@ class UnityDropdown extends LitElement {
           margin: 0;
         }
         .icon-right-wrapper {
+          display: flex;
+          flex: 0;
           padding-right: 8px;
         }
         .icon-right-wrapper.chevron {
@@ -140,9 +151,10 @@ class UnityDropdown extends LitElement {
           border: 1px solid var(--medium-grey-text-color, var(--default-medium-grey-text-color));
           border-radius: 0 0 2px 2px;
           background-color: var(--background-color, var(--default-background-color));
-          position: absolute;
           z-index: 10;
           width: 100%;
+          position: absolute;
+          max-width: 300px;
           max-height: 400px;
         }
         li {
@@ -157,7 +169,7 @@ class UnityDropdown extends LitElement {
         li:hover {
           background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
         }
-  
+
         li:hover:not(.disabled){
           cursor:pointer;
         }
@@ -168,12 +180,11 @@ class UnityDropdown extends LitElement {
           width: auto;
           background-color: var(--background-color, var(--default-background-color));
           box-sizing: border-box;
-          position: relative;
           display: flex;
           flex-direction: row;
           align-items: center;
           font-family: var(--input-font);
-          font-size: var(--text-size);     
+          font-size: var(--text-size);
         }
         .input-box {
           border: 1px solid var(--medium-grey-text-color, var(--default-medium-grey-text-color));
@@ -187,19 +198,18 @@ class UnityDropdown extends LitElement {
         .selectable:hover:not(.disabled){
           cursor:pointer;
         }
-        
-        .displayed-wrapper: {
+        .displayed-wrapper {
           display: flex;
           flex: 1;
+          overflow: hidden;
         }
-
         #displayed {
           margin: 0;
           align-self: center;
-          flex: 1;
           color: rgb(var(--text-color));
           border: 0;
           background-color: transparent;
+          white-space: nowrap;
         }
         .disabled {
           border-color: var(--dark-grey-background, var(--default-dark-grey-background));
@@ -232,9 +242,11 @@ class UnityDropdown extends LitElement {
         unity-text-input {
           width: 100%;
           height: var(--unity-text-input-height, var(--default-unity-text-input-height) - 2px);
+          padding-top: 5px;
         }
         .tag {
           display: flex;
+          flex: 0;
           align-items: center;
           background-color: #D8D8D8;
           width: auto;
@@ -244,15 +256,27 @@ class UnityDropdown extends LitElement {
         }
         .tag-list {
           display: flex;
+          flex: 1;
+          flex-basis: auto;
+          overflow: hidden;
+        }
+        .tag-text {
+          padding: 0 4px;
+          white-space: nowrap;
         }
         .button-options {
           margin-top: 5px;
           margin-left: 10px;
         }
+        /* these two styles are required to get proper rendering
+           of all tags and multi-select options */
         .input-label-div {
           display: flex;
-          width: auto;
           flex: 1;
+          flex-basis: auto;
+        }
+        .input-label-div.no-tags {
+          width: 100%;
         }
         .inline {
           width: max-content;
@@ -280,15 +304,14 @@ class UnityDropdown extends LitElement {
     ];
   }
 
-
   constructor() {
     super();
     this.label = "";
-    this.inputType = "menu"; // valid values: "menu" | "single-select" | "multi-select"
-    this.boxType = "label"; // valid values: "label" | "search" | "button-gradient" | "button-outlined" | "inline"
+    this.inputType = MENU; // valid values: "menu" | "single-select" | "multi-select"
+    this.boxType = LABEL; // valid values: "label" | "search" | "button-gradient" | "button-outlined" | "inline"
     this.placeholder = "Choose below";
-    this.options = [];
-    this.selected = [];
+    this._options = [];
+    this._selected = [];
     this.disabled = false;
     this.onMenuClick = () => {}
     this.selectIcon = true;
@@ -331,6 +354,47 @@ class UnityDropdown extends LitElement {
     };
   }
 
+  set selected(value) {
+    const oldValue = this._selected
+    let newSelected = [...value]
+
+    // run parse selection only if there are options
+    if (this.options.length > 0) newSelected = this.filterSelection(newSelected)
+
+    this._selected = newSelected
+    this.requestUpdate('selected', oldValue)
+  }
+
+  get selected() { return this._selected }
+
+  set options(value) {
+    const oldValue = this._options
+    this._options = value
+
+    // run filterSelection to remove invalid options
+    if (value.length > 0) this.selected = this.filterSelection(this.selected)
+    this.requestUpdate('options', oldValue)
+  }
+
+  get options() { return this._options }
+
+  // takes the list of selected ids and parses out invalids
+  // keeps only one if single-select
+  filterSelection(selected) {
+    const { options, inputType } = this
+    const isMulti = inputType === MULTI_SELECT
+    return selected.reduce((newSelected, currentId) => {
+      // single-select : keep first found
+      if (inputType === SINGLE_SELECT && newSelected.length === 1) return newSelected
+      // find selection in options
+      const found = options.find(({id}) => id === currentId)
+      // if valid, keep in selected
+      if (!!found) return [...newSelected, currentId]
+      // else remove from selected
+      return newSelected
+    }, [])
+  }
+
   connectedCallback() {
     super.connectedCallback();
     this._visibleOptions = this.options;
@@ -359,21 +423,23 @@ class UnityDropdown extends LitElement {
    * @param {Number} value selected value
    */
   changeSelected(value) {
-    this.selected = (this.inputType === "single-select")? this.handleSingleSelect(value) : this.handleMultiSelect(value);
+    this.selected = (this.inputType === SINGLE_SELECT)? this.handleSingleSelect(value) : this.handleMultiSelect(value);
   }
 
   /**
    * Substitute array of selected values for array with new value, or empty array if the value was already selected.
-   * @param {String} id 
+   * @param {String} id
    */
   handleSingleSelect(id) {
     this._collapsed = true;
-    return this.selected[0] === id ? [] : [id]
+    const newSelected = this.selected[0] === id ? [] : [id]
+    this.onValueChange(newSelected[0])
+    return newSelected
   }
 
   /**
    * Update array of selected values by adding / removing the new value from the array.
-   * @param {String} id 
+   * @param {String} id
    */
   handleMultiSelect(id) {
     const selectedIndex = this.selected.indexOf(id)
@@ -396,7 +462,7 @@ class UnityDropdown extends LitElement {
   updateSearchValue(newValue) {
     this._searchValue = newValue;
     // expand options list when some text is written
-    if(this.boxType === "search") {
+    if(this.boxType === SEARCH) {
       this._collapsed = !(this._searchValue.length > 0);
     }
     // match and update visible values
@@ -423,10 +489,13 @@ class UnityDropdown extends LitElement {
 
   renderLeftIcon(icon) {
     return html`<div class="icon-left-wrapper">
-      <iron-icon class="inner-icon" icon="${icon}"}"></iron-icon>
-    </div> ` 
+      ${this.renderIcon(icon)}
+    </div> `
   }
 
+  renderIcon(icon) {
+    return html`<iron-icon class="inner-icon" icon="${icon}"}"></iron-icon>`
+  }
 
   // TODO: extract the different conditions in another component
   renderOption(option) {
@@ -447,7 +516,7 @@ class UnityDropdown extends LitElement {
     if (this.selected.includes(option.id)) {
       label = html`<b>${label}</b>`;
     }
-    if (this.inputType === "multi-select") {
+    if (this.inputType === MULTI_SELECT) {
       const isSelected = this.selected.includes(option.id);
       return html`
         <li class="selectable" @click=${this._changeValue(option.id)}>
@@ -472,7 +541,7 @@ class UnityDropdown extends LitElement {
                       ${this.selectIcon && (option.id === this.selected[0])? html`
                         <div class="icon-right-wrapper selected-icon">
                           <iron-icon class="inner-icon" icon="unity:check"}"></iron-icon>
-                        </div>` 
+                        </div>`
                         : null}
                     </div>
                     ${!!option.comment? html`<p class="option-comment">${option.comment}</p>`: null}
@@ -483,12 +552,27 @@ class UnityDropdown extends LitElement {
 
   /**
    * Get label to show in the input box.
-   * @return {String} Current selected value or placeholder if none
+   * @return {Object} Current selected value or or values, empty object if none
    */
-  getSelectedLabel() {
-    return (this.selected.length > 0)?
-       this.options.find(option => option.id === this.selected[0]).label
-      : "";
+  getSelectedOptions() {
+    const {
+      options,
+      selected,
+      inputType
+    } = this
+    if (inputType === SINGLE_SELECT) {
+      return options.find(({id}) => id === selected[0]) || {}
+    }
+    if (inputType === MULTI_SELECT) {
+      const label = selected.reduce((selectedLabels, selection) => {
+        const { label } = options.find(({id}) => id === selection) || {}
+        if (!label) return selectedLabels
+        if (!selectedLabels) return label
+        return `${selectedLabels}, ${label}`
+      }, '')
+      return {label}
+    }
+    return {}
   }
 
 
@@ -505,11 +589,12 @@ class UnityDropdown extends LitElement {
   }
 
   renderTag(id) {
-    const option = this.options.find(option => option.id === id)
+    const { label='', icon } = this.options.find(option => option.id === id) || {}
     return html`
       <div class="tag">
-        ${option.label}
-        <div @click="${()=> this.changeSelected(option.id)}">
+        ${icon && this.renderIcon(icon)}
+        <span class="tag-text">${label}</span>
+        <div @click="${()=> this.changeSelected(id)}">
           <iron-icon class="inner-icon selectable" icon="unity:close"></iron-icon>
         </div>
       </div>
@@ -527,89 +612,101 @@ class UnityDropdown extends LitElement {
 
   // TODO: possibly needs refactoring
   getInputBox() {
-    const selectedOption = this.options.find(option => option.id === this.selected[0])
-    let selectedLabel
-    if (this.boxType === "fixed") {
+    const {
+      boxType,
+      selected,
+      disabled,
+      showTags,
+      placeholder,
+      inputType,
+      _dropdown,
+      _collapsed,
+    } = this
+    const anySelected = selected.length > 0
+    let label, icon
+    if (anySelected) {
+      const option = this.getSelectedOptions()
+      label = option.label
+      icon = option.icon
+    }
+    const isMulti = inputType === MULTI_SELECT
+    const isButton = boxType === GRADIENT || boxType === OUTLINED
+    if (boxType === "fixed") {
       return html`
-          <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}">
-          ${(this.inputType === "multi-select" && this.showTags)? this.renderTags() : null}
-          <div class="input-label-div"">
-            <div style="flex: 1;  display:flex" class="displayed-wrapper">
+          <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
+          ${(isMulti && showTags)? this.renderTags() : null}
+          <div class="input-label-div${!showTags ? " no-tags" : ""}">
+            <div class="displayed-wrapper">
                 <p id="displayed">
-                  <b>${this.placeholder}</b>
+                  <b>${placeholder}</b>
                 </p>
             </div>
-            
+
           </div>
         </div>`;
     }
-    if (this.boxType === "label") {
+    if (boxType === LABEL) {
       return html`
-        <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}">
-          ${(this.inputType === "multi-select" && this.showTags)? this.renderTags() : null}
-          <div class="input-label-div selectable" @click="${this._dropdown}">
-            <div style="flex: 1;  display:flex" class="displayed-wrapper">
-              
-              ${this.selected.length > 0? 
-                !!selectedOption.icon? 
-                  this.renderLeftIcon(selectedOption.icon)
-              : null
-              : null }
-              ${(this.inputType === "multi-select" && this.selected.length > 0)? null : html`
-                <p id="displayed" class=${(this.selected.length===0 && this.inputType !== "menu")? "placeholder": ""}> 
-                  ${selectedLabel? selectedLabel : this.placeholder}
+        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
+          ${(anySelected && showTags)? this.renderTags() : null}
+          <div class="input-label-div${!showTags ? " no-tags" : ""} selectable" @click="${_dropdown}">
+            <div class="displayed-wrapper">
+              ${(!showTags && !isMulti && !!icon)
+                ? this.renderLeftIcon(icon)
+                : null
+              }
+              ${(showTags && anySelected)? null : html`
+                <p id="displayed" class=${(!anySelected && inputType !== MENU)? "placeholder": ""}>
+                  ${label || placeholder}
                 </p>`}
             </div>
             <div class="icon-right-wrapper chevron">
-              <iron-icon class="inner-icon" icon="${this._collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
+              <iron-icon class="inner-icon" icon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
             </div>
           </div>
         </div>`;
     }
-    else if (this.boxType === "search") {
-      selectedLabel = this.getSelectedLabel();
+    if (boxType === SEARCH) {
       return html`
-        <div class="text-box input-box ${!!this.disabled ? 'disabled' : ''}">
+        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
             <unity-text-input id="search-input"
               hideBorder=${true}
-              .value="${this.getSelectedLabel()}"
+              .value="${label}"
               .onChange="${this._onInputSearchChange}"
-              placeholder=${this.placeholder}
+              placeholder=${placeholder}
               .borderEffects=${false}
             >
           </unity-text-input>
-          <div class="icon-right-wrapper chevron" @click="${this._dropdown}">
-            <iron-icon class="inner-icon" icon="${this._collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
+          <div class="icon-right-wrapper chevron" @click="${_dropdown}">
+            <iron-icon class="inner-icon" icon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
           </div>
         </div>
         `
       ;
     }
-    else if (this.boxType === "button-gradient" || this.boxType === "button-outlined") {
+    if (isButton) {
       return html`
         <unity-button
-          label="${selectedLabel? selectedLabel : this.placeholder}"
-          rightIcon="${this._collapsed? "unity:down_chevron" : "unity:up_chevron"}"
-          ?gradient=${this.boxType==="button-gradient"? true : false}
-          ?outlined=${this.boxType==="button-outlined"? true : false}
-          ?disabled=${this.disabled}
-          @click="${this._dropdown}"
+          label="${label || placeholder}"
+          rightIcon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"
+          type="${boxType === GRADIENT ? "gradient" : "outlined" }"
+          ?disabled=${disabled}
+          @click="${_dropdown}"
         ></unity-button>
       `;
     }
-    else if (this.boxType === "inline") {
+    if (boxType === INLINE) {
       return html`
-        <div class="selectable text-box inline ${!!this.disabled ? 'disabled' : ''}" @click="${this._dropdown}">
-          <div style="flex: 1;  display:flex" class="displayed-wrapper">
-            ${this.selected.length > 0? 
-              !!this.options[this.selected[0]].icon? 
-                this.renderLeftIcon(this.options[this.selected[0]].icon)
+        <div class="selectable text-box inline ${!!disabled ? 'disabled' : ''}" @click="${_dropdown}">
+          <div class="displayed-wrapper">
+            ${(!isMulti && !!icon)
+              ? this.renderLeftIcon(icon)
               : null
-            : null }
-            ${this.placeholder}
+            }
+            ${label || placeholder}
           </div>
           <div class="icon-right-wrapper chevron">
-            <iron-icon class="inner-icon" icon="${this._collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
+            <iron-icon class="inner-icon" icon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
           </div>
         </div>`;
     }
@@ -621,7 +718,7 @@ class UnityDropdown extends LitElement {
    */
   getMenuClass() {
     let className = "dropdown-menu";
-    if(!this._collapsed && (this.boxType === "label" || this.boxType === "search")) {
+    if(!this._collapsed && (this.boxType === LABEL || this.boxType === SEARCH)) {
       className += " expanded"; // for box shadow and border
     }
     return className;
@@ -630,16 +727,16 @@ class UnityDropdown extends LitElement {
   renderList() {
     // if this._visibleOptions.length > 50
     let optionsList = this._visibleOptions.map(option => this.renderOption(option));
-    
-    return (this.inputType === "menu")?
+
+    return (this.inputType === MENU)?
       html`
-        <unity-select-menu 
+        <unity-select-menu
           .items=${this.options}
           .onMenuClick=${(index) => this.clickedMenu(index)}
           borderless
         >
-        </unity-select-menu>` 
-      : optionsList.every(element => element === null)? html`<p class="helper-text">${strings.NO_MATCHES}</p>` 
+        </unity-select-menu>`
+      : optionsList.every(element => element === null)? html`<p class="helper-text">${strings.NO_MATCHES}</p>`
                                                          : html`<ul id="options-list">${optionsList}</ul>`;
   }
 
@@ -659,7 +756,7 @@ class UnityDropdown extends LitElement {
 
   /**
    * Check / uncheck all checkboxes and update selected values.
-   * @param {bool} select 
+   * @param {bool} select
    */
   selectAll(select) {
 
@@ -684,7 +781,7 @@ class UnityDropdown extends LitElement {
   // }
 
   render() {
-    const isButton = (this.boxType === "button-outlined" || this.boxType === "button-gradient");
+    const isButton = (this.boxType === OUTLINED || this.boxType === GRADIENT);
     return html`
       <div>
         ${!!this.label ?
@@ -696,19 +793,19 @@ class UnityDropdown extends LitElement {
         <div class=${this.getMenuClass()}>
 
           ${this.getInputBox()}
-       
+
           ${!this._collapsed?
             html`
               <paper-dialog .noAutoFocus="${true}" id="options-dialog" opened
                             class="options-box ${isButton? "button-options": ""}"
                             >
                 ${this.searchBox? this.renderSearchBox() : null}
-                ${this.inputType === "multi-select" ? this.renderSelectAll() : null}
-                ${this.renderList()}                
+                ${this.inputType === MULTI_SELECT ? this.renderSelectAll() : null}
+                ${this.renderList()}
                 ${!!this.helperText? html`<p class="helper-text">${this.helperText}</p>` :null}
               </paper-dialog>`
             :null}
-        </div>     
+        </div>
       </div>
     `;
   }
