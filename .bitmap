@@ -313,5 +313,23 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "unity-toggle-switch@0.1.0": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-toggle-switch/unity-toggle-switch.js",
+                "test": false,
+                "name": "unity-toggle-switch.js"
+            },
+            {
+                "relativePath": "src/components/unity-toggle-switch/unity-toggle-switch.md",
+                "test": false,
+                "name": "unity-toggle-switch.md"
+            }
+        ],
+        "mainFile": "src/components/unity-toggle-switch/unity-toggle-switch.js",
+        "trackDir": "src/components/unity-toggle-switch",
+        "origin": "AUTHORED",
+        "exported": false
+    },
     "version": "14.7.6"
 }

@@ -64,6 +64,9 @@ const loadPage = (page) => (dispatch) => {
     case 'modal':
       import('../components/my-modal.js');
       break;
+    case 'toggle':
+      import('../components/my-toggle-switch.js');
+      break;
     default:
       page = 'view404';
       import('../components/my-view404.js');
