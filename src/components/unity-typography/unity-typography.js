@@ -153,9 +153,6 @@ class UnityTypography extends LitElement {
           color: var(--font-color, var(--font-color-medium));
         }
         .color-dark {
-          color: var(--font-color, var(--font-color-dark));
-        }
-        .color-dark {
           color: var(--font-color, var(--font-color-black));
         }
         .size-header-1 {
