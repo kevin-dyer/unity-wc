@@ -50,13 +50,14 @@ class UnityColumnEditor extends LitElement {
     super()
 
     this.columns = []
-    this.selectedColumns = []
     this.buttonType = ''
     this.onUpdate = (columns) => {}
 
     this._dialogVisible = false
     this._sortedColumns = []
     this._sortable
+    this._selectedColumns = [] //internal variable to hold selectedColumns
+    this._formSelectedColumns = [] //internal varaible to hold selected columns in form (before save)
   }
 
   // inputs
@@ -67,6 +68,8 @@ class UnityColumnEditor extends LitElement {
       onUpdate: {type: Function},
       buttonType: {type: String},
       _dialogVisible: {type: Boolean},
+      _selectedColumns: {type: Array},
+      _formSelectedColumns: {type: Array}
     }
   }
 
@@ -100,6 +103,20 @@ class UnityColumnEditor extends LitElement {
     return this._columns
   }
 
+  set selectedColumns (selectedColumns) {
+    const oldSelected = this._selectedColumns
+
+    this._selectedColumns = selectedColumns
+
+    //Also reset this._formSelectedColumns
+    this._formSelectedColumns = selectedColumns
+    this.requestUpdate('selectedColumns', oldSelected)
+  }
+
+  get selectedColumns() {
+    return this._selectedColumns
+  }
+
   initSortable() {
     const listRef = this.shadowRoot.getElementById('column-list')
     this._sortable = new Sortable(listRef, {
@@ -116,15 +133,15 @@ class UnityColumnEditor extends LitElement {
   }
 
   handleColumnCheck(column) {
-    const index = this.selectedColumns.findIndex(colKey => colKey === column.key)
+    const index = this._formSelectedColumns.findIndex(colKey => colKey === column.key)
     const isSelected = index > -1
 
     if (isSelected) {
-      const nextSelected = [...this.selectedColumns]
+      const nextSelected = [...this._formSelectedColumns]
       nextSelected.splice(index, 1)
-      this.selectedColumns = nextSelected
+      this._formSelectedColumns = nextSelected
     } else {
-      this.selectedColumns = [...this.selectedColumns, column.key]
+      this._formSelectedColumns = [...this._formSelectedColumns, column.key]
     }
   }
 
@@ -139,7 +156,10 @@ class UnityColumnEditor extends LitElement {
   handleCancel(e) {
     //TODO: put list back the way it was - may need to unmount the component when modal is closed
     this._sortedColumns = this.columns
-    this.selectedColumns = this.columns.map(col => col.key)
+
+    //Reset this._formSelectedColumns back to original selectedColumns
+    this._formSelectedColumns = this.selectedColumns
+
     this.toggleDialog()
   }
 
@@ -151,17 +171,19 @@ class UnityColumnEditor extends LitElement {
 
   handleSave(e) {
     const visibleColumns = this._sortedColumns.filter(col =>
-      this.selectedColumns.some(colKey =>
+      this._formSelectedColumns.some(colKey =>
         colKey === col.key
       )
     )
+    //Update internal selected Columns list
+    this.selectedColumns = this._formSelectedColumns
 
     this.onUpdate(visibleColumns)
     this.toggleDialog()
   }
 
   renderRow(col) {
-    const isSelected = this.selectedColumns.some(colKey => colKey === col.key)
+    const isSelected = this._formSelectedColumns.some(colKey => colKey === col.key)
     return html`
       <div class="row" data-id="${col.key}">
         <div class="checkbox-container">
