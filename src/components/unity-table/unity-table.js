@@ -219,7 +219,7 @@ class UnityTable extends LitElement {
         // if exclude all, delete * and change to include
         if(currentColumnFilter[0] === '*') {
           currentColumnFilter.splice(0,1)
-          currentColumn.include = true 
+          currentColumn.include = true
         }
 
         // add/remove value from filter
@@ -247,7 +247,7 @@ class UnityTable extends LitElement {
             this.columnFilter.splice(this.columnFilter.indexOf(currentColumn))
           }
         }
-          
+
       }
       else {
         //add new filter for this column
@@ -1225,7 +1225,7 @@ class UnityTable extends LitElement {
         }
       }
       filteredData = this.addParentRows(filteredData, fullDataArray)
-    } 
+    }
     catch (error) {
     }
     return filteredData
@@ -1256,26 +1256,6 @@ class UnityTable extends LitElement {
     return filteredData
   }
 
-
-  renderActiveFilters() {
-    const {columnFilter=[]} = this
-
-    return html`
-      <div class="active-filters">
-        <div class="filter-container">
-        ${columnFilter.length > 0?
-          columnFilter.map( f => html`<p style="margin: 0">
-                                            <b>Column:</b> ${f.column};
-                                            <b>Filters:</b> ${f.values.join(', ')};
-                                            <b>Action:</b> ${f.include? "include": "exclude"}
-                                          </p>`)
-          : html`<p style="margin: 0">${'No active filters'}</p>`
-        }
-        </div>
-      </div>
-    `;
-  }
-
   // this is written as a separate function in the case we want to scroll-to in the future
   scrollToHighlightedRow() {
     const row = this.shadowRoot.querySelector(`#row-${this.highlightedRow}`)
@@ -1296,7 +1276,6 @@ class UnityTable extends LitElement {
         id="${`unity-table-${this._tableId}`}"
         class="container"
       >
-        ${this.renderActiveFilters()}
         <table class="${fill ? 'fullspace' : ''}">
           ${!this.headless ? this._renderTableHeader(this.columns) : null}
           ${fill
@@ -1352,7 +1331,6 @@ class UnityTable extends LitElement {
           min-height: 0;
           width: 100%;
           max-width: 100%;
-          /*table-layout: auto;*/
           table-layout: fixed;
           border-collapse: collapse;
           border-spacing: 0;
@@ -1402,14 +1380,12 @@ class UnityTable extends LitElement {
         .header {
           display: flex;
           flex-direction: row;
-
           justify-content: space-between;
           align-items: center;
           margin: 0;
           padding-left: 13px;
           box-sizing: border-box;
           border-collapse: collapse;
-          border-top: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           border-bottom: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           border-left: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
