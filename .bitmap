@@ -196,7 +196,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-select-menu@0.0.4": {
+    "smartworks.unity/unity-select-menu@0.0.5": {
         "files": [
             {
                 "relativePath": "src/components/unity-dropdown/unity-select-menu.js",
@@ -274,7 +274,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@0.1.31": {
+    "smartworks.unity/unity-text-input@0.1.32": {
         "files": [
             {
                 "name": "unity-text-input.js",
