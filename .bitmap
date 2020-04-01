@@ -179,7 +179,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-section@0.2.0": {
+    "smartworks.unity/unity-section@0.2.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-layout/unity-section.js",
@@ -230,12 +230,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-cell@0.1.23": {
+    "smartworks.unity/unity-table-cell@0.1.24": {
         "files": [
             {
                 "name": "unity-table-cell.js",
                 "relativePath": "src/components/unity-table/unity-table-cell.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-table/unity-table-cell.md",
+                "test": false,
+                "name": "unity-table-cell.md"
             }
         ],
         "mainFile": "src/components/unity-table/unity-table-cell.js",
@@ -317,12 +322,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-typography@0.0.2": {
+    "smartworks.unity/unity-typography@0.0.3": {
         "files": [
             {
                 "relativePath": "src/components/unity-typography/unity-typography.js",
                 "test": false,
                 "name": "unity-typography.js"
+            },
+            {
+                "relativePath": "src/components/unity-typography/unity-typography.md",
+                "test": false,
+                "name": "unity-typography.md"
             }
         ],
         "mainFile": "src/components/unity-typography/unity-typography.js",
