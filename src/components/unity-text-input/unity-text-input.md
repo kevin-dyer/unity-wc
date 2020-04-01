@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.1.32
+- Updated unity-default-theme-styles to 1.0.0
+
 ### v0.1.31
 - Add `_valid` to `onChange` arguments when `validation` is a function
 

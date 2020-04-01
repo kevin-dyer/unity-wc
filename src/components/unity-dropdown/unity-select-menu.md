@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.0.5
+- Updated unity-default-theme-styles to 1.0.0
+
 ### v0.0.3
 - Added option to render recursive submenus.
 

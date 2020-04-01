@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.2.1
+- Updated dependencies.
+
 ### v0.2.0 (03/18/2020)
 - Added tooltips.
 - Added collapsed property.

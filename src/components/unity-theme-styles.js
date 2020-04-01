@@ -66,7 +66,7 @@ export const UnityThemeStyles = css`
     /* Sizes and Spacing */
     --unity-button-height: 30px;
     --unity-button-border-radius: 30px;
-    --unity-button-padding: 0 20px;
+    --unity-button-padding: 20px;
 
     --unity-text-input-height: 27px;
   }

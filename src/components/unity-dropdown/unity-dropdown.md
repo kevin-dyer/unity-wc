@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.1.14
+- Update dependencies.
+
 ### v0.1.13
 - udpate onValueChange to return current selected on single select, multiselect unchanged
 - fix unity-text-input location to center in Search Dropdown

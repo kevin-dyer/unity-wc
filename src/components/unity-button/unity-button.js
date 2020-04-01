@@ -61,13 +61,22 @@ class UnityButton extends LitElement {
           min-width: 79px;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
-          padding: var(--unity-button-padding, var(--default-unity-button-padding));
+          padding: 0 var(--unity-button-padding, var(--default-unity-button-padding));
           text-transform: none;
           white-space: nowrap;
           color: var(--button-color);
           --font-color: var(--button-color);
         }
-
+        paper-button.text-button {
+          padding: 0 10px;
+          min-width: 0;
+        }
+        paper-button.text-button.left-icon:not(.loading) {
+          padding-left: var(--unity-button-padding, var(--default-unity-button-padding));
+        }
+        paper-button.text-button.right-icon {
+          padding-right: var(--unity-button-padding, var(--default-unity-button-padding));
+        }
         paper-button.small {
           height: 22px;
           padding: 0 10px;
@@ -164,17 +173,17 @@ class UnityButton extends LitElement {
         .icon {
           margin: 0 4px;
         }
-        .left-icon {
+        iron-icon.left-icon {
           margin-left: -15px;
         }
-        .right-icon {
+        iron-icon.right-icon {
           margin-right: -15px;
         }
 
-        .small .left-icon {
+        .small iron-icon.left-icon {
           margin-left: -6px;
         }
-        .small .right-icon {
+        .small iron-icon.right-icon {
           margin-left: -6px;
         }
 
@@ -266,7 +275,16 @@ class UnityButton extends LitElement {
 
   _getClassNames() {
     let classList = ['unity-button']
-    const { type } = this
+    const {
+      type,
+      danger,
+      disabled,
+      loading,
+      small,
+      centerIcon,
+      leftIcon,
+      rightIcon 
+    } = this
 
     switch (type) {
       case SOLID: {
@@ -281,29 +299,37 @@ class UnityButton extends LitElement {
         classList.push('outlined')
         break
       }
-      default: break
+      default: {
+        classList.push('text-button')
+        break
+      }
     }
 
-    if (this.danger) {
+    if (danger) {
       classList.push('danger')
     }
 
-    if (this.disabled) {
+    if (disabled) {
       classList.push('disabled')
     }
 
-    if (this.loading) {
+    if (loading) {
       classList.push('loading')
     }
 
-    if (this.small) {
+    if (small) {
       classList.push('small')
     }
 
-    if (this.centerIcon) {
+    if (centerIcon) {
       classList.push('icon-btn')
     }
-
+    if(leftIcon) {
+      classList.push('left-icon')
+    }
+    if(rightIcon) {
+      classList.push('right-icon')
+    }
     return classList.join(' ')
   }
 

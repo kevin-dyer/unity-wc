@@ -99,11 +99,10 @@ describe('button test', () => {
     const noLeftIconEl = /** @type {A11yInput} */ (await fixture('<unity-button></unity-button>'));
     const leftIcon = leftIconEl.shadowRoot.querySelector('.left-icon')
     const noLeftIcon = noLeftIconEl.shadowRoot.querySelector('.left-icon')
-    const leftIconLoading = leftIconLoadingEl.shadowRoot.querySelector('.left-icon')
+    const leftIconLoading = leftIconLoadingEl.shadowRoot.querySelector('paper-spinner-lite.left-icon')
     expect(leftIcon).to.exist
     expect(noLeftIcon).to.be.null
     expect(leftIconLoading.className).to.include('spinner')
-
   });
 });
 

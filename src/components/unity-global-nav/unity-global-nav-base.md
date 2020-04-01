@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+## v0.2.3
+- Updated dependencies.
+
 ### v0.2.0 (03/18/2020)
 - Make menu collapsible.
 - Updated nav items versions. 

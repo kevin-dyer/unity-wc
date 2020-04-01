@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.2.1
+- Updated unity-default-theme-styles to 1.0.0
+
 ### v0.2.0
 - Add css var and defaulting for content alignment
 
