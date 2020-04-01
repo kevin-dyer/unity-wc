@@ -900,7 +900,6 @@ class UnityTable extends LitElement {
       column,
       direction: dir
     } = this._sortBy
-    console.log('this.noTopBorder', this.noTopBorder)
     const direction = !!dir ? dir : UNS
 
     return html`
