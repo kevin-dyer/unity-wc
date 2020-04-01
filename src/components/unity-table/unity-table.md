@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.4.0
+- add control prop to hide top border
+
 ### v0.3.23
 - remove active filter bar
 - remove top border to be flush with header

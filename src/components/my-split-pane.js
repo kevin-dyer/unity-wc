@@ -289,6 +289,7 @@ class MySplitPane extends PageViewElement {
         </div>
 
         <unity-table
+          noTopBorder
           slot="main"
           selectable
           filter="${this._searchText}"

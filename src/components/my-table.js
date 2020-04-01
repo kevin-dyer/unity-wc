@@ -192,6 +192,7 @@ class MyTable extends PageViewElement {
 
         <div class="table-container">
           <unity-table
+            noTopBorder
             selectable
             filter="${this._searchText}"
             .keyExtractor="${this._keyExtractor}"
