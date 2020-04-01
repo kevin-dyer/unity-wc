@@ -29,6 +29,7 @@ import {
  * @param {bool} startExpanded, controls if the table data begins as expanded (true) or collapsed (false / default)
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
+ * @param {bool} noTopBorder, hides the top border on render
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
@@ -164,6 +165,7 @@ class UnityTable extends LitElement {
     this.childKeys = ['children']
     this.filter = ''
     this.columnFilter = []
+    this.noTopBorder = false
     this.endReachedThreshold = 200 //distance in px to fire onEndReached before getting to bottom
     this.slotIdExtractor = (row={}, column={}) => `${row._rowId}-${column.key}`
 
@@ -273,6 +275,7 @@ class UnityTable extends LitElement {
       emptyDisplay: { type: String },
       childKeys: { type: Array },
       filter: { type: String },
+      noTopBorder: { type: Boolean },
       onSelectionChange: { type: Function },
       onClickRow: { type: Function },
       onExpandedChange: { type: Function },
@@ -897,6 +900,7 @@ class UnityTable extends LitElement {
       column,
       direction: dir
     } = this._sortBy
+    console.log('this.noTopBorder', this.noTopBorder)
     const direction = !!dir ? dir : UNS
 
     return html`
@@ -938,7 +942,7 @@ class UnityTable extends LitElement {
                     this._handleColumnResizeComplete(key)
                   }}"
                 >
-                  <div class="header">
+                  <div class="header${this.noTopBorder ? ' hide-top' : ''}">
                     ${this.selectable && i === 0
                       ? html`
                         <paper-checkbox
@@ -1386,8 +1390,12 @@ class UnityTable extends LitElement {
           padding-left: 13px;
           box-sizing: border-box;
           border-collapse: collapse;
+          border-top: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           border-bottom: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           border-left: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+        }
+        .header.hide-top {
+          border-top: unset;
         }
         tr {
           width: 100%;
