@@ -25,7 +25,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@0.0.11": {
+    "smartworks.unity/unity-column-editor@0.0.12": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/unity-column-editor.js",
@@ -76,7 +76,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@0.2.1": {
+    "smartworks.unity/unity-global-nav-base@0.2.2": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
@@ -203,7 +203,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-split-pane@0.2.0": {
+    "smartworks.unity/unity-split-pane@0.2.2": {
         "files": [
             {
                 "relativePath": "src/components/unity-layout/unity-split-pane.js",
@@ -313,7 +313,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "unity-toggle-switch@0.1.0": {
+    "unity-toggle-switch": {
         "files": [
             {
                 "relativePath": "src/components/unity-toggle-switch/unity-toggle-switch.js",
