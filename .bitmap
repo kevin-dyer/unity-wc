@@ -47,15 +47,20 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-default-theme-styles@0.0.15": {
+    "smartworks.unity/unity-default-theme-styles@1.0.0": {
         "files": [
             {
                 "name": "unity-default-theme-styles.js",
-                "relativePath": "src/components/unity-default-theme-styles.js",
+                "relativePath": "src/components/unity-default-theme-styles/unity-default-theme-styles.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-default-theme-styles/unity-default-theme-styles.md",
+                "test": false,
+                "name": "unity-default-theme-styles.md"
             }
         ],
-        "mainFile": "src/components/unity-default-theme-styles.js",
+        "mainFile": "src/components/unity-default-theme-styles/unity-default-theme-styles.js",
         "origin": "AUTHORED",
         "exported": true
     },
