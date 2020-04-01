@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v0.3.23
+- remove active filter bar
+- remove top border to be flush with header
+
 ### v0.3.22
 -Updated dependencies
 
