@@ -212,7 +212,7 @@ class UnitySplitPane extends LitElement {
         }
         unity-button {
           position: absolute;
-          z-index: 2;
+          z-index: 10;
         }
         .collapse-button {
           margin-top: 10px;
