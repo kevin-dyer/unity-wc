@@ -155,7 +155,8 @@ class UnityGlobalNavBase extends LitElement {
         }
         .logo-container {
           height: var(--logo-height);
-          width: 100%;
+          width: auto;
+          flex: 1;
           padding-left: var(--logo-padding);
           padding-right: var(--logo-padding);
           overflow: hidden;
