@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.3.22
+-Updated dependencies
+
 ### v0.3.20
 - Updated for dropdown fixes. Presumably other types of fixes between last changelog update.
 

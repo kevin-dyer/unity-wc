@@ -86,7 +86,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@0.2.2": {
+    "smartworks.unity/unity-global-nav-base@0.2.3": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
@@ -120,7 +120,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@0.2.0": {
+    "smartworks.unity/unity-global-nav-top-item@0.2.1": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",
@@ -252,7 +252,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.3.21": {
+    "smartworks.unity/unity-table@0.3.22": {
         "files": [
             {
                 "name": "filter-dropdown.js",
@@ -291,7 +291,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-toggle-switch@0.1.0": {
+    "smartworks.unity/unity-toggle-switch@0.1.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-toggle-switch/unity-toggle-switch.js",
