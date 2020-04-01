@@ -239,7 +239,7 @@ class UnitySplitPane extends LitElement {
           height: 100%;
           width: 8px;
           cursor: col-resize;
-          z-index: 2;
+          z-index: 5;
         }
       `
     ]
