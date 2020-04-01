@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.4.2
+- remove leftover log
+
 ### v0.4.0
 - add control prop to hide top border
 
