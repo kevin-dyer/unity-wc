@@ -185,6 +185,7 @@ class MyLayout extends LitElement {
         <unity-section bordered style="--background-color: #eef4FF;">
           <div style="height: 500px; width: 500px;">
             <unity-table
+              noTopBorder
               selectable
               .keyExtractor="${(datum, index) => datum.name}"
               .childKeys="${['children']}"
