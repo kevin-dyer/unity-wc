@@ -204,7 +204,7 @@ class UnitySplitPane extends LitElement {
         }
         .pane {
           position: relative;
-          border-left: 1px solid var(--border-color);
+          border-left: var(--bar-width, 1px) solid var(--border-color);
           box-sizing: border-box;
         }
         .hide {
@@ -215,7 +215,7 @@ class UnitySplitPane extends LitElement {
           z-index: 2;
         }
         .collapse-button {
-          margin-top: -8px;
+          margin-top: 10px;
           margin-left: -8px;
         }
         unity-button.close-button {

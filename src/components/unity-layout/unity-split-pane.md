@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.2.1
+- Add '--bar-width' css variable to control width of bar between panes.
+
 ### v0.2.0
 - Allow main pane to be collapsible.
 - Resizable split pane.
