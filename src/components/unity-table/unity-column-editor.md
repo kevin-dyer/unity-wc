@@ -2,6 +2,8 @@
 
 ## Changelog:
 
+### v0.0.14
+- Updated dependencies
 
 ### v0.0.11
 - Change unity-modal import to use bit component (bug introduced in v0.0.10).

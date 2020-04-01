@@ -30,17 +30,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@0.0.13": {
+    "smartworks.unity/unity-column-editor@0.0.14": {
         "files": [
             {
+                "name": "unity-column-editor.js",
                 "relativePath": "src/components/unity-table/unity-column-editor.js",
-                "test": false,
-                "name": "unity-column-editor.js"
+                "test": false
             },
             {
+                "name": "unity-column-editor.md",
                 "relativePath": "src/components/unity-table/unity-column-editor.md",
-                "test": false,
-                "name": "unity-column-editor.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-table/unity-column-editor.js",
@@ -64,7 +64,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@0.1.14": {
+    "smartworks.unity/unity-dropdown@0.1.15": {
         "files": [
             {
                 "name": "strings.js",
@@ -103,7 +103,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-inner-item@0.2.0": {
+    "smartworks.unity/unity-global-nav-inner-item@0.2.1": {
         "files": [
             {
                 "name": "unity-global-nav-inner-item.js",
@@ -218,7 +218,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-split-pane@0.2.3": {
+    "smartworks.unity/unity-split-pane@0.2.4": {
         "files": [
             {
                 "relativePath": "src/components/unity-layout/unity-split-pane.js",
