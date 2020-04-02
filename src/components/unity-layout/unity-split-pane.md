@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.2.7
+- update unity-button to v0.1.2
+
 ### v0.2.4
 - Updated dependencies.
 
