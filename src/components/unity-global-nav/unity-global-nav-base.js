@@ -8,7 +8,7 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @name UnityGlobalNavBase
 * @param {bool} gutter, show or hide the side gutter
 * @param {string} logo, path to hosted logo image
-* @param {bool} collapsible, render button at the bottom to collapse bar 
+* @param {bool} collapsible, render button at the bottom to collapse bar
 * @param {bool} collapsed, if the bar is collapsed or not
 * @param {Object} items, object containing the menu items
 * @param {Function} onSelect, callback for when a menu item is selected
@@ -49,7 +49,7 @@ class UnityGlobalNavBase extends LitElement {
     this.items = {}
     this.onSelect = () => {}
     this.selected = ''
-    
+
     this._itemClicked = (key) => { this._changeSelection(key)}
   }
 
@@ -143,6 +143,7 @@ class UnityGlobalNavBase extends LitElement {
           border-right: 5px solid var(--gutter-color);
         }
         .menu {
+          position: relative;
           height: 100%;
           width: 191px;
           background-color: var(--primary-menu-color);
