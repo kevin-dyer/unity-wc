@@ -86,7 +86,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@0.2.4": {
+    "smartworks.unity/unity-global-nav-base@0.2.5": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
