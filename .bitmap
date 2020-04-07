@@ -184,7 +184,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-section@0.2.1": {
+    "smartworks.unity/unity-section@0.2.2": {
         "files": [
             {
                 "relativePath": "src/components/unity-layout/unity-section.js",
