@@ -67,7 +67,7 @@ class UnitySection extends LitElement {
           align-self: stretch;
           flex: 1;
           display: flex;
-          overflow-x: visible;
+          overflow: visible;
         }
         .section {
           flex: 1;
@@ -77,7 +77,6 @@ class UnitySection extends LitElement {
           justify-content: var(--horz-pos);
           flex-wrap: wrap;
           background-color: var(--section-color);
-          overflow: hidden;
         }
         .no-wrap {
           flex-wrap: nowrap;
