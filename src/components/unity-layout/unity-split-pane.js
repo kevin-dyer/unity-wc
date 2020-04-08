@@ -11,7 +11,8 @@ const MIN_PANE_WIDTH = 20 // %
  *   2) and one to act in a modal-like fashion, to hold contextual information, and cause
  *      the other view to shrink in view but not in function
  * @name UnitySplitPane
- * @param {bool} show, controls if the other pane should be visible or not
+ * @param {bool} show, controls if the right pane should be visible or not
+ * @param {bool} collapsed, controls if the left pane is collapsed or not
  * @param {bool} closeButton, controls if the overlapping close button is rendered
  * @param {bool} collapseButton, controls of the overlappy collapse button is rendered
  * @param {func} onClose, function to call whent he close button is clicked, sends new pane width in %
@@ -39,9 +40,9 @@ class UnitySplitPane extends LitElement {
     super()
 
     this.show = false
+    this.collapsed = false
     this.closeButton = false
     this.collapseButton = false
-    this.collapsed = false
     this.onClose = ()=>{}
     this.paneWidth = 50
     this.onResize=()=>{}
@@ -51,9 +52,9 @@ class UnitySplitPane extends LitElement {
   static get properties() {
     return {
       show: { type: Boolean },
+      collapsed: { type: Boolean },
       closeButton: { type: Boolean },
       collapseButton: { type: Boolean },
-      collapsed: { type: Boolean },
       onClose: { type: Function },
       paneWidth: { type: Number },
       onResize: { type: Function }
