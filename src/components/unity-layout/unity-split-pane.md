@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.2.8
+- add collapseButton to show/hide internal collapse button
+
 ### v0.2.7
 - update unity-button to v0.1.2
 

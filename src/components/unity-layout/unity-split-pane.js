@@ -13,6 +13,7 @@ const MIN_PANE_WIDTH = 20 // %
  * @name UnitySplitPane
  * @param {bool} show, controls if the other pane should be visible or not
  * @param {bool} closeButton, controls if the overlapping close button is rendered
+ * @param {bool} collapseButton, controls of the overlappy collapse button is rendered
  * @param {func} onClose, function to call whent he close button is clicked, sends new pane width in %
  * @param {number} paneWidth, width for the pane in percentage
  * @param {func} onResize, function to call when panel is being resized
@@ -39,6 +40,7 @@ class UnitySplitPane extends LitElement {
 
     this.show = false
     this.closeButton = false
+    this.collapseButton = false
     this.collapsed = false
     this.onClose = ()=>{}
     this.paneWidth = 50
@@ -50,6 +52,7 @@ class UnitySplitPane extends LitElement {
     return {
       show: { type: Boolean },
       closeButton: { type: Boolean },
+      collapseButton: { type: Boolean },
       collapsed: { type: Boolean },
       onClose: { type: Function },
       paneWidth: { type: Number },
@@ -68,11 +71,11 @@ class UnitySplitPane extends LitElement {
   handleMouseMove(e) {
     const pane = this.shadowRoot.getElementById('pane')
     const splitPaneWidth = pane.clientWidth * 100 / this.paneWidth // get splitpane total width
-    
+
     const deltaX = e.clientX - this._startingX
     const newWidth = this.paneWidth - (deltaX * 100 / splitPaneWidth) // curent % - increment %
-    
-    this.paneWidth = this._clipPaneWidth(newWidth)  
+
+    this.paneWidth = this._clipPaneWidth(newWidth)
     this._startingX = e.clientX
     this.onResize(this.paneWidth) // callback
     this.requestUpdate('paneWidth')
@@ -86,13 +89,13 @@ class UnitySplitPane extends LitElement {
 
   _clipPaneWidth(width) {
     if (width < MIN_PANE_WIDTH) {
-      return MIN_PANE_WIDTH  
+      return MIN_PANE_WIDTH
     }
     else if (width > 100 - MIN_PANE_WIDTH) {
       return 100 - MIN_PANE_WIDTH
     }
     else {
-      return width  
+      return width
     }
   }
 
@@ -115,6 +118,7 @@ class UnitySplitPane extends LitElement {
     const {
       show,
       closeButton,
+      collapseButton,
       collapsed,
       onClose,
       paneWidth
@@ -122,7 +126,7 @@ class UnitySplitPane extends LitElement {
     return html`
       ${collapsed? html`<div class="bar" @click=${()=>this.expand()}><iron-icon icon="unity:double_right_chevron"></iron-icon></div>` : ''}
       <div class="wrapper ${collapsed?'hide':''}">
-        ${show ? html`<unity-button class="collapse-button" centerIcon="unity:double_left_chevron" @click=${()=>this.collapse()}></unity-button>`: ''}
+        ${collapseButton && show ? html`<unity-button class="collapse-button" centerIcon="unity:double_left_chevron" @click=${()=>this.collapse()}></unity-button>`: ''}
         <div class="header">
           <slot name="header"></slot>
         </div>
@@ -149,7 +153,7 @@ class UnitySplitPane extends LitElement {
             ></unity-button>`
           : null
         }
-       
+
         <slot name="pane"></slot>
       </div>
     `
