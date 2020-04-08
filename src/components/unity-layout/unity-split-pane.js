@@ -125,9 +125,9 @@ class UnitySplitPane extends LitElement {
       paneWidth
     } = this
     return html`
-      ${collapsed? html`<div class="bar" @click=${()=>this.expand()}><iron-icon icon="unity:double_right_chevron"></iron-icon></div>` : ''}
+      ${collapsed? html`<div class="bar" @click=${()=>this.expand()}><iron-icon class="show-button" icon="unity:double_right_chevron"></iron-icon></div>` : ''}
       <div class="wrapper ${collapsed?'hide':''}">
-        ${collapseButton && show ? html`<unity-button class="collapse-button" centerIcon="unity:double_left_chevron" @click=${()=>this.collapse()}></unity-button>`: ''}
+        ${(collapseButton && show) ? html`<unity-button class="collapse-button" centerIcon="unity:double_left_chevron" @click=${()=>this.collapse()}></unity-button>`: ''}
         <div class="header">
           <slot name="header"></slot>
         </div>
@@ -245,6 +245,9 @@ class UnitySplitPane extends LitElement {
           width: 8px;
           cursor: col-resize;
           z-index: 5;
+        }
+        .show-button {
+          color: var(--button-color, var(--primary-brand-color, var(--default-primary-brand-color)));
         }
       `
     ]
