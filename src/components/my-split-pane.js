@@ -134,6 +134,7 @@ class MySplitPane extends PageViewElement {
     this._searchText = ''
 
     this.columns = [...exampleColumns] //For Column Editor
+    this.collapsed = false // split-pane collapse
     this._visibleColumns = [...exampleColumns] //For Table display
     this._columnFilters = exampleFilters
     this.highlightedRowId = ''
@@ -146,6 +147,7 @@ class MySplitPane extends PageViewElement {
     return {
       _searchText: { type: String },
       columns: { type: Array },
+      collapsed: { type: Boolean },
       _visibleColumns: { type: Array },
       highlightedRowId: { type: String },
       highlightedRow: { type: Object },
@@ -163,6 +165,11 @@ class MySplitPane extends PageViewElement {
           display: flex;
           flex-direction: column;
           align-items: stretch;
+        }
+        #title {
+          margin-left: 16px;
+          overflow: var(--left-wrapper-overflow);
+          white-space: var(--title-white-space);
         }
         .example-container {
           border: 1px dashed black;
@@ -250,6 +257,10 @@ class MySplitPane extends PageViewElement {
     this.highlightedRowId = ''
   }
 
+  toggleCollapse(value=!this.collapsed) {
+    this.collapsed = value
+  }
+
   render() {
     console.log('exampleData', exampleData)
     console.log('this.highlightedRow', this.highlightedRow)
@@ -257,12 +268,24 @@ class MySplitPane extends PageViewElement {
       <unity-split-pane
         closeButton
         ?show="${!!this.highlightedRowId}"
+        ?collapsed="${!!this.collapsed}"
         .onClose="${this.toggleDetails.bind(this)}"
+        .onCollapseChange="${this.toggleCollapse.bind(this)}"
       >
-        <unity-page-header
-          slot="header"
-          title="Unity Table"
-        >
+        <unity-page-header slot="header" >
+          <unity-button
+            slot="left-content"
+            centerIcon="unity:double_left_chevron"
+            @click=${()=>this.toggleCollapse()}
+            ?disabled="${!this.highlightedRowId}"
+          ></unity-button>
+          <unity-typography
+            slot="center-content"
+            size="header1"
+            id="title"
+          >
+            Unity Table
+          </unity-typography>
           <div slot="right-content">
             <unity-text-input
               ?rounded=${true}

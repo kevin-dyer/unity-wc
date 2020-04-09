@@ -132,7 +132,6 @@ class MyLayout extends LitElement {
       <div class="header-wrapper">
         <unity-page-header
           title="MOCC2 Title"
-          ?showBackBtn=${true}
           .tabs=${[
             {
               label: 'Users'
