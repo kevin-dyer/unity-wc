@@ -123,7 +123,6 @@ class UnitySplitPane extends LitElement {
   closePane() {
     this.show = false
     this.toggleCollapse(false)
-    this.onClose(this.paneWidth)
   }
 
   render() {
