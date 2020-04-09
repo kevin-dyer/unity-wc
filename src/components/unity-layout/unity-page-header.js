@@ -130,18 +130,10 @@ class UnityPageHeader extends LitElement {
 
   static get properties() {
     return {
-      title: {
-        type: String
-      },
-      tabs: {
-        type: Array
-      },
-      selectedTab: {
-        type: Number
-      },
-      onTabSelect: {
-        type: Function
-      }
+      title: { type: String },
+      tabs: { type: Array },
+      selectedTab: { type: Number },
+      onTabSelect: { type: Function }
     }
   }
 
@@ -149,13 +141,48 @@ class UnityPageHeader extends LitElement {
     super()
 
     this.title=''
-    this.tabs=[]
-    this.selectedTab=0
+    this._tabs=[]
+    this._selectedTab=0
     this.onTabSelect=()=>{console.log("onTabSelect default")}
   }
 
-  _handleTabSelect(tab, index) {
-    this.onTabSelect(tab, index)
+  set tabs(value) {
+    const oldValue = this._tabs
+    if (value === oldValue) return
+    this._findSelectedTab()
+    this._tabs = value
+    this.requestUpdate('tabs', oldValue)
+  }
+
+  get tabs() { return this._tabs }
+
+  // when tabs array changes, make selectedTab be within bounds, NaN goes to 0
+    // if no selectedTab set, would still default 0 and be fine
+  // when selectedTab changes, make selectedTab be within tabs bounds, NaN goes to 0
+    // if no tabs when selectedTab changes, update with no change
+
+  set selectedTab(value) {
+    this._findSelectedTab(value)
+  }
+
+  get selectedTab() { return this._selectedTab}
+
+  // if newValue exists, then updateing selectedTab
+  // otherwise, using oldValue
+  _findSelectedTab(newValue) {
+    const oldValue = this._selectedTab
+    // use newValue as long as not undefine
+    let tabToSelect = newValue !== undefined ? newValue : oldValue
+    // check tabToSelect to make sure within bounds
+    // if tabs not set or empty array, just update selectedTab
+    if (Array.isArray(this.tabs) && this.tabs.length > 0) {
+      // check tabToSelect within bounds
+      if (!tabToSelect || Number(tabToSelect) < 0) tabToSelect = 0
+      if (Number(tabToSelect) >= this.tabs.length) tabToSelect = this.tabs.length - 1
+    }
+    // only update if value actually changes
+    this._selectedTab = tabToSelect
+    this.requestUpdate('selectedTab', oldValue)
   }
 
   //This may need to be passed in as a property, could replace showBackBtn bool
@@ -180,7 +207,7 @@ class UnityPageHeader extends LitElement {
         <slot name="right-content" id="right-container"></slot>
       </div>
       ${tabs.length > 0
-        ? html`<paper-tabs selected=${selectedTab} id="header-tabs" noink>
+        ? html`<paper-tabs selected="${selectedTab}" id="header-tabs" noink>
             ${tabs.map((tab, index) => {
               const {label} = tab
 
