@@ -11,7 +11,6 @@ import  '@bit/smartworks.unity.unity-typography';
  * Displays a Top level Page Header.
  * @name UnityPageHeader
  * @param {''} title
- * @param {bool} showBackArrow
  * @param {[]} tabs
  * @param {''} selectedTab
  * @returns {LitElement} returns a a class extended from LitElement
@@ -165,17 +164,24 @@ class UnityPageHeader extends LitElement {
   }
 
   render() {
+    const {
+      title,
+      tabs=[],
+      selectedTab
+    } = this
     return html`
       <div id="header">
         <div id="left-wrapper">
           <slot name="left-content" id="left-container"></slot>
-          <unity-typography size="header1" id="title">${this.title}</unity-typography>
+          <slot name="center-content" id="center-container">
+            <unity-typography size="header1" id="title">${title}</unity-typography>
+          </slot>
         </div>
         <slot name="right-content" id="right-container"></slot>
       </div>
-      ${this.tabs.length > 0
-        ? html`<paper-tabs selected=${this.selectedTab} id="header-tabs" noink>
-            ${this.tabs.map((tab, index) => {
+      ${tabs.length > 0
+        ? html`<paper-tabs selected=${selectedTab} id="header-tabs" noink>
+            ${tabs.map((tab, index) => {
               const {label} = tab
 
               return html`<paper-tab @click=${e => this._handleTabSelect(tab, index)}>
