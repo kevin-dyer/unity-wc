@@ -15,7 +15,8 @@ const MIN_PANE_WIDTH = 20 // %
  * @param {bool} collapsed, controls if the left pane is collapsed or not
  * @param {bool} closeButton, controls if the overlapping close button is rendered
  * @param {bool} collapseButton, controls of the overlappy collapse button is rendered
- * @param {func} onClose, function to call whent he close button is clicked, sends new pane width in %
+ * @param {func} onClose, function to call when the close button is clicked, sends new pane width in %
+ * @param {func} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
  * @param {number} paneWidth, width for the pane in percentage
  * @param {func} onResize, function to call when panel is being resized
  * @example
@@ -39,11 +40,12 @@ class UnitySplitPane extends LitElement {
   constructor() {
     super()
 
-    this.show = false
+    this._show = false
     this.collapsed = false
     this.closeButton = false
     this.collapseButton = false
     this.onClose = ()=>{}
+    this.onCollapseChange = ()=>{}
     this.paneWidth = 50
     this.onResize=()=>{}
     this._startingX = 0
@@ -56,10 +58,23 @@ class UnitySplitPane extends LitElement {
       closeButton: { type: Boolean },
       collapseButton: { type: Boolean },
       onClose: { type: Function },
+      onCollapseChange: { type: Function },
       paneWidth: { type: Number },
       onResize: { type: Function }
     }
   }
+
+  set show(value) {
+    const newValue = Boolean(value)
+    const oldValue = this._show
+    if (oldValue === true && newValue === false) this.onClose(this.paneWidth)
+
+    this._show = newValue
+    requestUpdate('show', newValue)
+  }
+
+  get show() { return this._show }
+
 
   handleMouseDown(e) {
     this._startingX = e.clientX
@@ -100,19 +115,15 @@ class UnitySplitPane extends LitElement {
     }
   }
 
-  collapse() {
-    this.collapsed = true
-    this.requestUpdate('collapsed')
-  }
-
-  expand() {
-    this.collapsed = false
-    this.requestUpdate('collapsed')
+  toggleCollapse(value=!this.collapsed) {
+    this.collapsed = value
+    this.onCollapseChange(value)
   }
 
   closePane() {
-    this.expand()
-    this.onClose()
+    this.show = false
+    this.toggleCollapse(false)
+    this.onClose(this.paneWidth)
   }
 
   render() {
@@ -125,9 +136,9 @@ class UnitySplitPane extends LitElement {
       paneWidth
     } = this
     return html`
-      ${collapsed? html`<div class="bar" @click=${()=>this.expand()}><iron-icon class="show-button" icon="unity:double_right_chevron"></iron-icon></div>` : ''}
-      <div class="wrapper ${collapsed?'hide':''}">
-        ${(collapseButton && show) ? html`<unity-button class="collapse-button" centerIcon="unity:double_left_chevron" @click=${()=>this.collapse()}></unity-button>`: ''}
+      ${show && collapsed ? html`<div class="bar" @click=${()=>this.toggleCollapse()}><iron-icon class="show-button" icon="unity:double_right_chevron"></iron-icon></div>` : ''}
+      <div class="wrapper ${show && collapsed?'hide':''}">
+        ${(collapseButton && show) ? html`<unity-button class="collapse-button" centerIcon="unity:double_left_chevron" @click=${()=>this.toggleCollapse()}></unity-button>`: ''}
         <div class="header">
           <slot name="header"></slot>
         </div>
