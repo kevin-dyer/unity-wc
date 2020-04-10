@@ -185,6 +185,10 @@ class UnityPageHeader extends LitElement {
     this.requestUpdate('selectedTab', oldValue)
   }
 
+  _handleTabSelect(tab, index) {
+    this.onTabSelect(tab, index)
+  }
+
   render() {
     const {
       title,
