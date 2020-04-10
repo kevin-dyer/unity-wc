@@ -185,11 +185,6 @@ class UnityPageHeader extends LitElement {
     this.requestUpdate('selectedTab', oldValue)
   }
 
-  //This may need to be passed in as a property, could replace showBackBtn bool
-  handleBack(e) {
-    window.history.back()
-  }
-
   render() {
     const {
       title,
