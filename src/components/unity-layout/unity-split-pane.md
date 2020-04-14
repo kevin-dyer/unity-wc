@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v0.3.0
+- add collapseButton to show/hide internal collapse button
+- add onCollapseChange to allow for reporter function
+- add custom get/set for show to send paneWidth when parent changes show from true to false
+- Split Pane can now be fully controlled by parent
+
 ### v0.2.7
 - update unity-button to v0.1.2
 

@@ -11,7 +11,6 @@ import  '@bit/smartworks.unity.unity-typography';
  * Displays a Top level Page Header.
  * @name UnityPageHeader
  * @param {''} title
- * @param {bool} showBackArrow
  * @param {[]} tabs
  * @param {''} selectedTab
  * @returns {LitElement} returns a a class extended from LitElement
@@ -64,7 +63,8 @@ class UnityPageHeader extends LitElement {
           width: 100%;
           display: flex;
           flex-direction: column;
-          font-family: var(--font-family, var(--default-font-family));
+          --header-font-family: var(--font-family, var(--default-font-family));
+          font-family: var(--header-font-family);
           --tab-height: 38px;
           --tab-padding: 0 19px;
           --left-wrapper-overflow: hidden;
@@ -113,6 +113,7 @@ class UnityPageHeader extends LitElement {
           align-self: flex-start;
           --paper-tabs-selection-bar-color: var(--primary-brand-color, var(--default-primary-brand-color));
           height: var(--tab-height);
+          font-family: var(--header-font-family);
         }
 
         ::slotted(*) {
@@ -129,18 +130,10 @@ class UnityPageHeader extends LitElement {
 
   static get properties() {
     return {
-      title: {
-        type: String
-      },
-      tabs: {
-        type: Array
-      },
-      selectedTab: {
-        type: Number
-      },
-      onTabSelect: {
-        type: Function
-      }
+      title: { type: String },
+      tabs: { type: Array },
+      selectedTab: { type: Number },
+      onTabSelect: { type: Function }
     }
   }
 
@@ -148,32 +141,73 @@ class UnityPageHeader extends LitElement {
     super()
 
     this.title=''
-    this.tabs=[]
-    this.selectedTab=0
+    this._tabs=[]
+    this._selectedTab=0
     this.onTabSelect=()=>{console.log("onTabSelect default")}
+  }
+
+  set tabs(value) {
+    const oldValue = this._tabs
+    if (value === oldValue) return
+    this._findSelectedTab()
+    this._tabs = value
+    this.requestUpdate('tabs', oldValue)
+  }
+
+  get tabs() { return this._tabs }
+
+  // when tabs array changes, make selectedTab be within bounds, NaN goes to 0
+    // if no selectedTab set, would still default 0 and be fine
+  // when selectedTab changes, make selectedTab be within tabs bounds, NaN goes to 0
+    // if no tabs when selectedTab changes, update with no change
+
+  set selectedTab(value) {
+    this._findSelectedTab(value)
+  }
+
+  get selectedTab() { return this._selectedTab}
+
+  // if newValue exists, then updateing selectedTab
+  // otherwise, using oldValue
+  _findSelectedTab(newValue) {
+    const oldValue = this._selectedTab
+    // use newValue as long as not undefine
+    let tabToSelect = newValue !== undefined ? newValue : oldValue
+    // check tabToSelect to make sure within bounds
+    // if tabs not set or empty array, just update selectedTab
+    if (Array.isArray(this.tabs) && this.tabs.length > 0) {
+      // check tabToSelect within bounds
+      if (!tabToSelect || Number(tabToSelect) < 0) tabToSelect = 0
+      if (Number(tabToSelect) >= this.tabs.length) tabToSelect = this.tabs.length - 1
+    }
+    // only update if value actually changes
+    this._selectedTab = tabToSelect
+    this.requestUpdate('selectedTab', oldValue)
   }
 
   _handleTabSelect(tab, index) {
     this.onTabSelect(tab, index)
   }
 
-  //This may need to be passed in as a property, could replace showBackBtn bool
-  handleBack(e) {
-    window.history.back()
-  }
-
   render() {
+    const {
+      title,
+      tabs=[],
+      selectedTab
+    } = this
     return html`
       <div id="header">
         <div id="left-wrapper">
           <slot name="left-content" id="left-container"></slot>
-          <unity-typography size="header1" id="title">${this.title}</unity-typography>
+          <slot name="center-content" id="center-container">
+            <unity-typography size="header1" id="title">${title}</unity-typography>
+          </slot>
         </div>
         <slot name="right-content" id="right-container"></slot>
       </div>
-      ${this.tabs.length > 0
-        ? html`<paper-tabs selected=${this.selectedTab} id="header-tabs" noink>
-            ${this.tabs.map((tab, index) => {
+      ${tabs.length > 0
+        ? html`<paper-tabs selected="${selectedTab}" id="header-tabs" noink>
+            ${tabs.map((tab, index) => {
               const {label} = tab
 
               return html`<paper-tab @click=${e => this._handleTabSelect(tab, index)}>
