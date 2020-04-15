@@ -316,6 +316,7 @@ class UnityTable extends LitElement {
 
     this.initTableRef()
   }
+
   disconnectedCallback() {
     if (!!this.tableRef) {
       this.tableRef.removeEventListener('lower-threshold', this.boundLowerHandle)
@@ -455,6 +456,7 @@ class UnityTable extends LitElement {
     // Expand all nodes if the User has indicated to do so, but not if changes to the expansion of nodes have already been made
     // NOTE: this assumes this.expanded is undefined initially
     if (this.startExpanded && (!this.expanded || this.expanded.size === 0)) this._expandAll()
+
     this._process()
     this._columnValues = this.getColumnValues(value);
     this.requestUpdate('data', oldValue)
@@ -601,7 +603,7 @@ class UnityTable extends LitElement {
     // this is to make sure that updates happen at a pace to trigger
     // proper outer updates. without this, the pane would be one update
     // behind or the pane's wrapper would have to have it
-    this.updateComplete.then(()=>this._findHighlight(value))
+    this.updateComplete.then(()=>this._findHighlight(value.toString()))
   }
 
   get highlightedRow() {
@@ -794,8 +796,13 @@ class UnityTable extends LitElement {
 
   // sees if the requested highlighted row exists
   // passes highlighted row data if it does, undefined if it doesn't
-  _findHighlight() {
-    this.onHighlight(this._dataMap.get(this.highlightedRow.toString()))
+  _findHighlight(value) {
+    const rowObject = this._dataMap.get(value)
+    if (!this._flattenedData.some(({ id='' }) => id === value)) { // highlighted row is not visible
+      const { parents=[] } = rowObject
+      parents.forEach(this._toggleExpand.bind(this)) // expand parents
+    }
+    this.onHighlight(rowObject)
   }
 
   //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
@@ -870,6 +877,7 @@ class UnityTable extends LitElement {
   _toggleExpand(rowId) {
     const nextExpanded = new Set(this.expanded)
     const isExpanded = this.expanded.has(rowId)
+    console.log(`${!isExpanded ? `expanding` : `collapsing`} `, rowId)
     if (isExpanded) {
       nextExpanded.delete(rowId)
     } else {
@@ -1074,7 +1082,9 @@ class UnityTable extends LitElement {
     let rowClasses = ['row']
 
     //NOTE: using == so that rowId can be number or string
-    if (rowId == this.highlightedRow) rowClasses.push('highlight')
+    if (rowId == this.highlightedRow) {
+      rowClasses.push('highlight')
+    }
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
@@ -1318,7 +1328,7 @@ class UnityTable extends LitElement {
           --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
           --thead-height: 33px;
           --trow-height: 38px;
-          --default-highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+          --default-highlight-color: var(--primary-brand-color-dark, var(--default-primary-brand-color-dark));
           display: flex;
           height: 100%;
           flex: 1;
@@ -1478,7 +1488,7 @@ class UnityTable extends LitElement {
           padding: 8px;
         }
         .highlight {
-          background-color: var(--highlight-color, var(--default-highlight-color));
+          background-color: rgb(253, 181, 162); /*var(--highlight-color, var(--default-highlight-color));*/
         }
       `
     ]
