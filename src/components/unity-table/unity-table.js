@@ -798,7 +798,8 @@ class UnityTable extends LitElement {
   // passes highlighted row data if it does, undefined if it doesn't
   _findHighlight(value) {
     const rowObject = this._dataMap.get(value)
-    if (!this._flattenedData.some(({ id='' }) => id === value)) { // highlighted row is not visible
+    const visibleRows = this._flattenedData.slice(0, this._rowOffset + this._visibleRowCount) || []
+    if (!visibleRows.some(({ id='' }) => id === value)) { // highlighted row is not visible
       const { parents=[] } = rowObject
       parents.forEach(this._toggleExpand.bind(this)) // expand parents
     }
