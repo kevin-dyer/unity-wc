@@ -23,6 +23,7 @@ import {
  * @name UnityTable
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
+ * @param {[]} selection, array of strings, each a cell identifier to be selected ('selected' is only set in table when selection attribute changes)
  * @param {func} keyExtractor, func with row datum and row index as arguments. Retuns unique row identifier.
  * @param {func} slotIdExtractor, func with row datum and column datum as arguments. Returns unique cell identifier.
  * @param {bool} headless, controls if the table has a header row
@@ -101,6 +102,7 @@ import {
 //                           each key is a viable column, with icon available for rendering leading row icon
 //   columns:                array of column objects, can contain formatLabel function (returns string)
 //                           {key (related to datum keys), label (label rendered) width, formatLabel (func to format cell label)}
+//   selected
 //   headless:               bool to control head render, include to have no table header
 //   startExpanded:          bool to control whether data starts as expanded or collapsed
 //   selectable:             bool to control if rows should be selectable
@@ -157,6 +159,7 @@ class UnityTable extends LitElement {
     // defaults of input
     this._data = []
     this.columns = []
+    this.selected = []
     this.selectable = false
     this.headless = false
     this.startExpanded = false
@@ -184,7 +187,7 @@ class UnityTable extends LitElement {
     // this.onSearchFilter = ()=>{}
     // this.onColumnSort = ()=>{}
     this.onEndReached = ()=>{}
-    this.onColumnChange=()=>{}
+    this.onColumnChange = ()=>{}
 
     // defaults of internal references
     this._filter = ''
@@ -265,8 +268,8 @@ class UnityTable extends LitElement {
   // inputs
   static get properties() {
     return {
-      keyExtractor: {type: Function},
-      slotIdExtractor: {type: Function},
+      keyExtractor: { type: Function },
+      slotIdExtractor: { type: Function },
       data: { type: Array },
       columns: { type: Array },
       headless: { type: Boolean },
@@ -277,6 +280,7 @@ class UnityTable extends LitElement {
       filter: { type: String },
       noTopBorder: { type: Boolean },
       onSelectionChange: { type: Function },
+      selected: { type: Array },
       onClickRow: { type: Function },
       onExpandedChange: { type: Function },
       onDisplayColumnsChange: { type: Function},
@@ -285,8 +289,8 @@ class UnityTable extends LitElement {
       startExpanded: { type: Boolean },
       // internals, tracking for change
       _allSelected: { type: Boolean },
-      _rowOffset: {type: Number},
-      columnFilter: {type: Array},
+      _rowOffset: { type: Number },
+      columnFilter: { type: Array },
 
       // TBI
       // controls: { type: Boolean },
@@ -316,6 +320,7 @@ class UnityTable extends LitElement {
 
     this.initTableRef()
   }
+
   disconnectedCallback() {
     if (!!this.tableRef) {
       this.tableRef.removeEventListener('lower-threshold', this.boundLowerHandle)
@@ -426,6 +431,7 @@ class UnityTable extends LitElement {
   // Data passed in as array
   // Also updates this._dataMap, and this._selected
   set data(value) {
+    console.log(`set data called`);
     const oldValue = this._data
     const columns = this.columns
     const childKeys = this.childKeys || []
@@ -447,8 +453,8 @@ class UnityTable extends LitElement {
     this._data = value
     this.setDataMap(value)
 
-    //Update this.selection.
-    //Add new children of selected nodes to this.selection
+    //Update this.selectied.
+    //Add new children of selected nodes to this.selected
     //Remove nodes from that are no longer present
     this.updateSelected(originalDataMap)
 
@@ -477,6 +483,23 @@ class UnityTable extends LitElement {
   get columns() {
     return this._columns
   }
+
+  // set selection(selection) {
+  //   console.log(`setting selection`, selection)
+  //   const oldValue = this._selection
+  //   const originalDataMap = this._dataMap || new Map()
+  //
+  //   this.selected = selection
+  //
+  //   //Update this.selection.
+  //   //Add new children of selected nodes to this.selection
+  //   //Remove nodes from that are no longer present
+  //   // this.updateSelected(originalDataMap)
+  // }
+  //
+  // get selection() {
+  //   return this._selection
+  // }
 
   // sortBy will be cyclical: UNS -> ASC -> DES -> UNS
   set sortBy(value) {
@@ -517,6 +540,7 @@ class UnityTable extends LitElement {
   get sortBy() { return this._sortBy }
 
   set selected(selectedSet) {
+    console.log(`set selected: `, selectedSet)
     const oldValue = this._selected
     this._selected = new Set(selectedSet) // ensure that value is an iterable array of keys
 
@@ -527,9 +551,11 @@ class UnityTable extends LitElement {
       return out
     }, [])
 
-    this.onSelectionChange(selectedData)
-    if (selectedData.length === 0) this._allSelected = false
-    else {
+    console.log('this.onSelectionChange', this.onSelectionChange)
+    if (!!this.onSelectionChange) this.onSelectionChange(selectedData)
+    if (selectedData.length === 0) {
+      this._allSelected = false
+    } else {
       //Determine if any table row is unselected
       const unselectedMap = new Set(this._flattenedData.map((datum, index) =>
         datum._rowId
@@ -542,6 +568,31 @@ class UnityTable extends LitElement {
 
       this._allSelected = !hasUnselected
     }
+    const originalDataMap = this._dataMap || new Map()
+
+    // // Update the selection to include children
+    // const originalSelected = this._selected
+    // const nextSelected = new Set(originalSelected)
+    // let selectionHasChanged = false
+    //
+    // this.dfsTraverse({
+    //   node: this.data,
+    //   callback: (node, tabIndex, childCount, parents=[]) => {
+    //     const key = this.keyExtractor(node, tabIndex)
+    //     if (this.includesSelectedNode(parents)) {
+    //       nextSelected.add(key)
+    //       selectionHasChanged = true
+    //     }
+    //   }
+    // })
+    //
+    // if (selectionHasChanged) {
+    //   this._selected = nextSelected
+    // }
+    // // end
+    //
+
+
     this.requestUpdate('selected', oldValue)
   }
 
@@ -622,6 +673,7 @@ class UnityTable extends LitElement {
   }
 
   updateSelected(originalDataMap) {
+    console.log(`updateSelected called`);
     const originalSelected = this._selected
 
     this.addSelectedChildren(originalDataMap)
@@ -658,6 +710,7 @@ class UnityTable extends LitElement {
   //remove rowId's in this.selection that are no longer present in this.dataMap
   removeDeletedSelections() {
     const originalSelected = this._selected
+    if (!originalSelected) return
     const nextSelected = new Set(originalSelected)
     let selectionHasChanged = false
 
