@@ -23,7 +23,7 @@ import {
  * @name UnityTable
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
- * @param {[]} selection, array of strings, each a cell identifier to be selected ('selected' is only set in table when selection attribute changes)
+ * @param {[]} selected, array of strings, each a cell identifier to be selected ('this.selected' is only set in table when attribute changes)
  * @param {func} keyExtractor, func with row datum and row index as arguments. Retuns unique row identifier.
  * @param {func} slotIdExtractor, func with row datum and column datum as arguments. Returns unique cell identifier.
  * @param {bool} headless, controls if the table has a header row
