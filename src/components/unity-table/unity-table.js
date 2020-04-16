@@ -878,7 +878,6 @@ class UnityTable extends LitElement {
   _toggleExpand(rowId) {
     const nextExpanded = new Set(this.expanded)
     const isExpanded = this.expanded.has(rowId)
-    console.log(`${!isExpanded ? `expanding` : `collapsing`} `, rowId)
     if (isExpanded) {
       nextExpanded.delete(rowId)
     } else {
@@ -1083,9 +1082,7 @@ class UnityTable extends LitElement {
     let rowClasses = ['row']
 
     //NOTE: using == so that rowId can be number or string
-    if (rowId == this.highlightedRow) {
-      rowClasses.push('highlight')
-    }
+    if (rowId == this.highlightedRow) rowClasses.push('highlight')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
