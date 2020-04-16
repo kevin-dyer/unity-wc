@@ -431,7 +431,6 @@ class UnityTable extends LitElement {
   // Data passed in as array
   // Also updates this._dataMap, and this._selected
   set data(value) {
-    console.log(`set data called`);
     const oldValue = this._data
     const columns = this.columns
     const childKeys = this.childKeys || []
@@ -484,23 +483,6 @@ class UnityTable extends LitElement {
     return this._columns
   }
 
-  // set selection(selection) {
-  //   console.log(`setting selection`, selection)
-  //   const oldValue = this._selection
-  //   const originalDataMap = this._dataMap || new Map()
-  //
-  //   this.selected = selection
-  //
-  //   //Update this.selection.
-  //   //Add new children of selected nodes to this.selection
-  //   //Remove nodes from that are no longer present
-  //   // this.updateSelected(originalDataMap)
-  // }
-  //
-  // get selection() {
-  //   return this._selection
-  // }
-
   // sortBy will be cyclical: UNS -> ASC -> DES -> UNS
   set sortBy(value) {
     // should always receive object
@@ -540,7 +522,6 @@ class UnityTable extends LitElement {
   get sortBy() { return this._sortBy }
 
   set selected(selectedSet) {
-    console.log(`set selected: `, selectedSet)
     const oldValue = this._selected
     this._selected = new Set(selectedSet) // ensure that value is an iterable array of keys
 
@@ -551,7 +532,6 @@ class UnityTable extends LitElement {
       return out
     }, [])
 
-    console.log('this.onSelectionChange', this.onSelectionChange)
     if (!!this.onSelectionChange) this.onSelectionChange(selectedData)
     if (selectedData.length === 0) {
       this._allSelected = false
@@ -673,7 +653,6 @@ class UnityTable extends LitElement {
   }
 
   updateSelected(originalDataMap) {
-    console.log(`updateSelected called`);
     const originalSelected = this._selected
 
     this.addSelectedChildren(originalDataMap)
