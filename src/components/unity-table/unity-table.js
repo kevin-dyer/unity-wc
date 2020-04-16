@@ -1329,7 +1329,7 @@ class UnityTable extends LitElement {
           --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
           --thead-height: 33px;
           --trow-height: 38px;
-          --default-highlight-color: var(--primary-brand-color-dark, var(--default-primary-brand-color-dark));
+          --default-highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
           display: flex;
           height: 100%;
           flex: 1;
@@ -1489,7 +1489,7 @@ class UnityTable extends LitElement {
           padding: 8px;
         }
         .highlight {
-          background-color: rgb(253, 181, 162); /*var(--highlight-color, var(--default-highlight-color));*/
+          background-color: var(--highlight-color, var(--default-highlight-color));
         }
       `
     ]
