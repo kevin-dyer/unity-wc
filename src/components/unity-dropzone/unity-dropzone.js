@@ -36,7 +36,50 @@ class UnityDropzone extends LitElement {
     this.addEventListener('sp-dropzone-drop', this._handleDrop)
     this.addEventListener('sp-dropzone-should-accept', this._shouldAccept)
   }
+
+  _handleDrop(e={}) {
+    const {
+      detail: {
+        dataTransfer: {
+          files: {
+            [0]: file
+          }={}
+        }={}
+      }={}
+    } = e
+
+    console.log('file found: ', file)
+  }
+
+  _shouldAccept(e={}) {
+    const {
+      detail: {
+        dataTransfer: {
+          items: {
+            [0]: {
+              type: filetype
+            }={}
+          }={}
+        }={}
+      }={}
+    } = e
+    console.log('filetype: ', filetype)
+    // make this set by a passed in var
+    console.log('filetype === "application/json?"', filetype === 'application/json')
+    // disabled scroll over changes
+  }
+
   _checkFiles() {
+    // need to hook this to call on file upload
+    // need to see what event that is
+    const { files } = this.shadowRoot.getElementById('file-input') || {}
+    console.log('files', files)
+    console.log('this.files', this.files)
+    const dropzone = this.shadowRoot.getElementById('dropzone')
+    console.log('this.shadowRoot.getElementById("dropzone")', dropzone.files)
+    window.testFile = files[0]
+    window.dropzone = dropzone
+    // pass up to file handler
   }
 
   render() {
