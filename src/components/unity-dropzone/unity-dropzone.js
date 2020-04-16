@@ -1,16 +1,45 @@
 import { LitElement, html, css } from 'lit-element'
 import '@spectrum-web-components/dropzone'
-import '@bit/smartworks.unity.unity-button'
+import '@polymer/iron-icons/iron-icons.js'
 import '@bit/smartworks.unity.unity-typography'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+
+/**
+ * Dropzone for uploading files
+ * @name UnityDropzone
+ * @param {''} validType, filtype string to allow for the upload, default: '*'
+ * @param {function} onUpload, callback function that receives the uploaded file
+ * @param {bool} disabled, controls if dropzone should be disabled and not upload filed
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 class UnityDropzone extends LitElement {
   constructor(props) {
     super(props)
+
+    this.validType = '*'
+    this.onUpload = () => {}
+    this.disabled = false
+    this.invalid = false
   }
 
   static get properties() {
-    return {}
+    return {
+      validType: { type: String },
+      onUpload: { type: Function },
+      disabled: { type: Boolean },
+      invalid: { type: Boolean }
+    }
+  }
+
+  firstUpdated() {
+    this.initDropzoneRef()
   }
 
   connectedCallback() {
