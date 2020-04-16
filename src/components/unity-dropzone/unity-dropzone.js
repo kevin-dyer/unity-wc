@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import '@spectrum-web-components/dropzone'
 import '@polymer/iron-icons/iron-icons.js'
+import '@bit/smartworks.unity.unity-icon-set'
 import '@bit/smartworks.unity.unity-typography'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
@@ -128,24 +129,49 @@ class UnityDropzone extends LitElement {
   _cleanZone() {
     this.updateComplete.then(() => this.invalid = false)
   }
+
+  _getClasses() {
+    const {
+      disabled,
+      invalid
+    } = this
+
+    if (!!disabled) return 'disabled'
+    if (!!invalid) return 'invalid'
   }
 
   render() {
+    const {
+      validType,
+      disabled,
+      invalid
+    } = this
     return html`
       <sp-dropzone
         id="dropzone"
         tabindex="1"
-        style="width: 400px; height: 200px"
         dropEffect="copy"
+        class="${this._getClasses()}"
       >
-        <div style="color: grey">
+        <div>
+          <iron-icon icon="unity:file_upload" class="${this._getClasses()}"></iron-icon>
+          <slot name="dropText">
             <div>
-                <label for="file-input">
-                    <sp-link>Select a File</sp-link>
-                    from your computer
-                </label>
-                <input type="file" id="file-input" style="display: none" />
+              Drag and Drop a file here
             </div>
+          </slot>
+          <label for="file-input">
+            <slot name="labelText">
+              Or <span class="ul">Select a File</span>
+              from your computer
+            </slot>
+          </label>
+            ${!disabled ? html`<input type="file"
+              id="file-input"
+              .accept="${this.validType}"
+              style="display: none"
+            />` : null}
+          </div>
         </div>
       </sp-dropzone>
     `
@@ -158,6 +184,12 @@ class UnityDropzone extends LitElement {
         :host {
           display: flex;
           flex-direction: column;
+        }
+        label {
+          cursor: pointer;
+        }
+        span.ul {
+          text-decoration: underline;
         }
       `
     ]
