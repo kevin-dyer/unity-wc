@@ -49,21 +49,37 @@ class UnityDropzone extends LitElement {
   }
 
   disconnectedCallback() {
-    this.removeEventListener('sp-dropzone-drop', this._handleDrop)
-    this.removeEventListener('sp-dropzone-should-accept', this._shouldAccept)
+    this.removeEventListener('sp-dropzone-drop', this._handleUpload)
+    this.removeEventListener('sp-dropzone-should-accept', this._handleAccept)
+    this.addEventListener('sp-dropzone-dragleave', this._cleanZone)
+    if (!!this.inputRef) {
+      this.inputRef.removeEventListener('change', this._handleUpload)
+      this.inputRef = undefined
+    }
   }
 
+  // these are the events that the dropzone uses
   // sp-dropzone-dragleave
   // sp-dropzone-dragover
   // sp-dropzone-drop
   // sp-dropzone-should-accept
   initDropzoneRef() {
     // bind
-    this._handleDrop = this._handleDrop.bind(this)
-    this._shouldAccept = this._shouldAccept.bind(this)
+    this._handleUpload = this._handleUpload.bind(this)
+    this._handleAccept = this._handleAccept.bind(this)
     // add event listeners
-    this.addEventListener('sp-dropzone-drop', this._handleDrop)
-    this.addEventListener('sp-dropzone-should-accept', this._shouldAccept)
+    this.addEventListener('sp-dropzone-drop', this._handleUpload)
+    this.addEventListener('sp-dropzone-should-accept', this._handleAccept)
+    this.addEventListener('sp-dropzone-dragleave', this._cleanZone)
+
+    // get input ref
+    if (!this.inputRef) {
+      this.inputRef = this.shadowRoot.getElementById('file-input')
+      if (!!this.inputRef) {
+        window.inputref = this.shadowRoot
+        this.inputRef.addEventListener('change', this._handleUpload)
+      }
+    }
   }
 
   _handleUpload(e) {
@@ -109,6 +125,9 @@ class UnityDropzone extends LitElement {
     }
   }
 
+  _cleanZone() {
+    this.updateComplete.then(() => this.invalid = false)
+  }
   }
 
   render() {
