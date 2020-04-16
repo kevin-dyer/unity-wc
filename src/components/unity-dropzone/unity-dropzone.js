@@ -66,21 +66,31 @@ class UnityDropzone extends LitElement {
     this.addEventListener('sp-dropzone-should-accept', this._shouldAccept)
   }
 
-  _handleDrop(e={}) {
+  _handleUpload(e) {
+    const {
+      disabled,
+      invalid,
+      inputRef: {
+        files: {
+          [0]: selectedFile
+        }={}
+      }={},
+    } = this
     const {
       detail: {
         dataTransfer: {
           files: {
-            [0]: file
+            [0]: droppedFile
           }={}
         }={}
       }={}
-    } = e
-
-    console.log('file found: ', file)
+    } = e || {}
+    const upload = !!e ? droppedFile : selectedFile
+    !disabled && !invalid && this.onUpload(upload)
+    this._cleanZone()
   }
 
-  _shouldAccept(e={}) {
+  _handleAccept(e={}) {
     const {
       detail: {
         dataTransfer: {
@@ -92,23 +102,13 @@ class UnityDropzone extends LitElement {
         }={}
       }={}
     } = e
-    console.log('filetype: ', filetype)
     // make this set by a passed in var
-    console.log('filetype === "application/json?"', filetype === 'application/json')
-    // disabled scroll over changes
+    if (filetype !== this.validType) {
+      // disabled scroll over changes
+      this.invalid = true
+    }
   }
 
-  _checkFiles() {
-    // need to hook this to call on file upload
-    // need to see what event that is
-    const { files } = this.shadowRoot.getElementById('file-input') || {}
-    console.log('files', files)
-    console.log('this.files', this.files)
-    const dropzone = this.shadowRoot.getElementById('dropzone')
-    console.log('this.shadowRoot.getElementById("dropzone")', dropzone.files)
-    window.testFile = files[0]
-    window.dropzone = dropzone
-    // pass up to file handler
   }
 
   render() {
