@@ -13,12 +13,38 @@ class UnityDropzone extends LitElement {
     return {}
   }
 
+  connectedCallback() {
+    super.connectedCallback()
+
+    this.initDropzoneRef()
+  }
+
+  disconnectedCallback() {
+    this.removeEventListener('sp-dropzone-drop', this._handleDrop)
+    this.removeEventListener('sp-dropzone-should-accept', this._shouldAccept)
+  }
+
+  // sp-dropzone-dragleave
+  // sp-dropzone-dragover
+  // sp-dropzone-drop
+  // sp-dropzone-should-accept
+  initDropzoneRef() {
+    // bind
+    this._handleDrop = this._handleDrop.bind(this)
+    this._shouldAccept = this._shouldAccept.bind(this)
+    // add event listeners
+    this.addEventListener('sp-dropzone-drop', this._handleDrop)
+    this.addEventListener('sp-dropzone-should-accept', this._shouldAccept)
+  }
   _checkFiles() {
   }
 
   render() {
     return html`
-      <sp-dropzone id="dropzone" tabindex="1" style="width: 400px; height: 200px"
+      <sp-dropzone
+        id="dropzone"
+        tabindex="1"
+        style="width: 400px; height: 200px"
         dropEffect="copy"
       >
         <sp-illustrated-message heading="Drag and Drop Your File">
