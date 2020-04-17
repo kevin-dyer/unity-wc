@@ -27,7 +27,7 @@ class UnityDropzone extends LitElement {
     this.validType = '.'
     this.onUpload = () => {}
     this.disabled = false
-    this.invalid = false
+    this.invalid = null
   }
 
   static get properties() {
@@ -129,7 +129,7 @@ class UnityDropzone extends LitElement {
   }
 
   _cleanZone() {
-    this.updateComplete.then(() => this.invalid = false)
+    this.updateComplete.then(() => this.invalid = null)
   }
 
   _getClasses() {
@@ -139,7 +139,9 @@ class UnityDropzone extends LitElement {
     } = this
 
     if (!!disabled) return 'disabled'
-    if (!!invalid) return 'invalid'
+    if (invalid === true) return 'invalid'
+    if (invalid === false) return 'valid'
+    return ''
   }
 
   render() {
