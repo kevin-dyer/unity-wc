@@ -188,12 +188,54 @@ class UnityDropzone extends LitElement {
         :host {
           display: flex;
           flex-direction: column;
+          --dropzone-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --dropzone-border-color: var(--dark-grey-background-color, var(--default-dark-grey-background-color));
+          --dropzone-min-width: 300px;
+          --dropzone-min-height: 200px;
+          --icon-size: 72px;
+        }
+        .disabled {
+          --dropzone-color: var(--light-grey-text-color);
+          --dropzone-border-color: var(--light-grey-background-color);
+        }
+        sp-dropzone {
+          border-width: 2px;
+          border-style: solid;
+          border-color: var(--dropzone-border-color);
+          padding: 1em;
+          border-radius: 4px;
+          box-sizing: border-box;
+          min-width: var(--dropzone-min-width);
+          min-height: var(--dropzone-min-height);
+          flex-direction: column;
         }
         label {
           cursor: pointer;
         }
         span.ul {
           text-decoration: underline;
+        }
+        div.drop-area {
+          flex: 1;
+          flex-direction: column;
+          align-items: center;
+          display: flex;
+          position: relative;
+          height: 100%;
+          width: 100%;
+        }
+        .upload-icon {
+          color: var(--dropzone-color);
+          margin: 1em;
+          flex: 1;
+          height: auto;
+          width: var(--icon-size);
+        }
+        .dropText {
+          flex: 0;
+        }
+        .labelText {
+          flex: 0;
         }
       `
     ]
