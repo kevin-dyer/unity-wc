@@ -11,6 +11,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {''} validType, filtype string to allow for the upload, supports regex, default: '.'
  * @param {function} onUpload, callback function that receives the uploaded file
  * @param {bool} disabled, controls if dropzone should be disabled and not upload filed
+ * @param {bool} hideIcon, controls if center icon should render, default: false
  *
  *
  *
@@ -27,6 +28,7 @@ class UnityDropzone extends LitElement {
     this.validType = '.'
     this.onUpload = () => {}
     this.disabled = false
+    this.hideIcon = false
     this.invalid = null
   }
 
@@ -35,6 +37,7 @@ class UnityDropzone extends LitElement {
       validType: { type: String },
       onUpload: { type: Function },
       disabled: { type: Boolean },
+      hideIcon: { type: Boolean },
       invalid: { type: Boolean }
     }
   }
@@ -158,7 +161,7 @@ class UnityDropzone extends LitElement {
         class="${this._getClasses()}"
       >
         <div class="drop-area">
-          <iron-icon icon="unity:file_upload" class="upload-icon ${this._getClasses()}"></iron-icon>
+          ${hideIcon ? null : html`<iron-icon icon="unity:file_upload" class="upload-icon ${this._getClasses()}"></iron-icon>`}
           <slot name="dropText" class="dropText">
             <unity-typography size="header2" color="${disabled ? 'light' : 'dark'}">
               Drag and Drop a file here
@@ -196,6 +199,16 @@ class UnityDropzone extends LitElement {
           --dropzone-min-height: 200px;
           --icon-size: 72px;
         }
+        .invalid {
+          --dropzone-color: var(--danger-color, var(--default-danger-color));
+          --dropzone-border-color: var(--dropzone-color);
+          --font-color: var(--dropzone-color);
+        }
+        .valid {
+          --dropzone-color: var(--success-color, var(--default-success-color));
+          --dropzone-border-color: var(--dropzone-color);
+          --font-color: var(--dropzone-color);
+        }
         .disabled {
           --dropzone-color: var(--light-grey-text-color);
           --dropzone-border-color: var(--light-grey-background-color);
@@ -221,6 +234,7 @@ class UnityDropzone extends LitElement {
           flex: 1;
           flex-direction: column;
           align-items: center;
+          justify-content: center;
           display: flex;
           position: relative;
           height: 100%;
