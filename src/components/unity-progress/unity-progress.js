@@ -135,7 +135,7 @@ class UnityProgress extends LitElement {
         `: ''}
         <div class='progress-wrapper'>
           <paper-progress ?indeterminate=${indeterminate} max="${max}" value="${value}" secondary-progress="${secondaryValue}"></paper-progress>
-          ${completion? html`
+          ${completion && !indeterminate? html`
             <div class='completion'>
               <unity-typography class='completion-text' size='paragraph' color='dark'>
                 ${completion}
