@@ -78,11 +78,16 @@ class UnityProgress extends LitElement {
           text-align: var(--remark-position);
         }
         .completion {
-          --font-color-dark: var(--completion-color);
           position: absolute;
           width: 96%;
           left: 2%;
           text-align: var(--completion-position);
+          top: 50%;
+          transform: translate(0, -50%);
+        }
+        .progress-wrapper {
+          position: relative;
+          width: 100%;
         }
         paper-progress {
           --paper-progress-active-color: var(--progress-color);
@@ -123,22 +128,27 @@ class UnityProgress extends LitElement {
 
     return html`
       <div class='progressContainer'>
-        <unity-typography class='label' size='paragraph' color='dark'>
-          ${label}
-        </unity-typography>
-        <paper-progress ?indeterminate=${indeterminate} max="${max}" value="${value}" secondary-progress="${secondaryValue}"></paper-progress>
-        <unity-typography class='remark' size='paragraph' color='dark'>
-          ${remark}
-        </unity-typography>
-        ${completion? html`
-          <div class='completion'>
-            <unity-typography class='completion-text' size='paragraph' color='dark'>
-              ${completion}
-            </unity-typography>  
-          </div>
-          `
-          : ''
-        }
+        ${label? html`
+          <unity-typography class='label' size='paragraph' color='dark'>
+            ${label}
+          </unity-typography>
+        `: ''}
+        <div class='progress-wrapper'>
+          <paper-progress ?indeterminate=${indeterminate} max="${max}" value="${value}" secondary-progress="${secondaryValue}"></paper-progress>
+          ${completion? html`
+            <div class='completion'>
+              <unity-typography class='completion-text' size='paragraph' color='dark'>
+                ${completion}
+              </unity-typography>  
+            </div>
+            ` : ''
+          }
+        </div>
+        ${remark? html`
+          <unity-typography class='remark' size='paragraph' color='dark'>
+            ${remark}
+          </unity-typography>
+        `: ''}
       </div> 
       `
   }
