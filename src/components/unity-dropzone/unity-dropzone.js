@@ -12,13 +12,20 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {function} onUpload, callback function that receives the uploaded file
  * @param {bool} disabled, controls if dropzone should be disabled and not upload filed
  * @param {bool} hideIcon, controls if center icon should render, default: false
+ * @example
+ * <unity-dropzone
+ *   .onUpload="${file => async this.handleUpload(file)}"
+ *   ?disabled="${zoneDisabled}"
+ *   hideIcon
+ *   validType="application/json"
+ * />
  *
- *
- *
- *
- *
- *
- *
+ * CSS Vars:
+ *   --dropzone-color: changes the internal element color, uses --success-color for valid and --danger-color for invalid, defaults to dark-grey-text-color
+ *   --dropzone-border-color: changes the external border color, uses --success-color for valid and --danger-color for invalid, defaults to dark-grey-background-color
+ *   --dropzone-min-width: minimum width of the dropzone, defaults to 300px
+ *   --dropzone-min-height maximum width of the dropzone, defaults to 200px
+ *   --icon-size: the square size of the icon: defaults to 72px
  */
 
 class UnityDropzone extends LitElement {
