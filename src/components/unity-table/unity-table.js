@@ -1343,6 +1343,7 @@ class UnityTable extends LitElement {
           color: var(--black-text-color, var(--default-black-text-color));
           border-collapse: collapse;
           --paper-checkbox-size: 14px;
+          --paper-checkbox-unchecked-background-color: var(--background-color, var(--default-background-color));
           --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
           --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
