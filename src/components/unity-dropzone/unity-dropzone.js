@@ -112,7 +112,7 @@ class UnityDropzone extends LitElement {
         }={}
       }={}
     } = e || {}
-    const upload = !!e ? droppedFile : selectedFile
+    const upload = droppedFile || selectedFile
     !disabled && !invalid && this.onUpload(upload)
     this._cleanZone()
   }
