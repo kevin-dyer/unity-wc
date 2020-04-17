@@ -28,7 +28,6 @@ class MyDropzone extends LitElement {
     return html`
       <unity-dropzone
         .onUpload="${async file => {
-          console.log(file)
           this.filename = file.name
           this.filetype = file.type
           this.fileContent = await file.text()

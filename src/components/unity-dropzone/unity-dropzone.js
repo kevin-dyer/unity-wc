@@ -8,7 +8,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 /**
  * Dropzone for uploading files
  * @name UnityDropzone
- * @param {''} validType, filtype string to allow for the upload, supports regex, default: '.'
+ * @param {''} validType, filtype string to allow for the upload, supports regex, should match expected standards for best functionality, default: '.'
  * @param {function} onUpload, callback function that receives the uploaded file
  * @param {bool} disabled, controls if dropzone should be disabled and not upload filed
  * @param {bool} hideIcon, controls if center icon should render, default: false
@@ -38,7 +38,7 @@ class UnityDropzone extends LitElement {
       onUpload: { type: Function },
       disabled: { type: Boolean },
       hideIcon: { type: Boolean },
-      invalid: { type: Boolean }
+      invalid: { attribute: false }
     }
   }
 
@@ -151,7 +151,8 @@ class UnityDropzone extends LitElement {
     const {
       validType,
       disabled,
-      invalid
+      invalid,
+      hideIcon
     } = this
     return html`
       <sp-dropzone
@@ -161,12 +162,24 @@ class UnityDropzone extends LitElement {
         class="${this._getClasses()}"
       >
         <div class="drop-area">
-          ${hideIcon ? null : html`<iron-icon icon="unity:file_upload" class="upload-icon ${this._getClasses()}"></iron-icon>`}
-          <slot name="dropText" class="dropText">
-            <unity-typography size="header2" color="${disabled ? 'light' : 'dark'}">
-              Drag and Drop a file here
-            </unity-typogrraphy>
-          </slot>
+          ${ hideIcon ? null :
+            html`<iron-icon
+              icon="unity:file_upload"
+              class="upload-icon ${this._getClasses()}"
+            ></iron-icon>
+          `}
+          ${ invalid === true ? html`
+            <unity-typography class="invalid" size="header2">
+              Invalid file type.
+            </unity-typography>
+            `: html`
+              <slot name="dropText" class="dropText">
+                <unity-typography size="header2" color="${disabled ? 'light' : 'dark'}">
+                  Drag and Drop a file here
+                </unity-typography>
+              </slot>
+            `
+          }
           <label for="file-input" class="labelText">
             <slot name="labelText">
               <unity-typography size="paragraph" color="${disabled ? 'light' : 'dark'}">
