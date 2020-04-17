@@ -2,6 +2,11 @@
 
 ## Changelog:
 
+### v0.4.4
+- added ability to set selected as an attribute, passing in an array of rowIds
+- if the user passes the rowId of a parent element, children aren't automatically selected (they must be passed in explicitly)
+- future work: not automatically selecting children might be a good thing if we want to give selection control to the user. We should add a "disableInternalSelection" attribute and allow the user to control everything with the onSelectionChange callback.
+
 ### v0.4.2
 - remove leftover log
 
