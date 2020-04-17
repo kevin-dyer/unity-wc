@@ -61,8 +61,6 @@ class UnityProgress extends LitElement {
           --progress-secondary-color: var(--default-primary-brand-color-light);
           --progress-height: 20px;
           --progress-indeterminate-cycle-duration: 3s;
-          --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --remark-position: start;
           --completion-position: center;
           --completion-color: black;
@@ -70,8 +68,6 @@ class UnityProgress extends LitElement {
         }
         .label {
           padding: 0;
-          font-size: var(--text-size);
-          color: var(--label-color);
         }
         .remark {
           width: 100%;
