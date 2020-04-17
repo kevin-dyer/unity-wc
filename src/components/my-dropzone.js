@@ -34,7 +34,7 @@ class MyDropzone extends LitElement {
         }}"
       ></unity-dropzone>
 
-      ${!!filename ? html`<div>
+      ${!!filename ? html`<div class="info">
         <div>File Name: ${filename}</div>
         <div>File Type: ${filetype}</div>
         <div>Contents: ${fileContent}</div>
@@ -45,7 +45,14 @@ class MyDropzone extends LitElement {
   static get styles() {
     return [
       SharedStyles,
-      css``
+      css`
+        unity-dropzone {
+          margin: 50px;
+        }
+        div.info {
+          margin: 50px;
+        }
+      `
     ]
   }
 }
