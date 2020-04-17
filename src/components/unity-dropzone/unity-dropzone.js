@@ -8,7 +8,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 /**
  * Dropzone for uploading files
  * @name UnityDropzone
- * @param {''} validType, filtype string to allow for the upload, default: '*'
+ * @param {''} validType, filtype string to allow for the upload, supports regex, default: '.'
  * @param {function} onUpload, callback function that receives the uploaded file
  * @param {bool} disabled, controls if dropzone should be disabled and not upload filed
  *
@@ -24,7 +24,7 @@ class UnityDropzone extends LitElement {
   constructor(props) {
     super(props)
 
-    this.validType = '*'
+    this.validType = '.'
     this.onUpload = () => {}
     this.disabled = false
     this.invalid = false
@@ -52,7 +52,7 @@ class UnityDropzone extends LitElement {
   disconnectedCallback() {
     this.removeEventListener('sp-dropzone-drop', this._handleUpload)
     this.removeEventListener('sp-dropzone-should-accept', this._handleAccept)
-    this.addEventListener('sp-dropzone-dragleave', this._cleanZone)
+    this.removeEventListener('sp-dropzone-dragleave', this._cleanZone)
     if (!!this.inputRef) {
       this.inputRef.removeEventListener('change', this._handleUpload)
       this.inputRef = undefined
@@ -120,9 +120,11 @@ class UnityDropzone extends LitElement {
       }={}
     } = e
     // make this set by a passed in var
-    if (filetype !== this.validType) {
+    if (!filetype.match(new RegExp(this.validType, 'g'))) {
       // disabled scroll over changes
       this.invalid = true
+    } else {
+      this.invalid = false
     }
   }
 
