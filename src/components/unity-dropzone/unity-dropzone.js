@@ -157,17 +157,19 @@ class UnityDropzone extends LitElement {
         dropEffect="copy"
         class="${this._getClasses()}"
       >
-        <div>
-          <iron-icon icon="unity:file_upload" class="${this._getClasses()}"></iron-icon>
-          <slot name="dropText">
-            <div>
+        <div class="drop-area">
+          <iron-icon icon="unity:file_upload" class="upload-icon ${this._getClasses()}"></iron-icon>
+          <slot name="dropText" class="dropText">
+            <unity-typography size="header2" color="${disabled ? 'light' : 'dark'}">
               Drag and Drop a file here
-            </div>
+            </unity-typogrraphy>
           </slot>
-          <label for="file-input">
+          <label for="file-input" class="labelText">
             <slot name="labelText">
-              Or <span class="ul">Select a File</span>
-              from your computer
+              <unity-typography size="paragraph" color="${disabled ? 'light' : 'dark'}">
+                Or <span class="ul">Select a File</span>
+                from your computer
+              </unity-typography>
             </slot>
           </label>
             ${!disabled ? html`<input type="file"
