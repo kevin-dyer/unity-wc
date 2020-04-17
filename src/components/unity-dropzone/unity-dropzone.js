@@ -94,7 +94,7 @@ class UnityDropzone extends LitElement {
   }
 
   _handleUpload(e) {
-    const {
+    let {
       disabled,
       invalid,
       inputRef: {
@@ -113,6 +113,8 @@ class UnityDropzone extends LitElement {
       }={}
     } = e || {}
     const upload = droppedFile || selectedFile
+    // invalid check for selected file w/ non-standard validType
+    if (invalid === null) invalid = !this._checkType(upload.type)
     !disabled && !invalid && this.onUpload(upload)
     this._cleanZone()
   }
@@ -130,12 +132,16 @@ class UnityDropzone extends LitElement {
       }={}
     } = e
     // make this set by a passed in var
-    if (!filetype.match(new RegExp(this.validType, 'g'))) {
+    if (!this._checkType(filetype)) {
       // disabled scroll over changes
       this.invalid = true
     } else {
       this.invalid = false
     }
+  }
+
+  _checkType(filetype) {
+    return filetype.match(new RegExp(this.validType, 'g'))
   }
 
   _cleanZone() {
