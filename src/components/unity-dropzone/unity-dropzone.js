@@ -8,7 +8,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 /**
  * Dropzone for uploading files
  * @name UnityDropzone
- * @param {''} validType, filtype string to allow for the upload, supports regex, should match expected standards for best functionality, default: '.'
+ * @param {''} accept, filtype string to allow for the upload, supports regex, should match expected standards for best functionality, default: '.'
  * @param {function} onUpload, callback function that receives the uploaded file
  * @param {bool} disabled, controls if dropzone should be disabled and not upload filed
  * @param {bool} hideIcon, controls if center icon should render, default: false
@@ -17,7 +17,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   .onUpload="${file => async this.handleUpload(file)}"
  *   ?disabled="${zoneDisabled}"
  *   hideIcon
- *   validType="application/json"
+ *   accept="application/json"
  * />
  *
  * CSS Vars:
@@ -32,7 +32,7 @@ class UnityDropzone extends LitElement {
   constructor(props) {
     super(props)
 
-    this.validType = '.'
+    this.accept = ''
     this.onUpload = () => {}
     this.disabled = false
     this.hideIcon = false
@@ -41,7 +41,7 @@ class UnityDropzone extends LitElement {
 
   static get properties() {
     return {
-      validType: { type: String },
+      accept: { type: String },
       onUpload: { type: Function },
       disabled: { type: Boolean },
       hideIcon: { type: Boolean },
@@ -113,7 +113,7 @@ class UnityDropzone extends LitElement {
       }={}
     } = e || {}
     const upload = droppedFile || selectedFile
-    // invalid check for selected file w/ non-standard validType
+    // invalid check for selected file w/ non-standard accept
     if (invalid === null) invalid = !this._checkType(upload.type)
     !disabled && !invalid && this.onUpload(upload)
     this._cleanZone()
@@ -141,7 +141,8 @@ class UnityDropzone extends LitElement {
   }
 
   _checkType(filetype) {
-    return filetype.match(new RegExp(this.validType, 'g'))
+    if (!this.accept) return true
+    return filetype.match(new RegExp(this.accept, 'g'))
   }
 
   _cleanZone() {
@@ -162,7 +163,7 @@ class UnityDropzone extends LitElement {
 
   render() {
     const {
-      validType,
+      accept,
       disabled,
       invalid,
       hideIcon
@@ -203,7 +204,7 @@ class UnityDropzone extends LitElement {
           </label>
             ${!disabled ? html`<input type="file"
               id="file-input"
-              .accept="${this.validType}"
+              .accept="${accept}"
               style="display: none"
             />` : null}
           </div>
