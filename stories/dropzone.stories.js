@@ -10,16 +10,16 @@ export default {
 
 export const Dropzone = () => {
   const accept = text('Accept File Type', 'application/json')
-  const label = text('Dropzone Label', 'Drop a .json file here')
-  const invalidLabel = text('Invalid Dropzone Label', 'Not a .json file')
+  const dropzoneText = text('Main Dropzone Text', 'Drop a .json file here')
+  const invalidText = text('Invalid Dropzone Text', 'Not a .json file')
   const hideIcon = boolean('Hide Icon', false)
   const disabled = boolean('Disabled', false)
   return html`
     <div style="disaplay: flex; flex: 1;">
       <unity-dropzone
         .accept="${accept}"
-        .label="${label}"
-        .invalidLabel="${invalidLabel}"
+        .dropzoneText="${dropzoneText}"
+        .invalidText="${invalidText}"
         .hideIcon="${hideIcon}"
         .disabled="${disabled}"
         .onUpload="${action('onUpload')}"

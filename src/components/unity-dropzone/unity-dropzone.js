@@ -12,8 +12,8 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {function} onUpload, callback function that receives the uploaded file
  * @param {bool} disabled, controls if dropzone should be disabled and not upload filed
  * @param {bool} hideIcon, controls if center icon should render, default: false
- * @param {''} label, the text that makes up the main label, will be replaced with invalid text, default: 'Drag and Drop a file here'
- * @param {''} invalidLabel, the text that will show when an invalid file is given, defailt: 'Invalid file type'
+ * @param {''} dropzoneText, the text that makes up the main label, will be replaced with invalid text, default: 'Drag and Drop a file here'
+ * @param {''} invalidText, the text that will show when an invalid file is given, defailt: 'Invalid file type'
  * @example
  * <unity-dropzone
  *   .onUpload="${file => async this.handleUpload(file)}"
@@ -39,8 +39,8 @@ class UnityDropzone extends LitElement {
     this.disabled = false
     this.hideIcon = false
     this.invalid = null
-    this.label = 'Drag and Drop a file here'
-    this.invalidLabel = 'Invalid file type'
+    this.dropzoneText = 'Drag and Drop a file here'
+    this.invalidText = 'Invalid file type'
   }
 
   static get properties() {
@@ -50,8 +50,8 @@ class UnityDropzone extends LitElement {
       disabled: { type: Boolean },
       hideIcon: { type: Boolean },
       invalid: { attribute: false },
-      label: { type: String },
-      invalidLabel: { type: String }
+      dropzoneText: { type: String },
+      invalidText: { type: String }
     }
   }
 
@@ -173,8 +173,8 @@ class UnityDropzone extends LitElement {
       disabled,
       invalid,
       hideIcon,
-      label,
-      invalidLabel
+      dropzoneText,
+      invalidText
     } = this
     return html`
       <sp-dropzone
@@ -191,12 +191,12 @@ class UnityDropzone extends LitElement {
             ></iron-icon>
           `}
           ${ invalid === true ? html`
-            <unity-typography class="invalid" size="header2">
-              ${invalidLabel}
+            <unity-typography class="dropzone-text invalid" size="header2">
+              ${invalidText}
             </unity-typography>
             `: html`
-              <unity-typography size="header2" color="${disabled ? 'light' : 'dark'}">
-                ${label}
+              <unity-typography class="dropzone-text" size="header2" color="${disabled ? 'light' : 'dark'}">
+                ${dropzoneText}
               </unity-typography>
             `
           }
