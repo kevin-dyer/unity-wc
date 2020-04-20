@@ -1352,10 +1352,10 @@ class UnityTable extends LitElement {
           --paper-checkbox-size: 14px;
           --paper-checkbox-unchecked-background-color: var(--background-color, var(--default-background-color));
           --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
+          --paper-checkbox-checked-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
           --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
-          --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
+          --paper-spinner-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --thead-height: 33px;
           --trow-height: 38px;
           --default-highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
@@ -1492,10 +1492,10 @@ class UnityTable extends LitElement {
           height: var(--trow-height);
           border-collapse: collapse;
           cursor: pointer;
-          background-color: var(--background-color, var(--default-background-color))
+          background-color: var(--background-color, var(--default-background-color));
         }
         .sticky-header-row {
-          background-color: var(--background-color, var(--default-background-color))
+          background-color: var(--background-color, var(--default-background-color));
         }
         paper-icon-button.header-sort-icon {
           height: 30px;
