@@ -305,7 +305,9 @@ class UnityTable extends LitElement {
   firstUpdated(changedProperties) {
     this.initTableRef()
     this._setVisibleRowsArray()
-    this.updateComplete.then(this.scrollToHighlightedRow.bind(this))
+    this.updateComplete.then(() => {
+      this.scrollToHighlightedRow.bind(this)
+    })
   }
 
   updated(changedProps) {
@@ -829,8 +831,8 @@ class UnityTable extends LitElement {
   // passes highlighted row data if it does, undefined if it doesn't
   _findHighlight(value) {
     const rowObject = this._dataMap.get(value)
-    const visibleRows = this._flattenedData.slice(0, this._rowOffset + this._visibleRowCount) || []
-    if (!visibleRows.some(({ id='' }) => id === value)) { // highlighted row is not visible
+    if (!rowObject) return
+    if (!this._flattenedData.some(({ id='' }) => id === value)) { // highlighted row is not being shown
       const { parents=[] } = rowObject
       parents.forEach(this._toggleExpand.bind(this)) // expand parents
     }
