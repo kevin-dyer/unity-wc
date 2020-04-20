@@ -269,7 +269,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-cell@0.1.24": {
+    "smartworks.unity/unity-table-cell@0.1.25": {
         "files": [
             {
                 "name": "unity-table-cell.js",
@@ -286,7 +286,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.4.4": {
+    "smartworks.unity/unity-table@0.4.5": {
         "files": [
             {
                 "name": "filter-dropdown.js",
