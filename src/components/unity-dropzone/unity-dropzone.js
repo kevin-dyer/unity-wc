@@ -241,8 +241,8 @@ class UnityDropzone extends LitElement {
           --font-color: var(--dropzone-color);
         }
         .disabled {
-          --dropzone-color: var(--light-grey-text-color);
-          --dropzone-border-color: var(--light-grey-background-color);
+          --dropzone-color: var(--light-grey-text-color, var(--default-light-grey-text-color));
+          --dropzone-border-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
         }
         sp-dropzone {
           border-width: 2px;
