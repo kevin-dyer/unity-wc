@@ -48,7 +48,6 @@ class MyTable extends PageViewElement {
     this._visibleColumns = [...columns] //For Table display
     this._columnFilters = filters
     this.highlightedRow = ''
-    this.highlightColor = ''
     this.showDetails = false
   }
 
@@ -58,7 +57,6 @@ class MyTable extends PageViewElement {
       columns: { type: Array },
       _visibleColumns: { type: Array },
       highlightedRow: { type: String },
-      highlightColor: { type: String },
       showDetails: { type: Boolean }
     }
   }
@@ -88,7 +86,6 @@ class MyTable extends PageViewElement {
     console.log('This was the key of the element:', key)
     console.log('This was the clicked event:', event)
     this.highlightedRow = key
-    this.highlightColor = element.hex
     this.showDetails = true
   }
 
@@ -212,8 +209,6 @@ class MyTable extends PageViewElement {
             .onClickRow="${this.handleClickRow.bind(this)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
-
-            style="--highlight-color: ${this.highlightColor}"
           >
             ${this._renderStatusIcons()}
 
