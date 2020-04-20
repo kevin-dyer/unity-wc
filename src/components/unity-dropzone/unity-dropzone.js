@@ -8,10 +8,12 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 /**
  * Dropzone for uploading files
  * @name UnityDropzone
- * @param {''} accept, filtype string to allow for the upload, supports regex, should match expected standards for best functionality, default: '.'
+ * @param {''} accept, filtype string to allow for the upload, supports regex, should match expected standards for best functionality, default: ''
  * @param {function} onUpload, callback function that receives the uploaded file
  * @param {bool} disabled, controls if dropzone should be disabled and not upload filed
  * @param {bool} hideIcon, controls if center icon should render, default: false
+ * @param {''} label, the text that makes up the main label, will be replaced with invalid text, default: 'Drag and Drop a file here'
+ * @param {''} invalidLabel, the text that will show when an invalid file is given, defailt: 'Invalid file type'
  * @example
  * <unity-dropzone
  *   .onUpload="${file => async this.handleUpload(file)}"
@@ -37,6 +39,8 @@ class UnityDropzone extends LitElement {
     this.disabled = false
     this.hideIcon = false
     this.invalid = null
+    this.label = 'Drag and Drop a file here'
+    this.invalidLabel = 'Invalid file type'
   }
 
   static get properties() {
@@ -45,7 +49,9 @@ class UnityDropzone extends LitElement {
       onUpload: { type: Function },
       disabled: { type: Boolean },
       hideIcon: { type: Boolean },
-      invalid: { attribute: false }
+      invalid: { attribute: false },
+      label: { type: String },
+      invalidLabel: { type: String }
     }
   }
 
@@ -166,7 +172,9 @@ class UnityDropzone extends LitElement {
       accept,
       disabled,
       invalid,
-      hideIcon
+      hideIcon,
+      label,
+      invalidLabel
     } = this
     return html`
       <sp-dropzone
@@ -184,23 +192,19 @@ class UnityDropzone extends LitElement {
           `}
           ${ invalid === true ? html`
             <unity-typography class="invalid" size="header2">
-              Invalid file type.
+              ${invalidLabel}
             </unity-typography>
             `: html`
-              <slot name="dropText" class="dropText">
-                <unity-typography size="header2" color="${disabled ? 'light' : 'dark'}">
-                  Drag and Drop a file here
-                </unity-typography>
-              </slot>
+              <unity-typography size="header2" color="${disabled ? 'light' : 'dark'}">
+                ${label}
+              </unity-typography>
             `
           }
           <label for="file-input" class="labelText">
-            <slot name="labelText">
-              <unity-typography size="paragraph" color="${disabled ? 'light' : 'dark'}">
-                Or <span class="ul">Select a File</span>
-                from your computer
-              </unity-typography>
-            </slot>
+            <unity-typography size="paragraph" color="${disabled ? 'light' : 'dark'}">
+              Or <span class="ul">Select a File</span>
+              from your computer
+            </unity-typography>
           </label>
             ${!disabled ? html`<input type="file"
               id="file-input"
