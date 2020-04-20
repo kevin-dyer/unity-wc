@@ -162,6 +162,8 @@ class UnityTableCell extends LitElement {
         paper-checkbox {
           margin-right: 12px;
           z-index: 2;
+          border-radius: 2px;
+          overflow: hidden;
         }
         .cell {
           padding: 0 13px;
