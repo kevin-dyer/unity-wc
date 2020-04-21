@@ -29,12 +29,14 @@ class UnityNotification extends LitElement {
       css`
         :host {
           --notification-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          --notification-height: 60px;
+          --notification-width: 450px;
         }
         .notification {
           display: flex;
           align-items: center;
-          width:  450px;
-          height: 60px;
+          width: var(--notification-width);
+          height: var(--notification-height);
           background: var(--background-color, var(--default-background-color));
           box-shadow: 0 0 5px 1px rgba(0,0,0,0.25);
 
