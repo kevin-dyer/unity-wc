@@ -86,6 +86,24 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-dropzone@0.1.0": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-dropzone/unity-dropzone.js",
+                "test": false,
+                "name": "unity-dropzone.js"
+            },
+            {
+                "relativePath": "src/components/unity-dropzone/unity-dropzone.md",
+                "test": false,
+                "name": "unity-dropzone.md"
+            }
+        ],
+        "mainFile": "src/components/unity-dropzone/unity-dropzone.js",
+        "trackDir": "src/components/unity-dropzone",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "smartworks.unity/unity-global-nav-base@0.2.5": {
         "files": [
             {
