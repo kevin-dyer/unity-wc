@@ -1,4 +1,4 @@
-import { fixture, html, expect, oneEvent } from '@open-wc/testing'
+import { fixture, html, expect } from '@open-wc/testing'
 import { spy } from 'sinon'
 import '../../src/components/unity-notification/unity-notification'
 
