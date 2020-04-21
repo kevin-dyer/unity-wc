@@ -4,6 +4,28 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 import '@bit/smartworks.unity.unity-button'
 import '@bit/smartworks.unity.unity-icon'
 
+/**
+ * Component to display notifications
+ * @name UnityNotification
+ * @param {string} text, main notification text
+ * @param {string} subtext, text to display below the main text
+ * @param {string} icon, icon to show in the left side of the notification
+ * @param {Function} onClose, callback function to call when clicking the close button
+ *
+ * CSS vars:
+ * --notification-color: color for icon and left bar. Defaults to primary brand color.
+ * --notification-height: height of the notification. Defaults to 60px.
+ * --notification-width: width of the notification. Defaults to 450px.
+ *
+ * @example
+ *   <unity-notification
+ *     text='This is the main text'
+ *     subtext='Some explanatory text, or when was this sent'
+ *     icon='unity:share'
+ *     .onClose=${()=>console.log('closed')}
+ *   >
+ *   </unity-notification>
+*/
 class UnityNotification extends LitElement {
 
   constructor() {
