@@ -52,6 +52,9 @@ class UnityNotification extends LitElement {
           overflow: hidden;
           white-space: nowrap;
         }
+        .subtext {
+          margin-top: 2px;
+        }
         unity-icon {
           color: var(--notification-color);
           margin: 16px;
@@ -69,10 +72,10 @@ class UnityNotification extends LitElement {
       <div class='notification'>
         <unity-icon icon=${icon}></unity-icon>
         <div class='text-wrapper'>
-          <div>
+          <div class="main-text">
             <unity-typography>${text}</unity-typography>
           </div>
-          <div style='margin-top: 2px'>
+          <div class="subtext">
             <unity-typography color='dark' size='paragraph'>${subtext}</unity-typography>
           </div>
         </div>
