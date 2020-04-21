@@ -67,6 +67,9 @@ const loadPage = (page) => (dispatch) => {
     case 'toggle':
       import('../components/my-toggle-switch.js');
       break;
+    case 'dropzone':
+      import('../components/my-dropzone.js');
+      break;
     default:
       page = 'view404';
       import('../components/my-view404.js');

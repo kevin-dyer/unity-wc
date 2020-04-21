@@ -223,6 +223,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'dropdowns'}" href="/dropdowns">Dropdowns</a>
           <a ?selected="${this._page === 'toggle'}" href="/toggle">Switch</a>
           <a ?selected="${this._page === 'modal'}" href="/modal">Modal</a>
+          <a ?selected="${this._page === 'dropzone'}" href="/dropzone">Dropzone</a>
         </nav>
       </app-header>
 
@@ -242,7 +243,8 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'textInput'}" href="/textInput">Text Input</a>
           <a ?selected="${this._page === 'dropdowns'}" href="/dropdowns">Dropdowns</a>
           <a ?selected="${this._page === 'toggle'}" href="/toggle">Switch</a>
-          <a ?selected="${this._page === 'modal'}" href="/modal">modal</a>
+          <a ?selected="${this._page === 'modal'}" href="/modal">Modal</a>
+          <a ?selected="${this._page === 'dropzone'}" href="/dropzone">Dropzone</a>
         </nav>
       </app-drawer> -->
 
@@ -261,6 +263,7 @@ class MyApp extends connect(store)(LitElement) {
         <my-dropdowns class="page" ?active="${this._page === 'dropdowns'}"></my-dropdowns>
         <my-toggle-switch class="page" ?active="${this._page === 'toggle'}"></my-toggle-switch>
         <my-modal class="page" ?active="${this._page === 'modal'}"></my-modal>
+        <my-dropzone class="page" ?active="${this._page === 'dropzone'}"></my-dropzone>
       </main>
 
 
