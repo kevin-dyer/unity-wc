@@ -16,21 +16,23 @@ export default {
 
 
 export const Standard = () => {
-  const buttonTypeKnob = {
+  const buttonTypeKnobOptions = {
     None: '',
     outlined: 'outlined',
     solid: 'solid',
     gradient: 'gradient'
   }
 
-  const dataOption = text('Data', JSON.stringify(data, null, 2)).replace(/&quot;/g, '"')
-  console.log('dataOption', dataOption.toString())
-
+  const buttonTypeKnob = select('Button type', buttonTypeKnobOptions, 'solid')
+  const dataKnob = text('Data', JSON.stringify(data, null, 2)).replace(/&quot;/g, '"')
+  const headersKnob = array('Column Headers', headers)
+  const autoAddColumnsKnob = boolean('Automatically Add Columns?', false)
+  
   return html`<unity-export-button
-    buttonType=${select('Button type', buttonTypeKnob, 'solid')}
-    .headers="${array('Column Headers', headers)}"
-    .autoAddColumns=${boolean('Automatically Add Columns?', true)}
-    .data="${JSON.parse(dataOption.toString())}"
+    buttonType=${buttonTypeKnob}
+    .headers="${headersKnob}"
+    .autoAddColumns=${autoAddColumnsKnob}
+    .data="${JSON.parse(dataKnob)}"
     .onExport=${action('Exported')}
   />
   `
