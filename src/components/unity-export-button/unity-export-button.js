@@ -99,11 +99,8 @@ class UnityExportButton extends LitElement {
 
   buildDataToExport() {
     if (!this.headers || this.headers.length === 0) this._autoAddColumns = true
-    console.log('this.headers', this.headers)
-    console.log('this._autoAddColumns', this._autoAddColumns)
     const rowsData = this.data.map(this.makeRow)
     const headers = this.headers
-    console.log('headers', headers)
     return [ headers, ...rowsData]
   }
 
