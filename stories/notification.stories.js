@@ -1,12 +1,6 @@
 import '../src/components/unity-notification/unity-notification'
 import { html } from 'lit-element';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array
-} from "@storybook/addon-knobs";
+import { text, withKnobs } from "@storybook/addon-knobs";
 import { action } from '@storybook/addon-actions';
 
 export default {
@@ -15,10 +9,14 @@ export default {
 };
 
 export const Standard = () => {
+  const maintext = text('Text', 'Text')
+  const subtext = text('Subtext', 'Subtext')
+  const icon = text('Icon', 'unity:share')
   return html`
     <unity-notification
-      text='This is a notification'
-      icon='unity:share'
+      text=${maintext}
+      subtext=${subtext}
+      icon=${icon}
       .onClose=${action('close')}>
     </unity-notification>
   `

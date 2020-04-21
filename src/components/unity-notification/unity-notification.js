@@ -10,15 +10,15 @@ class UnityNotification extends LitElement {
     super()
     this.onClose = () => {}
     this.text = ''
+    this.subtext = ''
     this.icon = ''
-    this.dateSent = new Date()
   }
 
   static get properties() {
     return {
       icon: { type: String },
       text: { type: String },
-      dateSent: { type: String },
+      subtext: { type: String },
       onClose: { type: Function }
     }
   }
@@ -58,14 +58,17 @@ class UnityNotification extends LitElement {
   }
 
   render() {
-    const { dateSent, icon, onClose, text } = this
-    const date = new Date() - dateSent // TODO: get date string
+    const { icon, onClose, subtext, text } = this
     return html`
       <div class='notification'>
         <unity-icon icon=${icon}></unity-icon>
         <div class='text-wrapper'>
-          <unity-typography>${text}</unity-typography>
-          <unity-typography color='dark' size='paragraph'>${date}</unity-typography>
+          <div>
+            <unity-typography>${text}</unity-typography>
+          </div>
+          <div style='margin-top: 2px'>
+            <unity-typography color='dark' size='paragraph'>${subtext}</unity-typography>
+          </div>
         </div>
         <unity-button 
           centerIcon='unity:close'
