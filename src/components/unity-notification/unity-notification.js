@@ -28,14 +28,14 @@ class UnityNotification extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --notification-color: var(--primary-brand-color, var(--default-primary-brand-color))
+          --notification-color: var(--primary-brand-color, var(--default-primary-brand-color));
         }
         .notification {
           display: flex;
           align-items: center;
           width:  450px;
           height: 60px;
-          background: white;
+          background: var(--background-color, var(--default-background-color));
           box-shadow: 0 0 5px 1px rgba(0,0,0,0.25);
 
         }
@@ -48,10 +48,16 @@ class UnityNotification extends LitElement {
         }
         .text-wrapper {
           flex: 1;
+          padding: 12px 0;
+          overflow: hidden;
+          white-space: nowrap;
         }
         unity-icon {
           color: var(--notification-color);
           margin: 16px;
+        }
+        unity-button {
+          --button-color: var(--default-dark-grey-text-color);
         }
       `
     ]
