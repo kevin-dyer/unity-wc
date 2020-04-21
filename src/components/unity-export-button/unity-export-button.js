@@ -34,6 +34,7 @@ class UnityExportButton extends LitElement {
     this.data = []
     this.autoAddColumns = false
     this.buttonType = ''
+    this.tableRef = undefined
     this.onExport = ()=>{}
 
     this.handleClick = this.handleClick.bind(this)
@@ -50,6 +51,7 @@ class UnityExportButton extends LitElement {
       autoAddColumns: { type: Boolean },
       onExport: { type: Function },
       buttonType: { type: String },
+      tableRef: { type: Object}
     }
   }
 
@@ -87,6 +89,7 @@ class UnityExportButton extends LitElement {
   }
 
   handleClick(e) {
+    //TODO: use this.tableRef._flattenedData and this.tableRef.columns to populate the csv file
     const data = this.buildDataToExport()
     const csvData = data.map(row => row.map(cell => `\"${cell.toString()}\"`).join(", ")).join("\n")
     // Create an invisible <a> element and click it to trigger download
