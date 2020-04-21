@@ -1,15 +1,12 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
-import Sortable from 'sortablejs/modular/sortable.core.esm.js' // Core SortableJS (without default plugins)
 
 import '@bit/smartworks.unity.unity-button'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-modal'
 
 /**
- * Displays button which will open column editor modal.
+ * Displays button which will download a csv file when pressed.
  * @name UnityExportButton
  * @param {[]} headers, headers for the columns in your data, should be an array of strings that match the
  * @param {[]} data, data to be exported as csv; should be either an array of arrays that contain strings (won't be sorted) or an array of objects keyed with strings that match 'headers'
