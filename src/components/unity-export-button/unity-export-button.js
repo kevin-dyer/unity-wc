@@ -88,7 +88,6 @@ class UnityExportButton extends LitElement {
   handleClick(e) {
     const data = this.buildDataToExport()
     const csvData = data.map(row => row.map(cell => `\"${cell.toString()}\"`).join(", ")).join("\n")
-    console.log('csvData', csvData)
     // Create an invisible <a> element and click it to trigger download
     // QUESTION: Better way to do this?
     const hiddenLink = document.createElement('a')
@@ -106,21 +105,18 @@ class UnityExportButton extends LitElement {
   }
 
   buildDataToExport() {
-    console.log('this.headers before', this.headers)
     const rowsData = this.data.map(this.makeRow)
     const headers = this.headers
-    console.log('headers after', headers)
     return [ headers, ...rowsData]
   }
 
   makeRow(row) {
-    console.log('making row', row)
     if (Array.isArray(row)) return row
     if (!row || !row instanceof Object) {
+      // TODO: Handle this better
       console.error(`invalid row passed to makeRowArrayFromObject: `, row)
       return []
     }
-    console.log('autoAddColumns', this.autoAddColumns)
     if (!!this.autoAddColumns) this.addHeaders(row)
     return this._headers.map(header => row.hasOwnProperty(header) ? row[header].toString() : '')
   }
@@ -130,7 +126,6 @@ class UnityExportButton extends LitElement {
     const oldHeaders = this._headers
     const newHeaders = Object.keys(row).filter(header => !this.headers.includes(header))
     const allHeaders = [ ...oldHeaders, ...newHeaders ]
-    console.log('allHeaders', allHeaders)
     this._headers = [ ...oldHeaders, ...newHeaders ]
   }
 
