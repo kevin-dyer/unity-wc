@@ -36,6 +36,7 @@ class UnityExportButton extends LitElement {
     this.buttonType = ''
     this.onExport = ()=>{}
 
+    this.handleClick = this.handleClick.bind(this)
     this.buildDataToExport = this.buildDataToExport.bind(this)
     this.makeRow = this.makeRow.bind(this)
     this.addHeaders = this.addHeaders.bind(this)
@@ -97,6 +98,7 @@ class UnityExportButton extends LitElement {
     document.body.appendChild(hiddenLink)
     hiddenLink.click()
     document.body.removeChild(hiddenLink)
+    // TODO: Detect and handle failed exports
     this.onExport({
       success: true,
       exportedData: data,
@@ -135,7 +137,7 @@ class UnityExportButton extends LitElement {
       <unity-button
         label="Export"
         type=${this.buttonType}
-        @click=${this.handleClick.bind(this)}
+        @click=${this.handleClick}
       >
       </unity-button>
     `
