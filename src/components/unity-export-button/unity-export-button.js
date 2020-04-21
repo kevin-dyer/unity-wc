@@ -8,9 +8,9 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 /**
  * Displays button which will download a csv file when pressed.
  * @name UnityExportButton
- * @param {[]} headers, headers for the columns in your data, should be an array of strings that match the
+ * @param {[]} headers, headers for the columns in your data, should be an array of strings that match the keys in your table/data. If not provided, these will be generated automatically
  * @param {[]} data, data to be exported as csv; should be either an array of arrays that contain strings (won't be sorted) or an array of objects keyed with strings that match 'headers'
- * @param {bool} autoAddColumns, if true, new columns & headers are filled in when new keys (not matching passed-in headers) are found. This only applie when and array of objects is passed for 'data'
+ * @param {ref} tableRef, a reference object to a unity-table element that, if provided, will define the data to be  exported (alternative to 'data' attribute)
  * @param {func} onExport, callback that fired with result of export. Returns an object with keys "success," "exportedData," and "clickEvent"
  * @param {''} buttonType, action button type for styling ('solid', 'gradient', 'outlined'), default ''
  * @returns {LitElement} returns a class extended from LitElement
@@ -32,10 +32,11 @@ class UnityExportButton extends LitElement {
     super()
     this.headers = []
     this.data = []
-    this.autoAddColumns = false
     this.buttonType = ''
-    this.tableRef = undefined
     this.onExport = ()=>{}
+    this.tableRef = null
+
+    this._autoAddColumns = false
 
     this.handleClick = this.handleClick.bind(this)
     this.buildDataToExport = this.buildDataToExport.bind(this)
@@ -48,10 +49,9 @@ class UnityExportButton extends LitElement {
     return {
       headers: { type: Array },
       data: { type: Array },
-      autoAddColumns: { type: Boolean },
+      tableRef: { type: Object },
       onExport: { type: Function },
       buttonType: { type: String },
-      tableRef: { type: Object}
     }
   }
 
@@ -77,19 +77,7 @@ class UnityExportButton extends LitElement {
     return this._data
   }
 
-  set autoAddColumns(value) {
-    const oldVal = this._autoAddColumns
-    this._autoAddColumns = value
-
-    this.requestUpdate('autoAddColumns', oldVal)
-  }
-
-  get autoAddColumns() {
-    return this._autoAddColumns
-  }
-
   handleClick(e) {
-    //TODO: use this.tableRef._flattenedData and this.tableRef.columns to populate the csv file
     const data = this.buildDataToExport()
     const csvData = data.map(row => row.map(cell => `\"${cell.toString()}\"`).join(", ")).join("\n")
     // Create an invisible <a> element and click it to trigger download
@@ -110,8 +98,12 @@ class UnityExportButton extends LitElement {
   }
 
   buildDataToExport() {
+    if (!this.headers || this.headers.length === 0) this._autoAddColumns = true
+    console.log('this.headers', this.headers)
+    console.log('this._autoAddColumns', this._autoAddColumns)
     const rowsData = this.data.map(this.makeRow)
     const headers = this.headers
+    console.log('headers', headers)
     return [ headers, ...rowsData]
   }
 
@@ -122,7 +114,7 @@ class UnityExportButton extends LitElement {
       console.error(`invalid row passed to makeRowArrayFromObject: `, row)
       return []
     }
-    if (!!this.autoAddColumns) this.addHeaders(row)
+    if (!!this._autoAddColumns) this.addHeaders(row)
     return this._headers.map(header => row.hasOwnProperty(header) ? row[header].toString() : '')
   }
 
