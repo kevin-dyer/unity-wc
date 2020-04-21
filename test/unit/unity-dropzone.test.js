@@ -92,26 +92,26 @@ describe('dropzone test', () => {
   })
 
   // outlines for event testing, input type=file has issues testing because of security reasons
-  it('should send file to onUpload', async () => {
-    let ref = {}
-    const testFileName = 'test file name'
-    const testFileType = 'test file type'
-    const onUpload = makeOnUpload(ref)
-
-    const el = await fixture(html`<unity-dropzone .onUpload="${onUpload}"></unity-dropzone>`)
-    const input = el.shadowRoot.querySelector('#dropzone input#file-input')
-
-    el.inputRef = {...el.inputRef, files: [{type: 'application/json'}], removeEventListener: ()=>{} }
-    const eventName = 'change'
-    const event = new CustomEvent(eventName, { detail: { dataTransfer: { items: [{name: testFileName, type: testFileType}] } } })
-    const listener = oneEvent(input, eventName)
-
-    input.dispatchEvent(event)
-    await listener
-
-    expect(ref.file).to.exist
-    expect(ref.file.name).to.equal(testFileName)
-  })
+  // it('should send file to onUpload', async () => {
+  //   let ref = {}
+  //   const testFileName = 'test file name'
+  //   const testFileType = 'test file type'
+  //   const onUpload = makeOnUpload(ref)
+  //
+  //   const el = await fixture(html`<unity-dropzone .onUpload="${onUpload}"></unity-dropzone>`)
+  //   const input = el.shadowRoot.querySelector('#dropzone input#file-input')
+  //
+  //   el.inputRef = {...el.inputRef, files: [{type: 'application/json'}], removeEventListener: ()=>{} }
+  //   const eventName = 'change'
+  //   const event = new CustomEvent(eventName, { detail: { dataTransfer: { items: [{name: testFileName, type: testFileType}] } } })
+  //   const listener = oneEvent(input, eventName)
+  //
+  //   input.dispatchEvent(event)
+  //   await listener
+  //
+  //   expect(ref.file).to.exist
+  //   expect(ref.file.name).to.equal(testFileName)
+  // })
 
   // drop testing, await listener isn't resolving for some reason
   // it('should send dropped file to onUpload', async () => {
