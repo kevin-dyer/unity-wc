@@ -298,6 +298,9 @@ class UnityTable extends LitElement {
       // onColumnSort: { type: Function },
       onEndReached: { type: Function },
       onColumnChange: { type: Function },
+
+      //Expose this internal variable as a property for the table csv downloader to access
+      _flattenedData: {type: Array}
     }
   }
 
