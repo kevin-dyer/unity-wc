@@ -3,7 +3,9 @@ import { html } from 'lit-element';
 import {
   withKnobs,
   select,
-  boolean
+  boolean,
+  array,
+  text
 } from "@storybook/addon-knobs";
 import { action } from '@storybook/addon-actions';
 
@@ -21,15 +23,20 @@ export const Standard = () => {
     gradient: 'gradient'
   }
 
+  const dataOption = text('Data', JSON.stringify(data, null, 2)).replace(/&quot;/g, '"')
+  console.log('dataOption', dataOption.toString())
+
   return html`<unity-export-button
     buttonType=${select('Button type', buttonTypeKnob, 'solid')}
-    .headers="${['key', 'label', 'note']}"
+    .headers="${array('Column Headers', headers)}"
     .autoAddColumns=${boolean('Automatically Add Columns?', true)}
-    .data="${data}"
+    .data="${JSON.parse(dataOption.toString())}"
     .onExport=${action('Exported')}
   />
   `
 }
+
+const headers = ['key', 'label', 'note']
 
 // const data = [
 //   ['row1key','Row 1 Label', 'This is row 1 data'],
@@ -41,6 +48,7 @@ const data = [
   {
     key: 1,
     label: 'One',
+    note: 'One is the loneliest number'
   },
   {
     key: 2,
@@ -51,6 +59,7 @@ const data = [
     key: 3,
     label: 'Three',
     type: 'number',
+    note: 'Three is company'
   },
   {
     key: 4,
@@ -61,6 +70,7 @@ const data = [
   {
     key: 5,
     label: 'Blue',
-    color: 'blue'
+    color: 'blue',
+    note: 'Feeling blue today'
   },
 ]
