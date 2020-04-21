@@ -24,7 +24,7 @@ import '@bit/smartworks.unity.unity-text-input';
 
 
 //TEST
-import './unity-export-button/unity-export-button.js'
+import './unity-table/unity-table-export.js'
 
 import './unity-table/unity-column-editor.js'
 import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
@@ -200,11 +200,11 @@ class MyTable extends PageViewElement {
               .onUpdate=${this.handleColUpdate.bind(this)}
             ></unity-column-editor>
 
-            <unity-export-button
+            <unity-table-export
               .tableRef=${this.tableRef}
             >
 
-            </unity-export-button>
+            </unity-table-export>
           </div>
         </unity-page-header>
 

@@ -7,7 +7,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 /**
  * Displays button which will download a csv file when pressed.
- * @name UnityExportButton
+ * @name UnityTableExport
  * @param {[]} headers, headers for the columns in your data, should be an array of strings that match the keys in your table/data. If not provided, these will be generated automatically
  * @param {[]} data, data to be exported as csv; should be either an array of arrays that contain strings (won't be sorted) or an array of objects keyed with strings that match 'headers'
  * @param {ref} tableRef, a reference object to a unity-table element that, if provided, will define the data to be  exported (alternative to 'data' attribute)
@@ -15,7 +15,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {''} buttonType, action button type for styling ('solid', 'gradient', 'outlined'), default ''
  * @returns {LitElement} returns a class extended from LitElement
  * @example
- *  <unity-export-button
+ *  <unity-table-export
  *    buttonType="solid"
  *    .headers="${['Key', 'Label', 'Note']}"
  *    .data="${[
@@ -27,7 +27,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *  />
  */
 
-class UnityExportButton extends LitElement {
+class UnityTableExport extends LitElement {
   constructor() {
     super()
     this.headers = []
@@ -75,6 +75,17 @@ class UnityExportButton extends LitElement {
 
   get data() {
     return this._data
+  }
+
+  set tableRef(ref) {
+    const oldRef = this._tableRef
+    this._tableRef = ref
+
+    this.requestUpdate('tableRef', oldRef)
+  }
+
+  get tableRef() {
+    return this._tableRef
   }
 
   handleClick(e) {
@@ -155,4 +166,4 @@ class UnityExportButton extends LitElement {
   }
 }
 
-window.customElements.define('unity-export-button', UnityExportButton)
+window.customElements.define('unity-table-export', UnityTableExport)

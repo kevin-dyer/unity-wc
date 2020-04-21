@@ -1,4 +1,4 @@
-import '../src/components/unity-export-button/unity-export-button'
+import '../src/components/unity-table/unity-table-export'
 import { html } from 'lit-element';
 import {
   withKnobs,
@@ -27,7 +27,7 @@ export const Standard = () => {
   const dataKnob = text('Data', JSON.stringify(data, null, 2)).replace(/&quot;/g, '"')
   const headersKnob = array('Column Headers', headers)
 
-  return html`<unity-export-button
+  return html`<unity-table-export
     buttonType=${buttonTypeKnob}
     .headers="${headersKnob}"
     .data="${JSON.parse(dataKnob)}"
