@@ -113,56 +113,22 @@
   },
   "bit": {
     "env": {
-      "compiler": "bit.envs/compilers/typescript@3.0.35"
-    },
-    "componentsDefaultDirectory": "components/{name}",
-    "packageManager": "npm",
-    "overrides": {
-      "smartworks.unity/unity-default-theme-styles": {
-        "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
-        }
-      },
-      "smartworks.unity/unity-table-cell": {
-        "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
-        }
-      },
-      "smartworks.unity/unity-table": {
-        "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
-        }
-      },
-      "smartworks.unity/unity-page-header": {
-        "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
-        }
-      },
-      "smartworks.unity/unity-button": {
-        "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
-        }
-      },
-      "smartworks.unity/unity-global-nav-base": {
-        "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
-        }
-      },
-      "smartworks.unity/unity-global-nav-inner-item": {
-        "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
-        }
-      },
-      "smartworks.unity/unity-global-nav-top-item": {
-        "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
-        }
-      },
-      "smartworks.unity/unity-text-input": {
-        "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
+      "compiler": {
+        "bit.envs/compilers/typescript@3.1.45": {
+          "rawConfig": {
+            "compilerArguments": [
+              "--importHelpers",
+              "--allowJs",
+              "--downlevelIteration"
+            ],
+            "compiledFileTypes": [
+              ".js"
+            ]
+          }
         }
       }
-    }
+    },
+    "componentsDefaultDirectory": "components/{name}",
+    "packageManager": "npm"
   }
 }
