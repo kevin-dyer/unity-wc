@@ -23,8 +23,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * />
  *
  * CSS Vars:
- *   --dropzone-color: changes the internal element color, uses --success-color for valid and --danger-color for invalid, defaults to dark-grey-text-color
- *   --dropzone-border-color: changes the external border color, uses --success-color for valid and --danger-color for invalid, defaults to dark-grey-background-color
+ *   --dropzone-color: changes the component color, uses --success-color for valid and --danger-color for invalid, defaults to dark-grey-text-color
  *   --dropzone-min-width: minimum width of the dropzone, defaults to 300px
  *   --dropzone-min-height maximum width of the dropzone, defaults to 200px
  *   --icon-size: the square size of the icon: defaults to 72px
@@ -225,29 +224,26 @@ class UnityDropzone extends LitElement {
           display: flex;
           flex-direction: column;
           --dropzone-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --dropzone-border-color: var(--dark-grey-background-color, var(--default-dark-grey-background-color));
           --dropzone-min-width: 300px;
           --dropzone-min-height: 200px;
+          --font-color: var(--dropzone-color);
           --icon-size: 72px;
         }
         .invalid {
           --dropzone-color: var(--danger-color, var(--default-danger-color));
-          --dropzone-border-color: var(--dropzone-color);
           --font-color: var(--dropzone-color);
         }
         .valid {
           --dropzone-color: var(--success-color, var(--default-success-color));
-          --dropzone-border-color: var(--dropzone-color);
           --font-color: var(--dropzone-color);
         }
         .disabled {
           --dropzone-color: var(--light-grey-text-color, var(--default-light-grey-text-color));
-          --dropzone-border-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
         }
         sp-dropzone {
           border-width: 2px;
           border-style: solid;
-          border-color: var(--dropzone-border-color);
+          border-color: var(--dropzone-color);
           padding: 1em;
           border-radius: 4px;
           box-sizing: border-box;
