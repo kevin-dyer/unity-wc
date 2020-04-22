@@ -61,6 +61,7 @@
     "@polymer/paper-tabs": "^3.1.0",
     "@polymer/paper-progress": "^3.0.1",
     "@polymer/polymer": "^3.1.0",
+    "@spectrum-web-components/dropzone": "^0.2.5",
     "@webcomponents/webcomponentsjs": "^2.3.0",
     "babel-loader": "^8.0.6",
     "lit-element": "^2.0.1",
