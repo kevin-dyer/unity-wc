@@ -202,6 +202,23 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-notification@0.1.0": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-notification/unity-notification.js",
+                "test": false,
+                "name": "unity-notification.js"
+            },
+            {
+                "relativePath": "src/components/unity-notification/unity-notification.md",
+                "test": false,
+                "name": "unity-notification.md"
+            }
+        ],
+        "mainFile": "src/components/unity-notification/unity-notification.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "smartworks.unity/unity-page-header@0.2.0": {
         "files": [
             {
