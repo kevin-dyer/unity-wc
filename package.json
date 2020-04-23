@@ -31,6 +31,7 @@
     "@bit/smartworks.unity.unity-global-nav-base": "^0.2.4",
     "@bit/smartworks.unity.unity-global-nav-inner-item": "^0.2.2",
     "@bit/smartworks.unity.unity-global-nav-top-item": "^0.2.2",
+    "@bit/smartworks.unity.unity-icon": "^0.1.0",
     "@bit/smartworks.unity.unity-icon-set": "^0.1.1",
     "@bit/smartworks.unity.unity-modal": "^0.1.7",
     "@bit/smartworks.unity.unity-page-header": "^0.2.0",
@@ -60,6 +61,7 @@
     "@polymer/paper-spinner": "^3.0.2",
     "@polymer/paper-tabs": "^3.1.0",
     "@polymer/polymer": "^3.1.0",
+    "@spectrum-web-components/dropzone": "^0.2.5",
     "@webcomponents/webcomponentsjs": "^2.3.0",
     "babel-loader": "^8.0.6",
     "lit-element": "^2.0.1",
@@ -106,6 +108,7 @@
     "polyserve": "^0.27.0",
     "prpl-server": "^1.4.0",
     "puppeteer": "^1.5.0",
+    "sinon": "^9.0.2",
     "wct-mocha": "^1.0.1"
   },
   "bit": {
@@ -1541,6 +1544,8 @@
           }
         }
       }
-    }
+    },
+    "componentsDefaultDirectory": "components/{name}",
+    "packageManager": "npm"
   }
 }

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { fixture, expect } from '@open-wc/testing';
 
-import '../../src/components/unity-icon/unity-icon'
+import '@bit/smartworks.unity.unity-icon'
 
 describe('unity-icon', () => {
   it('sets the right icon', async () => {

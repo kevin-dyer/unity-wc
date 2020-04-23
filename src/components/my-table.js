@@ -52,7 +52,6 @@ class MyTable extends PageViewElement {
     this._visibleColumns = [...columns] //For Table display
     this._columnFilters = filters
     this.highlightedRow = ''
-    this.highlightColor = ''
     this.showDetails = false
     this.tableRef = undefined
   }
@@ -65,7 +64,8 @@ class MyTable extends PageViewElement {
       highlightedRow: { type: String },
       highlightColor: { type: String },
       showDetails: { type: Boolean },
-      tableRef: { type: Object }
+      tableRef: { type: Object },
+      showDetails: { type: Boolean }
     }
   }
 //   handleSearchInput(e={}) {
@@ -100,7 +100,6 @@ class MyTable extends PageViewElement {
     console.log('This was the key of the element:', key)
     console.log('This was the clicked event:', event)
     this.highlightedRow = key
-    this.highlightColor = element.hex
     this.showDetails = true
   }
 
@@ -230,9 +229,12 @@ class MyTable extends PageViewElement {
             .onClickRow="${this.handleClickRow.bind(this)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+<<<<<<< HEAD
 
             style="--highlight-color: ${this.highlightColor}"
             id="unity-table"
+=======
+>>>>>>> master
           >
             ${this._renderStatusIcons()}
 
