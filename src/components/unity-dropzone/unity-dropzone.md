@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.1.3
+- update for unity-typography v0.1.3
+
 ### v0.1.1
 - change --dropzone-color to affect all border, icon, and text
 
