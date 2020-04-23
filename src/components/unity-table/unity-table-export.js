@@ -18,6 +18,8 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *  />
  */
 
+const ignoreHeaders = ['_childCount', '_parents', '_rowId', '_tabIndex']
+
 class UnityTableExport extends LitElement {
   constructor() {
     super()
@@ -54,7 +56,7 @@ class UnityTableExport extends LitElement {
 
   handleClick(e) {
     const data = this.buildDataToExport()
-    const csvData = data.map(row => row.map(cell => `\"${cell.toString()}\"`).join(", ")).join("\n")
+    const csvData = data.map(row => row.map(cell => `\"${cell.toString()}\"`).join(", ")).join("\n") || ''
 
     this.onExport({
       success: this.downloadFile(csvData),
@@ -67,7 +69,7 @@ class UnityTableExport extends LitElement {
     // Create an invisible <a> element and click it to trigger download
     // QUESTION: Better way to do this?
     const hiddenLink = document.createElement('a')
-    hiddenLink.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvData)
+    hiddenLink.href = 'data:text/csv;charset=utf-8,' + encodeURI(fileData)
     hiddenLink.target = '_blank'
     hiddenLink.download = 'export.csv'
     document.body.appendChild(hiddenLink)
@@ -78,9 +80,11 @@ class UnityTableExport extends LitElement {
   }
 
   buildDataToExport() {
-    const tableData = this.tableRef._flattenedData || []
-    console.log('this.tableRef', this.tableRef)
-    console.log('tableData', tableData)
+    const {
+      current: {
+        _flattenedData: tableData=[]
+      }={}
+    } = this._tableRef || {}
     const rowsData = tableData.map(this.makeRow)
     const headers = this._headers
     return [ headers, ...rowsData]
@@ -99,7 +103,7 @@ class UnityTableExport extends LitElement {
 
   addHeaders(row) {
     const oldHeaders = this._headers
-    const newHeaders = Object.keys(row).filter(header => !this._headers.includes(header))
+    const newHeaders = Object.keys(row).filter(header => !ignoreHeaders.includes(header) && !this._headers.includes(header))
     const allHeaders = [ ...oldHeaders, ...newHeaders ]
     this._headers = [ ...oldHeaders, ...newHeaders ]
   }
