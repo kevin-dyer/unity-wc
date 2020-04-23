@@ -396,17 +396,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-typography@0.1.2": {
+    "smartworks.unity/unity-typography@0.1.3": {
         "files": [
             {
+                "name": "unity-typography.js",
                 "relativePath": "src/components/unity-typography/unity-typography.js",
-                "test": false,
-                "name": "unity-typography.js"
+                "test": false
             },
             {
+                "name": "unity-typography.md",
                 "relativePath": "src/components/unity-typography/unity-typography.md",
-                "test": false,
-                "name": "unity-typography.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-typography/unity-typography.js",
