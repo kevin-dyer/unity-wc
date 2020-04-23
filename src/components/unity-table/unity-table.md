@@ -2,6 +2,15 @@
 
 ## Changelog:
 
+### v0.4.9
+- Exposed flattenedData internal so that it could be accessed by a ref
+
+### v0.4.6-8
+- version control bumps
+
+### v0.4.5
+- made it so that the table intelligently expands parents of the highlightedRow if it in not visible on page load
+
 ### v0.4.4
 - added ability to set selected as an attribute, passing in an array of rowIds
 - if the user passes the rowId of a parent element, children aren't automatically selected (they must be passed in explicitly)

@@ -56,9 +56,9 @@
     "@polymer/paper-dialog-scrollable": "^3.0.1",
     "@polymer/paper-icon-button": "^3.0.2",
     "@polymer/paper-input": "^3.0.2",
+    "@polymer/paper-progress": "^3.0.1",
     "@polymer/paper-spinner": "^3.0.2",
     "@polymer/paper-tabs": "^3.1.0",
-    "@polymer/paper-progress": "^3.0.1",
     "@polymer/polymer": "^3.1.0",
     "@webcomponents/webcomponentsjs": "^2.3.0",
     "babel-loader": "^8.0.6",
@@ -117,47 +117,1428 @@
     "overrides": {
       "smartworks.unity/unity-default-theme-styles": {
         "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
         }
       },
       "smartworks.unity/unity-table-cell": {
         "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
         }
       },
       "smartworks.unity/unity-table": {
         "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
         }
       },
       "smartworks.unity/unity-page-header": {
         "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
         }
       },
       "smartworks.unity/unity-button": {
         "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
         }
       },
       "smartworks.unity/unity-global-nav-base": {
         "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
         }
       },
       "smartworks.unity/unity-global-nav-inner-item": {
         "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
         }
       },
       "smartworks.unity/unity-global-nav-top-item": {
         "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
         }
       },
       "smartworks.unity/unity-text-input": {
         "env": {
-          "compiler": "bit.envs/compilers/typescript@3.0.35"
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/table-cell-base": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-column-editor": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-dropdown": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-icon-set": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-icon": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-modal": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-progress": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-section": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-select-menu": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-split-pane": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-toggle-switch": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-tooltip": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-typography": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
+        }
+      },
+      "smartworks.unity/unity-utils": {
+        "env": {
+          "compiler": {
+            "bit.envs/compilers/typescript@3.1.45": {
+              "rawConfig": {
+                "compilerPath": "typescript/bin/tsc",
+                "compilerArguments": [
+                  "--importHelpers",
+                  "--allowJs",
+                  "--downlevelIteration"
+                ],
+                "compiledFileTypes": [
+                  ".js"
+                ],
+                "configFileName": "tsconfig.json",
+                "tsconfig": {
+                  "compilerOptions": {
+                    "outDir": "dist",
+                    "target": "ES2015",
+                    "sourceMap": false,
+                    "moduleResolution": "Node",
+                    "esModuleInterop": true,
+                    "module": "ES6",
+                    "allowSyntheticDefaultImports": true,
+                    "resolveJsonModule": true,
+                    "declaration": true,
+                    "experimentalDecorators": true,
+                    "inlineSourceMap": false,
+                    "inlineSources": false,
+                    "jsx": "react",
+                    "rootDir": "./",
+                    "removeComments": true,
+                    "typeRoots": [
+                      "./node_modules/@types"
+                    ],
+                    "importHelpers": false
+                  },
+                  "include": [
+                    "./**/*"
+                  ],
+                  "exclude": [
+                    "node_modules",
+                    ".dependencies",
+                    "dist"
+                  ]
+                },
+                "development": false,
+                "copyPolicy": {
+                  "ignorePatterns": [
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json"
+                  ],
+                  "disable": false
+                }
+              },
+              "options": {},
+              "files": {}
+            }
+          }
         }
       }
     }

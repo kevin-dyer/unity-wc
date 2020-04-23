@@ -9,7 +9,8 @@ import {
   text,
   boolean,
   number,
-  array
+  array,
+  select
 } from "@storybook/addon-knobs";
 import { action } from '@storybook/addon-actions';
 import {devices, colors} from '../src/components/unity-table/fakeData.js'
@@ -20,6 +21,10 @@ export default {
   title: 'Table',
   decorators: [withKnobs]
 };
+
+const compileIdsArray = nodes => nodes.map(({ id='', groups=[], devices=[] }) => {
+  return [ id, ...compileIdsArray(groups).flat(), ...compileIdsArray(devices).flat() ]
+})
 
 
 export const Standard = () => {
@@ -34,11 +39,17 @@ export const Standard = () => {
   const childKeys = array("Child Keys", defaultChildKeys)
   const columns = array('Columns', defaultColumns)
   const columnFilters = array('Column Filters', defaultFilters)
-  const data = array('Data', defaultDevices)
+  let data
+  try {
+    console.log('JSON.stringify(defaultDevices, null, 2)', JSON.stringify(defaultDevices, null, 2))
+    data = JSON.parse(text('Data', JSON.stringify(defaultDevices, null, 2)))
+  } catch (error) {
+    console.warn(`setting data failed with error `, error)
+    data = text('Data', defaultDevices)
+  }
   const endReachedThreshold = number("endReachedThreshold", 200)
+  const highlightedRow = select('highlightedRow', compileIdsArray(defaultDevices).flat())
 
-  //TODO: how do I hook this up?
-  const highlightedRow = text('highlightedRow', "")
 
   return html`
     <unity-table
@@ -130,4 +141,42 @@ export const CustomContent = () => {
 
     </unity-table>
   `;
+}
+
+export const WithExportButton = () => {
+  const buttonTypeKnobOptions = {
+    None: '',
+    outlined: 'outlined',
+    solid: 'solid',
+    gradient: 'gradient'
+  }
+
+  const buttonTypeKnob = select('Button type', buttonTypeKnobOptions, 'solid')
+
+  return html`
+    <unity-table-export
+      buttonType=${buttonTypeKnob}
+      .tableRef=${{}}
+    />
+    <unity-table
+      ?selectable=${selectable}
+      filter=${filter}
+      .keyExtractor=${(datum, index) => datum.id}
+      .slotIdExtractor=${(row, column) => `${row._rowId}-${column.key}`}
+      .childKeys=${childKeys}
+      .data=${data}
+      .columns=${columns}
+      .columnFilter=${columnFilters}
+      .onFilterChange=${action("onFilterChange")}
+      endReachedThreshold=${endReachedThreshold}
+      .onEndReached="${action("onEndReached")}"
+      highlightedRow="${highlightedRow}"
+      .onSelectionChange="${action('onSelectionChange')}"
+      .onClickRow="${action('onClickRow')}"
+      .onDisplayColumnsChange="${action("onDisplayColumnsChange")}"
+      .onColumnChange="${action("onColumnChange")}"
+      style="--highlight-color: grey"
+    >
+    </unity-table>
+  `
 }

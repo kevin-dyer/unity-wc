@@ -308,7 +308,9 @@ class UnityTable extends LitElement {
   firstUpdated(changedProperties) {
     this.initTableRef()
     this._setVisibleRowsArray()
-    this.updateComplete.then(this.scrollToHighlightedRow.bind(this))
+    this.updateComplete.then(() => {
+      this.scrollToHighlightedRow.bind(this)
+    })
   }
 
   updated(changedProps) {
@@ -463,6 +465,7 @@ class UnityTable extends LitElement {
     // Expand all nodes if the User has indicated to do so, but not if changes to the expansion of nodes have already been made
     // NOTE: this assumes this.expanded is undefined initially
     if (this.startExpanded && (!this.expanded || this.expanded.size === 0)) this._expandAll()
+
     this._process()
     this._columnValues = this.getColumnValues(value);
     this.requestUpdate('data', oldValue)
@@ -635,7 +638,7 @@ class UnityTable extends LitElement {
     // this is to make sure that updates happen at a pace to trigger
     // proper outer updates. without this, the pane would be one update
     // behind or the pane's wrapper would have to have it
-    this.updateComplete.then(()=>this._findHighlight(value))
+    this.updateComplete.then(()=>this._findHighlight(value.toString()))
   }
 
   get highlightedRow() {
@@ -829,8 +832,14 @@ class UnityTable extends LitElement {
 
   // sees if the requested highlighted row exists
   // passes highlighted row data if it does, undefined if it doesn't
-  _findHighlight() {
-    this.onHighlight(this._dataMap.get(this.highlightedRow.toString()))
+  _findHighlight(value) {
+    const rowObject = this._dataMap.get(value)
+    if (!rowObject) return
+    if (!this._flattenedData.some(({ id='' }) => id === value)) { // highlighted row is not being shown
+      const { parents=[] } = rowObject
+      parents.forEach(this._toggleExpand.bind(this)) // expand parents
+    }
+    this.onHighlight(rowObject)
   }
 
   //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
@@ -1348,10 +1357,10 @@ class UnityTable extends LitElement {
           --paper-checkbox-size: 14px;
           --paper-checkbox-unchecked-background-color: var(--background-color, var(--default-background-color));
           --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
+          --paper-checkbox-checked-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
           --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
-          --paper-spinner-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-gb)));
+          --paper-spinner-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --thead-height: 33px;
           --trow-height: 38px;
           --default-highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
@@ -1488,10 +1497,10 @@ class UnityTable extends LitElement {
           height: var(--trow-height);
           border-collapse: collapse;
           cursor: pointer;
-          background-color: var(--background-color, var(--default-background-color))
+          background-color: var(--background-color, var(--default-background-color));
         }
         .sticky-header-row {
-          background-color: var(--background-color, var(--default-background-color))
+          background-color: var(--background-color, var(--default-background-color));
         }
         paper-icon-button.header-sort-icon {
           height: 30px;
