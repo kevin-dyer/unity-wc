@@ -86,7 +86,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropzone@0.1.6": {
+    "smartworks.unity/unity-dropzone@0.1.8": {
         "files": [
             {
                 "name": "unity-dropzone.js",

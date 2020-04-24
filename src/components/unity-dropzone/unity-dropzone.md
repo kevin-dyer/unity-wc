@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v0.1.8
+- update docs for below change
+
+### v0.1.7
+- change icon to flex: 0 and change min height/width to actual height/width
+
 ### v0.1.6
 - update unity-default-theme-styles and unity-icon-set
 

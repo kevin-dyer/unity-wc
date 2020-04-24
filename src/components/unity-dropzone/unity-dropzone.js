@@ -24,8 +24,8 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *
  * CSS Vars:
  *   --dropzone-color: changes the component color, uses --success-color for valid and --danger-color for invalid, defaults to dark-grey-text-color
- *   --dropzone-min-width: minimum width of the dropzone, defaults to 300px
- *   --dropzone-min-height maximum width of the dropzone, defaults to 200px
+ *   --dropzone-width: width of the dropzone, defaults to 300px
+ *   --dropzone-height height of the dropzone, defaults to 200px
  *   --icon-size: the square size of the icon: defaults to 72px
  */
 
@@ -224,8 +224,8 @@ class UnityDropzone extends LitElement {
           display: flex;
           flex-direction: column;
           --dropzone-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --dropzone-min-width: 300px;
-          --dropzone-min-height: 200px;
+          --dropzone-width: 300px;
+          --dropzone-height: 200px;
           --font-color: var(--dropzone-color);
           --icon-size: 72px;
         }
@@ -247,8 +247,8 @@ class UnityDropzone extends LitElement {
           padding: 1em;
           border-radius: 4px;
           box-sizing: border-box;
-          min-width: var(--dropzone-min-width);
-          min-height: var(--dropzone-min-height);
+          width: var(--dropzone-width);
+          height: var(--dropzone-height);
           flex-direction: column;
         }
         label {
@@ -270,9 +270,9 @@ class UnityDropzone extends LitElement {
         .upload-icon {
           color: var(--dropzone-color);
           margin: 1em;
-          flex: 1;
           height: auto;
           width: var(--icon-size);
+          flex: 0;
         }
         .dropText {
           flex: 0;
