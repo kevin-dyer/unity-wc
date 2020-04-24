@@ -24,8 +24,8 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *
  * CSS Vars:
  *   --dropzone-color: changes the component color, uses --success-color for valid and --danger-color for invalid, defaults to dark-grey-text-color
- *   --dropzone-min-width: minimum width of the dropzone, defaults to 300px
- *   --dropzone-min-height maximum width of the dropzone, defaults to 200px
+ *   --dropzone-width: width of the dropzone, defaults to 300px
+ *   --dropzone-height height of the dropzone, defaults to 200px
  *   --icon-size: the square size of the icon: defaults to 72px
  */
 
