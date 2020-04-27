@@ -15,7 +15,11 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *  <unity-table-export
  *    .tableRef="${tableRef}"
  *    .onExport="${({ success, exportedData, clickEvent }) => !!success && console.log('CSV Exported Successfully!')}"
- *  />
+ *  >
+ *    <unity-button // or any other element
+ *      // whatever unity-button props you require
+ *    ></unity-button>
+ *  </unity-table-export>
  */
 
 const ignoreHeaders = ['_childCount', '_parents', '_rowId', '_tabIndex']
@@ -55,28 +59,22 @@ class UnityTableExport extends LitElement {
   }
 
   handleClick(e) {
+    let success = false
     const data = this.buildDataToExport()
     const csvData = data.map(row => row.map(cell => `\"${cell.toString()}\"`).join(", ")).join("\n") || ''
 
+    const anchorElement = document.getElementById('export-wrapper')
+    hiddenLink.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvData)
+
+    if (!!data && !!csvExport && !!anchorElement && anchorElement.hasAttribute('href')) success = true
+    
     this.onExport({
-      success: this.downloadFile(csvData),
+      success,
       exportedData: data,
       clickEvent: e
     })
-  }
 
-  downloadFile(fileData) {
-    // Create an invisible <a> element and click it to trigger download
-    // QUESTION: Better way to do this?
-    const hiddenLink = document.createElement('a')
-    hiddenLink.href = 'data:text/csv;charset=utf-8,' + encodeURI(fileData)
-    hiddenLink.target = '_blank'
-    hiddenLink.download = 'export.csv'
-    document.body.appendChild(hiddenLink)
-    hiddenLink.click()
-    document.body.removeChild(hiddenLink)
-    // TODO: Detect and handle failed exports and return
-    return true
+    return success
   }
 
   buildDataToExport() {
@@ -109,32 +107,22 @@ class UnityTableExport extends LitElement {
   }
 
   render() {
-    // TODO: Ingest button styling / icons as attributes || take any child element(s) and wrap them in a slot?
     return html`
-      <div
-        @click=${this.handleClick}
+      <a
+        id='export-wrapper'
+        onclick=${this.handleClick}
+        target='_blank'
+        download='export.csv'
       >
         <slot></slot>
-      </div>
+      </a>
     `
   }
 
   // styles
   static get styles() {
     return [
-      UnityDefaultThemeStyles,
-      css`
-        :host {
-          font-family: var(--font-family, var(--default-font-family));
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
-          font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
-          color: var(--black-text-color, var(--default-black-text-color));
-        }
-
-        paper-icon-button {
-          color: var(--light-grey-text-color, var(--default-light-grey-text-color));
-        }
-      `
+      UnityDefaultThemeStyles
     ]
   }
 }
