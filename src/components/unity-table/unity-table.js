@@ -367,11 +367,11 @@ class UnityTable extends LitElement {
       this.onEndReached()
 
       setTimeout(() => {
-        this.tableRef.clearTriggers()
+        this.tableRef && this.tableRef.clearTriggers()
       }, END_REACHED_TIMEOUT)
     } else {
       setTimeout(() => {
-        this.tableRef.clearTriggers();
+        this.tableRef && this.tableRef.clearTriggers()
       }, THRESHOLD_TIMEOUT);
     }
   }
@@ -381,7 +381,7 @@ class UnityTable extends LitElement {
     this._rowOffset = 0
 
     setTimeout(() => {
-      this.tableRef.clearTriggers();
+      this.tableRef && this.tableRef.clearTriggers()
     }, THRESHOLD_TIMEOUT);
   }
 

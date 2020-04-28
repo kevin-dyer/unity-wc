@@ -33,7 +33,6 @@ class UnityTableExport extends LitElement {
     this._headers = []
 
     this.handleClick = this.handleClick.bind(this)
-    this.downloadFile = this.downloadFile.bind(this)
     this.buildDataToExport = this.buildDataToExport.bind(this)
     this.makeRow = this.makeRow.bind(this)
     this.addHeaders = this.addHeaders.bind(this)
