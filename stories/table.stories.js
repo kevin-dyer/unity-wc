@@ -1,10 +1,15 @@
 // import '@bit/smartworks.unity.unity-text-input';
 // import '../src/components/unity-text-input/unity-text-input.js'
 
-//TODO: must import from bit (to have correct copy of unity-dropdown)
 import '@bit/smartworks.unity.unity-table'
+// import '../src/components/unity-table/unity-table'
 
 import '@bit/smartworks.unity.unity-button'
+// import '../src/components/unity-button/unity-button'
+
+import '@bit/smartworks.unity.unity-table-export'
+// import '../src/components/unity-table/unity-table-export'
+
 import { html, LitElement } from 'lit-element';
 import {
   withKnobs,
@@ -169,7 +174,6 @@ export const WithExportButton = () => {
   // table data
   let data
   try {
-    console.log('JSON.stringify(defaultDevices, null, 2)', JSON.stringify(defaultDevices, null, 2))
     data = JSON.parse(text('Data', JSON.stringify(defaultDevices, null, 2)))
   } catch (error) {
     console.warn(`setting data failed with error `, error)
@@ -180,8 +184,8 @@ export const WithExportButton = () => {
 
   // Export stuff
   const getTableRef = () => {
-    const tableRef = this.shadowRoot.getElementById('table')
-    console.log(`tableRef: `, tableRef)
+    // const tableRef = this.shadowRoot.getElementById('table')
+    const tableRef = { current: { _flattenedData: data } } // temporary workaround for storybook's inability to find table
     return tableRef || {}
   }
 
@@ -218,6 +222,12 @@ export const WithExportButton = () => {
         ?disabled=${false}
         @click=${e => console.log("export-button clicked! e: ", e)}
       ></unity-button>
+    </unity-table-export>
+    <unity-table-export
+      .tableRef=${getTableRef()}
+      .onExport=${() => console.log(`exported csv`)}
+    >
+      <div style={height: 30; width: 80; background-color: blue;}
     </unity-table-export>
   `
 }
