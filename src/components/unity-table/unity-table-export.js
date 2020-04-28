@@ -61,13 +61,15 @@ class UnityTableExport extends LitElement {
   }
 
   handleClick(clickEvent) {
-    let success = false
+    let success
     let csvData = []
     let error = null
-    const tableData = this.buildDataToExport()
-    const exportData = this.beforeExport(tableData)
+    let tableData = null
+    let exportData = null
     
     try {
+      tableData = this.buildDataToExport()
+      exportData = this.beforeExport(tableData)
       csvData = exportData.map(row => row.map(cell => `\"${cell.toString()}\"`).join(", ")).join("\n") || ''
       const anchorElement = document.getElementById('export-wrapper')
       hiddenLink.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvData)
@@ -76,10 +78,8 @@ class UnityTableExport extends LitElement {
       success = false
       error = e
     }
-
     
     this.onExport({ success, tableData, exportData, clickEvent, error })
-
     return success
   }
 
@@ -112,11 +112,12 @@ class UnityTableExport extends LitElement {
     this._headers = [ ...oldHeaders, ...newHeaders ]
   }
 
+  
   render() {
     return html`
       <a
         id='export-wrapper'
-        onclick=${this.handleClick}
+        @click="${this.handleClick}"
         target='_blank'
         download='export.csv'
       >
@@ -128,7 +129,7 @@ class UnityTableExport extends LitElement {
   // styles
   static get styles() {
     return [
-      UnityDefaultThemeStyles
+      UnityDefaultThemeStyles,
     ]
   }
 }
