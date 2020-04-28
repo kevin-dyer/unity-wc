@@ -9,7 +9,8 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * Displays button which will download a csv file when pressed.
  * @name UnityTableExport
  * @param {ref} tableRef, a reference object to a unity-table element that will define the data to be exported
- * @param {func} onExport, callback that fired with result of export. Returns an object with keys "success," "exportedData," and "clickEvent"
+ * @param {func} beforeExport, function called before export. Passed parameter is "tableData" (an array of rows, each being an array of cells). The function, if provided, should return a two dimensional object in the same format (later called in onExport as "exportData")
+ * @param {func} onExport, function that is called after export. Passed parameter is an object with properties "success," "tableData," "exportData," "clickEvent," and "error"
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-table-export
@@ -27,6 +28,7 @@ const ignoreHeaders = ['_childCount', '_parents', '_rowId', '_tabIndex']
 class UnityTableExport extends LitElement {
   constructor() {
     super()
+    this.beforeExport = data=>data
     this.onExport = ()=>{}
     this.tableRef = null
 
@@ -43,6 +45,7 @@ class UnityTableExport extends LitElement {
     return {
       tableRef: { type: Object },
       onExport: { type: Function },
+      beforeExport: { type: Function },
     }
   }
 
@@ -57,21 +60,25 @@ class UnityTableExport extends LitElement {
     return this._tableRef
   }
 
-  handleClick(e) {
+  handleClick(clickEvent) {
     let success = false
-    const data = this.buildDataToExport()
-    const csvData = data.map(row => row.map(cell => `\"${cell.toString()}\"`).join(", ")).join("\n") || ''
-
-    const anchorElement = document.getElementById('export-wrapper')
-    hiddenLink.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvData)
-
-    if (!!data && !!csvExport && !!anchorElement && anchorElement.hasAttribute('href')) success = true
+    let csvData = []
+    let error = null
+    const tableData = this.buildDataToExport()
+    const exportData = this.beforeExport(tableData)
     
-    this.onExport({
-      success,
-      exportedData: data,
-      clickEvent: e
-    })
+    try {
+      csvData = exportData.map(row => row.map(cell => `\"${cell.toString()}\"`).join(", ")).join("\n") || ''
+      const anchorElement = document.getElementById('export-wrapper')
+      hiddenLink.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvData)
+      if (!!exportData && Array.isArray(exportData) && !!csvExport && !!anchorElement && anchorElement.hasAttribute('href')) success = true
+    } catch (e) {
+      success = false
+      error = e
+    }
+
+    
+    this.onExport({ success, tableData, exportData, clickEvent, error })
 
     return success
   }
