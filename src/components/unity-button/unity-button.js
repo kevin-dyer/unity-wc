@@ -66,6 +66,7 @@ class UnityButton extends LitElement {
           white-space: nowrap;
           color: var(--button-color);
           --font-color: var(--button-color);
+          outline: none;
         }
         paper-button.text-button {
           padding: 0 10px;
@@ -283,7 +284,7 @@ class UnityButton extends LitElement {
       small,
       centerIcon,
       leftIcon,
-      rightIcon 
+      rightIcon
     } = this
 
     switch (type) {

@@ -418,7 +418,7 @@ class UnityTextInput extends LitElement {
               ?disabled=${!!disabled}
               placeholder="${!!placeholder ? placeholder : ''}"
               style="--area-min-lines: ${minLines}; --area-max-lines: ${maxLines}"
-            />`
+            ></iron-autogrow-textarea>`
             :
             html`<input
               value="{{value::input}}"
@@ -547,6 +547,7 @@ class UnityTextInput extends LitElement {
           resize: none;
           min-height: calc(var(--text-size) * 1.4545 * var(--area-min-lines, ${MIN_LINES}));
           max-height: calc(var(--text-size) * 1.4545 * var(--area-max-lines, ${MAX_LINES}));
+          -webkit-appearance: none;
         }
         #textarea:focus {
           outline: none;
