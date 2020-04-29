@@ -873,7 +873,7 @@ class UnityTable extends LitElement {
   removeCollapsedChildren(data) {
     let toRemove = false
     let currentTabIndex = 0
-    data = data.filter(node => {
+    data = data.filter((node={}) => {
       if (toRemove) {
         if (currentTabIndex < node._tabIndex) {
           return false
