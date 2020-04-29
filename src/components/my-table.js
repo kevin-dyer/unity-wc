@@ -229,12 +229,8 @@ class MyTable extends PageViewElement {
             .onClickRow="${this.handleClickRow.bind(this)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
-<<<<<<< HEAD
-
             style="--highlight-color: ${this.highlightColor}"
             id="unity-table"
-=======
->>>>>>> master
           >
             ${this._renderStatusIcons()}
 
