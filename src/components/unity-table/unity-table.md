@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.4.17
+- Bug fixes
+
 ### v0.4.9
 - Exposed flattenedData internal so that it could be accessed by a ref
 
