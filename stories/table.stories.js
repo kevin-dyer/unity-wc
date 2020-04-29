@@ -1,15 +1,23 @@
 // import '@bit/smartworks.unity.unity-text-input';
 // import '../src/components/unity-text-input/unity-text-input.js'
 
-//TODO: must import from bit (to have correct copy of unity-dropdown)
-import '../src/components/unity-table/unity-table.js'
-import { html } from 'lit-element';
+import '@bit/smartworks.unity.unity-table'
+// import '../src/components/unity-table/unity-table'
+
+import '@bit/smartworks.unity.unity-button'
+// import '../src/components/unity-button/unity-button'
+
+import '@bit/smartworks.unity.unity-table-export'
+// import '../src/components/unity-table/unity-table-export'
+
+import { html, LitElement } from 'lit-element';
 import {
   withKnobs,
   text,
   boolean,
   number,
-  array
+  array,
+  select
 } from "@storybook/addon-knobs";
 import { action } from '@storybook/addon-actions';
 import {devices, colors} from '../src/components/unity-table/fakeData.js'
@@ -20,6 +28,10 @@ export default {
   title: 'Table',
   decorators: [withKnobs]
 };
+
+const compileIdsArray = nodes => nodes.map(({ id='', groups=[], devices=[] }) => {
+  return [ id, ...compileIdsArray(groups).flat(), ...compileIdsArray(devices).flat() ]
+})
 
 
 export const Standard = () => {
@@ -34,11 +46,17 @@ export const Standard = () => {
   const childKeys = array("Child Keys", defaultChildKeys)
   const columns = array('Columns', defaultColumns)
   const columnFilters = array('Column Filters', defaultFilters)
-  const data = array('Data', defaultDevices)
+  let data
+  try {
+    console.log('JSON.stringify(defaultDevices, null, 2)', JSON.stringify(defaultDevices, null, 2))
+    data = JSON.parse(text('Data', JSON.stringify(defaultDevices, null, 2)))
+  } catch (error) {
+    console.warn(`setting data failed with error `, error)
+    data = text('Data', defaultDevices)
+  }
   const endReachedThreshold = number("endReachedThreshold", 200)
+  const highlightedRow = select('highlightedRow', compileIdsArray(defaultDevices).flat())
 
-  //TODO: how do I hook this up?
-  const highlightedRow = text('highlightedRow', "")
 
   return html`
     <unity-table
@@ -130,4 +148,86 @@ export const CustomContent = () => {
 
     </unity-table>
   `;
+}
+
+export const WithExportButton = () => {
+  const buttonTypeKnobOptions = {
+    None: '',
+    outlined: 'outlined',
+    solid: 'solid',
+    gradient: 'gradient'
+  }
+
+  const {
+    data: defaultDevices,
+    columns: defaultColumns,
+    childKeys: defaultChildKeys,
+    filters: defaultFilters
+  } = devices
+  // Table knobs
+  const selectable = boolean("Selectable", true)
+  const filter = text("Filter", "")
+  const childKeys = array("Child Keys", defaultChildKeys)
+  const columns = array('Columns', defaultColumns)
+  const columnFilters = array('Column Filters', defaultFilters)
+
+  // table data
+  let data
+  try {
+    data = JSON.parse(text('Data', JSON.stringify(defaultDevices, null, 2)))
+  } catch (error) {
+    console.warn(`setting data failed with error `, error)
+    data = text('Data', defaultDevices)
+  }
+  const endReachedThreshold = number("endReachedThreshold", 200)
+  const highlightedRow = select('highlightedRow', compileIdsArray(defaultDevices).flat())
+
+  // Export stuff
+  const getTableRef = () => {
+    // const tableRef = this.shadowRoot.getElementById('table')
+    const tableRef = { current: { _flattenedData: data } } // temporary workaround for storybook's inability to find table
+    return tableRef || {}
+  }
+
+  return html`
+    <unity-table
+      id='table'
+      ?selectable=${selectable}
+      filter=${filter}
+      .keyExtractor=${(datum, index) => datum.id}
+      .slotIdExtractor=${(row, column) => `${row._rowId}-${column.key}`}
+      .childKeys=${childKeys}
+      .data=${data}
+      .columns=${columns}
+      .columnFilter=${columnFilters}
+      .onFilterChange=${action("onFilterChange")}
+      endReachedThreshold=${endReachedThreshold}
+      .onEndReached="${action("onEndReached")}"
+      highlightedRow="${highlightedRow}"
+      .onSelectionChange="${action('onSelectionChange')}"
+      .onClickRow="${action('onClickRow')}"
+      .onDisplayColumnsChange="${action("onDisplayColumnsChange")}"
+      .onColumnChange="${action("onColumnChange")}"
+      style="--highlight-color: grey"
+    >
+    </unity-table>
+    <unity-table-export
+      .tableRef=${getTableRef()}
+      .onExport=${() => console.log(`exported csv`)}
+    >
+      <unity-button
+        label="Export"
+        leftIcon="unity:file_download"
+        type="solid"
+        ?disabled=${false}
+        @click=${e => console.log("export-button clicked! e: ", e)}
+      ></unity-button>
+    </unity-table-export>
+    <unity-table-export
+      .tableRef=${getTableRef()}
+      .onExport=${() => console.log(`exported csv`)}
+    >
+      <div style={height: 30; width: 80; background-color: blue;}
+    </unity-table-export>
+  `
 }

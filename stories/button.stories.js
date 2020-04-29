@@ -21,8 +21,9 @@ export const Outlined = () => {
   }
   const type = select("Button Type", typeOptions, 'None')
   return html`
-  <unity-button label=${label} type="${type}" ?disabled=${disabled} @click=${action("clicked")}></unity-button>
-`;}
+    <unity-button label=${label} type="${type}" ?disabled=${disabled} @click=${action("clicked")}></unity-button>
+  `;
+}
 
 
 export const Gradient = () => html`

@@ -22,10 +22,14 @@ import './unity-layout/unity-page-header.js'
 // import './unity-text-input/unity-text-input.js'
 import '@bit/smartworks.unity.unity-text-input';
 
+
+//TEST
+import './unity-table/unity-table-export.js'
+
 import './unity-table/unity-column-editor.js'
 import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
 import {devices} from './unity-table/fakeData'
-import {deviceData} from './unity-table/largeDataSet'
+// import {deviceData} from './unity-table/largeDataSet'
 
 import '@polymer/iron-icons/av-icons.js'
 
@@ -41,14 +45,15 @@ class MyTable extends PageViewElement {
 
     this._searchText = ''
 
-    // this.data = [...data]
-    this.data = [...deviceData] //For testing Large Data Set
+    this.data = [...data]
+    // this.data = [...deviceData] //For testing Large Data Set
     this.columns = [...columns] //For Column Editor
     this.childKeys = [...childKeys]
     this._visibleColumns = [...columns] //For Table display
     this._columnFilters = filters
     this.highlightedRow = ''
     this.showDetails = false
+    this.tableRef = undefined
   }
 
   static get properties() {
@@ -57,6 +62,9 @@ class MyTable extends PageViewElement {
       columns: { type: Array },
       _visibleColumns: { type: Array },
       highlightedRow: { type: String },
+      highlightColor: { type: String },
+      showDetails: { type: Boolean },
+      tableRef: { type: Object },
       showDetails: { type: Boolean }
     }
   }
@@ -65,6 +73,12 @@ class MyTable extends PageViewElement {
 //
 //     this._searchText = value || ''
 //   }
+
+  firstUpdated(changedProperties) {
+    this.updateComplete.then(() => {
+      this.tableRef = this.shadowRoot.getElementById('unity-table')
+    })
+  }
 
   onInputChange(e, value) {
     this._searchText = value || ''
@@ -184,6 +198,12 @@ class MyTable extends PageViewElement {
               .columns=${this.columns}
               .onUpdate=${this.handleColUpdate.bind(this)}
             ></unity-column-editor>
+
+            <unity-table-export
+              .tableRef=${this.tableRef}
+            >
+
+            </unity-table-export>
           </div>
         </unity-page-header>
 
@@ -209,6 +229,8 @@ class MyTable extends PageViewElement {
             .onClickRow="${this.handleClickRow.bind(this)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+            style="--highlight-color: ${this.highlightColor}"
+            id="unity-table"
           >
             ${this._renderStatusIcons()}
 

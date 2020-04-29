@@ -298,6 +298,9 @@ class UnityTable extends LitElement {
       // onColumnSort: { type: Function },
       onEndReached: { type: Function },
       onColumnChange: { type: Function },
+
+      //Expose this internal variable as a property for the table csv downloader to access
+      _flattenedData: {type: Array}
     }
   }
 
@@ -364,11 +367,11 @@ class UnityTable extends LitElement {
       this.onEndReached()
 
       setTimeout(() => {
-        this.tableRef.clearTriggers()
+        this.tableRef && this.tableRef.clearTriggers()
       }, END_REACHED_TIMEOUT)
     } else {
       setTimeout(() => {
-        this.tableRef.clearTriggers();
+        this.tableRef && this.tableRef.clearTriggers()
       }, THRESHOLD_TIMEOUT);
     }
   }
@@ -378,7 +381,7 @@ class UnityTable extends LitElement {
     this._rowOffset = 0
 
     setTimeout(() => {
-      this.tableRef.clearTriggers();
+      this.tableRef && this.tableRef.clearTriggers()
     }, THRESHOLD_TIMEOUT);
   }
 
@@ -870,7 +873,7 @@ class UnityTable extends LitElement {
   removeCollapsedChildren(data) {
     let toRemove = false
     let currentTabIndex = 0
-    data = data.filter(node => {
+    data = data.filter((node={}) => {
       if (toRemove) {
         if (currentTabIndex < node._tabIndex) {
           return false

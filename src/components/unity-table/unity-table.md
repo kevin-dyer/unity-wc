@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v0.4.9
+- Exposed flattenedData internal so that it could be accessed by a ref
+
+### v0.4.6-8
+- version control bumps
+
 ### v0.4.5
 - made it so that the table intelligently expands parents of the highlightedRow if it in not visible on page load
 

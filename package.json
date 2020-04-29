@@ -127,8 +127,6 @@
           }
         }
       }
-    },
-    "componentsDefaultDirectory": "components/{name}",
-    "packageManager": "npm"
+    }
   }
 }

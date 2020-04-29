@@ -4,9 +4,9 @@
     "smartworks.unity/table-cell-base@0.0.5": {
         "files": [
             {
+                "name": "table-cell-base.js",
                 "relativePath": "src/components/unity-table/table-cell-base.js",
-                "test": false,
-                "name": "table-cell-base.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-table/table-cell-base.js",
@@ -55,9 +55,9 @@
                 "test": false
             },
             {
+                "name": "unity-default-theme-styles.md",
                 "relativePath": "src/components/unity-default-theme-styles/unity-default-theme-styles.md",
-                "test": false,
-                "name": "unity-default-theme-styles.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-default-theme-styles/unity-default-theme-styles.js",
@@ -158,9 +158,9 @@
     "smartworks.unity/unity-icon-set@0.1.3": {
         "files": [
             {
+                "name": "unity-icon-set.js",
                 "relativePath": "src/components/unity-icon-set/unity-icon-set.js",
-                "test": false,
-                "name": "unity-icon-set.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-icon-set/unity-icon-set.js",
@@ -321,6 +321,18 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-table-export@0.0.4": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-table/unity-table-export.js",
+                "test": false,
+                "name": "unity-table-export.js"
+            }
+        ],
+        "mainFile": "src/components/unity-table/unity-table-export.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "smartworks.unity/unity-table@0.4.17": {
         "files": [
             {
@@ -416,9 +428,9 @@
     "smartworks.unity/unity-utils@0.0.4": {
         "files": [
             {
+                "name": "unity-utils.js",
                 "relativePath": "src/components/unity-utils/unity-utils.js",
-                "test": false,
-                "name": "unity-utils.js"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-utils/unity-utils.js",
