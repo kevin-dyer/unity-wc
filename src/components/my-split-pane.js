@@ -12,21 +12,24 @@ import { PageViewElement } from './page-view-element.js';
 import './unity-layout/unity-page-header.js'
 
 // import './unity-button/unity-button.js'
-import '@bit/smartworks.unity.unity-button';
+import '@bit/smartworks.unity.unity-core/unity-button';
 
-import './unity-table/unity-table.js'
-import '@polymer/paper-input/paper-input.js';
+// import './unity-table/unity-table.js'
+import '@bit/smartworks.unity.unity-core/unity-table';
 
-import './unity-layout/unity-page-header.js'
+// import './unity-layout/unity-page-header.js'
+import '@bit/smartworks.unity.unity-core/unity-page-header';
+
 // import './unity-text-input/unity-text-input.js'
-import '@bit/smartworks.unity.unity-text-input';
+import '@bit/smartworks.unity.unity-core/unity-text-input';
 
-import './unity-layout/unity-split-pane.js'
-// import '@bit/smartworks.unity.unity-split-pane'
+// import './unity-layout/unity-split-pane.js'
+import '@bit/smartworks.unity.unity-core/unity-split-pane'
 
-import '@bit/smartworks.unity.unity-typography';
+import '@bit/smartworks.unity.unity-core/unity-typography'
 
 import './unity-table/unity-column-editor.js'
+import '@polymer/paper-input/paper-input.js';
 
 
 // These are the shared styles needed by this element.

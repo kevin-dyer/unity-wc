@@ -12,15 +12,17 @@ import { PageViewElement } from './page-view-element.js';
 import './unity-layout/unity-page-header.js'
 
 // import './unity-button/unity-button.js'
-import '@bit/smartworks.unity.unity-button';
+import '@bit/smartworks.unity.unity-core/unity-button';
 
-import './unity-table/unity-table.js'
+// import './unity-table/unity-table.js'
+import '@bit/smartworks.unity.unity-core/unity-table'
 
 import '@polymer/paper-input/paper-input.js';
 
 import './unity-layout/unity-page-header.js'
+
 // import './unity-text-input/unity-text-input.js'
-import '@bit/smartworks.unity.unity-text-input';
+import '@bit/smartworks.unity.unity-core/unity-text-input';
 
 
 //TEST

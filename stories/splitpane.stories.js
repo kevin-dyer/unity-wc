@@ -1,4 +1,4 @@
-// import '@bit/smartworks.unity.unity-split-pane'
+// import '@bit/smartworks.unity.unity-core/unity-split-pane'
 import '../src/components/unity-layout/unity-split-pane'
 import { html } from 'lit-element'
 import { action } from '@storybook/addon-actions'

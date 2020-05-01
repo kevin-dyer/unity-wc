@@ -1,13 +1,13 @@
-// import '@bit/smartworks.unity.unity-text-input';
+// import '@bit/smartworks.unity.unity-core/unity-text-input';
 // import '../src/components/unity-text-input/unity-text-input.js'
 
-import '@bit/smartworks.unity.unity-table'
+import '@bit/smartworks.unity.unity-core/unity-table'
 // import '../src/components/unity-table/unity-table'
 
-import '@bit/smartworks.unity.unity-button'
+import '@bit/smartworks.unity.unity-core/unity-button'
 // import '../src/components/unity-button/unity-button'
 
-import '@bit/smartworks.unity.unity-table-export'
+import '@bit/smartworks.unity.unity-core/unity-table-export'
 // import '../src/components/unity-table/unity-table-export'
 
 import { html, LitElement } from 'lit-element';

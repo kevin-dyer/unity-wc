@@ -1,4 +1,4 @@
-// import '@bit/smartworks.unity.unity-page-header'
+// import '@bit/smartworks.unity.unity-core/unity-page-header'
 import '../src/components/unity-layout/unity-page-header'
 import { html } from 'lit-element'
 import {

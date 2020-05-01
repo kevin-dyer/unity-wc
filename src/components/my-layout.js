@@ -1,12 +1,10 @@
 import { LitElement, html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 
-import './unity-layout/unity-page-header.js'
-// import '@bit/smartworks.unity.unity-section'
-import './unity-layout/unity-section.js'
+import '@bit/smartworks.unity.unity-core/unity-page-header'
+import '@bit/smartworks.unity.unity-core/unity-section'
+import '@bit/smartworks.unity.unity-core/unity-button'
 
-// import './unity-button/unity-button.js'
-import '@bit/smartworks.unity.unity-button'
 
 // import '../unity-text-input/unity-text-input'
 import '@bit/smartworks.unity.unity-text-input'
