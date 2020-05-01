@@ -23,7 +23,7 @@
     "build-storybook": "build-storybook -c .storybook"
   },
   "dependencies": {
-    "@bit/smartworks.unity.unity-core": "0.0.1",
+    "@bit/smartworks.unity.unity-core": "0.1.0",
     "@polymer/app-layout": "^3.0.0",
     "@polymer/iron-autogrow-textarea": "^3.0.1",
     "@polymer/iron-icon": "^3.0.1",
