@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.4.19
+- Updated unity-dropdown to v0.1.26
+
 ### v0.4.17
 - Bug fixes
 

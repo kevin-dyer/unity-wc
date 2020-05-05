@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+
+### v0.1.26
+- Small changes to fix Edge issues.
+
 ### v0.1.14
 - Update dependencies.
 

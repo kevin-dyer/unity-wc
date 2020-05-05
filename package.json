@@ -27,7 +27,7 @@
     "@bit/smartworks.unity.unity-button": "^0.1.10",
     "@bit/smartworks.unity.unity-column-editor": "0.0.24",
     "@bit/smartworks.unity.unity-default-theme-styles": "^1.0.2",
-    "@bit/smartworks.unity.unity-dropdown": "^0.1.25",
+    "@bit/smartworks.unity.unity-dropdown": "^0.1.26",
     "@bit/smartworks.unity.unity-global-nav-base": "^0.2.13",
     "@bit/smartworks.unity.unity-global-nav-inner-item": "^0.2.10",
     "@bit/smartworks.unity.unity-global-nav-top-item": "^0.2.10",

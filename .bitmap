@@ -64,7 +64,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@0.1.25": {
+    "smartworks.unity/unity-dropdown@0.1.26": {
         "files": [
             {
                 "name": "strings.js",
@@ -333,7 +333,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.4.18": {
+    "smartworks.unity/unity-table@0.4.19": {
         "files": [
             {
                 "name": "filter-dropdown.js",
