@@ -288,6 +288,7 @@ class MyDropdowns extends PageViewElement {
           label="${"Search"}"
           boxType="search"
           inputType="single-select"
+          placeholder = "Write here or choose below"
           .options=${dataMock.labelsOnly}
 
         >

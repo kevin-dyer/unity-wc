@@ -629,6 +629,9 @@ class UnityDropdown extends LitElement {
       label = option.label
       icon = option.icon
     }
+    else {
+      label = icon = ""
+    }
     const isMulti = inputType === MULTI_SELECT
     const isButton = boxType === GRADIENT || boxType === OUTLINED
     if (boxType === "fixed") {
