@@ -155,7 +155,6 @@ class UnityDropdown extends LitElement {
           width: 100%;
           position: absolute;
           max-width: 300px;
-          max-height: 400px;
         }
         li {
           font-size: var(--text-size);
