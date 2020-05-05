@@ -261,8 +261,8 @@ class MyDropdowns extends PageViewElement {
             <unity-dropdown
               label="${"Inner search box"}"
               inputType="single-select"
+              .searchBox=${true}
               .options=${dataMock.labelsOnly}
-              searchBox=${true}
             >
             </unity-dropdown>
           </div>
@@ -272,8 +272,8 @@ class MyDropdowns extends PageViewElement {
               label="${"Full example"}"
               inputType="single-select"
               placeholder="Choose an option"
+              .searchBox=${true}
               .options=${dataMock.withEverything}
-              searchBox=${true}
               helperText="Choose any option"
             >
             </unity-dropdown>
