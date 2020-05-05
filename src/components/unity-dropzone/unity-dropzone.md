@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.1.12
+- update style around icon for proper Safari/Firefox render
+
 ### v0.1.8
 - update docs for below change
 
