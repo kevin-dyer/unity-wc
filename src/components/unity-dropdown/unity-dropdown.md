@@ -3,6 +3,9 @@
 ## Changelog:
 
 
+### v0.1.27
+- Fix options box overflow issue on Edge.
+
 ### v0.1.26
 - Small changes to fix Edge issues.
 

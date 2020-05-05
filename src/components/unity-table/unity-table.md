@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v0.4.20
+- Fixes for Edge:
+  - Table header widths
+  - Display dropdown search box
+  - Dropdown options overflow (updated unity-dropdown to v0.1.27)
+
 ### v0.4.19
 - Updated unity-dropdown to v0.1.26
 
