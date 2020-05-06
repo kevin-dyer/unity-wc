@@ -1,10 +1,9 @@
 export const topItem = {
-  {
-    key: 'item-0',
-    label: 'Top Item 0',
-    short: false,
-    icon: 'account-balance',
-    children: []
+  key: 'item-0',
+  label: 'Top Item 0',
+  short: false,
+  icon: 'account-balance',
+  children: []
 }
 
 export const innerItem = {
