@@ -47,7 +47,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@0.1.0": {
+    "smartworks.unity/unity-core@0.1.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-core/index.js",
@@ -508,7 +508,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-test@0.0.2": {
+    "smartworks.unity/unity-test@0.0.3": {
         "files": [
             {
                 "relativePath": "src/components/unity-test/unity-test.js",

@@ -167,30 +167,141 @@
           "@bit/smartworks.unity.unity-utils": "-"
         },
         "peerDependencies": {
-          "@bit/smartworks.unity.unity-default-theme-styles": "+",
-          "@bit/smartworks.unity.unity-test": "+",
+          "@bit/smartworks.unity.unity-default-theme-styles": "+"
+        }
+      },
+      "unity-button": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-typography": "+"
+        },
+        "propagate": true
+      },
+      "unity-column-editor": {
+        "peerDependencies": {
           "@bit/smartworks.unity.unity-button": "+",
-          "@bit/smartworks.unity.unity-column-editor": "+",
-          "@bit/smartworks.unity.unity-dropzone": "+",
-          "@bit/smartworks.unity.unity-global-nav-base": "+",
-          "@bit/smartworks.unity.unity-global-nav-inner-item": "+",
-          "@bit/smartworks.unity.unity-global-nav-top-item": "+",
-          "@bit/smartworks.unity.unity-icon": "+",
+          "@bit/smartworks.unity.unity-modal": "+"
+        },
+        "propagate": true
+      },
+      "unity-dropzone": {
+        "peerDependencies": {
           "@bit/smartworks.unity.unity-icon-set": "+",
-          "@bit/smartworks.unity.unity-modal": "+",
-          "@bit/smartworks.unity.unity-notification": "+",
-          "@bit/smartworks.unity.unity-page-header": "+",
-          "@bit/smartworks.unity.unity-progress": "+",
-          "@bit/smartworks.unity.unity-section": "+",
-          "@bit/smartworks.unity.unity-select-menu": "+",
-          "@bit/smartworks.unity.unity-split-pane": "+",
-          "@bit/smartworks.unity.unity-table-export": "+",
-          "@bit/smartworks.unity.unity-text-input": "+",
-          "@bit/smartworks.unity.unity-toggle-switch": "+",
-          "@bit/smartworks.unity.unity-tooltip": "+",
+          "@bit/smartworks.unity.unity-typography": "+"
+        },
+        "propagate": true
+      },
+      "unity-global-nav-base": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-global-nav-top-item": "+",
+          "@bit/smartworks.unity.unity-icon-set": "+"
+        },
+        "propagate": true
+      },
+      "unity-global-nav-inner-item": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-tooltip": "+"
+        },
+        "propagate": true
+      },
+      "unity-global-nav-top-item": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-global-nav-inner-item": "+",
+          "@bit/smartworks.unity.unity-tooltip": "+"
+        },
+        "propagate": true
+      },
+      "unity-icon": {
+        "dependencies": {
+          "@bit/smartworks.unity.unity-default-theme-styles": "-"
+        },
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-icon-set": "+"
+        },
+        "propagate": true
+      },
+      "unity-icon-set": {
+        "dependencies": {
+          "@bit/smartworks.unity.unity-default-theme-styles": "-"
+        },
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-icon-set": "+"
+        },
+        "propagate": true
+      },
+      "unity-modal": {
+        "peerDependencies": {
           "@bit/smartworks.unity.unity-typography": "+",
           "@bit/smartworks.unity.unity-utils": "+"
-        }
+        },
+        "propagate": true
+      },
+      "unity-notification": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-button": "+",
+          "@bit/smartworks.unity.unity-icon": "+"
+        },
+        "propagate": true
+      },
+      "unity-page-header": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-typography": "+"
+        },
+        "propagate": true
+      },
+      "unity-progress": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-typography": "+"
+        },
+        "propagate": true
+      },
+      "unity-section": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-utils": "+"
+        },
+        "propagate": true
+      },
+      "unity-select-menu": {
+        "peerDependencies": {
+        },
+        "propagate": true
+      },
+      "unity-split-pane": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-button": "+",
+          "@bit/smartworks.unity.unity-icon-set": "+"
+        },
+        "propagate": true
+      },
+      "unity-table-export": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-button": "+"
+        },
+        "propagate": true
+      },
+      "unity-text-input": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-icon-set": "+"
+        },
+        "propagate": true
+      },
+      "unity-toggle-switch": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-icon-set": "+",
+          "@bit/smartworks.unity.unity-typography": "+"
+        },
+        "propagate": true
+      },
+      "unity-tooltip": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-icon-set": "+",
+          "@bit/smartworks.unity.unity-typography": "+"
+        },
+        "propagate": true
+      },
+      "unity-test": {
+        "peerDependencies": {
+        },
+        "propagate": true
       }
     }
   }
