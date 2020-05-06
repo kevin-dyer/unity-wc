@@ -155,7 +155,6 @@ class UnityDropdown extends LitElement {
           width: 100%;
           position: absolute;
           max-width: 300px;
-          max-height: 400px;
         }
         li {
           font-size: var(--text-size);
@@ -241,8 +240,6 @@ class UnityDropdown extends LitElement {
         }
         unity-text-input {
           width: 100%;
-          height: var(--unity-text-input-height, var(--default-unity-text-input-height) - 2px);
-          padding-top: 5px;
         }
         .tag {
           display: flex;
@@ -628,6 +625,9 @@ class UnityDropdown extends LitElement {
       const option = this.getSelectedOptions()
       label = option.label
       icon = option.icon
+    }
+    else {
+      label = icon = ""
     }
     const isMulti = inputType === MULTI_SELECT
     const isButton = boxType === GRADIENT || boxType === OUTLINED
