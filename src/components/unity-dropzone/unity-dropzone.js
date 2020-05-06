@@ -270,9 +270,8 @@ class UnityDropzone extends LitElement {
         .upload-icon {
           color: var(--dropzone-color);
           margin: 1em;
-          height: auto;
+          height: var(--icon-size);
           width: var(--icon-size);
-          flex: 0;
         }
         .dropText {
           flex: 0;

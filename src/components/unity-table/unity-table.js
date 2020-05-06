@@ -1383,7 +1383,7 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           border-spacing: 0;
           box-sizing: border-box;
-          overflow-x: hidden;
+          overflow: auto;
           border-right: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           border-bottom: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
@@ -1427,6 +1427,7 @@ class UnityTable extends LitElement {
         }
         .header {
           display: flex;
+          width: 100%;
           flex-direction: row;
           justify-content: space-between;
           align-items: center;

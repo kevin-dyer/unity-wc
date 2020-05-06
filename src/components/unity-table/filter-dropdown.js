@@ -72,7 +72,7 @@ class FilterDropdown extends LitElement {
               inputType="multi-select"
               boxType="none"
               placeholder="Filter"
-              searchBox=${true}
+              .searchBox=${true}
               ._collapsed=${false}
               .onValueChange="${this.onValueChange}"
               .options=${this.options}
