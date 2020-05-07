@@ -9,9 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { LitElement, html, css } from 'lit-element';
 
-import '@bit/smartworks.unity.unity-modal'
-import '@bit/smartworks.unity.unity-table'
-import '@bit/smartworks.unity.unity-button'
+import '@bit/smartworks.unity.unity-core/unity-modal'
+import '@bit/smartworks.unity.unity-core/unity-table'
+import '@bit/smartworks.unity.unity-core/unity-button'
 
 // import './unity-button/unity-button.js'
 

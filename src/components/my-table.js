@@ -15,9 +15,9 @@ import '@bit/smartworks.unity.unity-core/unity-page-header'
 import '@bit/smartworks.unity.unity-core/unity-button';
 import '@bit/smartworks.unity.unity-core/unity-table'
 import '@bit/smartworks.unity.unity-core/unity-text-input';
-import '@bit/smartworks.unity.unity-core/unity-column-editor.js'
+import '@bit/smartworks.unity.unity-core/unity-column-editor'
+import '@bit/smartworks.unity.unity-core/unity-table-export'
 
-import './unity-table/unity-table-export.js' //TEST
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
 import {devices} from './unity-table/fakeData'
