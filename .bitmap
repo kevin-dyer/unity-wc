@@ -30,7 +30,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@0.0.27": {
+    "smartworks.unity/unity-column-editor@0.0.28": {
         "files": [
             {
                 "name": "unity-column-editor.js",
@@ -64,7 +64,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@0.1.30": {
+    "smartworks.unity/unity-dropdown@0.1.31": {
         "files": [
             {
                 "name": "strings.js",
@@ -202,7 +202,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-notification@0.1.9": {
+    "smartworks.unity/unity-notification@0.1.10": {
         "files": [
             {
                 "name": "unity-notification.js",
@@ -287,7 +287,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-split-pane@0.3.11": {
+    "smartworks.unity/unity-split-pane@0.3.12": {
         "files": [
             {
                 "name": "unity-split-pane.js",
@@ -321,7 +321,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-export@0.1.0": {
+    "smartworks.unity/unity-table-export@0.1.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/unity-table-export.js",
@@ -333,7 +333,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.4.23": {
+    "smartworks.unity/unity-table@0.4.24": {
         "files": [
             {
                 "name": "filter-dropdown.js",
