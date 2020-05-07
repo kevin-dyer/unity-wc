@@ -23,6 +23,7 @@
     "build-storybook": "build-storybook -c .storybook"
   },
   "dependencies": {
+    "@bit/smartworks.unity.table-cell-base": "^0.0.5",
     "@bit/smartworks.unity.unity-button": "^0.1.10",
     "@bit/smartworks.unity.unity-column-editor": "^0.0.24",
     "@bit/smartworks.unity.unity-core": "^0.1.0",
@@ -43,7 +44,6 @@
     "@bit/smartworks.unity.unity-split-pane": "^0.3.8",
     "@bit/smartworks.unity.unity-table": "^0.4.20",
     "@bit/smartworks.unity.unity-table-cell": "^0.1.33",
-    "@bit/smartworks.unity.table-cell-base": "^0.0.5",
     "@bit/smartworks.unity.unity-table-export": "0.0.5",
     "@bit/smartworks.unity.unity-text-input": "^0.1.40",
     "@bit/smartworks.unity.unity-toggle-switch": "^0.1.10",
@@ -138,13 +138,18 @@
     "overrides": {
       "*": {
         "exclude": [
-          "unity-core"
+          "table-cell-base",
+          "unity-core",
+          "unity-default-theme-styles",
+          "unity-icon-set",
+          "unity-utils"
         ],
         "dependencies": {
-          "@bit/smartworks.unity.unity-default-theme-styles": "-",
-          "@bit/smartworks.unity.unity-test": "-",
+          "@bit/smartworks.unity.table-cell-base": "-",
           "@bit/smartworks.unity.unity-button": "-",
           "@bit/smartworks.unity.unity-column-editor": "-",
+          "@bit/smartworks.unity.unity-default-theme-styles": "-",
+          "@bit/smartworks.unity.unity-dropdown": "-",
           "@bit/smartworks.unity.unity-dropzone": "-",
           "@bit/smartworks.unity.unity-global-nav-base": "-",
           "@bit/smartworks.unity.unity-global-nav-inner-item": "-",
@@ -158,6 +163,8 @@
           "@bit/smartworks.unity.unity-section": "-",
           "@bit/smartworks.unity.unity-select-menu": "-",
           "@bit/smartworks.unity.unity-split-pane": "-",
+          "@bit/smartworks.unity.unity-table": "-",
+          "@bit/smartworks.unity.unity-table-cell": "-",
           "@bit/smartworks.unity.unity-table-export": "-",
           "@bit/smartworks.unity.unity-text-input": "-",
           "@bit/smartworks.unity.unity-toggle-switch": "-",
@@ -182,7 +189,6 @@
         },
         "propagate": true
       },
-      "unity-default-theme-styles": {},
       "unity-dropdown": {
         "peerDependencies": {
           "@bit/smartworks.unity.unity-button": "+",
@@ -220,15 +226,6 @@
         "propagate": true
       },
       "unity-icon": {
-        "dependencies": {
-          "@bit/smartworks.unity.unity-default-theme-styles": "-"
-        },
-        "peerDependencies": {
-          "@bit/smartworks.unity.unity-icon-set": "+"
-        },
-        "propagate": true
-      },
-      "unity-icon-set": {
         "dependencies": {
           "@bit/smartworks.unity.unity-default-theme-styles": "-"
         },
@@ -295,7 +292,6 @@
         },
         "propagate": true
       },
-      "table-cell-base": {},
       "unity-table-export": {
         "peerDependencies": {
           "@bit/smartworks.unity.unity-button": "+"
@@ -324,8 +320,7 @@
       },
       "unity-typography": {
         "propagate": true
-      },
-      "unity-utils": {}
+      }
     }
   }
 }
