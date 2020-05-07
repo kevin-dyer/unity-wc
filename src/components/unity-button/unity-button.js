@@ -116,7 +116,7 @@ class UnityButton extends LitElement {
 
         /*Outlined Styles*/
         paper-button.outlined {
-          background: white;
+          background: rgba(0,0,0,0);
           border: 1px solid var(--button-color);
           color: var(--button-color);
           --font-color: var(--black-text-color, var(--default-black-text-color));
