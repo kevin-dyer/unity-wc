@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.0.1
+- Fixed wrong version of peerDependencies in unity-global-nav-base and unity-table
+
+### v1.0.0
+- Started using updated components with peer dependencies
+
 ### v0.1.0
 - Mark as first release
 - All unity components are included in this library component, located in the root folder. Import file path matches component name:

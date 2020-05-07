@@ -47,7 +47,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.0.0": {
+    "smartworks.unity/unity-core@1.0.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-core/index.js",
@@ -252,7 +252,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@1.0.0": {
+    "smartworks.unity/unity-global-nav-base@1.0.1": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
@@ -481,7 +481,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@1.0.0": {
+    "smartworks.unity/unity-table@1.0.1": {
         "files": [
             {
                 "name": "filter-dropdown.js",

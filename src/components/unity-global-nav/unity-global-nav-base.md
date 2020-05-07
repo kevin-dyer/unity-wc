@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.1
+- Fixed wrong version of unity-icon-set
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 
