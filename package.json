@@ -23,7 +23,6 @@
     "build-storybook": "build-storybook -c .storybook"
   },
   "dependencies": {
-    "@bit/smartworks.unity.table-cell-base": "^0.0.5",
     "@bit/smartworks.unity.unity-button": "^0.1.10",
     "@bit/smartworks.unity.unity-column-editor": "^0.0.24",
     "@bit/smartworks.unity.unity-core": "^0.1.0",
@@ -44,8 +43,8 @@
     "@bit/smartworks.unity.unity-split-pane": "^0.3.8",
     "@bit/smartworks.unity.unity-table": "^0.4.20",
     "@bit/smartworks.unity.unity-table-cell": "^0.1.33",
+    "@bit/smartworks.unity.table-cell-base": "^0.0.5",
     "@bit/smartworks.unity.unity-table-export": "0.0.5",
-    "@bit/smartworks.unity.unity-test": "^0.0.2",
     "@bit/smartworks.unity.unity-text-input": "^0.1.40",
     "@bit/smartworks.unity.unity-toggle-switch": "^0.1.10",
     "@bit/smartworks.unity.unity-tooltip": "^0.1.10",
@@ -183,6 +182,16 @@
         },
         "propagate": true
       },
+      "unity-default-theme-styles": {},
+      "unity-dropdown": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-button": "+",
+          "@bit/smartworks.unity.unity-icon-set": "+",
+          "@bit/smartworks.unity.unity-select-menu": "+",
+          "@bit/smartworks.unity.unity-text-input": "+"
+        },
+        "propagate": true
+      },
       "unity-dropzone": {
         "peerDependencies": {
           "@bit/smartworks.unity.unity-icon-set": "+",
@@ -272,6 +281,22 @@
         },
         "propagate": true
       },
+      "unity-table": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-table-cell": "+",
+          "@bit/smartworks.unity.table-cell-base": "+",
+          "@bit/smartworks.unity.unity-dropdown": "+",
+          "@bit/smartworks.unity.unity-button": "+"
+        },
+        "propagate": true
+      },
+      "unity-table-cell": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.table-cell-base": "+"
+        },
+        "propagate": true
+      },
+      "table-cell-base": {},
       "unity-table-export": {
         "peerDependencies": {
           "@bit/smartworks.unity.unity-button": "+"
@@ -298,11 +323,10 @@
         },
         "propagate": true
       },
-      "unity-test": {
-        "peerDependencies": {
-        },
+      "unity-typography": {
         "propagate": true
-      }
+      },
+      "unity-utils": {}
     }
   }
 }
