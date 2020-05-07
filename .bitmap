@@ -47,7 +47,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.0.0": {
+    "smartworks.unity/unity-core@0.1.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-core/index.js",
@@ -234,7 +234,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropzone@1.0.0": {
+    "smartworks.unity/unity-dropzone@0.1.12": {
         "files": [
             {
                 "name": "unity-dropzone.js",
@@ -252,7 +252,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@1.0.0": {
+    "smartworks.unity/unity-global-nav-base@0.2.13": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
@@ -269,7 +269,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-inner-item@1.0.0": {
+    "smartworks.unity/unity-global-nav-inner-item@0.2.10": {
         "files": [
             {
                 "name": "unity-global-nav-inner-item.js",
@@ -286,7 +286,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@1.0.0": {
+    "smartworks.unity/unity-global-nav-top-item@0.2.10": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",
@@ -316,7 +316,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-icon@1.0.0": {
+    "smartworks.unity/unity-icon@0.1.8": {
         "files": [
             {
                 "name": "unity-icon.js",
@@ -333,7 +333,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-modal@1.0.0": {
+    "smartworks.unity/unity-modal@0.1.15": {
         "files": [
             {
                 "name": "unity-modal.js",
@@ -367,7 +367,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-page-header@1.0.0": {
+    "smartworks.unity/unity-page-header@0.2.8": {
         "files": [
             {
                 "name": "unity-page-header.js",
@@ -384,7 +384,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-progress@1.0.0": {
+    "smartworks.unity/unity-progress@0.1.8": {
         "files": [
             {
                 "name": "unity-progress.js",
@@ -401,7 +401,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-section@1.0.0": {
+    "smartworks.unity/unity-section@0.2.10": {
         "files": [
             {
                 "name": "unity-section.js",
@@ -418,7 +418,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-select-menu@1.0.0": {
+    "smartworks.unity/unity-select-menu@0.0.13": {
         "files": [
             {
                 "name": "unity-select-menu.js",
@@ -452,7 +452,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-cell@1.0.0": {
+    "smartworks.unity/unity-table-cell@0.1.33": {
         "files": [
             {
                 "name": "unity-table-cell.js",
@@ -508,7 +508,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@1.0.0": {
+    "smartworks.unity/unity-text-input@0.1.40": {
         "files": [
             {
                 "name": "unity-text-input.js",
@@ -520,7 +520,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-toggle-switch@1.0.0": {
+    "smartworks.unity/unity-toggle-switch@0.1.10": {
         "files": [
             {
                 "name": "unity-toggle-switch.js",
@@ -538,7 +538,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-tooltip@1.0.0": {
+    "smartworks.unity/unity-tooltip@0.1.10": {
         "files": [
             {
                 "name": "unity-tooltip.js",
@@ -556,7 +556,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-typography@1.0.0": {
+    "smartworks.unity/unity-typography@0.1.8": {
         "files": [
             {
                 "name": "unity-typography.js",
