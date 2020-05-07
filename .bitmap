@@ -508,19 +508,6 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-test@0.0.3": {
-        "files": [
-            {
-                "relativePath": "src/components/unity-test/unity-test.js",
-                "test": false,
-                "name": "unity-test.js"
-            }
-        ],
-        "mainFile": "src/components/unity-test/unity-test.js",
-        "trackDir": "src/components/unity-test",
-        "origin": "AUTHORED",
-        "exported": true
-    },
     "smartworks.unity/unity-text-input@0.1.40": {
         "files": [
             {

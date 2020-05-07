@@ -270,8 +270,7 @@
         "propagate": true
       },
       "unity-select-menu": {
-        "peerDependencies": {
-        },
+        "peerDependencies": {},
         "propagate": true
       },
       "unity-split-pane": {
