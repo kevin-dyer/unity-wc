@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.0
+- Moved all @bit depedencies to peerDependencies
+
 ### v0.1.0
 - fix mixed up dark/black style
 - mark as released

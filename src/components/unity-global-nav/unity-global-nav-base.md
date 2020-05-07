@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.0
+- Moved all @bit depedencies to peerDependencies
+
 ### v0.2.5
 - add `position: relative` to .menu to avoid nav items from stretching across the screen 
 

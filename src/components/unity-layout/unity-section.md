@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.0.0
+- Moved all @bit depedencies to peerDependencies
+- Removed unused import `getNextSibling` from unity-utils
+
 ### v0.2.2
 - Change section overflow to visible to allow for menus to wrap properly.
 

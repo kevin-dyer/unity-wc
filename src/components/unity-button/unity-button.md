@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.0
+- Moved all @bit depedencies to peerDependencies
+
 ### v0.1.1
 - Give text buttons a smaller padding by default. Use --unity-button-padding only for the side where there is an icon.
 - Updated dependencies

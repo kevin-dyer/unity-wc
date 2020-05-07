@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.0
+- Moved all @bit depedencies to peerDependencies
+
 ### v0.1.0
 - Initial version:
   - Web component to display a progress bar with optional label, remark, and completion texts. May include a lighter secondary bar. Progress can be controlled externally or set as indeterminate, in which case a progress animation is displayed.
