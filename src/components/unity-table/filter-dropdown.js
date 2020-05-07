@@ -1,6 +1,5 @@
 import { LitElement, html, css } from 'lit-element'
 import '@bit/smartworks.unity.unity-dropdown'
-// import '../unity-dropdown/unity-dropdown.js'
 import '@bit/smartworks.unity.unity-button'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 

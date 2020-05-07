@@ -3,14 +3,12 @@ import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
-import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
 import { debounce } from 'throttle-debounce'
 
-// import '@bit/smartworks.unity.unity-table-cell'
-import './unity-table-cell.js'
-// import '@bit/smartworks.unity.table-cell-base'
-import './table-cell-base.js'
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '@bit/smartworks.unity.unity-table-cell'
+import '@bit/smartworks.unity.table-cell-base'
 import './filter-dropdown'
 
 import {

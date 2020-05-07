@@ -5,10 +5,9 @@ import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/iron-icons/image-icons.js'
 import '@polymer/iron-icons/social-icons.js'
 import '@polymer/iron-icons/hardware-icons.js'
-import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
-// import '@bit/smartworks.unity.table-cell-base'
-import './table-cell-base.js'
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '@bit/smartworks.unity.table-cell-base'
 
 const TAB_SIZE = 16
 /**
