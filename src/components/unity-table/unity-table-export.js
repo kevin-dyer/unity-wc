@@ -71,9 +71,8 @@ class UnityTableExport extends LitElement {
       tableData = this.buildDataToExport()
       exportData = this.beforeExport(tableData)
       csvData = exportData.map(row => row.map(cell => `\"${JSON.stringify(cell)}\"`).join(", ")).join("\n") || ''
-      const anchorElement = document.getElementById('export-wrapper')
-      anchorElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvData)
-      if (!!exportData && Array.isArray(exportData) && !!csvExport && !!anchorElement && anchorElement.hasAttribute('href')) success = true
+      const anchorElement = this.shadowRoot.querySelector('a')
+      if (!!exportData && Array.isArray(exportData) && !!csvData && !!anchorElement && anchorElement.hasAttribute('href')) success = true
     } catch (e) {
       success = false
       error = e
