@@ -469,7 +469,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-export@1.0.0": {
+    "smartworks.unity/unity-table-export@1.0.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/unity-table-export.js",
