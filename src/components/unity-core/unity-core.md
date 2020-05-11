@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.0.2
+- Bug fix for unity-table-export
+
 ### v1.0.1
 - Fixed wrong version of peerDependencies in unity-global-nav-base and unity-table
 
