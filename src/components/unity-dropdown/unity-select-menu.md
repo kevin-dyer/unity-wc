@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.0
+- Moved all @bit depedencies to peerDependencies
+
 ### v0.0.5
 - Updated unity-default-theme-styles to 1.0.0
 

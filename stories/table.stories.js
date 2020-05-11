@@ -1,16 +1,4 @@
-// import '@bit/smartworks.unity.unity-text-input';
-// import '../src/components/unity-text-input/unity-text-input.js'
-
-import '@bit/smartworks.unity.unity-table'
-// import '../src/components/unity-table/unity-table'
-
-import '@bit/smartworks.unity.unity-button'
-// import '../src/components/unity-button/unity-button'
-
-import '@bit/smartworks.unity.unity-table-export'
-// import '../src/components/unity-table/unity-table-export'
-
-import { html, LitElement } from 'lit-element';
+import { html } from 'lit-element';
 import {
   withKnobs,
   text,
@@ -20,6 +8,11 @@ import {
   select
 } from "@storybook/addon-knobs";
 import { action } from '@storybook/addon-actions';
+
+import '@bit/smartworks.unity.unity-core/unity-button'
+import '@bit/smartworks.unity.unity-core/unity-table'
+import '@bit/smartworks.unity.unity-core/unity-table-export'
+
 import {devices, colors} from '../src/components/unity-table/fakeData.js'
 // import {deviceData} from '../src/components/unity-table/largeDataSet.js'
 

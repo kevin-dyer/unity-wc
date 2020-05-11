@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.0
+- Moved all @bit depedencies to peerDependencies
+
 ### v0.3.0
 - add collapseButton to show/hide internal collapse button
 - add onCollapseChange to allow for reporter function

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.0
+- Moved all @bit depedencies to peerDependencies
+
 ### v0.1.12
 - update style around icon for proper Safari/Firefox render
 

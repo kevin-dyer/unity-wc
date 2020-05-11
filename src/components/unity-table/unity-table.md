@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.0.0
+- Fixed wrong version of table-cell-base
+
+### v1.0.0
+- Moved all @bit depedencies to peerDependencies
+
 ### v0.4.20
 - Fixes for Edge:
   - Table header widths

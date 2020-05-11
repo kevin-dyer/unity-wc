@@ -1,6 +1,6 @@
 import { html } from 'lit-element'
 import { withKnobs, text } from "@storybook/addon-knobs"
-import '@bit/smartworks.unity.unity-icon'
+import '@bit/smartworks.unity.unity-core/unity-icon'
 
 export default {
   title: 'Icons',

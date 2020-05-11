@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.0
+- Moved all @bit depedencies to peerDependencies
+
 ### v0.2.0
 - add center-slot to allow for custom content
 - fix font to apply to header and tabs
