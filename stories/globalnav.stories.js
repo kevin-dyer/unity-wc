@@ -32,14 +32,18 @@ export const Standard = () => {
     top: topItems,
     bottom: bottomItems
   }
+  const style = 'position: relative; width: 500px; height: 500px;'
+
   return html`
-    <unity-global-nav-base
-      .gutter="${gutter}"
-      .logo="../images/manifest/icon-48x48.png"
-      .collapsible="${collapsible}"
-      .collapsed="${collapsed}"
-      .items="${items}"
-      .onSelect="${action('onSelect')}"
-    ></unity-global-nav-base>
+    <div style="${style}">
+      <unity-global-nav-base
+        .gutter="${gutter}"
+        .logo="../images/manifest/icon-48x48.png"
+        .collapsible="${collapsible}"
+        .collapsed="${collapsed}"
+        .items="${items}"
+        .onSelect="${action('onSelect')}"
+      ></unity-global-nav-base>
+    </div>
   `;
 }
