@@ -100,15 +100,16 @@ class UnityGlobalNavTopItem extends LitElement {
   }
 
   getLabel(hasIcon) {
-    let { collapsed, label=this.key, short } = this
-    if(collapsed || !label) {
-      if(!hasIcon) {
-        label = label[0]
-      }
-      else {
-        return ''  
-      }
-    }
+    let {
+      collapsed,
+      label=this.key,
+      short,
+      children
+    } = this
+    if (!label || collapsed && hasIcon) return ''
+    // use child label if only one label
+    if (Array.isArray(children) && children.length === 1) label = children[0].label
+    if(collapsed && !hasIcon) label = label[0]
     return html`<div class="text ${short ? 'short' : ''}">${label}</div>`
   }
 
@@ -129,7 +130,6 @@ class UnityGlobalNavTopItem extends LitElement {
       const newItem = children[0]
       selected = newItem.selected
       key = newItem.key
-      label = newItem.label
       icon = newItem.icon
       hasChildren = false
     }
