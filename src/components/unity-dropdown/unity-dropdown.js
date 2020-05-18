@@ -27,7 +27,7 @@ import * as strings from './strings'
 * @param {bool} searchBox, when expanded, include a search box that highlights the searched text
 * @param {bool} showTags, show tags with selected options (only for multi-select)
 * @param {func} onValueChange, callback on clicking a value that returns current seelcted for single select, and option and bool selected when multiselect
-*
+* @param {bool} rightAlign, if the dropdown box should be aligned to the right
 * @example
 * <unity-dropdown
 *   label="${"Full example"}"
@@ -155,6 +155,9 @@ class UnityDropdown extends LitElement {
           width: 100%;
           position: absolute;
           max-width: 300px;
+        }
+        .right-align {
+          right: 0;
         }
         li {
           font-size: var(--text-size);
@@ -316,6 +319,7 @@ class UnityDropdown extends LitElement {
     this.searchBox = false;
     this.showTags = false;
     this.onValueChange = () => {};
+    this.rightAlign = false;
     this._collapsed = true;
     this._dropdown = () => this.toggleCollapse();
     this._changeValue = (id) => () => {this.changeSelected(id)};
@@ -343,6 +347,7 @@ class UnityDropdown extends LitElement {
       helperText: { type: String },
       searchBox: { type: Boolean },
       showTags: { type: Boolean },
+      rightAlign: { type: Boolean },
       _collapsed: { type: Boolean },
       _dropdown: { type: Function },
       _changeValue: { type: Function },
@@ -781,7 +786,9 @@ class UnityDropdown extends LitElement {
   // }
 
   render() {
-    const isButton = (this.boxType === OUTLINED || this.boxType === GRADIENT);
+    let classes = 'options-box'
+    if(this.boxType === OUTLINED || this.boxType === GRADIENT) classes += ' button-options'
+    if(this.rightAlign) classes += ' right-align'
     return html`
       <div>
         ${!!this.label ?
@@ -797,7 +804,7 @@ class UnityDropdown extends LitElement {
           ${!this._collapsed?
             html`
               <paper-dialog .noAutoFocus="${true}" id="options-dialog" opened
-                            class="options-box ${isButton? "button-options": ""}"
+                            class=${classes}
                             >
                 ${this.searchBox? this.renderSearchBox() : null}
                 ${this.inputType === MULTI_SELECT ? this.renderSelectAll() : null}

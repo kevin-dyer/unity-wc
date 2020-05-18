@@ -1,5 +1,6 @@
 import { html, css } from 'lit-element';
-import '@bit/smartworks.unity.unity-dropdown';
+// import '@bit/smartworks.unity.unity-dropdown';
+import './unity-dropdown/unity-dropdown' // TODO: change back after code review
 import '@bit/smartworks.unity.unity-select-menu';
 
 import { PageViewElement } from './page-view-element.js';
@@ -153,6 +154,13 @@ class MyDropdowns extends PageViewElement {
           position: relative;
           width: 250px;
           margin: 1em 0;
+        }
+        .right-align {
+          display: flex;
+          justify-content: flex-end;
+        }
+        .inline {
+          width: max-content;
         }
       `
     ];
@@ -308,6 +316,7 @@ class MyDropdowns extends PageViewElement {
 
         <div class="input-box">
           <unity-dropdown
+            class="inline"
             label="${"Inline"}"
             boxType="inline"
             .onMenuClick=${this.onMenuClick}
@@ -315,6 +324,19 @@ class MyDropdowns extends PageViewElement {
           >
           </unity-dropdown>
         </div>
+
+        <div class="input-box right-align">
+        <unity-dropdown
+          class="inline"
+          label="${"Right alignment"}"
+          boxType="inline"
+          .rightAlign=${true}
+          .onMenuClick=${this.onMenuClick}
+          .options=${dataMock.labelsOnly}
+        >
+        </unity-dropdown>
+      </div>
+
 
         <div class="input-box">
           <unity-dropdown
