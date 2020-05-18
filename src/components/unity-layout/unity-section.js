@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 
-import { getParent, getNextSibling} from '../unity-utils/unity-utils'
+import { getParent } from '@bit/smartworks.unity.unity-utils'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 /**

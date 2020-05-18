@@ -8,30 +8,21 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 import { html, css } from 'lit-element';
-import { PageViewElement } from './page-view-element.js';
-import './unity-layout/unity-page-header.js'
-
-// import './unity-button/unity-button.js'
-import '@bit/smartworks.unity.unity-button';
-
-import './unity-table/unity-table.js'
-
+import '@polymer/iron-icons/av-icons.js'
 import '@polymer/paper-input/paper-input.js';
 
-import './unity-layout/unity-page-header.js'
-// import './unity-text-input/unity-text-input.js'
-import '@bit/smartworks.unity.unity-text-input';
+import '@bit/smartworks.unity.unity-core/unity-page-header'
+import '@bit/smartworks.unity.unity-core/unity-button';
+import '@bit/smartworks.unity.unity-core/unity-table'
+import '@bit/smartworks.unity.unity-core/unity-text-input';
+import '@bit/smartworks.unity.unity-core/unity-column-editor'
+import '@bit/smartworks.unity.unity-core/unity-table-export'
 
-
-//TEST
-import './unity-table/unity-table-export.js'
-
-import './unity-table/unity-column-editor.js'
+import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
 import {devices} from './unity-table/fakeData'
 // import {deviceData} from './unity-table/largeDataSet'
 
-import '@polymer/iron-icons/av-icons.js'
 
 
 const data = devices.data

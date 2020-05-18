@@ -15,6 +15,10 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @example
  *  <unity-table-export
  *    .tableRef="${tableRef}"
+ *    .beforeExport="${(data) => {
+ *      console.log(data)
+ *      return data 
+ *    }}"
  *    .onExport="${({ success, exportedData, clickEvent }) => !!success && console.log('CSV Exported Successfully!')}"
  *  >
  *    <unity-button // or any other element

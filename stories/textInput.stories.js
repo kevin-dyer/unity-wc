@@ -1,4 +1,4 @@
-import '@bit/smartworks.unity.unity-text-input';
+import '@bit/smartworks.unity.unity-core/unity-text-input';
 // import '../src/components/unity-text-input/unity-text-input.js'
 import { html } from 'lit-element';
 import {

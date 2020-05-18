@@ -1,5 +1,3 @@
-// import '@bit/smartworks.unity.unity-page-header'
-import '../src/components/unity-layout/unity-page-header'
 import { html } from 'lit-element'
 import {
   withKnobs,
@@ -8,7 +6,8 @@ import {
   object,
   number
 } from "@storybook/addon-knobs"
-import { action } from "@storybook/addon-actions"
+import '@bit/smartworks.unity.unity-core/unity-page-header'
+
 
 export default {
   title: "Page Header",

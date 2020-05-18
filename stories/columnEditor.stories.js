@@ -1,10 +1,10 @@
-import '../src/components/unity-table/unity-column-editor.js'
 import { html } from 'lit-element';
 import {
   withKnobs,
   select
 } from "@storybook/addon-knobs";
 import { action } from '@storybook/addon-actions';
+import '@bit/smartworks.unity.unity-core/unity-column-editor'
 
 export default {
   title: 'ColumnEditor',
