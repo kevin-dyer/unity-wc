@@ -68,6 +68,7 @@ class UnityDropdown extends LitElement {
           --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
+          --options-box-width: 100%;
           font-family: var(--input-font);
           border-collapse: collapse;
           user-select: none;
@@ -152,7 +153,7 @@ class UnityDropdown extends LitElement {
           border-radius: 0 0 2px 2px;
           background-color: var(--background-color, var(--default-background-color));
           z-index: 10;
-          width: 100%;
+          width: var(--options-box-width);
           position: absolute;
           max-width: 300px;
         }
