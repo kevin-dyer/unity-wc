@@ -8,6 +8,9 @@ import '@bit/smartworks.unity.unity-typography'
 * @name UnityTooltip
 * @param {string} label, the text of the tooltip
 * @param {string} arrow, direction of the tooltip arrow (top, bottom, right or left), optional
+* @param {bool} bottomAlign, if the tooltip should be aligned to the bottom of the reference point
+* @param {bool} rightAlign, if the tooltip should be aligned to the right of the reference point
+
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-tooltip
@@ -22,21 +25,25 @@ class UnityTooltip extends LitElement {
     super()
     this.label = ''
     this.arrow = ''
+    this.bottomAlign = false
+    this.rightAlign = false
   }
 
   static get properties() {
     return {
       label: { type: String },
-      arrow: { type: String }
+      arrow: { type: String },
+      bottomAlign: { type: Boolean },
+      rightAlign: { type: Boolean }
     }
   }
   
   render() {
-    const { label, arrow } = this
+    const { label, arrow, bottomAlign, rightAlign } = this
     let classes = 'tooltip'
-    if (!!arrow) {
-      classes += ` arrow ${arrow}`
-    }
+    if (!!arrow) classes += ` arrow ${arrow}`
+    if (bottomAlign) classes += ' bottom-align'
+    if (rightAlign) classes += ' right-align'
     return html`<span class=${classes}><unity-typography size="paragraph">${label}</unity-typography></span>`
   }
 
@@ -84,6 +91,12 @@ class UnityTooltip extends LitElement {
       }
       unity-typography {
         line-height: normal;
+      }
+      .right-align {
+        right: 0;
+      }
+      .bottom-align {
+        bottom: 0;
       }
       `
     ]

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { fixture, expect } from '@open-wc/testing'
-import '@bit/smartworks.unity.unity-tooltip'
+// import '@bit/smartworks.unity.unity-tooltip'
+import '../../src/components/unity-tooltip/unity-tooltip' // TODO: change back after code review
 
 describe('tooltip test', () => {
   it('without arrow', async () => {
@@ -14,5 +15,18 @@ describe('tooltip test', () => {
     const el = await fixture('<unity-tooltip arrow="bottom" label="hi"></unity-tooltip>');
     const span = el.shadowRoot.querySelector('span')
     expect(span.className).to.include('arrow bottom');
+  });
+});
+
+describe('unity-tooltip', () => {
+  it('should have right-align class added', async () => {
+    const el = await fixture('<unity-tooltip label="hi" rightAlign=${true}></unity-tooltip>');
+    const span = el.shadowRoot.querySelector('span')
+    expect(span.className).to.include('right-align');
+  });
+  it('should have bottom-align class added', async () => {
+    const el = await fixture('<unity-tooltip label="hi" bottomAlign=${true}></unity-tooltip>');
+    const span = el.shadowRoot.querySelector('span')
+    expect(span.className).to.include('bottom-align');
   });
 });
