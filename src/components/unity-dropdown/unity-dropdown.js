@@ -700,6 +700,7 @@ class UnityDropdown extends LitElement {
     if (isButton) {
       return html`
         <unity-button
+          style="--button-color: var(--dropdown-color)"
           label="${label || placeholder}"
           rightIcon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"
           type="${boxType === GRADIENT ? "gradient" : "outlined" }"
