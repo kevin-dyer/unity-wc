@@ -13,7 +13,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-button@0.1.12": {
+    "smartworks.unity/unity-button@1.0.0": {
         "files": [
             {
                 "name": "unity-button.js",
@@ -30,7 +30,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@0.0.28": {
+    "smartworks.unity/unity-column-editor@1.0.0": {
         "files": [
             {
                 "name": "unity-column-editor.js",
@@ -44,6 +44,154 @@
             }
         ],
         "mainFile": "src/components/unity-table/unity-column-editor.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-core@1.0.2": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-core/index.js",
+                "test": false,
+                "name": "index.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/table-cell-base.js",
+                "test": false,
+                "name": "table-cell-base.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-button.js",
+                "test": false,
+                "name": "unity-button.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-column-editor.js",
+                "test": false,
+                "name": "unity-column-editor.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-core.md",
+                "test": false,
+                "name": "unity-core.md"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-default-theme-styles.js",
+                "test": false,
+                "name": "unity-default-theme-styles.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-dropdown.js",
+                "test": false,
+                "name": "unity-dropdown.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-dropzone.js",
+                "test": false,
+                "name": "unity-dropzone.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-global-nav-base.js",
+                "test": false,
+                "name": "unity-global-nav-base.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-global-nav-inner-item.js",
+                "test": false,
+                "name": "unity-global-nav-inner-item.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-global-nav-top-item.js",
+                "test": false,
+                "name": "unity-global-nav-top-item.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-icon-set.js",
+                "test": false,
+                "name": "unity-icon-set.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-icon.js",
+                "test": false,
+                "name": "unity-icon.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-modal.js",
+                "test": false,
+                "name": "unity-modal.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-notification.js",
+                "test": false,
+                "name": "unity-notification.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-page-header.js",
+                "test": false,
+                "name": "unity-page-header.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-progress.js",
+                "test": false,
+                "name": "unity-progress.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-section.js",
+                "test": false,
+                "name": "unity-section.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-select-menu.js",
+                "test": false,
+                "name": "unity-select-menu.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-split-pane.js",
+                "test": false,
+                "name": "unity-split-pane.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-table-cell.js",
+                "test": false,
+                "name": "unity-table-cell.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-table-export.js",
+                "test": false,
+                "name": "unity-table-export.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-table.js",
+                "test": false,
+                "name": "unity-table.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-text-input.js",
+                "test": false,
+                "name": "unity-text-input.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-toggle-switch.js",
+                "test": false,
+                "name": "unity-toggle-switch.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-tooltip.js",
+                "test": false,
+                "name": "unity-tooltip.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-typography.js",
+                "test": false,
+                "name": "unity-typography.js"
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-utils.js",
+                "test": false,
+                "name": "unity-utils.js"
+            }
+        ],
+        "mainFile": "src/components/unity-core/index.js",
+        "trackDir": "src/components/unity-core",
         "origin": "AUTHORED",
         "exported": true
     },
@@ -64,7 +212,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@0.1.31": {
+    "smartworks.unity/unity-dropdown@1.0.0": {
         "files": [
             {
                 "name": "strings.js",
@@ -86,7 +234,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropzone@0.1.12": {
+    "smartworks.unity/unity-dropzone@1.0.0": {
         "files": [
             {
                 "name": "unity-dropzone.js",
@@ -104,7 +252,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@0.2.13": {
+    "smartworks.unity/unity-global-nav-base@1.0.1": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
@@ -121,7 +269,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-inner-item@0.2.10": {
+    "smartworks.unity/unity-global-nav-inner-item@1.0.0": {
         "files": [
             {
                 "name": "unity-global-nav-inner-item.js",
@@ -138,7 +286,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@0.2.10": {
+    "smartworks.unity/unity-global-nav-top-item@1.0.0": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",
@@ -168,7 +316,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-icon@0.1.8": {
+    "smartworks.unity/unity-icon@1.0.0": {
         "files": [
             {
                 "name": "unity-icon.js",
@@ -185,7 +333,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-modal@0.1.15": {
+    "smartworks.unity/unity-modal@1.0.0": {
         "files": [
             {
                 "name": "unity-modal.js",
@@ -202,7 +350,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-notification@0.1.10": {
+    "smartworks.unity/unity-notification@1.0.0": {
         "files": [
             {
                 "name": "unity-notification.js",
@@ -219,7 +367,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-page-header@0.2.8": {
+    "smartworks.unity/unity-page-header@1.0.0": {
         "files": [
             {
                 "name": "unity-page-header.js",
@@ -236,7 +384,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-progress@0.1.8": {
+    "smartworks.unity/unity-progress@1.0.0": {
         "files": [
             {
                 "name": "unity-progress.js",
@@ -253,7 +401,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-section@0.2.10": {
+    "smartworks.unity/unity-section@1.0.0": {
         "files": [
             {
                 "name": "unity-section.js",
@@ -270,7 +418,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-select-menu@0.0.13": {
+    "smartworks.unity/unity-select-menu@1.0.0": {
         "files": [
             {
                 "name": "unity-select-menu.js",
@@ -287,7 +435,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-split-pane@0.3.12": {
+    "smartworks.unity/unity-split-pane@1.0.0": {
         "files": [
             {
                 "name": "unity-split-pane.js",
@@ -304,7 +452,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-cell@0.1.33": {
+    "smartworks.unity/unity-table-cell@1.0.0": {
         "files": [
             {
                 "name": "unity-table-cell.js",
@@ -321,7 +469,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-export@0.1.2": {
+    "smartworks.unity/unity-table-export@1.0.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-table/unity-table-export.js",
@@ -333,7 +481,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@0.4.24": {
+    "smartworks.unity/unity-table@1.0.1": {
         "files": [
             {
                 "name": "filter-dropdown.js",
@@ -360,7 +508,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@0.1.40": {
+    "smartworks.unity/unity-text-input@1.0.0": {
         "files": [
             {
                 "name": "unity-text-input.js",
@@ -372,7 +520,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-toggle-switch@0.1.10": {
+    "smartworks.unity/unity-toggle-switch@1.0.0": {
         "files": [
             {
                 "name": "unity-toggle-switch.js",
@@ -390,7 +538,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-tooltip@0.1.10": {
+    "smartworks.unity/unity-tooltip@1.0.0": {
         "files": [
             {
                 "name": "unity-tooltip.js",
@@ -408,7 +556,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-typography@0.1.8": {
+    "smartworks.unity/unity-typography@1.0.0": {
         "files": [
             {
                 "name": "unity-typography.js",
