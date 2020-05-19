@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.1.0
+- Add rightAlign property to make options box align from the right of the dropdown
+- Add css variable to control options box width.
+- New custom css variables to use instead of the theme variables (default to theme values).
+- Dropdown button color now depends on the --dropdown-color variable.
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 
