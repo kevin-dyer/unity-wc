@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { fixture, expect } from '@open-wc/testing'
-// import '@bit/smartworks.unity.unity-tooltip'
-import '../../src/components/unity-tooltip/unity-tooltip' // TODO: change back after code review
+import '../../src/components/unity-tooltip/unity-tooltip'
 
 describe('tooltip test', () => {
   it('without arrow', async () => {
