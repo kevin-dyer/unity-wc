@@ -183,17 +183,16 @@ export const UsingNotificationsHandler = () => {
         flex: 1;
         display: flex;
         flex-direction:  column;
-        margin: 20px;
-        padding: 40px;
+        justify-content: center;
+        margin: 10px;
         position: relative;
       }
 
       .buttons-container {
         display: flex;
         flex-direction: row;
-        padding: 5px;
         justify-content: space-between;
-        margin-top: 50%;
+        padding: 100px;
       }
     </style>
   `
