@@ -17,6 +17,11 @@ or
 1) Add links and wrapper component to the main `my-app` file
 1) Create folder/files for components and get to work
 
+# Build unity-core bundle
+Running `npm run bundle` will create a bundle of the unity-core library inside the `bundle/` folder, with a regular and a minified version (`unity-core-bundle.js` and `unity-core-bundle.min.js`)
+Include `<script type="module" src="<path>/unity-core-bundle.js"></script>` or `<script type="module" src="<path>/unity-core-bundle.min.js"></script>` in an HTML file to use any of the web components included in the library.
+
+
 # PWA Starter Kit
 
 This sample app is a starting point for building PWAs. Out of the box, the template
