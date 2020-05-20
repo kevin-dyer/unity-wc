@@ -179,13 +179,13 @@ export const UsingNotificationsHandler = () => {
       }
 
       .section {
-        border: 1px solid black;
         flex: 1;
         display: flex;
         flex-direction:  column;
         justify-content: center;
         margin: 10px;
         position: relative;
+        box-shadow: 0 0 5px 1px rgba(0,0,0,0.1);
       }
 
       .buttons-container {
