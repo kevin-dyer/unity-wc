@@ -37,7 +37,7 @@
     "@bit/smartworks.unity.unity-icon-set": "^0.1.3",
     "@bit/smartworks.unity.unity-modal": "^1.0.0",
     "@bit/smartworks.unity.unity-notification": "^1.0.0",
-    "@bit/smartworks.unity.unity-notifications-handler": "^1.0.0",
+    "@bit/smartworks.unity.unity-notifications-handler": "^1.0.1",
     "@bit/smartworks.unity.unity-page-header": "^1.0.0",
     "@bit/smartworks.unity.unity-progress": "^1.0.0",
     "@bit/smartworks.unity.unity-section": "^1.0.0",
