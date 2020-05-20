@@ -67,6 +67,8 @@ class UnityNotificationsHandler extends LitElement {
 
     this._queuedNotifications = []
     this._showNotification = false
+
+    this._notificationStyle = ''
     this._notificationTimeout = null
 
     this._handleAddNotification = this._handleAddNotification.bind(this)
@@ -110,13 +112,14 @@ class UnityNotificationsHandler extends LitElement {
   static get styles() {
     // only allow 'top' and 'bottom', defaulting to 'top'
     const  topBottomPosition = !this.position || this.position.split('-')[0] !== 'bottom'
-      ? css`top`
-      : css`bottom`
+    ? css`top`
+    : css`bottom`
     
     // only allow 'left' and 'right', defaulting to 'right'
     const  leftRightPosition = !this.position || this.position.split('-')[1] !== 'left'
-      ? css`right`
-      : css`left`
+    ? css`right`
+    : css`left`
+      
       
     return [
       UnityDefaultThemeStyles,
@@ -161,6 +164,31 @@ class UnityNotificationsHandler extends LitElement {
     if (!/^[A-z0-9\-]+$/.test(this.name)) throw `Name ${this.name} contains characters other than A-z and hyphens`
 
     document.addEventListener(this.name, ({ detail: notification={} }={}) => {
+      this._handleAddNotification(notification)
+    })
+  }
+
+  updated(changedProps) {
+    if (changedProps.has('queuedNotifications') || changedProps.has('showNotification')) {
+      const currentNotification = this.queuedNotifications[0]
+      if (!currentNotification) {
+        this._notificationStyle = `display: none;`
+        return
+      }
+      const { color } = currentNotification
+      // prevent css injection:
+      if (!/^[A-z0-9\#\(\), ]+$/.test(color)) throw `Color value "${color}" does not pass secure color values test.`
+      const animationDuration = parseInt(this.animationDuration) || 500
+
+      this._notificationStyle = `
+          --notification-color: ${color};
+          animation: ${!!this.showNotification ? `notificationIn` : `notificationOut`} 0.5s ease-out;
+        `
+    }
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener(this.name, ({ detail: notification={} }={}) => {
       this._handleAddNotification(notification)
     })
   }
@@ -276,30 +304,17 @@ class UnityNotificationsHandler extends LitElement {
       text='',
       subtext='',
       icon='',
-      color,
       onClose=()=>{}
     } = this.queuedNotifications[0] || {}
 
-    // prevent css injection:
-    if (!/^[A-z0-9\#\(\), ]+$/.test(color)) throw `Color value "${color}" does not pass secure color values test.`
-    const animationDuration = parseInt(this.animationDuration) || 500
-
-    const style = (!!this.queuedNotifications && !!this.queuedNotifications[0])
-      ? `
-        --notification-color: ${color};
-        animation: ${!!this.showNotification ? `notificationIn` : `notificationOut`} 0.5s ease-out;
-      `
-      : `display: none;`
-
-    console.log(`style: `, style)
-
     return html`
       <unity-notification
+        class="notification-"
         .text=${text}
         .subtext=${subtext}
         .icon=${icon}
         .onClose=${onClose}
-        style=${style}
+        style=${this._notificationStyle}
       />
     `
   }
