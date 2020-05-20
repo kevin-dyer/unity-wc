@@ -109,6 +109,10 @@ class UnityNotificationsHandler extends LitElement {
             ${leftRightPosition}: 0;
             ${topBottomPosition}: 0;
             margin: 12px;
+            ${!!this._queuedNotifications[0] && `
+            --notification-color: ${this._queuedNotifications[0].color};
+            animation: notification${this._showNotification ? 'In' : 'Out'} ${this.animationDuration}ms ease-out;
+          `}
         }
 
         @keyframe notificationIn {
@@ -198,10 +202,7 @@ class UnityNotificationsHandler extends LitElement {
       text,
       subText,
       icon,
-      style: css`
-        --notification-color: ${color};
-        animation: notification${this._showNotification ? 'In' : 'Out'} ${this.animationDuration}ms ease-out;
-      `,
+      color,
       onClose: async () => {
         const closeResult = await this.onClose()
         if (closeResult !== false) this._handleCloseNotification() // if user returns false, don't close notification (but accept undefined)
@@ -246,7 +247,7 @@ class UnityNotificationsHandler extends LitElement {
         .text="${text}"
         .subtext="${subtext}"
         .icon="${icon}"
-        onClose="${onClose}"
+        .onClose="${onClose}"
         style="${style}"
       />
     `
