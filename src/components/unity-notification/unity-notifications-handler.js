@@ -1,16 +1,17 @@
 import { LitElement, html, css } from 'lit-element'
 
-import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-notifications'
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-core/unity-default-theme-styles'
+import '@bit/smartworks.unity.unity-core/unity-notification'
 
 /**
  * Component to control notifications 
  * @name UnityNotificationsHandler
- * @param {String} position, position in the container; options are 'top-right', 'top-left', 'bottom-right', and 'bottom-left'.
  * @param {String} name, a unique name for use with the addNotification function. No two unity-notifications-handler components should share this within one app. Name should only include characters A-z and hyphens.
+ * @param {String} position, position in the container; options are 'top-right', 'top-left', 'bottom-right', and 'bottom-left'.
  * @param {Object} icons
  * @param {Object} colors
  * @param {Object} customTypes
+ * @param {integer} animationDuration, duration of appear and disappear animations, in ms; default 500
  * @param {Function} onClose, callback function to call when clicking the close button
  *
  * CSS vars:
@@ -18,24 +19,43 @@ import '@bit/smartworks.unity.unity-notifications'
  * --notification-width: width of the notification. Defaults to 450px.
  *
  * @example
- * import { addNotification } from 'smartworks.unity.unity-core/unity-notifications-handler'
- * 
+ *  // to add a notification
+ *  import { addNotification } from 'smartworks.unity.unity-core/unity-notifications-handler'
+ *  addNotification({
+ *    name: 'foo-notifications',
+ *    notification: {
+ *       text:  'Notification Main Text',
+ *       subtext:  'Extra notification information',
+ *       type:  'help'
+ *    }
+ *  })
  * 
  * // in render method of your component, inside container on which you want to show the notification
- *   <unity-notifications-handler
- *     .onClose=${()=>console.log('closed')}
- *   >
- *   </unity-notifications-handler>
+ *    <unity-notifications-handler
+ *      name='foo-notifications'
+ *      .onClose=${()=>console.log('closed')}
+ *    >
+ *    </unity-notifications-handler>
 */
 
-class UnityNotification extends LitElement {
+// TODO: Change this to use default theme styles
+const defaultColors  = {
+  error: css`rgb(224, 39, 18)`,
+  danger: css`rgb(255,198,0)`,
+  success: css`rgb(71,162,63)`,
+  help: css`rgb(162, 170, 173)`,
+  tip: css`rgb(45,204,211)`,
+}
+
+class UnityNotificationsHandler extends LitElement {
   constructor() {
     super()
-    this.position = 'top-right'
+    this.position = ''
     this.name = ''
     this.icons = {}
     this.colors = {}
     this.customTypes = {}
+    this.animationDuration = 500
     this.onClose = () => {}
 
     this._queuedNotifications = []
@@ -46,12 +66,17 @@ class UnityNotification extends LitElement {
     return {
       position: { type: String},
       name: { type: String},
+      icons: { type: Object },
+      colors: { type: Object },
+      customTypes: { type: Object },
+      animationDuration: { type: Number },
       onClose: { type: Function },
     }
   }
   
-  firstUpdated = () => {
-    if (!/^[A-z\-]+$/.test(this.name)) throw `Name ${this.name} cntains characters other than A-z and hyphens`
+  firstUpdated() {
+    if (!this.name) throw `Name not provided for unity-notifications-handler`
+    if (!/^[A-z\-]+$/.test(this.name)) throw `Name ${this.name} contains characters other than A-z and hyphens`
 
     document.addEventListener(this.name, ({
       detail: {
@@ -59,16 +84,33 @@ class UnityNotification extends LitElement {
         subtext,
         type
       }
-    }) => this._handleAddNotification({ show: true, text, subtext, type, timeout }) )
+    }) => this._handleAddNotification({ text, subtext, type, timeout }) )
   }
 
   static get styles() {
-    const  topBottomPosition = this.position.split('-')[0] === 'bottom' ? 'bottom' : 'top' // only allow 'bottom' and 'top', defaulting to 'top'
-    const  leftRightPosition = this.position.split('-')[1] === 'left' ? 'left' : 'right' // only allow 'left' and 'right', defaulting to 'right'
+    // only allow 'top' and 'bottom', defaulting to 'top'
+    const  topBottomPosition = !this.position || this.position.split('-')[0] !== 'bottom'
+      ? css`top`
+      : css`bottom`
     
+    // only allow 'left' and 'right', defaulting to 'right'
+    const  leftRightPosition = !this.position || this.position.split('-')[1] !== 'left'
+      ? css`right`
+      : css`left`
+
     return [
       UnityDefaultThemeStyles,
       css`
+        unity-notification {
+            font-family: Avenir;
+            display: flex;
+            flex-direction: row;
+            position: fixed;
+            ${leftRightPosition}: 0;
+            ${topBottomPosition}: 0;
+            margin: 12px;
+        }
+
         @keyframe notificationIn {
           from {
             ${topBottomPosition}: -80px;
@@ -90,24 +132,14 @@ class UnityNotification extends LitElement {
             opacity: 0%;
           }
         }
-        
-        unity-notification {
-            font-family: Avenir;
-            display: flex;
-            flex-direction: row;
-            position: fixed;
-            ${leftRightPosition}: 0;
-            ${topBottomPosition}: 0;
-            margin: 12px;
-        }
       `
     ]
   }
 
-  static addNotification = ({
+  static addNotification({
     name=this.name,
     notification={}
-  }={}) => {
+  }={}) {
     const addNotificationEvent = new CustomEvent(name, {
       bubbles: true,
       detail: { ...notification }
@@ -115,40 +147,52 @@ class UnityNotification extends LitElement {
     document.dispatchEvent(addNotificationEvent)
   }
 
-  static nextNotification = () => this._handleNextNotification
+  static nextNotification() {
+    console.log(`this`, this)
+    this._handleNextNotification()
+  }
 
-  static clearNotifications = () => this._handleClearNotifications
+  static clearNotifications() {
+    this._handleClearNotifications()
+  }
 
-  _getIconAndColorFromType = (type) => ({
-    error: {
-      icon: this.icons.error || 'unity:error',
-      color: this.colors.error || 
-    },
-    warning: {
-      icon: this.icons.warning || 'unity:error',
-      color: this.colors.warning || 
-    },
-    success: {
-      icon: this.icons.success || 'unity:circle_check',
-      color: this.colors.success || 
-    },
-    tip: {
-      icon: this.icons.tip || 'unity:hand_right',
-      color: this.colors.tip || 
-    },
-    help: {
-      icon: this.icons.help || 'unity:help',
-      color: this.colors.help || 
-    },
-    ...this.customTypes
-  })[type]
+  _getIconAndColorFromType(type) {
+    const options = {
+      error: {
+        icon: this.icons.error || 'unity:error',
+        color: this.colors.error || defaultColors.error 
+      },
+      warning: {
+        icon: this.icons.warning || 'unity:error',
+        color: this.colors.warning || defaultColors.warning 
+      },
+      success: {
+        icon: this.icons.success || 'unity:circle_check',
+        color: this.colors.success || defaultColors.success 
+      },
+      tip: {
+        icon: this.icons.tip || 'unity:hand_right',
+        color: this.colors.tip || defaultColors.tip 
+      },
+      help: {
+        icon: this.icons.help || 'unity:help',
+        color: this.colors.help || defaultColors.help 
+      },
+      ...this.customTypes
+    }
+    return options[type]
+  }
 
-  _handleAddNotification = ({ text, subtext, type, timeout }) => {
+  _handleAddNotification(test={}) {
+    console.log(`notification`, notification)
+    const { text, subtext, type, timeout } = notification
     // Ignore duplicates
     const lastNotification = this._queuedNotifications[0]
     if (!!lastNotification && lastNotification.text === text && lastNotification.subtext === subtext) return
 
-    const { icon, color } = this._getIconAndColorFromType(type)
+    const { icon, color } = this._getIconAndColorFromType(type) || notification
+
+    if (!icon || !color) throw `Could not retrieve icon or color.`
 
     const notification = {
       text,
@@ -156,23 +200,24 @@ class UnityNotification extends LitElement {
       icon,
       style: css`
         --notification-color: ${color};
-        animation: notification${this._showNotification ? 'In' : 'Out'} 0.5s ease-out;
+        animation: notification${this._showNotification ? 'In' : 'Out'} ${this.animationDuration}ms ease-out;
       `,
       onClose: async () => {
         const closeResult = await this.onClose()
-        if (!!closeResult) this._handleCloseNotification()
+        if (closeResult !== false) this._handleCloseNotification() // if user returns false, don't close notification (but accept undefined)
       },
     }
 
     this._queuedNotifications.push(notification)
+    if (!!timeout) this._notificationTimeout = setTimeout(this._handleCloseNotification, timeout)
   }
 
-  _handleCloseNotification = () => {
+  _handleCloseNotification() {
     this._showNotification = false
-    this.setTimeout(this._handleNextNotification, 500) // go to next notification, after animation
+    this._notificationTimeout = setTimeout(this._handleNextNotification, this.animationDuration) // go to next notification, after animation
   }
 
-  _handleNextNotification = () => {
+  _handleNextNotification() {
     this._queuedNotifications.shift()
     const nextNotification = this._queuedNotifications[0]
     if (!!nextNotification) {
@@ -181,7 +226,7 @@ class UnityNotification extends LitElement {
     }
   }
 
-  _handleClearNotifications = () => {
+  _handleClearNotifications() {
     this._showNotification = false
     this._queuedNotifications = []
     this._notificationTimeout = null
@@ -208,7 +253,7 @@ class UnityNotification extends LitElement {
   }
 }
 
-window.customElements.define('unity-notifications-handler', UnityNotification)
+window.customElements.define('unity-notifications-handler', UnityNotificationsHandler)
 
 export const addNotification = UnityNotificationsHandler.addNotification
 export const nextNotification = UnityNotificationsHandler.nextNotification
