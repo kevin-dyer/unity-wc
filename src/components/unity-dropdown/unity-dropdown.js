@@ -27,7 +27,7 @@ import * as strings from './strings'
 * @param {bool} searchBox, when expanded, include a search box that highlights the searched text
 * @param {bool} showTags, show tags with selected options (only for multi-select)
 * @param {func} onValueChange, callback on clicking a value that returns current seelcted for single select, and option and bool selected when multiselect
-*
+* @param {bool} rightAlign, if the dropdown box should be aligned to the right
 * @example
 * <unity-dropdown
 *   label="${"Full example"}"
@@ -63,12 +63,21 @@ class UnityDropdown extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --input-font: var(--font-family, var(--default-font-family));
-          --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
-          --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
-          --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
-          font-family: var(--input-font);
+          --dropdown-background-color: var(--background-color, var(--default-background-color));
+          --dropdown-background-color-disabled: var(--light-grey-background-color, var(--default-light-grey-background-color));
+          --dropdown-border-color: var(--medium-grey-text-color, var(--default-medium-grey-text-color));
+          --dropdown-border-color-disabled: var(--dark-grey-background, var(--default-dark-grey-background));
+          --dropdown-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          --dropdown-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          --dropdown-color-dark: var(--primary-brand-color-dark, var(--default-primary-brand-color-dark));
+          --dropdown-input-font: var(--font-family, var(--default-font-family));
+          --dropdown-color-light: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+          --dropdown-label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --dropdown-line-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
+          --dropdown-options-box-width: 100%;
+          --dropdown-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
+          --dropdown-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          font-family: var(--dropdown-input-font);
           border-collapse: collapse;
           user-select: none;
           display: inline-block;
@@ -84,9 +93,8 @@ class UnityDropdown extends LitElement {
           --paper-checkbox-size: 14px;
           --paper-checkbox-border-radius: 0;
           --paper-checkbox-border: 1px solid;
-          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
-
+          --paper-checkbox-unchecked-color: var(--dropdown-checkbox-unchecked-color);
+          --paper-checkbox-checked-color: var(--dropdown-color);
           --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
           --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
         }
@@ -101,8 +109,8 @@ class UnityDropdown extends LitElement {
         }
         .label {
           padding: 0;
-          font-size: var(--text-size);
-          color: var(--label-color);
+          font-size: var(--dropdown-text-size);
+          color: var(--dropdown-label-color);
         }
         .list-element-wrapper {
           margin: 0;
@@ -123,7 +131,7 @@ class UnityDropdown extends LitElement {
           max-width: 20px;
         }
         .selected-icon {
-          color: var(--primary-brand-color, var(--default-primary-brand-color));
+          color: var(--dropdown-color);
         }
         .option-label-wrapper {
           display: flex;
@@ -148,47 +156,50 @@ class UnityDropdown extends LitElement {
           max-height: 330px;
         }
         .options-box {
-          border: 1px solid var(--medium-grey-text-color, var(--default-medium-grey-text-color));
+          border: 1px solid var(--dropdown-border-color);
           border-radius: 0 0 2px 2px;
-          background-color: var(--background-color, var(--default-background-color));
+          background-color: var(--dropdown-background-color);
           z-index: 10;
-          width: 100%;
+          width: var(--dropdown-options-box-width);
           position: absolute;
           max-width: 300px;
         }
+        .right-align {
+          right: 0;
+        }
         li {
-          font-size: var(--text-size);
-          font-family: var(--input-font);
-          background-color: var(--background-color, var(--default-background-color));
+          font-size: var(--dropdown-text-size);
+          font-family: var(--dropdown-input-font);
+          background-color: var(--dropdown-background-color);
           box-sizing: border-box;
           margin: 0;
           display: flex;
           flex-direction: column;
         }
         li:hover {
-          background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+          background-color: var(--dropdown-color-light);
         }
 
         li:hover:not(.disabled){
           cursor:pointer;
         }
         .list-element:hover {
-          background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+          background-color: var(--dropdown-color-light);
         }
         .text-box {
           width: auto;
-          background-color: var(--background-color, var(--default-background-color));
+          background-color: var(--dropdown-background-color);
           box-sizing: border-box;
           display: flex;
           flex-direction: row;
           align-items: center;
-          font-family: var(--input-font);
-          font-size: var(--text-size);
+          font-family: var(--dropdown-input-font);
+          font-size: var(--dropdown-text-size);
         }
         .input-box {
-          border: 1px solid var(--medium-grey-text-color, var(--default-medium-grey-text-color));
+          border: 1px solid var(--dropdown-border-color);
           border-radius: 2px;
-          height: var(--unity-text-input-height, var(--default-unity-text-input-height));
+          height: var(--dropdown-line-height);
         }
         .expanded .input-box {
           border-bottom: none;
@@ -205,15 +216,15 @@ class UnityDropdown extends LitElement {
         #displayed {
           margin: 0;
           align-self: center;
-          color: rgb(var(--text-color));
+          color: rgb(var(--dropdown-text-color));
           border: 0;
           background-color: transparent;
           white-space: nowrap;
         }
         .disabled {
-          border-color: var(--dark-grey-background, var(--default-dark-grey-background));
-          background-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
-          color: rgba(var(--text-color), .4);
+          border-color: var(--dropdown-border-color-disabled);
+          background-color: var(--dropdown-background-color-disabled);
+          color: rgba(var(--dropdown-text-color), .4);
         }
         .disabled #displayed {
           color: var(--dark-grey-text-color);
@@ -229,14 +240,14 @@ class UnityDropdown extends LitElement {
         .helper-text {
           font-size: 10px;
           text-align: center;
-          background-color: var(--background-color, var(--default-background-color));
+          background-color: var(--dropdown-background-color);
         }
         .search-box {
           margin: 2px;
           padding: 0;
         }
         .text-highlight {
-          background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+          background-color: var(--dropdown-color-light);
         }
         unity-text-input {
           width: 100%;
@@ -277,13 +288,13 @@ class UnityDropdown extends LitElement {
         }
         .inline {
           width: max-content;
-          color: var(--primary-brand-color, var(--default-primary-brand-color));
+          color: var(--dropdown-color);
         }
         .inline:hover {
-          color: var(--primary-brand-color-dark, var(--default-primary-brand-color-dark));
+          color: var(--dropdown-color-dark);
         }
         #select-all {
-          border-bottom: 1px solid var(--medium-grey-text-color, var(--default-medium-grey-text-color));
+          border-bottom: 1px solid var(--dropdown-border-color);
           margin: 0;
           padding: 0;
         }
@@ -296,6 +307,9 @@ class UnityDropdown extends LitElement {
           display: block;
           margin: 0;
           box-shadow: none;
+        }
+        .dropdown-button {
+          --button-color: var(--dropdown-color);
         }
       `
     ];
@@ -316,6 +330,7 @@ class UnityDropdown extends LitElement {
     this.searchBox = false;
     this.showTags = false;
     this.onValueChange = () => {};
+    this.rightAlign = false;
     this._collapsed = true;
     this._dropdown = () => this.toggleCollapse();
     this._changeValue = (id) => () => {this.changeSelected(id)};
@@ -343,6 +358,7 @@ class UnityDropdown extends LitElement {
       helperText: { type: String },
       searchBox: { type: Boolean },
       showTags: { type: Boolean },
+      rightAlign: { type: Boolean },
       _collapsed: { type: Boolean },
       _dropdown: { type: Function },
       _changeValue: { type: Function },
@@ -687,6 +703,7 @@ class UnityDropdown extends LitElement {
     if (isButton) {
       return html`
         <unity-button
+          class="dropdown-button"
           label="${label || placeholder}"
           rightIcon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"
           type="${boxType === GRADIENT ? "gradient" : "outlined" }"
@@ -781,7 +798,9 @@ class UnityDropdown extends LitElement {
   // }
 
   render() {
-    const isButton = (this.boxType === OUTLINED || this.boxType === GRADIENT);
+    let classes = 'options-box'
+    if(this.boxType === OUTLINED || this.boxType === GRADIENT) classes += ' button-options'
+    if(this.rightAlign) classes += ' right-align'
     return html`
       <div>
         ${!!this.label ?
@@ -797,7 +816,7 @@ class UnityDropdown extends LitElement {
           ${!this._collapsed?
             html`
               <paper-dialog .noAutoFocus="${true}" id="options-dialog" opened
-                            class="options-box ${isButton? "button-options": ""}"
+                            class=${classes}
                             >
                 ${this.searchBox? this.renderSearchBox() : null}
                 ${this.inputType === MULTI_SELECT ? this.renderSelectAll() : null}

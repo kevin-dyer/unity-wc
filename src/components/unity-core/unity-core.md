@@ -1,12 +1,22 @@
 # unity-core
 
 ## usage Example
-`import @bit/smartworks.unity.unity-core/unity-button //import unity-button wc` 
+`import @bit/smartworks.unity.unity-core/unity-button //import unity-button wc`
 
 ## Changelog:
 
+### v1.1.0
+- unity-dropdown v1.1.0
+- unity-tooltip v1.1.0
+
+### v1.0.4
+- unity-global-nav-top-item v1.0.1
+
+### v1.0.3
+- unity-table-export v1.0.2
+
 ### v1.0.2
-- Bug fix for unity-table-export
+- unity-table-export v1.0.1
 
 ### v1.0.1
 - Fixed wrong version of peerDependencies in unity-global-nav-base and unity-table

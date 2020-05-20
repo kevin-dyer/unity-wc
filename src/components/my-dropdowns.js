@@ -153,6 +153,13 @@ class MyDropdowns extends PageViewElement {
           width: 250px;
           margin: 1em 0;
         }
+        .right-align {
+          display: flex;
+          justify-content: flex-end;
+        }
+        .inline {
+          width: max-content;
+        }
       `
     ];
   }
@@ -307,6 +314,7 @@ class MyDropdowns extends PageViewElement {
 
         <div class="input-box">
           <unity-dropdown
+            class="inline"
             label="${"Inline"}"
             boxType="inline"
             .onMenuClick=${this.onMenuClick}
@@ -314,6 +322,19 @@ class MyDropdowns extends PageViewElement {
           >
           </unity-dropdown>
         </div>
+
+        <div class="input-box right-align">
+        <unity-dropdown
+          class="inline"
+          label="${"Right alignment"}"
+          boxType="inline"
+          .rightAlign=${true}
+          .onMenuClick=${this.onMenuClick}
+          .options=${dataMock.labelsOnly}
+        >
+        </unity-dropdown>
+      </div>
+
 
         <div class="input-box">
           <unity-dropdown

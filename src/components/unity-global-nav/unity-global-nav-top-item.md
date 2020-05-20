@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.1
+- When only one chile, use child's label
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 
