@@ -67,9 +67,11 @@ class UnityNotificationsHandler extends LitElement {
 
     this._queuedNotifications = []
     this._showNotification = false
-
     this._notificationStyle = ''
+
     this._notificationTimeout = null
+    this._topBottomPosition = 'top'
+    this._leftRightPosition = 'right'
 
     this._handleAddNotification = this._handleAddNotification.bind(this)
     this._handleNextNotification = this._handleNextNotification.bind(this)
@@ -109,18 +111,17 @@ class UnityNotificationsHandler extends LitElement {
     return this._showNotification
   }
   
+  set notificationStyle(value) {
+    const oldValue = this._notificationStyle
+    this._notificationStyle = value
+    this.requestUpdate('notificationStyle', oldValue)
+  }
+
+  get notificationStyle() {
+    return this._notificationStyle
+  }
+  
   static get styles() {
-    // only allow 'top' and 'bottom', defaulting to 'top'
-    const  topBottomPosition = !this.position || this.position.split('-')[0] !== 'bottom'
-    ? css`top`
-    : css`bottom`
-    
-    // only allow 'left' and 'right', defaulting to 'right'
-    const  leftRightPosition = !this.position || this.position.split('-')[1] !== 'left'
-    ? css`right`
-    : css`left`
-      
-      
     return [
       UnityDefaultThemeStyles,
       css`
@@ -129,29 +130,65 @@ class UnityNotificationsHandler extends LitElement {
           display: flex;
           flex-direction: row;
           position: absolute;
-          ${leftRightPosition}: 0;
-          ${topBottomPosition}: 0;
           margin: 12px;
         }
+
+        .top {
+          top: 0;
+        }
+
+        .bottom {
+          bottom: 0;
+        }
+
+        .left {
+          left: 0;
+        }
+
+        .right {
+          right: 0;
+        }
         
-        @keyframe notificationIn {
+        @keyframe notificationInTop {
           from {
-            ${topBottomPosition}: -80px;
+            top: -80px;
             opactiy: 0%;
           }
           to {
-            ${topBottomPosition}: 0;
+            top: 0;
             opacity: 100%;
           }
         }
         
-        @keyframe notificationOut {
+        @keyframe notificationOutTop {
           from {
-            ${topBottomPosition}: 0;
+            top: 0;
             opactiy: 100%;
           }
           to {
-            ${topBottomPosition}: -80px;
+            top: -80px;
+            opacity: 0%;
+          }
+        }
+        
+        @keyframe notificationInBottom {
+          from {
+            bottom: -80px;
+            opactiy: 0%;
+          }
+          to {
+            bottom: 0;
+            opacity: 100%;
+          }
+        }
+        
+        @keyframe notificationOutBottom {
+          from {
+            bottom: 0;
+            opactiy: 100%;
+          }
+          to {
+            bottom: -80px;
             opacity: 0%;
           }
         }
@@ -166,24 +203,21 @@ class UnityNotificationsHandler extends LitElement {
     document.addEventListener(this.name, ({ detail: notification={} }={}) => {
       this._handleAddNotification(notification)
     })
+    this._calculateStyles()
   }
 
   updated(changedProps) {
-    if (changedProps.has('queuedNotifications') || changedProps.has('showNotification')) {
-      const currentNotification = this.queuedNotifications[0]
-      if (!currentNotification) {
-        this._notificationStyle = `display: none;`
-        return
-      }
-      const { color } = currentNotification
-      // prevent css injection:
-      if (!/^[A-z0-9\#\(\), ]+$/.test(color)) throw `Color value "${color}" does not pass secure color values test.`
-      const animationDuration = parseInt(this.animationDuration) || 500
-
-      this._notificationStyle = `
-          --notification-color: ${color};
-          animation: ${!!this.showNotification ? `notificationIn` : `notificationOut`} 0.5s ease-out;
-        `
+    if (changedProps.has('queuedNotifications') || changedProps.has('showNotification')) this._calculateStyles()
+    if (changedProps.has('position')) {
+      // only allow 'top' and 'bottom', defaulting to 'top'
+      this._topBottomPosition = !this.position || this.position.split('-')[0] !== 'bottom'
+        ? `top`
+        : `bottom`
+      
+      // only allow 'left' and 'right', defaulting to 'right'
+      this._leftRightPosition = !this.position || this.position.split('-')[1] !== 'left'
+        ? `right`
+        : `left`
     }
   }
 
@@ -211,6 +245,24 @@ class UnityNotificationsHandler extends LitElement {
 
   static clearNotifications() {
     this._handleClearNotifications()
+  }
+
+  _calculateStyles() {
+    console.log(`calculating styles`)
+    const currentNotification = this.queuedNotifications[0]
+      if (!currentNotification) {
+        this.notificationStyle = `display: none;`
+        return
+      }
+      const { color } = currentNotification
+      // prevent css injection:
+      if (!/^[A-z0-9\#\(\), ]+$/.test(color)) throw `Color value "${color}" does not pass secure color values test.`
+      const animationDuration = parseInt(this.animationDuration) || 500
+
+      this.notificationStyle = `
+          --notification-color: ${color};
+          animation: ${!!this.showNotification ? `notificationIn` : `notificationOut`} 0.5s ease-out;
+        `
   }
 
   _getIconAndColorFromType(type) {
@@ -279,7 +331,6 @@ class UnityNotificationsHandler extends LitElement {
   }
   
   _handleCloseNotification() {
-    console.log(`closing notification`)
     this.showNotification = false
     this._notificationTimeout = setTimeout(this._handleNextNotification, this.animationDuration) // go to next notification, after animation
   }
@@ -307,9 +358,11 @@ class UnityNotificationsHandler extends LitElement {
       onClose=()=>{}
     } = this.queuedNotifications[0] || {}
 
+    console.log(`style: `, this._notificationStyle)
+
     return html`
       <unity-notification
-        class="notification-"
+        class="${this._topBottomPosition} ${this._leftRightPosition}"
         .text=${text}
         .subtext=${subtext}
         .icon=${icon}
