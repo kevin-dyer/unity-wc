@@ -13,16 +13,17 @@ import BooleanType from '@storybook/addon-knobs/dist/components/types/Boolean'
  * @param {Object} colors
  * @param {Object} customTypes
  * @param {Boolean} allowDuplicates, stipulate whetehr duplicate messages should be allowed
- * @param {integer} animationDuration, duration of appear and disappear animations, in ms; default 500
+ * @param {Boolean} noAnimation, removes animation for the notifications
  * @param {Function} onClose, callback function to call when clicking the close button
  *
  * CSS vars:
  * --notification-height: height of the notification. Defaults to 60px.
  * --notification-width: width of the notification. Defaults to 450px.
  *
- * IMPORTANT
- *  - To show the notification in a container, it must not have "position: static" (the automatic position value).
- *      Instead, set it to something like "position: relative", or the notification will be at the edge of the whole window  
+ * Notes
+ *  - IMPORTANT: To show the notification in a container, it must not have "position: static;" (note that this is the default position value).
+ *      Instead, set it to something like "position: relative;", or the notification will be at the edge of the whole window.
+ *  - You may also want to set the container to 'overflow: hidden;' to improve the transition.
  * 
  * @example
  *  // to add a notification
@@ -62,16 +63,16 @@ class UnityNotificationsHandler extends LitElement {
     this.colors = {}
     this.customTypes = {}
     this.allowDuplicates = false
-    this.animationDuration = 500
+    this.noAnimation = false
     this.onClose = () => {}
 
     this._queuedNotifications = []
     this._showNotification = false
     this._notificationStyle = ''
-
-    this._notificationTimeout = null
     this._topBottomPosition = 'top'
     this._leftRightPosition = 'right'
+
+    this._notificationTimeout = null
 
     this._handleAddNotification = this._handleAddNotification.bind(this)
     this._handleNextNotification = this._handleNextNotification.bind(this)
@@ -86,7 +87,7 @@ class UnityNotificationsHandler extends LitElement {
       colors: { type: Object },
       customTypes: { type: Object },
       allowDuplicates: { type: Boolean },
-      animationDuration: { type: Number },
+      noAnimation: { type: Boolean },
       onClose: { type: Function },
     }
   }
@@ -121,6 +122,26 @@ class UnityNotificationsHandler extends LitElement {
     return this._notificationStyle
   }
   
+  set topBottomPosition(value) {
+    const oldValue = this._topBottomPosition
+    this._topBottomPosition = value
+    this.requestUpdate('topBottomPosition', oldValue)
+  }
+
+  get topBottomPosition() {
+    return this._topBottomPosition
+  }
+  
+  set leftRightPosition(value) {
+    const oldValue = this._leftRightPosition
+    this._leftRightPosition = value
+    this.requestUpdate('leftRightPosition', oldValue)
+  }
+
+  get leftRightPosition() {
+    return this._leftRightPosition
+  }
+  
   static get styles() {
     return [
       UnityDefaultThemeStyles,
@@ -131,6 +152,8 @@ class UnityNotificationsHandler extends LitElement {
           flex-direction: row;
           position: absolute;
           margin: 12px;
+          transition: top 500ms, bottom 500ms, opacity 500ms;
+          transition-timing-function: ease-out;
         }
 
         .top {
@@ -147,50 +170,6 @@ class UnityNotificationsHandler extends LitElement {
 
         .right {
           right: 0;
-        }
-        
-        @keyframe notificationInTop {
-          from {
-            top: -80px;
-            opactiy: 0%;
-          }
-          to {
-            top: 0;
-            opacity: 100%;
-          }
-        }
-        
-        @keyframe notificationOutTop {
-          from {
-            top: 0;
-            opactiy: 100%;
-          }
-          to {
-            top: -80px;
-            opacity: 0%;
-          }
-        }
-        
-        @keyframe notificationInBottom {
-          from {
-            bottom: -80px;
-            opactiy: 0%;
-          }
-          to {
-            bottom: 0;
-            opacity: 100%;
-          }
-        }
-        
-        @keyframe notificationOutBottom {
-          from {
-            bottom: 0;
-            opactiy: 100%;
-          }
-          to {
-            bottom: -80px;
-            opacity: 0%;
-          }
         }
       `
     ]
@@ -210,12 +189,12 @@ class UnityNotificationsHandler extends LitElement {
     if (changedProps.has('queuedNotifications') || changedProps.has('showNotification')) this._calculateStyles()
     if (changedProps.has('position')) {
       // only allow 'top' and 'bottom', defaulting to 'top'
-      this._topBottomPosition = !this.position || this.position.split('-')[0] !== 'bottom'
+      this.topBottomPosition = !this.position || this.position.split('-')[0] !== 'bottom'
         ? `top`
         : `bottom`
       
       // only allow 'left' and 'right', defaulting to 'right'
-      this._leftRightPosition = !this.position || this.position.split('-')[1] !== 'left'
+      this.leftRightPosition = !this.position || this.position.split('-')[1] !== 'left'
         ? `right`
         : `left`
     }
@@ -248,20 +227,25 @@ class UnityNotificationsHandler extends LitElement {
   }
 
   _calculateStyles() {
-    console.log(`calculating styles`)
+    const { topBottomPosition, showNotification, noAnimation } = this
     const currentNotification = this.queuedNotifications[0]
+
       if (!currentNotification) {
-        this.notificationStyle = `display: none;`
+        this.notificationStyle = `
+        ${topBottomPosition}: -80px;
+        opacity: 0;
+        `
         return
       }
-      const { color } = currentNotification
+      
       // prevent css injection:
+      const { color } = currentNotification
       if (!/^[A-z0-9\#\(\), ]+$/.test(color)) throw `Color value "${color}" does not pass secure color values test.`
-      const animationDuration = parseInt(this.animationDuration) || 500
 
       this.notificationStyle = `
           --notification-color: ${color};
-          animation: ${!!this.showNotification ? `notificationIn` : `notificationOut`} 0.5s ease-out;
+          ${topBottomPosition}: ${showNotification ? `0px` : `-80px`};
+          opacity: ${showNotification ? `1` : `0`};
         `
   }
 
@@ -322,8 +306,9 @@ class UnityNotificationsHandler extends LitElement {
     }
 
     this.queuedNotifications = [...this.queuedNotifications, newNotification]
-    // if (!this.queuedNotifications[1] && !!timeout) this._notificationTimeout = setTimeout(this._handleCloseNotification, timeout)
+    this.showNotification = true
     if (!this.queuedNotifications[1] && !!timeout) {
+      clearTimeout(this._notificationTimeout)
       this._notificationTimeout = setTimeout(() => {
         this._handleCloseNotification()
       }, timeout)
@@ -332,7 +317,8 @@ class UnityNotificationsHandler extends LitElement {
   
   _handleCloseNotification() {
     this.showNotification = false
-    this._notificationTimeout = setTimeout(this._handleNextNotification, this.animationDuration) // go to next notification, after animation
+    clearTimeout(this._notificationTimeout)
+    this._notificationTimeout = setTimeout(this._handleNextNotification, 500) // go to next notification, after animation
   }
   
   _handleNextNotification() {
@@ -340,6 +326,7 @@ class UnityNotificationsHandler extends LitElement {
     const nextNotification = this.queuedNotifications[0]
     if (!!nextNotification) {
       this.showNotification = true
+      clearTimeout(this._notificationTimeout)
       this._notificationTimeout = !!nextNotification.timeout ? setTimeout(this._handleCloseNotification, nextNotification.timeout) : null
     }
   }
@@ -347,6 +334,7 @@ class UnityNotificationsHandler extends LitElement {
   _handleClearNotifications() {
     this.showNotification = false
     this.queuedNotifications = []
+      clearTimeout(this._notificationTimeout)
     this._notificationTimeout = null
   }
 
@@ -358,11 +346,9 @@ class UnityNotificationsHandler extends LitElement {
       onClose=()=>{}
     } = this.queuedNotifications[0] || {}
 
-    console.log(`style: `, this._notificationStyle)
-
     return html`
       <unity-notification
-        class="${this._topBottomPosition} ${this._leftRightPosition}"
+        class="${this.topBottomPosition} ${this.leftRightPosition}"
         .text=${text}
         .subtext=${subtext}
         .icon=${icon}

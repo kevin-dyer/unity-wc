@@ -3,7 +3,7 @@ import { addNotification } from '../src/components/unity-notification/unity-noti
 import '@bit/smartworks.unity.unity-core/unity-button'
 
 import { html } from 'lit-element';
-import { text, select, number, button, withKnobs } from "@storybook/addon-knobs";
+import { text, select, number, boolean, withKnobs } from "@storybook/addon-knobs";
 import { action } from '@storybook/addon-actions';
 
 export default {
@@ -34,12 +34,7 @@ export const UsingNotificationsHandler = () => {
     max: 10000,
     step: 500,
   })
-  const animationDuration = number('Animation Duration', 500, {
-    range: true,
-    min: 0,
-    max: 5000,
-    step: 100,
-  })
+  const noAnimation = boolean('No Animation', false)
   const position = select('position', {
     'top-right': 'top-right',
     'top-left': 'top-left',
@@ -47,34 +42,12 @@ export const UsingNotificationsHandler = () => {
     'bottom-left': 'bottom-left',
   }, 'top-right')
 
-  // button('Add Success Message', () => addNotification({
-  //   name: 'test-notifications',
-  //   notification: { text: maintext, subtext, timeout, type: 'success'}
-  // }))
-  // button('Add Warning Message', () => addNotification({
-  //   name: 'test-notifications',
-  //   notification: { text: maintext, subtext, timeout, type: 'warning'}
-  // }))
-  // button('Add Error Message', () => addNotification({
-  //   name: 'test-notifications',
-  //   notification: { text: maintext, subtext, timeout, type: 'error'}
-  // }))
-  // button('Add Help Message', () => addNotification({
-  //   name: 'test-notifications',
-  //   notification: { text: maintext, subtext, timeout, type: 'help'}
-  // }))
-  // button('Add Tip Message', () => addNotification({
-  //   name: 'test-notifications',
-  //   notification: { text: maintext, subtext, timeout, type: 'tip'}
-  // }))
-
   return html`
     <div class="main-container">
       <div class="section">
         <unity-notifications-handler
           name="test-notifications-1"
           .position=${position}
-          .animationDuration=${animationDuration}
         >
         </unity-notifications-handler>
         <div class="buttons-container">
@@ -124,7 +97,6 @@ export const UsingNotificationsHandler = () => {
         <unity-notifications-handler
           name="test-notifications-2"
           .position=${position}
-          .animationDuration=${animationDuration}
         >
         </unity-notifications-handler>
         <div class="buttons-container">
@@ -186,6 +158,7 @@ export const UsingNotificationsHandler = () => {
         margin: 10px;
         position: relative;
         box-shadow: 0 0 5px 1px rgba(0,0,0,0.1);
+        overflow: hidden;
       }
 
       .buttons-container {
