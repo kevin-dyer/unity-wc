@@ -1,8 +1,7 @@
-import { LitElement, html, css, unsafeCSS } from 'lit-element'
+import { LitElement, html, css } from 'lit-element'
 
-import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-core/unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-core/unity-notification'
-import BooleanType from '@storybook/addon-knobs/dist/components/types/Boolean'
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '@bit/smartworks.unity.unity-notification'
 
 /**
  * Component to control notifications 
