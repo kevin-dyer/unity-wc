@@ -33,7 +33,7 @@ export const UsingNotificationsHandler = () => {
     max: 10000,
     step: 500,
   })
-  const animationDuration = number('Animation Duration in Milliseconds', 500, {
+  const animationDuration = number('Animation Duration', 500, {
     range: true,
     min: 0,
     max: 5000,
@@ -46,25 +46,25 @@ export const UsingNotificationsHandler = () => {
     'bottom-left': 'bottom-left',
   }, 'top-right')
 
-  button('Add Success Message', addNotification({
+  button('Add Success Message', () => addNotification({
     name: 'test-notifications',
-    notfication: { text: maintext, subtext, timeout, type: 'success'}
+    notification: { text: maintext, subtext, timeout, type: 'success'}
   }))
-  button('Add Warning Message', addNotification({
+  button('Add Warning Message', () => addNotification({
     name: 'test-notifications',
-    notfication: { text: maintext, subtext, timeout, type: 'warning'}
+    notification: { text: maintext, subtext, timeout, type: 'warning'}
   }))
-  button('Add Error Message', addNotification({
+  button('Add Error Message', () => addNotification({
     name: 'test-notifications',
-    notfication: { text: maintext, subtext, timeout, type: 'error'}
+    notification: { text: maintext, subtext, timeout, type: 'error'}
   }))
-  button('Add Help Message', addNotification({
+  button('Add Help Message', () => addNotification({
     name: 'test-notifications',
-    notfication: { text: maintext, subtext, timeout, type: 'help'}
+    notification: { text: maintext, subtext, timeout, type: 'help'}
   }))
-  button('Add Tip Message', addNotification({
+  button('Add Tip Message', () => addNotification({
     name: 'test-notifications',
-    notfication: { text: maintext, subtext, timeout, type: 'tip'}
+    notification: { text: maintext, subtext, timeout, type: 'tip'}
   }))
 
   return html`
@@ -72,7 +72,6 @@ export const UsingNotificationsHandler = () => {
       name="test-notifications"
       .position=${position}
       .animationDuration=${animationDuration}
-      .onClose=${action('close')}}
     >
     </unity-notifications-handler>
   `
