@@ -68,8 +68,8 @@ class UnityModal extends LitElement {
     }
   }
 
-  resolveOpenChange() {
-    if (this.show) {
+  resolveOpenChange(e) {
+    if (this.show && e.key === "Escape") {
       this.toggle()
     }
   }
@@ -77,10 +77,10 @@ class UnityModal extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.resolveListener = this.resolveOpenChange.bind(this)
-    document.addEventListener('iron-overlay-canceled', this.resolveListener)
+    document.addEventListener("keydown", this.resolveListener)
   }
   disconnectedCallback() {
-    document.removeEventListener('iron-overlay-canceled', this.resolveListener)
+    document.removeEventListener('keydown', this.resolveListener)
     super.disconnectedCallback()
   }
 
@@ -136,6 +136,7 @@ class UnityModal extends LitElement {
       <div
         class="modal-backdrop${show ? '' : ' hide'}"
         @click="${this.handleBackdropClick}"
+        tabindex="-1"
       >
         <div class="modal" >
 
