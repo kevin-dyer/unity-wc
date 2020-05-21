@@ -1,6 +1,4 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/paper-dialog/paper-dialog'
-import '@polymer/paper-dialog-scrollable'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-typography'
 import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
@@ -124,26 +122,22 @@ class UnityModal extends LitElement {
   render() {
     const {
       show,
-      title,
-      cancelOnOutsideClick
+      title
     } = this
     const slots = this.getSlots()
     return html`
-      <paper-dialog
-        id="modal"
-        ?opened="${this.show}"
-        .noCancelOnOutsideClick="${!cancelOnOutsideClick}"
-        .withBackdrop="${true}"
+      <div
+        class="modal-backdrop${show ? '' : ' hide'}"
       >
+        <div class="modal" >
 
-        ${this.renderTitle(slots)}
+          ${this.renderTitle(slots)}
 
-        <paper-dialog-scrollable>
           <slot name="${BODY_SLOT}"></slot>
-        </paper-dialog-scrollable>
 
-        ${this.renderBottom(slots)}
-      </paper-dialog>
+          ${this.renderBottom(slots)}
+        </div>
+      </div>
     `
   }
 
@@ -154,8 +148,21 @@ class UnityModal extends LitElement {
         :host {
           color: var(--black-text-color, var(--default-black-text-color));
         }
-        paper-dialog-scrollable {
-          margin: 0 -24px;
+        .modal-backdrop {
+          z-index: 100;
+          background-color: transparent;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+        }
+        .modal {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         }
         .modal-title {
           border-bottom: 1px solid var(--light-grey-text-color, var(--default-light-grey-text-color));
@@ -170,6 +177,9 @@ class UnityModal extends LitElement {
           display: flex;
           flex: 1;
           margin-right: 12px;
+        }
+        .buttons {
+          float: right;
         }
         .hide {
           display: none;
