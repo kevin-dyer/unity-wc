@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- unity-notifications-handler v1.0.2
+
 ### v1.1.1
 - unity-notifications-handler v1.0.1
 
