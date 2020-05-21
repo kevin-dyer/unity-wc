@@ -161,12 +161,17 @@ export const UsingNotificationsHandler = () => {
         box-shadow: 0 0 5px 1px rgba(0,0,0,0.1);
         overflow: hidden;
       }
-
+      
       .buttons-container {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         padding: 100px;
+        flex-wrap: wrap;
+      }
+
+      unity-button {
+        margin: 20px 0;
       }
     </style>
   `
