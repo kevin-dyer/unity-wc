@@ -95,6 +95,13 @@ class UnityModal extends LitElement {
     }
   }
 
+  handleBackdropClick() {
+    const {
+      cancelOnOutsideClick,
+      toggle
+    } = this
+    if (cancelOnOutsideClick) toggle()
+  }
   renderTitle({ [TOP_SLOT]: top=[] }) {
     const {
       title,
@@ -128,6 +135,7 @@ class UnityModal extends LitElement {
     return html`
       <div
         class="modal-backdrop${show ? '' : ' hide'}"
+        @click="${this.handleBackdropClick}"
       >
         <div class="modal" >
 
