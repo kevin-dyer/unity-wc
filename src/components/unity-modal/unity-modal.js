@@ -181,6 +181,7 @@ class UnityModal extends LitElement {
           display: flex;
           flex-direction: row;
           align-items: center;
+          align-content: center;
         }
         .title {
           display: flex;
@@ -188,7 +189,12 @@ class UnityModal extends LitElement {
           margin-right: 12px;
         }
         .buttons {
-          float: right;
+          width: 100%;
+          text-align: right;
+          padding: 12px;
+          align-items: center;
+          align-content: center;
+          box-sizing: border-box;
         }
         .hide {
           display: none;
