@@ -6,12 +6,12 @@ import '@bit/smartworks.unity.unity-notification'
 /**
  * Component to control notifications 
  * @name UnityNotificationsHandler
- * @param {String} name, a unique name for use with the addNotification function. No two unity-notifications-handler components should share this within one app. Name should only include characters A-z and hyphens.
- * @param {String} position, position in the container; options are 'top-right', 'top-left', 'bottom-right', and 'bottom-left'.
- * @param {Object} icons
- * @param {Object} colors
- * @param {Object} customTypes
- * @param {Boolean} allowDuplicates, stipulate whetehr duplicate messages should be allowed
+ * @param {String} name, (required) a unique name for use with the addNotification function. No two unity-notifications-handler components should share this within one app. Name should only include characters A-z and hyphens.
+ * @param {String} position, (optional) position in the container; options are 'top-right', 'top-left', 'bottom-right', and 'bottom-left'. Defaults to 'top-right'.
+ * @param {Object} icons, (optional) an object with entries for each type ('success', 'warning', 'error', 'help', 'tip') and the corresponding icons you want for each.
+ * @param {Object} colors (optional) an object with entries for each type ('success', 'warning', 'error', 'help', 'tip') and the corresponding colors you want for each.
+ * @param {Object} customTypes, (optional) an object with values being new types you want to add and entries
+ * @param {Boolean} allowDuplicates, stipulate whether duplicate messages should be allowed
  * @param {Boolean} noAnimation, removes animation for the notifications
  * @param {Function} onClose, callback function to call when clicking the close button
  *
@@ -25,21 +25,34 @@ import '@bit/smartworks.unity.unity-notification'
  *  - You may also want to set the container to 'overflow: hidden;' to improve the transition.
  * 
  * @example
- *  // to add a notification
+ *  // to import addNotification
  *  import { addNotification } from 'smartworks.unity.unity-core/unity-notifications-handler'
+ *  // also available in export are nextNotification and clearNotifications
+ * 
+ *  // to add a notification
  *  addNotification({
  *    name: 'foo-notifications',
  *    notification: {
- *       text:  'Notification Main Text',
- *       subtext:  'Extra notification information',
- *       type:  'help'
+ *      text:  'Notification Main Text',
+ *      subtext:  'Extra notification information',
+ *      // EITHER
+ *      type:  'help', // default types are 'success', 'warning', 'error', 'help', 'tip'; you can also add custom types (see below)
+ *      // OR
+ *      icon: 'unity:help',
+ *      color: 'olive' // must be rgb[a], hsl[a], hex, or color name
  *    }
  *  })
  * 
- * // in render method of your component, inside container on which you want to show the notification
+ *  // in render method of your component, inside a container (with style="position: relative; overflow: hidden;") on which you want to show the notification
  *    <unity-notifications-handler
  *      name='foo-notifications'
  *      .onClose=${()=>console.log('closed')}
+ *      .customTypes=${{
+ *        'my-custom-type': {
+ *          icon: 'unity:double_right_chevron',
+ *          color: 'magenta'
+ *        }
+ *      }}
  *    >
  *    </unity-notifications-handler>
 */
@@ -152,7 +165,7 @@ class UnityNotificationsHandler extends LitElement {
           position: absolute;
           margin: 12px;
           transition: top 500ms, bottom 500ms, opacity 500ms;
-          transition-timing-function: ease-out;
+          transition-timing-function: ease-out ease-out ease-out;
         }
 
         .top {
@@ -315,6 +328,7 @@ class UnityNotificationsHandler extends LitElement {
   }
   
   _handleCloseNotification() {
+    if (!this.showNotification) return // notification is already closed or closing currently
     this.showNotification = false
     clearTimeout(this._notificationTimeout)
     this._notificationTimeout = setTimeout(this._handleNextNotification, 500) // go to next notification, after animation
@@ -360,6 +374,4 @@ class UnityNotificationsHandler extends LitElement {
 
 window.customElements.define('unity-notifications-handler', UnityNotificationsHandler)
 
-export const addNotification = UnityNotificationsHandler.addNotification
-export const nextNotification = UnityNotificationsHandler.nextNotification
-export const clearNotifications = UnityNotificationsHandler.clearNotifications
+export default UnityNotificationsHandler
