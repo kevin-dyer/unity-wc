@@ -69,6 +69,7 @@ class UnityButton extends LitElement {
           color: var(--button-color);
           --font-color: var(--button-color);
           outline: none;
+          margin: 0;
         }
         paper-button.text-button {
           padding: 0 10px;
