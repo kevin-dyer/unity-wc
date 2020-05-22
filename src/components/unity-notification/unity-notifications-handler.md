@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.0
+ - Added CustomEvents for closeNotification and clearNotifications
+
 ### v1.0.2
  - Updated documentation
 
