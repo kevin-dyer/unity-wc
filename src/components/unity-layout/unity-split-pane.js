@@ -191,6 +191,7 @@ class UnitySplitPane extends LitElement {
           flex-direction: column;
           flex: 1;
           overflow: hidden;
+          position: relative;
         }
         .wrapper.hide {
           display: none;
@@ -216,7 +217,6 @@ class UnitySplitPane extends LitElement {
           overflow: auto;
           flex: 1;
           display: flex;
-
         }
 
         .main ::slotted(*) {
