@@ -60,7 +60,7 @@ class UnityButton extends LitElement {
           width: 100%;
           height: var(--unity-button-height, var(--default-unity-button-height));
           border-radius: var(--unity-border-radius, var(--default-unity-button-border-radius));
-          min-width: 79px;
+          min-width: max-content;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           padding: 0 var(--unity-button-padding, var(--default-unity-button-padding));
