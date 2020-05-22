@@ -155,7 +155,8 @@ class UnityModal extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          color: var(--black-text-color, var(--default-black-text-color));
+          --modal-background-color: var(--background-color, var(--default-background-color));
+          --title-border-color: var(--light-grey-text-color, var(--default-light-grey-text-color))
         }
         .modal-backdrop {
           z-index: 100;
@@ -165,6 +166,7 @@ class UnityModal extends LitElement {
           left: 0;
           bottom: 0;
           right: 0;
+          outline: none;
         }
         .modal {
           position: absolute;
@@ -172,9 +174,10 @@ class UnityModal extends LitElement {
           left: 50%;
           transform: translate(-50%, -50%);
           box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+          background-color: var(--modal-background-color);
         }
         .modal-title {
-          border-bottom: 1px solid var(--light-grey-text-color, var(--default-light-grey-text-color));
+          border-bottom: 1px solid var(--title-border-color);
           margin-top: 0;
           padding: 0 12px;
           height: 50px;
