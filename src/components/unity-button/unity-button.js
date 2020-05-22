@@ -42,6 +42,7 @@ class UnityButton extends LitElement {
           --gradient-background: transparent linear-gradient(90deg, var(--secondary-brand-color, var(--primary-brand-color, var(--default-primary-brand-color))) 0%, var(--primary-brand-color, var(--default-primary-brand-color)) 100%) 0% 0% no-repeat padding-box;
           --button-color: var(--primary-brand-color, var(--default-primary-brand-color));
           flex-shrink: 0;
+          display: block;
         }
 
         /*Danger Styles*/
@@ -56,6 +57,7 @@ class UnityButton extends LitElement {
         }
 
         paper-button {
+          width: 100%;
           height: var(--unity-button-height, var(--default-unity-button-height));
           border-radius: var(--unity-border-radius, var(--default-unity-button-border-radius));
           min-width: 79px;
