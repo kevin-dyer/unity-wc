@@ -27,7 +27,7 @@ import '@bit/smartworks.unity.unity-notification'
  * @example
  *  // to import addNotification
  *  import { addNotification } from 'smartworks.unity.unity-core/unity-notifications-handler'
- *  // also available in export are nextNotification and clearNotifications
+ *  // also available in export are closeNotification and clearNotifications
  * 
  *  // to add a notification
  *  addNotification({
@@ -188,12 +188,17 @@ class UnityNotificationsHandler extends LitElement {
   }
     
   firstUpdated() {
-    if (!this.name) throw `Name not provided for unity-notifications-handler`
-    if (!/^[A-z0-9\-]+$/.test(this.name)) throw `Name ${this.name} contains characters other than A-z and hyphens`
+    const { name }  = this
+    if (name) throw `Name not provided for unity-notifications-handler`
+    if (!/^[A-z0-9\-]+$/.test(name)) throw `Name ${name} contains characters other than A-z and hyphens`
 
-    document.addEventListener(this.name, ({ detail: notification={} }={}) => {
+    
+    document.addEventListener(`${name}-add`, ({ detail: notification={} }={}) => {
       this._handleAddNotification(notification)
     })
+    document.addEventListener(`${name}-close`, this._handleCloseNotification)
+    document.addEventListener(`${name}-clear`, this._handleClearNotifications)
+
     this._calculateStyles()
   }
 
@@ -216,6 +221,8 @@ class UnityNotificationsHandler extends LitElement {
     document.removeEventListener(this.name, ({ detail: notification={} }={}) => {
       this._handleAddNotification(notification)
     })
+    document.removeEventListener(`${name}-close`, this._handleCloseNotification)
+    document.removeEventListener(`${name}-clear`, this._handleClearNotifications)
   }
 
   static addNotification({
@@ -223,19 +230,27 @@ class UnityNotificationsHandler extends LitElement {
     notification={}
   }={}) {
     if (!name || !/^[A-z0-9\-]+$/.test(name)) throw `Error: Invalid name: ${name}`
-    const addNotificationEvent = new CustomEvent(name, {
+    const addNotificationEvent = new CustomEvent(`${name}-add`, {
       bubbles: true,
       detail: { ...notification }
     })
     document.dispatchEvent(addNotificationEvent)
   }
 
-  static nextNotification() {
-    this._handleNextNotification()
+  static closeNotification(name) {
+    if (!name || !/^[A-z0-9\-]+$/.test(name)) throw `Error: Invalid name: ${name}`
+    const closeNotificationEvent = new CustomEvent(`${name}-close`, {
+      bubbles: true
+    })
+    document.dispatchEvent(closeNotificationEvent)
   }
 
-  static clearNotifications() {
-    this._handleClearNotifications()
+  static clearNotifications(name) {
+    if (!name || !/^[A-z0-9\-]+$/.test(name)) throw `Error: Invalid name: ${name}`
+    const clearNotificationsEvent = new CustomEvent(`${name}-clear`, {
+      bubbles: true
+    })
+    document.dispatchEvent(clearNotificationsEvent)
   }
 
   _calculateStyles() {
