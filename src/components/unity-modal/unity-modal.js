@@ -69,7 +69,7 @@ class UnityModal extends LitElement {
   }
 
   resolveOpenChange(e) {
-    if (this.show && e.key === "Escape") {
+    if (this.show && (e.key === "Escape" || e.key === "Esc")) {
       this.toggle()
     }
   }
