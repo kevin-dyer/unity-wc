@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.1
+- Allow header slots to shrink down to 0 width as header width decreases
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 
