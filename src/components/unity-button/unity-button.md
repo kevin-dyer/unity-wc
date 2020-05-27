@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.1
+- Allow setting a different width for the button
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 

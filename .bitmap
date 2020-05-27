@@ -13,7 +13,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-button@1.0.0": {
+    "smartworks.unity/unity-button@1.0.1": {
         "files": [
             {
                 "name": "unity-button.js",
@@ -47,7 +47,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.1.6": {
+    "smartworks.unity/unity-core@1.1.7": {
         "files": [
             {
                 "name": "index.js",
@@ -122,11 +122,6 @@
             {
                 "name": "unity-notification.js",
                 "relativePath": "src/components/unity-core/unity-notification.js",
-                "test": false
-            },
-            {
-                "name": "unity-notifications-handler.js",
-                "relativePath": "src/components/unity-core/unity-notifications-handler.js",
                 "test": false
             },
             {
