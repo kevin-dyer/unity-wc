@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@bit/smartworks.unity.table-cell-base": "0.0.5",
-    "@bit/smartworks.unity.unity-button": "^1.0.0",
+    "@bit/smartworks.unity.unity-button": "^1.0.1",
     "@bit/smartworks.unity.unity-column-editor": "^1.0.0",
     "@bit/smartworks.unity.unity-core": "^1.1.0",
     "@bit/smartworks.unity.unity-default-theme-styles": "^1.0.2",
