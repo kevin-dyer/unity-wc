@@ -6,7 +6,7 @@ import '@bit/smartworks.unity.unity-notification'
 /**
  * Component to control notifications 
  * @name UnityNotificationsHandler
- * @param {String} name, (required) a unique name for use with the addNotification function. No two unity-notifications-handler components should share this within one app. Name should only include characters A-z and hyphens.
+ * @param {String} name, (required) a unique name for use with the addNotification function. No two unity-notifications-handler components should share this within one app. Name must be alphanumeric and can contain hyphens (but no other special character).
  * @param {String} position, (optional) position in the container; options are 'top-right', 'top-left', 'bottom-right', and 'bottom-left'. Defaults to 'top-right'.
  * @param {Object} icons, (optional) an object with entries for each type ('success', 'warning', 'error', 'help', 'tip') and the corresponding icons you want for each.
  * @param {Object} colors (optional) an object with entries for each type ('success', 'warning', 'error', 'help', 'tip') and the corresponding colors you want for each.
@@ -19,11 +19,6 @@ import '@bit/smartworks.unity.unity-notification'
  * --notification-height: height of the notification. Defaults to 60px.
  * --notification-width: width of the notification. Defaults to 450px.
  *
- * Notes
- *  - IMPORTANT: To show the notification in a container, it must not have "position: static;" (note that this is the default position value).
- *      Instead, set it to something like "position: relative;", or the notification will be at the edge of the whole window.
- *  - You may also want to set the container to 'overflow: hidden;' to improve the transition.
- * 
  * @example
  *  // to import addNotification
  *  import { addNotification } from 'smartworks.unity.unity-core/unity-notifications-handler'
@@ -39,11 +34,11 @@ import '@bit/smartworks.unity.unity-notification'
  *      type:  'help', // default types are 'success', 'warning', 'error', 'help', 'tip'; you can also add custom types (see below)
  *      // OR
  *      icon: 'unity:help',
- *      color: 'olive' // must be rgb[a], hsl[a], hex, or color name
+ *      color: 'olive' // must be rgb[a], hsl[a], hex, color name, or a css variable
  *    }
  *  })
  * 
- *  // in render method of your component, inside a container (with style="position: relative; overflow: hidden;") on which you want to show the notification
+ *  // in render method
  *    <unity-notifications-handler
  *      name='foo-notifications'
  *      .onClose=${()=>console.log('closed')}
@@ -54,17 +49,20 @@ import '@bit/smartworks.unity.unity-notification'
  *        }
  *      }}
  *    >
+ *      ${/* ...other content }
  *    </unity-notifications-handler>
 */
 
-// TODO: Change this to use default theme styles
 const defaultColors  = {
-  error: css`rgb(224, 39, 18)`,
-  warning: css`rgb(255,198,0)`,
-  success: css`rgb(71,162,63)`,
-  help: css`rgb(162, 170, 173)`,
-  tip: css`rgb(45,204,211)`,
+  error: css`var(--danger-color, var(--default-error-color))`,
+  warning: css`var(--danger-lite-color, var(--default-danger-color))`,
+  success: css`var(--success-color, var(--default-success-color))`,
+  tip: css`var(--secondary-brand-color, var(--default-secondary-brand-color))`,
+  help: css`var(--primary-brand-color, var(--default-primary-brand-color))`,
 }
+
+const testValidName = name => /^[A-z0-9\-]+$/.test(name)
+const testValidColor = color => /^[A-z0-9\#\(\), \-]+$/.test(color)
 
 class UnityNotificationsHandler extends LitElement {
   constructor() {
@@ -93,6 +91,7 @@ class UnityNotificationsHandler extends LitElement {
   
   static get properties() {
     return {
+      // Props/Attributes
       position: { type: String},
       name: { type: String},
       icons: { type: Object },
@@ -101,71 +100,41 @@ class UnityNotificationsHandler extends LitElement {
       allowDuplicates: { type: Boolean },
       noAnimation: { type: Boolean },
       onClose: { type: Function },
+      // Internals 
+      _queuedNotifications: false,
+      _showNotification: false,
+      _notificationStyle: false,
+      _topBottomPosition: false,
+      _leftRightPosition: false,
     }
-  }
-  
-  set queuedNotifications(value) {
-    const oldValue = this._queuedNotifications
-    this._queuedNotifications = value
-    this.requestUpdate('queuedNotifications', oldValue)
-  }
-
-  get queuedNotifications() {
-    return this._queuedNotifications
-  }
-  
-  set showNotification(value) {
-    const oldValue = this._showNotification
-    this._showNotification = value
-    this.requestUpdate('showNotification', oldValue)
-  }
-
-  get showNotification() {
-    return this._showNotification
-  }
-  
-  set notificationStyle(value) {
-    const oldValue = this._notificationStyle
-    this._notificationStyle = value
-    this.requestUpdate('notificationStyle', oldValue)
-  }
-
-  get notificationStyle() {
-    return this._notificationStyle
-  }
-  
-  set topBottomPosition(value) {
-    const oldValue = this._topBottomPosition
-    this._topBottomPosition = value
-    this.requestUpdate('topBottomPosition', oldValue)
-  }
-
-  get topBottomPosition() {
-    return this._topBottomPosition
-  }
-  
-  set leftRightPosition(value) {
-    const oldValue = this._leftRightPosition
-    this._leftRightPosition = value
-    this.requestUpdate('leftRightPosition', oldValue)
-  }
-
-  get leftRightPosition() {
-    return this._leftRightPosition
   }
   
   static get styles() {
     return [
       UnityDefaultThemeStyles,
       css`
+        :host {
+          --notification-height: 60px;
+          --notification-width: 450px;
+          --internal-notification-height: var(--notification-height) ;
+          --internal-notification-width: var(--notification-width) ;
+        }
+
+        #container {
+          overflow: hidden;
+          position: relative;
+          height: 100%;
+        }
+
         unity-notification {
-          font-family: Avenir;
           display: flex;
           flex-direction: row;
           position: absolute;
           margin: 12px;
           transition: top 500ms, bottom 500ms, opacity 500ms;
           transition-timing-function: ease-out ease-out ease-out;
+          --notification-height: var(--internal-notification-height, 60px);
+          --notification-width: var(--internal-notification-width, 450px);
         }
 
         .top {
@@ -189,8 +158,8 @@ class UnityNotificationsHandler extends LitElement {
     
   firstUpdated() {
     const { name }  = this
-    if (name) throw `Name not provided for unity-notifications-handler`
-    if (!/^[A-z0-9\-]+$/.test(name)) throw `Name ${name} contains characters other than A-z and hyphens`
+    if (!name) throw `Name not provided for unity-notifications-handler`
+    if (!testValidName(name)) throw `Name ${name} may contain only alphanumeric characters and hyphens`
 
     
     document.addEventListener(`${name}-add`, ({ detail: notification={} }={}) => {
@@ -203,15 +172,15 @@ class UnityNotificationsHandler extends LitElement {
   }
 
   updated(changedProps) {
-    if (changedProps.has('queuedNotifications') || changedProps.has('showNotification')) this._calculateStyles()
+    if (changedProps.has('_queuedNotifications') || changedProps.has('_showNotification')) this._calculateStyles()
     if (changedProps.has('position')) {
       // only allow 'top' and 'bottom', defaulting to 'top'
-      this.topBottomPosition = !this.position || this.position.split('-')[0] !== 'bottom'
+      this._topBottomPosition = !this.position || this.position.split('-')[0] !== 'bottom'
         ? `top`
         : `bottom`
       
       // only allow 'left' and 'right', defaulting to 'right'
-      this.leftRightPosition = !this.position || this.position.split('-')[1] !== 'left'
+      this._leftRightPosition = !this.position || this.position.split('-')[1] !== 'left'
         ? `right`
         : `left`
     }
@@ -229,7 +198,7 @@ class UnityNotificationsHandler extends LitElement {
     name,
     notification={}
   }={}) {
-    if (!name || !/^[A-z0-9\-]+$/.test(name)) throw `Error: Invalid name: ${name}`
+    if (!name || !testValidName(name)) throw `Error: Invalid name: ${name}`
     const addNotificationEvent = new CustomEvent(`${name}-add`, {
       bubbles: true,
       detail: { ...notification }
@@ -238,7 +207,7 @@ class UnityNotificationsHandler extends LitElement {
   }
 
   static closeNotification(name) {
-    if (!name || !/^[A-z0-9\-]+$/.test(name)) throw `Error: Invalid name: ${name}`
+    if (!name || !testValidName(name)) throw `Error: Invalid name: ${name}`
     const closeNotificationEvent = new CustomEvent(`${name}-close`, {
       bubbles: true
     })
@@ -246,7 +215,7 @@ class UnityNotificationsHandler extends LitElement {
   }
 
   static clearNotifications(name) {
-    if (!name || !/^[A-z0-9\-]+$/.test(name)) throw `Error: Invalid name: ${name}`
+    if (!name || !testValidName(name)) throw `Error: Invalid name: ${name}`
     const clearNotificationsEvent = new CustomEvent(`${name}-clear`, {
       bubbles: true
     })
@@ -254,26 +223,26 @@ class UnityNotificationsHandler extends LitElement {
   }
 
   _calculateStyles() {
-    const { topBottomPosition, showNotification, noAnimation } = this
-    const currentNotification = this.queuedNotifications[0]
+    const { _topBottomPosition, _showNotification, noAnimation } = this
+    const currentNotification = this._queuedNotifications[0]
 
-      if (!currentNotification) {
-        this.notificationStyle = `
-        ${topBottomPosition}: -80px;
+    if (!currentNotification) {
+      this._notificationStyle = `
+        ${_topBottomPosition}: calc(-20px - var(--notification-height, 60px));
         opacity: 0;
-        `
-        return
-      }
-      
-      // prevent css injection:
-      const { color } = currentNotification
-      if (!/^[A-z0-9\#\(\), ]+$/.test(color)) throw `Color value "${color}" does not pass secure color values test.`
-
-      this.notificationStyle = `
-          --notification-color: ${color};
-          ${topBottomPosition}: ${showNotification ? `0px` : `-80px`};
-          opacity: ${showNotification ? `1` : `0`};
-        `
+      `
+      return
+    }
+    
+    // prevent css injection:
+    const { color } = currentNotification
+    if (!testValidColor(color)) throw `Color value "${color}" does not pass secure color values test.`
+    
+    this._notificationStyle = `
+      --notification-color: ${color};
+      ${_topBottomPosition}: ${_showNotification ? `0px` : `calc(-20px - var(--notification-height, 60px))`};
+      opacity: ${_showNotification ? `1` : `0`};
+    `
   }
 
   _getIconAndColorFromType(type) {
@@ -312,7 +281,7 @@ class UnityNotificationsHandler extends LitElement {
     if (!color) throw `Could not retrieve color.`
     
     // Ignore duplicates
-    const lastNotification = this.queuedNotifications[0]
+    const lastNotification = this._queuedNotifications[0]
     if (
       !this.allowDuplicates &&
       !!lastNotification && lastNotification.text === text &&
@@ -332,9 +301,9 @@ class UnityNotificationsHandler extends LitElement {
       },
     }
 
-    this.queuedNotifications = [...this.queuedNotifications, newNotification]
-    this.showNotification = true
-    if (!this.queuedNotifications[1] && !!timeout) {
+    this._queuedNotifications = [...this._queuedNotifications, newNotification]
+    this._showNotification = true
+    if (!this._queuedNotifications[1] && !!timeout) {
       clearTimeout(this._notificationTimeout)
       this._notificationTimeout = setTimeout(() => {
         this._handleCloseNotification()
@@ -343,25 +312,25 @@ class UnityNotificationsHandler extends LitElement {
   }
   
   _handleCloseNotification() {
-    if (!this.showNotification) return // notification is already closed or closing currently
-    this.showNotification = false
+    if (!this._showNotification) return // notification is already closed or closing currently
+    this._showNotification = false
     clearTimeout(this._notificationTimeout)
     this._notificationTimeout = setTimeout(this._handleNextNotification, 500) // go to next notification, after animation
   }
   
   _handleNextNotification() {
-    this.queuedNotifications = this.queuedNotifications.slice(1)
-    const nextNotification = this.queuedNotifications[0]
+    this._queuedNotifications = this._queuedNotifications.slice(1)
+    const nextNotification = this._queuedNotifications[0]
     if (!!nextNotification) {
-      this.showNotification = true
+      this._showNotification = true
       clearTimeout(this._notificationTimeout)
       this._notificationTimeout = !!nextNotification.timeout ? setTimeout(this._handleCloseNotification, nextNotification.timeout) : null
     }
   }
 
   _handleClearNotifications() {
-    this.showNotification = false
-    this.queuedNotifications = []
+    this._showNotification = false
+    this._queuedNotifications = []
       clearTimeout(this._notificationTimeout)
     this._notificationTimeout = null
   }
@@ -372,21 +341,26 @@ class UnityNotificationsHandler extends LitElement {
       subtext='',
       icon='',
       onClose=()=>{}
-    } = this.queuedNotifications[0] || {}
+    } = this._queuedNotifications[0] || {}
 
     return html`
-      <unity-notification
-        class="${this.topBottomPosition} ${this.leftRightPosition}"
-        .text=${text}
-        .subtext=${subtext}
-        .icon=${icon}
-        .onClose=${onClose}
-        style=${this._notificationStyle}
-      />
+      <div id='container'>
+        <unity-notification
+          class="${this._topBottomPosition} ${this._leftRightPosition}"
+          .text=${text}
+          .subtext=${subtext}
+          .icon=${icon}
+          .onClose=${onClose}
+          style=${this._notificationStyle}
+        ></unity-notification>
+        <slot></slot>
+      </div>
     `
   }
 }
 
 window.customElements.define('unity-notifications-handler', UnityNotificationsHandler)
 
-export default UnityNotificationsHandler
+export const addNotification = UnityNotificationsHandler.addNotification
+export const closeNotification = UnityNotificationsHandler.closeNotification
+export const clearNotifications = UnityNotificationsHandler.clearNotifications

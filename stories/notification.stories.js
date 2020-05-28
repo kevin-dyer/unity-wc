@@ -1,7 +1,7 @@
 import '@bit/smartworks.unity.unity-core/unity-notification'
 import '@bit/smartworks.unity.unity-core/unity-button'
-import '@bit/smartworks.unity.unity-core/unity-notifications-handler'
-import { addNotification } from '@bit/smartworks.unity.unity-core/unity-notifications-handler'
+// import { addNotification } from '@bit/smartworks.unity.unity-core/unity-notifications-handler'
+import { addNotification } from '../src/components/unity-notification/unity-notifications-handler'
 
 import { html } from 'lit-element';
 import { text, select, number, boolean, withKnobs } from "@storybook/addon-knobs";
@@ -42,15 +42,26 @@ export const UsingNotificationsHandler = () => {
     'bottom-right': 'bottom-right',
     'bottom-left': 'bottom-left',
   }, 'top-right')
+  const notificationHeight = number('Notification Height', 60, {
+    range: true,
+    min: 10,
+    max: 250,
+    step: 10
+  })
+  const notificationWidth = number('Notification Width', 450, {
+    range: true,
+    min: 100,
+    max: 500,
+    step: 10
+  })
+
 
   return html`
     <div class="main-container">
-      <div class="section">
-        <unity-notifications-handler
-          name="test-notifications-1"
-          .position=${position}
-        >
-        </unity-notifications-handler>
+      <unity-notifications-handler
+        name="test-notifications-1"
+        .position=${position}
+      >
         <div class="buttons-container">
           <unity-button
             type="solid"
@@ -93,13 +104,11 @@ export const UsingNotificationsHandler = () => {
             })}
           ></unity-button>
         </div>
-      </div>
-      <div class="section">
-        <unity-notifications-handler
-          name="test-notifications-2"
-          .position=${position}
-        >
-        </unity-notifications-handler>
+      </unity-notifications-handler>
+      <unity-notifications-handler
+        name="test-notifications-2"
+        .position=${position}
+      >
         <div class="buttons-container">
           <unity-button
             type="solid"
@@ -142,24 +151,26 @@ export const UsingNotificationsHandler = () => {
             })}
           ></unity-button>
         </div>
-      </div>
+      </unity-notifications-handler>
     </div>
     <style>
       .main-container {
-        height: 600px;
+        height: 100%;
         display: flex;
         flex-direction: row;
       }
 
-      .section {
+      unity-notifications-handler {
         flex: 1;
         display: flex;
-        flex-direction:  column;
+        flex-direction: column;
         justify-content: center;
         margin: 10px;
         position: relative;
         box-shadow: 0 0 5px 1px rgba(0,0,0,0.1);
         overflow: hidden;
+        --notification-height: ${notificationHeight}px;
+        --notification-width: ${notificationWidth}px;
       }
       
       .buttons-container {
