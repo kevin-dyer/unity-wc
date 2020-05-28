@@ -42,6 +42,7 @@ class UnityButton extends LitElement {
           --gradient-background: transparent linear-gradient(90deg, var(--secondary-brand-color, var(--primary-brand-color, var(--default-primary-brand-color))) 0%, var(--primary-brand-color, var(--default-primary-brand-color)) 100%) 0% 0% no-repeat padding-box;
           --button-color: var(--primary-brand-color, var(--default-primary-brand-color));
           flex-shrink: 0;
+          display: block;
         }
 
         /*Danger Styles*/
@@ -56,9 +57,10 @@ class UnityButton extends LitElement {
         }
 
         paper-button {
+          width: 100%;
           height: var(--unity-button-height, var(--default-unity-button-height));
           border-radius: var(--unity-border-radius, var(--default-unity-button-border-radius));
-          min-width: 79px;
+          min-width: max-content;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           padding: 0 var(--unity-button-padding, var(--default-unity-button-padding));
@@ -67,6 +69,7 @@ class UnityButton extends LitElement {
           color: var(--button-color);
           --font-color: var(--button-color);
           outline: none;
+          margin: 0;
         }
         paper-button.text-button {
           padding: 0 10px;

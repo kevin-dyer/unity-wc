@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.1
+- Prevent split panel content from horizontally overflowing outside the panel width.
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 

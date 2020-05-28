@@ -8,6 +8,7 @@
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
     "start": "polymer serve --port 7777",
+    "bundle": "rollup -c rollup.config.js",
     "build": "polymer build --auto-base-path && gulp prpl-server",
     "build:static": "polymer build",
     "serve": "prpl-server --root server/build",
@@ -24,9 +25,13 @@
   },
   "dependencies": {
     "@bit/smartworks.unity.table-cell-base": "0.0.5",
-    "@bit/smartworks.unity.unity-button": "^1.0.0",
+    "@bit/smartworks.unity.unity-button": "^1.0.1",
     "@bit/smartworks.unity.unity-column-editor": "^1.0.0",
+<<<<<<< HEAD
     "@bit/smartworks.unity.unity-core": "^1.1.2",
+=======
+    "@bit/smartworks.unity.unity-core": "^1.1.7",
+>>>>>>> master
     "@bit/smartworks.unity.unity-default-theme-styles": "^1.0.2",
     "@bit/smartworks.unity.unity-dropdown": "^1.1.0",
     "@bit/smartworks.unity.unity-dropzone": "^1.0.0",
@@ -93,6 +98,7 @@
     "@open-wc/testing": "^2.5.4",
     "@open-wc/testing-karma": "^3.3.19",
     "@polymer/test-fixture": "^4.0.2",
+    "@rollup/plugin-node-resolve": "^8.0.0",
     "@storybook/addon-actions": "^5.3.4",
     "@storybook/addon-knobs": "^5.3.4",
     "@storybook/polymer": "^5.3.12",
@@ -117,6 +123,8 @@
     "polyserve": "^0.27.0",
     "prpl-server": "^1.4.0",
     "puppeteer": "^1.5.0",
+    "rollup": "^2.10.5",
+    "rollup-plugin-terser": "^5.3.0",
     "sinon": "^9.0.2",
     "wct-mocha": "^1.0.1"
   },

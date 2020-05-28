@@ -20,6 +20,9 @@ class MyButtons extends LitElement {
           align-items: center;
           flex-wrap: wrap;
         }
+        unity-button {
+          margin: 6px;
+        }
       `
     ];
   }

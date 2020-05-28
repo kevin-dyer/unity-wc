@@ -34,7 +34,8 @@ const MIN_PANE_WIDTH = 20 // %
  *   </unity-split-pane>
  */
 
-const stretch = overlapPercent => (100 / (100 - overlapPercent)) * 100
+const stretch = overlapPercent => 100 - overlapPercent
+
 
 class UnitySplitPane extends LitElement {
   constructor() {
@@ -216,6 +217,10 @@ class UnitySplitPane extends LitElement {
           flex: 1;
           display: flex;
 
+        }
+
+        .main ::slotted(*) {
+          width: 100%;
         }
         .pane {
           position: relative;
