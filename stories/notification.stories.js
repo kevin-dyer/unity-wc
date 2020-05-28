@@ -1,7 +1,6 @@
 import '@bit/smartworks.unity.unity-core/unity-notification'
 import '@bit/smartworks.unity.unity-core/unity-button'
-// import { addNotification } from '@bit/smartworks.unity.unity-core/unity-notifications-handler'
-import { addNotification } from '../src/components/unity-notification/unity-notifications-handler'
+import { addNotification } from '@bit/smartworks.unity.unity-core/unity-notifications-handler'
 
 import { html } from 'lit-element';
 import { text, select, number, boolean, withKnobs } from "@storybook/addon-knobs";
