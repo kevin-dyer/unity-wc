@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.2.0
+- Working release of unity-notifications-handler
+
 ### v1.1.8
 - unity-notifications-handler v1.1.1
 - unity-default-theme-styles v1.0.3

@@ -27,7 +27,7 @@
     "@bit/smartworks.unity.table-cell-base": "0.0.5",
     "@bit/smartworks.unity.unity-button": "^1.0.1",
     "@bit/smartworks.unity.unity-column-editor": "^1.0.0",
-    "@bit/smartworks.unity.unity-core": "^1.1.7",
+    "@bit/smartworks.unity.unity-core": "^1.2.0",
     "@bit/smartworks.unity.unity-default-theme-styles": "^1.0.3",
     "@bit/smartworks.unity.unity-dropdown": "^1.1.0",
     "@bit/smartworks.unity.unity-dropzone": "^1.0.0",
@@ -39,11 +39,11 @@
     "@bit/smartworks.unity.unity-modal": "^1.0.0",
     "@bit/smartworks.unity.unity-notification": "^1.0.0",
     "@bit/smartworks.unity.unity-notifications-handler": "^1.1.1",
-    "@bit/smartworks.unity.unity-page-header": "^1.0.0",
+    "@bit/smartworks.unity.unity-page-header": "^1.0.2",
     "@bit/smartworks.unity.unity-progress": "^1.0.0",
     "@bit/smartworks.unity.unity-section": "^1.0.0",
     "@bit/smartworks.unity.unity-select-menu": "^1.0.0",
-    "@bit/smartworks.unity.unity-split-pane": "^1.0.0",
+    "@bit/smartworks.unity.unity-split-pane": "^1.0.2",
     "@bit/smartworks.unity.unity-table": "^1.0.1",
     "@bit/smartworks.unity.unity-table-cell": "^1.0.0",
     "@bit/smartworks.unity.unity-table-export": "^1.0.2",
@@ -164,7 +164,6 @@
           "@bit/smartworks.unity.unity-icon-set": "-",
           "@bit/smartworks.unity.unity-modal": "-",
           "@bit/smartworks.unity.unity-notification": "-",
-          "@bit/smartworks.unity.unity-notifications-handler": "-",
           "@bit/smartworks.unity.unity-page-header": "-",
           "@bit/smartworks.unity.unity-progress": "-",
           "@bit/smartworks.unity.unity-section": "-",
@@ -259,12 +258,6 @@
         "peerDependencies": {
           "@bit/smartworks.unity.unity-button": "^1.0.0",
           "@bit/smartworks.unity.unity-icon": "^1.0.0"
-        },
-        "propagate": true
-      },
-      "unity-notifications-handler": {
-        "peerDependencies": {
-          "@bit/smartworks.unity.unity-notification": "^1.0.0"
         },
         "propagate": true
       },
