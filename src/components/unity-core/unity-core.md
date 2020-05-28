@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+### v1.1.8
+- unity-notifications-handler v1.1.1
+- unity-default-theme-styles v1.0.3
+
 ### v1.1.7
 - unity-button 1.0.1
 
