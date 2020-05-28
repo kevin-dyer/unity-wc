@@ -17,6 +17,8 @@ export const UnityDefaultThemeStyles = css`
     --default-success-rgb: 71, 162, 63;
     --default-danger-rgb: 255, 198, 0;
     --default-danger-lite-rgb: 255, 232, 153;
+    --default-error-rgb: 240, 61, 12;
+    --default-error-lite-rgb: 245, 120, 106;
     --default-selection-opacity: 0.5;
     --black-text-rgb: 0, 0, 0;
     --white-text-rgb: 255, 255, 255;
@@ -28,7 +30,9 @@ export const UnityDefaultThemeStyles = css`
     --default-secondary-brand-color: rgb(var(--default-secondary-brand-rgb));
     --default-success-color: rgb(var(--default-success-rgb));
     --default-danger-color: rgb(var(--default-danger-rgb));
-    --default-danger-lite-color: rgb(var(--default-danger-light-rgb));
+    --default-danger-lite-color: rgb(var(--default-danger-lite-rgb));
+    --default-error-color: rgb(var(--default-error-rgb));
+    --default-error-lite-color: rgb(var(--default-error-lite-rgb));
     --default-background-color: white;
     --default-global-nav-background-color: #005776;
     --default-global-nav-expanded-color: #00465e;
