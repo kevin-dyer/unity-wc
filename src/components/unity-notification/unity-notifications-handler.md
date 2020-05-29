@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- Updated styles for container
+
 ### v1.1.0
  - Added CustomEvents for closeNotification and clearNotifications
 
