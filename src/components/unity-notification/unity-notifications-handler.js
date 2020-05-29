@@ -121,9 +121,11 @@ class UnityNotificationsHandler extends LitElement {
         }
 
         #container {
-          overflow: hidden;
+          overflow-y: hidden;
+          overflow-x: visible;
           position: relative;
           height: 100%;
+          width: 100%;
         }
 
         unity-notification {
@@ -133,6 +135,7 @@ class UnityNotificationsHandler extends LitElement {
           margin: 12px;
           transition: top 500ms, bottom 500ms, opacity 500ms;
           transition-timing-function: ease-out ease-out ease-out;
+          z-index: 10;
           --notification-height: var(--internal-notification-height, 60px);
           --notification-width: var(--internal-notification-width, 450px);
         }
@@ -340,7 +343,7 @@ class UnityNotificationsHandler extends LitElement {
       text='',
       subtext='',
       icon='',
-      onClose=()=>{}
+      onClose=()=>{},
     } = this._queuedNotifications[0] || {}
 
     return html`

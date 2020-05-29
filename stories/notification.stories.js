@@ -165,9 +165,7 @@ export const UsingNotificationsHandler = () => {
         flex-direction: column;
         justify-content: center;
         margin: 10px;
-        position: relative;
         box-shadow: 0 0 5px 1px rgba(0,0,0,0.1);
-        overflow: hidden;
         --notification-height: ${notificationHeight}px;
         --notification-width: ${notificationWidth}px;
       }
