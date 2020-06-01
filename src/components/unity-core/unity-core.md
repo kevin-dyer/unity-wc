@@ -5,12 +5,31 @@
 
 ## Changelog:
 
+### v1.2.1
+- unity-notifications-handler v.1.1.2
+
+### v1.2.0
+- Working release of unity-notifications-handler
+
+### v1.1.8
+- unity-notifications-handler v1.1.1
+- unity-default-theme-styles v1.0.3
+
 ### v1.1.7
 - unity-button 1.0.1
 
 ### v1.1.6
 - unity-page-header v1.0.2
 - unity-split-pane v1.0.2
+
+### v1.1.3
+- unity-notifications-handler v1.1.0
+
+### v1.1.2
+- unity-notifications-handler v1.0.2
+
+### v1.1.1
+- unity-notifications-handler v1.0.1
 
 ### v1.1.0
 - unity-dropdown v1.1.0
