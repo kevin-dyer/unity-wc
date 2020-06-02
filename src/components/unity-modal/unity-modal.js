@@ -111,17 +111,23 @@ class UnityModal extends LitElement {
     return html`
       <div class="${classes.join(' ')}">
         <unity-typography size="header2">${title}</unity-typography>
-        <slot name="${TOP_SLOT}"></slot>
+        <div class="button-box">
+          <div class="buttons">
+            <slot name="${TOP_SLOT}"></slot>
+          </div>
+        </div>
       </div>
     `
   }
 
   renderBottom({ [BOTTOM_SLOT]: bottom=[] }) {
-    const classes = ["buttons"]
+    const classes = ["button-box"]
     if (bottom.length === 0) classes.push('hide')
     return html`
       <div class="${classes.join(' ')}">
-        <slot name="${BOTTOM_SLOT}"></slot>
+        <div class="buttons">
+          <slot name="${BOTTOM_SLOT}"></slot>
+        </div>
       </div>
     `
   }
@@ -191,12 +197,16 @@ class UnityModal extends LitElement {
           flex: 1;
           margin-right: 12px;
         }
-        .buttons {
+        .button-box {
           width: 100%;
-          text-align: right;
+          display: flex;
+          flex-direction: row-reverse;
+        }
+        .buttons {
+          flex: 0;
+          display: flex;
+          flex-direction: row;
           padding: 12px;
-          align-items: center;
-          align-content: center;
           box-sizing: border-box;
         }
         .hide {

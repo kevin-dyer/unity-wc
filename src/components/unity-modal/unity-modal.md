@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.2
+- Fix button alignment issue.
+
 ### v1.0.1
 - Update modal to render centered on it's current context pane
 
