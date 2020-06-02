@@ -101,8 +101,8 @@ const exampleColumns = [
 const MODALS = {
   [TYPE]: {
     key: TYPE,
-    title: 'Type',
-    top: toggle => html`<unity-button slot="top" label="Cancel" outlined @click=${toggle}></unity-button>`,
+    title: 'Type Title',
+    top: toggle => html`<unity-button slot="top" centerIcon="unity:close" @click=${toggle}></unity-button>`,
     body: html`<div slot="body" style="width: 500px; margin: 15px;"><unity-typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</unity-typography</div>`,
     bottom: toggle => html`<unity-button slot="bottom" label="Cancel" outlined @click=${toggle}></unity-button><unity-button slot="bottom" label="Send" gradient @click=${toggle}></unity-button>`
   },
@@ -115,7 +115,7 @@ const MODALS = {
   },
   [TABLE]: {
     key: TABLE,
-    title: 'Table',
+    title: 'Table Title',
     top: ()=>{},
     body: html`<unity-table
       slot="body"

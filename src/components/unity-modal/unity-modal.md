@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.3
+- Fix header alignment issue.
+
 ### v1.0.2
 - Fix button alignment issue.
 

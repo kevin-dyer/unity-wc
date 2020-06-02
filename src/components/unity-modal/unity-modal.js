@@ -183,6 +183,7 @@ class UnityModal extends LitElement {
           background-color: var(--modal-background-color);
         }
         .modal-title {
+          flex: 0;
           border-bottom: 1px solid var(--title-border-color);
           margin-top: 0;
           padding: 0 12px;
@@ -192,13 +193,9 @@ class UnityModal extends LitElement {
           align-items: center;
           align-content: center;
         }
-        .title {
-          display: flex;
-          flex: 1;
-          margin-right: 12px;
-        }
         .button-box {
-          width: 100%;
+          flex: 1;
+          width: auto;
           display: flex;
           flex-direction: row-reverse;
         }
