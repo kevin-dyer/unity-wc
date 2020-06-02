@@ -5,6 +5,15 @@
 
 ## Changelog:
 
+### v1.2.4
+- unity-modal v1.0.3
+
+### v1.2.3
+- unity-modal v1.0.2
+
+### v1.2.2
+- unity-modal v1.0.1 and unity-split-pane v1.0.3
+
 ### v1.2.1
 - unity-notifications-handler v.1.1.2
 
