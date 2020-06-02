@@ -9,9 +9,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { LitElement, html, css } from 'lit-element';
 
-import '@bit/smartworks.unity.unity-core/unity-modal'
+// import '@bit/smartworks.unity.unity-core/unity-modal'
+import './unity-modal/unity-modal'
 import '@bit/smartworks.unity.unity-core/unity-table'
 import '@bit/smartworks.unity.unity-core/unity-button'
+import '@bit/smartworks.unity.unity-core/unity-typography'
 
 // import './unity-button/unity-button.js'
 
@@ -99,21 +101,21 @@ const exampleColumns = [
 const MODALS = {
   [TYPE]: {
     key: TYPE,
-    title: 'Type',
-    top: toggle => html`<unity-button slot="top" label="Cancel" outlined @click=${toggle}></unity-button>`,
-    body: html`<div slot="body" style="width: 500px; margin: 15px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>`,
+    title: 'Type Title',
+    top: toggle => html`<unity-button slot="top" centerIcon="unity:close" @click=${toggle}></unity-button>`,
+    body: html`<div slot="body" style="width: 500px; margin: 15px;"><unity-typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</unity-typography</div>`,
     bottom: toggle => html`<unity-button slot="bottom" label="Cancel" outlined @click=${toggle}></unity-button><unity-button slot="bottom" label="Send" gradient @click=${toggle}></unity-button>`
   },
   [OTHER]: {
     key: OTHER,
     // title: 'Other',
     top: ()=>{},
-    body: html`<div slot="body">There's nothing here.</div>`,
+    body: html`<div slot="body"><unity-typography>There's nothing here.</unity-typography></div>`,
     bottom: ()=>{} // toggle => html`<unity-button slot="bottom" label="Cancel" outlined @click=${toggle}></unity-button>`
   },
   [TABLE]: {
     key: TABLE,
-    title: 'Table',
+    title: 'Table Title',
     top: ()=>{},
     body: html`<unity-table
       slot="body"

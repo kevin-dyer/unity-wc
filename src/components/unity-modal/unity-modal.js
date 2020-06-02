@@ -1,6 +1,4 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/paper-dialog/paper-dialog'
-import '@polymer/paper-dialog-scrollable'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-typography'
 import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
@@ -70,8 +68,8 @@ class UnityModal extends LitElement {
     }
   }
 
-  resolveOpenChange() {
-    if (this.show) {
+  resolveOpenChange(e) {
+    if (this.show && (e.key === "Escape" || e.key === "Esc")) {
       this.toggle()
     }
   }
@@ -79,10 +77,10 @@ class UnityModal extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.resolveListener = this.resolveOpenChange.bind(this)
-    document.addEventListener('iron-overlay-canceled', this.resolveListener)
+    document.addEventListener("keydown", this.resolveListener)
   }
   disconnectedCallback() {
-    document.removeEventListener('iron-overlay-canceled', this.resolveListener)
+    document.removeEventListener('keydown', this.resolveListener)
     super.disconnectedCallback()
   }
 
@@ -97,6 +95,13 @@ class UnityModal extends LitElement {
     }
   }
 
+  handleBackdropClick() {
+    const {
+      cancelOnOutsideClick,
+      toggle
+    } = this
+    if (cancelOnOutsideClick) toggle()
+  }
   renderTitle({ [TOP_SLOT]: top=[] }) {
     const {
       title,
@@ -106,17 +111,23 @@ class UnityModal extends LitElement {
     return html`
       <div class="${classes.join(' ')}">
         <unity-typography size="header2">${title}</unity-typography>
-        <slot name="${TOP_SLOT}"></slot>
+        <div class="button-box">
+          <div class="buttons">
+            <slot name="${TOP_SLOT}"></slot>
+          </div>
+        </div>
       </div>
     `
   }
 
   renderBottom({ [BOTTOM_SLOT]: bottom=[] }) {
-    const classes = ["buttons"]
+    const classes = ["button-box"]
     if (bottom.length === 0) classes.push('hide')
     return html`
       <div class="${classes.join(' ')}">
-        <slot name="${BOTTOM_SLOT}"></slot>
+        <div class="buttons">
+          <slot name="${BOTTOM_SLOT}"></slot>
+        </div>
       </div>
     `
   }
@@ -124,26 +135,24 @@ class UnityModal extends LitElement {
   render() {
     const {
       show,
-      title,
-      cancelOnOutsideClick
+      title
     } = this
     const slots = this.getSlots()
     return html`
-      <paper-dialog
-        id="modal"
-        ?opened="${this.show}"
-        .noCancelOnOutsideClick="${!cancelOnOutsideClick}"
-        .withBackdrop="${true}"
+      <div
+        class="modal-backdrop${show ? '' : ' hide'}"
+        @click="${this.handleBackdropClick}"
+        tabindex="-1"
       >
+        <div class="modal" >
 
-        ${this.renderTitle(slots)}
+          ${this.renderTitle(slots)}
 
-        <paper-dialog-scrollable>
           <slot name="${BODY_SLOT}"></slot>
-        </paper-dialog-scrollable>
 
-        ${this.renderBottom(slots)}
-      </paper-dialog>
+          ${this.renderBottom(slots)}
+        </div>
+      </div>
     `
   }
 
@@ -152,24 +161,50 @@ class UnityModal extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          color: var(--black-text-color, var(--default-black-text-color));
+          --modal-background-color: var(--background-color, var(--default-background-color));
+          --title-border-color: var(--light-grey-text-color, var(--default-light-grey-text-color))
         }
-        paper-dialog-scrollable {
-          margin: 0 -24px;
+        .modal-backdrop {
+          z-index: 100;
+          background-color: transparent;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          outline: none;
+        }
+        .modal {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+          background-color: var(--modal-background-color);
         }
         .modal-title {
-          border-bottom: 1px solid var(--light-grey-text-color, var(--default-light-grey-text-color));
+          flex: 0;
+          border-bottom: 1px solid var(--title-border-color);
           margin-top: 0;
           padding: 0 12px;
           height: 50px;
           display: flex;
           flex-direction: row;
           align-items: center;
+          align-content: center;
         }
-        .title {
-          display: flex;
+        .button-box {
           flex: 1;
-          margin-right: 12px;
+          width: auto;
+          display: flex;
+          flex-direction: row-reverse;
+        }
+        .buttons {
+          flex: 0;
+          display: flex;
+          flex-direction: row;
+          padding: 12px;
+          box-sizing: border-box;
         }
         .hide {
           display: none;

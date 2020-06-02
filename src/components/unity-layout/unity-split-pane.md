@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.3
+- Set position to relative in order to limit modal to rendering inside specific panes
+
 ### v1.0.1
 - Prevent split panel content from horizontally overflowing outside the panel width.
 

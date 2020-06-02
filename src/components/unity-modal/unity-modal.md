@@ -2,6 +2,15 @@
 
 ## Changelog:
 
+### v1.0.3
+- Fix header alignment issue.
+
+### v1.0.2
+- Fix button alignment issue.
+
+### v1.0.1
+- Update modal to render centered on it's current context pane
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 

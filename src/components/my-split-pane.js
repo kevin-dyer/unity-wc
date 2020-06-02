@@ -18,6 +18,7 @@ import '@bit/smartworks.unity.unity-core/unity-text-input';
 import '@bit/smartworks.unity.unity-core/unity-split-pane'
 import '@bit/smartworks.unity.unity-core/unity-typography'
 import '@bit/smartworks.unity.unity-core/unity-column-editor.js'
+import '@bit/smartworks.unity.unity-core/unity-modal'
 
 import { PageViewElement } from './page-view-element.js';
 // These are the shared styles needed by this element.
@@ -132,6 +133,7 @@ class MySplitPane extends PageViewElement {
     this.highlightedRow = {}
     this.highlightColor = ''
     this.showDetails = false
+    this.showPaneModal = false
   }
 
   static get properties() {
@@ -143,7 +145,8 @@ class MySplitPane extends PageViewElement {
       highlightedRowId: { type: String },
       highlightedRow: { type: Object },
       highlightColor: { type: String },
-      showDetails: { type: Boolean }
+      showDetails: { type: Boolean },
+      showPaneModal: { type: Boolean }
     }
   }
 
@@ -252,6 +255,12 @@ class MySplitPane extends PageViewElement {
     this.collapsed = value
   }
 
+  togglePaneModal() {
+    console.log('this', this)
+    console.log('this.showPaneModal', this.showPaneModal)
+    this.showPaneModal = !this.showPaneModal
+  }
+
   render() {
     console.log('exampleData', exampleData)
     console.log('this.highlightedRow', this.highlightedRow)
@@ -302,33 +311,40 @@ class MySplitPane extends PageViewElement {
             <unity-typography size='header2'>Footer</unity-typography>
         </div>
 
-        <unity-table
-          noTopBorder
-          slot="main"
-          selectable
-          filter="${this._searchText}"
-          .keyExtractor="${(datum, index) => datum.name}"
-          .childKeys="${['children']}"
-          .data="${exampleData}"
-          .columns="${this._visibleColumns}"
-          .columnFilter="${this._columnFilters}"
-          .onFilterChange="${this.onFilterChange}"
-          endReachedThreshold="${200}"
-          .onEndReached="${() => {
-            console.log("my-table end reached!")
-          }}"
-          .highlightedRow="${this.highlightedRowId}"
-          .onHighlight="${this.handleRowHighlighted.bind(this)}"
-          .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
-          .onClickRow="${this.handleClickRow.bind(this)}"
-          .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
-          .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+        <div slot="main">
+          <unity-table
+            noTopBorder
+            selectable
+            filter="${this._searchText}"
+            .keyExtractor="${(datum, index) => datum.name}"
+            .childKeys="${['children']}"
+            .data="${exampleData}"
+            .columns="${this._visibleColumns}"
+            .columnFilter="${this._columnFilters}"
+            .onFilterChange="${this.onFilterChange}"
+            endReachedThreshold="${200}"
+            .onEndReached="${() => {
+              console.log("my-table end reached!")
+            }}"
+            .highlightedRow="${this.highlightedRowId}"
+            .onHighlight="${this.handleRowHighlighted.bind(this)}"
+            .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+            .onClickRow="${this.handleClickRow.bind(this)}"
+            .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
+            .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
 
-          style="--highlight-color: ${this.highlightColor}"
-        >
-        </unity-table>
+            style="--highlight-color: ${this.highlightColor}"
+          ></unity-table>
+        </div>
         <div class="pane" slot="pane">
+          <unity-button label="Show Test Modal" @click="${this.togglePaneModal.bind(this)}"></unity-button>
           ${JSON.stringify(this.highlightedRow)}
+          <unity-modal
+            .show="${this.showPaneModal}"
+            .title="${"Test Modal"}"
+            .toggle="${this.togglePaneModal.bind(this)}"
+            cancelOnOutsideClick
+          ></unity-modal>
         </div>
       </unity-split-pane>
     `
