@@ -11,11 +11,20 @@ import { action } from '@storybook/addon-actions';
 
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-table'
-import '@bit/smartworks.unity.unity-core/unity-table-export'
+// import '@bit/smartworks.unity.unity-core/unity-table-export'
+import '../src/components/unity-table/unity-table-export'
 
-import {devices, colors} from '../src/components/unity-table/fakeData.js'
+import { devices, colors } from '../src/components/unity-table/fakeData.js'
 // import {deviceData} from '../src/components/unity-table/largeDataSet.js'
 
+
+const parseUserInput = (entry) => {
+  if (Array.isArray(entry)) return entry.map(innerEntry => parseUserInput(innerEntry))
+  if (typeof entry === 'object') return Object.entries(entry)
+    .map(([innerEntryKey, innerEntryVal]) => ([parseUserInput(innerEntryKey), parseUserInput(innerEntryVal)]))
+    .reduce((parsedObject, [key, val]) => ({ ...parsedObject, [key]: val }), {})
+  return entry.replace(/&amp;/g, '&').replace(/&quot;/g, '"')
+}
 
 export default {
   title: 'Table',
@@ -84,7 +93,7 @@ export const CustomContent = () => {
     columns: defaultColumns,
     childKeys: defaultChildKeys,
     filters: defaultFilters
-  } = colors
+  } = devices
   const selectable = boolean("Selectable", true)
   const filter = text("Filter", "")
   const childKeys = array("Child Keys", defaultChildKeys)
@@ -156,20 +165,25 @@ export const WithExportButton = () => {
     columns: defaultColumns,
     childKeys: defaultChildKeys,
     filters: defaultFilters
-  } = devices
+  } = colors
   // Table knobs
   const selectable = boolean("Selectable", true)
   const filter = text("Filter", "")
   const childKeys = array("Child Keys", defaultChildKeys)
-  const columns = array('Columns', defaultColumns)
-  const columnFilters = array('Column Filters', defaultFilters)
+  const columns = parseUserInput(array('Columns', defaultColumns.map(col => JSON.stringify(col)))).map(col => JSON.parse(col))
+  console.log("WithExportButton -> columns", columns)
+  const columnFilters = parseUserInput(array('Column Filters', defaultFilters.map(filter => JSON.stringify(filter)))).map(filter => JSON.parse(filter))
+  console.log("WithExportButton -> columnFilters", columnFilters)
 
   // table data
   let data
   try {
-    data = JSON.parse(text('Data', JSON.stringify(defaultDevices, null, 2)))
+    const dataIn = JSON.stringify(defaultDevices, null, 2)
+    const userEntry = text('Data', dataIn)
+    const parsedEntry = parseUserInput(userEntry)
+    data = JSON.parse(parsedEntry)
   } catch (error) {
-    console.warn(`setting data failed with error `, error)
+    console.error(`setting data failed with error `, error)
     data = text('Data', defaultDevices)
   }
   const endReachedThreshold = number("endReachedThreshold", 200)
@@ -183,6 +197,24 @@ export const WithExportButton = () => {
   }
 
   return html`
+    <div style='display: flex; flex-direction: row; justify-content: flex-end; margin: 10px;' />
+      <unity-table-export
+        .tableRef=${getTableRef()}
+        .onExport=${({ success, tableData, exportData, clickEvent, error }) => {
+          console.log(`success: `, success)
+          !!error && console.log(`error: `, error)
+          !!success && console.log(`exported csv successfully`)
+        }}
+      >
+        <unity-button
+          label="Export"
+          leftIcon="unity:file_download"
+          type="solid"
+          ?disabled=${false}
+          @click=${e => console.log("export-button clicked! e: ", e)}
+        ></unity-button>
+      </unity-table-export>
+    </div>
     <unity-table
       id='table'
       ?selectable=${selectable}
@@ -204,23 +236,5 @@ export const WithExportButton = () => {
       style="--highlight-color: grey"
     >
     </unity-table>
-    <unity-table-export
-      .tableRef=${getTableRef()}
-      .onExport=${() => console.log(`exported csv`)}
-    >
-      <unity-button
-        label="Export"
-        leftIcon="unity:file_download"
-        type="solid"
-        ?disabled=${false}
-        @click=${e => console.log("export-button clicked! e: ", e)}
-      ></unity-button>
-    </unity-table-export>
-    <unity-table-export
-      .tableRef=${getTableRef()}
-      .onExport=${() => console.log(`exported csv`)}
-    >
-      <div style={height: 30; width: 80; background-color: blue;}
-    </unity-table-export>
   `
 }

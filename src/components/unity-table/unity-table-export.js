@@ -93,6 +93,7 @@ class UnityTableExport extends LitElement {
         _flattenedData: tableData=[]
       }={}
     } = this._tableRef || {}
+    if (!Array.isArray(tableData)) throw `ERROR: TableData is not an array (actual type: ${typeof tableData}). Received: ${tableData}`
     const rowsData = tableData.map(this.makeRow)
     const headers = this._headers
     return [ headers, ...rowsData]
