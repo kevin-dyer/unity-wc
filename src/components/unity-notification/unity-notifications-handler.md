@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.0
+- Changed attribute naming convention
+
 ### v1.1.2
 - Updated styles for container
 

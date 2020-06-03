@@ -6,7 +6,7 @@ import '@bit/smartworks.unity.unity-notification'
 /**
  * Component to control notifications 
  * @name UnityNotificationsHandler
- * @param {String} name, (required) a unique name for use with the addNotification function. No two unity-notifications-handler components should share this within one app. Name must be alphanumeric and can contain hyphens (but no other special character).
+ * @param {String} target, (required) a unique name for use with the addNotification function. No two unity-notifications-handler components should share this within one app. Name must be alphanumeric and can contain hyphens (but no other special character).
  * @param {String} position, (optional) position in the container; options are 'top-right', 'top-left', 'bottom-right', and 'bottom-left'. Defaults to 'top-right'.
  * @param {Object} icons, (optional) an object with entries for each type ('success', 'warning', 'error', 'help', 'tip') and the corresponding icons you want for each.
  * @param {Object} colors (optional) an object with entries for each type ('success', 'warning', 'error', 'help', 'tip') and the corresponding colors you want for each.
@@ -26,7 +26,7 @@ import '@bit/smartworks.unity.unity-notification'
  * 
  *  // to add a notification
  *  addNotification({
- *    name: 'foo-notifications',
+ *    target: 'foo-notifications',
  *    notification: {
  *      text:  'Notification Main Text',
  *      subtext:  'Extra notification information',
@@ -40,7 +40,7 @@ import '@bit/smartworks.unity.unity-notification'
  * 
  *  // in render method
  *    <unity-notifications-handler
- *      name='foo-notifications'
+ *      target='foo-notifications'
  *      .onClose=${()=>console.log('closed')}
  *      .customTypes=${{
  *        'my-custom-type': {
@@ -61,14 +61,14 @@ const defaultColors  = {
   help: css`var(--primary-brand-color, var(--default-primary-brand-color))`,
 }
 
-const testValidName = name => /^[A-z0-9\-]+$/.test(name)
+const testValidTarget = target => /^[A-z0-9\-]+$/.test(target)
 const testValidColor = color => /^[A-z0-9\#\(\), \-]+$/.test(color)
 
 class UnityNotificationsHandler extends LitElement {
   constructor() {
     super()
     this.position = ''
-    this.name = ''
+    this.target = ''
     this.icons = {}
     this.colors = {}
     this.customTypes = {}
@@ -93,7 +93,7 @@ class UnityNotificationsHandler extends LitElement {
     return {
       // Props/Attributes
       position: { type: String},
-      name: { type: String},
+      target: { type: String},
       icons: { type: Object },
       colors: { type: Object },
       customTypes: { type: Object },
@@ -160,16 +160,16 @@ class UnityNotificationsHandler extends LitElement {
   }
     
   firstUpdated() {
-    const { name }  = this
-    if (!name) throw `Name not provided for unity-notifications-handler`
-    if (!testValidName(name)) throw `Name ${name} may contain only alphanumeric characters and hyphens`
+    const { target }  = this
+    if (!target) throw `Target not provided for unity-notifications-handler`
+    if (!testValidTarget(target)) throw `Target ${target} may contain only alphanumeric characters and hyphens`
 
     
-    document.addEventListener(`${name}-add`, ({ detail: notification={} }={}) => {
+    document.addEventListener(`${target}-add`, ({ detail: notification={} }={}) => {
       this._handleAddNotification(notification)
     })
-    document.addEventListener(`${name}-close`, this._handleCloseNotification)
-    document.addEventListener(`${name}-clear`, this._handleClearNotifications)
+    document.addEventListener(`${target}-close`, this._handleCloseNotification)
+    document.addEventListener(`${target}-clear`, this._handleClearNotifications)
 
     this._calculateStyles()
   }
@@ -190,36 +190,36 @@ class UnityNotificationsHandler extends LitElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener(this.name, ({ detail: notification={} }={}) => {
+    document.removeEventListener(this.target, ({ detail: notification={} }={}) => {
       this._handleAddNotification(notification)
     })
-    document.removeEventListener(`${name}-close`, this._handleCloseNotification)
-    document.removeEventListener(`${name}-clear`, this._handleClearNotifications)
+    document.removeEventListener(`${target}-close`, this._handleCloseNotification)
+    document.removeEventListener(`${target}-clear`, this._handleClearNotifications)
   }
 
   static addNotification({
-    name,
+    target,
     notification={}
   }={}) {
-    if (!name || !testValidName(name)) throw `Error: Invalid name: ${name}`
-    const addNotificationEvent = new CustomEvent(`${name}-add`, {
+    if (!target || !testValidTarget(target)) throw `Error: Invalid target: ${target}`
+    const addNotificationEvent = new CustomEvent(`${target}-add`, {
       bubbles: true,
       detail: { ...notification }
     })
     document.dispatchEvent(addNotificationEvent)
   }
 
-  static closeNotification(name) {
-    if (!name || !testValidName(name)) throw `Error: Invalid name: ${name}`
-    const closeNotificationEvent = new CustomEvent(`${name}-close`, {
+  static closeNotification(target) {
+    if (!target || !testValidTarget(target)) throw `Error: Invalid target: ${target}`
+    const closeNotificationEvent = new CustomEvent(`${target}-close`, {
       bubbles: true
     })
     document.dispatchEvent(closeNotificationEvent)
   }
 
-  static clearNotifications(name) {
-    if (!name || !testValidName(name)) throw `Error: Invalid name: ${name}`
-    const clearNotificationsEvent = new CustomEvent(`${name}-clear`, {
+  static clearNotifications(target) {
+    if (!target || !testValidTarget(target)) throw `Error: Invalid target: ${target}`
+    const clearNotificationsEvent = new CustomEvent(`${target}-clear`, {
       bubbles: true
     })
     document.dispatchEvent(clearNotificationsEvent)
