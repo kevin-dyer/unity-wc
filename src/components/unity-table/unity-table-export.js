@@ -74,9 +74,19 @@ class UnityTableExport extends LitElement {
     try {
       tableData = this.buildDataToExport()
       exportData = this.beforeExport(tableData)
-      csvData = exportData.map(row => row.map(cell => `\"${JSON.stringify(cell)}\"`).join(", ")).join("\n") || ''
+      csvData = exportData
+        .map(row => {
+          return row
+            .map(cell => {
+              return `"${cell.replace(/"/g, '""')}"`
+            })
+            .join(",")
+        })
+        .join("\n") || ''
+        
       const anchorElement = this.shadowRoot.querySelector('a')
       anchorElement.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURI(csvData))
+      console.log("UnityTableExport -> handleClick -> csvData", csvData)
       if (!!exportData && Array.isArray(exportData) && !!csvData && !!anchorElement && anchorElement.hasAttribute('href')) success = true
     } catch (e) {
       success = false
@@ -101,7 +111,7 @@ class UnityTableExport extends LitElement {
 
   makeRow(row) {
     if (Array.isArray(row)) return row
-    if (!row || !row instanceof Object) {
+    if (!row || !(row instanceof Object)) {
       // TODO: Handle this better
       console.error(`invalid row passed to makeRowArrayFromObject: `, row)
       return []

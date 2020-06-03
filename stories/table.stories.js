@@ -11,10 +11,9 @@ import { action } from '@storybook/addon-actions';
 
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-table'
-// import '@bit/smartworks.unity.unity-core/unity-table-export'
-import '../src/components/unity-table/unity-table-export'
+import '@bit/smartworks.unity.unity-core/unity-table-export'
 
-import { devices, colors } from '../src/components/unity-table/fakeData.js'
+import { devices, justDevices } from '../src/components/unity-table/fakeData.js'
 // import {deviceData} from '../src/components/unity-table/largeDataSet.js'
 
 
@@ -50,7 +49,6 @@ export const Standard = () => {
   const columnFilters = array('Column Filters', defaultFilters)
   let data
   try {
-    console.log('JSON.stringify(defaultDevices, null, 2)', JSON.stringify(defaultDevices, null, 2))
     data = JSON.parse(text('Data', JSON.stringify(defaultDevices, null, 2)))
   } catch (error) {
     console.warn(`setting data failed with error `, error)
@@ -161,19 +159,17 @@ export const WithExportButton = () => {
   }
 
   const {
-    data: defaultDevices,
-    columns: defaultColumns,
-    childKeys: defaultChildKeys,
-    filters: defaultFilters
-  } = colors
+    data: defaultDevices={},
+    columns: defaultColumns=[],
+    childKeys: defaultChildKeys=[],
+    filters: defaultFilters=[]
+  } = justDevices
   // Table knobs
   const selectable = boolean("Selectable", true)
   const filter = text("Filter", "")
   const childKeys = array("Child Keys", defaultChildKeys)
   const columns = parseUserInput(array('Columns', defaultColumns.map(col => JSON.stringify(col)))).map(col => JSON.parse(col))
-  console.log("WithExportButton -> columns", columns)
   const columnFilters = parseUserInput(array('Column Filters', defaultFilters.map(filter => JSON.stringify(filter)))).map(filter => JSON.parse(filter))
-  console.log("WithExportButton -> columnFilters", columnFilters)
 
   // table data
   let data
@@ -201,7 +197,6 @@ export const WithExportButton = () => {
       <unity-table-export
         .tableRef=${getTableRef()}
         .onExport=${({ success, tableData, exportData, clickEvent, error }) => {
-          console.log(`success: `, success)
           !!error && console.log(`error: `, error)
           !!success && console.log(`exported csv successfully`)
         }}
