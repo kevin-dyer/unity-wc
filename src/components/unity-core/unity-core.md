@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.2.6
+- unity-table-export 1.0.4
+
 ### v1.2.5
 - unity-table-export 1.0.3
 

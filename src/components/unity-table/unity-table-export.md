@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.4
+- Removed errant log line
+
 ### v1.0.3
 - Corrected csv formatting issues
 

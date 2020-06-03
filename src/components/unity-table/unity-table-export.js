@@ -86,7 +86,6 @@ class UnityTableExport extends LitElement {
         
       const anchorElement = this.shadowRoot.querySelector('a')
       anchorElement.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURI(csvData))
-      console.log("UnityTableExport -> handleClick -> csvData", csvData)
       if (!!exportData && Array.isArray(exportData) && !!csvData && !!anchorElement && anchorElement.hasAttribute('href')) success = true
     } catch (e) {
       success = false
