@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.0.2
+### v1.0.3
 - Corrected csv formatting issues
 
 ### v1.0.1

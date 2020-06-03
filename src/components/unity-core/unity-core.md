@@ -5,14 +5,17 @@
 
 ## Changelog:
 
+### v1.2.5
+- unity-table-export 1.0.3
+
 ### v1.2.4
-- unity-modal v1.0.3
+- unity-modal 1.0.3
 
 ### v1.2.3
-- unity-modal v1.0.2
+- unity-modal 1.0.2
 
 ### v1.2.2
-- unity-modal v1.0.1 and unity-split-pane v1.0.3
+- unity-modal 1.0.1 and unity-split-pane 1.0.3
 
 ### v1.2.1
 - unity-notifications-handler v.1.1.2
@@ -21,37 +24,37 @@
 - Working release of unity-notifications-handler
 
 ### v1.1.8
-- unity-notifications-handler v1.1.1
-- unity-default-theme-styles v1.0.3
+- unity-notifications-handler 1.1.1
+- unity-default-theme-styles 1.0.3
 
 ### v1.1.7
 - unity-button 1.0.1
 
 ### v1.1.6
-- unity-page-header v1.0.2
-- unity-split-pane v1.0.2
+- unity-page-header 1.0.2
+- unity-split-pane 1.0.2
 
 ### v1.1.3
-- unity-notifications-handler v1.1.0
+- unity-notifications-handler 1.1.0
 
 ### v1.1.2
-- unity-notifications-handler v1.0.2
+- unity-notifications-handler 1.0.2
 
 ### v1.1.1
-- unity-notifications-handler v1.0.1
+- unity-notifications-handler 1.0.1
 
 ### v1.1.0
-- unity-dropdown v1.1.0
-- unity-tooltip v1.1.0
+- unity-dropdown 1.1.0
+- unity-tooltip 1.1.0
 
 ### v1.0.4
-- unity-global-nav-top-item v1.0.1
+- unity-global-nav-top-item 1.0.1
 
 ### v1.0.3
-- unity-table-export v1.0.2
+- unity-table-export 1.0.2
 
 ### v1.0.2
-- unity-table-export v1.0.1
+- unity-table-export 1.0.1
 
 ### v1.0.1
 - Fixed wrong version of peerDependencies in unity-global-nav-base and unity-table
