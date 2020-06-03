@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.0.4
+- Removed errant log line
+
+### v1.0.3
+- Corrected csv formatting issues
+
 ### v1.0.1
 - Fixed to use shadowRoot so that anchor element can be found in complex apps
 
