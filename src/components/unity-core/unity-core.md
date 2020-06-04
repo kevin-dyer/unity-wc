@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.2.7
+- unity-notifications-handler 1.2.0
+
 ### v1.2.6
 - unity-table-export 1.0.4
 

@@ -58,7 +58,7 @@ export const UsingNotificationsHandler = () => {
   return html`
     <div class="main-container">
       <unity-notifications-handler
-        name="test-notifications-1"
+        target="test-notifications-1"
         .position=${position}
       >
         <div class="buttons-container">
@@ -66,7 +66,7 @@ export const UsingNotificationsHandler = () => {
             type="solid"
             label="Add Success Message"
             @click=${() => addNotification({
-              name: 'test-notifications-1',
+              target: 'test-notifications-1',
               notification: { text: maintext, subtext, timeout, type: 'success'}
             })}
           ></unity-button>
@@ -74,7 +74,7 @@ export const UsingNotificationsHandler = () => {
             type="solid"
             label="Add Warning Message"
             @click=${() => addNotification({
-              name: 'test-notifications-1',
+              target: 'test-notifications-1',
               notification: { text: maintext, subtext, timeout, type: 'warning'}
             })}
             ></unity-button>
@@ -82,7 +82,7 @@ export const UsingNotificationsHandler = () => {
             type="solid"
             label="Add Error Message"
             @click=${() => addNotification({
-              name: 'test-notifications-1',
+              target: 'test-notifications-1',
               notification: { text: maintext, subtext, timeout, type: 'error'}
             })}
           ></unity-button>
@@ -90,7 +90,7 @@ export const UsingNotificationsHandler = () => {
             type="solid"
             label="Add Help Message"
             @click=${() => addNotification({
-              name: 'test-notifications-1',
+              target: 'test-notifications-1',
               notification: { text: maintext, subtext, timeout, type: 'help'}
             })}
           ></unity-button>
@@ -98,14 +98,14 @@ export const UsingNotificationsHandler = () => {
             type="solid"
             label="Add Tip Message"
             @click=${() => addNotification({
-              name: 'test-notifications-1',
+              target: 'test-notifications-1',
               notification: { text: maintext, subtext, timeout, type: 'tip'}
             })}
           ></unity-button>
         </div>
       </unity-notifications-handler>
       <unity-notifications-handler
-        name="test-notifications-2"
+        target="test-notifications-2"
         .position=${position}
       >
         <div class="buttons-container">
@@ -113,7 +113,7 @@ export const UsingNotificationsHandler = () => {
             type="solid"
             label="Add Success Message"
             @click=${() => addNotification({
-              name: 'test-notifications-2',
+              target: 'test-notifications-2',
               notification: { text: maintext, subtext, timeout, type: 'success'}
             })}
           ></unity-button>
@@ -121,7 +121,7 @@ export const UsingNotificationsHandler = () => {
             type="solid"
             label="Add Warning Message"
             @click=${() => addNotification({
-              name: 'test-notifications-2',
+              target: 'test-notifications-2',
               notification: { text: maintext, subtext, timeout, type: 'warning'}
             })}
           ></unity-button>
@@ -129,7 +129,7 @@ export const UsingNotificationsHandler = () => {
             type="solid"
             label="Add Error Message"
             @click=${() => addNotification({
-              name: 'test-notifications-2',
+              target: 'test-notifications-2',
               notification: { text: maintext, subtext, timeout, type: 'error'}
             })}
           ></unity-button>
@@ -137,7 +137,7 @@ export const UsingNotificationsHandler = () => {
             type="solid"
             label="Add Help Message"
             @click=${() => addNotification({
-              name: 'test-notifications-2',
+              target: 'test-notifications-2',
               notification: { text: maintext, subtext, timeout, type: 'help'}
             })}
           ></unity-button>
@@ -145,7 +145,7 @@ export const UsingNotificationsHandler = () => {
             type="solid"
             label="Add Tip Message"
             @click=${() => addNotification({
-              name: 'test-notifications-2',
+              target: 'test-notifications-2',
               notification: { text: maintext, subtext, timeout, type: 'tip'}
             })}
           ></unity-button>
