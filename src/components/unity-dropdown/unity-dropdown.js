@@ -383,6 +383,7 @@ class UnityDropdown extends LitElement {
   set options(value) {
     const oldValue = this._options
     this._options = value
+    this._visibleOptions = value
 
     // run filterSelection to remove invalid options
     if (value.length > 0) this.selected = this.filterSelection(this.selected)
