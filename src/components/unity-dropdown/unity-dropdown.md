@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- update visible options when options is updated
+
 ### v1.1.0
 - Add rightAlign property to make options box align from the right of the dropdown
 - Add css variable to control options box width.
