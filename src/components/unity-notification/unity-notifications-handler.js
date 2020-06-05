@@ -116,8 +116,10 @@ class UnityNotificationsHandler extends LitElement {
         :host {
           --notification-height: 60px;
           --notification-width: 450px;
-          --internal-notification-height: var(--notification-height) ;
-          --internal-notification-width: var(--notification-width) ;
+          --internal-notification-height: var(--notification-height);
+          --internal-notification-width: var(--notification-width);
+          width: 100%;
+          height: 100%;
         }
 
         #container {
@@ -190,7 +192,8 @@ class UnityNotificationsHandler extends LitElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener(this.target, ({ detail: notification={} }={}) => {
+    const { target } = this
+    document.removeEventListener(target, ({ detail: notification={} }={}) => {
       this._handleAddNotification(notification)
     })
     document.removeEventListener(`${target}-close`, this._handleCloseNotification)
@@ -334,7 +337,7 @@ class UnityNotificationsHandler extends LitElement {
   _handleClearNotifications() {
     this._showNotification = false
     this._queuedNotifications = []
-      clearTimeout(this._notificationTimeout)
+    clearTimeout(this._notificationTimeout)
     this._notificationTimeout = null
   }
 
