@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.2.9
+- unity-dropdown v1.1.1
+
 ### v1.2.8
 - unity-notifications-handler 1.2.1
 
