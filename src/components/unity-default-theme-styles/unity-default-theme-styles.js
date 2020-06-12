@@ -10,6 +10,8 @@ import { css } from 'lit-element';
 
 export const UnityDefaultThemeStyles = css`
   :host {
+    --default-black-rgb: 0, 0, 0;
+    --default-white-rgb: 255, 255, 255;
     --default-primary-brand-rgb: 250, 70, 22;
     --default-primary-brand-rgb-light: 253, 181, 162;
     --default-primary-brand-rgb-dark: 200, 51, 5;
@@ -20,10 +22,8 @@ export const UnityDefaultThemeStyles = css`
     --default-error-rgb: 240, 61, 12;
     --default-error-lite-rgb: 245, 120, 106;
     --default-selection-opacity: 0.5;
-    --black-text-rgb: 0, 0, 0;
-    --white-text-rgb: 255, 255, 255;
 
-    /* Colors*/
+    /* Old Colors */
     --default-primary-brand-color: rgb(var(--default-primary-brand-rgb));
     --default-primary-brand-color-light: rgb(var(--default-primary-brand-rgb-light));
     --default-primary-brand-color-dark: rgb(var(--default-primary-brand-rgb-dark));
@@ -33,18 +33,42 @@ export const UnityDefaultThemeStyles = css`
     --default-danger-lite-color: rgb(var(--default-danger-lite-rgb));
     --default-error-color: rgb(var(--default-error-rgb));
     --default-error-lite-color: rgb(var(--default-error-lite-rgb));
-    --default-background-color: white;
+    --default-background-color: rgb(var(--default-white-rgb));
     --default-global-nav-background-color: #005776;
     --default-global-nav-expanded-color: #00465e;
     --default-global-nav-border-color: #669aad;
-    --default-global-nav-text-color: rgb(var(--white-text-rgb));
-    --default-black-text-color: rgb(var(--black-text-rgb));
+    --default-global-nav-text-color: rgb(var(--default-white-rgb));
+    --default-black-text-color: rgb(var(--default-black-rgb));
     --default-dark-grey-text-color: #5f6368;
     --default-medium-grey-text-color: #80868b;
     --default-light-grey-text-color: #b8b8b8;
     --default-dark-grey-background-color: #a7adaf;
     --default-medium-grey-background-color: #d4d9db;
     --default-light-grey-background-color: #f1f3f4;
+
+    /* Colors */
+    --default-black:            #000000;
+    --default-charcoal:         #4D4D4D;
+    --default-gray:             #A2AAAD;
+    --default-light-gray-1:     #EBEBEB;
+    --default-light-gray-2:     #F4F4F4;
+    --default-white:            #FFFFFF;
+    --default-deep-blue:        #005776;
+    --default-deep-blue-tint:   #408199;
+    --default-sky-blue:         #2DCCD3;
+    --default-sky-blue-shade:   #32A6AC;
+    --default-sky-blue-tint-1:  #EAF9FA;
+    --default-sky-blue-tint-2:  #D9F3F4;
+    --default-red-orange:       #FA4616;
+    --default-yellow:           #FFC600;
+    --default-green:            #47A23F;
+
+    /* Text Colors */
+
+    /* Interactables */
+    /* Notifications */
+    /* Inputs */
+    /* Tables */
 
     /*Composite style based on variables above*/
     --default-selection-highlight-color: #a2aaad;
