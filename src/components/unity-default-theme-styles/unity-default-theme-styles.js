@@ -47,25 +47,39 @@ export const UnityDefaultThemeStyles = css`
     --default-light-grey-background-color: #f1f3f4;
 
     /* Colors */
-    --default-black:            #000000;
-    --default-charcoal:         #4D4D4D;
-    --default-gray:             #A2AAAD;
-    --default-light-gray-1:     #EBEBEB;
-    --default-light-gray-2:     #F4F4F4;
-    --default-white:            #FFFFFF;
-    --default-deep-blue:        #005776;
-    --default-deep-blue-tint:   #408199;
-    --default-sky-blue:         #2DCCD3;
-    --default-sky-blue-shade:   #32A6AC;
-    --default-sky-blue-tint-1:  #EAF9FA;
-    --default-sky-blue-tint-2:  #D9F3F4;
-    --default-red-orange:       #FA4616;
-    --default-yellow:           #FFC600;
-    --default-green:            #47A23F;
+    --default-black-rgb: 0, 0, 0;                 /* #000000 */
+    --default-charcoal-rgb: 77, 77, 77;           /* #4D4D4D */
+    --default-gray-rgb: 162, 170, 173;            /* #A2AAAD */
+    --default-light-gray-1-rgb: 235, 235, 235;    /* #EBEBEB */
+    --default-light-gray-2-rgb: 244, 244, 244;    /* #F4F4F4 */
+    --default-white-rgb: 255, 255, 255;           /* #FFFFFF */
+    --default-deep-blue-rgb: 0, 87, 118;          /* #005776 */
+    --default-deep-blue-tint-rgb: 64, 129, 153;   /* #408199 */
+    --default-sky-blue-rgb: 45, 204, 211;         /* #2DCCD3 */
+    --default-sky-blue-shade-rgb: 50, 166, 172;   /* #32A6AC */
+    --default-sky-blue-tint-1-rgb: 234, 249, 250; /* #EAF9FA */
+    --default-sky-blue-tint-2-rgb: 217, 243, 244; /* #D9F3F4 */
+    --default-red-orange-rgb: 250, 70, 22;        /* #FA4616 */
+    --default-dark-red-orange-rgb: 145, 61, 38;   /* #913D26 */
+    --default-yellow-rgb: 255, 198, 0;            /* #FFC600 */
+    --default-green-rgb: 71, 162, 63;             /* #47A23F */
 
     /* Text Colors */
+    --default-white-text-color: var(rgb(rgb(--default-white-rgb)));
+    --default-black-text-color: var(rgb(--default-black-rgb));
+    --default-text-color: var(rgb(--default-charcoal-rgb));
+    --default-hyperlink-color: var(rgb(--default-deep-blue-rgb));
+
+    /* Layout Colors */
+    --default-border-color: var(rgb(--default-gray-rgb));
+    --default-background-color: var(rgb(--default-white-rgb));
+    --default-nav-bar-color: var(rgb(--default-deep-blue-rgb));
+
 
     /* Interactables */
+    --default-button-color: var(rgb(--default-deep-blue-rgb));
+    --default-button-pressed-color: var(rgb(--default-deep-blue-tint-rgb));
+
     /* Notifications */
     /* Inputs */
     /* Tables */
