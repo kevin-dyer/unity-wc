@@ -8,6 +8,7 @@ export const UnityDefaultThemeStyles = css`
   :host {
     /* Colors */
     --default-black-rgb: 0, 0, 0;                 /* #000000 */
+    --default-white-rgb: 255, 255, 255;           /* #FFFFFF */
     --default-charcoal-rgb: 77, 77, 77;           /* #4D4D4D */
     --default-gray-rgb: 162, 170, 173;            /* #A2AAAD */
     --default-light-gray-1-rgb: 235, 235, 235;    /* #EBEBEB */
@@ -23,6 +24,56 @@ export const UnityDefaultThemeStyles = css`
     --default-dark-red-orange-rgb: 145, 61, 38;   /* #913D26 */
     --default-yellow-rgb: 255, 198, 0;            /* #FFC600 */
     --default-green-rgb: 71, 162, 63;             /* #47A23F */
+
+    /* Uses */
+
+    /* Input text color */
+    --default-black-color: rgb(var(--default-black-rgb));
+
+    /* Default background color, Font Color */
+    --default-white-color: rgb(var(--default-white-color));
+
+    /* dark grey, text default */
+    --default-dark-gray-color: rgb(var(--default-charcoal-rgb));
+
+    /* normal gray, border default, disabled text */
+    --default-gray-color: rgb(var(--default-gray-rgb));
+
+    /* light gray 1, disabled conetnt */
+    --default-light-gray-1-color: rgb(var(--default-light-gray-1-rgb));
+
+    /* light gray 2, disabled content */
+    --default-light-gray-2-color: rgb(var(--default-light-gray-2-rgb));
+
+    /* default brand color, switches, radios, checkboxes, focus */
+    --default-primary-color: rgb(var(--default-sky-blue-rgb));
+
+    /* darked primary color */
+    --default-primary-shade-color: rgb(var(--default-sky-blue-shade-rgb));
+
+    /* faint primary highlight */
+    --default-primary-tint-1-color: rgb(var(--default-sky-blue-tint-1-rgb));
+
+    /* primary highlight */
+    --default-primary-tint-2-color: rgb(var(--default-sky-blue-tint-2-rgb));
+
+    /* secondary brand color, buttons, tabs, links */
+    --default-secondary-color: rgb(var(--default-deep-blue-rgb));
+
+    /* muted secondary color, clicked button */
+    --default-secondary-tint-color: rgb(var(--default-deep-blue-tint-rgb));
+
+    /* utility color, error, alert, attention grabbing, present/past-tense */
+    --default-tertiary-1-color: rgb(var(--default-red-orange-rgb));
+
+    /* darker tertiary 1, pressed alert button */
+    --default-tertiary-1-shade-color: rgb(var(--default-dark-red-orange-rgb));
+
+    /* utility color, warning, alert, future/present-tense */
+    --default-tertiary-2-color: rgb(var(--default-yellow-rgb));
+
+    /* utility color, success, notification */
+    --default-tertiary-3-color: rgb(var(--default-green-rgb));
 
     /* Old Colors */
     --default-primary-brand-color: rgb(var(--default-sky-blue-rgb));
@@ -48,86 +99,8 @@ export const UnityDefaultThemeStyles = css`
     --default-medium-grey-background-color: rgb(var(--default-light-gray-1-rgb));
     --default-light-grey-background-color: rgb(var(--default-light-gray-2-rgb));
 
-    /* Text Colors */
-    --default-white-text-color: rgb(var(--default-white-rgb)));
-    --default-black-text-color: rgb(var(--default-black-rgb));
-    --default-text-color: rgb(var(--default-charcoal-rgb));
-    --default-hyperlink-color: rgb(var(--default-deep-blue-rgb));
-
-    /* Layout Colors */
-    --default-border-color: rgb(var(--default-gray-rgb));
-    --default-background-color: rgb(var(--default-white-rgb));
-    --default-nav-bar-color: rgb(var(--default-deep-blue-rgb));
-    --default-tab-selected-color: rgb(var(--default-deep-blue-rgb));
-
-    /* Buttons */
-    --default-button-color: rgb(var(--default-deep-blue-rgb));
-    --default-button-pressed-color: rgb(var(--default-deep-blue-tint-rgb));
-    --default-button-important-color: rbg(var(--default-red-orange-rgb));
-    --default-button-important-pressed-color: rgb(var(--default-dark-red-orange-rgb));
-    --default-button-disabled-color: rgb(var(--default-light-gray-2-rgb));
-    --default-button-disabled-text-color: rgb(var(--default-gray-rgb));
-    --default-secondary-button-border-color: rgb(var(--default-gray-rgb));
-
-    /* Tags */
-    --default-tag-active-color: rgb(var(--default-sky-blue-rgb));
-    --default-tag-inactive-color: rgb(var(--default-gray-rgb));
-
-    /* Checkboxes & Radios */
-    --default-checkbox-radio-selected-color: rgb(var(--default-sky-blue-rgb));
-    --default-checkbox-radio-selected-hover-color: rgb(var(--default-sky-blue-shade-rgb));
-    --default-checkbox-radio-hover-color: rgb(var(--default-sky-blue-tint-1-rgb));
-    --default-checkbox-radio-disabled: rgb(var(--default-light-gray-2-rgb));
-
-    /* Switches */
-    --default-switch-active-color: rgb(var(--default-sky-blue-rgb));
-    --default-switch-active-hover-color: rgb(var(--default-sky-blue-shade-rgb));
-    --default-switch-inactive-knob-color: rgb(var(--default-charcoal-rgb));
-    --default-switch-inactive-border-color: rgb(var(--default-gray-rgb));
-    --default-switch-inactive-hover-border-color: rgb(var(--default-charcoal-rgb));
-    --default-switch-diabled-color: rgb(var(--default-light-gray-2-rgb));
-    --default-switch-disabled-border-knob-color: rgb(var(--default-gray-rgb));
-
-    /* Drag & Drop */
-    --default-drag-and-drop-border-color: rgb(var(--default-gray-rgb));
-    --default-drag-and-drop-hover-border-color: rgb(var(--default-charcoal-rgb));
-    --default-drag-and-drop-hover-background-color: rgb(var(--default-sky-blue-tint-2-rgb));
-    --default-drag-and-drop-icon-color: rgb(var(--default-sky-blue-rgb));
-
-    /* Notifications */
-    --default-notification-color: rgb(var(--default-sky-blue-rgb));
-    --default-notification-success-color: rgb(var(--default-green-rgb));
-    --default-notification-warning-color: rgb(var(--default-yellow-rgb));
-    --default-notification-error-color: rgb(vaR(--default-red-orange-rgb));
-
-    /* Inputs & Dropdowns */
-    --default-input-hover-border-color: rgb(var(--default-charcoal-rgb));
-    --default-input-focus-border-color: rgb(var(--default-sky-blue-rgb));
-    --default-input-danger-background-color: rgba( var(--default-red-orange-rgb), .5);
-    --default-dropdown-option-hover-color: rgb(var(--default-light-gray-2-rgb));
-    --default-dropdown-option-disabled-color: rgb(var(--default-gray-rgb));
-    --default-list-selected-color: rgb(var(--default-sky-blue-tint-1-rgb));
-    --default-input-valid-icon-color: rgb(var(--default-sky-blue-color));
-
-    /* Sliders */
-    --default-slider-range-color: rgb(var(--default-charcoal-rgb));
-    --default-slider-track-color: rgb(var(--default-gray-rgb));
-    --default-slider-hover-range-color: rgb(var(--default-sky-blue-rgb));
-    --default-slider-hover-track-color: rgb(var(--default-sky-blue-tint-2-rgb));
-    --default-slider-disabled-range-color: rgb(var(--default-gray-rgb));
-    --default-slider-disabled-track-color: rgb(var(--default-light-gray-1-rgb));
-
-    /* Progress */
-    --default-progress-track-color: rgb(var(--default-light-gray-1-rgb));
-    --default-progress-color: rgb(vaR(--default-sky-blue-rgb));
-
-    /* Tables */
-    --default-row-hover-color: rgb(var(--default-sky-blue-tint-1-rgb));
-    --default-row-selected-color: rgb(var(--default-sky-blue-tint-1-rgb));
-    --default-row-hover-selected-color: rgb(var(--default-sky-blue-tint-2-rgb));
-
     /*Composite style based on variables above*/
-    --default-selection-highlight-color: var(--default-row-hover-selected-color);
+    --default-selection-highlight-color: var(--default-primary-tint-2-color);
 
     /* Fonts */
     --default-font-family: 'Noto', sans-serif;
