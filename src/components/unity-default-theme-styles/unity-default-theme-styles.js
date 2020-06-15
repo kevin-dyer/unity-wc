@@ -4,12 +4,9 @@ import { css } from 'lit-element';
 // Therefore any specified font should be loaded in parent app
 // import 'typeface-nunito-sans';
 
-// old succes light green: --default-success-rgb: 156, 204, 101;
-// old danger light red: --default-danger-rgb: 244, 67, 54;
-// old danger-lite light red: --default-danger-lite-rgb: 250, 179, 174;
-
 export const UnityDefaultThemeStyles = css`
   :host {
+    /* Old RGBs */
     --default-black-rgb: 0, 0, 0;
     --default-white-rgb: 255, 255, 255;
     --default-primary-brand-rgb: 250, 70, 22;
@@ -65,24 +62,82 @@ export const UnityDefaultThemeStyles = css`
     --default-green-rgb: 71, 162, 63;             /* #47A23F */
 
     /* Text Colors */
-    --default-white-text-color: var(rgb(rgb(--default-white-rgb)));
-    --default-black-text-color: var(rgb(--default-black-rgb));
-    --default-text-color: var(rgb(--default-charcoal-rgb));
-    --default-hyperlink-color: var(rgb(--default-deep-blue-rgb));
+    --default-white-text-color: rgb(var(--default-white-rgb)));
+    --default-black-text-color: rgb(var(--default-black-rgb));
+    --default-text-color: rgb(var(--default-charcoal-rgb));
+    --default-hyperlink-color: rgb(var(--default-deep-blue-rgb));
 
     /* Layout Colors */
-    --default-border-color: var(rgb(--default-gray-rgb));
-    --default-background-color: var(rgb(--default-white-rgb));
-    --default-nav-bar-color: var(rgb(--default-deep-blue-rgb));
+    --default-border-color: rgb(var(--default-gray-rgb));
+    --default-background-color: rgb(var(--default-white-rgb));
+    --default-nav-bar-color: rgb(var(--default-deep-blue-rgb));
+    --default-tab-selected-color: rgb(var(--default-deep-blue-rgb));
 
+    /* Buttons */
+    --default-button-color: rgb(var(--default-deep-blue-rgb));
+    --default-button-pressed-color: rgb(var(--default-deep-blue-tint-rgb));
+    --default-button-important-color: rbg(var(--default-red-orange-rgb));
+    --default-button-important-pressed-color: rgb(var(--default-dark-red-orange-rgb));
+    --default-button-disabled-color: rgb(var(--default-light-gray-2-rgb));
+    --default-button-disabled-text-color: rgb(var(--default-gray-rgb));
+    --default-secondary-button-border-color: rgb(var(--default-gray-rgb));
 
-    /* Interactables */
-    --default-button-color: var(rgb(--default-deep-blue-rgb));
-    --default-button-pressed-color: var(rgb(--default-deep-blue-tint-rgb));
+    /* Tags */
+    --default-tag-active-color: rgb(var(--default-sky-blue-rgb));
+    --default-tag-inactive-color: rgb(var(--default-gray-rgb));
+
+    /* Checkboxes & Radios */
+    --default-checkbox-radio-selected-color: rgb(var(--default-sky-blue-rgb));
+    --default-checkbox-radio-selected-hover-color: rgb(var(--default-sky-blue-shade-rgb));
+    --default-checkbox-radio-hover-color: rgb(var(--default-sky-blue-tint-1-rgb));
+    --default-checkbox-radio-disabled: rgb(var(--default-light-gray-2-rgb));
+
+    /* Switches */
+    --default-switch-active-color: rgb(var(--default-sky-blue-rgb));
+    --default-switch-active-hover-color: rgb(var(--default-sky-blue-shade-rgb));
+    --default-switch-inactive-knob-color: rgb(var(--default-charcoal-rgb));
+    --default-switch-inactive-border-color: rgb(var(--default-gray-rgb));
+    --default-switch-inactive-hover-border-color: rgb(var(--default-charcoal-rgb));
+    --default-switch-diabled-color: rgb(var(--default-light-gray-2-rgb));
+    --default-switch-disabled-border-knob-color: rgb(var(--default-gray-rgb));
+
+    /* Drag & Drop */
+    --default-drag-and-drop-border-color: rgb(var(--default-gray-rgb));
+    --default-drag-and-drop-hover-border-color: rgb(var(--default-charcoal-rgb));
+    --default-drag-and-drop-hover-background-color: rgb(var(--default-sky-blue-tint-2-rgb));
+    --default-drag-and-drop-icon-color: rgb(var(--default-sky-blue-rgb));
 
     /* Notifications */
-    /* Inputs */
+    --default-notification-color: rgb(var(--default-sky-blue-rgb));
+    --default-notification-success-color: rgb(var(--default-green-rgb));
+    --default-notification-warning-color: rgb(var(--default-yellow-rgb));
+    --default-notification-error-color: rgb(vaR(--default-red-orange-rgb));
+
+    /* Inputs & Dropdowns */
+    --default-input-hover-border-color: rgb(var(--default-charcoal-rgb));
+    --default-input-focus-border-color: rgb(var(--default-sky-blue-rgb));
+    --default-input-danger-background-color: rgba( var(--default-red-orange-rgb), .5);
+    --default-dropdown-option-hover-color: rgb(var(--default-light-gray-2-rgb));
+    --default-dropdown-option-disabled-color: rgb(var(--default-gray-rgb));
+    --default-list-selected-color: rgb(var(--default-sky-blue-tint-1-rgb));
+    --default-input-valid-icon-color: rgb(var(--default-sky-blue-color));
+
+    /* Sliders */
+    --default-slider-range-color: rgb(var(--default-charcoal-rgb));
+    --default-slider-track-color: rgb(var(--default-gray-rgb));
+    --default-slider-hover-range-color: rgb(var(--default-sky-blue-rgb));
+    --default-slider-hover-track-color: rgb(var(--default-sky-blue-tint-2-rgb));
+    --default-slider-disabled-range-color: rgb(var(--default-gray-rgb));
+    --default-slider-disabled-track-color: rgb(var(--default-light-gray-1-rgb));
+
+    /* Progress */
+    --default-progress-track-color: rgb(var(--default-light-gray-1-rgb));
+    --default-progress-color: rgb(vaR(--default-sky-blue-rgb));
+
     /* Tables */
+    --default-row-hover-color: rgb(var(--default-sky-blue-tint-1-rgb));
+    --default-row-selected-color: rgb(var(--default-sky-blue-tint-1-rgb));
+    --default-row-hover-selected-color: rgb(var(--default-sky-blue-tint-2-rgb));
 
     /*Composite style based on variables above*/
     --default-selection-highlight-color: #a2aaad;
