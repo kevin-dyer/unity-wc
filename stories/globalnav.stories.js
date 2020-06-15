@@ -32,7 +32,7 @@ export const Standard = () => {
     top: topItems,
     bottom: bottomItems
   }
-  const style = 'position: relative; width: 500px; height: 500px;'
+  const style = 'position: absolute; height: 500px;'
 
   return html`
     <div style="${style}">
