@@ -143,10 +143,13 @@ class UnityGlobalNavBase extends LitElement {
           border-right: 5px solid var(--gutter-color);
         }
         .menu {
-          position: relative;
           height: 100%;
           width: 191px;
           background-color: var(--primary-menu-color);
+          overflow-y: auto;
+          overflow-x: hidden;
+          display: flex;
+          flex-direction: column;
         }
         .text {
           color: var(--text-color)
@@ -157,35 +160,29 @@ class UnityGlobalNavBase extends LitElement {
         .logo-container {
           height: var(--logo-height);
           width: auto;
-          flex: 1;
-          padding-left: var(--logo-padding);
-          padding-right: var(--logo-padding);
-          overflow: hidden;
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
         }
         .logo {
-          position: absolute;
           height: 18px;
-          top: calc(var(--logo-height) / 2);
-          transform: translateY(-50%);
+          padding-left: var(--logo-padding);
         }
         .menu-box {
-          position: absolute;
           display: flex;
           flex-direction: column;
           flex-wrap: nowrap;
-          top: var(--logo-height);
-          bottom: 0;
           width: 100%;
+          justify-content: space-between;
+          flex: 1;
         }
         .top-container {
           height: 100%;
           width: 100%;
           min-height: 52px;
-          overflow-y: auto;
           border-collapse: collapse;
         }
         .bottom-container {
-          bottom: 0;
           min-height: min-content;
           width: 100%;
           border-collapse: collapse;
