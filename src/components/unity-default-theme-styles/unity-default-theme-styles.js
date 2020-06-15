@@ -6,20 +6,6 @@ import { css } from 'lit-element';
 
 export const UnityDefaultThemeStyles = css`
   :host {
-    /* Old RGBs */
-    --default-black-rgb: 0, 0, 0;
-    --default-white-rgb: 255, 255, 255;
-    --default-primary-brand-rgb: 250, 70, 22;
-    --default-primary-brand-rgb-light: 253, 181, 162;
-    --default-primary-brand-rgb-dark: 200, 51, 5;
-    --default-secondary-brand-rgb: 45, 204, 211;
-    --default-success-rgb: 71, 162, 63;
-    --default-danger-rgb: 255, 198, 0;
-    --default-danger-lite-rgb: 255, 232, 153;
-    --default-error-rgb: 240, 61, 12;
-    --default-error-lite-rgb: 245, 120, 106;
-    --default-selection-opacity: 0.5;
-
     /* Colors */
     --default-black-rgb: 0, 0, 0;                 /* #000000 */
     --default-charcoal-rgb: 77, 77, 77;           /* #4D4D4D */
