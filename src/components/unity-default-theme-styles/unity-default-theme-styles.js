@@ -20,29 +20,6 @@ export const UnityDefaultThemeStyles = css`
     --default-error-lite-rgb: 245, 120, 106;
     --default-selection-opacity: 0.5;
 
-    /* Old Colors */
-    --default-primary-brand-color: rgb(var(--default-primary-brand-rgb));
-    --default-primary-brand-color-light: rgb(var(--default-primary-brand-rgb-light));
-    --default-primary-brand-color-dark: rgb(var(--default-primary-brand-rgb-dark));
-    --default-secondary-brand-color: rgb(var(--default-secondary-brand-rgb));
-    --default-success-color: rgb(var(--default-success-rgb));
-    --default-danger-color: rgb(var(--default-danger-rgb));
-    --default-danger-lite-color: rgb(var(--default-danger-lite-rgb));
-    --default-error-color: rgb(var(--default-error-rgb));
-    --default-error-lite-color: rgb(var(--default-error-lite-rgb));
-    --default-background-color: rgb(var(--default-white-rgb));
-    --default-global-nav-background-color: #005776;
-    --default-global-nav-expanded-color: #00465e;
-    --default-global-nav-border-color: #669aad;
-    --default-global-nav-text-color: rgb(var(--default-white-rgb));
-    --default-black-text-color: rgb(var(--default-black-rgb));
-    --default-dark-grey-text-color: #5f6368;
-    --default-medium-grey-text-color: #80868b;
-    --default-light-grey-text-color: #b8b8b8;
-    --default-dark-grey-background-color: #a7adaf;
-    --default-medium-grey-background-color: #d4d9db;
-    --default-light-grey-background-color: #f1f3f4;
-
     /* Colors */
     --default-black-rgb: 0, 0, 0;                 /* #000000 */
     --default-charcoal-rgb: 77, 77, 77;           /* #4D4D4D */
@@ -60,6 +37,30 @@ export const UnityDefaultThemeStyles = css`
     --default-dark-red-orange-rgb: 145, 61, 38;   /* #913D26 */
     --default-yellow-rgb: 255, 198, 0;            /* #FFC600 */
     --default-green-rgb: 71, 162, 63;             /* #47A23F */
+
+    /* Old Colors */
+    --default-primary-brand-color: rgb(var(--default-sky-blue-rgb));
+    --default-primary-brand-color-light: rgb(var(--default-sky-blue-tint-2-rgb));
+    --default-primary-brand-color-dark: rgb(var(--default-deep-blue-rgb));
+    --default-secondary-brand-color: rgb(var(--default-red-orange-rgb));
+    --default-success-color: rgb(var(--default-green-rgb));
+    --default-danger-color: rgb(var(--default-yellow-rgb));
+    --default-danger-lite-color: rgba(var(--default-yellow-rgb), .5);
+    --default-error-color: rgb(var(--default-red-orange-rgb));
+    --default-error-lite-color: rgba(var(--default-red-orange-rgb), .5);
+    --default-background-color: rgb(var(--default-white-rgb));
+    --default-global-nav-background-color: rgb(var(--default-deep-blue-rgb));
+    --default-global-nav-expanded-color: rgb(var(--default-deep-blue-rgb));
+    --default-global-nav-border-color: rgb(var(--default-sky-blue-shade-rgb));
+    --default-global-nav-text-color: rgb(var(--default-white-rgb));
+    --default-black-text-color: rgb(var(--default-black-rgb));
+
+    --default-dark-grey-text-color: rgb(var(--default-charcoal-rgb));
+    --default-medium-grey-text-color: #80868b;
+    --default-light-grey-text-color: #b8b8b8;
+    --default-dark-grey-background-color: rgb(var(--default-gray-rgb));
+    --default-medium-grey-background-color: rgb(var(--default-light-gray-1-rgb));
+    --default-light-grey-background-color: rgb(var(--default-light-gray-2-rgb));
 
     /* Text Colors */
     --default-white-text-color: rgb(var(--default-white-rgb)));
@@ -140,7 +141,7 @@ export const UnityDefaultThemeStyles = css`
     --default-row-hover-selected-color: rgb(var(--default-sky-blue-tint-2-rgb));
 
     /*Composite style based on variables above*/
-    --default-selection-highlight-color: #a2aaad;
+    --default-selection-highlight-color: var(--default-row-hover-selected-color);
 
     /* Fonts */
     --default-font-family: 'Noto', sans-serif;
