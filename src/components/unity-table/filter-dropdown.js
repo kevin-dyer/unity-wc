@@ -58,12 +58,16 @@ class FilterDropdown extends LitElement {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener("iron-overlay-canceled", () => setTimeout(()=>this.toggleDropdown(false),0)); // collapse component when clicking outside
+    this.addEventListener("iron-overlay-canceled", this._delayClose ); // collapse component when clicking outside
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener("iron-overlay-canceled", () => setTimeout(()=>this.toggleDropdown(false),0));
+    this.removeEventListener("iron-overlay-canceled", this._delayClose);
+  }
+
+  _delayClose() {
+    setTimeout(()=>this.toggleDropdown(false),0)
   }
 
   toggleDropdown(show) {
