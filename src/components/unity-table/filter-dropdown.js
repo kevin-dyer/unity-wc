@@ -11,7 +11,8 @@ class FilterDropdown extends LitElement {
     this.options = [];
     this.selected = [];
     this.onValueChange = () => {};
-  }  
+    this.dropdownSide = "right"
+  }
 
   static get styles() {
     return [
@@ -29,10 +30,15 @@ class FilterDropdown extends LitElement {
         unity-dropdown {
           position: absolute;
           top: 0;
-          right: 0;
           margin: 2px;
-          width: 200px;
-          max-width: 80%;
+          min-width: 200px;
+          width: 80%;
+        }
+        .left {
+          left: 0;
+        }
+        .right {
+          right: 0;
         }
         unity-button.active {
           color: var(--primary-brand-color, var(--default-primary-brand-color));
@@ -46,7 +52,8 @@ class FilterDropdown extends LitElement {
       show: { type: Boolean },
       options: { type: Array },
       selected: { type: Array },
-      onValueChange: { type: Function }
+      onValueChange: { type: Function },
+      dropdownSide: { type: false }
     }
   }
   connectedCallback() {
@@ -60,7 +67,30 @@ class FilterDropdown extends LitElement {
   }
 
   toggleDropdown() {
-    this.show = !this.show    
+    this.show = !this.show
+  }
+
+  updated() {
+    if (this.show) {
+      const cell = this.parentElement
+      const { [0]: {
+        left: cellLeft,
+        right: cellRight,
+        width: cellWidth
+      }} = cell.getClientRects()
+      const dropdown = this.shadowRoot.querySelector('unity-dropdown')
+      const { [0]: {
+        width: dropdownWidth
+      }} = dropdown.getClientRects()
+      const windowWidth = window.innerWidth
+
+      // if dropdown is wider than cell and wouldn't extend off right, make left
+      if (dropdownWidth > cellWidth && (cellLeft + dropdownWidth) < windowWidth) {
+        this.dropdownSide = 'left'
+      } else {
+        this.dropdownSide = 'right'
+      }
+    }
   }
 
   render() {
@@ -68,6 +98,7 @@ class FilterDropdown extends LitElement {
     return html`
       ${this.show?
         html`<unity-dropdown
+              class="${this.dropdownSide}"
               inputType="multi-select"
               boxType="none"
               placeholder="Filter"
@@ -84,7 +115,7 @@ class FilterDropdown extends LitElement {
         centerIcon="unity:filter"
         @click=${() => this.toggleDropdown()}
       ></unity-button>
-      `;  
+      `;
   }
 }
 
