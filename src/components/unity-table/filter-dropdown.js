@@ -29,7 +29,7 @@ class FilterDropdown extends LitElement {
         }
         unity-dropdown {
           position: absolute;
-          top: 0;
+          bottom: -1px;
           margin: 2px;
           min-width: 200px;
           width: 80%;
