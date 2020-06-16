@@ -47,21 +47,17 @@ export const Standard = () => {
   const childKeys = array("Child Keys", defaultChildKeys)
   const columns = array('Columns', defaultColumns)
   const columnFilters = array('Column Filters', defaultFilters)
-  let data
-  try {
-    data = JSON.parse(text('Data', JSON.stringify(defaultDevices, null, 2)))
-  } catch (error) {
-    console.warn(`setting data failed with error `, error)
-    data = text('Data', defaultDevices)
-  }
+  const isLoading = boolean("Loading", false)
+  const data = array('Data', defaultDevices)
   const endReachedThreshold = number("endReachedThreshold", 200)
   const highlightedRow = select('highlightedRow', compileIdsArray(defaultDevices).flat())
 
 
   return html`
-    <unity-table
-      ?selectable=${selectable}
-      filter=${filter}
+    <div style="height: 90vh;">
+      <unity-table
+        ?selectable=${selectable}
+        filter=${filter}
       .keyExtractor=${(datum, index) => datum.id}
       .slotIdExtractor=${(row, column) => `${row._rowId}-${column.key}`}
       .childKeys=${childKeys}
@@ -74,11 +70,13 @@ export const Standard = () => {
       highlightedRow="${highlightedRow}"
       .onSelectionChange="${action('onSelectionChange')}"
       .onClickRow="${action('onClickRow')}"
-      .onDisplayColumnsChange="${action("onDisplayColumnsChange")}"
-      .onColumnChange="${action("onColumnChange")}"
-      style="--highlight-color: grey"
-    >
+        .onDisplayColumnsChange="${action("onDisplayColumnsChange")}"
+        .onColumnChange="${action("onColumnChange")}"
+        style="--highlight-color: grey"
+        ?isLoading=${isLoading}
+      >
     </unity-table>
+    </div>
   `;
 }
 
@@ -100,11 +98,13 @@ export const CustomContent = () => {
   const data = array('Data', defaultDevices)
   const endReachedThreshold = number("endReachedThreshold", 200)
   const highlightedRow = text('highlightedRow', "")
+  const isLoading = boolean("Loading", false)
 
   return html`
-    <unity-table
-      ?selectable=${selectable}
-      filter=${filter}
+    <div style="height: 90vh;">
+      <unity-table
+        ?selectable=${selectable}
+        filter=${filter}
       .keyExtractor=${(datum, index) => datum.id}
       .slotIdExtractor=${(row, column) => `${row._rowId}-${column.key}`}
       .childKeys=${childKeys}
@@ -116,12 +116,13 @@ export const CustomContent = () => {
       .onEndReached="${action("onEndReached")}"
       highlightedRow="${highlightedRow}"
       .onSelectionChange="${action('onSelectionChange')}"
-      .onClickRow="${action('onClickRow')}"
-      .onDisplayColumnsChange="${action("onDisplayColumnsChange")}"
-      .onColumnChange="${action("onColumnChange")}"
-      style="--highlight-color: grey"
-    >
-      <div key="red-hex" slot="red-hex" style="color:red;">Red's Custom Name</div>
+        .onClickRow="${action('onClickRow')}"
+        .onDisplayColumnsChange="${action("onDisplayColumnsChange")}"
+        .onColumnChange="${action("onColumnChange")}"
+        ?isLoading=${isLoading}
+        style="--highlight-color: grey"
+      >
+        <div key="red-hex" slot="red-hex" style="color:red;">Red's Custom Name</div>
       <div key="red-name" slot="red-name" style="border-radius:15px;height:15px;width:15px;background-color:red;border:1px solid red;"></div>
 
       <div key="innerRed1-hex" slot="innerRed1-hex" style="color:red;">Inner Red 1</div>
@@ -144,9 +145,10 @@ export const CustomContent = () => {
       <div key="green-name" slot="green-name" style="border-radius:15px;height:15px;width:15px;background-color:green;border:1px solid green;"></div>
 
       <div key="magenta-hex" slot="magenta-hex" style="color:magenta;">Purple Rain</div>
-      <div key="magenta-name" slot="magenta-name" style="border-radius:15px;height:15px;width:15px;background-color:magenta;border:1px solid magenta;"></div>
+        <div key="magenta-name" slot="magenta-name" style="border-radius:15px;height:15px;width:15px;background-color:magenta;border:1px solid magenta;"></div>
 
-    </unity-table>
+      </unity-table>
+    </div>
   `;
 }
 
