@@ -14,6 +14,8 @@ import '@bit/smartworks.unity.unity-typography'
 * @param {''} icon, string unity-icon or iron-icon name, optional
 * @param {''} key, string key for referencing
 * @param {''} label, string label to render for item
+* @param {bool} collapsed,
+* @param {bool} disabled,
 * @param {[]} children, TO BE IMPLEMENTED, list of child item elements, could be slots
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
@@ -65,6 +67,7 @@ class UnityGlobalNavTopItem extends LitElement {
     this.onSelect = ()=>{}
     this.children = []
     this.collapsed = false
+    this.disabled = false
 
     // internals
     this._expanded = true
@@ -80,6 +83,7 @@ class UnityGlobalNavTopItem extends LitElement {
       icon: { type: String },
       children: { type: Array },
       collapsed: { type: Boolean },
+      disabled: { type: Boolean },
       // internals
       _expanded: { type: Boolean },
     }
@@ -122,7 +126,8 @@ class UnityGlobalNavTopItem extends LitElement {
       icon='',
       children=[],
       _expanded: open=false,
-      collapsed
+      collapsed,
+      disabled
     } = this
     let hasChildren = Array.isArray(children) && children.length > 0
     if (hasChildren && children.length === 1) {
@@ -141,8 +146,9 @@ class UnityGlobalNavTopItem extends LitElement {
           ${short ? 'short' : ''}
           ${hasChildren && open ? 'open' : ''}
           ${!hasChildren && selected ? 'selected' : ''}
+          ${disabled? 'disabled' : ''}
         "
-        @click=${_onSelect}
+        @click=${!disabled? _onSelect : null}
       >
         <div class="label ${short ? 'short' : ''} ${collapsed? 'flex-center' : ''}">
           ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
@@ -150,7 +156,7 @@ class UnityGlobalNavTopItem extends LitElement {
           ${collapsed? html`<unity-tooltip label=${label}></unity-tooltip>` : ''}
           ${!collapsed && hasChildren ? html`<unity-icon class="icon ${short ? 'short-pos' : ''}" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
         </div>
-        ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected}) => html`
+        ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled}) => html`
         <unity-global-nav-inner-item
           .key="${key}"
           .onSelect="${onSelect}"
@@ -158,6 +164,7 @@ class UnityGlobalNavTopItem extends LitElement {
           .icon="${icon}"
           .selected="${selected}"
           ?collapsed=${collapsed}
+          ?disabled=${disabled}
         ></unity-global-nav-inner-item>
         `) : null}
       </div>
@@ -191,10 +198,14 @@ class UnityGlobalNavTopItem extends LitElement {
           min-height: var(--tall-height);
           width: 100%;
           background-color: var(--primary-menu-color);
-          cursor: pointer;
           position: relative;
+          cursor: pointer;
         }
-        .label:hover {
+        .container.disabled {
+          cursor: default;
+          opacity: 0.5;
+        }
+        .container:not(.disabled) .label:hover {
           background-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
         }
         .selected {

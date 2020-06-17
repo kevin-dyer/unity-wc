@@ -71,7 +71,8 @@ export const items = {
       key: 'item-4',
       label: 'Top Item 4',
       short: false,
-      icon: 'unity:circle_markup'
+      icon: 'unity:circle_markup',
+      disabled: true
     }
   ],
   bottom: [
@@ -93,7 +94,8 @@ export const items = {
     {
       key: 'item-8',
       label: 'Bottom Item 3',
-      short: true
+      short: true,
+      disabled: true
     },
     {
       key: 'item-9',

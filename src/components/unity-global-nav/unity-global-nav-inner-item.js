@@ -11,6 +11,8 @@ import '@bit/smartworks.unity.unity-tooltip'
 * @param {''} icon, string unity-icon or iron-icon name, optional
 * @param {''} key, string key for referencing
 * @param {''} label, string label to render for item
+* @param {bool} collapsed,
+* @param {bool} disabled,
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
 * @param {css} --primary-brand-color, var, css var used for coloring the component
@@ -44,6 +46,7 @@ class UnityGlobalNavInnerItem extends LitElement {
     this.icon = ''
     this.onSelect = ()=>{}
     this.collapsed = false
+    this.disabled = false
   }
 
   static get properties() {
@@ -53,7 +56,8 @@ class UnityGlobalNavInnerItem extends LitElement {
       label: { type: String },
       key: { type: String },
       icon: { type: String },
-      collapsed: { type: Boolean }
+      collapsed: { type: Boolean },
+      disabled: { type: Boolean }
     }
   }
 
@@ -77,7 +81,7 @@ class UnityGlobalNavInnerItem extends LitElement {
     } = this
 
     return html`
-      <div class="container ${selected ? 'selected' : ''}" @click=${_onSelect}>
+      <div class="container ${selected ? 'selected' : ''}" @click=${!disabled? _onSelect : null}>
         <div class="label ${collapsed? 'flex-center' : ''}">
           ${!!icon && icon !== 'undefined' ? html`<unity-icon class="icon ${selected? 'selected': ''}" icon="${icon}"></unity-icon>` : null}
           ${!collapsed? html`<unity-typography size="paragraph" class="text">${label}</unity-typography>` 
@@ -114,7 +118,11 @@ class UnityGlobalNavInnerItem extends LitElement {
           cursor: pointer;
           position:relative;
         }
-        .label:hover {
+        .container.disabled {
+          cursor: default;
+          opacity: 0.5;
+        }
+        .container:not(.disabled) .label:hover {
           background-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
         }
         .selected {

@@ -83,7 +83,7 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   renderItems(items) {
-    return items.map(({key, label, short, icon, children}) => html`
+    return items.map(({key, label, short, icon, children, disabled}) => html`
       <unity-global-nav-top-item
         .key="${key}"
         .onSelect="${this._itemClicked}"
@@ -97,6 +97,7 @@ class UnityGlobalNavBase extends LitElement {
           selected: this.selected === child.key
         }))}"
         ?collapsed=${this.collapsed}
+        ?disabled=${disabled}
       ></unity-global-nav-top-item>`)
   }
 
@@ -186,7 +187,7 @@ class UnityGlobalNavBase extends LitElement {
           color: var(--secondary-color, var(--default-secondary-color));
           height: 12px;
           width: 12px;
-          --layout-inline_-_display: initial;"
+          --layout-inline_-_display: initial;
         }
         .menu-box {
           position: absolute;
