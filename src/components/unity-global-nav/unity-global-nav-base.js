@@ -10,6 +10,7 @@ import '@bit/smartworks.unity.unity-icon'
 * @name UnityGlobalNavBase
 * @param {bool} gutter, show or hide the side gutter
 * @param {string} logo, path to hosted logo image
+* @param {string} header, text to display in the header (e.g., product name)
 * @param {bool} collapsible, render button at the bottom to collapse bar
 * @param {bool} collapsed, if the bar is collapsed or not
 * @param {Object} items, object containing the menu items
@@ -51,6 +52,7 @@ class UnityGlobalNavBase extends LitElement {
     this.items = {}
     this.onSelect = () => {}
     this.selected = ''
+    this.header = ''
 
     this._itemClicked = (key) => { this._changeSelection(key)}
   }
@@ -64,7 +66,7 @@ class UnityGlobalNavBase extends LitElement {
       items: { type: Object },
       onSelect: { type: Function },
       selected: { type: String },
-
+      header: { type: String },
       _itemClicked: { type: Function }
     }
   }
@@ -101,7 +103,7 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   render() {
-    const { gutter, logo, collapsible, collapsed, items } = this
+    const { gutter, logo, collapsible, collapsed, items, header } = this
     const { bottom, top } = items
     return html`
         <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}">
@@ -111,7 +113,7 @@ class UnityGlobalNavBase extends LitElement {
                 <unity-icon class="logo" icon="unity:app_menu"></unity-icon>
               ` : ''}
             </div>
-            ${!collapsed? html`<unity-typography>ProductName</unity-typography>` : ''}
+            ${!collapsed? html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>` : ''}
           </div>
           <div class="menu-box">
             <div class="top-container">
@@ -233,6 +235,9 @@ class UnityGlobalNavBase extends LitElement {
           margin: 0 var(--global-nav-margin-size);
           --header1-font-size: 14px;
           --header1-font-weight: bold;
+        }
+        .header{
+
         }
       `
     ]
