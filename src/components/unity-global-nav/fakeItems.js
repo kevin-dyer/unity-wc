@@ -15,55 +15,55 @@ export const innerItem = {
 export const items = {
   top: [
     {
+      key: 'item-1',
+      label: 'Top Item 1',
+      short: true,
+      icon: 'unity:relate'
+    },
+    {
       key: 'item-0',
       label: 'Top Item 0',
       short: false,
-      icon: 'account-balance',
+      icon: 'unity:cube',
       children: [
         {
           key: 'item-0-0',
           label: 'Item 0-0',
-          icon: 'query-builder'
+          icon: 'unity:db'
         },
         {
           key: 'item-0-1',
           label: 'Item 0-1',
-          icon: 'font-download'
+          icon: 'unity:scatter_chart'
         },
         {
           key: 'item-0-2',
           label: 'Item 0-2',
-          icon: 'gavel'
+          icon: 'unity:image'
         },
         {
           key: 'item-0-3',
           label: 'Item 0-3',
-          icon: 'motorcycle'
+          icon: 'unity:adv_forecast'
         }
       ]
-    },
-    {
-      key: 'item-1',
-      label: 'Top Item 1',
-      short: true,
-      icon: 'account-circle'
     },
     {
       key: 'item-2',
       label: 'Top Item 2',
       short: false,
-      icon: 'add-circle-outline'
+      icon: 'unity:schedule'
     },
     {
       key: 'item-3',
       label: 'Top Item 3',
       short: true,
-      icon: 'android',
+      icon: 'unity:funnel_chart',
       children: [
         {
           key: 'item-3-0',
           label: 'Item 3-0',
-          icon: 'euro-symbol'
+          icon: 'unity:calendar'
         }
       ]
     },
@@ -71,7 +71,7 @@ export const items = {
       key: 'item-4',
       label: 'Top Item 4',
       short: false,
-      icon: 'bug-report'
+      icon: 'unity:circle_markup'
     }
   ],
   bottom: [

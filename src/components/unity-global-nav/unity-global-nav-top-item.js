@@ -1,10 +1,9 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/iron-icons/iron-icons.js'
-import '@polymer/iron-icons/image-icons.js'
-import '@polymer/iron-icons/social-icons.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-global-nav-inner-item'
 import '@bit/smartworks.unity.unity-tooltip'
+import '@bit/smartworks.unity.unity-icon'
+import '@bit/smartworks.unity.unity-typography'
 
 /**
 * Renders a left-bound navigation bar
@@ -12,7 +11,7 @@ import '@bit/smartworks.unity.unity-tooltip'
 * @param {bool} short, bool to control if element is short or tall
 * @param {bool} selected, whether item shows primary-brand-color, ignored if children are passed in
 * @param {func} onSelect, action handler for clicking the element, sends (key, label), ignored if children are passed in
-* @param {''} icon, string iron-icon name, optional
+* @param {''} icon, string unity-icon or iron-icon name, optional
 * @param {''} key, string key for referencing
 * @param {''} label, string label to render for item
 * @param {[]} children, TO BE IMPLEMENTED, list of child item elements, could be slots
@@ -99,18 +98,20 @@ class UnityGlobalNavTopItem extends LitElement {
     }
   }
 
-  getLabel(hasIcon) {
+  getLabel(hasIcon, hasChildren) {
     let {
       collapsed,
       label=this.key,
       short,
-      children
+      children,
+      selected
     } = this
     if (!label || collapsed && hasIcon) return ''
     // use child label if only one label
     if (Array.isArray(children) && children.length === 1) label = children[0].label
     if(collapsed && !hasIcon) label = label[0]
-    return html`<div class="text ${short ? 'short' : ''}">${label}</div>`
+    // todo: if selected, color=medium, change  --font-color-medium
+    return html`<unity-typography size="paragraph" weight=${hasChildren? "medium": "paragraph"} color=${selected? "medium": "dark"} class="text ${short ? 'short' : ''}">${label}</unity-typography>`
   }
 
   render() {
@@ -145,11 +146,11 @@ class UnityGlobalNavTopItem extends LitElement {
         "
         @click=${_onSelect}
       >
-        <div class="label ${short ? 'short' : ''}">
-          ${hasIcon ? html`<iron-icon class="icon" icon="${icon}"></iron-icon>` : null}
-          ${this.getLabel(hasIcon)}
+        <div class="label ${short ? 'short' : ''} ${collapsed? 'flex-center' : ''}">
+          ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
+          ${this.getLabel(hasIcon, hasChildren) }
           ${collapsed? html`<unity-tooltip label=${label}></unity-tooltip>` : ''}
-          ${!collapsed && hasChildren ? html`<iron-icon class="expand ${short ? 'short-pos' : ''}" icon="${open ? 'expand-less' : 'expand-more'}"></iron-icon>` : null}
+          ${!collapsed && hasChildren ? html`<unity-icon class="icon ${short ? 'short-pos' : ''}" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
         </div>
         ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected}) => html`
         <unity-global-nav-inner-item
@@ -172,16 +173,19 @@ class UnityGlobalNavTopItem extends LitElement {
       css`
         :host {
           font-family: var(--font-family, var(--default-font-family));
-          --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
-          --secondary-menu-color: var(--global-nav-expanded-color, var(--default-global-nav-expanded-color));
-          --selected-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --text-color: var(--global-nav-text-color, var(--default-global-nav-text-color));
+          --primary-menu-color: var(--white-color, var(--default-white-color));
+          --secondary-menu-color: var(--white-color, var(--default-white-color));
+          --selected-color: var(--secondary-color, var(--default-secondary-color));
+          --text-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --border-breakers: var(--global-nav-border-color, var(--default-global-nav-border-color));
           --tall-height: 52px;
           --short-height: 32px;
-          --label-margin: 12px;
+          --label-margin: var(--global-nav-margin-size, 12px);
           border-collapse: collapse;
           user-select: none;
+        }
+        * {
+          box-sizing: border-box;
         }
         .container {
           border-collapse: collapse;
@@ -189,15 +193,28 @@ class UnityGlobalNavTopItem extends LitElement {
           min-height: var(--tall-height);
           width: 100%;
           background-color: var(--primary-menu-color);
-          border-top: 1px solid var(--border-breakers);
           cursor: pointer;
-          box-sizing: border-box;
+          position: relative;
+        }
+        .label:hover {
+          background-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
         }
         .selected {
-          background-color: var(--selected-color);
+          color: var(--selected-color) !important;
+        }
+        .selected.container::before {
+          content: "";
+          padding-right: 1px;
+          background: var(--selected-color);
+          display: block;
+          height: 100%;
+          position: absolute;
         }
         .open {
           background-color: var(--secondary-menu-color);
+          border-top: 1px solid var(--border-breakers);
+          border-bottom: 1px solid var(--border-breakers);
+
         }
         .label {
           display: flex;
@@ -205,25 +222,25 @@ class UnityGlobalNavTopItem extends LitElement {
           min-height: var(--tall-height);
           font-weight: 500;
           align-items: center;
+          height: 100%;
+          padding: 0 var(--label-margin);
         }
         .text {
           flex: 1;
-          font-size: 14px;
-          color: var(--text-color);
           line-height: var(--tall-height);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
           margin: 0 var(--label-margin);
+          --font-size: 12px;
+          --font-color-medium: var(--selected-color);
+          --medium-weight: bold;
         }
         .icon {
           height: 16px;
           width: 16px;
           color: var(--text-color);
-          margin-left: var(--label-margin);
-        }
-        .expand {
-          color: var(--border-breakers)
+          --layout-inline_-_display: initial;
         }
         .short {
           min-height: var(--short-height);
@@ -236,6 +253,12 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         .label:hover unity-tooltip {
           display: block;
+        }
+        .flex-center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0;
         }
       `
     ]

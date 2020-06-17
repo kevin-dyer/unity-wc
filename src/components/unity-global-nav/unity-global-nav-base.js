@@ -2,6 +2,8 @@ import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-global-nav-top-item'
 import '@bit/smartworks.unity.unity-icon-set'
+import '@bit/smartworks.unity.unity-typography'
+import '@bit/smartworks.unity.unity-icon'
 
 /**
 * Renders a left-bound navigation bar
@@ -67,12 +69,14 @@ class UnityGlobalNavBase extends LitElement {
     }
   }
 
+  firstUpdated() {
+    this.className =  this.collapsed? 'collapsed' : ''
+  }
+
   _changeSelection(key) {
     this.selected = key
     this.onSelect(key)
   }
-
-
 
   _toggleCollapse() {
     this.collapsed = !this.collapsed
@@ -101,24 +105,27 @@ class UnityGlobalNavBase extends LitElement {
     const { bottom, top } = items
     return html`
         <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}">
-          <div class="logo-container">
-            ${logo ? html`
-              <img class="logo" src="${logo}">
-            ` : ''}
+          <div class="header-container">
+            <div class="logo-container flex-center">
+              ${logo ? html`
+                <unity-icon class="logo" icon="unity:app_menu"></unity-icon>
+              ` : ''}
+            </div>
+            ${!collapsed? html`<unity-typography>ProductName</unity-typography>` : ''}
           </div>
           <div class="menu-box">
             <div class="top-container">
+
               ${top? this.renderItems(top) : ''}
             </div>
             <div class="bottom-container">
               ${bottom? this.renderItems(bottom) : '' }
               ${collapsible ? html`
-                <unity-global-nav-top-item
-                  .key="collapse"
-                  .onSelect="${() => this._toggleCollapse()}"
-                  .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}
-                  .short="${false}"
-                ></unity-global-nav-top-item>
+                <div>
+                  <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
+                    <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
+                  </div>
+                </div>
               `  : ''}
             </div>
           </div>
@@ -133,40 +140,48 @@ class UnityGlobalNavBase extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
+          --primary-menu-color: var(--white-color, var(--default-white-color));
           --gutter-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --logo-height: 52px;
+          --logo-height: 32px;
           --logo-padding: 12px;
+          --global-nav-border-color: var(--gray-color, var(--default-gray-color));
+          --global-nav-margin-size: var(--margin-size, var(--default-margin-size, 12px));
           border-collapse: collapse;
+          box-shadow: 0 0 4px 0;
+        }
+        * {
+          box-sizing: border-box;
         }
         .gutter {
           border-right: 5px solid var(--gutter-color);
         }
         .menu {
           position: relative;
+          width: 192px;
           height: 100%;
-          width: 191px;
           background-color: var(--primary-menu-color);
+          box-shadow: 0 0 4px 0;
         }
         .text {
           color: var(--text-color)
         }
         .collapsed {
-          width: 40px;
+          width: 32px;
         }
         .logo-container {
           height: var(--logo-height);
-          width: auto;
-          flex: 1;
-          padding-left: var(--logo-padding);
-          padding-right: var(--logo-padding);
-          overflow: hidden;
+          width: var(--logo-height);
+        }
+        :not(.collapsed) .header-container .logo-container {
+          border-right: 1px solid var(--gray-color, var(--default-gray-color));
+        }
+        .header-container {
+          display:flex;
+          border-bottom: 1px solid var(--gray-color, var(--default-gray-color));
+          align-items: center;
         }
         .logo {
-          position: absolute;
-          height: 18px;
-          top: calc(var(--logo-height) / 2);
-          transform: translateY(-50%);
+          height: 16px;
         }
         .menu-box {
           position: absolute;
@@ -176,12 +191,12 @@ class UnityGlobalNavBase extends LitElement {
           top: var(--logo-height);
           bottom: 0;
           width: 100%;
+          margin-top: 1px;
         }
         .top-container {
           height: 100%;
           width: 100%;
           min-height: 52px;
-          overflow-y: auto;
           border-collapse: collapse;
         }
         .bottom-container {
@@ -189,6 +204,32 @@ class UnityGlobalNavBase extends LitElement {
           min-height: min-content;
           width: 100%;
           border-collapse: collapse;
+        }
+        unity-icon {
+          color: var(--secondary-color, var(--default-secondary-color));
+          height: 12px;
+          width: 12px;
+          --layout-inline_-_display: initial;
+        }
+        .collapse-button {
+          height: 24px;
+          border: 1px solid #EBEBEB;
+          margin: 4px;
+          border-radius: 2px;
+          cursor: pointer;
+        }
+        .collapse-button unity-icon {
+          height: 16px;
+          width: 16px;
+          color: var(--dark-gray-color, var(--default-dark-gray-color));
+        }
+        .flex-center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        unity-typography {
+          margin: 0 var(--global-nav-margin-size);
         }
       `
     ]

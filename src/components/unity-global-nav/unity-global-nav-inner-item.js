@@ -1,7 +1,5 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/iron-icons/iron-icons.js'
-import '@polymer/iron-icons/image-icons.js'
-import '@polymer/iron-icons/social-icons.js'
+import '@bit/smartworks.unity.unity-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-tooltip'
 
@@ -10,7 +8,7 @@ import '@bit/smartworks.unity.unity-tooltip'
 * @name UnityGlobalNavInnerItem
 * @param {bool} selected, whether item shows primary-brand-color, ignored if children are passed in
 * @param {func} onSelect, action handler for clicking the element, sends (key, label), ignored if children are passed in
-* @param {''} icon, string iron-icon name, optional
+* @param {''} icon, string unity-icon or iron-icon name, optional
 * @param {''} key, string key for referencing
 * @param {''} label, string label to render for item
 * @param {css} --global-nav-background-color, css var used for coloring the component
@@ -80,9 +78,10 @@ class UnityGlobalNavInnerItem extends LitElement {
 
     return html`
       <div class="container ${selected ? 'selected' : ''}" @click=${_onSelect}>
-        <div class="label">
-          ${!!icon && icon !== 'undefined' ? html`<iron-icon class="icon" icon="${icon}"></iron-icon>` : null}
-          ${!collapsed? html`<div class="text">${label}</div>` : html`<unity-tooltip label=${label}></unity-tooltip>` }
+        <div class="label ${collapsed? 'flex-center' : ''}">
+          ${!!icon && icon !== 'undefined' ? html`<unity-icon class="icon ${selected? 'selected': ''}" icon="${icon}"></unity-icon>` : null}
+          ${!collapsed? html`<unity-typography size="paragraph" color=${selected? "medium": "dark"} class="text">${label}</unity-typography>` 
+          : html`<unity-tooltip label=${label}></unity-tooltip>` }
         </div>
       </div>
     `
@@ -95,14 +94,17 @@ class UnityGlobalNavInnerItem extends LitElement {
       css`
         :host {
           font-family: var(--font-family, var(--default-font-family));
-          --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
-          --secondary-menu-color: var(--global-nav-expanded-color, var(--default-global-nav-expanded-color));
-          --selected-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --text-color: var(--global-nav-text-color, var(--default-global-nav-text-color));
+          --primary-menu-color: var(--white-color, var(--default-white-color));
+          --secondary-menu-color: var(--white-color, var(--default-white-color));
+          --selected-color: var(--secondary-color, var(--default-secondary-color));
+          --text-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --item-height: 32px;
-          --label-margin: 12px;
+          --label-margin: var(--global-nav-margin-size, 12px);
           border-collapse: collapse;
           user-select: none;
+        }
+        * {
+          box-sizing: border-box;
         }
         .container {
           border-collapse: collapse;
@@ -110,33 +112,46 @@ class UnityGlobalNavInnerItem extends LitElement {
           width: 100%;
           background-color: var(--secondary-menu-color);
           cursor: pointer;
-          box-sizing: border-box;
+          position:relative;
+        }
+        .label:hover {
+          background-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
         }
         .selected {
-          background-color: var(--primary-brand-color);
+          color: var(--selected-color) !important;
         }
         .label {
           display: flex;
           flex-wrap: nowrap;
-          height: var(--item-height);
           align-items: center;
+          height: 100%;
+          padding: 0 calc(var(--label-margin) * 2);
+
+        }
+        .selected.container::before {
+          content: "";
+          padding-right: 2px;
+          background: var(--selected-color);
+          display: block;
+          height: 100%;
+          position: absolute;
         }
         .text {
           flex: 1;
-          font-size: 11px;
-          color: var(--text-color);
           line-height: var(--item-height);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
           margin: 0 var(--label-margin);
+          --font-size: 12px;
+          --font-color-medium: var(--selected-color);
 
         }
-        iron-icon {
+        .icon {
           height: 16px;
           width: 16px;
           color: var(--text-color);
-          margin-left: var(--label-margin);
+          --layout-inline_-_display: initial;
         }
         unity-tooltip {
           position: absolute;
@@ -145,6 +160,12 @@ class UnityGlobalNavInnerItem extends LitElement {
         }
         .label:hover unity-tooltip {
           display: block;
+        }
+        .flex-center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0;
         }
       `
     ]

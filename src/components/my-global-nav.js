@@ -42,8 +42,8 @@ class MyGlobalNav extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-global-nav-base gutter collapsible
-          logo="../../../images/manifest/icon-48x48.png"
+        <unity-global-nav-base collapsible
+          logo="unity:app_menu"
           .items=${items}
           .onSelect=${this.onSelect}
         >
