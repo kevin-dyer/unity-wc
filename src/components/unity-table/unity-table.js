@@ -7,8 +7,10 @@ import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
 import { debounce } from 'throttle-debounce'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-table-cell'
-import '@bit/smartworks.unity.table-cell-base'
+// import '@bit/smartworks.unity.unity-table-cell'
+import './unity-table-cell'
+// import '@bit/smartworks.unity.table-cell-base'
+import './table-cell-base'
 import './filter-dropdown'
 
 import {
@@ -1345,18 +1347,21 @@ class UnityTable extends LitElement {
           font-family: var(--font-family, var(--default-font-family));
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
-          color: var(--black-text-color, var(--default-black-text-color));
+          color: var(--dark-gray-color, var(--default-dark-gray-color));
           border-collapse: collapse;
           --paper-checkbox-size: 14px;
-          --paper-checkbox-unchecked-background-color: var(--background-color, var(--default-background-color));
-          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --paper-checkbox-checked-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
-          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
-          --paper-spinner-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          --paper-checkbox-unchecked-background-color: var(--white-color, var(--default-white-color));
+          --paper-checkbox-unchecked-color: var(--gray-color, var(--default-gray-color));
+          --paper-checkbox-checked-color: var(--primary-color, var(--default-primary-color));
+          --paper-checkbox-unchecked-ink-color: var(--paper-checkbox-unchecked-background-color);
+          --paper-checkbox-checked-ink-color: var(--paper-checkbox-unchecked-background-color);
+          --paper-spinner-color: var(--primary-color, var(--default-primary-color));
           --thead-height: 33px;
           --trow-height: 38px;
-          --default-highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+          --default-hover-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
+          --default-highlight-color: var(--default-primary-tint-1-color, var(--default-primary-tint-1-color));
+          --default-hover-highlight-color: var(--primary-tint-2-color, var(--default-primary-tint-2-color));
+          --paper-checkbox-ink-size: 0;
           display: flex;
           height: 100%;
           flex: 1;
@@ -1377,8 +1382,6 @@ class UnityTable extends LitElement {
           border-spacing: 0;
           box-sizing: border-box;
           overflow: auto;
-          border-right: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          border-bottom: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
         .fullspace {
           width: 100%;
@@ -1413,6 +1416,7 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           z-index: 3;
           background-color: inherit;
+          color: var(--black-color, var(--default-black-color));
         }
 
         th.cell {
@@ -1428,9 +1432,7 @@ class UnityTable extends LitElement {
           padding-left: 13px;
           box-sizing: border-box;
           border-collapse: collapse;
-          border-top: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          border-bottom: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          border-left: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+          border-bottom: 1px solid var(--light-gray-1-color, var(--default-light-gray-1-color));
         }
         .header.hide-top {
           border-top: unset;
@@ -1439,10 +1441,10 @@ class UnityTable extends LitElement {
           width: 100%;
           table-layout: fixed;
           border-collapse: collapse;
+          border-bottom: 1px solid var(--light-gray-1-color, var(--default-light-gray-1-color));
         }
         td {
           padding: 0;
-          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           border-top: 0;
           border-collapse: collapse;
         }
@@ -1480,7 +1482,7 @@ class UnityTable extends LitElement {
         paper-checkbox {
         }
         paper-icon-button {
-          color: var(--black-text-color, var(--default-black-text-color));
+          color: var(--black-color, var(--default-black-color));
           width: 33px;
           height: 33px;
         }
@@ -1492,6 +1494,15 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           cursor: pointer;
           background-color: var(--background-color, var(--default-background-color));
+        }
+        .row:hover {
+          background-color: var(--hover-color, var(--default-hover-color));
+        }
+        .row.highlight {
+          background-color: var(--highlight-color, var(--default-highlight-color));
+        }
+        .row.highlight:hover {
+          background-color: var(--hover-highlight-color, var(--default-hover-highlight-color));
         }
         .sticky-header-row {
           background-color: var(--background-color, var(--default-background-color));
@@ -1515,9 +1526,6 @@ class UnityTable extends LitElement {
           flex-direction: column;
           justify-content: flex-end;
           padding: 8px;
-        }
-        .highlight {
-          background-color: var(--highlight-color, var(--default-highlight-color));
         }
       `
     ]

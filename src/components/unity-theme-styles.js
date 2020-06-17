@@ -99,9 +99,6 @@ export const UnityThemeStyles = css`
     --medium-grey-background-color: rgb(var(--light-gray-1-rgb));
     --light-grey-background-color: rgb(var(--light-gray-2-rgb));
 
-    /*Composite style based on variables above*/
-    --selection-highlight-color: var(--primary-tint-2-color);
-
     /* Fonts */
     --font-family: 'Noto', sans-serif;
 

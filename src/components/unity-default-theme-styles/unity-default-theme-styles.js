@@ -99,9 +99,6 @@ export const UnityDefaultThemeStyles = css`
     --default-medium-grey-background-color: rgb(var(--default-light-gray-1-rgb));
     --default-light-grey-background-color: rgb(var(--default-light-gray-2-rgb));
 
-    /*Composite style based on variables above*/
-    --default-selection-highlight-color: var(--default-primary-tint-2-color);
-
     /* Fonts */
     --default-font-family: 'Noto', sans-serif;
 

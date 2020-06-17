@@ -7,7 +7,8 @@ import '@polymer/iron-icons/social-icons.js'
 import '@polymer/iron-icons/hardware-icons.js'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.table-cell-base'
+// import '@bit/smartworks.unity.table-cell-base'
+import './table-cell-base'
 
 const TAB_SIZE = 16
 /**
@@ -123,6 +124,7 @@ class UnityTableCell extends LitElement {
           }
           ${expandable
             ? html `<paper-icon-button
+                noink
                 class="expand-control ${expanded ? 'expanded' : 'collapsed'}"
                 icon="icons:arrow-drop-down"
                 @click="${this.handleExpand}"
@@ -151,12 +153,15 @@ class UnityTableCell extends LitElement {
           font-family: var(--font-family, var(--default-font-family));
           font-size: var(--paragraph-text-size, var(--default-paragraph-text-size));
           font-weight: var(--small-text-weight, var(--default-small-text-weight));
-          color: var(--black-text-color, var(--default-black-text-color));
+          /* Might have to change this as header needs to be black */
+          color: var(--dark-gray-color, var(--default-dark-gray-color));
           --paper-checkbox-size: 14px;
-          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
-          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
-          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
+          --paper-checkbox-unchecked-background-color: var(--white-color, var(--default-white-color));
+          --paper-checkbox-unchecked-color: var(--gray-color, var(--default-gray-color));
+          --paper-checkbox-checked-color: var(--primary-color, var(--default-primary-color));
+          --paper-checkbox-unchecked-ink-color: var(--paper-checkbox-unchecked-background-color);
+          --paper-checkbox-checked-ink-color: var(--paper-checkbox-unchecked-background-color);
+          --paper-checkbox-ink-size: 0;
         }
         paper-checkbox {
           margin-right: 12px;
