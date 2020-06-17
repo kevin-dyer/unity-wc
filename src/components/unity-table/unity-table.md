@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.2
+- Fix column filter to not shrink to unreadible levels, align left or right as needed, and render below header to avoid overlap. Introduces new colors to table.
+
 ### v1.0.0
 - Fixed wrong version of table-cell-base
 

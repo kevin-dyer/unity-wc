@@ -4,50 +4,103 @@ import { css } from 'lit-element';
 // Therefore any specified font should be loaded in parent app
 // import 'typeface-nunito-sans';
 
-// old succes light green: --default-success-rgb: 156, 204, 101;
-// old danger light red: --default-danger-rgb: 244, 67, 54;
-// old danger-lite light red: --default-danger-lite-rgb: 250, 179, 174;
-
 export const UnityDefaultThemeStyles = css`
   :host {
-    --default-primary-brand-rgb: 250, 70, 22;
-    --default-primary-brand-rgb-light: 253, 181, 162;
-    --default-primary-brand-rgb-dark: 200, 51, 5;
-    --default-secondary-brand-rgb: 45, 204, 211;
-    --default-success-rgb: 71, 162, 63;
-    --default-danger-rgb: 255, 198, 0;
-    --default-danger-lite-rgb: 255, 232, 153;
-    --default-error-rgb: 240, 61, 12;
-    --default-error-lite-rgb: 245, 120, 106;
-    --default-selection-opacity: 0.5;
-    --black-text-rgb: 0, 0, 0;
-    --white-text-rgb: 255, 255, 255;
+    /* Colors */
+    --default-black-rgb: 0, 0, 0;                 /* #000000 */
+    --default-white-rgb: 255, 255, 255;           /* #FFFFFF */
+    --default-charcoal-rgb: 77, 77, 77;           /* #4D4D4D */
+    --default-gray-rgb: 162, 170, 173;            /* #A2AAAD */
+    --default-light-gray-1-rgb: 235, 235, 235;    /* #EBEBEB */
+    --default-light-gray-2-rgb: 244, 244, 244;    /* #F4F4F4 */
+    --default-white-rgb: 255, 255, 255;           /* #FFFFFF */
+    --default-deep-blue-rgb: 0, 87, 118;          /* #005776 */
+    --default-deep-blue-tint-rgb: 64, 129, 153;   /* #408199 */
+    --default-sky-blue-rgb: 45, 204, 211;         /* #2DCCD3 */
+    --default-sky-blue-shade-rgb: 50, 166, 172;   /* #32A6AC */
+    --default-sky-blue-tint-1-rgb: 234, 249, 250; /* #EAF9FA */
+    --default-sky-blue-tint-2-rgb: 217, 243, 244; /* #D9F3F4 */
+    --default-red-orange-rgb: 250, 70, 22;        /* #FA4616 */
+    --default-dark-red-orange-rgb: 145, 61, 38;   /* #913D26 */
+    --default-yellow-rgb: 255, 198, 0;            /* #FFC600 */
+    --default-green-rgb: 71, 162, 63;             /* #47A23F */
 
-    /* Colors*/
-    --default-primary-brand-color: rgb(var(--default-primary-brand-rgb));
-    --default-primary-brand-color-light: rgb(var(--default-primary-brand-rgb-light));
-    --default-primary-brand-color-dark: rgb(var(--default-primary-brand-rgb-dark));
-    --default-secondary-brand-color: rgb(var(--default-secondary-brand-rgb));
-    --default-success-color: rgb(var(--default-success-rgb));
-    --default-danger-color: rgb(var(--default-danger-rgb));
-    --default-danger-lite-color: rgb(var(--default-danger-lite-rgb));
-    --default-error-color: rgb(var(--default-error-rgb));
-    --default-error-lite-color: rgb(var(--default-error-lite-rgb));
-    --default-background-color: white;
-    --default-global-nav-background-color: #005776;
-    --default-global-nav-expanded-color: #00465e;
-    --default-global-nav-border-color: #669aad;
-    --default-global-nav-text-color: rgb(var(--white-text-rgb));
-    --default-black-text-color: rgb(var(--black-text-rgb));
-    --default-dark-grey-text-color: #5f6368;
+    /* Uses */
+
+    /* Input text color */
+    --default-black-color: rgb(var(--default-black-rgb));
+
+    /* Default background color, Font Color */
+    --default-white-color: rgb(var(--default-white-color));
+
+    /* dark grey, text default */
+    --default-dark-gray-color: rgb(var(--default-charcoal-rgb));
+
+    /* normal gray, border default, disabled text */
+    --default-gray-color: rgb(var(--default-gray-rgb));
+
+    /* light gray 1, disabled content */
+    --default-light-gray-1-color: rgb(var(--default-light-gray-1-rgb));
+
+    /* light gray 2, disabled content */
+    --default-light-gray-2-color: rgb(var(--default-light-gray-2-rgb));
+
+    /* default brand color, switches, radios, checkboxes, focus */
+    --default-primary-color: rgb(var(--default-sky-blue-rgb));
+
+    /* darked primary color */
+    --default-primary-shade-color: rgb(var(--default-sky-blue-shade-rgb));
+
+    /* faint primary highlight */
+    --default-primary-tint-1-color: rgb(var(--default-sky-blue-tint-1-rgb));
+
+    /* primary highlight */
+    --default-primary-tint-2-color: rgb(var(--default-sky-blue-tint-2-rgb));
+
+    /* secondary brand color, buttons, tabs, links */
+    --default-secondary-color: rgb(var(--default-deep-blue-rgb));
+
+    /* muted secondary color, clicked button */
+    --default-secondary-tint-color: rgb(var(--default-deep-blue-tint-rgb));
+
+    /* utility color, error, alert, attention grabbing, present/past-tense */
+    --default-tertiary-1-color: rgb(var(--default-red-orange-rgb));
+
+    /* darker tertiary 1, pressed alert button */
+    --default-tertiary-1-shade-color: rgb(var(--default-dark-red-orange-rgb));
+
+    /* utility color, warning, alert, future/present-tense */
+    --default-tertiary-2-color: rgb(var(--default-yellow-rgb));
+
+    /* utility color, success, notification */
+    --default-tertiary-3-color: rgb(var(--default-green-rgb));
+
+    /* Old Colors */
+    --default-primary-brand-color: rgb(var(--default-sky-blue-rgb));
+    --default-primary-brand-color-light: rgb(var(--default-sky-blue-tint-2-rgb));
+    --default-primary-brand-color-dark: rgb(var(--default-deep-blue-rgb));
+    --default-secondary-brand-color: rgb(var(--default-red-orange-rgb));
+    --default-success-color: rgb(var(--default-green-rgb));
+    --default-danger-color: rgb(var(--default-yellow-rgb));
+    --default-danger-lite-color: rgba(var(--default-yellow-rgb), .5);
+    --default-error-color: rgb(var(--default-red-orange-rgb));
+    --default-error-lite-color: rgba(var(--default-red-orange-rgb), .5);
+    --default-background-color: rgb(var(--default-white-rgb));
+    --default-global-nav-background-color: rgb(var(--default-deep-blue-rgb));
+    --default-global-nav-expanded-color: rgb(var(--default-deep-blue-rgb));
+    --default-global-nav-border-color: rgb(var(--default-sky-blue-shade-rgb));
+    --default-global-nav-text-color: rgb(var(--default-white-rgb));
+    --default-black-text-color: rgb(var(--default-black-rgb));
+
+    --default-dark-grey-text-color: rgb(var(--default-charcoal-rgb));
     --default-medium-grey-text-color: #80868b;
     --default-light-grey-text-color: #b8b8b8;
-    --default-dark-grey-background-color: #a7adaf;
-    --default-medium-grey-background-color: #d4d9db;
-    --default-light-grey-background-color: #f1f3f4;
+    --default-dark-grey-background-color: rgb(var(--default-gray-rgb));
+    --default-medium-grey-background-color: rgb(var(--default-light-gray-1-rgb));
+    --default-light-grey-background-color: rgb(var(--default-light-gray-2-rgb));
 
     /*Composite style based on variables above*/
-    --default-selection-highlight-color: #a2aaad;
+    --default-selection-highlight-color: var(--default-primary-tint-2-color);
 
     /* Fonts */
     --default-font-family: 'Noto', sans-serif;
