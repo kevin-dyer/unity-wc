@@ -9,7 +9,6 @@ import '@bit/smartworks.unity.unity-icon'
 * Renders a left-bound navigation bar
 * @name UnityGlobalNavBase
 * @param {bool} gutter, show or hide the side gutter
-* @param {string} logo, path to hosted logo image
 * @param {string} header, text to display in the header (e.g., product name)
 * @param {bool} collapsible, render button at the bottom to collapse bar
 * @param {bool} collapsed, if the bar is collapsed or not
@@ -23,7 +22,6 @@ import '@bit/smartworks.unity.unity-icon'
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-global-nav gutter
-*   logo="../path/to/hosted/image"
 *   items={{
       top: [
       {
@@ -34,11 +32,13 @@ import '@bit/smartworks.unity.unity-icon'
       }]
     }}
 * >
+* <unity-icon slot="logo" icon="unity:app_menu"></unity-icon>
 * </unity-global-nav>
 **/
 
 // Left-mounted Global Navigation Bar, only internal variable is bool 'gutter'
 // Has slots for top and bottom aligned items. They will be top or bottom mounted, but render in top-down order
+// Logo can be set using a slot. An img or a unity-icon element may be used.
 // To be used with 'unity-nav-top-item's. Others may be used, but may not have intended results.
 
 class UnityGlobalNavBase extends LitElement {
@@ -46,7 +46,6 @@ class UnityGlobalNavBase extends LitElement {
     super()
 
     this.gutter = false
-    this.logo = ''
     this.collapsible = false
     this.collapsed = false
     this.items = {}
@@ -60,7 +59,6 @@ class UnityGlobalNavBase extends LitElement {
   static get properties() {
     return {
       gutter: { type: Boolean },
-      logo: { type: String },
       collapsible: { type: Boolean },
       collapsed: { type: Boolean },
       items: { type: Object },
@@ -103,15 +101,15 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   render() {
-    const { gutter, logo, collapsible, collapsed, items, header } = this
+    const { gutter, collapsible, collapsed, items, header } = this
     const { bottom, top } = items
     return html`
         <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}">
           <div class="header-container">
             <div class="logo-container flex-center">
-              ${logo ? html`
-                <unity-icon class="logo" icon="unity:app_menu"></unity-icon>
-              ` : ''}
+              <div class="logo">
+                <slot name="logo"></slot>
+              </div>
             </div>
             ${!collapsed? html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>` : ''}
           </div>
@@ -184,7 +182,11 @@ class UnityGlobalNavBase extends LitElement {
           align-items: center;
         }
         .logo {
-          height: 16px;
+          display: flex;
+          color: var(--secondary-color, var(--default-secondary-color));
+          height: 12px;
+          width: 12px;
+          --layout-inline_-_display: initial;"
         }
         .menu-box {
           position: absolute;
