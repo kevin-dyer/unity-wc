@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.2.12
+- unity-table v1.0.3
+
 ### v1.2.11
 - unity-table v1.0.2
 
