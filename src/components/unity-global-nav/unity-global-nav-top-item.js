@@ -104,13 +104,11 @@ class UnityGlobalNavTopItem extends LitElement {
       label=this.key,
       short,
       children,
-      selected
     } = this
     if (!label || collapsed && hasIcon) return ''
     // use child label if only one label
     if (Array.isArray(children) && children.length === 1) label = children[0].label
     if(collapsed && !hasIcon) label = label[0]
-    // todo: if selected, color=medium, change  --font-color-medium
     return html`<unity-typography size="paragraph" weight=${hasChildren? "medium": "paragraph"} class="text ${short ? 'short' : ''}">${label}</unity-typography>`
   }
 
@@ -232,9 +230,11 @@ class UnityGlobalNavTopItem extends LitElement {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          margin: 0 var(--label-margin);
           --font-size: 12px;
           --medium-weight: bold;
+        }
+        unity-icon + .text {
+          margin: 0 var(--label-margin);
         }
         .icon {
           height: 16px;
@@ -259,6 +259,9 @@ class UnityGlobalNavTopItem extends LitElement {
           justify-content: center;
           align-items: center;
           padding: 0;
+        }
+        .flex-center .text {
+          flex: unset;
         }
       `
     ]

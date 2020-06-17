@@ -166,6 +166,9 @@ class UnityGlobalNavInnerItem extends LitElement {
           align-items: center;
           padding: 0;
         }
+        .flex-center .text {
+          flex: unset;
+        }
       `
     ]
   }
