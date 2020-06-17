@@ -111,7 +111,7 @@ class UnityGlobalNavTopItem extends LitElement {
     if (Array.isArray(children) && children.length === 1) label = children[0].label
     if(collapsed && !hasIcon) label = label[0]
     // todo: if selected, color=medium, change  --font-color-medium
-    return html`<unity-typography size="paragraph" weight=${hasChildren? "medium": "paragraph"} color=${selected? "medium": "dark"} class="text ${short ? 'short' : ''}">${label}</unity-typography>`
+    return html`<unity-typography size="paragraph" weight=${hasChildren? "medium": "paragraph"} class="text ${short ? 'short' : ''}">${label}</unity-typography>`
   }
 
   render() {
@@ -201,6 +201,7 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         .selected {
           color: var(--selected-color) !important;
+          --font-color: var(--selected-color);
         }
         .selected.container::before {
           content: "";
@@ -233,7 +234,6 @@ class UnityGlobalNavTopItem extends LitElement {
           white-space: nowrap;
           margin: 0 var(--label-margin);
           --font-size: 12px;
-          --font-color-medium: var(--selected-color);
           --medium-weight: bold;
         }
         .icon {

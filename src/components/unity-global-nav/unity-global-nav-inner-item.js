@@ -80,7 +80,7 @@ class UnityGlobalNavInnerItem extends LitElement {
       <div class="container ${selected ? 'selected' : ''}" @click=${_onSelect}>
         <div class="label ${collapsed? 'flex-center' : ''}">
           ${!!icon && icon !== 'undefined' ? html`<unity-icon class="icon ${selected? 'selected': ''}" icon="${icon}"></unity-icon>` : null}
-          ${!collapsed? html`<unity-typography size="paragraph" color=${selected? "medium": "dark"} class="text">${label}</unity-typography>` 
+          ${!collapsed? html`<unity-typography size="paragraph" class="text">${label}</unity-typography>` 
           : html`<unity-tooltip label=${label}></unity-tooltip>` }
         </div>
       </div>
@@ -119,6 +119,7 @@ class UnityGlobalNavInnerItem extends LitElement {
         }
         .selected {
           color: var(--selected-color) !important;
+          --font-color: var(--selected-color);
         }
         .label {
           display: flex;
@@ -144,8 +145,6 @@ class UnityGlobalNavInnerItem extends LitElement {
           white-space: nowrap;
           margin: 0 var(--label-margin);
           --font-size: 12px;
-          --font-color-medium: var(--selected-color);
-
         }
         .icon {
           height: 16px;

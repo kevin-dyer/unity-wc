@@ -146,6 +146,7 @@ class UnityGlobalNavBase extends LitElement {
           --logo-padding: 12px;
           --global-nav-border-color: var(--gray-color, var(--default-gray-color));
           --global-nav-margin-size: var(--margin-size, var(--default-margin-size, 12px));
+          --text-color: var(--dark-gray-color, var(--default-dark-gray-color));
           border-collapse: collapse;
           box-shadow: 0 0 4px 0;
         }
@@ -230,6 +231,8 @@ class UnityGlobalNavBase extends LitElement {
         }
         unity-typography {
           margin: 0 var(--global-nav-margin-size);
+          --header1-font-size: 14px;
+          --header1-font-weight: bold;
         }
       `
     ]
