@@ -11,7 +11,8 @@ class FilterDropdown extends LitElement {
     this.options = [];
     this.selected = [];
     this.onValueChange = () => {};
-  }  
+    this.dropdownSide = "right"
+  }
 
   static get styles() {
     return [
@@ -28,11 +29,16 @@ class FilterDropdown extends LitElement {
         }
         unity-dropdown {
           position: absolute;
-          top: 0;
-          right: 0;
+          bottom: -2px;
           margin: 2px;
-          width: 200px;
-          max-width: 80%;
+          min-width: 200px;
+          width: 80%;
+        }
+        .left {
+          left: 0;
+        }
+        .right {
+          right: 0;
         }
         unity-button.active {
           color: var(--primary-brand-color, var(--default-primary-brand-color));
@@ -46,21 +52,49 @@ class FilterDropdown extends LitElement {
       show: { type: Boolean },
       options: { type: Array },
       selected: { type: Array },
-      onValueChange: { type: Function }
+      onValueChange: { type: Function },
+      dropdownSide: { type: false }
     }
   }
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener("iron-overlay-canceled", this.toggleDropdown); // collapse component when clicking outside
+    this.addEventListener("iron-overlay-canceled", this._delayClose ); // collapse component when clicking outside
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener("iron-overlay-canceled", this.toggleDropdown);
+    this.removeEventListener("iron-overlay-canceled", this._delayClose);
   }
 
-  toggleDropdown() {
-    this.show = !this.show    
+  _delayClose() {
+    setTimeout(()=>this.toggleDropdown(false),0)
+  }
+
+  toggleDropdown(show) {
+    this.show = typeof show === 'boolean' ? show : !this.show
+  }
+
+  updated() {
+    if (this.show) {
+      const cell = this.parentElement
+      const { [0]: {
+        left: cellLeft,
+        right: cellRight,
+        width: cellWidth
+      }} = cell.getClientRects()
+      const dropdown = this.shadowRoot.querySelector('unity-dropdown')
+      const { [0]: {
+        width: dropdownWidth
+      }} = dropdown.getClientRects()
+      const windowWidth = window.innerWidth
+
+      // if dropdown is wider than cell and wouldn't extend off right, make left
+      if (dropdownWidth > cellWidth && (cellLeft + dropdownWidth) < windowWidth) {
+        this.dropdownSide = 'left'
+      } else {
+        this.dropdownSide = 'right'
+      }
+    }
   }
 
   render() {
@@ -68,6 +102,7 @@ class FilterDropdown extends LitElement {
     return html`
       ${this.show?
         html`<unity-dropdown
+              class="${this.dropdownSide}"
               inputType="multi-select"
               boxType="none"
               placeholder="Filter"
@@ -84,7 +119,7 @@ class FilterDropdown extends LitElement {
         centerIcon="unity:filter"
         @click=${() => this.toggleDropdown()}
       ></unity-button>
-      `;  
+      `;
   }
 }
 
