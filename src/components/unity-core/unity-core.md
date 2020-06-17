@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.2.11
+- unity-table v1.0.2
+
 ### v1.2.10
 - unity-default-theme-styles v1.0.4
 
