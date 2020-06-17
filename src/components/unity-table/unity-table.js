@@ -1321,17 +1321,12 @@ class UnityTable extends LitElement {
         id="${`unity-table-${this._tableId}`}"
         class="container"
       >
-        <table class="${fill ? 'fullspace' : ''}">
+        <table>
           ${!this.headless ? this._renderTableHeader(this.columns) : null}
-          ${fill
-            ? html`
-                <td colspan="${this.columns.length}" class="fullspace">
-                  ${isLoading
-                    ? html`<paper-spinner-lite active class="spinner center" />`
-                    : html`<div class="center">${this.emptyDisplay}</div>`
-                  }
-                </td>
-              `
+          ${fill?
+            isLoading?
+              html`<paper-spinner-lite active class="spinner center" />`
+              : html`<div class="center">${this.emptyDisplay}</div>`
             : this._renderTableData(data)
           }
         </table>

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.3
+- Fix scroll bar appearing when there was no table data.
+
 ### v1.0.2
 - Fix column filter to not shrink to unreadible levels, align left or right as needed, and render below header to avoid overlap. Introduces new colors to table.
 
