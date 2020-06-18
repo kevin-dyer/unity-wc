@@ -137,56 +137,71 @@ class UnityGlobalNavBase extends LitElement {
 
   // styles
   static get styles() {
+    // CSS vars using the --global-nav prefix follow the Unity 2020 designs. The rest are kept for backwards compatibility. 
     return [
       UnityDefaultThemeStyles,
       css`
         :host {
-          --primary-menu-color: var(--white-color, var(--default-white-color));
+          --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
           --gutter-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --logo-height: 32px;
-          --logo-padding: 12px;
+          --global-nav-background-color: var(--white-color, var(--default-white-color));
           --global-nav-border-color: var(--gray-color, var(--default-gray-color));
-          --global-nav-margin-size: var(--margin-size, var(--default-margin-size, 12px));
-          --text-color: var(--dark-gray-color, var(--default-dark-gray-color));
-          border-collapse: collapse;
-          box-shadow: 0 0 4px 0;
+          --global-nav-margin-size: var(--margin-size-md, var(--default-margin-size-md, 12px));
+          --global-nav-padding-size: var(--padding-size-md, var(--default-padding-size-md, 12px));
+          --global-nav-padding-size-sm: var(--padding-size-sm, var(--default-padding-size-sm, 8px));
+          --global-nav-highlight-color: var(--secondary-color, var(--default-secondary-color));
+          --global-nav-hover-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
+          --global-nav-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --global-nav-light-text-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
+          --global-nav-gutter-color: var(--primary-color, var(--default-primary-color));
+          --global-nav-header-font-size: 14px;
+          --global-nav-font-size: 12px;
+          --global-nav-short-row: 32px;
+          --global-nav-large-row: 40px;
+          --global-nav-expanded-width: 192px;
+          --global-nav-collapsed-width: 32px;
+          --global-nav-logo-size: 12px;
+          --global-nav-menu-border: none;
+          --global-nav-menu-shadow: 0 0 4px 0;
         }
         * {
           box-sizing: border-box;
         }
         .gutter {
-          border-right: 5px solid var(--gutter-color);
+          border-right: 5px solid var(--global-nav-gutter-color, var(--gutter-color));
         }
         .menu {
           position: relative;
-          width: 192px;
+          width: var(--global-nav-expanded-width);
           height: 100%;
-          background-color: var(--primary-menu-color);
-          box-shadow: 0 0 4px 0;
+          background-color: var(--global-nav-background-color, var(--primary-menu-color));
+          box-shadow: var(--global-nav-menu-shadow);
+          border: var(--global-nav-menu-border);
         }
         .text {
-          color: var(--text-color)
+          color: var(--global-nav-text-color)
         }
         .collapsed {
-          width: 32px;
+          width: var(--global-nav-collapsed-width);
         }
         .logo-container {
-          height: var(--logo-height);
-          width: var(--logo-height);
+          height: var(--global-nav-short-row, var(--logo-height));
+          width: var(--global-nav-short-row, var(--logo-height));
         }
         :not(.collapsed) .header-container .logo-container {
-          border-right: 1px solid var(--gray-color, var(--default-gray-color));
+          border-right: 1px solid var(--global-nav-border-color);
         }
         .header-container {
-          display:flex;
-          border-bottom: 1px solid var(--gray-color, var(--default-gray-color));
+          display: flex;
+          border-bottom: 1px solid var(--global-nav-border-color);
           align-items: center;
         }
         .logo {
           display: flex;
-          color: var(--secondary-color, var(--default-secondary-color));
-          height: 12px;
-          width: 12px;
+          color: var(--global-nav-highlight-color);
+          height: var(--global-nav-logo-size);
+          width: var(--global-nav-logo-size);
           --layout-inline_-_display: initial;
         }
         .menu-box {
@@ -202,24 +217,22 @@ class UnityGlobalNavBase extends LitElement {
         .top-container {
           height: 100%;
           width: 100%;
-          min-height: 52px;
           border-collapse: collapse;
         }
         .bottom-container {
-          bottom: 0;
           min-height: min-content;
           width: 100%;
           border-collapse: collapse;
         }
         unity-icon {
-          color: var(--secondary-color, var(--default-secondary-color));
-          height: 12px;
-          width: 12px;
+          color: var(--global-nav-highlight-color);
+          height: var(--global-nav-logo-size);
+          width: var(--global-nav-logo-size);
           --layout-inline_-_display: initial;
         }
         .collapse-button {
           height: 24px;
-          border: 1px solid #EBEBEB;
+          border: 1px solid var(--global-nav-light-text-color);
           margin: 4px;
           border-radius: 2px;
           cursor: pointer;
@@ -227,7 +240,7 @@ class UnityGlobalNavBase extends LitElement {
         .collapse-button unity-icon {
           height: 16px;
           width: 16px;
-          color: var(--dark-gray-color, var(--default-dark-gray-color));
+          color: var(--global-nav-text-color);
         }
         .flex-center {
           display: flex;
@@ -236,9 +249,9 @@ class UnityGlobalNavBase extends LitElement {
         }
         unity-typography {
           margin: 0 var(--global-nav-margin-size);
-          --header1-font-size: 14px;
+          --header1-font-size: var(--global-nav-header-font-size);
           --header1-font-weight: bold;
-          --font-color: var(--text-color);
+          --font-color: var(--global-nav-text-color);
         }
         .header{
 

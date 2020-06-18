@@ -94,6 +94,7 @@ class UnityGlobalNavInnerItem extends LitElement {
 
   // styles
   static get styles() {
+    // CSS vars using the --global-nav-inner-item prefix follow the Unity 2020 designs. The rest are kept for backwards compatibility. 
     return [
       UnityDefaultThemeStyles,
       css`
@@ -105,61 +106,68 @@ class UnityGlobalNavInnerItem extends LitElement {
           --text-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --item-height: 32px;
           --label-margin: var(--global-nav-margin-size, 12px);
-          border-collapse: collapse;
-          user-select: none;
+          --global-nav-inner-item-primary-color: var(--global-nav-item-primary-color);
+          --global-nav-inner-item-secondary-color: var(--global-nav-item-secondary-color);
+          --global-nav-inner-item-highlight-color: var(--global-nav-item-highlight-color);
+          --global-nav-inner-item-text-color: var(--global-nav-item-text-color);
+          --global-nav-inner-item-font-size: var(--global-nav-item-font-size, 12px);
+          --global-nav-inner-item-height: var(--global-nav-item-short-height);
+          --global-nav-inner-item-margin-size: var(--global-nav-item-margin-size);
+          --global-nav-inner-item-padding-size: var(--global-nav-item-padding-size);
+
         }
         * {
           box-sizing: border-box;
         }
         .container {
           border-collapse: collapse;
-          height: var(--item-height);
+          height: var(--global-nav-inner-item-height, var(--item-height));
           width: 100%;
-          background-color: var(--secondary-menu-color);
+          background-color: var(--global-nav-inner-item-secondary-color, var(--secondary-menu-color));
           cursor: pointer;
-          position:relative;
-          --font-color: var(--text-color);
+          position: relative;
+          --font-color: var(--global-nav-inner-item-text-color, var(--text-color));
         }
         .container.disabled {
           cursor: default;
           opacity: 0.5;
         }
         .container:not(.disabled) .label:hover {
-          background-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
+          background-color: var(--global-nav-hover-color);
         }
         .selected {
-          color: var(--selected-color) !important;
-          --font-color: var(--selected-color);
+          color: var(--global-nav-inner-item-highlight-color, var(--selected-color)) !important;
+          --font-color: var(--global-nav-inner-item-highlight-color, var(--selected-color));
         }
         .label {
           display: flex;
           flex-wrap: nowrap;
           align-items: center;
           height: 100%;
-          padding: 0 calc(var(--label-margin) * 2);
+          padding: 0 calc(var(--global-nav-inner-item-padding-size, var(--label-margin)) * 2);
 
         }
         .selected.container::before {
           content: "";
           padding-right: 2px;
-          background: var(--selected-color);
+          background: var(--global-nav-inner-item-highlight-color, var(--selected-color));
           display: block;
           height: 100%;
           position: absolute;
         }
         .text {
           flex: 1;
-          line-height: var(--item-height);
+          line-height: var(--global-nav-inner-item-height, var(--item-height));
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          margin: 0 var(--label-margin);
-          --font-size: 12px;
+          margin: 0 var(--global-nav-inner-item-margin-size, var(--label-margin));
+          --font-size: var(--global-nav-inner-item-font-size);
         }
         .icon {
           height: 16px;
           width: 16px;
-          color: var(--text-color);
+          color: var(--global-nav-inner-item-text-color, var(--text-color));
           --layout-inline_-_display: initial;
         }
         unity-tooltip {
