@@ -48,8 +48,8 @@ class FilterDropdown extends LitElement {
           align-items: center;
           align-self: center;
           --button-color: var(--black-color, var(--default-black-color));
-          height: 24px;
-          width: 24px;
+          height: 22px;
+          width: 22px;
         }
       `
     ]

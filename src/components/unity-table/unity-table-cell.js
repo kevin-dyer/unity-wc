@@ -10,8 +10,8 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 // import '@bit/smartworks.unity.table-cell-base'
 import './table-cell-base'
 
-const TAB_ICON = 26
-const TAB_ARROW = 18
+const TAB_ICON = 18
+const TAB_ARROW = 16
 
 function getIndent({icon, expandable, tabIndex}) {
   let width = !!icon ? TAB_ICON : TAB_ARROW
@@ -207,14 +207,16 @@ class UnityTableCell extends LitElement {
           margin-right: 5px;
           color: black;
           padding: 0;
-          height: 16px;
-          width: 16px;
+          height: 14px;
+          width: 14px;
         }
         .expand-control.collapsed {
           transform: rotate(-90deg);
         }
         .item-icon {
-          padding-right: 4px;
+          height: 18px;
+          width: 18px;
+          padding-right: 8px;
         }
       `
     ]
