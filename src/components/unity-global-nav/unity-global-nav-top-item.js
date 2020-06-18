@@ -200,6 +200,7 @@ class UnityGlobalNavTopItem extends LitElement {
           background-color: var(--primary-menu-color);
           position: relative;
           cursor: pointer;
+          --font-color: var(--text-color);
         }
         .container.disabled {
           cursor: default;

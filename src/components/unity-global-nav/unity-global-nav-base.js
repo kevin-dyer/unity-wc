@@ -238,6 +238,7 @@ class UnityGlobalNavBase extends LitElement {
           margin: 0 var(--global-nav-margin-size);
           --header1-font-size: 14px;
           --header1-font-weight: bold;
+          --font-color: var(--text-color);
         }
         .header{
 

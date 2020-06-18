@@ -118,6 +118,7 @@ class UnityGlobalNavInnerItem extends LitElement {
           background-color: var(--secondary-menu-color);
           cursor: pointer;
           position:relative;
+          --font-color: var(--text-color);
         }
         .container.disabled {
           cursor: default;
