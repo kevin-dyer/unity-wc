@@ -1355,7 +1355,9 @@ class UnityTable extends LitElement {
           --default-hover-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
           --default-highlight-color: var(--default-primary-tint-1-color, var(--default-primary-tint-1-color));
           --default-hover-highlight-color: var(--primary-tint-2-color, var(--default-primary-tint-2-color));
+          --paper-checkbox-checked-ink-color: transparent;
           --paper-checkbox-ink-size: 0;
+          --paper-icon-button-ink-color: transparent;
           display: flex;
           height: 100%;
           flex: 1;

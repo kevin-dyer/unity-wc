@@ -10,7 +10,14 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 // import '@bit/smartworks.unity.table-cell-base'
 import './table-cell-base'
 
-const TAB_SIZE = 16
+const TAB_ICON = 26
+const TAB_ARROW = 18
+
+function getIndent({icon, expandable, tabIndex}) {
+  let width = !!icon ? TAB_ICON : TAB_ARROW
+  return (tabIndex * width) + (expandable ? 0 : TAB_ARROW)
+}
+
 /**
  * Displays table of data.
  * @name UnityTableCell
@@ -100,6 +107,7 @@ class UnityTableCell extends LitElement {
     const tabIndex = this.tabIndex
     const expandable = this.expandable
     const expanded = this.expanded
+    const totalIndent = getIndent({icon, expandable, tabIndex})
 
     return html`
       <table-cell-base
@@ -119,22 +127,22 @@ class UnityTableCell extends LitElement {
             : null
           }
           ${tabIndex > 0
-            ? html`<div class="tab-indent" style="width:${tabIndex * TAB_SIZE}px"></div>`
+            ? html`<div class="tab-indent" style="width:${totalIndent}px"></div>`
             : ''
           }
           ${expandable
             ? html `<paper-icon-button
                 noink
                 class="expand-control ${expanded ? 'expanded' : 'collapsed'}"
-                icon="icons:arrow-drop-down"
+                icon="unity:down"
                 @click="${this.handleExpand}"
               ></paper-icon-button>`
             : ''
           }
           ${!!imgUrl
-            ? html`<iron-icon icon="image:broken-image"></iron-icon>`
+            ? html`<iron-icon class="item-icon" icon="image:broken-image"></iron-icon>`
             : !!icon
-              ? html`<iron-icon icon="${icon}"></iron-icon>`
+              ? html`<iron-icon class="item-icon" icon="${icon}"></iron-icon>`
               : null
           }
 
@@ -160,13 +168,15 @@ class UnityTableCell extends LitElement {
           --paper-checkbox-unchecked-color: var(--gray-color, var(--default-gray-color));
           --paper-checkbox-checked-color: var(--primary-color, var(--default-primary-color));
           --paper-checkbox-unchecked-ink-color: var(--paper-checkbox-unchecked-background-color);
-          --paper-checkbox-checked-ink-color: var(--paper-checkbox-unchecked-background-color);
+          --paper-checkbox-checked-ink-color: transparent;
           --paper-checkbox-ink-size: 0;
+          --paper-icon-button-ink-color: transparent;
         }
         paper-checkbox {
-          margin-right: 12px;
+          margin-right: 8px;
           z-index: 2;
-          border-radius: 2px;
+          border-radius: 1px;
+          border-width: 1px;
           overflow: hidden;
         }
         .cell {
@@ -193,11 +203,18 @@ class UnityTableCell extends LitElement {
           height: 0;
         }
         .expand-control {
-          margin-left: -28px;
-          margin-right: -12px;
+          margin-left: -3px;
+          margin-right: 5px;
+          color: black;
+          padding: 0;
+          height: 16px;
+          width: 16px;
         }
         .expand-control.collapsed {
           transform: rotate(-90deg);
+        }
+        .item-icon {
+          padding-right: 4px;
         }
       `
     ]
