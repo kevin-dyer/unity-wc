@@ -40,8 +40,12 @@ class FilterDropdown extends LitElement {
         .right {
           right: 0;
         }
-        unity-button.active {
-          color: var(--primary-brand-color, var(--default-primary-brand-color));
+        unity-button {
+          display: flex;
+          flex: 1;
+          align-items: center;
+          align-self: center;
+          --button-color: var(--black-color, var(--default-black-color));
         }
       `
     ]
@@ -98,7 +102,6 @@ class FilterDropdown extends LitElement {
   }
 
   render() {
-    const buttonClass = (this.selected.length < this.options.length)? "active" : ""
     return html`
       ${this.show?
         html`<unity-dropdown
@@ -115,7 +118,6 @@ class FilterDropdown extends LitElement {
         </unity-dropdown>`
         : null}
       <unity-button
-        class=${buttonClass}
         centerIcon="unity:filter"
         @click=${() => this.toggleDropdown()}
       ></unity-button>

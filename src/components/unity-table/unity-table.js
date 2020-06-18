@@ -957,8 +957,8 @@ class UnityTable extends LitElement {
             xOffset=0
           }, i) => {
             const icon = direction !== UNS && column === key
-              ? direction === ASC ? 'arrow-upward'
-              : 'arrow-downward'
+              ? direction === ASC ? 'unity:sort_up'
+              : 'unity:sort_down'
             : ''
 
             //NOTE: only working with px
@@ -997,22 +997,22 @@ class UnityTable extends LitElement {
                     <div class="header-content" @click="${()=>{this.sortBy = key}}">
                       <span class="header-label"><b>${label || name}</b></span>
 
+                      <filter-dropdown
+                        .onValueChange="${this.dropdownValueChange(key)}"
+                        .options=${this.getDropdownOptions(key)}
+                        .selected=${this.getSelected(key)}>
+                      </filter-dropdown>
+
                       ${direction !== UNS
                         ? html`<paper-icon-button
-                            noink
-                            icon="${icon}"
-                            title="${direction}"
-                            class="header-sort-icon"
-                          ></paper-icon-button>`
+                        noink
+                        icon="${icon}"
+                        title="${direction}"
+                        class="header-sort-icon ${direction}"
+                        ></paper-icon-button>`
                         : null
                       }
-
                     </div>
-                    <filter-dropdown
-                      .onValueChange="${this.dropdownValueChange(key)}"
-                      .options=${this.getDropdownOptions(key)}
-                      .selected=${this.getSelected(key)}>
-                    </filter-dropdown>
                   </div>
                 </table-cell-base>
               </th>
@@ -1508,8 +1508,16 @@ class UnityTable extends LitElement {
           background-color: var(--background-color, var(--default-background-color));
         }
         paper-icon-button.header-sort-icon {
-          height: 30px;
-          width: 30px;
+          position: relative;
+          top: 5px;
+          right: 4px;
+          height: 26px;
+          width: 26px;
+          padding: 0;
+        }
+        paper-icon-button.header-sort-icon.Descending {
+          top: unset;
+          bottom: 5px;
         }
         .active-filters {
           text-align: right;
