@@ -142,6 +142,9 @@ class UnityGlobalNavBase extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
+          display: flex;
+          height: 100%;
+          width: max-content;
           --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
           --gutter-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --logo-height: 32px;
@@ -172,7 +175,8 @@ class UnityGlobalNavBase extends LitElement {
           border-right: 5px solid var(--global-nav-gutter-color, var(--gutter-color));
         }
         .menu {
-          position: relative;
+          display: flex;
+          flex-direction: column;
           width: var(--global-nav-expanded-width);
           height: 100%;
           background-color: var(--global-nav-background-color, var(--primary-menu-color));
@@ -205,12 +209,11 @@ class UnityGlobalNavBase extends LitElement {
           --layout-inline_-_display: initial;
         }
         .menu-box {
-          position: absolute;
           display: flex;
           flex-direction: column;
           flex-wrap: nowrap;
-          top: var(--logo-height);
-          bottom: 0;
+          justify-content: space-between;
+          height: 100%;
           width: 100%;
           margin-top: 1px;
         }
