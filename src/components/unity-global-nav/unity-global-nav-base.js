@@ -12,6 +12,7 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {string} header, text to display in the header (e.g., product name)
 * @param {bool} collapsible, render button at the bottom to collapse bar
 * @param {bool} collapsed, if the bar is collapsed or not
+* @param {bool} grid, if clicking the logo should open the grid menu
 * @param {Object} items, object containing the menu items
 * @param {Function} onSelect, callback for when a menu item is selected
 * @param {css} --global-nav-background-color, css var used for coloring the component
@@ -52,8 +53,10 @@ class UnityGlobalNavBase extends LitElement {
     this.onSelect = () => {}
     this.selected = ''
     this.header = ''
+    this.grid = false
 
     this._itemClicked = (key) => { this._changeSelection(key)}
+    this._showGrid = false
   }
 
   static get properties() {
@@ -65,7 +68,9 @@ class UnityGlobalNavBase extends LitElement {
       onSelect: { type: Function },
       selected: { type: String },
       header: { type: String },
-      _itemClicked: { type: Function }
+      grid: { type: Boolean },
+      _itemClicked: { type: Function },
+      _showGrid: { type: Boolean }
     }
   }
 
@@ -80,6 +85,10 @@ class UnityGlobalNavBase extends LitElement {
 
   _toggleCollapse() {
     this.collapsed = !this.collapsed
+  }
+
+  _toggleGrid() {
+    this._showGrid = !this._showGrid
   }
 
   renderItems(items) {
@@ -102,12 +111,12 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   render() {
-    const { gutter, collapsible, collapsed, items, header } = this
+    const { gutter, collapsible, collapsed, items, header, grid, _showGrid } = this
     const { bottom, top } = items
     return html`
-        <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}">
+        <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
           <div class="header-container">
-            <div class="logo-container flex-center">
+            <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
               <div class="logo">
                 <slot name="logo"></slot>
               </div>
@@ -132,6 +141,7 @@ class UnityGlobalNavBase extends LitElement {
           </div>
         </div>
       ${gutter ? html`</div>` : ''}
+      ${grid && _showGrid? html`<div class="grid"></div>` : ''}
     `
   }
 
@@ -181,7 +191,11 @@ class UnityGlobalNavBase extends LitElement {
           height: 100%;
           background-color: var(--global-nav-background-color, var(--primary-menu-color));
           box-shadow: var(--global-nav-menu-shadow);
-          border: var(--global-nav-menu-border);
+          border-right: var(--global-nav-menu-border);
+        }
+        .menu.shadowless {
+          box-shadow: none;
+          border-right: 1px solid var(--global-nav-border-color);
         }
         .text {
           color: var(--global-nav-text-color)
@@ -192,6 +206,9 @@ class UnityGlobalNavBase extends LitElement {
         .logo-container {
           height: var(--global-nav-short-row, var(--logo-height));
           width: var(--global-nav-short-row, var(--logo-height));
+        }
+        .logo-container.clickable {
+          cursor: pointer;
         }
         :not(.collapsed) .header-container .logo-container {
           border-right: 1px solid var(--global-nav-border-color);
@@ -256,8 +273,12 @@ class UnityGlobalNavBase extends LitElement {
           --header1-font-weight: bold;
           --font-color: var(--global-nav-text-color);
         }
-        .header{
-
+        .grid{
+          height: 100%;
+          width: 320px;
+          background-color: var(--global-nav-background-color);
+          box-shadow: 0 1px 10px 4px rgba(0, 0, 0, 0.25);
+          z-index: -1;
         }
       `
     ]

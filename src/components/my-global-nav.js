@@ -48,6 +48,7 @@ class MyGlobalNav extends PageViewElement {
           logo="unity:app_menu"
           .items=${items}
           .onSelect=${this.onSelect}
+          .grid=${true}
         >
         <unity-icon slot="logo" icon="unity:app_menu"></unity-icon>
         </unity-global-nav-base>
