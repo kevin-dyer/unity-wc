@@ -956,10 +956,7 @@ class UnityTable extends LitElement {
             startingWidth,
             xOffset=0
           }, i) => {
-            const icon = direction !== UNS && column === key
-              ? direction === ASC ? 'unity:sort_up'
-              : 'unity:sort_down'
-            : ''
+            const sortIconClass = `header-sort-icon${column === key ? ` ${direction}`: ''}`
 
             //NOTE: only working with px
             const width = !!startingWidth
@@ -1003,15 +1000,12 @@ class UnityTable extends LitElement {
                         .selected=${this.getSelected(key)}>
                       </filter-dropdown>
 
-                      ${direction !== UNS
-                        ? html`<paper-icon-button
+                      <paper-icon-button
                         noink
-                        icon="${icon}"
+                        icon="unity:down"
                         title="${direction}"
-                        class="header-sort-icon ${direction}"
-                        ></paper-icon-button>`
-                        : null
-                      }
+                        class="${sortIconClass}"
+                      ></paper-icon-button>
                     </div>
                   </div>
                 </table-cell-base>
@@ -1356,8 +1350,8 @@ class UnityTable extends LitElement {
           --paper-checkbox-unchecked-ink-color: var(--paper-checkbox-unchecked-background-color);
           --paper-checkbox-checked-ink-color: var(--paper-checkbox-unchecked-background-color);
           --paper-spinner-color: var(--primary-color, var(--default-primary-color));
-          --thead-height: 33px;
-          --trow-height: 38px;
+          --thead-height: 36px;
+          --trow-height: 36px;
           --default-hover-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
           --default-highlight-color: var(--default-primary-tint-1-color, var(--default-primary-tint-1-color));
           --default-hover-highlight-color: var(--primary-tint-2-color, var(--default-primary-tint-2-color));
@@ -1432,7 +1426,6 @@ class UnityTable extends LitElement {
           padding-left: 13px;
           box-sizing: border-box;
           border-collapse: collapse;
-          border-bottom: 1px solid var(--light-gray-1-color, var(--default-light-gray-1-color));
         }
         .header.hide-top {
           border-top: unset;
@@ -1509,15 +1502,14 @@ class UnityTable extends LitElement {
         }
         paper-icon-button.header-sort-icon {
           position: relative;
-          top: 5px;
+          top: 0;
           right: 4px;
-          height: 26px;
-          width: 26px;
+          height: 18px;
+          width: 18px;
           padding: 0;
         }
-        paper-icon-button.header-sort-icon.Descending {
-          top: unset;
-          bottom: 5px;
+        paper-icon-button.header-sort-icon.Ascending {
+          transform: rotate(180deg);
         }
         .active-filters {
           text-align: right;
