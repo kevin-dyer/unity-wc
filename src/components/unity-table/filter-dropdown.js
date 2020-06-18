@@ -89,9 +89,7 @@ class FilterDropdown extends LitElement {
         dropdownSide
       } = this
       const { [0]: {
-        left: cellLeft,
-        right: cellRight,
-        width: cellWidth
+        left: cellLeft
       }} = cell.getClientRects()
       const dropdown = this.shadowRoot.querySelector('unity-dropdown')
       const { [0]: {
