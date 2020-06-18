@@ -77,7 +77,8 @@ class UnityGlobalNavInnerItem extends LitElement {
       key='',
       label=key,
       icon='',
-      collapsed
+      collapsed,
+      disabled
     } = this
 
     return html`
@@ -85,7 +86,7 @@ class UnityGlobalNavInnerItem extends LitElement {
         <div class="label ${collapsed? 'flex-center' : ''}">
           ${!!icon && icon !== 'undefined' ? html`<unity-icon class="icon ${selected? 'selected': ''}" icon="${icon}"></unity-icon>` : null}
           ${!collapsed? html`<unity-typography size="paragraph" class="text">${label}</unity-typography>` 
-          : html`<unity-tooltip label=${label}></unity-tooltip>` }
+          : !disabled? html`<unity-tooltip label=${label}></unity-tooltip>` : ''}
         </div>
       </div>
     `

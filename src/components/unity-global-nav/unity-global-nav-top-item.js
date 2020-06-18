@@ -153,7 +153,7 @@ class UnityGlobalNavTopItem extends LitElement {
         <div class="label ${short ? 'short' : ''} ${collapsed? 'flex-center' : ''}">
           ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
           ${this.getLabel(hasIcon, hasChildren) }
-          ${collapsed? html`<unity-tooltip label=${label}></unity-tooltip>` : ''}
+          ${collapsed && !disabled? html`<unity-tooltip label=${label}></unity-tooltip>` : ''}
           ${!collapsed && hasChildren ? html`<unity-icon class="icon ${short ? 'short-pos' : ''}" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
         </div>
         ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled}) => html`
