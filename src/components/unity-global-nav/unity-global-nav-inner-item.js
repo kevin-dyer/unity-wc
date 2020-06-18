@@ -114,7 +114,6 @@ class UnityGlobalNavInnerItem extends LitElement {
           --global-nav-inner-item-height: var(--global-nav-item-short-height);
           --global-nav-inner-item-margin-size: var(--global-nav-item-margin-size);
           --global-nav-inner-item-padding-size: var(--global-nav-item-padding-size);
-
         }
         * {
           box-sizing: border-box;
@@ -145,7 +144,7 @@ class UnityGlobalNavInnerItem extends LitElement {
           align-items: center;
           height: 100%;
           padding: 0 calc(var(--global-nav-inner-item-padding-size, var(--label-margin)) * 2);
-
+          min-height: var(--global-nav-inner-item-height, var(--item-height));
         }
         .selected.container::before {
           content: "";
@@ -157,7 +156,6 @@ class UnityGlobalNavInnerItem extends LitElement {
         }
         .text {
           flex: 1;
-          line-height: var(--global-nav-inner-item-height, var(--item-height));
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;

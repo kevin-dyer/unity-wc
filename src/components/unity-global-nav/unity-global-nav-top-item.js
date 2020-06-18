@@ -113,7 +113,7 @@ class UnityGlobalNavTopItem extends LitElement {
     // use child label if only one label
     if (Array.isArray(children) && children.length === 1) label = children[0].label
     if(collapsed && !hasIcon) label = label[0]
-    return html`<unity-typography size="paragraph" weight=${hasChildren? "medium": "paragraph"} class="text ${short ? 'short' : ''}">${label}</unity-typography>`
+    return html`<unity-typography size="paragraph" weight=${hasChildren? "medium": "paragraph"} class="text">${label}</unity-typography>`
   }
 
   render() {
@@ -143,18 +143,17 @@ class UnityGlobalNavTopItem extends LitElement {
       <div
         class="
           container
-          ${short ? 'short' : ''}
           ${hasChildren && open ? 'open' : ''}
           ${!hasChildren && selected ? 'selected' : ''}
           ${disabled? 'disabled' : ''}
         "
         @click=${!disabled? _onSelect : null}
       >
-        <div class="label ${short ? 'short' : ''} ${collapsed? 'flex-center' : ''}">
+        <div class="label ${short ? 'short' : ''} ${hasChildren && !short? 'tall' : ''} ${collapsed? 'flex-center' : ''}">
           ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
           ${this.getLabel(hasIcon, hasChildren) }
           ${collapsed && !disabled? html`<unity-tooltip label=${label}></unity-tooltip>` : ''}
-          ${!collapsed && hasChildren ? html`<unity-icon class="icon ${short ? 'short-pos' : ''}" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
+          ${!collapsed && hasChildren ? html`<unity-icon class="icon" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
         </div>
         ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled}) => html`
         <unity-global-nav-inner-item
@@ -197,7 +196,7 @@ class UnityGlobalNavTopItem extends LitElement {
           --global-nav-item-margin-size: var(--global-nav-margin-size);
           --global-nav-item-font-size: var(--global-nav-font-size, 12px);
           --global-nav-item-padding-size: var(--global-nav-padding-size);
-          --global-nav-item-padding-size-sm: var(--global-nav-padding-size-sm, 8px));
+          --global-nav-item-padding-size-sm: var(--global-nav-padding-size-sm, 8px);
           border-collapse: collapse;
           user-select: none;
         }
@@ -207,7 +206,7 @@ class UnityGlobalNavTopItem extends LitElement {
         .container {
           border-collapse: collapse;
           height: auto;
-          min-height: var(--global-nav-item-tall-height, var(--tall-height));
+          min-height: var(--global-nav-item-short-height, var(--short-height));
           width: 100%;
           background-color: var(--global-nav-item-primary-color, var(--primary-menu-color));
           position: relative;
@@ -242,15 +241,17 @@ class UnityGlobalNavTopItem extends LitElement {
         .label {
           display: flex;
           flex-wrap: nowrap;
-          min-height: var(--global-nav-item-tall-height, var(--tall-height));
+          min-height: var(--global-nav-item-short-height, var(--short-height));
           font-weight: 500;
           align-items: center;
           height: 100%;
           padding: 0 var(--global-nav-item-padding-size, var(--label-margin));
         }
+        .open .label {
+          min-height: var(--global-nav-item-tall-height, var(--tall-height));
+        }
         .text {
           flex: 1;
-          line-height: var(--global-nav-item-tall-height, var(--tall-height));
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -268,7 +269,9 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         .short {
           min-height: var(--global-nav-item-short-height, var(--short-height));
-          line-height: var(--global-nav-item-short-height, var(--short-height));
+        }
+        .tall {
+          min-height: var(--global-nav-item-tall-height, var(--tall-height));
         }
         unity-tooltip {
           position: absolute;
