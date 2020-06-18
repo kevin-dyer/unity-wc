@@ -7,10 +7,8 @@ import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
 import { debounce } from 'throttle-debounce'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-// import '@bit/smartworks.unity.unity-table-cell'
-import './unity-table-cell'
-// import '@bit/smartworks.unity.table-cell-base'
-import './table-cell-base'
+import '@bit/smartworks.unity.unity-table-cell'
+import '@bit/smartworks.unity.table-cell-base'
 import './filter-dropdown'
 
 import {
@@ -27,6 +25,7 @@ import {
  * @param {func} keyExtractor, func with row datum and row index as arguments. Retuns unique row identifier.
  * @param {func} slotIdExtractor, func with row datum and column datum as arguments. Returns unique cell identifier.
  * @param {bool} headless, controls if the table has a header row
+ * @param {bool} compact, controls if the rows should be shorter
  * @param {bool} startExpanded, controls if the table data begins as expanded (true) or collapsed (false / default)
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
@@ -162,6 +161,7 @@ class UnityTable extends LitElement {
     this.selected = []
     this.selectable = false
     this.headless = false
+    this.compact = false
     this.startExpanded = false
     this.isLoading = false
     this.emptyDisplay = 'No information found.'
@@ -273,6 +273,7 @@ class UnityTable extends LitElement {
       data: { type: Array },
       columns: { type: Array },
       headless: { type: Boolean },
+      compact: { type: Boolean },
       selectable: { type: Boolean },
       isLoading: { type: Boolean },
       emptyDisplay: { type: String },
@@ -945,10 +946,11 @@ class UnityTable extends LitElement {
       direction: dir
     } = this._sortBy
     const direction = !!dir ? dir : UNS
+    const trClass = `sticky-header-row${this.compact ? ' compact': ''}`
 
     return html`
       <thead>
-        <tr class="sticky-header-row">
+        <tr class="${trClass}">
           ${columns.map(({
             key,
             label,
@@ -1113,6 +1115,7 @@ class UnityTable extends LitElement {
 
     //NOTE: using == so that rowId can be number or string
     if (rowId == this.highlightedRow) rowClasses.push('highlight')
+    if (this.compact) rowClasses.push('compact')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
@@ -1351,7 +1354,9 @@ class UnityTable extends LitElement {
           --paper-checkbox-checked-ink-color: var(--paper-checkbox-unchecked-background-color);
           --paper-spinner-color: var(--primary-color, var(--default-primary-color));
           --thead-height: 36px;
+          --thead-compact-height: 24px;
           --trow-height: 36px;
+          --trow-compact-height:  24px;
           --default-hover-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
           --default-highlight-color: var(--default-primary-tint-1-color, var(--default-primary-tint-1-color));
           --default-hover-highlight-color: var(--primary-tint-2-color, var(--default-primary-tint-2-color));
@@ -1403,18 +1408,15 @@ class UnityTable extends LitElement {
         th {
           position: sticky;
           top: 0;
-          height: var(--thead-height);
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           text-align: left;
           padding: 0;
           margin: 0;
-          line-height: var(--thead-height);
           border-collapse: collapse;
           z-index: 3;
           background-color: inherit;
           color: var(--black-color, var(--default-black-color));
         }
-
         th.cell {
           overflow: visible;
         }
@@ -1467,8 +1469,6 @@ class UnityTable extends LitElement {
           min-width: 0;
         }
         .header-label {
-          /*flex: 1;*/
-          padding-top: 1px;
           min-width: 0;
           white-space: nowrap;
           overflow: hidden;
@@ -1486,9 +1486,14 @@ class UnityTable extends LitElement {
         }
         .row {
           height: var(--trow-height);
+          line-height: var(--trow-height);
           border-collapse: collapse;
           cursor: pointer;
           background-color: var(--background-color, var(--default-background-color));
+        }
+        .row.compact {
+          height: var(--trow-compact-height);
+          line-height: var(--trow-compact-height);
         }
         .row:hover {
           background-color: var(--hover-color, var(--default-hover-color));
@@ -1500,12 +1505,16 @@ class UnityTable extends LitElement {
           background-color: var(--hover-highlight-color, var(--default-hover-highlight-color));
         }
         .sticky-header-row {
+          height: var(--thead-height);
+          line-height: var(--thead-height);
           background-color: var(--background-color, var(--default-background-color));
+        }
+        .sticky-header-row.compact {
+          height: var(--thead-compact-height);
+          line-height: var(--thead-compact-height);
         }
         paper-icon-button.header-sort-icon {
           position: relative;
-          top: 0;
-          right: 4px;
           height: 18px;
           width: 18px;
           padding: 0;
