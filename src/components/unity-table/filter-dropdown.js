@@ -3,6 +3,8 @@ import '@bit/smartworks.unity.unity-button'
 import '@bit/smartworks.unity.unity-dropdown'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
+const LEFT = 'left'
+const RIGHT = 'right'
 
 class FilterDropdown extends LitElement {
   constructor() {
@@ -11,7 +13,7 @@ class FilterDropdown extends LitElement {
     this.options = [];
     this.selected = [];
     this.onValueChange = () => {};
-    this.dropdownSide = "right"
+    this.dropdownSide = LEFT
   }
 
   static get styles() {
@@ -82,7 +84,10 @@ class FilterDropdown extends LitElement {
 
   updated() {
     if (this.show) {
-      const cell = this.parentElement
+      const {
+        parentElement: cell,
+        dropdownSide
+      } = this
       const { [0]: {
         left: cellLeft,
         right: cellRight,
@@ -95,10 +100,10 @@ class FilterDropdown extends LitElement {
       const windowWidth = window.innerWidth
 
       // if dropdown is wider than cell and wouldn't extend off right, make left
-      if (dropdownWidth > cellWidth && (cellLeft + dropdownWidth) < windowWidth) {
-        this.dropdownSide = 'left'
+      if ((cellLeft + dropdownWidth) > windowWidth) {
+        this.dropdownSide = RIGHT
       } else {
-        this.dropdownSide = 'right'
+        this.dropdownSide = LEFT
       }
     }
   }
