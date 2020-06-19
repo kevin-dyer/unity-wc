@@ -47,7 +47,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.2.12": {
+    "smartworks.unity/unity-core@1.2.13": {
         "files": [
             {
                 "name": "index.js",
