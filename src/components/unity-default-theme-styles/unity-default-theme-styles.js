@@ -134,5 +134,12 @@ export const UnityDefaultThemeStyles = css`
     --default-unity-button-padding: 20px;
 
     --default-unity-text-input-height: 27px;
+
+    /* Margins and Paddings */
+    --default-margin-size-md: 12px;
+    --default-padding-size-sm: 8px;
+    --default-padding-size-md: 12px;
+    --default-padding-size-lg: 16px;
+    --default-padding-size-xl 24px;
   }
 `;
