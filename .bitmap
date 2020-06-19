@@ -217,7 +217,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@1.1.1": {
+    "smartworks.unity/unity-dropdown@1.1.2": {
         "files": [
             {
                 "name": "strings.js",
