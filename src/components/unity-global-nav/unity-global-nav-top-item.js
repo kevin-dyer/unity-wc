@@ -154,7 +154,7 @@ class UnityGlobalNavTopItem extends LitElement {
         <div class="label ${short ? 'short' : ''} ${hasChildren && !short? 'tall' : ''} ${collapsed? 'flex-center' : ''}">
           ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
           ${this.getLabel(hasIcon, hasChildren) }
-          ${collapsed && !disabled? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
+          ${collapsed? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
           ${!collapsed && hasChildren ? html`<unity-icon class="icon" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
         </div>
         ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled}) => html`
@@ -217,6 +217,8 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         .container.disabled {
           cursor: default;
+        }
+        .container.disabled .label unity-icon, .container.disabled .label unity-typography {
           opacity: 0.5;
         }
         .container:not(.disabled) .label:hover {

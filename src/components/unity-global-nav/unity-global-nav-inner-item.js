@@ -86,8 +86,9 @@ class UnityGlobalNavInnerItem extends LitElement {
       <div class="container ${selected ? 'selected' : ''}" @click=${!disabled? _onSelect : null}>
         <div class="label ${collapsed? 'flex-center' : ''}">
           ${!!icon && icon !== 'undefined' ? html`<unity-icon class="icon ${selected? 'selected': ''}" icon="${icon}"></unity-icon>` : null}
-          ${!collapsed? html`<unity-typography size="paragraph" class="text">${label}</unity-typography>` 
-          : !disabled? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
+          ${!collapsed?
+            html`<unity-typography size="paragraph" class="text">${label}</unity-typography>` 
+            : html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>`}
         </div>
       </div>
     `
@@ -130,6 +131,8 @@ class UnityGlobalNavInnerItem extends LitElement {
         }
         .container.disabled {
           cursor: default;
+        }
+        .container.disabled .label unity-icon, .container.disabled .label unity-typography {
           opacity: 0.5;
         }
         .container:not(.disabled) .label:hover {
