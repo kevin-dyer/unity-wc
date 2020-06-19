@@ -229,6 +229,9 @@ class UnityDropdown extends LitElement {
         .disabled #displayed {
           color: var(--dark-grey-text-color);
         }
+        .disabled .input-label-div {
+          cursor: default !important;
+        }
         .placeholder {
           color: var(--light-grey-text-color) !important;
         }
