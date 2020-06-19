@@ -46,7 +46,7 @@ class MyGlobalNav extends PageViewElement {
     return html`
       <div class="example-container">
         <unity-global-nav-base collapsible
-          header="ProductName"
+          headerImg="../../images/logo_SmartWorks_color.svg"
           .items=${items}
           .onSelect=${this.onSelect}
           .grid=${true}

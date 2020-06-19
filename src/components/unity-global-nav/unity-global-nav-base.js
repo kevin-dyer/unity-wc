@@ -12,7 +12,8 @@ import '@bit/smartworks.unity.unity-icon'
 * @name UnityGlobalNavBase
 * @param {bool} gutter, show or hide the side gutter
 * @param {string} logo, path to hosted logo image. If not specified, the unity:app_menu icon will be used
-* @param {string} header, text to display in the header (e.g., product name)
+* @param {string} header, text to display in the header (e.g., product name). Overwritten by headerImg
+* @param {string} headerImg, image to display in the header (e.g., product name logo) instead of the header text
 * @param {bool} collapsible, render button at the bottom to collapse bar
 * @param {bool} collapsed, if the bar is collapsed or not
 * @param {bool} grid, if clicking the logo should open the grid menu
@@ -57,6 +58,7 @@ class UnityGlobalNavBase extends LitElement {
     this.onSelect = () => {}
     this.selected = ''
     this.header = ''
+    this.headerImg = ''
     this.grid = false
 
     this._itemClicked = (key) => { this._changeSelection(key)}
@@ -73,6 +75,7 @@ class UnityGlobalNavBase extends LitElement {
       onSelect: { type: Function },
       selected: { type: String },
       header: { type: String },
+      headerImg: { type: String },
       grid: { type: Boolean },
       _itemClicked: { type: Function },
       _showGrid: { type: Boolean }
@@ -116,7 +119,7 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   render() {
-    const { gutter, logo, collapsible, collapsed, items, header, grid, _showGrid } = this
+    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, _showGrid } = this
     const { bottom, top } = items
     return html`
         <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
@@ -128,7 +131,11 @@ class UnityGlobalNavBase extends LitElement {
                 : html`<unity-icon icon="unity:app_menu"></unity-icon>`}
               </div>
             </div>
-            ${!collapsed? html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>` : ''}
+            ${!collapsed? 
+                headerImg? 
+                  html`<img style="padding: 0 var(--global-nav-padding-size-sm);" src="../../images/logo_SmartWorks_color.svg">` :
+                  html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>` 
+                : ''}
           </div>
           <div class="menu-box">
             <div class="top-container">
@@ -213,6 +220,8 @@ class UnityGlobalNavBase extends LitElement {
         .logo-container {
           height: var(--global-nav-short-row, var(--logo-height));
           width: var(--global-nav-short-row, var(--logo-height));
+          min-height: var(--global-nav-short-row, var(--logo-height));
+          min-width: var(--global-nav-short-row, var(--logo-height));
         }
         .logo-container.clickable {
           cursor: pointer;
