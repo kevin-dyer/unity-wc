@@ -28,6 +28,7 @@ class FilterDropdown extends LitElement {
         :host {
           display: flex;
           align-items: center;
+          --filter-button-color: var(--black-color, var(--default-black-color));
         }
         unity-dropdown {
           position: absolute;
@@ -47,9 +48,11 @@ class FilterDropdown extends LitElement {
           flex: 1;
           align-items: center;
           align-self: center;
-          --button-color: var(--black-color, var(--default-black-color));
           height: 22px;
           width: 22px;
+          margin-right: 2px;
+          --button-color: var(--filter-button-color);
+          --paper-button-ink-color: transparent;
         }
       `
     ]

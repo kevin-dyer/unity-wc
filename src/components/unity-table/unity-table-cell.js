@@ -176,6 +176,7 @@ class UnityTableCell extends LitElement {
           --padding-large: var(--padding-size-lg, var(--default-padding-size-lg));
           --padding-extra-large: var(--padding-size-xl, var(--default-padding-size-xl));
           --margin-medium: var(--margin-size-md, var(--default-margin-size-md));
+          --cell-text-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
         }
         paper-checkbox {
           height: var(--paper-checkbox-size);
@@ -204,7 +205,7 @@ class UnityTableCell extends LitElement {
           text-overflow: ellipsis;
         }
         iron-icon.item-icon {
-          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          color: var(--cell-text-color);
           height: 24px;
           width: 24px;
           margin-right: 4px;

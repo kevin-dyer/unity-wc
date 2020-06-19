@@ -1379,7 +1379,10 @@ class UnityTable extends LitElement {
           --padding-large: var(--padding-size-lg, var(--default-padding-size-lg));
           --padding-extra-large: var(--padding-size-xl, var(--default-padding-size-xl));
           --margin-medium: var(--margin-size-md, var(--default-margin-size-md));
-
+          --header-text-color: var(--black-color, var(--default-black-color));
+          --separator-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
+          --filter-button-color: var(--black-color, var(--default-black-color));
+          --sort-button-color: var(--black-color, var(--default-black-color));
           display: flex;
           height: 100%;
           flex: 1;
@@ -1432,7 +1435,7 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           z-index: 3;
           background-color: inherit;
-          color: var(--black-color, var(--default-black-color));
+          color: var(--header-text-color);
         }
         th.cell {
           overflow: visible;
@@ -1452,7 +1455,7 @@ class UnityTable extends LitElement {
           width: 100%;
           table-layout: fixed;
           border-collapse: collapse;
-          border-bottom: 1px solid var(--light-gray-1-color, var(--default-light-gray-1-color));
+          border-bottom: 1px solid var(--separator-color);
         }
         td {
           padding: 0;
@@ -1496,7 +1499,6 @@ class UnityTable extends LitElement {
           overflow: hidden;
         }
         paper-icon-button {
-          color: var(--black-color, var(--default-black-color));
           width: 33px;
           height: 33px;
         }
@@ -1537,6 +1539,7 @@ class UnityTable extends LitElement {
           height: 18px;
           width: 18px;
           padding: 0;
+          color: var(--sort-button-color);
         }
         .active-filters {
           text-align: right;
