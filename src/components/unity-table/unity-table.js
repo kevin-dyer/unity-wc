@@ -29,7 +29,6 @@ import {
  * @param {bool} startExpanded, controls if the table data begins as expanded (true) or collapsed (false / default)
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
- * @param {bool} noTopBorder, hides the top border on render
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
@@ -161,14 +160,13 @@ class UnityTable extends LitElement {
     this.selected = []
     this.selectable = false
     this.headless = false
-    this.compact = false
+    this.compact = true
     this.startExpanded = false
     this.isLoading = false
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
     this.columnFilter = []
-    this.noTopBorder = false
     this.endReachedThreshold = 200 //distance in px to fire onEndReached before getting to bottom
     this.slotIdExtractor = (row={}, column={}) => `${row._rowId}-${column.key}`
 
@@ -205,6 +203,8 @@ class UnityTable extends LitElement {
     this._tableId = Date.now()//unique identifier for table element
     this._visibleRowCount = MIN_VISIBLE_ROWS
     this.dropdownValueChange = key => (values, selected) => this.filterColumn(key, values, selected)
+    this.isFlat = true
+    this.hasIcons = false
 
     //Debounced update request called on @slotchange event
     //used to keep slot content up to date
@@ -279,7 +279,6 @@ class UnityTable extends LitElement {
       emptyDisplay: { type: String },
       childKeys: { type: Array },
       filter: { type: String },
-      noTopBorder: { type: Boolean },
       onSelectionChange: { type: Function },
       selected: { type: Array },
       onClickRow: { type: Function },
@@ -292,6 +291,8 @@ class UnityTable extends LitElement {
       _allSelected: { type: Boolean },
       _rowOffset: { type: Number },
       columnFilter: { type: Array },
+      isFlat: { type: false },
+      hasIcons: { type: false },
 
       // TBI
       // controls: { type: Boolean },
@@ -396,7 +397,7 @@ class UnityTable extends LitElement {
     parents=[]
   }) {
     //If node is an array, loop over it
-
+    if (tabIndex > 0) this.isFlat = false
     if (Array.isArray(node)) {
       node.forEach(nodeElement => {
         this.dfsTraverse({
@@ -411,6 +412,7 @@ class UnityTable extends LitElement {
       const nextTabIndex = tabIndex + 1
       let childCount = 0
       let childNodes = []
+      if (!!node.icon) this.hasIcons = true
 
       this.childKeys.forEach(childKey => {
         const children = node[childKey]
@@ -984,7 +986,7 @@ class UnityTable extends LitElement {
                     this._handleColumnResizeComplete(key)
                   }}"
                 >
-                  <div class="header${this.noTopBorder ? ' hide-top' : ''}">
+                  <div class="header">
                     ${this.selectable && i === 0
                       ? html`
                         <paper-checkbox
@@ -992,6 +994,10 @@ class UnityTable extends LitElement {
                           .checked="${this._allSelected}"
                           @click="${this._handleHeaderSelect}"
                         ></paper-checkbox>` : null
+                    }
+                    ${i === 0 && !!this.isFlat && !!this.hasIcons ?
+                      html`<div class="tab-indent"></div>`
+                      : ''
                     }
                     <div class="header-content" @click="${()=>{this.sortBy = key}}">
                       <span class="header-label"><b>${label || name}</b></span>
@@ -1431,9 +1437,6 @@ class UnityTable extends LitElement {
           box-sizing: border-box;
           border-collapse: collapse;
         }
-        .header.hide-top {
-          border-top: unset;
-        }
         tr {
           width: 100%;
           table-layout: fixed;
@@ -1537,6 +1540,11 @@ class UnityTable extends LitElement {
           flex-direction: column;
           justify-content: flex-end;
           padding: 8px;
+        }
+        .tab-indent {
+          display: inline-block;
+          height: 0;
+          width: 34px;
         }
       `
     ]
