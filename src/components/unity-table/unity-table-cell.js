@@ -10,8 +10,8 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 // import '@bit/smartworks.unity.table-cell-base'
 import './table-cell-base'
 
-const TAB_ICON = 18
-const TAB_ARROW = 16
+const TAB_ICON = 24
+const TAB_ARROW = 20
 
 function getIndent({icon, expandable, tabIndex}) {
   let width = !!icon ? TAB_ICON : TAB_ARROW
@@ -171,13 +171,21 @@ class UnityTableCell extends LitElement {
           --paper-checkbox-checked-ink-color: transparent;
           --paper-checkbox-ink-size: 0;
           --paper-icon-button-ink-color: transparent;
+          --padding-small: var(--padding-size-sm, var(--default-padding-size-sm));
+          --padding-medium: var(--padding-size-md, var(--default-padding-size-md));
+          --padding-large: var(--padding-size-lg, var(--default-padding-size-lg));
+          --padding-extra-large: var(--padding-size-xl, var(--default-padding-size-xl));
+          --margin-medium: var(--margin-size-md, var(--default-margin-size-md));
         }
         paper-checkbox {
-          margin-right: 8px;
+          height: var(--paper-checkbox-size);
+          width: var(--paper-checkbox-size);
+          margin-right: var(--padding-large);
           z-index: 2;
-          border-radius: 1px;
-          border-width: 1px;
           overflow: hidden;
+        }
+        paper-checkbox.with-icon {
+          margin-right: var(--padding-medium);
         }
         .cell {
           padding: 0 13px;
@@ -195,28 +203,25 @@ class UnityTableCell extends LitElement {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        iron-icon {
+        iron-icon.item-icon {
           color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          height: 24px;
+          width: 24px;
+          margin-right: 4px;
         }
         .tab-indent {
           display: inline-block;
           height: 0;
         }
         .expand-control {
-          margin-left: -3px;
-          margin-right: 5px;
           color: black;
           padding: 0;
-          height: 14px;
-          width: 14px;
+          height: 16px;
+          width: 16px;
+          margin-right: 4px;
         }
         .expand-control.collapsed {
           transform: rotate(-90deg);
-        }
-        .item-icon {
-          height: 18px;
-          width: 18px;
-          padding-right: 8px;
         }
       `
     ]

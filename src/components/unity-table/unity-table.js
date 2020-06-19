@@ -1366,6 +1366,12 @@ class UnityTable extends LitElement {
           --paper-checkbox-checked-ink-color: transparent;
           --paper-checkbox-ink-size: 0;
           --paper-icon-button-ink-color: transparent;
+          --padding-small: var(--padding-size-sm, var(--default-padding-size-sm));
+          --padding-medium: var(--padding-size-md, var(--default-padding-size-md));
+          --padding-large: var(--padding-size-lg, var(--default-padding-size-lg));
+          --padding-extra-large: var(--padding-size-xl, var(--default-padding-size-xl));
+          --margin-medium: var(--margin-size-md, var(--default-margin-size-md));
+
           display: flex;
           height: 100%;
           flex: 1;
@@ -1475,6 +1481,11 @@ class UnityTable extends LitElement {
           text-overflow: ellipsis;
         }
         paper-checkbox {
+          height: var(--paper-checkbox-size);
+          width: var(--paper-checkbox-size);
+          margin-right: var(--padding-large);
+          z-index: 2;
+          overflow: hidden;
         }
         paper-icon-button {
           color: var(--black-color, var(--default-black-color));
