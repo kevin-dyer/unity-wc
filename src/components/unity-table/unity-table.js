@@ -999,7 +999,7 @@ class UnityTable extends LitElement {
                       html`<div class="tab-indent"></div>`
                       : ''
                     }
-                    <div class="header-content" @click="${()=>{this.sortBy = key}}">
+                    <div class="header-content">
                       <span class="header-label"><b>${label || name}</b></span>
 
                       <filter-dropdown
@@ -1013,6 +1013,7 @@ class UnityTable extends LitElement {
                         icon="unity:down"
                         title="${direction}"
                         class="${sortIconClass}"
+                        @click="${()=>{this.sortBy = key}}"
                       ></paper-icon-button>
                     </div>
                   </div>
