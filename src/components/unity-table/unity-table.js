@@ -160,7 +160,7 @@ class UnityTable extends LitElement {
     this.selected = []
     this.selectable = false
     this.headless = false
-    this.compact = true
+    this.compact = false
     this.startExpanded = false
     this.isLoading = false
     this.emptyDisplay = 'No information found.'
