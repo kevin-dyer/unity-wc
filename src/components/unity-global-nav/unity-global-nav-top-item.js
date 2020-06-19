@@ -154,7 +154,7 @@ class UnityGlobalNavTopItem extends LitElement {
         <div class="label ${short ? 'short' : ''} ${hasChildren && !short? 'tall' : ''} ${collapsed? 'flex-center' : ''}">
           ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
           ${this.getLabel(hasIcon, hasChildren) }
-          ${collapsed && !disabled? html`<unity-tooltip label=${label}></unity-tooltip>` : ''}
+          ${collapsed && !disabled? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
           ${!collapsed && hasChildren ? html`<unity-icon class="icon" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
         </div>
         ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled}) => html`
@@ -233,6 +233,7 @@ class UnityGlobalNavTopItem extends LitElement {
           display: block;
           height: 100%;
           position: absolute;
+          z-index: 1;
         }
         .open {
           background-color: var(--global-nav-item-secondary-color, var(--secondary-menu-color));
@@ -242,6 +243,7 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         .label {
           display: flex;
+          position: relative;
           flex-wrap: nowrap;
           min-height: var(--global-nav-item-short-height, var(--short-height));
           font-weight: 500;
@@ -277,8 +279,10 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         unity-tooltip {
           position: absolute;
-          left: 90%;
           display: none;
+          right: -6px;
+          top: 25%;
+          --font-color: var(--global-nav-item-text-color);
         }
         .label:hover unity-tooltip {
           display: block;

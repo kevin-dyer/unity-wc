@@ -87,7 +87,7 @@ class UnityGlobalNavInnerItem extends LitElement {
         <div class="label ${collapsed? 'flex-center' : ''}">
           ${!!icon && icon !== 'undefined' ? html`<unity-icon class="icon ${selected? 'selected': ''}" icon="${icon}"></unity-icon>` : null}
           ${!collapsed? html`<unity-typography size="paragraph" class="text">${label}</unity-typography>` 
-          : !disabled? html`<unity-tooltip label=${label}></unity-tooltip>` : ''}
+          : !disabled? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
         </div>
       </div>
     `
@@ -141,6 +141,7 @@ class UnityGlobalNavInnerItem extends LitElement {
         }
         .label {
           display: flex;
+          position: relative;
           flex-wrap: nowrap;
           align-items: center;
           height: 100%;
@@ -154,6 +155,7 @@ class UnityGlobalNavInnerItem extends LitElement {
           display: block;
           height: 100%;
           position: absolute;
+          z-index: 1;
         }
         .text {
           flex: 1;
@@ -171,8 +173,10 @@ class UnityGlobalNavInnerItem extends LitElement {
         }
         unity-tooltip {
           position: absolute;
-          left: 90%;
           display: none;
+          right: -6px;
+          top: 25%;
+          --font-color: var(--global-nav-inner-item-text-color);
         }
         .label:hover unity-tooltip {
           display: block;
