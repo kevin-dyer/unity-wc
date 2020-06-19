@@ -150,6 +150,14 @@ const END_REACHED_TIMEOUT = 2000 //Timeout after true end is reached before call
 const MIN_VISIBLE_ROWS = 50 //Minimum number of rows to render at once
 const CELL_PLACEHOLDER = "-" //Consider adding this as a table property
 
+const getSortedIcon = direction => {
+  switch(direction) {
+    case ASC: return 'unity:up'
+    case DES: return 'unity:down'
+    default:  return 'unity:sort'
+  }
+}
+
 class UnityTable extends LitElement {
   // internals
   constructor() {
@@ -960,7 +968,7 @@ class UnityTable extends LitElement {
             startingWidth,
             xOffset=0
           }, i) => {
-            const sortIconClass = `header-sort-icon${column === key ? ` ${direction}`: ''}`
+            const sortIcon = column === key ? getSortedIcon(direction) : 'unity:sort'
 
             //NOTE: only working with px
             const width = !!startingWidth
@@ -1006,9 +1014,9 @@ class UnityTable extends LitElement {
 
                       <paper-icon-button
                         noink
-                        icon="unity:down"
+                        icon="${sortIcon}"
                         title="${direction}"
-                        class="${sortIconClass}"
+                        class="header-sort-icon"
                         @click="${()=>{this.sortBy = key}}"
                       ></paper-icon-button>
                     </div>
@@ -1529,9 +1537,6 @@ class UnityTable extends LitElement {
           height: 18px;
           width: 18px;
           padding: 0;
-        }
-        paper-icon-button.header-sort-icon.Ascending {
-          transform: rotate(180deg);
         }
         .active-filters {
           text-align: right;
