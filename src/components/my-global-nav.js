@@ -47,12 +47,10 @@ class MyGlobalNav extends PageViewElement {
       <div class="example-container">
         <unity-global-nav-base collapsible
           header="ProductName"
-          logo="unity:app_menu"
           .items=${items}
           .onSelect=${this.onSelect}
           .grid=${true}
         >
-        <unity-icon slot="logo" icon="unity:app_menu"></unity-icon>
         </unity-global-nav-base>
       </div>
     `
