@@ -163,7 +163,7 @@ class UnityTableCell extends LitElement {
           font-weight: var(--small-text-weight, var(--default-small-text-weight));
           /* Might have to change this as header needs to be black */
           color: var(--dark-gray-color, var(--default-dark-gray-color));
-          --paper-checkbox-size: 14px;
+          --paper-checkbox-size: 16px;
           --paper-checkbox-unchecked-background-color: var(--white-color, var(--default-white-color));
           --paper-checkbox-unchecked-color: var(--gray-color, var(--default-gray-color));
           --paper-checkbox-checked-color: var(--primary-color, var(--default-primary-color));

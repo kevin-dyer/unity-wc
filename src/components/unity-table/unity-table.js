@@ -995,10 +995,6 @@ class UnityTable extends LitElement {
                           @click="${this._handleHeaderSelect}"
                         ></paper-checkbox>` : null
                     }
-                    ${i === 0 && !!this.isFlat && !!this.hasIcons ?
-                      html`<div class="tab-indent"></div>`
-                      : ''
-                    }
                     <div class="header-content">
                       <span class="header-label"><b>${label || name}</b></span>
 
@@ -1353,7 +1349,7 @@ class UnityTable extends LitElement {
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           color: var(--dark-gray-color, var(--default-dark-gray-color));
           border-collapse: collapse;
-          --paper-checkbox-size: 14px;
+          --paper-checkbox-size: 16px;
           --paper-checkbox-unchecked-background-color: var(--white-color, var(--default-white-color));
           --paper-checkbox-unchecked-color: var(--gray-color, var(--default-gray-color));
           --paper-checkbox-checked-color: var(--primary-color, var(--default-primary-color));
@@ -1541,11 +1537,6 @@ class UnityTable extends LitElement {
           flex-direction: column;
           justify-content: flex-end;
           padding: 8px;
-        }
-        .tab-indent {
-          display: inline-block;
-          height: 0;
-          width: 34px;
         }
       `
     ]
