@@ -134,21 +134,25 @@ class UnityGlobalNavBase extends LitElement {
                 : ''}
           </div>
           <div class="menu-box">
-            <div class="top-container">
 
+            <div class="top-container">
               ${top? this.renderItems(top) : ''}
             </div>
+
             <div class="bottom-container">
               ${bottom? this.renderItems(bottom) : '' }
-              ${collapsible ? html`
-                <div>
-                  <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
-                    <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
-                  </div>
-                </div>
-              `  : ''}
+            </div>
+
+          </div>
+
+          ${collapsible ? html`
+          <div>
+            <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
+              <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
             </div>
           </div>
+        `  : ''}
+
         </div>
       ${gutter ? html`</div>` : ''}
       ${grid && _showGrid? html`<div class="grid"></div>` : ''}
@@ -241,6 +245,8 @@ class UnityGlobalNavBase extends LitElement {
           height: 100%;
           width: 100%;
           margin-top: 1px;
+          overflow-y: auto;
+          overflow-x: hidden;
         }
         .top-container {
           height: 100%;
