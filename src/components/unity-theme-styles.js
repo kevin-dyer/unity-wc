@@ -69,5 +69,12 @@ export const UnityThemeStyles = css`
     --unity-button-padding: 20px;
 
     --unity-text-input-height: 27px;
+
+    /* Margins and Paddings */
+    --margin-size-md: 12px;
+    --padding-size-sm: 8px;
+    --padding-size-md: 12px;
+    --padding-size-lg: 16px;
+    --padding-size-xl: 24px;
   }
 `;

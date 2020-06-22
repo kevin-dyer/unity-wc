@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.2.14
+- unity-default-theme-styles v1.1.0
+
 ### v1.2.13
 - unity-dropdown v1.1.2
 
