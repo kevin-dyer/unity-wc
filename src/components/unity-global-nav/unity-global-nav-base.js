@@ -296,6 +296,10 @@ class UnityGlobalNavBase extends LitElement {
           box-shadow: 0 1px 10px 4px rgba(0, 0, 0, 0.25);
           z-index: -1;
         }
+        img {
+          min-width: 0;
+          flex: 1;
+        }
       `
     ]
   }
