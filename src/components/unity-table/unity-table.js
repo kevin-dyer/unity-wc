@@ -956,7 +956,7 @@ class UnityTable extends LitElement {
       direction: dir
     } = this._sortBy
     const direction = !!dir ? dir : UNS
-    const trClass = `sticky-header-row${this.compact ? ' compact': ''}`
+    const trClass = `sticky-header-row .row${this.compact ? ' compact': ''}`
 
     return html`
       <thead>
@@ -1528,7 +1528,6 @@ class UnityTable extends LitElement {
         .sticky-header-row {
           height: var(--thead-height);
           line-height: var(--thead-height);
-          background-color: var(--background-color, var(--default-background-color));
         }
         .sticky-header-row.compact {
           height: var(--thead-compact-height);
