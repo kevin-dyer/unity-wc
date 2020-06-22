@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.2.15
+- unity-default-theme-styles v1.1.0, table-cell-base v1.0.0, unity-table-cell v1.0.1, unity-table v1.0.4
+
 ### v1.2.14
 - unity-default-theme-styles v1.1.0
 
