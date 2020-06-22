@@ -133,7 +133,7 @@ class UnityGlobalNavBase extends LitElement {
             </div>
             ${!collapsed? 
                 headerImg? 
-                  html`<img style="padding: 0 var(--global-nav-padding-size-sm);" src="../../images/logo_SmartWorks_color.svg">` :
+                  html`<img style="padding: 0 var(--global-nav-padding-size-sm);" src=${headerImg}>` :
                   html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>` 
                 : ''}
           </div>
