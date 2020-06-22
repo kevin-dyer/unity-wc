@@ -185,7 +185,6 @@ class UnityGlobalNavBase extends LitElement {
           --global-nav-expanded-width: 192px;
           --global-nav-collapsed-width: 32px;
           --global-nav-logo-size: 12px;
-          --global-nav-menu-border: none;
           --global-nav-menu-shadow: 0 0 4px 0;
         }
         * {
@@ -201,11 +200,10 @@ class UnityGlobalNavBase extends LitElement {
           height: 100%;
           background-color: var(--global-nav-background-color, var(--primary-menu-color));
           box-shadow: var(--global-nav-menu-shadow);
-          border-right: var(--global-nav-menu-border);
+          border-right: 1px solid var(--global-nav-border-color);
         }
         .menu.shadowless {
           box-shadow: none;
-          border-right: 1px solid var(--global-nav-border-color);
         }
         .text {
           color: var(--global-nav-text-color)
@@ -218,12 +216,10 @@ class UnityGlobalNavBase extends LitElement {
           width: var(--global-nav-short-row, var(--logo-height));
           min-height: var(--global-nav-short-row, var(--logo-height));
           min-width: var(--global-nav-short-row, var(--logo-height));
+          border-right: 1px solid var(--global-nav-border-color);
         }
         .logo-container.clickable {
           cursor: pointer;
-        }
-        :not(.collapsed) .header-container .logo-container {
-          border-right: 1px solid var(--global-nav-border-color);
         }
         .header-container {
           display: flex;
