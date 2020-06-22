@@ -31,7 +31,7 @@ export const UnityDefaultThemeStyles = css`
     --default-black-color: rgb(var(--default-black-rgb));
 
     /* Default background color, Font Color */
-    --default-white-color: rgb(var(--default-white-color));
+    --default-white-color: rgb(var(--default-white-color-rgb));
 
     /* dark grey, text default */
     --default-dark-gray-color: rgb(var(--default-charcoal-rgb));
@@ -98,9 +98,6 @@ export const UnityDefaultThemeStyles = css`
     --default-dark-grey-background-color: rgb(var(--default-gray-rgb));
     --default-medium-grey-background-color: rgb(var(--default-light-gray-1-rgb));
     --default-light-grey-background-color: rgb(var(--default-light-gray-2-rgb));
-
-    /*Composite style based on variables above*/
-    --default-selection-highlight-color: var(--default-primary-tint-2-color);
 
     /* Fonts */
     --default-font-family: 'Noto', sans-serif;

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.4
+- Update Unity Table to new Unity designs
+
 ### v1.0.3
 - Fix scroll bar appearing when there was no table data.
 

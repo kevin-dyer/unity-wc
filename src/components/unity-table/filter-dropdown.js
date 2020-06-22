@@ -3,6 +3,8 @@ import '@bit/smartworks.unity.unity-button'
 import '@bit/smartworks.unity.unity-dropdown'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
+const LEFT = 'left'
+const RIGHT = 'right'
 
 class FilterDropdown extends LitElement {
   constructor() {
@@ -11,7 +13,7 @@ class FilterDropdown extends LitElement {
     this.options = [];
     this.selected = [];
     this.onValueChange = () => {};
-    this.dropdownSide = "right"
+    this.dropdownSide = LEFT
   }
 
   static get styles() {
@@ -26,6 +28,7 @@ class FilterDropdown extends LitElement {
         :host {
           display: flex;
           align-items: center;
+          --filter-button-color: var(--black-color, var(--default-black-color));
         }
         unity-dropdown {
           position: absolute;
@@ -40,8 +43,16 @@ class FilterDropdown extends LitElement {
         .right {
           right: 0;
         }
-        unity-button.active {
-          color: var(--primary-brand-color, var(--default-primary-brand-color));
+        unity-button {
+          display: flex;
+          flex: 1;
+          align-items: center;
+          align-self: center;
+          height: 22px;
+          width: 22px;
+          margin-right: 2px;
+          --button-color: var(--filter-button-color);
+          --paper-button-ink-color: transparent;
         }
       `
     ]
@@ -76,11 +87,12 @@ class FilterDropdown extends LitElement {
 
   updated() {
     if (this.show) {
-      const cell = this.parentElement
+      const {
+        parentElement: cell,
+        dropdownSide
+      } = this
       const { [0]: {
-        left: cellLeft,
-        right: cellRight,
-        width: cellWidth
+        left: cellLeft
       }} = cell.getClientRects()
       const dropdown = this.shadowRoot.querySelector('unity-dropdown')
       const { [0]: {
@@ -89,16 +101,15 @@ class FilterDropdown extends LitElement {
       const windowWidth = window.innerWidth
 
       // if dropdown is wider than cell and wouldn't extend off right, make left
-      if (dropdownWidth > cellWidth && (cellLeft + dropdownWidth) < windowWidth) {
-        this.dropdownSide = 'left'
+      if ((cellLeft + dropdownWidth) > windowWidth) {
+        this.dropdownSide = RIGHT
       } else {
-        this.dropdownSide = 'right'
+        this.dropdownSide = LEFT
       }
     }
   }
 
   render() {
-    const buttonClass = (this.selected.length < this.options.length)? "active" : ""
     return html`
       ${this.show?
         html`<unity-dropdown
@@ -115,7 +126,6 @@ class FilterDropdown extends LitElement {
         </unity-dropdown>`
         : null}
       <unity-button
-        class=${buttonClass}
         centerIcon="unity:filter"
         @click=${() => this.toggleDropdown()}
       ></unity-button>

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- Fix color typo, remove unused default style
+
 ### v1.1.0
 - Added default margins and paddings.
 
