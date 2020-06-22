@@ -75,6 +75,6 @@ export const UnityThemeStyles = css`
     --padding-size-sm: 8px;
     --padding-size-md: 12px;
     --padding-size-lg: 16px;
-    --padding-size-xl 24px;
+    --padding-size-xl: 24px;
   }
 `;

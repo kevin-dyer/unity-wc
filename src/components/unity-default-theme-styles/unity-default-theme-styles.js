@@ -140,6 +140,6 @@ export const UnityDefaultThemeStyles = css`
     --default-padding-size-sm: 8px;
     --default-padding-size-md: 12px;
     --default-padding-size-lg: 16px;
-    --default-padding-size-xl 24px;
+    --default-padding-size-xl: 24px;
   }
 `;
