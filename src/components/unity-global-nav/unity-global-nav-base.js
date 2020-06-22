@@ -193,6 +193,10 @@ class UnityGlobalNavBase extends LitElement {
         }
         * {
           box-sizing: border-box;
+          scrollbar-width: none;
+        }
+        *::-webkit-scrollbar {
+          width: 0px;
         }
         .gutter {
           border-right: 5px solid var(--global-nav-gutter-color, var(--gutter-color));
