@@ -153,7 +153,7 @@ class UnityGlobalNavInnerItem extends LitElement {
         }
         .selected.container::before {
           content: "";
-          padding-right: 2px;
+          padding-right: 3px;
           background: var(--global-nav-inner-item-highlight-color, var(--selected-color));
           display: block;
           height: 100%;

@@ -230,7 +230,7 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         .selected.container::before {
           content: "";
-          padding-right: 1px;
+          padding-right: 2px;
           background: var(--global-nav-item-highlight-color, var(--selected-color));
           display: block;
           height: 100%;
