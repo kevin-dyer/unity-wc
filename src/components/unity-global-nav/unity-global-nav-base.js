@@ -82,10 +82,6 @@ class UnityGlobalNavBase extends LitElement {
     }
   }
 
-  firstUpdated() {
-    this.className =  this.collapsed? 'collapsed' : ''
-  }
-
   _changeSelection(key) {
     this.selected = key
     this.onSelect(key)
