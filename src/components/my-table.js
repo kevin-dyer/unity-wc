@@ -53,7 +53,6 @@ class MyTable extends PageViewElement {
       columns: { type: Array },
       _visibleColumns: { type: Array },
       highlightedRow: { type: String },
-      highlightColor: { type: String },
       showDetails: { type: Boolean },
       tableRef: { type: Object },
       showDetails: { type: Boolean }
@@ -220,7 +219,6 @@ class MyTable extends PageViewElement {
             .onClickRow="${this.handleClickRow.bind(this)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
-            style="--highlight-color: ${this.highlightColor}"
             id="unity-table"
           >
             ${this._renderStatusIcons()}
