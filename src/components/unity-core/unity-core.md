@@ -5,6 +5,18 @@
 
 ## Changelog:
 
+### v1.3.0
+- unity-global-nav-base v1.1.0, unity-global-nav-top-item v1.1.0, unity-global-nav-inner-item v1.1.0, unity-default-theme-styles v1.1.2
+
+### v1.2.15
+- unity-default-theme-styles v1.1.1, table-cell-base v1.0.0, unity-table-cell v1.0.1, unity-table v1.0.4
+
+### v1.2.14
+- unity-default-theme-styles v1.1.0
+
+### v1.2.13
+- unity-dropdown v1.1.2
+
 ### v1.2.12
 - unity-table v1.0.3
 

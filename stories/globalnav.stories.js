@@ -26,6 +26,7 @@ export const Standard = () => {
   const gutter = boolean("Show Gutter", true)
   const collapsible = boolean("Collapsible", true)
   const collapsed = boolean("Collapsed", false)
+  const grid = boolean("Grid", true)
   const topItems = array("Top Items", topItemList)
   const bottomItems = array("Bottom Items", bottomItemList)
   const items = {
@@ -42,6 +43,7 @@ export const Standard = () => {
         .collapsible="${collapsible}"
         .collapsed="${collapsed}"
         .items="${items}"
+        .grid="${grid}"
         .onSelect="${action('onSelect')}"
       ></unity-global-nav-base>
     </div>

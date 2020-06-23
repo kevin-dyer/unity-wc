@@ -25,10 +25,10 @@ import {
  * @param {func} keyExtractor, func with row datum and row index as arguments. Retuns unique row identifier.
  * @param {func} slotIdExtractor, func with row datum and column datum as arguments. Returns unique cell identifier.
  * @param {bool} headless, controls if the table has a header row
+ * @param {bool} compact, controls if the rows should be shorter
  * @param {bool} startExpanded, controls if the table data begins as expanded (true) or collapsed (false / default)
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
- * @param {bool} noTopBorder, hides the top border on render
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
@@ -150,6 +150,14 @@ const END_REACHED_TIMEOUT = 2000 //Timeout after true end is reached before call
 const MIN_VISIBLE_ROWS = 50 //Minimum number of rows to render at once
 const CELL_PLACEHOLDER = "-" //Consider adding this as a table property
 
+const getSortedIcon = direction => {
+  switch(direction) {
+    case ASC: return 'unity:up'
+    case DES: return 'unity:down'
+    default:  return 'unity:sort'
+  }
+}
+
 class UnityTable extends LitElement {
   // internals
   constructor() {
@@ -160,13 +168,13 @@ class UnityTable extends LitElement {
     this.selected = []
     this.selectable = false
     this.headless = false
+    this.compact = false
     this.startExpanded = false
     this.isLoading = false
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
     this.columnFilter = []
-    this.noTopBorder = false
     this.endReachedThreshold = 200 //distance in px to fire onEndReached before getting to bottom
     this.slotIdExtractor = (row={}, column={}) => `${row._rowId}-${column.key}`
 
@@ -203,6 +211,8 @@ class UnityTable extends LitElement {
     this._tableId = Date.now()//unique identifier for table element
     this._visibleRowCount = MIN_VISIBLE_ROWS
     this.dropdownValueChange = key => (values, selected) => this.filterColumn(key, values, selected)
+    this.isFlat = true
+    this.hasIcons = false
 
     //Debounced update request called on @slotchange event
     //used to keep slot content up to date
@@ -271,12 +281,12 @@ class UnityTable extends LitElement {
       data: { type: Array },
       columns: { type: Array },
       headless: { type: Boolean },
+      compact: { type: Boolean },
       selectable: { type: Boolean },
       isLoading: { type: Boolean },
       emptyDisplay: { type: String },
       childKeys: { type: Array },
       filter: { type: String },
-      noTopBorder: { type: Boolean },
       onSelectionChange: { type: Function },
       selected: { type: Array },
       onClickRow: { type: Function },
@@ -289,6 +299,8 @@ class UnityTable extends LitElement {
       _allSelected: { type: Boolean },
       _rowOffset: { type: Number },
       columnFilter: { type: Array },
+      isFlat: { type: false },
+      hasIcons: { type: false },
 
       // TBI
       // controls: { type: Boolean },
@@ -393,7 +405,7 @@ class UnityTable extends LitElement {
     parents=[]
   }) {
     //If node is an array, loop over it
-
+    if (tabIndex > 0) this.isFlat = false
     if (Array.isArray(node)) {
       node.forEach(nodeElement => {
         this.dfsTraverse({
@@ -408,6 +420,7 @@ class UnityTable extends LitElement {
       const nextTabIndex = tabIndex + 1
       let childCount = 0
       let childNodes = []
+      if (!!node.icon) this.hasIcons = true
 
       this.childKeys.forEach(childKey => {
         const children = node[childKey]
@@ -943,10 +956,11 @@ class UnityTable extends LitElement {
       direction: dir
     } = this._sortBy
     const direction = !!dir ? dir : UNS
+    const trClass = `sticky-header-row .row${this.compact ? ' compact': ''}`
 
     return html`
       <thead>
-        <tr class="sticky-header-row">
+        <tr class="${trClass}">
           ${columns.map(({
             key,
             label,
@@ -954,10 +968,7 @@ class UnityTable extends LitElement {
             startingWidth,
             xOffset=0
           }, i) => {
-            const icon = direction !== UNS && column === key
-              ? direction === ASC ? 'arrow-upward'
-              : 'arrow-downward'
-            : ''
+            const sortIcon = column === key ? getSortedIcon(direction) : 'unity:sort'
 
             //NOTE: only working with px
             const width = !!startingWidth
@@ -983,7 +994,7 @@ class UnityTable extends LitElement {
                     this._handleColumnResizeComplete(key)
                   }}"
                 >
-                  <div class="header${this.noTopBorder ? ' hide-top' : ''}">
+                  <div class="header">
                     ${this.selectable && i === 0
                       ? html`
                         <paper-checkbox
@@ -992,25 +1003,23 @@ class UnityTable extends LitElement {
                           @click="${this._handleHeaderSelect}"
                         ></paper-checkbox>` : null
                     }
-                    <div class="header-content" @click="${()=>{this.sortBy = key}}">
+                    <div class="header-content">
                       <span class="header-label"><b>${label || name}</b></span>
 
-                      ${direction !== UNS
-                        ? html`<paper-icon-button
-                            noink
-                            icon="${icon}"
-                            title="${direction}"
-                            class="header-sort-icon"
-                          ></paper-icon-button>`
-                        : null
-                      }
+                      <filter-dropdown
+                        .onValueChange="${this.dropdownValueChange(key)}"
+                        .options=${this.getDropdownOptions(key)}
+                        .selected=${this.getSelected(key)}>
+                      </filter-dropdown>
 
+                      <paper-icon-button
+                        noink
+                        icon="${sortIcon}"
+                        title="${direction}"
+                        class="header-sort-icon"
+                        @click="${()=>{this.sortBy = key}}"
+                      ></paper-icon-button>
                     </div>
-                    <filter-dropdown
-                      .onValueChange="${this.dropdownValueChange(key)}"
-                      .options=${this.getDropdownOptions(key)}
-                      .selected=${this.getSelected(key)}>
-                    </filter-dropdown>
                   </div>
                 </table-cell-base>
               </th>
@@ -1117,6 +1126,7 @@ class UnityTable extends LitElement {
 
     //NOTE: using == so that rowId can be number or string
     if (rowId == this.highlightedRow) rowClasses.push('highlight')
+    if (this.compact) rowClasses.push('compact')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
@@ -1345,18 +1355,34 @@ class UnityTable extends LitElement {
           font-family: var(--font-family, var(--default-font-family));
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
-          color: var(--black-text-color, var(--default-black-text-color));
+          color: var(--dark-gray-color, var(--default-dark-gray-color));
           border-collapse: collapse;
-          --paper-checkbox-size: 14px;
-          --paper-checkbox-unchecked-background-color: var(--background-color, var(--default-background-color));
-          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --paper-checkbox-checked-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
-          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
-          --paper-spinner-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --thead-height: 33px;
-          --trow-height: 38px;
-          --default-highlight-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+          --paper-checkbox-size: 16px;
+          --paper-checkbox-unchecked-background-color: var(--white-color, var(--default-white-color));
+          --paper-checkbox-unchecked-color: var(--gray-color, var(--default-gray-color));
+          --paper-checkbox-checked-color: var(--primary-color, var(--default-primary-color));
+          --paper-checkbox-unchecked-ink-color: var(--paper-checkbox-unchecked-background-color);
+          --paper-checkbox-checked-ink-color: var(--paper-checkbox-unchecked-background-color);
+          --paper-spinner-color: var(--primary-color, var(--default-primary-color));
+          --thead-height: 36px;
+          --thead-compact-height: 24px;
+          --trow-height: 36px;
+          --trow-compact-height:  24px;
+          --default-hover-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
+          --default-highlight-color: var(--default-primary-tint-1-color, var(--default-primary-tint-1-color));
+          --default-hover-highlight-color: var(--primary-tint-2-color, var(--default-primary-tint-2-color));
+          --paper-checkbox-checked-ink-color: transparent;
+          --paper-checkbox-ink-size: 0;
+          --paper-icon-button-ink-color: transparent;
+          --padding-small: var(--padding-size-sm, var(--default-padding-size-sm));
+          --padding-medium: var(--padding-size-md, var(--default-padding-size-md));
+          --padding-large: var(--padding-size-lg, var(--default-padding-size-lg));
+          --padding-extra-large: var(--padding-size-xl, var(--default-padding-size-xl));
+          --margin-medium: var(--margin-size-md, var(--default-margin-size-md));
+          --header-text-color: var(--black-color, var(--default-black-color));
+          --separator-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
+          --filter-button-color: var(--black-color, var(--default-black-color));
+          --sort-button-color: var(--black-color, var(--default-black-color));
           display: flex;
           height: 100%;
           flex: 1;
@@ -1377,8 +1403,6 @@ class UnityTable extends LitElement {
           border-spacing: 0;
           box-sizing: border-box;
           overflow: auto;
-          border-right: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          border-bottom: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
         .fullspace {
           width: 100%;
@@ -1404,17 +1428,15 @@ class UnityTable extends LitElement {
         th {
           position: sticky;
           top: 0;
-          height: var(--thead-height);
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           text-align: left;
           padding: 0;
           margin: 0;
-          line-height: var(--thead-height);
           border-collapse: collapse;
           z-index: 3;
           background-color: inherit;
+          color: var(--header-text-color);
         }
-
         th.cell {
           overflow: visible;
         }
@@ -1428,21 +1450,15 @@ class UnityTable extends LitElement {
           padding-left: 13px;
           box-sizing: border-box;
           border-collapse: collapse;
-          border-top: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          border-bottom: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          border-left: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-        }
-        .header.hide-top {
-          border-top: unset;
         }
         tr {
           width: 100%;
           table-layout: fixed;
           border-collapse: collapse;
+          border-bottom: 1px solid var(--separator-color);
         }
         td {
           padding: 0;
-          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           border-top: 0;
           border-collapse: collapse;
         }
@@ -1470,17 +1486,19 @@ class UnityTable extends LitElement {
           min-width: 0;
         }
         .header-label {
-          /*flex: 1;*/
-          padding-top: 1px;
           min-width: 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
         paper-checkbox {
+          height: var(--paper-checkbox-size);
+          width: var(--paper-checkbox-size);
+          margin-right: var(--padding-large);
+          z-index: 2;
+          overflow: hidden;
         }
         paper-icon-button {
-          color: var(--black-text-color, var(--default-black-text-color));
           width: 33px;
           height: 33px;
         }
@@ -1489,16 +1507,38 @@ class UnityTable extends LitElement {
         }
         .row {
           height: var(--trow-height);
+          line-height: var(--trow-height);
           border-collapse: collapse;
           cursor: pointer;
           background-color: var(--background-color, var(--default-background-color));
         }
+        .row.compact {
+          height: var(--trow-compact-height);
+          line-height: var(--trow-compact-height);
+        }
+        .row:hover {
+          background-color: var(--hover-color, var(--default-hover-color));
+        }
+        .row.highlight {
+          background-color: var(--highlight-color, var(--default-highlight-color));
+        }
+        .row.highlight:hover {
+          background-color: var(--hover-highlight-color, var(--default-hover-highlight-color));
+        }
         .sticky-header-row {
-          background-color: var(--background-color, var(--default-background-color));
+          height: var(--thead-height);
+          line-height: var(--thead-height);
+        }
+        .sticky-header-row.compact {
+          height: var(--thead-compact-height);
+          line-height: var(--thead-compact-height);
         }
         paper-icon-button.header-sort-icon {
-          height: 30px;
-          width: 30px;
+          position: relative;
+          height: 18px;
+          width: 18px;
+          padding: 0;
+          color: var(--sort-button-color);
         }
         .active-filters {
           text-align: right;
@@ -1515,9 +1555,6 @@ class UnityTable extends LitElement {
           flex-direction: column;
           justify-content: flex-end;
           padding: 8px;
-        }
-        .highlight {
-          background-color: var(--highlight-color, var(--default-highlight-color));
         }
       `
     ]

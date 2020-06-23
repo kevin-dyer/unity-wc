@@ -1,8 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
-// import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import { UnityDefaultThemeStyles } from '../unity-default-theme-styles/unity-default-theme-styles'
-// import '@bit/smartworks.unity.unity-global-nav-top-item'
-import './unity-global-nav-top-item'
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import '@bit/smartworks.unity.unity-global-nav-top-item'
 import '@bit/smartworks.unity.unity-icon-set'
 import '@bit/smartworks.unity.unity-typography'
 import '@bit/smartworks.unity.unity-icon'
@@ -82,10 +80,6 @@ class UnityGlobalNavBase extends LitElement {
     }
   }
 
-  firstUpdated() {
-    this.className =  this.collapsed? 'collapsed' : ''
-  }
-
   _changeSelection(key) {
     this.selected = key
     this.onSelect(key)
@@ -133,26 +127,30 @@ class UnityGlobalNavBase extends LitElement {
             </div>
             ${!collapsed? 
                 headerImg? 
-                  html`<img style="padding: 0 var(--global-nav-padding-size-sm);" src="../../images/logo_SmartWorks_color.svg">` :
+                  html`<img style="padding: 0 var(--global-nav-padding-size-sm);" src=${headerImg}>` :
                   html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>` 
                 : ''}
           </div>
           <div class="menu-box">
-            <div class="top-container">
 
+            <div class="top-container">
               ${top? this.renderItems(top) : ''}
             </div>
+
             <div class="bottom-container">
               ${bottom? this.renderItems(bottom) : '' }
-              ${collapsible ? html`
-                <div>
-                  <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
-                    <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
-                  </div>
-                </div>
-              `  : ''}
+            </div>
+
+          </div>
+
+          ${collapsible ? html`
+          <div>
+            <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
+              <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
             </div>
           </div>
+        `  : ''}
+
         </div>
       ${gutter ? html`</div>` : ''}
       ${grid && _showGrid? html`<div class="grid"></div>` : ''}
@@ -189,11 +187,14 @@ class UnityGlobalNavBase extends LitElement {
           --global-nav-expanded-width: 192px;
           --global-nav-collapsed-width: 32px;
           --global-nav-logo-size: 12px;
-          --global-nav-menu-border: none;
           --global-nav-menu-shadow: 0 0 4px 0;
         }
         * {
           box-sizing: border-box;
+          scrollbar-width: none;
+        }
+        *::-webkit-scrollbar {
+          width: 0px;
         }
         .gutter {
           border-right: 5px solid var(--global-nav-gutter-color, var(--gutter-color));
@@ -205,11 +206,10 @@ class UnityGlobalNavBase extends LitElement {
           height: 100%;
           background-color: var(--global-nav-background-color, var(--primary-menu-color));
           box-shadow: var(--global-nav-menu-shadow);
-          border-right: var(--global-nav-menu-border);
+          border-right: 1px solid var(--global-nav-border-color);
         }
         .menu.shadowless {
           box-shadow: none;
-          border-right: 1px solid var(--global-nav-border-color);
         }
         .text {
           color: var(--global-nav-text-color)
@@ -222,12 +222,10 @@ class UnityGlobalNavBase extends LitElement {
           width: var(--global-nav-short-row, var(--logo-height));
           min-height: var(--global-nav-short-row, var(--logo-height));
           min-width: var(--global-nav-short-row, var(--logo-height));
+          border-right: 1px solid var(--global-nav-border-color);
         }
         .logo-container.clickable {
           cursor: pointer;
-        }
-        :not(.collapsed) .header-container .logo-container {
-          border-right: 1px solid var(--global-nav-border-color);
         }
         .header-container {
           display: flex;
@@ -249,6 +247,8 @@ class UnityGlobalNavBase extends LitElement {
           height: 100%;
           width: 100%;
           margin-top: 1px;
+          overflow-y: auto;
+          overflow-x: hidden;
         }
         .top-container {
           height: 100%;
@@ -295,6 +295,10 @@ class UnityGlobalNavBase extends LitElement {
           background-color: var(--global-nav-background-color);
           box-shadow: 0 1px 10px 4px rgba(0, 0, 0, 0.25);
           z-index: -1;
+        }
+        img {
+          min-width: 0;
+          flex: 1;
         }
       `
     ]

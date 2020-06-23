@@ -2,6 +2,15 @@
 
 ## Changelog:
 
+### v1.1.2
+- Fix color typo
+
+### v1.1.1
+- Fix color typo, remove unused default style
+
+### v1.1.0
+- Added default margins and paddings.
+
 ### v1.0.4
 - Change colors to use new colors. Include format and expected uses for future color placement redesigns. Still has old color use format until all components are updated.
 

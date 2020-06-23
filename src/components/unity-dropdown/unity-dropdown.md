@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- Use default cursor when dropdown is disabled
+
 ### v1.1.1
 - update visible options when options is updated
 

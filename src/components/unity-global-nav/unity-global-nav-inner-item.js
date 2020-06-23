@@ -1,7 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 import '@bit/smartworks.unity.unity-icon'
-// import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import { UnityDefaultThemeStyles } from '../unity-default-theme-styles/unity-default-theme-styles'
+import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-tooltip'
 
 /**
@@ -153,7 +152,7 @@ class UnityGlobalNavInnerItem extends LitElement {
         }
         .selected.container::before {
           content: "";
-          padding-right: 2px;
+          padding-right: 3px;
           background: var(--global-nav-inner-item-highlight-color, var(--selected-color));
           display: block;
           height: 100%;

@@ -2,8 +2,12 @@
 
 ## Changelog:
 
+### v1.1.0
+- Updated to Unity 2020 designs.
+- Added disabled property and new css variables.
+
 ### v1.0.1
-- When only one chile, use child's label
+- When only one child, use child's label
 
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies

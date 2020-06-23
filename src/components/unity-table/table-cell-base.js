@@ -97,10 +97,8 @@ class TableCellBase extends LitElement {
           top: 0;
           right: 0;
           height: 100%;
-          /*height: 100%;*/
           width: 8px;
           transform: translateX(50%);
-          /*border: 1px solid black;*/
           cursor: col-resize;
           z-index: 2;
         }

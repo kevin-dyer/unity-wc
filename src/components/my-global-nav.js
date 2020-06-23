@@ -9,10 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-// import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
-import '../components/unity-global-nav/unity-global-nav-base'
+import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
 import '@bit/smartworks.unity.unity-core/unity-icon'
-
 import { items } from './unity-global-nav/fakeItems.js'
 
 // These are the shared styles needed by this element.
