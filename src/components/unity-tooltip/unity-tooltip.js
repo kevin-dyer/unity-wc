@@ -7,96 +7,191 @@ import '@bit/smartworks.unity.unity-typography'
 * Tooltip with optional arrow
 * @name UnityTooltip
 * @param {string} label, the text of the tooltip
-* @param {string} arrow, direction of the tooltip arrow (top, bottom, right or left), optional
-* @param {bool} bottomAlign, if the tooltip should be aligned to the bottom of the reference point
-* @param {bool} rightAlign, if the tooltip should be aligned to the right of the reference point
+* @param {bool} hideArrow, optional flag to hide arrow triangle
+* @param {string} alignment, tooltip position relative to content, defaults to 'right'. Options: 'left', 'top', 'right', 'bottom'
+* @param {bool} disabled, disable on hover display of tooltip label
+* @param {css} --tooltip-background-color, css var used for coloring tooltip background
+* @param {css} --tooltip-padding, css var used for tooltip padding
+* @param {css} --tooltip-border-radius, css var used for tooltip border radius
+
 
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-tooltip
 *   label="I am a tooltip"
-*   arrow="bottom"
+    alignment='right'
+*   ?showArrow=${true}
+*   ?disabled=${false}
 * ></unity-tooltip>
 **/
+
+const LEFT_ALIGNMENT = 'left'
+const TOP_ALIGNMENT = 'top'
+const RIGHT_ALIGNMENT = 'right'
+const BOTTOM_ALIGNMENT = 'bottom'
+
+//position arrow oposite to tooltip alignment
+const arrowAlignment = {
+  [LEFT_ALIGNMENT]: RIGHT_ALIGNMENT,
+  [TOP_ALIGNMENT]: BOTTOM_ALIGNMENT,
+  [RIGHT_ALIGNMENT]: LEFT_ALIGNMENT,
+  [BOTTOM_ALIGNMENT]: TOP_ALIGNMENT
+}
+
 
 class UnityTooltip extends LitElement {
 
   constructor() {
     super()
     this.label = ''
-    this.arrow = ''
-    this.bottomAlign = false
-    this.rightAlign = false
+    this.hideArrow = false
+    this.disabled = false
+    this.alignment = RIGHT_ALIGNMENT
   }
 
   static get properties() {
     return {
       label: { type: String },
-      arrow: { type: String },
-      bottomAlign: { type: Boolean },
-      rightAlign: { type: Boolean }
+      hideArrow: { type: Boolean},
+      alignment: { type: String },
+      disabled: { type: Boolean }
     }
   }
-  
-  render() {
-    const { label, arrow, bottomAlign, rightAlign } = this
-    let classes = 'tooltip'
-    if (!!arrow) classes += ` arrow ${arrow}`
-    if (bottomAlign) classes += ' bottom-align'
-    if (rightAlign) classes += ' right-align'
-    return html`<span class=${classes}><unity-typography size="paragraph">${label}</unity-typography></span>`
+
+  getContainerClass() {
+    let containerClasses = 'tooltip-container'
+    if (this.disabled) containerClasses += ' disabled'
+
+    return containerClasses
   }
+
+  //TODO: handle 'auto' alignment
+  getTooltipClass() {
+    const {
+      hideArrow,
+      alignment=RIGHT_ALIGNMENT
+    } = this
+    let spanClasses = 'tooltip'
+
+    if (!hideArrow) {
+      spanClasses += ' arrow'
+      if (!!alignment) {
+        spanClasses += ` ${arrowAlignment[alignment]}-arrow`
+      }
+    }
+    if (!!alignment) {
+      spanClasses += ` ${alignment}-align`
+    }
+
+    return spanClasses
+  }
+
+  render() {
+    const {
+      label,
+      disabled
+    } = this
+    const containerClasses = this.getContainerClass()
+    const spanClasses = this.getTooltipClass()
+
+    return html`
+      <div class=${containerClasses}>
+        <slot></slot>
+        <span class=${spanClasses}>
+          <unity-typography size="paragraph">${label}</unity-typography>
+        </span>
+      </div>
+    `
+  }
+
 
   static get styles() {
     return [
       UnityDefaultThemeStyles,
       css`
-      .tooltip {
-        position: absolute;
-        width: max-content;
-        background-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-        padding: 2px 8px;
-        border-radius: 3px;
+      :host {
+        --tooltip-background-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
+        --tooltip-padding: 2px 8px;
+        --tooltip-border-radius: 3px;
       }
-      .arrow::after {
+
+      unity-typography {
+        line-height: normal;
+      }
+
+      .tooltip-container {
+        position: relative;
+      }
+
+      .tooltip-container:hover .tooltip {
+        display: block;
+      }
+      .tooltip-container.disabled:hover .tooltip {
+        display: none;
+      }
+      .tooltip-container .tooltip {
+        width: max-content;
+        background-color: var(--tooltip-background-color, var(--default-medium-grey-background-color));
+        padding: var(--tooltip-padding, 2px 8px);
+        border-radius: var(--tooltip-border-radius, 3px);
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 200;
+        display: none;
+        pointer-events: none;
+      }
+      .tooltip-container .arrow::after {
         content: " ";
         position: absolute;
         border-width: 5px;
         border-style: solid;
-        border-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color)) transparent transparent transparent;
+        border-color: var(--tooltip-background-color, var(--default-medium-grey-background-color)) transparent transparent transparent;
       }
-      .left::after {
+      .tooltip-container .left-arrow::after {
         left: -8px;
         bottom: 50%;
         margin-bottom: -5px;
         transform: rotate(90deg);
       }
-      .bottom::after {
+      .tooltip-container .bottom-arrow::after {
         left: 50%;
         margin-left: -5px;
       }
-      .top::after {
+      .tooltip-container .top-arrow::after {
         left: 50%;
         margin-left: -5px;
         transform: rotate(180deg);
         top: 0;
         margin-top: -8px;
       }
-      .right::after {
+      .tooltip-container .right-arrow::after {
         bottom: 50%;
         margin-bottom: -5px;
         transform: rotate(-90deg);
         right: 0;
         margin-right: -8px;
       }
-      unity-typography {
-        line-height: normal;
+      .tooltip-container .tooltip.left-align {
+        top: 50%;
+        left: 0;
+        transform: translate(-100%, -50%);
+
       }
-      .right-align {
-        right: 0;
+      .tooltip-container .tooltip.right-align {
+        top: 50%;
+        left: 100%;
+        transform: translate(0, -50%);
       }
-      .bottom-align {
-        bottom: 0;
+      .tooltip-container .tooltip.bottom-align {
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+      .tooltip-container .tooltip.top-align {
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -100%);
       }
       `
     ]
