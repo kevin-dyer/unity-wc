@@ -2,6 +2,9 @@ import { LitElement, html, css } from 'lit-element';
 import '@bit/smartworks.unity.unity-core/unity-button'
 import { SharedStyles } from './shared-styles.js';
 
+//TODO: change to unity-core once v2 of tooltip has been exported
+import './unity-tooltip/unity-tooltip'
+
 class MyButtons extends LitElement {
   static get styles() {
     return [
@@ -304,6 +307,49 @@ class MyButtons extends LitElement {
             ?loading=${true}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h4>Buttons with tooltips</h4>
+
+        <div class="button-container">
+          <unity-tooltip
+            label="Right aligned tooltip (default)"
+            ?hideArrow=${false}
+            alignment='right'
+          >
+            <unity-button
+              label="right"
+            ></unity-button>
+          </unity-tooltip>
+
+          <unity-tooltip
+            label="Left aligned tooltip"
+            alignment='left'
+          >
+            <unity-button
+              label="left"
+            ></unity-button>
+          </unity-tooltip>
+
+          <unity-tooltip
+            label="Top aligned tooltip"
+            alignment='top'
+          >
+            <unity-button
+              label="top"
+            ></unity-button>
+          </unity-tooltip>
+
+          <unity-tooltip
+            label="Bottom aligned tooltip"
+            alignment='bottom'
+          >
+            <unity-button
+              label="bottom"
+            ></unity-button>
+          </unity-tooltip>
         </div>
       </div>
     </div>`

@@ -1,24 +1,38 @@
-import '@bit/smartworks.unity.unity-tooltip'
-// import '../src/components/unity-tooltip/unity-tooltip'
+//TODO: replace with bit unity-tooltip once v2 is exported
+// import '@bit/smartworks.unity.unity-tooltip'
+import '../src/components/unity-tooltip/unity-tooltip'
+import '@bit/smartworks.unity.unity-button'
 import { html } from 'lit-element'
-import { withKnobs, text, select } from "@storybook/addon-knobs";
+import { withKnobs, text, select, boolean } from "@storybook/addon-knobs";
 
 export default {
   title: 'Tooltips',
   decorators: [withKnobs]
 };
 
+const alignmentOptions = {
+  Left: 'left',
+  Right: 'right',
+  Top: 'top',
+  Bottom: 'bottom'
+}
+
 export const FullExample = () => {
   const label = text("Tooltip text", "I am a tooltip")
-  const arrowDir = {
-    None: '',
-    Left: 'left',
-    Right: 'right',
-    Top: 'top',
-    Bottom: 'bottom'
-  }
-  const arrow = select("Arrow", arrowDir, '')
+  const alignment = select('Alignment', alignmentOptions, 'right' )
+  const showArrow = boolean('Show Arrow', true)
+  const disabled = boolean("Disabled", false)
+
   return html`
-    <unity-tooltip label=${label} arrow=${arrow}></unity-tooltip>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <unity-tooltip
+        label=${label}
+        alignment=${alignment}
+        ?showArrow=${showArrow}
+        ?disabled=${disabled}
+      >
+        <unity-button label="Hover me!"></unity-button>
+      </unity-tooltip>
+    </div>
 `;
 }
