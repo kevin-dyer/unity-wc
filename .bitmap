@@ -205,7 +205,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-default-theme-styles@1.1.1": {
+    "smartworks.unity/unity-default-theme-styles@1.1.2": {
         "files": [
             {
                 "name": "unity-default-theme-styles.js",

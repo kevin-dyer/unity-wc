@@ -31,7 +31,7 @@ export const UnityThemeStyles = css`
     --black-color: rgb(var(--black-rgb));
 
     /* Default background color, Font Color */
-    --white-color: rgb(var(--white-color-rgb));
+    --white-color: rgb(var(--white-rgb));
 
     /* dark grey, text default */
     --dark-gray-color: rgb(var(--charcoal-rgb));
