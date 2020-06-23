@@ -9,6 +9,7 @@
   </unity-tooltip>
 - Refactored properties to simplify. 'arrow' has been replaced with 'showArrow' boolean. Alignment props have been replaced with the string property 'alignment'. Arrow position is determined by 'alignment'.
 - Added 'disabled' boolean property to disable tooltip from showing on hover.
+- Added custom css variables to customize tooltip style
 
 ### v1.1.0
 - Added rightAlign and bottomAlign properties to change where the tooltip is displayed with respect to the reference point.
