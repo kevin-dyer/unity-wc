@@ -36,25 +36,25 @@ class UnityButton extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --button-color: var(--secondary-color, var(--default-secondary-color));
-          --button-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color));
-          --button-secondary-color: var(--dark-gray-color, var(--default-dark-gray-color));
-          --button-secondary-color: var(--gray-color, var(--default-gray-color));
-          --button-disabled-color: var(--gray-color, var(--default-gray-color));
-          --button-important-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
-          --button-important-pressed-color: var(--tertiary-1-shade-color, var(--default-tertiary-1-shade-color));
+          --default-button-primary-color: var(--secondary-color, var(--default-secondary-color));
+          --default-button-primary-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color));
+          --default-button-secondary-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-button-secondary-color: var(--gray-color, var(--default-gray-color));
+          --default-button-disabled-color: var(--gray-color, var(--default-gray-color));
+          --default-button-important-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
+          --default-button-important-pressed-color: var(--tertiary-1-shade-color, var(--default-tertiary-1-shade-color));
           flex-shrink: 0;
           display: block;
         }
 
-        /*Danger Styles*/
-        paper-button.danger {
-          --button-color: var(--danger-color, var(--default-danger-color));
-          --black-text-color: var(--danger-color, var(--default-danger-color));
+        /*Important Styles*/
+        paper-button.important {
+          --button-color: var(--button-important-color, var(--default-button-important-color));
+          --black-text-color: var(--button-important-color, var(--default-button-important-color));
           color: var(--button-color);
         }
 
-        paper-button.danger:hover {
+        paper-button.important:hover {
           filter: brightness(93%);
         }
 
@@ -93,42 +93,42 @@ class UnityButton extends LitElement {
         }
 
         /*Solid Styles*/
-        paper-button.solid {
+        paper-button.primary {
           background-color: var(--button-color);
           color: #FFF;
           --font-color: #FFF;
         }
 
-        /*Outlined Styles*/
-        paper-button.outlined {
+        /*Secondary Styles*/
+        paper-button.secondary {
           background: rgba(0,0,0,0);
           border: 1px solid var(--button-color);
           color: var(--button-color);
           --font-color: var(--black-text-color, var(--default-black-text-color));
         }
 
-        paper-button.outlined iron-icon {
+        paper-button.secondary iron-icon {
           color: var(--button-color);
         }
 
-        paper-button.outlined paper-spinner-lite {
+        paper-button.secondary paper-spinner-lite {
           color: var(--button-color);
         }
 
-        paper-button.outlined.disabled iron-icon {
+        paper-button.secondary.disabled iron-icon {
           color: var(--button-color);
         }
 
-        paper-button.outlined.disabled paper-spinner-lite {
+        paper-button.secondary.disabled paper-spinner-lite {
           color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
         }
 
-        paper-button.outlined:hover {
+        paper-button.secondary:hover {
           /*TODO: set border color to be 15% darker - How do I do this without affecting background color*/
           filter: brightness(93%);
         }
 
-        paper-button.outlined.disabled {
+        paper-button.secondary.disabled {
           background: white;
           border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
         }
@@ -233,13 +233,7 @@ class UnityButton extends LitElement {
       small: {
         type: Boolean
       },
-      leftIcon: {
-        type: String
-      },
-      rightIcon: {
-        type: String
-      },
-      centerIcon: {
+      icon: {
         type: String
       }
     }
@@ -254,22 +248,19 @@ class UnityButton extends LitElement {
     this.important=false
     this.loading=false
     this.small=false
-    this.leftIcon=''
-    this.rightIcon=''
-    this.centerIcon=''
+    this.icon=''
   }
 
   _getClassNames() {
     let classList = ['unity-button']
     const {
+      label,
       type,
-      danger,
+      important,
       disabled,
       loading,
       small,
-      centerIcon,
-      leftIcon,
-      rightIcon
+      icon
     } = this
 
     switch (type) {
@@ -303,15 +294,12 @@ class UnityButton extends LitElement {
       classList.push('small')
     }
 
-    if (centerIcon) {
+    if (!label && icon) {
       classList.push('icon-btn')
-    }
-    if(leftIcon) {
+    } else if (icon) {
       classList.push('left-icon')
     }
-    if(rightIcon) {
-      classList.push('right-icon')
-    }
+
     return classList.join(' ')
   }
 
@@ -325,12 +313,12 @@ class UnityButton extends LitElement {
       >
         ${this.loading
           ? html`<paper-spinner-lite active class="spinner icon left-icon" />`
-          : !!this.leftIcon
+          : !!this.icon
             ? html`<iron-icon
-                icon=${this.leftIcon}
+                icon=${this.icon}
                 class="icon left-icon"
               ></iron-icon>`
-            : ''
+            : null
         }
         <unity-typography>
           ${this.label}
@@ -338,18 +326,10 @@ class UnityButton extends LitElement {
 
         ${this.centerIcon && !this.loading
           ? html`<iron-icon
-              icon=${this.centerIcon}
+              icon=${this.icon}
               class="icon center-icon"
             ></iron-icon>`
-          : ''
-        }
-
-        ${this.rightIcon
-          ? html`<iron-icon
-              icon=${this.rightIcon}
-              class="icon right-icon"
-            ></iron-icon>`
-          : ''
+          : null
         }
       </paper-button>
     `
