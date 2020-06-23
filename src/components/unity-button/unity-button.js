@@ -11,27 +11,24 @@ import '@bit/smartworks.unity.unity-typography'
  * Button with configurable styles.
  * @name UnityButton
  * @param {string} label, button text
- * @param {string} leftIcon, iron icon name to be displayed to the left of the label
- * @param {string} rightIcon, iron icon name to be displayed to the right of the label
- * @param {string} centerIcon, iron icon name to be displayed in place of the label. Note: Do not pass in a label if used.
- * @param {string} type, type of button to render (optional): solid , gradient, outlined
- * @param {bool} danger, style button red.
+ * @param {string} icon, iron icon name to be displayed to the left of the label, or replace label if no label
+ * @param {string} type, type of button to render (optional): primary , secondary, borderless
+ * @param {bool} important, style button in important colors.
  * @param {bool} loading, displays loading spinner in place of leftIcon
  * @param {bool} small, to decrease size of button
  * @param {function} click, event handler
 *  @example
 *   <unity-button
 *     label="example button"
-*     gradient
 *     ?loading=${fetching}
-*     leftIcon="add"
+*     icon="add"
 *     @click=${() => console.log("button clicked")}
 *   />
 */
 
-const SOLID = 'solid'
-const GRADIENT = 'gradient'
-const OUTLINED = 'outlined'
+const PRIMARY = 'primary'
+const SECONDARY = 'secondary'
+const BORDERLESS = 'borderless'
 
 class UnityButton extends LitElement {
   static get styles() {
@@ -39,8 +36,13 @@ class UnityButton extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --gradient-background: transparent linear-gradient(90deg, var(--secondary-brand-color, var(--primary-brand-color, var(--default-primary-brand-color))) 0%, var(--primary-brand-color, var(--default-primary-brand-color)) 100%) 0% 0% no-repeat padding-box;
-          --button-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          --button-color: var(--secondary-color, var(--default-secondary-color));
+          --button-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color));
+          --button-secondary-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --button-secondary-color: var(--gray-color, var(--default-gray-color));
+          --button-disabled-color: var(--gray-color, var(--default-gray-color));
+          --button-important-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
+          --button-important-pressed-color: var(--tertiary-1-shade-color, var(--default-tertiary-1-shade-color));
           flex-shrink: 0;
           display: block;
         }
@@ -63,7 +65,6 @@ class UnityButton extends LitElement {
           min-width: max-content;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
-          padding: 0 var(--unity-button-padding, var(--default-unity-button-padding));
           text-transform: none;
           white-space: nowrap;
           color: var(--button-color);
@@ -71,16 +72,12 @@ class UnityButton extends LitElement {
           outline: none;
           margin: 0;
         }
+
         paper-button.text-button {
           padding: 0 10px;
           min-width: 0;
         }
-        paper-button.text-button.left-icon:not(.loading) {
-          padding-left: var(--unity-button-padding, var(--default-unity-button-padding));
-        }
-        paper-button.text-button.right-icon {
-          padding-right: var(--unity-button-padding, var(--default-unity-button-padding));
-        }
+
         paper-button.small {
           height: 22px;
           padding: 0 10px;
@@ -101,21 +98,6 @@ class UnityButton extends LitElement {
           color: #FFF;
           --font-color: #FFF;
         }
-
-        /*Gradient Styles*/
-        paper-button.gradient {
-          /*NOTE: gradient from left to right: secondary brand color(if exists) -> primary brand color*/
-          /* If secondary brand color does not exist, use primary brand color to creat solid background color */
-          --button-color: var(--gradient-background);
-          background: var(--button-color);
-          color: #FFF;
-          --font-color: #FFF;
-        }
-
-        /*NOTE: commenting this out. Looks weird with ripple effect*/
-        /*paper-button.gradient:active {
-          filter: brightness(70%);
-        }*/
 
         /*Outlined Styles*/
         paper-button.outlined {
@@ -242,7 +224,7 @@ class UnityButton extends LitElement {
       type: {
         type: String
       },
-      danger: {
+      important: {
         type: Boolean
       },
       loading: {
@@ -269,7 +251,7 @@ class UnityButton extends LitElement {
     this.label=''
     this.type=''
     this.disabled=false
-    this.danger=false
+    this.important=false
     this.loading=false
     this.small=false
     this.leftIcon=''
@@ -291,26 +273,22 @@ class UnityButton extends LitElement {
     } = this
 
     switch (type) {
-      case SOLID: {
-        classList.push('solid')
+      case SECONDARY: {
+        classList.push(SECONDARY)
         break
       }
-      case GRADIENT: {
-        classList.push('gradient')
-        break
-      }
-      case OUTLINED: {
-        classList.push('outlined')
+      case BORDERLESS: {
+        classList.push(important ? PRIMARY : BORDERLESS)
         break
       }
       default: {
-        classList.push('text-button')
+        classList.push(PRIMARY)
         break
       }
     }
 
-    if (danger) {
-      classList.push('danger')
+    if (important) {
+      classList.push('important')
     }
 
     if (disabled) {
