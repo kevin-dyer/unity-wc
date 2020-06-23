@@ -262,7 +262,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@1.0.1": {
+    "smartworks.unity/unity-global-nav-base@1.1.0": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
@@ -279,7 +279,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-inner-item@1.0.0": {
+    "smartworks.unity/unity-global-nav-inner-item@1.1.0": {
         "files": [
             {
                 "name": "unity-global-nav-inner-item.js",
@@ -296,7 +296,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@1.0.1": {
+    "smartworks.unity/unity-global-nav-top-item@1.1.0": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",
