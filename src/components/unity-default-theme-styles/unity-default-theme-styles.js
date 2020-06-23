@@ -126,9 +126,8 @@ export const UnityDefaultThemeStyles = css`
     --default-xsmall-icon-size: 10px;
 
     /* Sizes and Spacing */
-    --default-unity-button-height: 30px;
-    --default-unity-button-border-radius: 30px;
-    --default-unity-button-padding: 20px;
+    --default-unity-button-height: 32px;
+    --default-unity-button-border-radius: 32px;
 
     --default-unity-text-input-height: 27px;
 
