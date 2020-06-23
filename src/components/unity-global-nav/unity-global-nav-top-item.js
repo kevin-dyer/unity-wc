@@ -1,10 +1,9 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/iron-icons/iron-icons.js'
-import '@polymer/iron-icons/image-icons.js'
-import '@polymer/iron-icons/social-icons.js'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-global-nav-inner-item'
 import '@bit/smartworks.unity.unity-tooltip'
+import '@bit/smartworks.unity.unity-icon'
+import '@bit/smartworks.unity.unity-typography'
 
 /**
 * Renders a left-bound navigation bar
@@ -12,9 +11,11 @@ import '@bit/smartworks.unity.unity-tooltip'
 * @param {bool} short, bool to control if element is short or tall
 * @param {bool} selected, whether item shows primary-brand-color, ignored if children are passed in
 * @param {func} onSelect, action handler for clicking the element, sends (key, label), ignored if children are passed in
-* @param {''} icon, string iron-icon name, optional
+* @param {''} icon, string unity-icon or iron-icon name, optional
 * @param {''} key, string key for referencing
 * @param {''} label, string label to render for item
+* @param {bool} collapsed,
+* @param {bool} disabled,
 * @param {[]} children, TO BE IMPLEMENTED, list of child item elements, could be slots
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
@@ -66,6 +67,7 @@ class UnityGlobalNavTopItem extends LitElement {
     this.onSelect = ()=>{}
     this.children = []
     this.collapsed = false
+    this.disabled = false
 
     // internals
     this._expanded = true
@@ -81,6 +83,7 @@ class UnityGlobalNavTopItem extends LitElement {
       icon: { type: String },
       children: { type: Array },
       collapsed: { type: Boolean },
+      disabled: { type: Boolean },
       // internals
       _expanded: { type: Boolean },
     }
@@ -99,18 +102,18 @@ class UnityGlobalNavTopItem extends LitElement {
     }
   }
 
-  getLabel(hasIcon) {
+  getLabel(hasIcon, hasChildren) {
     let {
       collapsed,
       label=this.key,
       short,
-      children
+      children,
     } = this
     if (!label || collapsed && hasIcon) return ''
     // use child label if only one label
     if (Array.isArray(children) && children.length === 1) label = children[0].label
     if(collapsed && !hasIcon) label = label[0]
-    return html`<div class="text ${short ? 'short' : ''}">${label}</div>`
+    return html`<unity-typography size="paragraph" weight=${hasChildren? "medium": "paragraph"} class="text">${label}</unity-typography>`
   }
 
   render() {
@@ -123,7 +126,8 @@ class UnityGlobalNavTopItem extends LitElement {
       icon='',
       children=[],
       _expanded: open=false,
-      collapsed
+      collapsed,
+      disabled
     } = this
     let hasChildren = Array.isArray(children) && children.length > 0
     if (hasChildren && children.length === 1) {
@@ -139,19 +143,19 @@ class UnityGlobalNavTopItem extends LitElement {
       <div
         class="
           container
-          ${short ? 'short' : ''}
           ${hasChildren && open ? 'open' : ''}
           ${!hasChildren && selected ? 'selected' : ''}
+          ${disabled? 'disabled' : ''}
         "
-        @click=${_onSelect}
+        @click=${!disabled? _onSelect : null}
       >
-        <div class="label ${short ? 'short' : ''}">
-          ${hasIcon ? html`<iron-icon class="icon" icon="${icon}"></iron-icon>` : null}
-          ${this.getLabel(hasIcon)}
-          ${collapsed? html`<unity-tooltip label=${label}></unity-tooltip>` : ''}
-          ${!collapsed && hasChildren ? html`<iron-icon class="expand ${short ? 'short-pos' : ''}" icon="${open ? 'expand-less' : 'expand-more'}"></iron-icon>` : null}
+        <div class="label ${short ? 'short' : ''} ${hasChildren && !short? 'tall' : ''} ${collapsed? 'flex-center' : ''}">
+          ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
+          ${this.getLabel(hasIcon, hasChildren) }
+          ${collapsed? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
+          ${!collapsed && hasChildren ? html`<unity-icon class="icon" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
         </div>
-        ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected}) => html`
+        ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled}) => html`
         <unity-global-nav-inner-item
           .key="${key}"
           .onSelect="${onSelect}"
@@ -159,6 +163,7 @@ class UnityGlobalNavTopItem extends LitElement {
           .icon="${icon}"
           .selected="${selected}"
           ?collapsed=${collapsed}
+          ?disabled=${disabled}
         ></unity-global-nav-inner-item>
         `) : null}
       </div>
@@ -167,75 +172,129 @@ class UnityGlobalNavTopItem extends LitElement {
 
   // styles
   static get styles() {
+    // CSS vars using the --global-nav-item prefix follow the Unity 2020 designs. The rest are kept for backwards compatibility. 
     return [
       UnityDefaultThemeStyles,
       css`
         :host {
           font-family: var(--font-family, var(--default-font-family));
-          --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
-          --secondary-menu-color: var(--global-nav-expanded-color, var(--default-global-nav-expanded-color));
-          --selected-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --text-color: var(--global-nav-text-color, var(--default-global-nav-text-color));
+          --primary-menu-color: var(--white-color, var(--default-white-color));
+          --secondary-menu-color: var(--white-color, var(--default-white-color));
+          --selected-color: var(--global-nav-highlight-color);
+          --text-color: var(--global-nav-text-color), var(--default-dark-gray-color));
           --border-breakers: var(--global-nav-border-color, var(--default-global-nav-border-color));
-          --tall-height: 52px;
+          --tall-height: 40px;
           --short-height: 32px;
-          --label-margin: 12px;
+          --label-margin: var(--global-nav-margin-size, 12px);
+          --global-nav-item-primary-color: var(--global-nav-background-color);
+          --global-nav-item-secondary-color: var(--global-nav-background-color);
+          --global-nav-item-highlight-color: var(--global-nav-highlight-color);
+          --global-nav-item-text-color: var(--global-nav-text-color);
+          --global-nav-item-border-color: var(--global-nav-border-color);
+          --global-nav-item-tall-height: var(--global-nav-large-row);
+          --global-nav-item-short-height: var(--global-nav-short-row);
+          --global-nav-item-margin-size: var(--global-nav-margin-size);
+          --global-nav-item-font-size: var(--global-nav-font-size, 12px);
+          --global-nav-item-padding-size: var(--global-nav-padding-size);
+          --global-nav-item-padding-size-sm: var(--global-nav-padding-size-sm, 8px);
           border-collapse: collapse;
           user-select: none;
+        }
+        * {
+          box-sizing: border-box;
         }
         .container {
           border-collapse: collapse;
           height: auto;
-          min-height: var(--tall-height);
+          min-height: var(--global-nav-item-short-height, var(--short-height));
           width: 100%;
-          background-color: var(--primary-menu-color);
-          border-top: 1px solid var(--border-breakers);
+          background-color: var(--global-nav-item-primary-color, var(--primary-menu-color));
+          position: relative;
           cursor: pointer;
-          box-sizing: border-box;
+          --font-color: var(--global-nav-item-text-color, var(--text-color));
+        }
+        .container.disabled {
+          cursor: default;
+        }
+        .container.disabled .label unity-icon, .container.disabled .label unity-typography {
+          opacity: 0.5;
+        }
+        .container:not(.disabled) .label:hover {
+          background-color: var(--global-nav-hover-color);
         }
         .selected {
-          background-color: var(--selected-color);
+          color: var(--global-nav-item-highlight-color, var(--selected-color)) !important;
+          --font-color: var(--global-nav-item-highlight-color, var(--selected-color));
+        }
+        .selected.container::before {
+          content: "";
+          padding-right: 2px;
+          background: var(--global-nav-item-highlight-color, var(--selected-color));
+          display: block;
+          height: 100%;
+          position: absolute;
+          z-index: 1;
         }
         .open {
-          background-color: var(--secondary-menu-color);
+          background-color: var(--global-nav-item-secondary-color, var(--secondary-menu-color));
+          border-top: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
+          border-bottom: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
+          padding-bottom: var(--global-nav-item-padding-size-sm);
         }
         .label {
           display: flex;
+          position: relative;
           flex-wrap: nowrap;
-          min-height: var(--tall-height);
+          min-height: var(--global-nav-item-short-height, var(--short-height));
           font-weight: 500;
           align-items: center;
+          height: 100%;
+          padding: 0 var(--global-nav-item-padding-size, var(--label-margin));
+        }
+        .open .label {
+          min-height: var(--global-nav-item-tall-height, var(--tall-height));
         }
         .text {
           flex: 1;
-          font-size: 14px;
-          color: var(--text-color);
-          line-height: var(--tall-height);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          margin: 0 var(--label-margin);
+          --font-size: var(--global-nav-item-font-size);
+          --medium-weight: bold;
+        }
+        unity-icon + .text {
+          margin: 0 var(--global-nav-item-margin-size, var(--label-margin));
         }
         .icon {
           height: 16px;
           width: 16px;
-          color: var(--text-color);
-          margin-left: var(--label-margin);
-        }
-        .expand {
-          color: var(--border-breakers)
+          color: var(--global-nav-item-text-color, var(--text-color));
+          --layout-inline_-_display: initial;
         }
         .short {
-          min-height: var(--short-height);
-          line-height: var(--short-height);
+          min-height: var(--global-nav-item-short-height, var(--short-height));
+        }
+        .tall {
+          min-height: var(--global-nav-item-tall-height, var(--tall-height));
         }
         unity-tooltip {
           position: absolute;
-          left: 90%;
           display: none;
+          right: -6px;
+          top: 25%;
+          --font-color: var(--global-nav-item-text-color);
         }
         .label:hover unity-tooltip {
           display: block;
+        }
+        .flex-center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0;
+        }
+        .flex-center .text {
+          flex: unset;
         }
       `
     ]

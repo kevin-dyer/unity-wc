@@ -2,14 +2,19 @@ import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-global-nav-top-item'
 import '@bit/smartworks.unity.unity-icon-set'
+import '@bit/smartworks.unity.unity-typography'
+import '@bit/smartworks.unity.unity-icon'
 
 /**
 * Renders a left-bound navigation bar
 * @name UnityGlobalNavBase
 * @param {bool} gutter, show or hide the side gutter
-* @param {string} logo, path to hosted logo image
+* @param {string} logo, path to hosted logo image. If not specified, the unity:app_menu icon will be used
+* @param {string} header, text to display in the header (e.g., product name). Overwritten by headerImg
+* @param {string} headerImg, image to display in the header (e.g., product name logo) instead of the header text
 * @param {bool} collapsible, render button at the bottom to collapse bar
 * @param {bool} collapsed, if the bar is collapsed or not
+* @param {bool} grid, if clicking the logo should open the grid menu
 * @param {Object} items, object containing the menu items
 * @param {Function} onSelect, callback for when a menu item is selected
 * @param {css} --global-nav-background-color, css var used for coloring the component
@@ -21,6 +26,7 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @example
 * <unity-global-nav gutter
 *   logo="../path/to/hosted/image"
+*   header="ProductName"
 *   items={{
       top: [
       {
@@ -49,8 +55,12 @@ class UnityGlobalNavBase extends LitElement {
     this.items = {}
     this.onSelect = () => {}
     this.selected = ''
+    this.header = ''
+    this.headerImg = ''
+    this.grid = false
 
     this._itemClicked = (key) => { this._changeSelection(key)}
+    this._showGrid = false
   }
 
   static get properties() {
@@ -62,8 +72,11 @@ class UnityGlobalNavBase extends LitElement {
       items: { type: Object },
       onSelect: { type: Function },
       selected: { type: String },
-
-      _itemClicked: { type: Function }
+      header: { type: String },
+      headerImg: { type: String },
+      grid: { type: Boolean },
+      _itemClicked: { type: Function },
+      _showGrid: { type: Boolean }
     }
   }
 
@@ -72,14 +85,16 @@ class UnityGlobalNavBase extends LitElement {
     this.onSelect(key)
   }
 
-
-
   _toggleCollapse() {
     this.collapsed = !this.collapsed
   }
 
+  _toggleGrid() {
+    this._showGrid = !this._showGrid
+  }
+
   renderItems(items) {
-    return items.map(({key, label, short, icon, children}) => html`
+    return items.map(({key, label, short, icon, children, disabled}) => html`
       <unity-global-nav-top-item
         .key="${key}"
         .onSelect="${this._itemClicked}"
@@ -93,102 +108,197 @@ class UnityGlobalNavBase extends LitElement {
           selected: this.selected === child.key
         }))}"
         ?collapsed=${this.collapsed}
+        ?disabled=${disabled}
       ></unity-global-nav-top-item>`)
   }
 
   render() {
-    const { gutter, logo, collapsible, collapsed, items } = this
+    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, _showGrid } = this
     const { bottom, top } = items
     return html`
-        <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}">
-          <div class="logo-container">
-            ${logo ? html`
-              <img class="logo" src="${logo}">
-            ` : ''}
+        <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
+          <div class="header-container">
+            <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
+              <div class="logo">
+              ${logo? 
+                html`<img src=${logo}>` 
+                : html`<unity-icon icon="unity:app_menu"></unity-icon>`}
+              </div>
+            </div>
+            ${!collapsed? 
+                headerImg? 
+                  html`<img style="padding: 0 var(--global-nav-padding-size-sm);" src=${headerImg}>` :
+                  html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>` 
+                : ''}
           </div>
           <div class="menu-box">
+
             <div class="top-container">
               ${top? this.renderItems(top) : ''}
             </div>
+
             <div class="bottom-container">
               ${bottom? this.renderItems(bottom) : '' }
-              ${collapsible ? html`
-                <unity-global-nav-top-item
-                  .key="collapse"
-                  .onSelect="${() => this._toggleCollapse()}"
-                  .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}
-                  .short="${false}"
-                ></unity-global-nav-top-item>
-              `  : ''}
+            </div>
+
+          </div>
+
+          ${collapsible ? html`
+          <div>
+            <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
+              <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
             </div>
           </div>
+        `  : ''}
+
         </div>
       ${gutter ? html`</div>` : ''}
+      ${grid && _showGrid? html`<div class="grid"></div>` : ''}
     `
   }
 
   // styles
   static get styles() {
+    // CSS vars using the --global-nav prefix follow the Unity 2020 designs. The rest are kept for backwards compatibility. 
     return [
       UnityDefaultThemeStyles,
       css`
         :host {
+          display: flex;
+          height: 100%;
+          width: max-content;
           --primary-menu-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
           --gutter-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          --logo-height: 52px;
-          --logo-padding: 12px;
-          border-collapse: collapse;
+          --logo-height: 32px;
+          --global-nav-background-color: var(--white-color, var(--default-white-color));
+          --global-nav-border-color: var(--gray-color, var(--default-gray-color));
+          --global-nav-margin-size: var(--margin-size-md, var(--default-margin-size-md, 12px));
+          --global-nav-padding-size: var(--padding-size-md, var(--default-padding-size-md, 12px));
+          --global-nav-padding-size-sm: var(--padding-size-sm, var(--default-padding-size-sm, 8px));
+          --global-nav-highlight-color: var(--secondary-color, var(--default-secondary-color));
+          --global-nav-hover-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
+          --global-nav-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --global-nav-light-text-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
+          --global-nav-gutter-color: var(--primary-color, var(--default-primary-color));
+          --global-nav-header-font-size: 14px;
+          --global-nav-font-size: 12px;
+          --global-nav-short-row: 32px;
+          --global-nav-large-row: 40px;
+          --global-nav-expanded-width: 192px;
+          --global-nav-collapsed-width: 32px;
+          --global-nav-logo-size: 12px;
+          --global-nav-menu-shadow: 0 0 4px 0;
+        }
+        * {
+          box-sizing: border-box;
+          scrollbar-width: none;
+        }
+        *::-webkit-scrollbar {
+          width: 0px;
         }
         .gutter {
-          border-right: 5px solid var(--gutter-color);
+          border-right: 5px solid var(--global-nav-gutter-color, var(--gutter-color));
         }
         .menu {
-          position: relative;
+          display: flex;
+          flex-direction: column;
+          width: var(--global-nav-expanded-width);
           height: 100%;
-          width: 191px;
-          background-color: var(--primary-menu-color);
+          background-color: var(--global-nav-background-color, var(--primary-menu-color));
+          box-shadow: var(--global-nav-menu-shadow);
+          border-right: 1px solid var(--global-nav-border-color);
+        }
+        .menu.shadowless {
+          box-shadow: none;
         }
         .text {
-          color: var(--text-color)
+          color: var(--global-nav-text-color)
         }
         .collapsed {
-          width: 40px;
+          width: var(--global-nav-collapsed-width);
         }
         .logo-container {
-          height: var(--logo-height);
-          width: auto;
-          flex: 1;
-          padding-left: var(--logo-padding);
-          padding-right: var(--logo-padding);
-          overflow: hidden;
+          height: var(--global-nav-short-row, var(--logo-height));
+          width: var(--global-nav-short-row, var(--logo-height));
+          min-height: var(--global-nav-short-row, var(--logo-height));
+          min-width: var(--global-nav-short-row, var(--logo-height));
+          border-right: 1px solid var(--global-nav-border-color);
+        }
+        .logo-container.clickable {
+          cursor: pointer;
+        }
+        .header-container {
+          display: flex;
+          border-bottom: 1px solid var(--global-nav-border-color);
+          align-items: center;
         }
         .logo {
-          position: absolute;
-          height: 18px;
-          top: calc(var(--logo-height) / 2);
-          transform: translateY(-50%);
+          display: flex;
+          color: var(--global-nav-highlight-color);
+          height: var(--global-nav-logo-size);
+          width: var(--global-nav-logo-size);
+          --layout-inline_-_display: initial;
         }
         .menu-box {
-          position: absolute;
           display: flex;
           flex-direction: column;
           flex-wrap: nowrap;
-          top: var(--logo-height);
-          bottom: 0;
+          justify-content: space-between;
+          height: 100%;
           width: 100%;
+          margin-top: 1px;
+          overflow-y: auto;
+          overflow-x: hidden;
         }
         .top-container {
           height: 100%;
           width: 100%;
-          min-height: 52px;
-          overflow-y: auto;
           border-collapse: collapse;
         }
         .bottom-container {
-          bottom: 0;
           min-height: min-content;
           width: 100%;
           border-collapse: collapse;
+        }
+        unity-icon {
+          color: var(--global-nav-highlight-color);
+          height: var(--global-nav-logo-size);
+          width: var(--global-nav-logo-size);
+          --layout-inline_-_display: initial;
+        }
+        .collapse-button {
+          height: 24px;
+          border: 1px solid var(--global-nav-light-text-color);
+          margin: 4px;
+          border-radius: 2px;
+          cursor: pointer;
+        }
+        .collapse-button unity-icon {
+          height: 16px;
+          width: 16px;
+          color: var(--global-nav-text-color);
+        }
+        .flex-center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        unity-typography {
+          margin: 0 var(--global-nav-margin-size);
+          --header1-font-size: var(--global-nav-header-font-size);
+          --header1-font-weight: bold;
+          --font-color: var(--global-nav-text-color);
+        }
+        .grid{
+          height: 100%;
+          width: 320px;
+          background-color: var(--global-nav-background-color);
+          box-shadow: 0 1px 10px 4px rgba(0, 0, 0, 0.25);
+          z-index: -1;
+        }
+        img {
+          min-width: 0;
+          flex: 1;
         }
       `
     ]

@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
+import '@bit/smartworks.unity.unity-core/unity-icon'
 import { items } from './unity-global-nav/fakeItems.js'
 
 // These are the shared styles needed by this element.
@@ -26,7 +27,7 @@ class MyGlobalNav extends PageViewElement {
           position: relative;
           width: 1000px;
           height: 750px;
-          top: 75px;
+          top: 30px;
           left: 50%;
           transform: translate(-50%,0);
           border: 1px solid grey;
@@ -42,10 +43,11 @@ class MyGlobalNav extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-global-nav-base gutter collapsible
-          logo="../../../images/manifest/icon-48x48.png"
+        <unity-global-nav-base collapsible
+          headerImg="../../images/logo_SmartWorks_color.svg"
           .items=${items}
           .onSelect=${this.onSelect}
+          .grid=${true}
         >
         </unity-global-nav-base>
       </div>

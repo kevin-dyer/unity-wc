@@ -2,6 +2,11 @@
 
 ## Changelog:
 
+### v1.1.0
+- Updated to Unity 2020 designs.
+- Added header, headerImg and grid properties.
+- Added new css variables.
+
 ### v1.0.1
 - Fixed wrong version of unity-icon-set
 

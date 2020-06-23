@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- Fix color typo
+
 ### v1.1.1
 - Fix color typo, remove unused default style
 
