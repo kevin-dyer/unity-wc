@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.2
+- Update to new Unity designs
+
 ### v1.0.1
 - Allow setting a different width for the button
 
