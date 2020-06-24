@@ -7,7 +7,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 /**
 * Renders an icon
 * @name UnityIcon
-* @param {string} icon, unity icon or iron icon to display
+* @param {string} icon, unity icon or iron icon to display. If defined along src, icon takes priority.
 * @param {string} src, use instead of icon, path to the image to display
 * @return {LitElement} returns a class extended from LitElement
 
@@ -52,6 +52,8 @@ class UnityIcon extends LitElement {
   }
 
   render() {
+    const { icon, src } = this
+    if (icon && src) console.warn("Both 'icon' and 'src' properties have been defined; 'src' will be ignored.")
     return html`
       <iron-icon
         icon=${this.icon}
