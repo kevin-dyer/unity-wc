@@ -21,7 +21,7 @@ import '@bit/smartworks.unity.unity-typography'
 * <unity-tooltip
 *   label="I am a tooltip"
     alignment='right'
-*   ?showArrow=${true}
+*   ?hideArrow=${false}
 *   ?disabled=${false}
 * ></unity-tooltip>
 **/

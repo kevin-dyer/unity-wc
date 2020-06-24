@@ -7,7 +7,7 @@
   <unity-tooltip label="my tooltip label">
     <unity-button label="button with tooltip"></unity-button>
   </unity-tooltip>
-- Refactored properties to simplify. 'arrow' has been replaced with 'showArrow' boolean. Alignment props have been replaced with the string property 'alignment'. Arrow position is determined by 'alignment'.
+- Refactored properties to simplify. 'arrow' has been replaced with 'hideArrow' boolean. Alignment props have been replaced with the string property 'alignment'. Arrow position is determined by 'alignment'.
 - Added 'disabled' boolean property to disable tooltip from showing on hover.
 - Added custom css variables to customize tooltip style
 
