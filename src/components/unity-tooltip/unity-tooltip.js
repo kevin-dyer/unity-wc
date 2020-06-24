@@ -12,6 +12,7 @@ import '@bit/smartworks.unity.unity-typography'
 * @param {bool} disabled, disable on hover display of tooltip label
 * @param {css} --tooltip-background-color, css var used for coloring tooltip background
 * @param {css} --tooltip-padding, css var used for tooltip padding
+* @param {css} --tooltip-margin, css var used for tooltip margin
 * @param {css} --tooltip-border-radius, css var used for tooltip border radius
 
 
@@ -133,6 +134,7 @@ class UnityTooltip extends LitElement {
         width: max-content;
         background-color: var(--tooltip-background-color, var(--default-medium-grey-background-color));
         padding: var(--tooltip-padding, 2px 8px);
+        margin: var(--tooltip-margin, 0);
         border-radius: var(--tooltip-border-radius, 3px);
         position: absolute;
         top: 0;
