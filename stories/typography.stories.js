@@ -67,10 +67,18 @@ export const Monospace = () => {
 
 export const StylesOverwrite = () => {
   const t = text('Text', 'Jim quickly realized that the beautiful gowns are expensive.')
-  const styles = text('Styles', '--font-color: var(--default-secondary-color); --font-family: serif; --font-weight: bold;')
+  const fontFamily = text('--font-family', 'serif')
+  const fontColor = text('--font-color', 'var(--default-secondary-color)')
+  const fontSize = text('--font-size', '18px')
+  const fontWeight = text('--font-weight', 'bold')
   return html`
     <unity-typography
-      style="${styles}"
+      style=${`
+        --font-family: ${fontFamily};
+        --font-color: ${fontColor};
+        --font-size: ${fontSize};
+        --font-weight: ${fontWeight};`
+      }
     >
       ${t}
     </unity-typography>
