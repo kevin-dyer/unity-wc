@@ -4,27 +4,27 @@ import '../../src/components/unity-tooltip/unity-tooltip'
 
 describe('tooltip test', () => {
   it('without arrow', async () => {
-    const el = await fixture('<unity-tooltip label="hi"></unity-tooltip>');
-    expect(el).shadowDom.to.equal('<span class="tooltip"><unity-typography size="paragraph">hi</unity-typography></span>');
+    const el = await fixture('<unity-tooltip label="hi" hideArrow><div>Hover</div></unity-tooltip>');
+    expect(el).shadowDom.to.equal('<div class="tooltip-container"><slot></slot><span class="right-align tooltip"><unity-typography size="paragraph">hi</unity-typography></span>');
   });
 });
 
 describe('tooltip test', () => {
   it('with arrow', async () => {
-    const el = await fixture('<unity-tooltip arrow="bottom" label="hi"></unity-tooltip>');
+    const el = await fixture('<unity-tooltip label="hi"></unity-tooltip>');
     const span = el.shadowRoot.querySelector('span')
-    expect(span.className).to.include('arrow bottom');
+    expect(span.className).to.include('arrow left-arrow right-align');
   });
 });
 
 describe('unity-tooltip', () => {
   it('should have right-align class added', async () => {
-    const el = await fixture('<unity-tooltip label="hi" rightAlign=${true}></unity-tooltip>');
+    const el = await fixture('<unity-tooltip label="hi" alignment="right"></unity-tooltip>');
     const span = el.shadowRoot.querySelector('span')
     expect(span.className).to.include('right-align');
   });
   it('should have bottom-align class added', async () => {
-    const el = await fixture('<unity-tooltip label="hi" bottomAlign=${true}></unity-tooltip>');
+    const el = await fixture('<unity-tooltip label="hi" alignment="bottom"></unity-tooltip>');
     const span = el.shadowRoot.querySelector('span')
     expect(span.className).to.include('bottom-align');
   });
