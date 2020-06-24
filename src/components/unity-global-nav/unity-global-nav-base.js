@@ -188,6 +188,7 @@ class UnityGlobalNavBase extends LitElement {
           --global-nav-collapsed-width: 32px;
           --global-nav-logo-size: 12px;
           --global-nav-menu-shadow: 0 0 4px 0;
+          --tooltip-margin: 0 0 0 var(--margin-size-md, var(--default-margin-size-md));
         }
         * {
           box-sizing: border-box;
@@ -247,8 +248,9 @@ class UnityGlobalNavBase extends LitElement {
           height: 100%;
           width: 100%;
           margin-top: 1px;
-          overflow-y: auto;
-          overflow-x: hidden;
+          /*overflow-y: auto;*/
+          /*Commented out for tooltip*/
+          overflow: visible;
         }
         .top-container {
           height: 100%;
