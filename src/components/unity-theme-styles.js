@@ -145,10 +145,10 @@ export const UnityThemeStyles = css`
   },
   @font-face {
     font-family: NotoSans;
-    src: url(fonts/NotoSans/NotoSans-Regular.ttf);
+    src: url(unity-default-theme-styles/fonts/NotoSans/NotoSans-Regular.ttf);
   }
   @font-face {
     font-family: NotoMono;
-    src: url(fonts/NotoMono/NotoMono-Regular.ttf);
+    src: url(unity-default-theme-styles/fonts/NotoMono/NotoMono-Regular.ttf);
   }
 `;

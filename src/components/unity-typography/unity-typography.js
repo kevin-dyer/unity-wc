@@ -127,7 +127,7 @@ class UnityTypography extends LitElement {
       css`
         :host {
           --font-face: var(--font-family, var(--default-font-family));
-          --monospace-font-face: var(--monospace-font-family, --default-monospace-font-family);
+          --monospace-font-face: var(--monospace-font-family, var(--default-monospace-font-family));
           --font-color-light: var(--light-grey-text-color, var(--default-light-grey-text-color));
           --font-color-medium: var(--medium-grey-text-color, var(--default-medium-grey-text-color));
           --font-color-dark: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
