@@ -956,7 +956,7 @@ class UnityTable extends LitElement {
       direction: dir
     } = this._sortBy
     const direction = !!dir ? dir : UNS
-    const trClass = `sticky-header-row .row${this.compact ? ' compact': ''}`
+    const trClass = `sticky-header-row${this.compact ? ' compact': ''}`
 
     return html`
       <thead>
@@ -1450,12 +1450,11 @@ class UnityTable extends LitElement {
           padding-left: 13px;
           box-sizing: border-box;
           border-collapse: collapse;
+          border-bottom: 1px solid var(--separator-color);
         }
         tr {
           width: 100%;
           table-layout: fixed;
-          border-collapse: collapse;
-          border-bottom: 1px solid var(--separator-color);
         }
         td {
           padding: 0;
@@ -1511,6 +1510,7 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           cursor: pointer;
           background-color: var(--background-color, var(--default-background-color));
+          border-bottom: 1px solid var(--separator-color);
         }
         .row.compact {
           height: var(--trow-compact-height);
@@ -1528,6 +1528,9 @@ class UnityTable extends LitElement {
         .sticky-header-row {
           height: var(--thead-height);
           line-height: var(--thead-height);
+          border-collapse: collapse;
+          cursor: pointer;
+          background-color: var(--background-color, var(--default-background-color));
         }
         .sticky-header-row.compact {
           height: var(--thead-compact-height);
