@@ -100,19 +100,23 @@ export const UnityDefaultThemeStyles = css`
     --default-light-grey-background-color: rgb(var(--default-light-gray-2-rgb));
 
     /* Fonts */
-    --default-font-family: 'Noto', sans-serif;
+    --default-font-family: 'NotoSans', sans-serif;
+    --default-monospace-font-family: 'NotoMono', monospace;
 
-    --default-header1-font-size: 18px;
+    --default-header1-font-size: 16px;
     --default-header1-font-weight: 400;
+    --default-header1-line-height: 24px;
 
-    --default-header2-font-size: 18px;
+    --default-header2-font-size: 16px;
     --default-header2-font-weight: 400;
+    --default-header1-line-height: 24px;
 
-    --default-header2-selected-font-size: 18px;
+    --default-header2-selected-font-size: 16px;
     --default-header2-selected-font-weight: 600;
 
-    --default-paragraph-font-size: 11px;
+    --default-paragraph-font-size: 12px;
     --default-paragraph-font-weight: 400;
+    --default-paragraph-line-height: 16px;
 
     /* this font size should likely change */
     --default-small-text-size: 8px;
@@ -137,5 +141,13 @@ export const UnityDefaultThemeStyles = css`
     --default-padding-size-md: 12px;
     --default-padding-size-lg: 16px;
     --default-padding-size-xl: 24px;
+  },
+  @font-face {
+    font-family: NotoSans;
+    src: url(fonts/NotoSans/NotoSans-Regular.ttf);
+  }
+  @font-face {
+    font-family: NotoMono;
+    src: url(fonts/NotoMono/NotoMono-Regular.ttf);
   }
 `;
