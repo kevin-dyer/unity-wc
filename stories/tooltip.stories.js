@@ -1,6 +1,4 @@
-//TODO: replace with bit unity-tooltip once v2 is exported
-// import '@bit/smartworks.unity.unity-tooltip'
-import '../src/components/unity-tooltip/unity-tooltip'
+import '@bit/smartworks.unity.unity-tooltip'
 import '@bit/smartworks.unity.unity-button'
 import { html } from 'lit-element'
 import { withKnobs, text, select, boolean } from "@storybook/addon-knobs";
@@ -24,7 +22,7 @@ export const FullExample = () => {
   const disabled = boolean("Disabled", false)
 
   return html`
-    <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="display: flex; flex-direction: column; align-items: center; margin: 30px;">
       <unity-tooltip
         label=${label}
         alignment=${alignment}
