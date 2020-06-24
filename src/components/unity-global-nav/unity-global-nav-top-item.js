@@ -147,14 +147,21 @@ class UnityGlobalNavTopItem extends LitElement {
           ${!hasChildren && selected ? 'selected' : ''}
           ${disabled? 'disabled' : ''}
         "
-        @click=${!disabled? _onSelect : null}
       >
-        <div class="label ${short ? 'short' : ''} ${hasChildren && !short? 'tall' : ''} ${collapsed? 'flex-center' : ''}">
-          ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
-          ${this.getLabel(hasIcon, hasChildren) }
-          ${collapsed? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
-          ${!collapsed && hasChildren ? html`<unity-icon class="icon" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
-        </div>
+        <unity-tooltip
+          label=${label}
+          ?disabled=${!collapsed}
+          alignment='right'
+        >
+          <div
+            class="label ${short ? 'short' : ''} ${hasChildren && !short? 'tall' : ''} ${collapsed? 'flex-center' : ''}"
+            @click=${!disabled? _onSelect : null}
+          >
+            ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
+            ${this.getLabel(hasIcon, hasChildren) }
+            ${!collapsed && hasChildren ? html`<unity-icon class="icon" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
+          </div>
+        </unity-tooltip>
         ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled}) => html`
         <unity-global-nav-inner-item
           .key="${key}"
@@ -276,16 +283,6 @@ class UnityGlobalNavTopItem extends LitElement {
         }
         .tall {
           min-height: var(--global-nav-item-tall-height, var(--tall-height));
-        }
-        unity-tooltip {
-          position: absolute;
-          display: none;
-          right: -6px;
-          top: 25%;
-          --font-color: var(--global-nav-item-text-color);
-        }
-        .label:hover unity-tooltip {
-          display: block;
         }
         .flex-center {
           display: flex;

@@ -82,14 +82,20 @@ class UnityGlobalNavInnerItem extends LitElement {
     } = this
 
     return html`
-      <div class="container ${selected ? 'selected' : ''}" @click=${!disabled? _onSelect : null}>
-        <div class="label ${collapsed? 'flex-center' : ''}">
-          ${!!icon && icon !== 'undefined' ? html`<unity-icon class="icon ${selected? 'selected': ''}" icon="${icon}"></unity-icon>` : null}
-          ${!collapsed?
-            html`<unity-typography size="paragraph" class="text">${label}</unity-typography>` 
-            : html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>`}
+      <unity-tooltip
+        label=${label}
+        ?disabled=${!collapsed}
+        alignment='right'
+      >
+        <div class="container ${selected ? 'selected' : ''}" @click=${!disabled? _onSelect : null}>
+          <div class="label ${collapsed? 'flex-center' : ''}">
+            ${!!icon && icon !== 'undefined' ? html`<unity-icon class="icon ${selected? 'selected': ''}" icon="${icon}"></unity-icon>` : null}
+            ${!collapsed?
+              html`<unity-typography size="paragraph" class="text">${label}</unity-typography>`
+              : null}
+          </div>
         </div>
-      </div>
+      </unity-tooltip
     `
   }
 
@@ -172,16 +178,6 @@ class UnityGlobalNavInnerItem extends LitElement {
           width: 16px;
           color: var(--global-nav-inner-item-text-color, var(--text-color));
           --layout-inline_-_display: initial;
-        }
-        unity-tooltip {
-          position: absolute;
-          display: none;
-          right: -6px;
-          top: 25%;
-          --font-color: var(--global-nav-inner-item-text-color);
-        }
-        .label:hover unity-tooltip {
-          display: block;
         }
         .flex-center {
           display: flex;
