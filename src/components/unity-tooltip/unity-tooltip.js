@@ -111,8 +111,8 @@ class UnityTooltip extends LitElement {
       UnityDefaultThemeStyles,
       css`
       :host {
-        --tooltip-background-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-        --tooltip-padding: 2px 8px;
+        --tooltip-background-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
+        --tooltip-padding: 2px var(--padding-size-sm, var(--default-padding-size-sm, 8px));
         --tooltip-border-radius: 3px;
       }
 
