@@ -18,7 +18,7 @@ const alignmentOptions = {
 export const FullExample = () => {
   const label = text("Tooltip text", "I am a tooltip")
   const alignment = select('Alignment', alignmentOptions, 'right' )
-  const showArrow = boolean('Show Arrow', true)
+  const hideArrow = boolean('Hide Arrow', false)
   const disabled = boolean("Disabled", false)
 
   return html`
@@ -26,7 +26,7 @@ export const FullExample = () => {
       <unity-tooltip
         label=${label}
         alignment=${alignment}
-        ?showArrow=${showArrow}
+        ?hideArrow=${hideArrow}
         ?disabled=${disabled}
       >
         <unity-button label="Hover me!"></unity-button>
