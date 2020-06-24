@@ -7,9 +7,10 @@ import '@polymer/iron-icons/social-icons.js'
 import '@polymer/iron-icons/hardware-icons.js'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.table-cell-base'
+// import '@bit/smartworks.unity.table-cell-base'
+import './table-cell-base'
 
-const TAB_ICON = 24
+const TAB_ICON = 22
 const TAB_ARROW = 20
 
 function getIndent({icon, expandable, tabIndex}) {
@@ -205,8 +206,8 @@ class UnityTableCell extends LitElement {
         }
         iron-icon.item-icon {
           color: var(--cell-text-color);
-          height: 24px;
-          width: 24px;
+          height: 18px;
+          width: 18px;
           margin-right: 4px;
         }
         .tab-indent {
