@@ -36,8 +36,8 @@ class UnityTypography extends LitElement {
   constructor() {
     super()
 
-    this.color = ''
-    this.size = ''
+    this.color = 'dark'
+    this.size = 'paragraph'
     this.weight = ''
     this.monospace = false
   }
