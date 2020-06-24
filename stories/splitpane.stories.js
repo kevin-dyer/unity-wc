@@ -11,11 +11,13 @@ export default {
 export const SplitPane = () => {
   const show = boolean('Show', false)
   const collapsed = boolean('collapsed', false)
-  const closeButton = boolean("Close button", false)
-  const collapseButton = boolean("Collapse button", false)
+  const closeButton = boolean("Close button", true)
+  const collapseButton = boolean("Collapse button", true)
+  const label = text('Label', 'Split Pane')
   return html`
     <unity-split-pane
       style="height: 400px; border: 1px solid grey;"
+      label=${label}
       ?show="${show}"
       ?collapsed=${collapsed}
       ?closeButton="${closeButton}"

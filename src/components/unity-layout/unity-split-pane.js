@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit-element'
 
 import '@bit/smartworks.unity.unity-button'
-import '@bit/smartworks.unity.unity-icon-set'
+import '@bit/smartworks.unity.unity-icon'
+import '@bit/smartworks.unity.unity-typography'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 const MIN_PANE_WIDTH = 20 // %
@@ -42,6 +43,7 @@ class UnitySplitPane extends LitElement {
     super()
 
     this._show = false
+    this.label = ''
     this.collapsed = false
     this.closeButton = false
     this.collapseButton = false
@@ -55,6 +57,7 @@ class UnitySplitPane extends LitElement {
   static get properties() {
     return {
       show: { type: Boolean },
+      label: { type: String },
       collapsed: { type: Boolean },
       closeButton: { type: Boolean },
       collapseButton: { type: Boolean },
@@ -126,27 +129,30 @@ class UnitySplitPane extends LitElement {
     this.toggleCollapse(false)
   }
 
+  renderBar() {
+    const { label } = this
+    return html`
+      <div class="bar" @click=${() => this.toggleCollapse()}>
+        <div class="bar-icon-wrapper">
+          <unity-icon class="show-button" icon="unity:double_right_chevron"></unity-icon>
+        </div>
+        <div class="bar-label-wrapper">
+          <unity-typography class="bar-label">${label}<unity-typography>
+        </div> 
+      </div>`
+  }
+
+
   render() {
     const {
       show,
       closeButton,
       collapseButton,
       collapsed,
-      onClose,
       paneWidth
     } = this
     return html`
-      ${show && collapsed ? html`
-        <div
-          class="bar"
-          @click=${()=>this.toggleCollapse()}
-        >
-          <iron-icon
-            class="show-button"
-            icon="unity:double_right_chevron"
-          ></iron-icon>
-        </div>
-      ` : ''}
+      ${show && collapsed ? this.renderBar() : ''}
       <div class="wrapper ${show && collapsed?'hide':''}">
         ${(collapseButton && show) ? html`
           <unity-button
@@ -199,6 +205,8 @@ class UnitySplitPane extends LitElement {
           --background: var(--white-color, var(--default-white-color));
           --bar-background: var(--background);
           --button-color: var(--secondary-color, var(--default-secondary-color));
+          --pane-border-width: 1px;
+          --pane-border-color: var(--dark-gray-color, var(--default-dark-gray-color));
           background-color: var(--background);
           display: flex;
           flex-direction: row;
@@ -243,33 +251,42 @@ class UnitySplitPane extends LitElement {
         }
         .pane {
           position: relative;
-          border-left: var(--bar-width, 1px) solid var(--border-color);
+          border-left: var(--pane-border-width) solid var(--pane-border-color);
           box-sizing: border-box;
         }
         .hide {
           display: none;
         }
-        unity-button {
+        unity-button.close-button {
           position: absolute;
           z-index: 10;
-        }
-        .collapse-button {
-          margin-top: 10px;
-          margin-left: -8px;
-        }
-        unity-button.close-button {
           top: 0;
           right: 0;
         }
         .bar {
-          width: 40px;
+          width: var(--bar-width);
           display: flex;
+          flex-direction: column;
+          align-items: center;
           cursor: pointer;
           border-right: 1px solid var(--bar-border-color);
           background-color: var(--bar-background);
         }
-        .bar iron-icon {
-          margin: auto;
+        .bar-icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: var(--bar-width);
+          width: var(--bar-width);
+        }
+        .bar-label-wrapper {
+          flex: 1;
+          display: flex;
+          align-items: flex-start;
+          white-space: nowrap;
+        }
+        .bar-label {
+          transform: rotate(-90deg) translate(-50%);
         }
         .resize-handle{
           position: absolute;
@@ -282,6 +299,10 @@ class UnitySplitPane extends LitElement {
         }
         .show-button {
           color: var(--button-color);
+        }
+        unity-icon {
+          --unity-icon-height: var(--medium-icon-size, var(--default-medium-icon-size));
+          --unity-icon-width: var(--medium-icon-size, var(--default-medium-icon-size));
         }
       `
     ]
