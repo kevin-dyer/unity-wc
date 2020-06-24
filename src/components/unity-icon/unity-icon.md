@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.1.0
+- Added `src` property to allow displaying custom images.
+- Added CSS variables to control height and width.
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 
