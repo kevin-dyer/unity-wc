@@ -263,7 +263,7 @@ class UnityButton extends LitElement {
         break
       }
       case BORDERLESS: {
-        classList.push(important ? PRIMARY : BORDERLESS)
+        classList.push(BORDERLESS)
         break
       }
       default: {
