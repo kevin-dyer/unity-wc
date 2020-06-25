@@ -47,13 +47,13 @@ class UnityButton extends LitElement {
           flex-shrink: 0;
           display: block;
           --button-color: var(--button-primary-color, var(--default-button-primary-color));
+          --pressed-color: var(--button-primary-pressed-color, var(--default-button-primary-pressed-color));
         }
 
         /*Important Styles*/
         paper-button.important {
           --button-color: var(--button-important-color, var(--default-button-important-color));
-          --black-text-color: var(--button-important-color, var(--default-button-important-color));
-          /*color: var(--button-color);*/
+          --pressed-color: var(--button-important-pressed-color, var(--default-button-important-pressed-color));
         }
 
         paper-button {
@@ -97,7 +97,7 @@ class UnityButton extends LitElement {
         }
 
         paper-button.unity-button:active {
-          --button-color: var(--button-primary-pressed-color, var(--default-button-primary-pressed-color));
+          --button-color: var(--pressed-color);
         }
 
         paper-button.borderless:hover {
