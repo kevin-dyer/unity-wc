@@ -142,7 +142,7 @@ import {
 const ASC = 'Ascending'
 const DES = 'Descending'
 const UNS = 'Unsorted'
-const MIN_CELL_WIDTH = 20 //minimum pixel width of each table cell
+const MIN_CELL_WIDTH = 60 //minimum pixel width of each table cell
 const MOUSE_MOVE_THRESHOLD = 5 //pixels mouse is able to move horizontally before rowClick is cancelled
 const ROW_HEIGHT = 40 //used to set scroll offset
 const THRESHOLD_TIMEOUT = 60 //Timeout after scroll boundry is reached before callback can be fired again
@@ -1469,7 +1469,6 @@ class UnityTable extends LitElement {
         }
         .text {
           flex: 1;
-          min-width: 0;
           overflow: hidden;
 
           white-space: nowrap;
@@ -1482,10 +1481,8 @@ class UnityTable extends LitElement {
           justify-content: flex-start;
           align-items: center;
           flex: 1;
-          min-width: 0;
         }
         .header-label {
-          min-width: 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -1496,6 +1493,7 @@ class UnityTable extends LitElement {
           margin-right: var(--padding-large);
           z-index: 2;
           overflow: hidden;
+          flex-shrink: 0;
         }
         paper-icon-button {
           width: 33px;

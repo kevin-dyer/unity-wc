@@ -184,6 +184,7 @@ class UnityTableCell extends LitElement {
           margin-right: var(--padding-large);
           z-index: 2;
           overflow: hidden;
+          flex-shrink: 0;
         }
         paper-checkbox.with-icon {
           margin-right: var(--padding-medium);
@@ -195,6 +196,7 @@ class UnityTableCell extends LitElement {
           flex-direction: row;
           align-items: center;
           min-width: 0;
+          flex-shrink: 0;
         }
         .text {
           position: relative;
@@ -209,10 +211,12 @@ class UnityTableCell extends LitElement {
           height: 18px;
           width: 18px;
           margin-right: 4px;
+          flex-shrink: 0;
         }
         .tab-indent {
           display: inline-block;
           height: 0;
+          flex-shrink: 0;
         }
         .expand-control {
           color: black;
@@ -220,6 +224,7 @@ class UnityTableCell extends LitElement {
           height: 16px;
           width: 16px;
           margin-right: 4px;
+          flex-shrink: 0;
         }
         .expand-control.collapsed {
           transform: rotate(-90deg);
