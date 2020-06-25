@@ -15,7 +15,6 @@ import '@bit/smartworks.unity.unity-typography'
  * @param {string} type, type of button to render (optional): primary , secondary, borderless
  * @param {bool} important, style button in important colors.
  * @param {bool} loading, displays loading spinner in place of leftIcon
- * @param {bool} small, to decrease size of button
  * @param {function} click, event handler
 *  @example
 *   <unity-button
@@ -79,15 +78,6 @@ class UnityButton extends LitElement {
           min-width: 0;
         }
 
-        paper-button.small {
-          height: 22px;
-          padding: 0 10px;
-          min-width: 22px;
-          border-radius: 22px;
-          --font-size: var(--small-text-size, var(--default-small-text-size));
-          --font-weight: var(--small-text-weight, var(--default-small-text-weight));
-        }
-
         /* Primary Styles */
         paper-button.primary {
           background-color: var(--button-color);
@@ -130,18 +120,6 @@ class UnityButton extends LitElement {
           --bg-color: var(--button-borderless-pressed-color, var(--default-button-borderless-pressed-color));
         }
 
-        paper-spinner-lite.icon {
-          height: var(--small-icon-size, var(--default-small-icon-size));
-          width: var(--small-icon-size, var(--default-small-icon-size));
-          --paper-spinner-color: 'inherit';
-          --paper-spinner-stroke-width: 2px;
-        }
-
-        .small paper-spinner-lite.icon {
-          height: var(--xsmall-icon-size, var(--default-xsmall-icon-size));
-          width: var(--xsmall-icon-size, var(--default-xsmall-icon-size));;
-        }
-
         paper-spinner-lite.icon.left-icon {
           margin-right: 8px;
         }
@@ -163,21 +141,9 @@ class UnityButton extends LitElement {
           margin-right: -15px;
         }
 
-        .small iron-icon.left-icon {
-          margin-left: -6px;
-        }
-        .small iron-icon.right-icon {
-          margin-left: -6px;
-        }
-
         iron-icon.icon {
           --iron-icon-width: var(--small-icon-size, var(--default-small-icon-size));
           --iron-icon-height: var(--small-icon-size, var(--default-small-icon-size));
-        }
-
-        .small iron-icon.icon {
-          --iron-icon-width: var(--xmall-icon-size, var(--default-xsmall-icon-size));
-          --iron-icon-height: var(--xsmall-icon-size, var(--default-xsmall-icon-size));
         }
 
         paper-button.icon-btn {
@@ -224,9 +190,6 @@ class UnityButton extends LitElement {
       loading: {
         type: Boolean
       },
-      small: {
-        type: Boolean
-      },
       icon: {
         type: String
       }
@@ -241,7 +204,6 @@ class UnityButton extends LitElement {
     this.disabled=false
     this.important=false
     this.loading=false
-    this.small=false
     this.icon=''
   }
 
@@ -253,7 +215,6 @@ class UnityButton extends LitElement {
       important,
       disabled,
       loading,
-      small,
       icon
     } = this
 
@@ -282,10 +243,6 @@ class UnityButton extends LitElement {
 
     if (loading) {
       classList.push('loading')
-    }
-
-    if (small) {
-      classList.push('small')
     }
 
     if (!label && icon) {
