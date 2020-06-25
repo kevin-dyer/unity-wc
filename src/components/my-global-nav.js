@@ -9,7 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
+// import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
+import './unity-global-nav/unity-global-nav-base'
 import '@bit/smartworks.unity.unity-core/unity-icon'
 import { items } from './unity-global-nav/fakeItems.js'
 
@@ -23,13 +24,26 @@ class MyGlobalNav extends PageViewElement {
     return [
       SharedStyles,
       css`
+        :host {
+        }
+
         .example-container {
           position: relative;
-          width: 1000px;
-          height: 750px;
-          top: 30px;
-          left: 50%;
-          transform: translate(-50%,0);
+          /*width: 1000px;
+          height: 750px;*/
+          /*width: 100%;*/
+          /*height: 70%;*/
+          flex: 1;
+          display: flex;
+          /*flex-direction: column;
+          align-items: stretch;*/
+          /*min-height: 0;*/
+          /*height: 100%;*/
+          /*overflow-y: hidden;*/
+          /*height: 100vh;*/
+          /*top: 30px;*/
+          /*left: 50%;*/
+          /*transform: translate(-50%,0);*/
           border: 1px solid grey;
         }
       `
@@ -43,7 +57,7 @@ class MyGlobalNav extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-global-nav-base collapsible
+        <unity-global-nav-base collapsible collapsed
           headerImg="../../images/logo_SmartWorks_color.svg"
           .items=${items}
           .onSelect=${this.onSelect}

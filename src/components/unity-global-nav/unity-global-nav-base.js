@@ -1,6 +1,8 @@
 import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-global-nav-top-item'
+// import '@bit/smartworks.unity.unity-global-nav-top-item'
+import './unity-global-nav-top-item'
+
 import '@bit/smartworks.unity.unity-icon-set'
 import '@bit/smartworks.unity.unity-typography'
 import '@bit/smartworks.unity.unity-icon'
@@ -248,9 +250,9 @@ class UnityGlobalNavBase extends LitElement {
           height: 100%;
           width: 100%;
           margin-top: 1px;
-          /*overflow-y: auto;*/
+          overflow-y: auto;
           /*Commented out for tooltip*/
-          overflow: visible;
+          /*overflow: visible;*/
         }
         .top-container {
           height: 100%;
