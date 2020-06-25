@@ -40,7 +40,11 @@ class UnityButton extends LitElement {
           --default-button-primary-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color));
           --default-button-secondary-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-button-secondary-color: var(--gray-color, var(--default-gray-color));
-          --default-button-disabled-color: var(--gray-color, var(--default-gray-color));
+          --default-button-borderless-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-button-borderless-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
+          --default-button-borderless-pressed-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
+          --default-button-disabled-text-color: var(--gray-color, var(--default-gray-color));
+          --default-button-disabled-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
           --default-button-important-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
           --default-button-important-pressed-color: var(--tertiary-1-shade-color, var(--default-tertiary-1-shade-color));
           --default-background-color: var(--white-color, var(--default-white-color));
@@ -108,12 +112,22 @@ class UnityButton extends LitElement {
           --button-color: var(--pressed-color);
         }
 
-        paper-button.borderless:hover {
-          background-color: var(--button-disabled-color, var(--default-button-disabled-color));
+        /* Borderless Styles */
+        paper-button.unity-button.borderless {
+          --font-color: var(--button-borderless-text-color, var(--default-button-borderless-text-color));
+          --bg-color: var(--background-color, var(--default-background-color));
+          background-color: var(--bg-color);
+          border: 1px solid var(--bg-color);
         }
 
-        paper-button.borderless:active {
+        paper-button.unity-button.borderless:hover {
+          --font-color: var(--button-color);
+          --bg-color: var(--button-borderless-color, var(--default-button-borderless-color));
+        }
 
+        paper-button.unity-button.borderless:active {
+          --font-color: var(--pressed-color);
+          --bg-color: var(--button-borderless-pressed-color, var(--default-button-borderless-pressed-color));
         }
 
         paper-spinner-lite.icon {
@@ -179,18 +193,15 @@ class UnityButton extends LitElement {
 
         /*Including .unity-button selector for increased specificity and override other class styles*/
         paper-button.unity-button.disabled {
-          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --font-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --button-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
-          border-color: var(--font-color);
+          --font-color: var(--button-disabled-text-color, var(--default-button-disabled-text-color));
+          background-color: var(--button-disabled-color, var(--default-button-disabled-color));
+          border-color: var(--button-disabled-color, var(--default-button-disabled-color));
         }
 
-        paper-button.unity-button.disabled paper-spinner-lite{
-          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-        }
-
-        paper-button.unity-button.disabled iron-icon{
-          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+        paper-button.borderless.disabled {
+          --font-color: var(--button-disabled-text-color, var(--default-button-disabled-text-color));
+          background-color: var(--background-color, var(--default-background-color));
+          border-color: var(--background-color, var(--default-background-color));
         }
       `
     ];
