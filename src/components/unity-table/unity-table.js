@@ -848,7 +848,10 @@ class UnityTable extends LitElement {
     if (!rowObject) return
     if (!this._flattenedData.some(({ id='' }) => id === value)) { // highlighted row is not being shown
       const { parents=[] } = rowObject
-      parents.forEach(this._toggleExpand.bind(this)) // expand parents
+      // expand parents
+      parents.forEach(parentId => {
+        this._toggleExpand(parentId, true)
+      })
     }
     this.onHighlight(rowObject)
   }
@@ -922,10 +925,16 @@ class UnityTable extends LitElement {
     else if (!_allSelected) this._selectAll()
   }
 
-  _toggleExpand(rowId) {
+  //shouldExpand - optional boolean argument to explicitly set expanded state of rowId
+  _toggleExpand(rowId, shouldExpand) {
     const nextExpanded = new Set(this.expanded)
     const isExpanded = this.expanded.has(rowId)
-    if (isExpanded) {
+
+    if (shouldExpand === true) { //Explicitly set Expanded state
+      nextExpanded.add(rowId)
+    } else if (shouldExpand === false) {
+      nextExpanded.delete(rowId)
+    } else if (isExpanded) { //Toggle Expanded state
       nextExpanded.delete(rowId)
     } else {
       nextExpanded.add(rowId)
