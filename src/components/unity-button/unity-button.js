@@ -43,19 +43,17 @@ class UnityButton extends LitElement {
           --default-button-disabled-color: var(--gray-color, var(--default-gray-color));
           --default-button-important-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
           --default-button-important-pressed-color: var(--tertiary-1-shade-color, var(--default-tertiary-1-shade-color));
+          --default-background-color: var(--white-color, var(--default-white-color));
           flex-shrink: 0;
           display: block;
+          --button-color: var(--button-primary-color, var(--default-button-primary-color));
         }
 
         /*Important Styles*/
         paper-button.important {
           --button-color: var(--button-important-color, var(--default-button-important-color));
           --black-text-color: var(--button-important-color, var(--default-button-important-color));
-          color: var(--button-color);
-        }
-
-        paper-button.important:hover {
-          filter: brightness(93%);
+          /*color: var(--button-color);*/
         }
 
         paper-button {
@@ -67,10 +65,9 @@ class UnityButton extends LitElement {
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           text-transform: none;
           white-space: nowrap;
-          color: var(--button-color);
-          --font-color: var(--button-color);
           outline: none;
           margin: 0;
+          border: 1px solid var(--button-color);
         }
 
         paper-button.text-button {
@@ -87,16 +84,28 @@ class UnityButton extends LitElement {
           --font-weight: var(--small-text-weight, var(--default-small-text-weight));
         }
 
-        paper-button:hover {
-          /*NOTE: css filters are not supported on older browsers*/
-          filter: brightness(85%);
-        }
-
         /*Solid Styles*/
         paper-button.primary {
           background-color: var(--button-color);
-          color: #FFF;
-          --font-color: #FFF;
+          --font-color: var(--background-color, var(--default-background-color));
+        }
+
+        paper-button.unity-button:hover {
+          /*NOTE: css filters are not supported on older browsers*/
+          background-color: var(--background-color, var(--default-background-color));
+          --font-color: var(--button-color);
+        }
+
+        paper-button.unity-button:active {
+          --button-color: var(--button-primary-pressed-color, var(--default-button-primary-pressed-color));
+        }
+
+        paper-button.borderless:hover {
+          background-color: var(--button-disabled-color, var(--default-button-disabled-color));
+        }
+
+        paper-button.borderless:active {
+
         }
 
         /*Secondary Styles*/
@@ -308,6 +317,7 @@ class UnityButton extends LitElement {
     //NOTE: @click is bubbled up
     return html`
       <paper-button
+        noink
         ?disabled=${this.disabled}
         class=${this._getClassNames()}
       >
