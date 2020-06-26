@@ -126,9 +126,14 @@ class UnityButton extends LitElement {
         }
 
         .icon {
-          margin: 0 4px;
+          margin: 0;
           color: var(--font-color);
+          height: 16px;
+          width: 16px;
+          --iron-icon-width: 16px;
+          --iron-icon-height: 16px;
           --paper-spinner-color: var(--font-color);
+          --paper-spinner-stroke-width: 2px;
         }
 
         paper-spinner-lite.icon.left-icon {
@@ -139,18 +144,14 @@ class UnityButton extends LitElement {
         }
 
         .icon-btn paper-spinner-lite.icon.left-icon {
-          margin: 0;
+          padding: 0;
         }
 
-        iron-icon.icon {
-          --iron-icon-width: var(--small-icon-size, var(--default-small-icon-size));
-          --iron-icon-height: var(--small-icon-size, var(--default-small-icon-size));
-        }
         iron-icon.left-icon {
-          margin-left: -15px;
+          padding-right: 2px;
         }
         iron-icon.right-icon {
-          margin-right: -15px;
+          padding-left: 2px;
         }
 
 
@@ -303,7 +304,7 @@ class UnityButton extends LitElement {
 
         ${this.centerIcon && !this.loading
           ? html`<iron-icon
-              icon=${this.icon}
+              icon=${this.centerIcon}
               class="icon center-icon"
             ></iron-icon>`
           : html`<unity-typography>
