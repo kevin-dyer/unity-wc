@@ -53,6 +53,8 @@ class UnityButton extends LitElement {
           display: block;
           --button-color: var(--button-primary-color, var(--default-button-primary-color));
           --pressed-color: var(--button-primary-pressed-color, var(--default-button-primary-pressed-color));
+          --font-color: var(--background-color, var(--default-background-color));
+          --icon-color: var(--font-color);
         }
 
         /* Important Styles */
@@ -73,6 +75,7 @@ class UnityButton extends LitElement {
           outline: none;
           margin: 0;
           border: 1px solid var(--button-color);
+          padding: 7px 14px; /* Design wants 8x15, but must account for border 1 */
         }
 
         paper-button.text-button {
@@ -83,14 +86,21 @@ class UnityButton extends LitElement {
         /* Primary Styles */
         paper-button.primary {
           background-color: var(--button-color);
-          --font-color: var(--background-color, var(--default-background-color));
         }
 
         /* Secondary Styles */
         paper-button.secondary {
           background-color: var(--background-color, var(--default-background-color));
-          border: 1px solid var(--button-secondary-color, var(--default-button-secondary-color));
           --font-color: var(--button-secondary-text-color, var(--default-button-secondary-text-color));
+          border: 1px solid var(--button-secondary-color, var(--default-button-secondary-color));
+        }
+
+        /* Borderless Styles */
+        paper-button.unity-button.borderless {
+          --font-color: var(--button-borderless-text-color, var(--default-button-borderless-text-color));
+          --bg-color: var(--background-color, var(--default-background-color));
+          background-color: var(--bg-color);
+          border: 1px solid var(--bg-color);
         }
 
         paper-button.unity-button:hover {
@@ -104,14 +114,6 @@ class UnityButton extends LitElement {
           --button-color: var(--pressed-color);
         }
 
-        /* Borderless Styles */
-        paper-button.unity-button.borderless {
-          --font-color: var(--button-borderless-text-color, var(--default-button-borderless-text-color));
-          --bg-color: var(--background-color, var(--default-background-color));
-          background-color: var(--bg-color);
-          border: 1px solid var(--bg-color);
-        }
-
         paper-button.unity-button.borderless:hover {
           --font-color: var(--button-color);
           --bg-color: var(--button-borderless-color, var(--default-button-borderless-color));
@@ -120,6 +122,13 @@ class UnityButton extends LitElement {
         paper-button.unity-button.borderless:active {
           --font-color: var(--pressed-color);
           --bg-color: var(--button-borderless-pressed-color, var(--default-button-borderless-pressed-color));
+
+        }
+
+        .icon {
+          margin: 0 4px;
+          color: var(--font-color);
+          --paper-spinner-color: var(--font-color);
         }
 
         paper-spinner-lite.icon.left-icon {
@@ -133,8 +142,9 @@ class UnityButton extends LitElement {
           margin: 0;
         }
 
-        .icon {
-          margin: 0 4px;
+        iron-icon.icon {
+          --iron-icon-width: var(--small-icon-size, var(--default-small-icon-size));
+          --iron-icon-height: var(--small-icon-size, var(--default-small-icon-size));
         }
         iron-icon.left-icon {
           margin-left: -15px;
@@ -143,10 +153,6 @@ class UnityButton extends LitElement {
           margin-right: -15px;
         }
 
-        iron-icon.icon {
-          --iron-icon-width: var(--small-icon-size, var(--default-small-icon-size));
-          --iron-icon-height: var(--small-icon-size, var(--default-small-icon-size));
-        }
 
         paper-button.icon-btn {
           min-width: 30px;
@@ -191,6 +197,9 @@ class UnityButton extends LitElement {
       },
       loading: {
         type: Boolean
+      },
+      leftIcon: {
+        type: String
       },
       centerIcon: {
         type: String
@@ -271,6 +280,11 @@ class UnityButton extends LitElement {
   //NOTE: consider rendering slot inside paper button that will render in place of label
   render() {
     //NOTE: @click is bubbled up
+    if (this.label==='left icon') {
+      console.log('this.label', this.label)
+      console.log('this.loading', this.loading)
+      console.log('this.leftIcon', this.leftIcon)
+    }
     return html`
       <paper-button
         noink
