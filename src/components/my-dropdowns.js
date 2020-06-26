@@ -1,5 +1,6 @@
 import { html, css } from 'lit-element';
-import '@bit/smartworks.unity.unity-core/unity-dropdown'
+// import '@bit/smartworks.unity.unity-core/unity-dropdown'
+import './unity-dropdown/unity-dropdown'
 import '@bit/smartworks.unity.unity-core/unity-select-menu'
 
 import { PageViewElement } from './page-view-element.js';
@@ -338,8 +339,8 @@ class MyDropdowns extends PageViewElement {
 
         <div class="input-box">
           <unity-dropdown
-            label="${"Gradient button with menu"}"
-            boxType="button-gradient"
+            label="${"Primary button with menu"}"
+            boxType="button-primary"
             .onMenuClick=${this.onMenuClick}
             .options=${dataMock.labelsOnly}
           >
@@ -348,8 +349,29 @@ class MyDropdowns extends PageViewElement {
 
         <div class="input-box">
           <unity-dropdown
-            label="${"Outlined button with single-select"}"
-            boxType="button-outlined"
+            label="${"Secondary button with single-select"}"
+            boxType="button-secondary"
+            inputType="single-select"
+            .options=${dataMock.labelsOnly}
+          >
+          </unity-dropdown>
+        </div>
+
+        <div class="input-box">
+          <unity-dropdown
+            label="${"Borderless button with single-select"}"
+            boxType="button-borderless"
+            inputType="single-select"
+            .options=${dataMock.labelsOnly}
+          >
+          </unity-dropdown>
+        </div>
+
+        <div class="input-box">
+          <unity-dropdown
+            label="${"Important button with single-select"}"
+            boxType="button-primary"
+            important
             inputType="single-select"
             .options=${dataMock.labelsOnly}
           >

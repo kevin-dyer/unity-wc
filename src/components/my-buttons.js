@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
-import '@bit/smartworks.unity.unity-core/unity-button'
+// import '@bit/smartworks.unity.unity-core/unity-button'
+import './unity-button/unity-button'
 import { SharedStyles } from './shared-styles.js';
 
 class MyButtons extends LitElement {
@@ -38,7 +39,7 @@ class MyButtons extends LitElement {
 
         <div class="button-container">
           <unity-button
-            label="solid"
+            label="no given type"
             ?disabled=${false}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
@@ -55,7 +56,7 @@ class MyButtons extends LitElement {
 
           <unity-button
             label="right icon"
-            rightIcon="expand-more"
+            rightIcon="add"
           ></unity-button>
 
           <unity-button
@@ -74,44 +75,44 @@ class MyButtons extends LitElement {
       </div>
 
       <div class="section">
-        <h4>Solid button</h4>
+        <h4>Primary button</h4>
 
         <div class="button-container">
           <unity-button
-            label="solid"
-            type="solid"
+            label="primary"
+            type="primary"
             ?disabled=${false}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
             label="loading"
-            type="solid"
+            type="primary"
             ?loading=${true}
           ></unity-button>
 
           <unity-button
             label="left icon"
-            type="solid"
+            type="primary"
             leftIcon="add"
           ></unity-button>
 
           <unity-button
             label="right icon"
-            type="solid"
-            rightIcon="expand-more"
+            type="primary"
+            rightIcon="add"
           ></unity-button>
 
           <unity-button
             label="disabled"
-            type="solid"
+            type="primary"
             ?disabled=${true}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
             label="loading disabled"
-            type="solid"
+            type="primary"
             ?loading=${true}
             ?disabled=${true}
           ></unity-button>
@@ -120,126 +121,139 @@ class MyButtons extends LitElement {
       </div>
 
       <div class="section">
-        <h4>Gradient button</h4>
+        <h4>Secondary button</h4>
 
         <div class="button-container">
           <unity-button
-            label="gradient"
-            type="gradient"
+            label="secondary"
+            type="secondary"
             ?disabled=${false}
             @click=${e => console.log("unity-button clicked! e: ", e)}
-          ></unity-button>
-
-          <unity-button
-            label="loading"
-            type="gradient"
-            ?loading=${true}
           ></unity-button>
 
           <unity-button
             label="left icon"
-            type="gradient"
-            leftIcon="add"
-          ></unity-button>
-
-          <unity-button
-            label="right icon"
-            type="gradient"
-            rightIcon="expand-more"
-          ></unity-button>
-
-          <unity-button
-            label="disabled"
-            type="gradient"
-            ?disabled=${true}
-            @click=${e => console.log("unity-button clicked! e: ", e)}
-          ></unity-button>
-
-          <unity-button
-            label="loading disabled"
-            type="gradient"
-            ?loading=${true}
-            ?disabled=${true}
-          ></unity-button>
-
-        </div>
-      </div>
-
-      <div class="section">
-        <h4>Outlined button</h4>
-
-        <div class="button-container">
-          <unity-button
-            label="outlined"
-            type="outlined"
-            ?disabled=${false}
-            @click=${e => console.log("unity-button clicked! e: ", e)}
-          ></unity-button>
-
-          <unity-button
-            label="icon"
-            type="outlined"
+            type="secondary"
             leftIcon="event-seat"
           ></unity-button>
 
           <unity-button
+            label="right icon"
+            type="secondary"
+            rightIcon="event-seat"
+          ></unity-button>
+
+          <unity-button
             label="loading"
-            type="outlined"
+            type="secondary"
             ?loading=${true}
           ></unity-button>
 
           <unity-button
             label="disabled"
-            type="outlined"
+            type="secondary"
             ?disabled=${true}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
-          label="loading disabled"
-          type="outlined"
-          ?loading=${true}
-          ?disabled=${true}
+            label="loading disabled"
+            type="secondary"
+            ?loading=${true}
+            ?disabled=${true}
           ></unity-button>
 
         </div>
       </div>
 
       <div class="section">
-        <h4>Danger button</h4>
+        <h4>Borderless button</h4>
 
         <div class="button-container">
           <unity-button
-            label="danger"
-            ?danger=${true}
+            label="secondary"
+            type="borderless"
             ?disabled=${false}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
-            label="danger icon"
-            ?danger=${true}
+            label="left icon"
+            type="borderless"
+            leftIcon="event-seat"
+          ></unity-button>
+
+          <unity-button
+            label="right icon"
+            type="borderless"
+            rightIcon="event-seat"
+          ></unity-button>
+
+          <unity-button
+            label="loading"
+            type="borderless"
+            ?loading=${true}
+          ></unity-button>
+
+          <unity-button
+            label="disabled"
+            type="borderless"
+            ?disabled=${true}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="loading disabled"
+            type="borderless"
+            ?loading=${true}
+            ?disabled=${true}
+          ></unity-button>
+
+        </div>
+      </div>
+
+      <div class="section">
+        <h4>Important button</h4>
+
+        <div class="button-container">
+          <unity-button
+            label="important"
+            important
+            ?disabled=${false}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="important left icon"
+            important
             leftIcon="warning"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="important right icon"
+            important
+            rightIcon="warning"
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
             label="loading"
-            ?danger=${true}
+            important
             ?loading=${true}
-            leftIcon="warning"
+            icon="warning"
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
             label="disabled"
-            ?danger=${true}
+            important
             ?disabled=${true}
           ></unity-button>
 
           <unity-button
-            label="disabled icon"
-            ?danger=${true}
+            label="disabled left icon"
+            important
             ?disabled=${true}
             leftIcon="error-outline"
             @click=${e => console.log("unity-button clicked! e: ", e)}
@@ -247,7 +261,7 @@ class MyButtons extends LitElement {
 
           <unity-button
             label="loading"
-            ?danger=${true}
+            important
             ?loading=${true}
             ?disabled=${true}
             @click=${e => console.log("unity-button clicked! e: ", e)}
@@ -256,34 +270,120 @@ class MyButtons extends LitElement {
       </div>
 
       <div class="section">
-        <h4>Small button</h4>
+        <h4>Important Secondary button</h4>
 
         <div class="button-container">
           <unity-button
-            label="Small"
-            ?small=${true}
+            label="important"
+            type="secondary"
+            important
+            ?disabled=${false}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
-            label="small icon"
-            ?small=${true}
-            leftIcon='image:photo'
+            label="important left icon"
+            type="secondary"
+            important
+            leftIcon="warning"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="important right icon"
+            type="secondary"
+            important
+            rightIcon="warning"
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
             label="loading"
-            ?small=${true}
+            type="secondary"
+            important
             ?loading=${true}
+            icon="warning"
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
-            label="small danger"
-            type="outlined"
-            ?small=${true}
-            ?danger=${true}
+            label="disabled"
+            type="secondary"
+            important
+            ?disabled=${true}
+          ></unity-button>
+
+          <unity-button
+            label="disabled left icon"
+            type="secondary"
+            important
+            ?disabled=${true}
+            leftIcon="error-outline"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="loading"
+            type="secondary"
+            important
+            ?loading=${true}
+            ?disabled=${true}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h4>Important Borderless button</h4>
+
+        <div class="button-container">
+          <unity-button
+            label="important"
+            type="borderless"
+            important
+            ?disabled=${false}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="important left icon"
+            type="borderless"
+            important
+            leftIcon="warning"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="loading"
+            type="borderless"
+            important
+            ?loading=${true}
+            leftIcon="warning"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="disabled"
+            type="borderless"
+            important
+            ?disabled=${true}
+          ></unity-button>
+
+          <unity-button
+            label="disabled left icon"
+            type="borderless"
+            important
+            ?disabled=${true}
+            leftIcon="error-outline"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
+            label="loading"
+            type="borderless"
+            important
+            ?loading=${true}
+            ?disabled=${true}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
         </div>
@@ -296,7 +396,6 @@ class MyButtons extends LitElement {
           <unity-button
             centerIcon="close"
             @click=${e => console.log("unity-button clicked! e: ", e)}
-            style="--button-color: black;"
           ></unity-button>
 
           <unity-button
