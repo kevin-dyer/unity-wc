@@ -11,7 +11,9 @@ import '@bit/smartworks.unity.unity-typography'
  * Button with configurable styles.
  * @name UnityButton
  * @param {string} label, button text
- * @param {string} icon, iron icon name to be displayed to the left of the label, or replace label if no label
+ * @param {string} leftIcon, iron icon name to be displayed to the left of the label
+ * @param {string} rightIcon, iron icon name to be displayed to the right of the label
+ * @param {string} centerIcon, iron icon name to be displayed in place of the label. Note: Do not pass in a label if used, overwrites label
  * @param {string} type, type of button to render (optional): primary , secondary, borderless
  * @param {bool} important, style button in important colors.
  * @param {bool} loading, displays loading spinner in place of leftIcon
@@ -20,7 +22,7 @@ import '@bit/smartworks.unity.unity-typography'
 *   <unity-button
 *     label="example button"
 *     ?loading=${fetching}
-*     icon="add"
+*     leftIcon="add"
 *     @click=${() => console.log("button clicked")}
 *   />
 */
@@ -190,7 +192,10 @@ class UnityButton extends LitElement {
       loading: {
         type: Boolean
       },
-      icon: {
+      centerIcon: {
+        type: String
+      },
+      rightIcon: {
         type: String
       }
     }
@@ -204,7 +209,9 @@ class UnityButton extends LitElement {
     this.disabled=false
     this.important=false
     this.loading=false
-    this.icon=''
+    this.leftIcon=''
+    this.centerIcon=''
+    this.rightIcon=''
   }
 
   _getClassNames() {
@@ -215,7 +222,9 @@ class UnityButton extends LitElement {
       important,
       disabled,
       loading,
-      icon
+      leftIcon,
+      centerIcon,
+      rightIcon
     } = this
 
     switch (type) {
@@ -245,11 +254,16 @@ class UnityButton extends LitElement {
       classList.push('loading')
     }
 
-    if (!label && icon) {
-      classList.push('icon-btn')
-    } else if (icon) {
+    if(leftIcon) {
       classList.push('left-icon')
     }
+    if (centerIcon) {
+      classList.push('icon-btn')
+    }
+    if(rightIcon) {
+      classList.push('right-icon')
+    }
+
 
     return classList.join(' ')
   }
@@ -265,24 +279,32 @@ class UnityButton extends LitElement {
       >
         ${this.loading
           ? html`<paper-spinner-lite active class="spinner icon left-icon" />`
-          : !!this.icon
+          : !!this.leftIcon
             ? html`<iron-icon
-                icon=${this.icon}
+                icon=${this.leftIcon}
                 class="icon left-icon"
               ></iron-icon>`
             : null
         }
-        <unity-typography>
-          ${this.label}
-        </unity-typography>
 
         ${this.centerIcon && !this.loading
           ? html`<iron-icon
               icon=${this.icon}
               class="icon center-icon"
             ></iron-icon>`
-          : null
+          : html`<unity-typography>
+            ${this.label}
+          </unity-typography>`
         }
+
+        ${this.rightIcon
+          ? html`<iron-icon
+              icon=${this.rightIcon}
+              class="icon right-icon"
+            ></iron-icon>`
+          : ''
+        }
+
       </paper-button>
     `
   }
