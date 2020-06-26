@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.3.2
+- unity-table-cell v1.0.2, unity-table v1.0.5
+
 ### v1.3.1
 - unity-icon v1.1.0
 

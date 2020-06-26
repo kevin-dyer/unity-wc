@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### V1.0.2
+- Remove flex-shrink so cells don't shrink, fix icon size and tabbing
+
 ### v1.0.1
 - Update to match new Unity designs
 
