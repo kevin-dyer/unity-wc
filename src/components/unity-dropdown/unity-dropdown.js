@@ -16,7 +16,8 @@ import * as strings from './strings'
 * @fileOverview A dropdown select input web component
 * @param {''} label, floating header label
 * @param {''} inputType, type of the list of options that will be displayed. Possible values: menu, single-select or multi-select
-* @param {''} boxType, type of the dropdown box. Possible values: fixed, label, search, button-gradient, button-outlined or inline
+* @param {''} boxType, type of the dropdown box. Possible values: fixed, label, search, button-primary, button-secondary, button-borderless, or inline
+* @param {bool} important, if the button should follow important styles, only works with buttons
 * @param {''} placeholder, initial text to be overwritten
 * @param {Array} options, data array with the options that must be displayed
 * @param {Array} selected, array of selected elements
@@ -52,8 +53,10 @@ const SINGLE_SELECT = "single-select"
 const MULTI_SELECT = "multi-select"
 const LABEL = "label"
 const SEARCH = "search"
-const GRADIENT = "button-gradient"
-const OUTLINED = "button-outlined"
+const PRIMARY = "button-primary"
+const SECONDARY = "button-secondary"
+const BORDERLESS = "button-borderless"
+const IMPORTANT = "important"
 const INLINE = "inline"
 
 class UnityDropdown extends LitElement {
@@ -77,6 +80,9 @@ class UnityDropdown extends LitElement {
           --dropdown-options-box-width: 100%;
           --dropdown-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --dropdown-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          --dropdown-button-color: var(--secondary-color, var(--default-secondary-color));
+          --dropdown-button-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color));
+          --dropdown-button-font-color: var(--background-color, var(--default-background-color));
           font-family: var(--dropdown-input-font);
           border-collapse: collapse;
           user-select: none;
@@ -311,8 +317,10 @@ class UnityDropdown extends LitElement {
           margin: 0;
           box-shadow: none;
         }
-        .dropdown-button {
-          --button-color: var(--dropdown-color);
+        unity-button.dropdown-button {
+          --button-color: var(--dropdown-button-color);
+          --pressed-color: var(--dropdown-button-pressed-color);
+          --font-color: var(--dropdown-button-font-color);
         }
       `
     ];
@@ -322,7 +330,8 @@ class UnityDropdown extends LitElement {
     super();
     this.label = "";
     this.inputType = MENU; // valid values: "menu" | "single-select" | "multi-select"
-    this.boxType = LABEL; // valid values: "label" | "search" | "button-gradient" | "button-outlined" | "inline"
+    this.boxType = LABEL; // valid values: "label" | "search" | "button-primary" | "button-secondary" | "button-borderless" | "inline"
+    this.important = false
     this.placeholder = "Choose below";
     this._options = [];
     this._selected = [];
@@ -352,6 +361,7 @@ class UnityDropdown extends LitElement {
       label: { type: String },
       inputType: { type: String },
       boxType: { type: String },
+      important: { type: Boolean },
       placeholder: { type: String },
       options: { type: Array },
       selected: { type: Array },
@@ -631,6 +641,7 @@ class UnityDropdown extends LitElement {
   getInputBox() {
     const {
       boxType,
+      important,
       selected,
       disabled,
       showTags,
@@ -650,7 +661,7 @@ class UnityDropdown extends LitElement {
       label = icon = ""
     }
     const isMulti = inputType === MULTI_SELECT
-    const isButton = boxType === GRADIENT || boxType === OUTLINED
+    const isButton = boxType === PRIMARY || boxType === SECONDARY || boxType === BORDERLESS
     if (boxType === "fixed") {
       return html`
           <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
@@ -710,7 +721,8 @@ class UnityDropdown extends LitElement {
           class="dropdown-button"
           label="${label || placeholder}"
           rightIcon="${_collapsed? "unity:down_chevron" : "unity:up_chevron"}"
-          type="${boxType === GRADIENT ? "gradient" : "outlined" }"
+          type="${boxType.slice(7)}"
+          ?important="${important || null}"
           ?disabled=${disabled}
           @click="${_dropdown}"
         ></unity-button>
@@ -803,7 +815,7 @@ class UnityDropdown extends LitElement {
 
   render() {
     let classes = 'options-box'
-    if(this.boxType === OUTLINED || this.boxType === GRADIENT) classes += ' button-options'
+    if(this.boxType === PRIMARY || this.boxType === SECONDARY || this.boxType === BORDERLESS) classes += ' button-options'
     if(this.rightAlign) classes += ' right-align'
     return html`
       <div>
