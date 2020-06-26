@@ -57,14 +57,7 @@ class UnityButton extends LitElement {
           --icon-color: var(--font-color);
         }
 
-        /* Important Styles */
-        paper-button.important {
-          --button-color: var(--button-important-color, var(--default-button-important-color));
-          --pressed-color: var(--button-important-pressed-color, var(--default-button-important-pressed-color));
-        }
-
         paper-button {
-          width: 100%;
           height: var(--unity-button-height, var(--default-unity-button-height));
           border-radius: var(--unity-border-radius, var(--default-unity-button-border-radius));
           min-width: max-content;
@@ -154,11 +147,16 @@ class UnityButton extends LitElement {
           padding-left: 2px;
         }
 
-
         paper-button.icon-btn {
           min-width: 30px;
           width: 30px;
           padding: 0;
+        }
+
+        /* Important Styles */
+        paper-button.important {
+          --button-color: var(--button-important-color, var(--default-button-important-color));
+          --pressed-color: var(--button-important-pressed-color, var(--default-button-important-pressed-color));
         }
 
         paper-button.icon-btn .icon {
