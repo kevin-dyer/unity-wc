@@ -7,8 +7,7 @@ import '@polymer/iron-icons/social-icons.js'
 import '@polymer/iron-icons/hardware-icons.js'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-// import '@bit/smartworks.unity.table-cell-base'
-import './table-cell-base'
+import '@bit/smartworks.unity.table-cell-base'
 
 const TAB_ICON = 22
 const TAB_ARROW = 20
