@@ -66,20 +66,24 @@ class UnityPageHeader extends LitElement {
           --header-font-family: var(--font-family, var(--default-font-family));
           font-family: var(--header-font-family);
           --tab-height: 38px;
-          --tab-padding: 0 19px;
+          --tab-padding: 0 14px;
           --left-wrapper-overflow: hidden;
           --title-white-space: nowrap;
+          --tab-color: var(--secondary-color, var(--default-secondary-color));
         }
 
         #header {
           flex: 1;
-          height: 52px;
-          min-height: 52px;
+          height: 48px;
+          min-height: 48px;
           display: flex;
           flex-direction: row;
           justify-content: space-between;
           align-items: stretch;
-          border-bottom: 1px solid var(--light-grey-text-color, var(--default-light-grey-text-color));
+        }
+
+        .bottom {
+          border-bottom: 1px solid var(--light-gray-1-color, var(--default-light-gray-1-color));
         }
 
         #left-wrapper {
@@ -108,11 +112,12 @@ class UnityPageHeader extends LitElement {
         }
 
         paper-tabs {
-          font-size: var(--small-text-size, var(--default-small-text-size));
+          font-size: 14px; /*var(--paragraph-font-size, var(--default-paragraph-font-size));*/
           height: 28px;
+          width: min-content;
           align-self: flex-start;
-          --paper-tabs-selection-bar-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          height: var(--tab-height);
+          --paper-tabs-selection-bar-color: var(--tab-color);
+          /*height: var(--tab-height);*/
           font-family: var(--header-font-family);
         }
 
@@ -196,28 +201,31 @@ class UnityPageHeader extends LitElement {
       tabs=[],
       selectedTab
     } = this
+    const hasTabs = tabs.length > 0
     return html`
-      <div id="header">
-        <div id="left-wrapper">
-          <slot name="left-content" id="left-container"></slot>
-          <slot name="center-content" id="center-container">
-            <unity-typography size="header1" id="title">${title}</unity-typography>
-          </slot>
+      <div class="bottom">
+        <div id="header">
+          <div id="left-wrapper">
+            <slot name="left-content" id="left-container"></slot>
+            <slot name="center-content" id="center-container">
+              <unity-typography size="header1" id="title">${title}</unity-typography>
+            </slot>
+          </div>
+          <slot name="right-content" id="right-container"></slot>
         </div>
-        <slot name="right-content" id="right-container"></slot>
-      </div>
-      ${tabs.length > 0
-        ? html`<paper-tabs selected="${selectedTab}" id="header-tabs" noink>
-            ${tabs.map((tab, index) => {
-              const {label} = tab
+        ${hasTabs
+          ? html`<paper-tabs selected="${selectedTab}" id="header-tabs" noink>
+              ${tabs.map((tab, index) => {
+                const {label} = tab
 
-              return html`<paper-tab @click=${e => this._handleTabSelect(tab, index)}>
-                ${label}
-              </paper-tab>`
-            })}
-          </paper-tabs>`
-        : ''
-      }
+                return html`<paper-tab @click=${e => this._handleTabSelect(tab, index)}>
+                  ${label}
+                </paper-tab>`
+              })}
+            </paper-tabs>`
+          : ''
+        }
+      </div>
     `
   }
 }
