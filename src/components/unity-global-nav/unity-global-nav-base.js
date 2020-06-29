@@ -299,6 +299,9 @@ class UnityGlobalNavBase extends LitElement {
         img {
           min-width: 0;
           flex: 1;
+          max-width: 100%;
+          height: auto;
+          object-fit: contain;
         }
       `
     ]
