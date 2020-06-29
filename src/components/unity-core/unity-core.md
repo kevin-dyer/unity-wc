@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.3.3
+- unity-global-nav-base v1.1.1
+
 ### v1.3.2
 - unity-table-cell v1.0.2, unity-table v1.0.5
 
