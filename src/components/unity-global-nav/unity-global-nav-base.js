@@ -246,7 +246,6 @@ class UnityGlobalNavBase extends LitElement {
           justify-content: space-between;
           height: 100%;
           width: 100%;
-          margin-top: 1px;
           overflow-y: auto;
           overflow-x: hidden;
         }
