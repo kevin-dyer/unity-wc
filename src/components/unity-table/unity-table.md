@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.5
+- Fix header border and background, fix shrinking
+
 ### v1.0.4
 - Update Unity Table to new Unity designs
 

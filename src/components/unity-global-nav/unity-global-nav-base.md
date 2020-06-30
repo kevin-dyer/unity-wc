@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.1.1
+- Fix logo size in Chrome.
+- Remove 1px top margin for menu box.
+
 ### v1.1.0
 - Updated to Unity 2020 designs.
 - Added header, headerImg and grid properties.

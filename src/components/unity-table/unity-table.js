@@ -142,7 +142,7 @@ import {
 const ASC = 'Ascending'
 const DES = 'Descending'
 const UNS = 'Unsorted'
-const MIN_CELL_WIDTH = 20 //minimum pixel width of each table cell
+const MIN_CELL_WIDTH = 60 //minimum pixel width of each table cell
 const MOUSE_MOVE_THRESHOLD = 5 //pixels mouse is able to move horizontally before rowClick is cancelled
 const ROW_HEIGHT = 40 //used to set scroll offset
 const THRESHOLD_TIMEOUT = 60 //Timeout after scroll boundry is reached before callback can be fired again
@@ -956,7 +956,7 @@ class UnityTable extends LitElement {
       direction: dir
     } = this._sortBy
     const direction = !!dir ? dir : UNS
-    const trClass = `sticky-header-row .row${this.compact ? ' compact': ''}`
+    const trClass = `sticky-header-row${this.compact ? ' compact': ''}`
 
     return html`
       <thead>
@@ -1450,12 +1450,11 @@ class UnityTable extends LitElement {
           padding-left: 13px;
           box-sizing: border-box;
           border-collapse: collapse;
+          border-bottom: 1px solid var(--separator-color);
         }
         tr {
           width: 100%;
           table-layout: fixed;
-          border-collapse: collapse;
-          border-bottom: 1px solid var(--separator-color);
         }
         td {
           padding: 0;
@@ -1470,7 +1469,6 @@ class UnityTable extends LitElement {
         }
         .text {
           flex: 1;
-          min-width: 0;
           overflow: hidden;
 
           white-space: nowrap;
@@ -1483,10 +1481,8 @@ class UnityTable extends LitElement {
           justify-content: flex-start;
           align-items: center;
           flex: 1;
-          min-width: 0;
         }
         .header-label {
-          min-width: 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -1497,6 +1493,7 @@ class UnityTable extends LitElement {
           margin-right: var(--padding-large);
           z-index: 2;
           overflow: hidden;
+          flex-shrink: 0;
         }
         paper-icon-button {
           width: 33px;
@@ -1511,6 +1508,7 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           cursor: pointer;
           background-color: var(--background-color, var(--default-background-color));
+          border-bottom: 1px solid var(--separator-color);
         }
         .row.compact {
           height: var(--trow-compact-height);
@@ -1528,6 +1526,9 @@ class UnityTable extends LitElement {
         .sticky-header-row {
           height: var(--thead-height);
           line-height: var(--thead-height);
+          border-collapse: collapse;
+          cursor: pointer;
+          background-color: var(--background-color, var(--default-background-color));
         }
         .sticky-header-row.compact {
           height: var(--thead-compact-height);
