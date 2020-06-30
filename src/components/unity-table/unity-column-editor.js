@@ -14,7 +14,6 @@ import '@bit/smartworks.unity.unity-modal'
  * @param {[]} columns, array of objects - same as what is passed into unity-table
  * @param {[]} selectedColumns, array of column keys from columns that are visible
  * @param {func} onUpdate, callback that is sent an array of sorted visible columns
- * @param {''} buttonType, action button type for styling ('solid', 'gradient', 'outlined'), default ''
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-column-editor
