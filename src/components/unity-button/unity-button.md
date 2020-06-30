@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- Fix borderless styles, add disabled to jsdocs
+
 ### v1.1.0
 - Update to new Unity designs
 

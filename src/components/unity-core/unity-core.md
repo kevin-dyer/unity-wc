@@ -5,7 +5,10 @@
 
 ## Changelog:
 
-###v 1.3.5
+### v1.3.6
+- unity-button v1.1.1v unity-table v1.0.6, unity-split-pane v1.0.4
+
+### v1.3.5
 - unity-button v1.1.0, unity-default-theme-styles v1.1.3, unity-dropdown v1.2.0
 
 ### v1.3.3
