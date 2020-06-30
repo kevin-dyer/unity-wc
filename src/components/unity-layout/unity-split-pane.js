@@ -136,7 +136,17 @@ class UnitySplitPane extends LitElement {
       paneWidth
     } = this
     return html`
-      ${show && collapsed ? html`<div class="bar" @click=${()=>this.toggleCollapse()}><iron-icon class="show-button" icon="unity:double_right_chevron"></iron-icon></div>` : ''}
+      ${show && collapsed ? html`
+        <div
+          class="bar"
+          @click=${()=>this.toggleCollapse()}
+        >
+          <iron-icon
+            class="show-button"
+            icon="unity:double_right_chevron"
+          ></iron-icon>
+        </div>
+      ` : ''}
       <div class="wrapper ${show && collapsed?'hide':''}">
         ${(collapseButton && show) ? html`
           <unity-button
@@ -184,10 +194,11 @@ class UnitySplitPane extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --border-color: var(--black-text-color, var(--default-black-text-color));
-          --bar-border-color: var(--light-grey-text-color, var(--default-light-grey-text-color));
-          --background: var(--background-color, var(--default-background-color));
-          --bar-background: var(--background-color, var(--default-background-color));
+          --border-color: var(--gray-color, var(--default-gray-color));
+          --bar-border-color: var(--gray-color, var(--default-gray-color));
+          --background: var(--white-color, var(--default-white-color));
+          --bar-background: var(--background);
+          --button-color: var(--secondary-color, var(--default-secondary-color));
           background-color: var(--background);
           display: flex;
           flex-direction: row;
@@ -270,7 +281,7 @@ class UnitySplitPane extends LitElement {
           z-index: 5;
         }
         .show-button {
-          color: var(--button-color, var(--primary-brand-color, var(--default-primary-brand-color)));
+          color: var(--button-color);
         }
       `
     ]

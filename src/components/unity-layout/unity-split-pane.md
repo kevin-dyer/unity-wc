@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.5
+- Fix split-pane colours
+
 ### v1.0.4
 - force buttons to borderless with unity-button update
 
