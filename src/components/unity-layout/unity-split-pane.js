@@ -138,7 +138,14 @@ class UnitySplitPane extends LitElement {
     return html`
       ${show && collapsed ? html`<div class="bar" @click=${()=>this.toggleCollapse()}><iron-icon class="show-button" icon="unity:double_right_chevron"></iron-icon></div>` : ''}
       <div class="wrapper ${show && collapsed?'hide':''}">
-        ${(collapseButton && show) ? html`<unity-button class="collapse-button" centerIcon="unity:double_left_chevron" @click=${()=>this.toggleCollapse()}></unity-button>`: ''}
+        ${(collapseButton && show) ? html`
+          <unity-button
+            class="collapse-button"
+            centerIcon="unity:double_left_chevron"
+            @click=${()=>this.toggleCollapse()}
+            type="borderless"
+          ></unity-button>
+        `: ''}
         <div class="header">
           <slot name="header"></slot>
         </div>
@@ -159,6 +166,7 @@ class UnitySplitPane extends LitElement {
         ${!!closeButton ?
           html`
             <unity-button
+              type="borderless"
               class="close-button"
               centerIcon="close"
               @click=${() => this.closePane()}
