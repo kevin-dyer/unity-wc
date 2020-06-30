@@ -275,6 +275,7 @@ class MySplitPane extends PageViewElement {
         <unity-page-header slot="header" >
           <unity-button
             slot="left-content"
+            type="borderless"
             centerIcon="unity:double_left_chevron"
             @click=${()=>this.toggleCollapse()}
             ?disabled="${!this.highlightedRowId}"
@@ -295,12 +296,7 @@ class MySplitPane extends PageViewElement {
               .onChange="${this.onInputChange.bind(this)}"
             ></unity-text-input>
 
-            <unity-column-editor
-              ?buttonGradient=${false}
-              ?buttonOutlined=${true}
-              .columns=${this.columns}
-              .onUpdate=${this.handleColUpdate.bind(this)}
-            ></unity-column-editor>
+
           </div>
         </unity-page-header>
 
@@ -313,7 +309,6 @@ class MySplitPane extends PageViewElement {
 
         <div slot="main">
           <unity-table
-            noTopBorder
             selectable
             filter="${this._searchText}"
             .keyExtractor="${(datum, index) => datum.name}"
@@ -332,8 +327,6 @@ class MySplitPane extends PageViewElement {
             .onClickRow="${this.handleClickRow.bind(this)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
-
-            style="--highlight-color: ${this.highlightColor}"
           ></unity-table>
         </div>
         <div class="pane" slot="pane">
