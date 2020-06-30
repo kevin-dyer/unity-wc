@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.3
+- Fix button defaults
+
 ### v1.1.2
 - Fix color typo
 

@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+###v 1.3.5
+- unity-button v1.1.0, unity-default-theme-styles v1.1.3, unity-dropdown v1.2.0
+
 ### v1.3.3
 - unity-global-nav-base v1.1.1
 

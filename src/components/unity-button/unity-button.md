@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.0.2
+### v1.1.0
 - Update to new Unity designs
 
 ### v1.0.1
