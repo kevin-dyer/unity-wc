@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.1.0
+- Added monospace property
+- Updated defaults
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 

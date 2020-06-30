@@ -7,12 +7,13 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {''} color, dark, medium, or light, defaults dark
  * @param {''} size, header1, header2, paragraph, medium, small, defaults paragraph
  * @param {''} weight, header1, header2, paragraph, medium, small, defaults to match size
+ * @param {bool} monospace, use monospace font
  * @example
  * <unity-typography size="header1" weight="header2">
  *   "And then you can give it any kind of text you want on the inside."
  * </unity-typography>
  *
- * There are a number of css vars expose for specific style overrides. These will override
+ * There are a number of css vars exposed for specific style overrides. These will override
  * any of the attribute controled styles, allowing the classes matching the attributes
  * to still show, but having the effect of the override.
  * CSS variables:
@@ -35,21 +36,23 @@ class UnityTypography extends LitElement {
   constructor() {
     super()
 
-    this.color = ''
-    this.size = ''
+    this.color = 'dark'
+    this.size = 'paragraph'
     this.weight = ''
+    this.monospace = false
   }
 
   static get properties() {
     return {
       color: { type: String },
       size: { type: String },
-      weight: { type: String }
+      weight: { type: String },
+      monospace: { type: Boolean}
     }
   }
 
   getClasses() {
-    const { color, size } = this
+    const { color, size, monospace } = this
     let classes = []
     switch(color) {
       case BLACK:
@@ -103,6 +106,8 @@ class UnityTypography extends LitElement {
         break
     }
 
+    if (monospace) classes.push('monospace')
+
     return classes.join(' ')
   }
 
@@ -122,6 +127,7 @@ class UnityTypography extends LitElement {
       css`
         :host {
           --font-face: var(--font-family, var(--default-font-family));
+          --monospace-font-face: var(--monospace-font-family, var(--default-monospace-font-family));
           --font-color-light: var(--light-grey-text-color, var(--default-light-grey-text-color));
           --font-color-medium: var(--medium-grey-text-color, var(--default-medium-grey-text-color));
           --font-color-dark: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
@@ -145,6 +151,9 @@ class UnityTypography extends LitElement {
           color: var(--font-color, var(--font-color-black));
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+        .monospace {
+          font-family: var(--monospace-font-face);
         }
         .color-light {
           color: var(--font-color, var(--font-color-light));
