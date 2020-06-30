@@ -13,25 +13,24 @@ import '@bit/smartworks.unity.unity-typography'
  * @param {string} label, button text
  * @param {string} leftIcon, iron icon name to be displayed to the left of the label
  * @param {string} rightIcon, iron icon name to be displayed to the right of the label
- * @param {string} centerIcon, iron icon name to be displayed in place of the label. Note: Do not pass in a label if used.
- * @param {string} type, type of button to render (optional): solid , gradient, outlined
- * @param {bool} danger, style button red.
+ * @param {string} centerIcon, iron icon name to be displayed in place of the label. Note: Do not pass in a label if used, overwrites label
+ * @param {string} type, type of button to render (optional): primary , secondary, borderless
+ * @param {bool} important, style button in important colors.
+ * @param {bool} disabled, style button in disabled mode
  * @param {bool} loading, displays loading spinner in place of leftIcon
- * @param {bool} small, to decrease size of button
  * @param {function} click, event handler
 *  @example
 *   <unity-button
 *     label="example button"
-*     gradient
 *     ?loading=${fetching}
 *     leftIcon="add"
 *     @click=${() => console.log("button clicked")}
 *   />
 */
 
-const SOLID = 'solid'
-const GRADIENT = 'gradient'
-const OUTLINED = 'outlined'
+const PRIMARY = 'primary'
+const SECONDARY = 'secondary'
+const BORDERLESS = 'borderless'
 
 class UnityButton extends LitElement {
   static get styles() {
@@ -39,128 +38,97 @@ class UnityButton extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --gradient-background: transparent linear-gradient(90deg, var(--secondary-brand-color, var(--primary-brand-color, var(--default-primary-brand-color))) 0%, var(--primary-brand-color, var(--default-primary-brand-color)) 100%) 0% 0% no-repeat padding-box;
-          --button-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          --default-button-primary-color: var(--secondary-color, var(--default-secondary-color));
+          --default-button-primary-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color));
+          --default-button-secondary-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-button-secondary-color: var(--gray-color, var(--default-gray-color));
+          --default-button-borderless-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-button-borderless-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
+          --default-button-borderless-pressed-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
+          --default-button-disabled-text-color: var(--gray-color, var(--default-gray-color));
+          --default-button-disabled-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
+          --default-button-important-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
+          --default-button-important-pressed-color: var(--tertiary-1-shade-color, var(--default-tertiary-1-shade-color));
+          --default-background-color: var(--white-color, var(--default-white-color));
           flex-shrink: 0;
           display: block;
-        }
-
-        /*Danger Styles*/
-        paper-button.danger {
-          --button-color: var(--danger-color, var(--default-danger-color));
-          --black-text-color: var(--danger-color, var(--default-danger-color));
-          color: var(--button-color);
-        }
-
-        paper-button.danger:hover {
-          filter: brightness(93%);
+          --button-color: var(--button-primary-color, var(--default-button-primary-color));
+          --pressed-color: var(--button-primary-pressed-color, var(--default-button-primary-pressed-color));
+          --font-color: var(--background-color, var(--default-background-color));
+          --icon-color: var(--font-color);
         }
 
         paper-button {
-          width: 100%;
           height: var(--unity-button-height, var(--default-unity-button-height));
           border-radius: var(--unity-border-radius, var(--default-unity-button-border-radius));
           min-width: max-content;
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
-          padding: 0 var(--unity-button-padding, var(--default-unity-button-padding));
           text-transform: none;
           white-space: nowrap;
-          color: var(--button-color);
-          --font-color: var(--button-color);
           outline: none;
           margin: 0;
+          border: 1px solid var(--button-color);
+          padding: 7px 14px; /* Design wants 8x15, but must account for border 1 */
         }
+
         paper-button.text-button {
           padding: 0 10px;
           min-width: 0;
         }
-        paper-button.text-button.left-icon:not(.loading) {
-          padding-left: var(--unity-button-padding, var(--default-unity-button-padding));
-        }
-        paper-button.text-button.right-icon {
-          padding-right: var(--unity-button-padding, var(--default-unity-button-padding));
-        }
-        paper-button.small {
-          height: 22px;
-          padding: 0 10px;
-          min-width: 22px;
-          border-radius: 22px;
-          --font-size: var(--small-text-size, var(--default-small-text-size));
-          --font-weight: var(--small-text-weight, var(--default-small-text-weight));
-        }
 
-        paper-button:hover {
-          /*NOTE: css filters are not supported on older browsers*/
-          filter: brightness(85%);
-        }
-
-        /*Solid Styles*/
-        paper-button.solid {
+        /* Primary Styles */
+        paper-button.primary {
           background-color: var(--button-color);
-          color: #FFF;
-          --font-color: #FFF;
         }
 
-        /*Gradient Styles*/
-        paper-button.gradient {
-          /*NOTE: gradient from left to right: secondary brand color(if exists) -> primary brand color*/
-          /* If secondary brand color does not exist, use primary brand color to creat solid background color */
-          --button-color: var(--gradient-background);
-          background: var(--button-color);
-          color: #FFF;
-          --font-color: #FFF;
+        /* Secondary Styles */
+        paper-button.secondary {
+          background-color: var(--background-color, var(--default-background-color));
+          --font-color: var(--button-secondary-text-color, var(--default-button-secondary-text-color));
+          border: 1px solid var(--button-secondary-color, var(--default-button-secondary-color));
         }
 
-        /*NOTE: commenting this out. Looks weird with ripple effect*/
-        /*paper-button.gradient:active {
-          filter: brightness(70%);
-        }*/
-
-        /*Outlined Styles*/
-        paper-button.outlined {
-          background: rgba(0,0,0,0);
-          border: 1px solid var(--button-color);
-          color: var(--button-color);
-          --font-color: var(--black-text-color, var(--default-black-text-color));
+        paper-button.unity-button:hover {
+          /*NOTE: css filters are not supported on older browsers*/
+          border-color: var(--button-color);
+          background-color: var(--background-color, var(--default-background-color));
+          --font-color: var(--button-color);
         }
 
-        paper-button.outlined iron-icon {
-          color: var(--button-color);
+        paper-button.unity-button:active {
+          --button-color: var(--pressed-color);
         }
 
-        paper-button.outlined paper-spinner-lite {
-          color: var(--button-color);
+        /* Borderless Styles */
+        paper-button.unity-button.borderless {
+          --font-color: var(--button-borderless-text-color, var(--default-button-borderless-text-color));
+          --bg-color: var(--background-color, var(--default-background-color));
+          background-color: var(--bg-color);
+          border: 1px solid var(--bg-color);
         }
 
-        paper-button.outlined.disabled iron-icon {
-          color: var(--button-color);
+
+        paper-button.unity-button.borderless:hover {
+          --font-color: var(--button-color);
+          --bg-color: var(--button-borderless-color, var(--default-button-borderless-color));
         }
 
-        paper-button.outlined.disabled paper-spinner-lite {
-          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+        paper-button.unity-button.borderless:active {
+          --font-color: var(--pressed-color);
+          --bg-color: var(--button-borderless-pressed-color, var(--default-button-borderless-pressed-color));
+
         }
 
-        paper-button.outlined:hover {
-          /*TODO: set border color to be 15% darker - How do I do this without affecting background color*/
-          filter: brightness(93%);
-        }
-
-        paper-button.outlined.disabled {
-          background: white;
-          border: 1px solid var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-        }
-
-        paper-spinner-lite.icon {
-          height: var(--small-icon-size, var(--default-small-icon-size));
-          width: var(--small-icon-size, var(--default-small-icon-size));
-          --paper-spinner-color: 'inherit';
+        .icon {
+          margin: 0;
+          color: var(--font-color);
+          height: 16px;
+          width: 16px;
+          --iron-icon-width: 16px;
+          --iron-icon-height: 16px;
+          --paper-spinner-color: var(--font-color);
           --paper-spinner-stroke-width: 2px;
-        }
-
-        .small paper-spinner-lite.icon {
-          height: var(--xsmall-icon-size, var(--default-xsmall-icon-size));
-          width: var(--xsmall-icon-size, var(--default-xsmall-icon-size));;
         }
 
         paper-spinner-lite.icon.left-icon {
@@ -171,40 +139,26 @@ class UnityButton extends LitElement {
         }
 
         .icon-btn paper-spinner-lite.icon.left-icon {
-          margin: 0;
+          padding: 0;
         }
 
-        .icon {
-          margin: 0 4px;
-        }
         iron-icon.left-icon {
-          margin-left: -15px;
+          padding-right: 2px;
         }
         iron-icon.right-icon {
-          margin-right: -15px;
-        }
-
-        .small iron-icon.left-icon {
-          margin-left: -6px;
-        }
-        .small iron-icon.right-icon {
-          margin-left: -6px;
-        }
-
-        iron-icon.icon {
-          --iron-icon-width: var(--small-icon-size, var(--default-small-icon-size));
-          --iron-icon-height: var(--small-icon-size, var(--default-small-icon-size));
-        }
-
-        .small iron-icon.icon {
-          --iron-icon-width: var(--xmall-icon-size, var(--default-xsmall-icon-size));
-          --iron-icon-height: var(--xsmall-icon-size, var(--default-xsmall-icon-size));
+          padding-left: 2px;
         }
 
         paper-button.icon-btn {
           min-width: 30px;
           width: 30px;
           padding: 0;
+        }
+
+        /* Important Styles */
+        paper-button.important {
+          --button-color: var(--button-important-color, var(--default-button-important-color));
+          --pressed-color: var(--button-important-pressed-color, var(--default-button-important-pressed-color));
         }
 
         paper-button.icon-btn .icon {
@@ -214,18 +168,15 @@ class UnityButton extends LitElement {
 
         /*Including .unity-button selector for increased specificity and override other class styles*/
         paper-button.unity-button.disabled {
-          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --font-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --button-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
-          border-color: var(--font-color);
+          --font-color: var(--button-disabled-text-color, var(--default-button-disabled-text-color));
+          background-color: var(--button-disabled-color, var(--default-button-disabled-color));
+          border-color: var(--button-disabled-color, var(--default-button-disabled-color));
         }
 
-        paper-button.unity-button.disabled paper-spinner-lite{
-          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-        }
-
-        paper-button.unity-button.disabled iron-icon{
-          color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+        paper-button.borderless.disabled {
+          --font-color: var(--button-disabled-text-color, var(--default-button-disabled-text-color));
+          background-color: var(--background-color, var(--default-background-color));
+          border-color: var(--background-color, var(--default-background-color));
         }
       `
     ];
@@ -242,22 +193,19 @@ class UnityButton extends LitElement {
       type: {
         type: String
       },
-      danger: {
+      important: {
         type: Boolean
       },
       loading: {
         type: Boolean
       },
-      small: {
-        type: Boolean
-      },
       leftIcon: {
         type: String
       },
-      rightIcon: {
+      centerIcon: {
         type: String
       },
-      centerIcon: {
+      rightIcon: {
         type: String
       }
     }
@@ -269,48 +217,43 @@ class UnityButton extends LitElement {
     this.label=''
     this.type=''
     this.disabled=false
-    this.danger=false
+    this.important=false
     this.loading=false
-    this.small=false
     this.leftIcon=''
-    this.rightIcon=''
     this.centerIcon=''
+    this.rightIcon=''
   }
 
   _getClassNames() {
     let classList = ['unity-button']
     const {
+      label,
       type,
-      danger,
+      important,
       disabled,
       loading,
-      small,
-      centerIcon,
       leftIcon,
+      centerIcon,
       rightIcon
     } = this
 
     switch (type) {
-      case SOLID: {
-        classList.push('solid')
+      case SECONDARY: {
+        classList.push(SECONDARY)
         break
       }
-      case GRADIENT: {
-        classList.push('gradient')
-        break
-      }
-      case OUTLINED: {
-        classList.push('outlined')
+      case BORDERLESS: {
+        classList.push(BORDERLESS)
         break
       }
       default: {
-        classList.push('text-button')
+        classList.push(PRIMARY)
         break
       }
     }
 
-    if (danger) {
-      classList.push('danger')
+    if (important) {
+      classList.push('important')
     }
 
     if (disabled) {
@@ -321,27 +264,31 @@ class UnityButton extends LitElement {
       classList.push('loading')
     }
 
-    if (small) {
-      classList.push('small')
-    }
-
-    if (centerIcon) {
-      classList.push('icon-btn')
-    }
     if(leftIcon) {
       classList.push('left-icon')
+    }
+    if (centerIcon) {
+      classList.push('icon-btn')
     }
     if(rightIcon) {
       classList.push('right-icon')
     }
+
+
     return classList.join(' ')
   }
 
   //NOTE: consider rendering slot inside paper button that will render in place of label
   render() {
     //NOTE: @click is bubbled up
+    if (this.label==='left icon') {
+      console.log('this.label', this.label)
+      console.log('this.loading', this.loading)
+      console.log('this.leftIcon', this.leftIcon)
+    }
     return html`
       <paper-button
+        noink
         ?disabled=${this.disabled}
         class=${this._getClassNames()}
       >
@@ -352,18 +299,17 @@ class UnityButton extends LitElement {
                 icon=${this.leftIcon}
                 class="icon left-icon"
               ></iron-icon>`
-            : ''
+            : null
         }
-        <unity-typography>
-          ${this.label}
-        </unity-typography>
 
         ${this.centerIcon && !this.loading
           ? html`<iron-icon
               icon=${this.centerIcon}
               class="icon center-icon"
             ></iron-icon>`
-          : ''
+          : html`<unity-typography>
+            ${this.label}
+          </unity-typography>`
         }
 
         ${this.rightIcon
@@ -373,6 +319,7 @@ class UnityButton extends LitElement {
             ></iron-icon>`
           : ''
         }
+
       </paper-button>
     `
   }
