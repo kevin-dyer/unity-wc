@@ -1,7 +1,6 @@
 import { html } from 'lit-element'
 import { withKnobs, text, select } from "@storybook/addon-knobs"
-// import '@bit/smartworks.unity.unity-core/unity-typography'
-import '../src/components/unity-typography/unity-typography'
+import '@bit/smartworks.unity.unity-core/unity-typography'
 
 export default {
   title: 'Typography',

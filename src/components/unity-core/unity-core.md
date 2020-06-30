@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+### v1.4.0
+- unity-default-theme-styles v1.2.0
+- unity-typography v1.1.0
+
 ### v1.3.7
 - unity-split-pane v1.0.5
 
