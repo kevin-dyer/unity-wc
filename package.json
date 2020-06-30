@@ -43,7 +43,7 @@
     "@bit/smartworks.unity.unity-progress": "^1.0.0",
     "@bit/smartworks.unity.unity-section": "^1.0.0",
     "@bit/smartworks.unity.unity-select-menu": "^1.0.0",
-    "@bit/smartworks.unity.unity-split-pane": "^1.0.4",
+    "@bit/smartworks.unity.unity-split-pane": "^1.0.5",
     "@bit/smartworks.unity.unity-table": "^1.0.6",
     "@bit/smartworks.unity.unity-table-cell": "^1.0.2",
     "@bit/smartworks.unity.unity-table-export": "^1.0.4",
