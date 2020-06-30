@@ -16,6 +16,7 @@ import '@bit/smartworks.unity.unity-typography'
  * @param {string} centerIcon, iron icon name to be displayed in place of the label. Note: Do not pass in a label if used, overwrites label
  * @param {string} type, type of button to render (optional): primary , secondary, borderless
  * @param {bool} important, style button in important colors.
+ * @param {bool} disabled, style button in disabled mode
  * @param {bool} loading, displays loading spinner in place of leftIcon
  * @param {function} click, event handler
 *  @example
@@ -88,14 +89,6 @@ class UnityButton extends LitElement {
           border: 1px solid var(--button-secondary-color, var(--default-button-secondary-color));
         }
 
-        /* Borderless Styles */
-        paper-button.unity-button.borderless {
-          --font-color: var(--button-borderless-text-color, var(--default-button-borderless-text-color));
-          --bg-color: var(--background-color, var(--default-background-color));
-          background-color: var(--bg-color);
-          border: 1px solid var(--bg-color);
-        }
-
         paper-button.unity-button:hover {
           /*NOTE: css filters are not supported on older browsers*/
           border-color: var(--button-color);
@@ -106,6 +99,15 @@ class UnityButton extends LitElement {
         paper-button.unity-button:active {
           --button-color: var(--pressed-color);
         }
+
+        /* Borderless Styles */
+        paper-button.unity-button.borderless {
+          --font-color: var(--button-borderless-text-color, var(--default-button-borderless-text-color));
+          --bg-color: var(--background-color, var(--default-background-color));
+          background-color: var(--bg-color);
+          border: 1px solid var(--bg-color);
+        }
+
 
         paper-button.unity-button.borderless:hover {
           --font-color: var(--button-color);
