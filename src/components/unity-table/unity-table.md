@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.1.1
+### v1.0.7
 - Fix logic to expand all parents of a highlighted row, incase highlighting a nested element.
 
 ### v1.0.6
