@@ -52,7 +52,6 @@ export const Standard = () => {
   const endReachedThreshold = number("endReachedThreshold", 200)
   const highlightedRow = select('highlightedRow', compileIdsArray(defaultDevices).flat())
 
-
   return html`
     <div style="height: 90vh;">
       <unity-table
