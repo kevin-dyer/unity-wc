@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/iron-icons/iron-icons.js';
+import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 
@@ -93,13 +93,7 @@ class UnityPageHeader extends LitElement {
           overflow: var(--left-wrapper-overflow);
         }
 
-        #left-container {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-        }
-
-        #right-container::slotted(*) {
+        .left-container {
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -121,12 +115,34 @@ class UnityPageHeader extends LitElement {
           font-family: var(--header-font-family);
         }
 
-        ::slotted(*) {
+        .separator {
+          --iron-icon-height: var(--unity-button-height, var(--default-unity-button-height));
+          --iron-icon-width: var(--unity-button-height, var(--default-unity-button-height));
+          transform: rotate(90deg);
+          color: var(--gray-color, var(--default-gray-color));
+        }
+
+        .button-container, ::slotted(*) {
           display: flex;
           flex-direction: row;
           align-items: center;
           min-width: 0;
         }
+
+        .right-actions::slotted(*) {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding-right: calc(var(--padding-size-sm, var(--default-padding-size-sm))/2);
+        }
+
+        .left-actions::slotted(*) {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding-left: var(--padding-size-sm, var(--default-padding-size-sm));
+        }
+
         paper-tab {
           padding: var(--tab-padding);
         }
@@ -206,12 +222,16 @@ class UnityPageHeader extends LitElement {
       <div class="bottom">
         <div id="header">
           <div id="left-wrapper">
-            <slot name="left-content" id="left-container"></slot>
-            <slot name="center-content" id="center-container">
-              <unity-typography size="header1" id="title">${title}</unity-typography>
+            <slot name="left-content" class="left-container"></slot>
+            <slot name="center-content" class="center-container">
+              <unity-typography size="header1" id="title">${header}</unity-typography>
             </slot>
           </div>
-          <slot name="right-content" id="right-container"></slot>
+          <div class="button-container">
+            <slot name="left-actions" class="left-actions"></slot>
+            <iron-icon icon="unity:minus" class="separator"></iron-icon>
+            <slot name="right-actions" class="right-actions"></slot>
+          </div>
         </div>
         ${hasTabs
           ? html`<paper-tabs selected="${selectedTab}" id="header-tabs" noink>
