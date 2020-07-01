@@ -15,13 +15,13 @@ describe('page header test', () => {
 
   it('should render', async () => {
     const el = await fixture('<unity-page-header></unity-page-header>')
-    expect(el).shadowDom.to.equal('<div id="header"><div id="left-wrapper"><slot name="left-content" id="left-container"></slot><slot name="center-content" id="center-container"><unity-typography size="header1" id="title"></unity-typography></slot></div><slot name="right-content" id="right-container"></slot></div>')
+    expect(el).shadowDom.to.equal('<div class="bottom"><div id="header"><div id="left-wrapper"><slot name="left-content" class="left-container"></slot><slot name="center-content" class="center-container"><unity-typography size="header1" id="title"></unity-typography></slot></div><div class="button-container"><slot name="left-action" class="left-action"></slot><iron-icon icon="unity:minus" class="separator hide"></iron-icon><slot name="right-action" class="right-action"></slot></div></div></div>')
   })
 
-  it('should have a title', async () => {
+  it('should have a title header', async () => {
     const titleText = 'title'
-    const el = await fixture(`<unity-page-header title="${titleText}"></unity-page-header>`)
-    const title = el.shadowRoot.querySelector('div#header div#left-wrapper slot#center-container unity-typography#title')
+    const el = await fixture(`<unity-page-header header="${titleText}"></unity-page-header>`)
+    const title = el.shadowRoot.querySelector('div.bottom div#header div#left-wrapper slot.center-container unity-typography#title')
     expect(title).to.exist
     expect(title.size).to.equal('header1')
     expect(title.innerText).to.equal(titleText)
@@ -31,29 +31,40 @@ describe('page header test', () => {
     const leftText = "Left Text"
     const leftContentHTML = `<div id="left-content" slot="left-content">${leftText}</div>`
     const el = await fixture(`<unity-page-header>${leftContentHTML}</unity-page-header>`)
-    const slot = el.shadowRoot.querySelector('slot#left-container')
+    const slot = el.shadowRoot.querySelector('slot.left-container')
     const leftContent = slot.assignedElements()[0]
     expect(leftContent).to.exist
     expect(leftContent.slot).to.equal("left-content")
     expect(leftContent.innerText).to.equal(leftText)
   })
 
-  it('should have right-content if slotted', async () => {
+  it('should have left-action if slotted', async () => {
+    const leftText = "Left Text"
+    const leftActionHTML = `<div id="left-action" slot="left-action">${leftText}</div>`
+    const el = await fixture(`<unity-page-header>${leftActionHTML}</unity-page-header>`)
+    const slot = el.shadowRoot.querySelector('slot.left-action')
+    const leftAction = slot.assignedElements()[0]
+    expect(leftAction).to.exist
+    expect(leftAction.slot).to.equal("left-action")
+    expect(leftAction.innerText).to.equal(leftText)
+  })
+
+  it('should have right-action if slotted', async () => {
     const rightText = "Right Text"
-    const rightContentHTML = `<div id="right-content" slot="right-content">${rightText}</div>`
-    const el = await fixture(`<unity-page-header>${rightContentHTML}</unity-page-header>`)
-    const slot = el.shadowRoot.querySelector('slot#right-container')
-    const rightContent = slot.assignedElements()[0]
-    expect(rightContent).to.exist
-    expect(rightContent.slot).to.equal("right-content")
-    expect(rightContent.innerText).to.equal(rightText)
+    const rightActionHTML = `<div id="right-action" slot="right-action">${rightText}</div>`
+    const el = await fixture(`<unity-page-header>${rightActionHTML}</unity-page-header>`)
+    const slot = el.shadowRoot.querySelector('slot.right-action')
+    const rightAction = slot.assignedElements()[0]
+    expect(rightAction).to.exist
+    expect(rightAction.slot).to.equal("right-action")
+    expect(rightAction.innerText).to.equal(rightText)
   })
 
   it('should have center-content if slotted', async () => {
     const centerText = "Center Text"
     const centerContentHTML = `<div id="center-content" slot="center-content">${centerText}</div>`
     const el = await fixture(`<unity-page-header>${centerContentHTML}</unity-page-header>`)
-    const slot = el.shadowRoot.querySelector('slot#center-container')
+    const slot = el.shadowRoot.querySelector('slot.center-container')
     const centerContent = slot.assignedElements()[0]
     expect(centerContent).to.exist
     expect(centerContent.slot).to.equal("center-content")
