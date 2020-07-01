@@ -123,27 +123,30 @@ class MyLayout extends LitElement {
     return html`<div class="container">
       <div class="header-wrapper">
         <unity-page-header
-          title="MOCC2 Title"
-          .tabs=${[
-            {
-              label: 'Users'
-            },
-            {
-              label: 'Rules'
-            },
-            {
-              label: 'API Keys'
-            }
-          ]}
+          header="MOCC2 Title (header)"
+
           .selectedTab=${1}
         >
-          <div slot="right-content">
-            <unity-button
-              label="my button"
-              type="solid"
-              @click=${e => console.log("unity-button clicked! e: ", e)}
-            />
-          </div>
+          <unity-button
+            slot="left-actions"
+            centerIcon="unity:duplicate"
+            type="borderless"
+          ></unity-button>
+          <unity-button
+            slot="left-actions"
+            centerIcon="unity:trash_can"
+            type="borderless"
+          ></unity-button>
+          <unity-button
+            slot="right-actions"
+            centerIcon="unity:db_candi"
+            type="borderless"
+          ></unity-button>
+          <unity-button
+            slot="right-actions"
+            label="my button"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
         </unity-page-header>
       </div>
       <unity-section>
