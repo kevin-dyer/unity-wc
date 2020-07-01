@@ -1,8 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 
-// import '@bit/smartworks.unity.unity-core/unity-page-header'
-import './unity-layout/unity-page-header'
+import '@bit/smartworks.unity.unity-core/unity-page-header'
 import '@bit/smartworks.unity.unity-core/unity-section'
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-text-input'
