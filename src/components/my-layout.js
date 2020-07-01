@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 
-import '@bit/smartworks.unity.unity-core/unity-page-header'
+// import '@bit/smartworks.unity.unity-core/unity-page-header'
+import './unity-layout/unity-page-header'
 import '@bit/smartworks.unity.unity-core/unity-section'
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-text-input'
@@ -123,7 +124,7 @@ class MyLayout extends LitElement {
     return html`<div class="container">
       <div class="header-wrapper">
         <unity-page-header
-          title="MOCC2 Title"
+          header="MOCC2 Title (header)"
           .tabs=${[
             {
               label: 'Users'
@@ -137,13 +138,26 @@ class MyLayout extends LitElement {
           ]}
           .selectedTab=${1}
         >
-          <div slot="right-content">
-            <unity-button
-              label="my button"
-              type="solid"
-              @click=${e => console.log("unity-button clicked! e: ", e)}
-            />
-          </div>
+          <unity-button
+            slot="left-action"
+            centerIcon="unity:duplicate"
+            type="borderless"
+          ></unity-button>
+          <unity-button
+            slot="left-action"
+            centerIcon="unity:trash_can"
+            type="borderless"
+          ></unity-button>
+          <unity-button
+            slot="right-action"
+            centerIcon="unity:db_candi"
+            type="borderless"
+          ></unity-button>
+          <unity-button
+            slot="right-action"
+            label="my button"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
         </unity-page-header>
       </div>
       <unity-section>

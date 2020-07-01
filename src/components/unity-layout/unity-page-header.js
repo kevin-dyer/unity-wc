@@ -1,22 +1,23 @@
 import { LitElement, html, css } from 'lit-element';
 import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/iron-icons/iron-icons.js';
+import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 
 import {UnityDefaultThemeStyles} from '@bit/smartworks.unity.unity-default-theme-styles';
 import  '@bit/smartworks.unity.unity-typography';
+import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
 
 /**
  * Displays a Top level Page Header.
  * @name UnityPageHeader
- * @param {''} title
+ * @param {''} header
  * @param {[]} tabs
  * @param {''} selectedTab
  * @returns {LitElement} returns a a class extended from LitElement
  * @example
  *  <unity-page-header
- *    title="MOCC2 Title"
+ *    header="MOCC2 Title (header)"
  *    ?showBackBtn=${true}
  *    .tabs=${[
  *      {
@@ -54,6 +55,11 @@ import  '@bit/smartworks.unity.unity-typography';
 //This component will render a page header
 // It will display a Title, a back arrow (optional), Right aligned action content (optional), and tabs (optional). These action buttons will be added as named splits to the component
 
+const LEFT_CONTENT = "left-content"
+const CENTER_CONTENT = "center-content"
+const LEFT_ACTION = "left-action"
+const RIGHT_ACTION = "right-action"
+
 class UnityPageHeader extends LitElement {
   static get styles() {
     return [
@@ -66,20 +72,24 @@ class UnityPageHeader extends LitElement {
           --header-font-family: var(--font-family, var(--default-font-family));
           font-family: var(--header-font-family);
           --tab-height: 38px;
-          --tab-padding: 0 19px;
+          --tab-padding: 0 14px;
           --left-wrapper-overflow: hidden;
           --title-white-space: nowrap;
+          --tab-color: var(--secondary-color, var(--default-secondary-color));
         }
 
         #header {
           flex: 1;
-          height: 52px;
-          min-height: 52px;
+          height: 48px;
+          min-height: 48px;
           display: flex;
           flex-direction: row;
           justify-content: space-between;
           align-items: stretch;
-          border-bottom: 1px solid var(--light-grey-text-color, var(--default-light-grey-text-color));
+        }
+
+        .bottom {
+          border-bottom: 1px solid var(--light-gray-1-color, var(--default-light-gray-1-color));
         }
 
         #left-wrapper {
@@ -89,13 +99,7 @@ class UnityPageHeader extends LitElement {
           overflow: var(--left-wrapper-overflow);
         }
 
-        #left-container {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-        }
-
-        #right-container::slotted(*) {
+        .left-container {
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -108,22 +112,49 @@ class UnityPageHeader extends LitElement {
         }
 
         paper-tabs {
-          font-size: var(--small-text-size, var(--default-small-text-size));
+          font-size: 14px; /*var(--paragraph-font-size, var(--default-paragraph-font-size));*/
           height: 28px;
+          width: min-content;
           align-self: flex-start;
-          --paper-tabs-selection-bar-color: var(--primary-brand-color, var(--default-primary-brand-color));
-          height: var(--tab-height);
+          --paper-tabs-selection-bar-color: var(--tab-color);
+          /*height: var(--tab-height);*/
           font-family: var(--header-font-family);
         }
 
-        ::slotted(*) {
+        .separator {
+          --iron-icon-height: var(--unity-button-height, var(--default-unity-button-height));
+          --iron-icon-width: var(--unity-button-height, var(--default-unity-button-height));
+          transform: rotate(90deg);
+          color: var(--gray-color, var(--default-gray-color));
+        }
+
+        .button-container, ::slotted(*) {
           display: flex;
           flex-direction: row;
           align-items: center;
           min-width: 0;
         }
+
+        .right-action::slotted(*) {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding-right: calc(var(--padding-size-sm, var(--default-padding-size-sm))/2);
+        }
+
+        .left-action::slotted(*) {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding-left: var(--padding-size-sm, var(--default-padding-size-sm));
+        }
+
         paper-tab {
           padding: var(--tab-padding);
+        }
+
+        .hide {
+          display: none;
         }
       `
     ];
@@ -131,17 +162,18 @@ class UnityPageHeader extends LitElement {
 
   static get properties() {
     return {
-      title: { type: String },
+      header: { type: String },
       tabs: { type: Array },
       selectedTab: { type: Number },
-      onTabSelect: { type: Function }
+      onTabSelect: { type: Function },
+      showSeparator: { type: false }
     }
   }
 
   constructor() {
     super()
 
-    this.title=''
+    this.header=''
     this._tabs=[]
     this._selectedTab=0
     this.onTabSelect=()=>{console.log("onTabSelect default")}
@@ -190,34 +222,68 @@ class UnityPageHeader extends LitElement {
     this.onTabSelect(tab, index)
   }
 
+  getActionSlots() {
+    const slots = [...this.shadowRoot.querySelectorAll('slot')]
+    const slotContent = slots.map(slot => slot && slot.assignedNodes() || [])
+    // destructured array is in written order of the component
+    const [
+      leftContent,
+      centerContent,
+      leftAction,
+      rightAction
+    ] = slotContent.map(slot => trimWhitespace(slot))
+    return {
+      [LEFT_ACTION]: leftAction,
+      [RIGHT_ACTION]: rightAction
+    }
+  }
+
+  updated(oldProps) {
+    if (!oldProps.has('showSeparator')) {
+      const {
+        [LEFT_ACTION]: leftAction=[],
+        [RIGHT_ACTION]: rightAction=[]
+      } = this.getActionSlots()
+      this.showSeparator = leftAction.length > 0 && rightAction.length > 0
+    }
+  }
+
   render() {
     const {
-      title,
+      header,
       tabs=[],
+      showSeparator,
       selectedTab
     } = this
+    const hasTabs = tabs.length > 0
     return html`
-      <div id="header">
-        <div id="left-wrapper">
-          <slot name="left-content" id="left-container"></slot>
-          <slot name="center-content" id="center-container">
-            <unity-typography size="header1" id="title">${title}</unity-typography>
-          </slot>
+      <div class="bottom">
+        <div id="header">
+          <div id="left-wrapper">
+            <slot name="${LEFT_CONTENT}" class="left-container"></slot>
+            <slot name="${CENTER_CONTENT}" class="center-container">
+              <unity-typography size="header1" id="title">${header}</unity-typography>
+            </slot>
+          </div>
+          <div class="button-container">
+            <slot name="${LEFT_ACTION}" class="left-action"></slot>
+            <iron-icon icon="unity:minus" class="separator${!showSeparator ? ' hide' : ''}"></iron-icon>
+            <slot name="${RIGHT_ACTION}" class="right-action"></slot>
+          </div>
         </div>
-        <slot name="right-content" id="right-container"></slot>
-      </div>
-      ${tabs.length > 0
-        ? html`<paper-tabs selected="${selectedTab}" id="header-tabs" noink>
-            ${tabs.map((tab, index) => {
-              const {label} = tab
+        ${hasTabs
+          ? html`<paper-tabs selected="${selectedTab}" id="header-tabs" noink>
+              ${tabs.map((tab, index) => {
+                const {label} = tab
 
-              return html`<paper-tab @click=${e => this._handleTabSelect(tab, index)}>
-                ${label}
-              </paper-tab>`
-            })}
-          </paper-tabs>`
-        : ''
-      }
+                return html`<paper-tab @click=${e => this._handleTabSelect(tab, index)}>
+                  ${label}
+                </paper-tab>`
+              })}
+            </paper-tabs>`
+          : ''
+        }
+      </div>
     `
   }
 }
