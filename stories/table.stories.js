@@ -60,7 +60,7 @@ export const Standard = () => {
       .keyExtractor=${(datum, index) => datum.id}
       .slotIdExtractor=${(row, column) => `${row._rowId}-${column.key}`}
       .childKeys=${childKeys}
-      .data=${data}
+      .data=${defaultDevices}
       .columns=${columns}
       .columnFilter=${columnFilters}
       .onFilterChange=${action("onFilterChange")}
@@ -218,7 +218,7 @@ export const WithExportButton = () => {
       .keyExtractor=${(datum, index) => datum.id}
       .slotIdExtractor=${(row, column) => `${row._rowId}-${column.key}`}
       .childKeys=${childKeys}
-      .data=${data}
+      .data=${defaultDevices}
       .columns=${columns}
       .columnFilter=${columnFilters}
       .onFilterChange=${action("onFilterChange")}

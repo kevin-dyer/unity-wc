@@ -3,7 +3,8 @@ import '@polymer/iron-icon/iron-icon';
 import "@polymer/paper-checkbox";
 import "@polymer/paper-dialog";
 
-import '@bit/smartworks.unity.unity-button';
+// import '@bit/smartworks.unity.unity-button';
+import '../unity-button/unity-button'
 import '@bit/smartworks.unity.unity-icon-set';
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
 import '@bit/smartworks.unity.unity-text-input';

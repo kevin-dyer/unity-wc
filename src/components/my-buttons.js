@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
-import '@bit/smartworks.unity.unity-core/unity-button'
+// import '@bit/smartworks.unity.unity-core/unity-button'
+import './unity-button/unity-button'
 import { SharedStyles } from './shared-styles.js';
 
 class MyButtons extends LitElement {
@@ -38,6 +39,7 @@ class MyButtons extends LitElement {
 
         <div class="button-container">
           <unity-button
+
             label="primary"
             ?disabled=${false}
             @click=${e => console.log("unity-button clicked! e: ", e)}
@@ -55,7 +57,7 @@ class MyButtons extends LitElement {
 
           <unity-button
             label="right icon"
-            rightIcon="expand-more"
+            rightIcon="add"
           ></unity-button>
 
           <unity-button
@@ -131,9 +133,36 @@ class MyButtons extends LitElement {
           ></unity-button>
 
           <unity-button
+            label="left icon"
+            type="secondary"
+            leftIcon="event-seat"
+          ></unity-button>
+
+          <unity-button
+            label="right icon"
+            type="secondary"
+            rightIcon="event-seat"
+          ></unity-button>
+
+          <unity-button
             label="loading"
             type="secondary"
             ?loading=${true}
+            ?disabled=${true}
+          ></unity-button>
+
+        </div>
+      </div>
+
+      <div class="section">
+        <h4>Borderless button</h4>
+
+        <div class="button-container">
+          <unity-button
+            label="secondary"
+            type="borderless"
+            ?disabled=${false}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
@@ -150,7 +179,7 @@ class MyButtons extends LitElement {
 
           <unity-button
             label="disabled"
-            type="secondary"
+            type="borderless"
             ?disabled=${true}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
@@ -186,13 +215,14 @@ class MyButtons extends LitElement {
             label="loading"
             type="borderless"
             ?loading=${true}
+            icon="warning"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
             label="disabled"
             type="borderless"
             ?disabled=${true}
-            @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
@@ -202,6 +232,13 @@ class MyButtons extends LitElement {
           ?disabled=${true}
           ></unity-button>
 
+          <unity-button
+            label="loading"
+            important
+            ?loading=${true}
+            ?disabled=${true}
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
         </div>
       </div>
 
@@ -224,10 +261,18 @@ class MyButtons extends LitElement {
           ></unity-button>
 
           <unity-button
+            label="important right icon"
+            type="secondary"
+            important
+            rightIcon="warning"
+            @click=${e => console.log("unity-button clicked! e: ", e)}
+          ></unity-button>
+
+          <unity-button
             label="loading"
             ?important=${true}
             ?loading=${true}
-            leftIcon="warning"
+            icon="warning"
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
@@ -256,26 +301,31 @@ class MyButtons extends LitElement {
       </div>
 
       <div class="section">
-        <h4>Small button</h4>
+        <h4>Important Borderless button</h4>
 
         <div class="button-container">
           <unity-button
-            label="Small"
-            ?small=${true}
+            label="important"
+            type="borderless"
+            important
+            ?disabled=${false}
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
-            label="small icon"
-            ?small=${true}
-            leftIcon='image:photo'
+            label="important left icon"
+            type="borderless"
+            important
+            leftIcon="warning"
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
           <unity-button
             label="loading"
-            ?small=${true}
+            type="borderless"
+            important
             ?loading=${true}
+            leftIcon="warning"
             @click=${e => console.log("unity-button clicked! e: ", e)}
           ></unity-button>
 
@@ -297,7 +347,6 @@ class MyButtons extends LitElement {
             centerIcon="close"
             type="borderless"
             @click=${e => console.log("unity-button clicked! e: ", e)}
-            style="--button-color: black;"
           ></unity-button>
 
           <unity-button

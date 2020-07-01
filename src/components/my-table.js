@@ -187,6 +187,7 @@ class MyTable extends PageViewElement {
               ?buttonOutlined=${true}
               .columns=${this.columns}
               .onUpdate=${this.handleColUpdate.bind(this)}
+              .buttonProps=${{centerIcon: 'settings', type: 'borderless'}}
             ></unity-column-editor>
 
             <unity-table-export .tableRef=${this.tableRef}>

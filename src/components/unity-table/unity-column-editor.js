@@ -3,7 +3,6 @@ import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import Sortable from 'sortablejs/modular/sortable.core.esm.js' // Core SortableJS (without default plugins)
-
 import '@bit/smartworks.unity.unity-button'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-modal'
@@ -11,14 +10,18 @@ import '@bit/smartworks.unity.unity-modal'
 /**
  * Displays button which will open column editor modal.
  * @name UnityColumnEditor
+ * @param {{}} buttonProps, object defining properties of unity-button used to toggle Column Editor Modal.
  * @param {[]} columns, array of objects - same as what is passed into unity-table
  * @param {[]} selectedColumns, array of column keys from columns that are visible
  * @param {func} onUpdate, callback that is sent an array of sorted visible columns
- * @param {''} buttonType, action button type for styling ('solid', 'gradient', 'outlined'), default ''
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-column-editor
- *    buttonType="solid"
+ *    .buttonProps="${{
+        label: 'Edit Columns',
+        leftIcon: 'settings',
+        type: 'primary'
+      }}"
  *    .columns="${[
  *      {
  *        key: 'column2',
@@ -50,7 +53,7 @@ class UnityColumnEditor extends LitElement {
     super()
 
     this.columns = []
-    this.buttonType = ''
+    this.buttonProps = {label: 'Edit Columns'}
     this.onUpdate = (columns) => {}
 
     this._dialogVisible = false
@@ -66,7 +69,7 @@ class UnityColumnEditor extends LitElement {
       columns: {type: Array},
       selectedColumns: {type: Array},
       onUpdate: {type: Function},
-      buttonType: {type: String},
+      buttonProps: {type: Object},
       _dialogVisible: {type: Boolean},
       _selectedColumns: {type: Array},
       _formSelectedColumns: {type: Array}
@@ -211,10 +214,24 @@ class UnityColumnEditor extends LitElement {
   }
 
   render() {
+    const {
+      label='',
+      leftIcon='',
+      rightIcon='',
+      centerIcon='',
+      type='',
+      important,
+      loading
+    } = this.buttonProps
     return html`
       <unity-button
-        label="Edit Columns"
-        type=${this.buttonType}
+        label=${label}
+        leftIcon=${leftIcon}
+        rightIcon=${rightIcon}
+        centerIcon=${centerIcon}
+        type=${type}
+        ?important=${important}
+        ?loading=${loading}
         @click=${this.toggleDialog.bind(this)}
       >
       </unity-button>
@@ -233,14 +250,14 @@ class UnityColumnEditor extends LitElement {
         <unity-button
           label="Cancel"
           slot="bottom"
-          type="outlined"
+          type="secondary"
           @click=${this.handleCancel.bind(this)}
         ></unity-button>
         <unity-button
           label="Save"
           slot="bottom"
           autofocus
-          type="solid"
+          type="primary"
           @click=${this.handleSave.bind(this)}
         ></unity-button>
       </unity-modal>
