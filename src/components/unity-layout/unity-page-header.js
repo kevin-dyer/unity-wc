@@ -54,6 +54,11 @@ import  '@bit/smartworks.unity.unity-typography';
 //This component will render a page header
 // It will display a Title, a back arrow (optional), Right aligned action content (optional), and tabs (optional). These action buttons will be added as named splits to the component
 
+const LEFT_CONTENT = "left-content"
+const CENTER_CONTENT = "center-content"
+const LEFT_ACTION = "left-action"
+const RIGHT_ACTION = "right-action"
+
 class UnityPageHeader extends LitElement {
   static get styles() {
     return [
@@ -129,14 +134,14 @@ class UnityPageHeader extends LitElement {
           min-width: 0;
         }
 
-        .right-actions::slotted(*) {
+        .right-action::slotted(*) {
           display: flex;
           flex-direction: row;
           align-items: center;
           padding-right: calc(var(--padding-size-sm, var(--default-padding-size-sm))/2);
         }
 
-        .left-actions::slotted(*) {
+        .left-action::slotted(*) {
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -222,15 +227,15 @@ class UnityPageHeader extends LitElement {
       <div class="bottom">
         <div id="header">
           <div id="left-wrapper">
-            <slot name="left-content" class="left-container"></slot>
-            <slot name="center-content" class="center-container">
+            <slot name="" class="left-container"></slot>
+            <slot name="" class="center-container">
               <unity-typography size="header1" id="title">${header}</unity-typography>
             </slot>
           </div>
           <div class="button-container">
-            <slot name="left-actions" class="left-actions"></slot>
+            <slot name="${LEFT_ACTION}" class="left-action"></slot>
             <iron-icon icon="unity:minus" class="separator"></iron-icon>
-            <slot name="right-actions" class="right-actions"></slot>
+            <slot name="${RIGHT_ACTION}" class="right-action"></slot>
           </div>
         </div>
         ${hasTabs
