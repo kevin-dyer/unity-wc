@@ -10,13 +10,13 @@ import  '@bit/smartworks.unity.unity-typography';
 /**
  * Displays a Top level Page Header.
  * @name UnityPageHeader
- * @param {''} title
+ * @param {''} header
  * @param {[]} tabs
  * @param {''} selectedTab
  * @returns {LitElement} returns a a class extended from LitElement
  * @example
  *  <unity-page-header
- *    title="MOCC2 Title"
+ *    header="MOCC2 Title (header)"
  *    ?showBackBtn=${true}
  *    .tabs=${[
  *      {
@@ -152,7 +152,7 @@ class UnityPageHeader extends LitElement {
 
   static get properties() {
     return {
-      title: { type: String },
+      header: { type: String },
       tabs: { type: Array },
       selectedTab: { type: Number },
       onTabSelect: { type: Function }
@@ -162,7 +162,7 @@ class UnityPageHeader extends LitElement {
   constructor() {
     super()
 
-    this.title=''
+    this.header=''
     this._tabs=[]
     this._selectedTab=0
     this.onTabSelect=()=>{console.log("onTabSelect default")}
@@ -213,7 +213,7 @@ class UnityPageHeader extends LitElement {
 
   render() {
     const {
-      title,
+      header,
       tabs=[],
       selectedTab
     } = this
