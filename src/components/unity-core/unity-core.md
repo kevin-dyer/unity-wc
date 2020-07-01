@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.4.2
+- unity-page-header v1.1.0
+
 ### v1.4.0
 - unity-default-theme-styles v1.2.0
 - unity-typography v1.1.0
