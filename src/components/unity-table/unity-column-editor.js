@@ -300,6 +300,8 @@ class UnityColumnEditor extends LitElement {
         .list-container {
           margin: 0;
           height: 100%;
+          max-height: 300px;
+          overflow-y: auto;
         }
 
         .row {
