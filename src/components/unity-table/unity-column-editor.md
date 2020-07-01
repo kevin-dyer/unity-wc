@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- set max height of modal content to 300px and enabled scrolling to display list of many columns.
+
 ### v1.1.0
 - added buttonProps property to define properties of unity-button used to toggle the Column Editor modal. Can define all unity-button properties except for the @click property.
 Ex: <unity-column-editor .buttonProps=${{label: 'Edit Columns', leftIcon: 'settings'}} ...></unity-column-editor>
