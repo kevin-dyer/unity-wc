@@ -6,6 +6,7 @@ import '@polymer/paper-tabs/paper-tab.js';
 
 import {UnityDefaultThemeStyles} from '@bit/smartworks.unity.unity-default-theme-styles';
 import  '@bit/smartworks.unity.unity-typography';
+import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
 
 /**
  * Displays a Top level Page Header.
@@ -151,6 +152,10 @@ class UnityPageHeader extends LitElement {
         paper-tab {
           padding: var(--tab-padding);
         }
+
+        .hide {
+          display: none;
+        }
       `
     ];
   }
@@ -160,7 +165,8 @@ class UnityPageHeader extends LitElement {
       header: { type: String },
       tabs: { type: Array },
       selectedTab: { type: Number },
-      onTabSelect: { type: Function }
+      onTabSelect: { type: Function },
+      showSeparator: { type: false }
     }
   }
 
@@ -216,10 +222,37 @@ class UnityPageHeader extends LitElement {
     this.onTabSelect(tab, index)
   }
 
+  getActionSlots() {
+    const slots = [...this.shadowRoot.querySelectorAll('slot')]
+    const slotContent = slots.map(slot => slot && slot.assignedNodes() || [])
+    // destructured array is in written order of the component
+    const [
+      leftContent,
+      centerContent,
+      leftAction,
+      rightAction
+    ] = slotContent.map(slot => trimWhitespace(slot))
+    return {
+      [LEFT_ACTION]: leftAction,
+      [RIGHT_ACTION]: rightAction
+    }
+  }
+
+  updated(oldProps) {
+    if (!oldProps.has('showSeparator')) {
+      const {
+        [LEFT_ACTION]: leftAction=[],
+        [RIGHT_ACTION]: rightAction=[]
+      } = this.getActionSlots()
+      this.showSeparator = leftAction.length > 0 && rightAction.length > 0
+    }
+  }
+
   render() {
     const {
       header,
       tabs=[],
+      showSeparator,
       selectedTab
     } = this
     const hasTabs = tabs.length > 0
@@ -227,14 +260,14 @@ class UnityPageHeader extends LitElement {
       <div class="bottom">
         <div id="header">
           <div id="left-wrapper">
-            <slot name="" class="left-container"></slot>
-            <slot name="" class="center-container">
+            <slot name="${LEFT_CONTENT}" class="left-container"></slot>
+            <slot name="${CENTER_CONTENT}" class="center-container">
               <unity-typography size="header1" id="title">${header}</unity-typography>
             </slot>
           </div>
           <div class="button-container">
             <slot name="${LEFT_ACTION}" class="left-action"></slot>
-            <iron-icon icon="unity:minus" class="separator"></iron-icon>
+            <iron-icon icon="unity:minus" class="separator${!showSeparator ? ' hide' : ''}"></iron-icon>
             <slot name="${RIGHT_ACTION}" class="right-action"></slot>
           </div>
         </div>
