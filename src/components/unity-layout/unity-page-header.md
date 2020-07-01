@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.1.0
+- Remove border between header and tabs, but always have border on bottom of element
+- Split right-content slot into left- and right-action slots, with dynamically rendering separator
+- Fix header height to design value, tabs will then attach to bottom (increasing overall height)
+- Fix tab size and font size
+
 ### v1.0.1
 - Allow header slots to shrink down to 0 width as header width decreases
 
