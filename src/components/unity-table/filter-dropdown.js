@@ -127,6 +127,7 @@ class FilterDropdown extends LitElement {
         : null}
       <unity-button
         centerIcon="unity:filter"
+        type="borderless"
         @click=${() => this.toggleDropdown()}
       ></unity-button>
       `;

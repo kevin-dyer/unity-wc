@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.0
+- Update to use newest unity-button's modes and styles
+
 ### v1.1.2
 - Use default cursor when dropdown is disabled
 

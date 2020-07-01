@@ -2,6 +2,13 @@
 
 ## Changelog:
 
+### v1.2.0
+- Updated font and related variables
+- Added monospace font
+
+### v1.1.3
+- Fix button defaults
+
 ### v1.1.2
 - Fix color typo
 

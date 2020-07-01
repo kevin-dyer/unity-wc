@@ -9,35 +9,25 @@ describe('button test', () => {
     const el = /** @type {A11yInput} */ (await fixture('<unity-button></unity-button>'));
     expect(el.label).to.equal('');
   });
-});
 
-
-describe('button test', () => {
-  it('paper button has class solid when button type is set to solid', async () => {
-    const el = /** @type {A11yInput} */ (await fixture('<unity-button type="solid"></unity-button>'));
+  it('paper button has class primary when button type is set to primary', async () => {
+    const el = /** @type {A11yInput} */ (await fixture('<unity-button type="primary"></unity-button>'));
     const paperButton = el.shadowRoot.querySelector('paper-button')
-    expect(paperButton.className).to.include('solid');
+    expect(paperButton.className).to.include('primary');
   });
-});
 
-
-describe('button test', () => {
-  it('paper button has class gradient when button type is set to gradient', async () => {
-    const el = /** @type {A11yInput} */ (await fixture('<unity-button type="gradient"></unity-button>'));
+  it('paper button has class secondary when button type is set to secondary', async () => {
+    const el = /** @type {A11yInput} */ (await fixture('<unity-button type="secondary"></unity-button>'));
     const paperButton = el.shadowRoot.querySelector('paper-button')
-    expect(paperButton.className).to.include('gradient');
+    expect(paperButton.className).to.include('secondary');
   });
-});
 
-describe('button test', () => {
-  it('paper button has class outlined when button type is set to outlined', async () => {
-    const el = /** @type {A11yInput} */ (await fixture('<unity-button type="outlined"></unity-button>'));
+  it('paper button has class borderless when button type is set to borderless', async () => {
+    const el = /** @type {A11yInput} */ (await fixture('<unity-button type="borderless"></unity-button>'));
     const paperButton = el.shadowRoot.querySelector('paper-button')
-    expect(paperButton.className).to.include('outlined');
+    expect(paperButton.className).to.include('borderless');
   });
-});
 
-describe('button test', () => {
   it('disable button', async () => {
     const disabledEl = /** @type {A11yInput} */ (await fixture('<unity-button disabled></unity-button>'));
     const notDisabledEl = /** @type {A11yInput} */ (await fixture('<unity-button></unity-button>'));
@@ -46,31 +36,16 @@ describe('button test', () => {
     expect(paperButtonDisabled.disabled).to.equal(true);
     expect(paperButtonNotDisabled.disabled).to.equal(false);
   });
-});
 
-describe('button test', () => {
-  it('danger set properly', async () => {
-    const dangerEl = /** @type {A11yInput} */ (await fixture('<unity-button danger></unity-button>'));
-    const notDangerEl = /** @type {A11yInput} */ (await fixture('<unity-button></unity-button>'));
-    const paperButtonDanger = dangerEl.shadowRoot.querySelector('paper-button')
-    const paperButtonNotDanger = notDangerEl.shadowRoot.querySelector('paper-button')
-    expect(paperButtonDanger.className).to.include('danger');
-    expect(paperButtonNotDanger.className).to.not.include('danger');
+  it('important set properly', async () => {
+    const importantEl = /** @type {A11yInput} */ (await fixture('<unity-button important></unity-button>'));
+    const notImportantEl = /** @type {A11yInput} */ (await fixture('<unity-button></unity-button>'));
+    const paperButtonImportant = importantEl.shadowRoot.querySelector('paper-button')
+    const paperButtonNotImportant = notImportantEl.shadowRoot.querySelector('paper-button')
+    expect(paperButtonImportant.className).to.include('important');
+    expect(paperButtonNotImportant.className).to.not.include('important');
   });
-});
 
-describe('button test', () => {
-  it('small set properly', async () => {
-    const smallEl = /** @type {A11yInput} */ (await fixture('<unity-button small></unity-button>'));
-    const notSmallEl = /** @type {A11yInput} */ (await fixture('<unity-button></unity-button>'));
-    const paperButtonSmall = smallEl.shadowRoot.querySelector('paper-button')
-    const paperButtonNotSmall = notSmallEl.shadowRoot.querySelector('paper-button')
-    expect(paperButtonSmall.className).to.include('small');
-    expect(paperButtonNotSmall.className).to.not.include('small');
-  });
-});
-
-describe('button test', () => {
   it('spinner element is rendered when button set to loading', async () => {
     const loadingEl = /** @type {A11yInput} */ (await fixture('<unity-button loading></unity-button>'));
     const notLoadingEl = /** @type {A11yInput} */ (await fixture('<unity-button></unity-button>'));
@@ -79,9 +54,7 @@ describe('button test', () => {
     expect(spinner).to.exist
     expect(noSpinner).to.be.null
   });
-});
 
-describe('button test', () => {
   it('right icon is rendered when property set', async () => {
     const rightIconEl = /** @type {A11yInput} */ (await fixture('<unity-button rightIcon="unity:down"></unity-button>'));
     const noRightIconEl = /** @type {A11yInput} */ (await fixture('<unity-button></unity-button>'));
@@ -90,9 +63,7 @@ describe('button test', () => {
     expect(rightIcon).to.exist
     expect(noRightIcon).to.be.null
   });
-});
 
-describe('button test', () => {
   it('left icon is rendered when property set and not loading', async () => {
     const leftIconEl = /** @type {A11yInput} */ (await fixture('<unity-button leftIcon="unity:down"></unity-button>'));
     const leftIconLoadingEl = /** @type {A11yInput} */ (await fixture('<unity-button loading leftIcon="unity:down"></unity-button>'));
@@ -104,9 +75,7 @@ describe('button test', () => {
     expect(noLeftIcon).to.be.null
     expect(leftIconLoading.className).to.include('spinner')
   });
-});
 
-describe('button test', () => {
   it('center icon is rendered when property set and not loading', async () => {
     const centerIconEl = /** @type {A11yInput} */ (await fixture('<unity-button centerIcon="unity:down"></unity-button>'));
     const centerIconLoadingEl = /** @type {A11yInput} */ (await fixture('<unity-button loading centerIcon="unity:down"></unity-button>'));
@@ -117,6 +86,5 @@ describe('button test', () => {
     expect(centerIcon).to.exist
     expect(noCenterIcon).to.be.null
     expect(centerIconLoading).to.be.null
-
   });
 });
