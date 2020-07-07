@@ -185,6 +185,7 @@ class UnityGlobalNavBase extends LitElement {
           --default-global-nav-expanded-width: 192px;
           --default-global-nav-collapsed-width: 32px;
           --default-global-nav-logo-size: 12px;
+          --default-global-nav-logo-padding: 8px;
           --default-global-nav-menu-shadow: 0 0 4px 0;
         }
         * {
@@ -221,6 +222,7 @@ class UnityGlobalNavBase extends LitElement {
           min-height: var(--global-nav-short-row, var(--default-global-nav-short-row));
           min-width: var(--global-nav-short-row, var(--default-global-nav-short-row));
           border-right: 1px solid var(--global-nav-border-color, var(--default-global-nav-border-color));
+          padding: var(--global-nav-logo-padding, var(--default-global-nav-logo-padding));
         }
         .logo-container.clickable {
           cursor: pointer;

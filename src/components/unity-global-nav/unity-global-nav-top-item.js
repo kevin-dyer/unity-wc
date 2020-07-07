@@ -234,7 +234,7 @@ class UnityGlobalNavTopItem extends LitElement {
           background-color: var(--global-nav-item-secondary-color, var(--default-global-nav-item-secondary-color));
           border-top: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
           border-bottom: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
-          padding-bottom: var(--global-nav-item-padding-size-sm);
+          padding-bottom: var(--global-nav-item-padding-size-sm, var(--defauult-global-nav-item-padding-size-sm));
         }
         .label {
           display: flex;
