@@ -172,31 +172,26 @@ class UnityGlobalNavTopItem extends LitElement {
 
   // styles
   static get styles() {
-    // CSS vars using the --global-nav-item prefix follow the Unity 2020 designs. The rest are kept for backwards compatibility. 
+    // CSS vars using the --global-nav-item prefix follow the Unity 2020 designs. The rest are kept for backwards compatibility.
     return [
       UnityDefaultThemeStyles,
       css`
         :host {
           font-family: var(--font-family, var(--default-font-family));
-          --primary-menu-color: var(--white-color, var(--default-white-color));
-          --secondary-menu-color: var(--white-color, var(--default-white-color));
-          --selected-color: var(--global-nav-highlight-color);
-          --text-color: var(--global-nav-text-color), var(--default-dark-gray-color));
           --border-breakers: var(--global-nav-border-color, var(--default-global-nav-border-color));
           --tall-height: 40px;
           --short-height: 32px;
-          --label-margin: var(--global-nav-margin-size, 12px);
-          --global-nav-item-primary-color: var(--global-nav-background-color);
-          --global-nav-item-secondary-color: var(--global-nav-background-color);
-          --global-nav-item-highlight-color: var(--global-nav-highlight-color);
-          --global-nav-item-text-color: var(--global-nav-text-color);
-          --global-nav-item-border-color: var(--global-nav-border-color);
-          --global-nav-item-tall-height: var(--global-nav-large-row);
-          --global-nav-item-short-height: var(--global-nav-short-row);
-          --global-nav-item-margin-size: var(--global-nav-margin-size);
-          --global-nav-item-font-size: var(--global-nav-font-size, 12px);
-          --global-nav-item-padding-size: var(--global-nav-padding-size);
-          --global-nav-item-padding-size-sm: var(--global-nav-padding-size-sm, 8px);
+          --default-global-nav-item-primary-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
+          --default-global-nav-item-secondary-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
+          --default-global-nav-item-highlight-color: var(--global-nav-highlight-color, var(--default-global-nav-highlight-color));
+          --default-global-nav-item-text-color: var(--global-nav-text-color, var(--default-global-nav-text-color));
+          --default-global-nav-item-border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
+          --default-global-nav-item-tall-height: var(--global-nav-large-row, var(--tall-height));
+          --default-global-nav-item-short-height: var(--global-nav-short-row, var(--short-height));
+          --default-global-nav-item-margin-size: var(--global-nav-margin-size, var(--default-global-nav-margin-size));
+          --default-global-nav-item-font-size: var(--global-nav-font-size, var(--default-global-nav-font-size));
+          --default-global-nav-item-padding-size: var(--global-nav-padding-size, var(--default-global-nav-padding-size));
+          --default-global-nav-item-padding-size-sm: var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));
           border-collapse: collapse;
           user-select: none;
         }
@@ -206,12 +201,12 @@ class UnityGlobalNavTopItem extends LitElement {
         .container {
           border-collapse: collapse;
           height: auto;
-          min-height: var(--global-nav-item-short-height, var(--short-height));
+          min-height: var(--global-nav-item-short-height, var(--default-global-nav-item-short-height));
           width: 100%;
-          background-color: var(--global-nav-item-primary-color, var(--primary-menu-color));
+          background-color: var(--global-nav-item-primary-color, var(--default-global-nav-item-primary-color));
           position: relative;
           cursor: pointer;
-          --font-color: var(--global-nav-item-text-color, var(--text-color));
+          --font-color: var(--global-nav-item-text-color, var(--default-global-nav-item-text-color));
         }
         .container.disabled {
           cursor: default;
@@ -220,11 +215,11 @@ class UnityGlobalNavTopItem extends LitElement {
           opacity: 0.5;
         }
         .container:not(.disabled) .label:hover {
-          background-color: var(--global-nav-hover-color);
+          background-color: var(--global-nav-hover-color, var(--default-global-nav-hover-color));
         }
         .selected {
-          color: var(--global-nav-item-highlight-color, var(--selected-color)) !important;
-          --font-color: var(--global-nav-item-highlight-color, var(--selected-color));
+          color: var(--global-nav-item-highlight-color, var(--default-global-nav-item-highlight-color)) !important;
+          --font-color: var(--global-nav-item-highlight-color, var(--default-global-nav-item-highlight-color));
         }
         .selected.container::before {
           content: "";
@@ -236,7 +231,7 @@ class UnityGlobalNavTopItem extends LitElement {
           z-index: 1;
         }
         .open {
-          background-color: var(--global-nav-item-secondary-color, var(--secondary-menu-color));
+          background-color: var(--global-nav-item-secondary-color, var(--default-global-nav-item-secondary-color));
           border-top: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
           border-bottom: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
           padding-bottom: var(--global-nav-item-padding-size-sm);
@@ -245,44 +240,44 @@ class UnityGlobalNavTopItem extends LitElement {
           display: flex;
           position: relative;
           flex-wrap: nowrap;
-          min-height: var(--global-nav-item-short-height, var(--short-height));
+          min-height: var(--global-nav-item-short-height, var(--default-global-nav-item-short-height));
           font-weight: 500;
           align-items: center;
           height: 100%;
-          padding: 0 var(--global-nav-item-padding-size, var(--label-margin));
+          padding: 0 var(--global-nav-item-padding-size, var(--default-global-nav-item-padding-size));
         }
         .open .label {
-          min-height: var(--global-nav-item-tall-height, var(--tall-height));
+          min-height: var(--global-nav-item-tall-height, var(--default-global-nav-item-tall-height));
         }
         .text {
           flex: 1;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          --font-size: var(--global-nav-item-font-size);
+          --font-size: var(--global-nav-item-font-size, var(--default-global-nav-item-font-size));
           --medium-weight: bold;
         }
         unity-icon + .text {
-          margin: 0 var(--global-nav-item-margin-size, var(--label-margin));
+          margin: 0 var(--global-nav-item-margin-size, var(--default-global-nav-item-margin-size));
         }
         .icon {
           height: 16px;
           width: 16px;
-          color: var(--global-nav-item-text-color, var(--text-color));
+          color: var(--global-nav-item-text-color, var(--default-global-nav-item-text-color));
           --layout-inline_-_display: initial;
         }
         .short {
-          min-height: var(--global-nav-item-short-height, var(--short-height));
+          min-height: var(--global-nav-item-short-height, var(--default-global-nav-item-short-height));
         }
         .tall {
-          min-height: var(--global-nav-item-tall-height, var(--tall-height));
+          min-height: var(--global-nav-item-tall-height, var(--default-global-nav-item-tall-height));
         }
         unity-tooltip {
           position: absolute;
           display: none;
           right: -6px;
           top: 25%;
-          --font-color: var(--global-nav-item-text-color);
+          --font-color: var(--global-nav-item-text-color, var(--default-global-nav-item-text-color));
         }
         .label:hover unity-tooltip {
           display: block;
