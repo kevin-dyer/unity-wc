@@ -86,10 +86,6 @@ export const UnityDefaultThemeStyles = css`
     --default-error-color: rgb(var(--default-red-orange-rgb));
     --default-error-lite-color: rgba(var(--default-red-orange-rgb), .5);
     --default-background-color: rgb(var(--default-white-rgb));
-    --default-global-nav-background-color: rgb(var(--default-deep-blue-rgb));
-    --default-global-nav-expanded-color: rgb(var(--default-deep-blue-rgb));
-    --default-global-nav-border-color: rgb(var(--default-sky-blue-shade-rgb));
-    --default-global-nav-text-color: rgb(var(--default-white-rgb));
     --default-black-text-color: rgb(var(--default-black-rgb));
 
     --default-dark-grey-text-color: rgb(var(--default-charcoal-rgb));
