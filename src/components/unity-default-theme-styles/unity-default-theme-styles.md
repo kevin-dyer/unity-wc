@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.1
+- Remove old and unused default for nav colors
+
 ### v1.2.0
 - Updated font and related variables
 - Added monospace font

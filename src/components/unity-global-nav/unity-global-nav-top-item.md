@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- Fix styles to properly propagate from higher level components, remove duplicates
+
 ### v1.1.0
 - Updated to Unity 2020 designs.
 - Added disabled property and new css variables.
