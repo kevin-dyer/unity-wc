@@ -86,10 +86,6 @@ export const UnityThemeStyles = css`
     --error-color: rgb(var(--red-orange-rgb));
     --error-lite-color: rgba(var(--red-orange-rgb), .5);
     --background-color: rgb(var(--white-rgb));
-    --global-nav-background-color: rgb(var(--deep-blue-rgb));
-    --global-nav-expanded-color: rgb(var(--deep-blue-rgb));
-    --global-nav-border-color: rgb(var(--sky-blue-shade-rgb));
-    --global-nav-text-color: rgb(var(--white-rgb));
     --black-text-color: rgb(var(--black-rgb));
 
     --dark-grey-text-color: rgb(var(--charcoal-rgb));

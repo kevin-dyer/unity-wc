@@ -35,7 +35,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@1.1.0": {
+    "smartworks.unity/unity-column-editor@1.1.1": {
         "files": [
             {
                 "name": "unity-column-editor.js",
@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.4.3": {
+    "smartworks.unity/unity-core@1.4.5": {
         "files": [
             {
                 "name": "index.js",
@@ -130,9 +130,9 @@
                 "test": false
             },
             {
+                "name": "unity-notifications-handler.js",
                 "relativePath": "src/components/unity-core/unity-notifications-handler.js",
-                "test": false,
-                "name": "unity-notifications-handler.js"
+                "test": false
             },
             {
                 "name": "unity-page-header.js",
@@ -205,7 +205,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-default-theme-styles@1.2.0": {
+    "smartworks.unity/unity-default-theme-styles@1.2.1": {
         "files": [
             {
                 "name": "unity-default-theme-styles.js",
@@ -262,7 +262,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@1.1.1": {
+    "smartworks.unity/unity-global-nav-base@1.1.2": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
@@ -279,7 +279,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-inner-item@1.1.0": {
+    "smartworks.unity/unity-global-nav-inner-item@1.1.1": {
         "files": [
             {
                 "name": "unity-global-nav-inner-item.js",
@@ -296,7 +296,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@1.1.0": {
+    "smartworks.unity/unity-global-nav-top-item@1.1.1": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",

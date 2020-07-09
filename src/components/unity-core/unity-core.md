@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.4.5
+- unity-global-nav-base v1.1.2, unity-global-nav-top-item v1.1.1, unity-global-nav-inner-item v1.1.1, unity-default-styles v1.2.1
+
 ### v1.4.2
 - unity-page-header v1.1.0
 

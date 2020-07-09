@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- Fix styles to properly propagate from higher level components, remove duplicates
+
 ### v1.1.1
 - Fix logo size in Chrome.
 - Remove 1px top margin for menu box.
@@ -18,7 +21,7 @@
 - Moved all @bit depedencies to peerDependencies
 
 ### v0.2.5
-- add `position: relative` to .menu to avoid nav items from stretching across the screen 
+- add `position: relative` to .menu to avoid nav items from stretching across the screen
 
 ### v0.2.3
 - Updated dependencies.
