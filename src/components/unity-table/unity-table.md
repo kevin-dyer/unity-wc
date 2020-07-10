@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.8
+- Fix selected logic to avoid infinite loops when selected is controlled by outside element.
+
 ### v1.0.7
 - Fix logic to expand all parents of a highlighted row, incase highlighting a nested element.
 

@@ -45,6 +45,7 @@ class MyTable extends PageViewElement {
     this.highlightedRow = ''
     this.showDetails = false
     this.tableRef = undefined
+    this.selected = ["abc001"]
   }
 
   static get properties() {
@@ -55,7 +56,8 @@ class MyTable extends PageViewElement {
       highlightedRow: { type: String },
       showDetails: { type: Boolean },
       tableRef: { type: Object },
-      showDetails: { type: Boolean }
+      showDetails: { type: Boolean },
+      selected: { type: Array }
     }
   }
 //   handleSearchInput(e={}) {
@@ -215,8 +217,11 @@ class MyTable extends PageViewElement {
               console.log("my-table end reached!")
             }}"
             .highlightedRow="${this.highlightedRow}"
-
-            .onSelectionChange="${selected => console.log('These elements are selected:', selected)}"
+            .selected="${this.selected}"
+            .onSelectionChange="${selected => {
+              console.log('These elements are selected:', selected)
+              this.selected = selected.map(({id})=>id)
+            }}"
             .onClickRow="${this.handleClickRow.bind(this)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"

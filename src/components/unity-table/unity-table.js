@@ -540,7 +540,11 @@ class UnityTable extends LitElement {
 
   set selected(selectedSet) {
     const oldValue = this._selected
-    this._selected = new Set(selectedSet) // ensure that value is an iterable array of keys
+    // this._selected
+    const newValue = new Set(selectedSet) // ensure that value is an iterable array of keys
+    // checks if sets are equal
+    if (!!oldValue && oldValue.size === newValue.size && [...newValue].every(id => oldValue.has(id))) return
+    this._selected = newValue
 
     // Array of selected data elements
     const selectedData = Array.from(this._selected).reduce((out, id='') => {
