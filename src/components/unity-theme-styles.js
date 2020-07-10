@@ -96,8 +96,8 @@ export const UnityThemeStyles = css`
     --light-grey-background-color: rgb(var(--light-gray-2-rgb));
 
     /* Fonts */
-    --font-family: 'NotoSans', sans-serif;
-    --monospace-font-family: 'NotoMono', monospace;
+    --font-family: 'Noto', sans-serif;
+    --monospace-font-family: 'Noto', monospace;
 
     --header1-font-size: 16px;
     --header1-font-weight: 400;
