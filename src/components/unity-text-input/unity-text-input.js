@@ -16,6 +16,7 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @param {bool} charCount, show current char count
 * @param {int} maxlength, maximum number of characters to allow
 * @param {bool} disabled, controls if field is enabled/disabled, defaults: false (enabled)
+* @param {bool} required, marks field as being required
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} time, option to have input by type time, overriden by password
@@ -58,6 +59,7 @@ class UnityTextInput extends LitElement {
     this.label = ""
     this.remark = ""
     this.disabled = false
+    this.required = false
     this.onChange = ()=>{}
     this.time = false
     this.placeholder = ""
@@ -91,6 +93,7 @@ class UnityTextInput extends LitElement {
       label: { type: String },
       remark: { type: String },
       disabled: { type: Boolean },
+      required: { type: Boolean },
       onChange: { type: Function },
       time: { type: Boolean },
       password: { type: Boolean },
@@ -355,6 +358,7 @@ class UnityTextInput extends LitElement {
       label,
       remark,
       disabled,
+      required,
       units,
       charCount,
       maxlength,
@@ -369,6 +373,7 @@ class UnityTextInput extends LitElement {
       password,
       placeholder,
       dirty,
+      showIcon,
       _onChange,
       _valid,
       _strength,
@@ -400,7 +405,7 @@ class UnityTextInput extends LitElement {
       <div>
         ${!!label ?
           html`<p class="label">
-            ${label}
+            ${label}${required ? html`<span class="required"> *</span>`: ''}
             </p>`
           : null
         }
@@ -442,6 +447,7 @@ class UnityTextInput extends LitElement {
               ${units}
             </div>`
           : null}
+          ${!showIcon && required ? html`<span class="required field">*</span>` : null}
           ${!area ? this._renderIcon() : null}
         </iron-input>
         ${(_errorText || remark || charCount)? this.renderBottomDiv() : null}
@@ -668,6 +674,17 @@ class UnityTextInput extends LitElement {
           position: absolute;
           left: -10px;
           top: -1px;
+        }
+
+        .required {
+          color: var(--default-tertiary-1-color);
+          font-size: 12px;
+          line-height: 12px;
+        }
+        .required.field {
+          position: relative;
+          top: 1px;
+          left: 19px;
         }
       `
     ]
