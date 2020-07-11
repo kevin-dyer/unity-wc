@@ -16,7 +16,8 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @param {bool} charCount, show current char count
 * @param {int} maxlength, maximum number of characters to allow
 * @param {bool} disabled, controls if field is enabled/disabled, defaults: false (enabled)
-* @param {bool} required, marks field as being required
+* @param {bool} required, marks field as being required, defaults: false
+* @param {bool} readOnly, marks field as being readOnly, defaults: false
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} time, option to have input by type time, overriden by password
@@ -60,6 +61,7 @@ class UnityTextInput extends LitElement {
     this.remark = ""
     this.disabled = false
     this.required = false
+    this.readOnly = false
     this.onChange = ()=>{}
     this.time = false
     this.placeholder = ""
@@ -94,6 +96,7 @@ class UnityTextInput extends LitElement {
       remark: { type: String },
       disabled: { type: Boolean },
       required: { type: Boolean },
+      readOnly: { type: Boolean },
       onChange: { type: Function },
       time: { type: Boolean },
       password: { type: Boolean },
@@ -298,6 +301,7 @@ class UnityTextInput extends LitElement {
       _valid,
       units,
       disabled,
+      readOnly,
       hideBorder,
       rounded,
       borderEffects
@@ -314,6 +318,7 @@ class UnityTextInput extends LitElement {
     }
     if (!_valid) classes.push('invalid')
     else classes.push('valid')
+    if (!!readOnly) classes.push('readOnly')
     if (!!disabled) classes.push('disabled')
     if (borderEffects) classes.push('border-effects')
     return classes.join(" ")
@@ -359,6 +364,7 @@ class UnityTextInput extends LitElement {
       remark,
       disabled,
       required,
+      readOnly,
       units,
       charCount,
       maxlength,
@@ -419,8 +425,8 @@ class UnityTextInput extends LitElement {
               id="textarea"
               value="{{value::iron-autogrow-textarea}}"
               maxlength="${maxlength || null}"
-              class="${!!disabled ? 'disabled' : ''}"
-              ?disabled=${!!disabled}
+              class="${!!disabled ? "disabled" : ""}"
+              ?disabled=${!!disabled || !!readOnly}
               placeholder="${!!placeholder ? placeholder : ''}"
               style="--area-min-lines: ${minLines}; --area-max-lines: ${maxLines}"
             ></iron-autogrow-textarea>`
@@ -432,8 +438,8 @@ class UnityTextInput extends LitElement {
               maxlength="${maxlength || null}"
               placeholder="${!!placeholder ? placeholder : ''}"
               style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
-              class="${!!disabled ? 'disabled' : ''}"
-              ?disabled=${!!disabled}
+              class="${!!disabled ? "disabled" : ""}"
+              ?disabled=${!!disabled || !!readOnly}
             >`
           }
           ${!!dirty ? html`<div class="dirty" />` : null}
@@ -441,7 +447,7 @@ class UnityTextInput extends LitElement {
           ${!area ? this._renderInnerIcon(innerLeftIcon, true) : null}
           ${(!area && !!units) ?
             html`<div
-              class="units ${!!disabled ? 'disabled' : ''}"
+              class="units ${!!disabled ? "disabled" : ""}"
               @click="${_clickUnits}"
             >
               ${units}
@@ -466,6 +472,8 @@ class UnityTextInput extends LitElement {
           --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
           --dirty-color: var(--danger-color, var(--defualt-danger-color));
+          unselected-border
+          border-hover
           font-family: var(--input-font);
           border-collapse: collapse;
           user-select: none;
@@ -565,11 +573,6 @@ class UnityTextInput extends LitElement {
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           color: rgb(var(--text-color));
           line-height: 2;
-        }
-        .disabled {
-          border-color: var(--dark-grey-background, var(--default-dark-grey-background));
-          background-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
-          color: rgba(var(--text-color), .4);
         }
         .icon-wrapper {
           position: absolute;
@@ -685,6 +688,14 @@ class UnityTextInput extends LitElement {
           position: relative;
           top: 1px;
           left: 19px;
+        }
+        .readOnly {
+          border-color: var(--light-gray-1-color, var(--default-light-gray-1-color)) !important;
+        }
+        .disabled {
+          border-color: var(--dark-grey-background, var(--default-dark-grey-background)) !important;
+          background-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
+          color: rgba(var(--text-color), .4);
         }
       `
     ]
