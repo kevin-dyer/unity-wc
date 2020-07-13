@@ -42,6 +42,7 @@ class MyTable extends PageViewElement {
     this.childKeys = [...childKeys]
     this._visibleColumns = [...columns] //For Table display
     this._columnFilters = filters
+    this._expandedRows = []
     this.highlightedRow = ''
     this.showDetails = false
     this.tableRef = undefined
@@ -53,6 +54,7 @@ class MyTable extends PageViewElement {
       _searchText: { type: String },
       columns: { type: Array },
       _visibleColumns: { type: Array },
+      _expandedRows: { type: Array },
       highlightedRow: { type: String },
       showDetails: { type: Boolean },
       tableRef: { type: Object },
@@ -99,6 +101,10 @@ class MyTable extends PageViewElement {
     this._columnFilters = filters;
   }
 
+  onExpandedChange(expandedNodes) {
+    this._expandedRows = expandedNodes
+  }
+
   _keyExtractor(datum, index) {
     // return datum.name
     return datum.id
@@ -110,28 +116,43 @@ class MyTable extends PageViewElement {
 
   _renderStatusIcons() {
     const columnKey = 'status'
-    let nodes = this.data
+    let nodes = [...this.data]
 
     //Breadth First Search traverse to flatten hierarchy
     for(let i = 0; i < nodes.length; i++) {
       const node = nodes[i]
-      this.childKeys.forEach(childKey => {
-        const children = node[childKey]
-        if (Array.isArray(children)) {
-          nodes = [...nodes, ...children]
-        }
+      const nodeId = this._keyExtractor(node)
+      const isExpanded = this._expandedRows.find((row) => {
+        const rowId = this._keyExtractor(row)
+        return rowId === nodeId
       })
+
+      if (isExpanded) {
+        this.childKeys.forEach(childKey => {
+          const children = node[childKey]
+
+          if (Array.isArray(children)) {
+            //Instead of appending children to end of nodes, insert them after nodes[i]
+            //This will keep slots in same order as table rows
+            // nodes = [...nodes, ...children]
+            nodes.splice(i + 1, 0, ...children)
+          }
+        })
+      }
     }
 
-    const slots = nodes.filter((row, index) => {
+    const slotStatus = nodes.filter((row, index) => {
       const status = row[columnKey] || ''
 
-      return /Online|Offline|Not responding/.test(status)
-    }).map((row, index) => {
+      return /Active|Not Responding|Probable to fail/.test(status)
+    })
+
+    const slots = slotStatus.map((row, index) => {
       const rowId = this._keyExtractor(row, index)
       let color
 
       switch(row[columnKey]) {
+        //from fakeData devices data set
         case 'Active':
           color = 'green'
           break
@@ -154,15 +175,17 @@ class MyTable extends PageViewElement {
           break
 
         default:
-          color = 'white'
+          // color = 'white'
+          color = 'grey'
           break
       }
 
-
       return html`<iron-icon
+        id="${rowId}-${columnKey}"
+        key="${rowId}-${columnKey}"
         slot="${rowId}-${columnKey}"
         icon="av:fiber-manual-record"
-        style="color: ${color}; flex:1;"
+        style="color: ${color};"
       ></iron-icon>`
     })
 
@@ -207,7 +230,7 @@ class MyTable extends PageViewElement {
             filter="${this._searchText}"
             .keyExtractor="${this._keyExtractor}"
             .slotIdExtractor="${this._slotIdExtractor}"
-            .childKeys=${childKeys}
+            .childKeys=${this.childKeys}
             .data="${this.data}"
             .columns="${this._visibleColumns}"
             .columnFilter="${this._columnFilters}"
@@ -224,7 +247,10 @@ class MyTable extends PageViewElement {
             }}"
             .onClickRow="${this.handleClickRow.bind(this)}"
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
-            .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
+            .onColumnChange="${columns => {
+              // console.log("onColumnChange callback cols: ", columns)
+            }}"
+            .onExpandedChange="${this.onExpandedChange.bind(this)}"
             id="unity-table"
           >
             ${this._renderStatusIcons()}

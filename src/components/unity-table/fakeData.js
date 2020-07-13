@@ -23,6 +23,7 @@ export const devices = {
       id: 'root',
       name: 'Global',
       icon: 'icons:folder',
+      status: 'Active',
       groups: [
         {
           id: 'africa',
@@ -32,6 +33,7 @@ export const devices = {
           deployments: 'Test App, Control center Video Wall',
           createdAt: 'January 12, 2018 7:06pm',
           devices: [],
+          status: 'Active',
         },
         {
           id: 'asia',
@@ -50,20 +52,13 @@ export const devices = {
           createdAt: 'January 12, 2018 7:06pm',
         },
         {
-          id: 'europe',
-          name: 'Europe',
-          icon: 'icons:folder',
-          description: 'Device Group',
-          deployments: 'Test App, Control center Video Wall',
-          createdAt: 'January 12, 2018 7:06pm',
-        },
-        {
           id: 'northAmerica',
           name: 'North America',
           icon: 'icons:folder',
           description: 'Device Group',
           deployments: 'Test App, Control center Video Wall',
           createdAt: 'January 12, 2018 7:06pm',
+          status: 'Active',
           groups: [
             {
               id: 'canada',
@@ -88,6 +83,7 @@ export const devices = {
               description: 'Device Group',
               deployments: 'Test App, Control center Video Wall',
               createdAt: 'January 12, 2018 7:06pm',
+              status: 'Active',
               devices: [
                 {
                   id: 'abc001',
@@ -200,8 +196,28 @@ export const devices = {
                   status: 'Active',
                   createdAt: 'January 12, 2018 7:06pm',
                 },
-                ...fillerRows
+                // ...fillerRows
               ]
+            },
+          ]
+        },
+        {
+          id: 'europe',
+          name: 'Europe',
+          icon: 'icons:folder',
+          description: 'Device Group',
+          deployments: 'Test App, Control center Video Wall',
+          createdAt: 'January 12, 2018 7:06pm',
+          status: 'Not Responding',
+          groups: [
+            {
+              id: 'italy',
+              name: 'Italy',
+              icon: 'icons:folder',
+              description: 'Device Group',
+              deployments: 'Test App, Control center Video Wall',
+              createdAt: 'January 12, 2018 7:06pm',
+              status: 'Probable to fail'
             },
           ]
         },
@@ -311,19 +327,19 @@ export const colors = {
       width: 200,
 
       //TODO: add renderCustomContent
-      formatLabel: (hex, datum) => html`<span style="color: ${hex}">${hex}</span>`
+      // formatLabel: (hex, datum) => html`<span style="color: ${hex}">${hex}</span>`
     },
     {
       key: 'name',
       label: 'Color',
       width: 300,
-      formatLabel: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
+      // formatLabel: (name, datum) => !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
     },
     {
       key: 'favorite',
       label: 'Favourite?',
       width: 500,
-      formatLabel: (value, datum) => value ? 'I love it!' : 'passible, I guess'
+      // formatLabel: (value, datum) => value ? 'I love it!' : 'passible, I guess'
     }
   ],
 
