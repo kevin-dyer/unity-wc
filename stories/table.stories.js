@@ -13,7 +13,7 @@ import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-table'
 import '@bit/smartworks.unity.unity-core/unity-table-export'
 
-import { devices, justDevices } from '../src/components/unity-table/fakeData.js'
+import { devices, justDevices, colors } from '../src/components/unity-table/fakeData.js'
 // import {deviceData} from '../src/components/unity-table/largeDataSet.js'
 
 
@@ -79,6 +79,19 @@ export const Standard = () => {
   `;
 }
 
+const renderCustomContent = () => {
+  return html`
+    <div slot="red-name" style="border-radius:15px;height:15px;width:15px;background-color:red;border:1px solid red;"></div>
+
+    <div slot="black-name" style="border-radius:15px;height:15px;width:15px;background-color:black;border:1px solid yellow;"></div>
+
+    <div slot="yellow-name" style="border-radius:15px;height:15px;width:15px;background-color:yellow;border:1px solid yellow;"></div>
+
+    <div slot="green-name" style="border-radius:15px;height:15px;width:15px;background-color:green;border:1px solid green;"></div>
+
+    <div slot="magenta-name" style="border-radius:15px;height:15px;width:15px;background-color:magenta;border:1px solid magenta;"></div>
+  `
+}
 // NOTE: This does not work in story book
 // The custom slots do not update correctly as table rows are expanded/collapsed
 // However it works outside the storybook in my-table
@@ -88,7 +101,7 @@ export const CustomContent = () => {
     columns: defaultColumns,
     childKeys: defaultChildKeys,
     filters: defaultFilters
-  } = devices
+  } = colors
   const selectable = boolean("Selectable", true)
   const filter = text("Filter", "")
   const childKeys = array("Child Keys", defaultChildKeys)
@@ -115,37 +128,16 @@ export const CustomContent = () => {
       .onEndReached="${action("onEndReached")}"
       highlightedRow="${highlightedRow}"
       .onSelectionChange="${action('onSelectionChange')}"
-        .onClickRow="${action('onClickRow')}"
-        .onDisplayColumnsChange="${action("onDisplayColumnsChange")}"
-        .onColumnChange="${action("onColumnChange")}"
-        ?isLoading=${isLoading}
-        style="--highlight-color: grey"
+      .onClickRow="${action('onClickRow')}"
+      .onDisplayColumnsChange="${action("onDisplayColumnsChange")}"
+      .onColumnChange="${action("onColumnChange")}"
+      .onExpandedChange="${expandedNodes => {
+        console.log("onExpandedChange expandedNodes: ", expandedNodes)
+      }}"
+      ?isLoading=${isLoading}
+      style="--highlight-color: grey"
       >
-        <div key="red-hex" slot="red-hex" style="color:red;">Red's Custom Name</div>
-      <div key="red-name" slot="red-name" style="border-radius:15px;height:15px;width:15px;background-color:red;border:1px solid red;"></div>
-
-      <div key="innerRed1-hex" slot="innerRed1-hex" style="color:red;">Inner Red 1</div>
-      <div key="innerRed1-name" slot="innerRed1-name" style="border-radius:15px;height:15px;width:15px;background-color:red;border:1px solid red;"></div>
-
-      <div key="innerRed2-hex" slot="innerRed2-hex" style="color:red;">Inner Red 2</div>
-      <div key="innerRed2-name" slot="innerRed2-name" style="border-radius:15px;height:15px;width:15px;background-color:red;border:1px solid red;"></div>
-
-      <div key="innerBlue1-hex" slot="innerBlue1-hex" style="color:red;">Inner Blue 1</div>
-      <div key="innerBlue1-name" slot="innerBlue1-name" style="border-radius:15px;height:15px;width:15px;background-color:blue;border:1px solid blue;"></div>
-
-
-      <div key="black-hex" slot="black-hex" style="color:black;">Black</div>
-      <div key="black-name" slot="black-name" style="border-radius:15px;height:15px;width:15px;background-color:black;border:1px solid yellow;"></div>
-
-      <div key="yellow-hex" slot="yellow-hex" style="color:black;">Yellow</div>
-      <div key="yellow-name" slot="yellow-name" style="border-radius:15px;height:15px;width:15px;background-color:yellow;border:1px solid yellow;"></div>
-
-      <div key="green-hex" slot="green-hex" style="color:green;">Green</div>
-      <div key="green-name" slot="green-name" style="border-radius:15px;height:15px;width:15px;background-color:green;border:1px solid green;"></div>
-
-      <div key="magenta-hex" slot="magenta-hex" style="color:magenta;">Purple Rain</div>
-        <div key="magenta-name" slot="magenta-name" style="border-radius:15px;height:15px;width:15px;background-color:magenta;border:1px solid magenta;"></div>
-
+        ${renderCustomContent()}
       </unity-table>
     </div>
   `;
