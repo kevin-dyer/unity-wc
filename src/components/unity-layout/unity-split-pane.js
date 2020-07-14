@@ -132,14 +132,17 @@ class UnitySplitPane extends LitElement {
   renderBar() {
     const { label } = this
     return html`
-      <div class="bar" @click=${() => this.toggleCollapse()}>
-        <div class="bar-icon-wrapper">
-          <unity-icon class="show-button" icon="unity:double_right_chevron"></unity-icon>
+      <unity-typography style="display: flex;">
+        <div class="bar" @click=${() => this.toggleCollapse()}>
+          <div class="bar-icon-wrapper">
+            <unity-icon class="show-button" icon="unity:double_right_chevron"></unity-icon>
+          </div>
+          <div class="bar-label-wrapper">
+            <p class="bar-label">${label}</p>
+          </div>
         </div>
-        <div class="bar-label-wrapper">
-          <unity-typography class="bar-label">${label}<unity-typography>
-        </div> 
-      </div>`
+      </unity-typography>
+    `
   }
 
 
@@ -158,8 +161,8 @@ class UnitySplitPane extends LitElement {
           ${(collapseButton && show) ? html`
             <unity-button
               class="collapse-button"
-            centerIcon="unity:double_left_chevron"
-            @click=${()=>this.toggleCollapse()}
+              centerIcon="unity:double_left_chevron"
+              @click=${()=>this.toggleCollapse()}
               type="borderless"
             ></unity-button>
           `: ''}
@@ -204,7 +207,6 @@ class UnitySplitPane extends LitElement {
           --bar-border-color: var(--gray-color, var(--default-gray-color));
           --background: var(--white-color, var(--default-white-color));
           --bar-background: var(--background);
-          --button-color: var(--secondary-color, var(--default-secondary-color));
           --pane-border-width: 1px;
           --pane-border-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --bar-width: 40px;
