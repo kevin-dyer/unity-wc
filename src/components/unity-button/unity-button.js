@@ -108,6 +108,7 @@ class UnityButton extends LitElement {
           border: 1px solid var(--bg-color);
         }
 
+
         paper-button.unity-button.borderless:hover {
           --font-color: var(--button-color);
           --bg-color: var(--button-borderless-color, var(--default-button-borderless-color));

@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.4.7
+- unity-notification v.1.0.1
+
 ### v1.4.6
 - unity-table v1.0.8
 
