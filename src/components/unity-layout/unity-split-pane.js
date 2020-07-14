@@ -14,6 +14,7 @@ const MIN_PANE_WIDTH = 20 // %
  * @name UnitySplitPane
  * @param {bool} show, controls if the right pane should be visible or not
  * @param {bool} collapsed, controls if the left pane is collapsed or not
+ * @param {''} label, text to show inside the bar when the main pane is collapsed
  * @param {bool} closeButton, controls if the overlapping close button is rendered
  * @param {bool} collapseButton, controls of the overlappy collapse button is rendered
  * @param {func} onClose, function to call when the close button is clicked, sends new pane width in %
@@ -23,6 +24,8 @@ const MIN_PANE_WIDTH = 20 // %
  * @example
  *   <unity-split-pane
  *     closeButton
+ *     collapseButton
+ *     label="Split Pane"
  *     show=${showDetails}
  *     onClose="${toggleShowDetails}"
  *   >
@@ -33,6 +36,17 @@ const MIN_PANE_WIDTH = 20 // %
  *       Details
  *     </div>
  *   </unity-split-pane>
+ * 
+ * CSS variables:
+ *   --border-color       -
+ *   --bar-border-color
+ *   --background
+ *   --bar-background
+ *   --pane-border-width
+ *   --pane-border-color
+ *   --bar-width
+ *   --header-border
+ *   --collapse-button-padding
  */
 
 const stretch = overlapPercent => 100 - overlapPercent
