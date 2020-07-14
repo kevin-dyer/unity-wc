@@ -154,15 +154,15 @@ class UnitySplitPane extends LitElement {
     return html`
       ${show && collapsed ? this.renderBar() : ''}
       <div class="wrapper ${show && collapsed?'hide':''}">
-        ${(collapseButton && show) ? html`
-          <unity-button
-            class="collapse-button"
+        <div class="header">
+          ${(collapseButton && show) ? html`
+            <unity-button
+              class="collapse-button"
             centerIcon="unity:double_left_chevron"
             @click=${()=>this.toggleCollapse()}
-            type="borderless"
-          ></unity-button>
-        `: ''}
-        <div class="header">
+              type="borderless"
+            ></unity-button>
+          `: ''}
           <slot name="header"></slot>
         </div>
         <div class="scroller">
@@ -207,6 +207,9 @@ class UnitySplitPane extends LitElement {
           --button-color: var(--secondary-color, var(--default-secondary-color));
           --pane-border-width: 1px;
           --pane-border-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --bar-width: 40px;
+          --header-border: none;
+          --collapse-button-padding: var(--padding-size-sm, var(--default-padding-size-sm));
           background-color: var(--background);
           display: flex;
           flex-direction: row;
@@ -225,6 +228,9 @@ class UnitySplitPane extends LitElement {
         }
         .header {
           flex: 0;
+          display: flex;
+          align-items: center;
+          border-bottom: var(--header-border);
         }
         .footer {
           flex: 0;
@@ -265,6 +271,7 @@ class UnitySplitPane extends LitElement {
         }
         .bar {
           width: var(--bar-width);
+          height: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -287,6 +294,7 @@ class UnitySplitPane extends LitElement {
         }
         .bar-label {
           transform: rotate(-90deg) translate(-50%);
+          margin: 0;
         }
         .resize-handle{
           position: absolute;
@@ -303,6 +311,9 @@ class UnitySplitPane extends LitElement {
         unity-icon {
           --unity-icon-height: var(--medium-icon-size, var(--default-medium-icon-size));
           --unity-icon-width: var(--medium-icon-size, var(--default-medium-icon-size));
+        }
+        .collapse-button {
+          padding: var(--collapse-button-padding);
         }
       `
     ]

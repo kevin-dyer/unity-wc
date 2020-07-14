@@ -1,7 +1,8 @@
 import { html } from 'lit-element'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, text, boolean } from "@storybook/addon-knobs"
-import '@bit/smartworks.unity.unity-core/unity-split-pane'
+// import '@bit/smartworks.unity.unity-core/unity-split-pane'
+import '../src/components/unity-layout/unity-split-pane'
 
 export default {
   title: 'Split Pane',
@@ -25,7 +26,7 @@ export const SplitPane = () => {
       .onClose="${action('onClose')}"
       .onResize=${action('onResize')}
     >
-      <div style="padding-left: 20px" slot="header">
+      <div slot="header">
         ${text("'header' slot", "This is the header.")}
       </div>
       <div slot="main">

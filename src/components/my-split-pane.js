@@ -15,10 +15,11 @@ import '@bit/smartworks.unity.unity-core/unity-button';
 import '@bit/smartworks.unity.unity-core/unity-table';
 import '@bit/smartworks.unity.unity-core/unity-page-header';
 import '@bit/smartworks.unity.unity-core/unity-text-input';
-import '@bit/smartworks.unity.unity-core/unity-split-pane'
+// import '@bit/smartworks.unity.unity-core/unity-split-pane'
 import '@bit/smartworks.unity.unity-core/unity-typography'
 import '@bit/smartworks.unity.unity-core/unity-column-editor.js'
 import '@bit/smartworks.unity.unity-core/unity-modal'
+import './unity-layout/unity-split-pane'
 
 import { PageViewElement } from './page-view-element.js';
 // These are the shared styles needed by this element.
@@ -267,19 +268,15 @@ class MySplitPane extends PageViewElement {
     return html`
       <unity-split-pane
         closeButton
+        collapseButton
+        label="Unity Table"
         ?show="${!!this.highlightedRowId}"
         ?collapsed="${!!this.collapsed}"
         .onClose="${this.toggleDetails.bind(this)}"
         .onCollapseChange="${this.toggleCollapse.bind(this)}"
       >
         <unity-page-header slot="header" >
-          <unity-button
-            slot="left-content"
-            type="borderless"
-            centerIcon="unity:double_left_chevron"
-            @click=${()=>this.toggleCollapse()}
-            ?disabled="${!this.highlightedRowId}"
-          ></unity-button>
+
           <unity-typography
             slot="center-content"
             size="header1"
