@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.1
+- Changes to conform to unity-button 1.1.0 naming changes
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 
