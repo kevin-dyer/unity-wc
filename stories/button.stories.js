@@ -10,14 +10,14 @@ export default {
 
 
 
-export const Outlined = () => {
+export const Standard = () => {
   const label = text("Button text", "Button")
   const disabled = boolean("Disabled", false)
   const typeOptions = {
-    None: null,
-    Solid: 'solid',
-    Outlined: 'outlined',
-    Gradient: 'gradient'
+    'None': null,
+    'Primary': 'primary',
+    'Secondary': 'secondary',
+    'Borderless': 'borderless'
   }
   const type = select("Button Type", typeOptions, 'None')
   return html`
@@ -26,21 +26,12 @@ export const Outlined = () => {
 }
 
 
-export const Gradient = () => html`
-  <unity-button label="Button" .type=${'gradient'}></unity-button>
-`;
-
-
 export const Loading = () => html`
-  <unity-button label="Button" .type=${'gradient'} ?loading=${true}></unity-button>
+  <unity-button label="Button" ?loading=${true}></unity-button>
 `;
 
 export const NoOutline = () => html`
   <unity-button label="Button"></unity-button>
-`;
-
-export const Solid = () => html`
-  <unity-button label="Button" .type=${'solid'}></unity-button>
 `;
 
 export const CenterIcon = () => html`

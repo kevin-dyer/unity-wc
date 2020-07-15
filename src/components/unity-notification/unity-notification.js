@@ -103,7 +103,8 @@ class UnityNotification extends LitElement {
             <unity-typography color='dark' size='paragraph'>${subtext}</unity-typography>
           </div>
         </div>
-        <unity-button 
+        <unity-button
+          type='borderless'
           centerIcon='unity:close'
           @click=${onClose}
         </unity-button>
