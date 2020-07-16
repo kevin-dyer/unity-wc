@@ -149,7 +149,7 @@ class UnitySplitPane extends LitElement {
       <unity-typography style="display: flex;">
         <div class="bar" @click=${() => this.toggleCollapse()}>
           <div class="bar-icon-wrapper">
-            <unity-icon class="show-button" icon="unity:double_right_chevron"></unity-icon>
+            <unity-icon icon="unity:double_right_chevron"></unity-icon>
           </div>
           <div class="bar-label-wrapper">
             <p class="bar-label">${label}</p>
@@ -320,9 +320,6 @@ class UnitySplitPane extends LitElement {
           width: 8px;
           cursor: col-resize;
           z-index: 5;
-        }
-        .show-button {
-          color: var(--button-color);
         }
         unity-icon {
           --unity-icon-height: var(--medium-icon-size, var(--default-medium-icon-size));
