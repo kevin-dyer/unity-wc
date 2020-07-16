@@ -2,6 +2,19 @@
 
 ## Changelog:
 
+### v1.1.0
+- Moved collapse button to header
+- Added label property to set text to show in the collapsed bar
+- Added new CSS variables:
+```
+  --pane-border-width
+  --pane-border-color
+  --bar-width
+  --header-border
+  --collapse-button-padding
+```
+- Removed `--button-color` CSS variable
+
 ### v1.0.5
 - Fix split-pane colours
 

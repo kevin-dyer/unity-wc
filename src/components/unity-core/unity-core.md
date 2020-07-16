@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.4.8
+- unity-split-pane v.1.1.0
+
 ### v1.4.7
 - unity-notification v.1.0.1
 

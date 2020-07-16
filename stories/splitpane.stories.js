@@ -11,11 +11,13 @@ export default {
 export const SplitPane = () => {
   const show = boolean('Show', false)
   const collapsed = boolean('collapsed', false)
-  const closeButton = boolean("Close button", false)
-  const collapseButton = boolean("Collapse button", false)
+  const closeButton = boolean("Close button", true)
+  const collapseButton = boolean("Collapse button", true)
+  const label = text('Label', 'Split Pane')
   return html`
     <unity-split-pane
       style="height: 400px; border: 1px solid grey;"
+      label=${label}
       ?show="${show}"
       ?collapsed=${collapsed}
       ?closeButton="${closeButton}"
@@ -23,7 +25,7 @@ export const SplitPane = () => {
       .onClose="${action('onClose')}"
       .onResize=${action('onResize')}
     >
-      <div style="padding-left: 20px" slot="header">
+      <div slot="header">
         ${text("'header' slot", "This is the header.")}
       </div>
       <div slot="main">

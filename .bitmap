@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.4.7": {
+    "smartworks.unity/unity-core@1.4.8": {
         "files": [
             {
                 "name": "index.js",
@@ -462,7 +462,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-split-pane@1.0.5": {
+    "smartworks.unity/unity-split-pane@1.1.0": {
         "files": [
             {
                 "name": "unity-split-pane.js",
