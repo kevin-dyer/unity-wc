@@ -15,11 +15,10 @@ import '@bit/smartworks.unity.unity-core/unity-button';
 import '@bit/smartworks.unity.unity-core/unity-table';
 import '@bit/smartworks.unity.unity-core/unity-page-header';
 import '@bit/smartworks.unity.unity-core/unity-text-input';
-// import '@bit/smartworks.unity.unity-core/unity-split-pane'
+import '@bit/smartworks.unity.unity-core/unity-split-pane'
 import '@bit/smartworks.unity.unity-core/unity-typography'
 import '@bit/smartworks.unity.unity-core/unity-column-editor.js'
 import '@bit/smartworks.unity.unity-core/unity-modal'
-import './unity-layout/unity-split-pane'
 
 import { PageViewElement } from './page-view-element.js';
 // These are the shared styles needed by this element.
