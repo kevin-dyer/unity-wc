@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.4
+- Fix missing right border
+
 ### v1.1.3
 - Fix bottom section overlap with top items when global nav was too small
 
