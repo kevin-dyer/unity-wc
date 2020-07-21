@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.3
+- Fix bottom section overlap with top items when global nav was too small
+
 ### v1.1.2
 - Fix styles to properly propagate from higher level components, remove duplicates
 
