@@ -250,7 +250,6 @@ class UnityGlobalNavBase extends LitElement {
           overflow-x: hidden;
         }
         .top-container {
-          height: 100%;
           width: 100%;
           border-collapse: collapse;
         }
