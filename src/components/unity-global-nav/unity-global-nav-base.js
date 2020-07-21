@@ -205,7 +205,7 @@ class UnityGlobalNavBase extends LitElement {
           height: 100%;
           background-color: var(--global-nav-background-color, var(--default-global-nav-background-color));
           box-shadow: var(--global-nav-menu-shadow, var(--default-global-nav-menu-shadow));
-          border-right-width: 1px solid var(--global-nav-border-color, var(--default-global-nav-border-color));
+          border-right: 1px solid var(--global-nav-border-color, var(--default-global-nav-border-color));
         }
         .menu.shadowless {
           box-shadow: none;
