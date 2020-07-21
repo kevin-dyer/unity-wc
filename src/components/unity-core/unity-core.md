@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.4.10
+- unity-global-nav-base v.1.1.4
+
 ### v1.4.9
 - unity-global-nav-base v.1.1.3
 
