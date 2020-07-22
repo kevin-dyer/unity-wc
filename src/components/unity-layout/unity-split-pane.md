@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- Fixed peer dependencies
+
 ### v1.1.0
 - Moved collapse button to header
 - Added label property to set text to show in the collapsed bar
