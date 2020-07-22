@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.4.11
+- Fixed outdated peer dependencies in several components:
+  - unity-split-pane v1.1.1
+  - unity-table v1.0.8
+  - unity-table-cell v1.0.3
+
 ### v1.4.10
 - unity-global-nav-base v.1.1.4
 
