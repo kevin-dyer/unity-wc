@@ -115,10 +115,10 @@ export const UnityDefaultThemeStyles = css`
     --default-paragraph-line-height: 16px;
 
     /* this font size should likely change */
-    --default-small-text-size: 8px;
+    --default-small-text-size: 10px;
     --default-small-text-weight: 400;
 
-    --default-small-text-selected-size: 8px;
+    --default-small-text-selected-size: 10px;
     --default-small-text-selected-weight: 600;
 
     --default-medium-icon-size: 18px;
