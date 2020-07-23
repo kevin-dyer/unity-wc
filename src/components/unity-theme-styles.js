@@ -22,6 +22,7 @@ export const UnityThemeStyles = css`
     --sky-blue-tint-2-rgb: 217, 243, 244; /* #D9F3F4 */
     --red-orange-rgb: 250, 70, 22;        /* #FA4616 */
     --dark-red-orange-rgb: 145, 61, 38;   /* #913D26 */
+    --dark-red-orange-rgb: 145, 61, 38;   /* #913D26 */
     --yellow-rgb: 255, 198, 0;            /* #FFC600 */
     --green-rgb: 71, 162, 63;             /* #47A23F */
 
@@ -69,6 +70,9 @@ export const UnityThemeStyles = css`
     /* darker tertiary 1, pressed alert button */
     --tertiary-1-shade-color: rgb(var(--dark-red-orange-rgb));
 
+    /* lighter tertiary 1, field error background */
+    --tertiary-1-light-color: rgb(var(--default-light-red-orange-rgb));
+
     /* utility color, warning, alert, future/present-tense */
     --tertiary-2-color: rgb(var(--yellow-rgb));
 
@@ -115,10 +119,10 @@ export const UnityThemeStyles = css`
     --paragraph-line-height: 16px;
 
     /* this font size should likely change */
-    --small-text-size: 8px;
+    --small-text-size: 10px;
     --small-text-weight: 400;
 
-    --small-text-selected-size: 8px;
+    --small-text-selected-size: 10px;
     --small-text-selected-weight: 600;
 
     --medium-icon-size: 18px;
