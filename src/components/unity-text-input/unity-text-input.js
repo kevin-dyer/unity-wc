@@ -310,7 +310,6 @@ class UnityTextInput extends LitElement {
     if (!!area) {
       classes.push('area', 'showBorder', 'notRounded')
     } else {
-      if (!!units) classes.push('units')
       if (!!hideBorder) classes.push('hideBorder')
       else classes.push('showBorder')
       if (!!rounded) classes.push('rounded')
@@ -466,23 +465,32 @@ class UnityTextInput extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --input-font: var(--font-family, var(--default-font-family));
-          --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
-          --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
-          --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
-          --dirty-color: var(--danger-color, var(--defualt-danger-color));
-          unselected-border
-          border-hover
-          font-family: var(--input-font);
+          --default-input-font: var(--font-family, var(--default-font-family));
+          --default-input-label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --default-input-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
+          --default-input-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          --default-input-small-text-size: var(--small-text-size, var(--default-small-text-size));
+          --default-input-dirty-color: var(--primary-color, var(--defualt-primary-color));
+          --default-input-border-color: var(--gray-color, var(--default-gray-color));
+          --default-input-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-input-border-focus-color: var(--primary-color, var(--default-primary-color));
+          --default-input-border-readOnly-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
+          --default-input-border-error-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
+          --default-input-background-error-color: var(--tertiary-1-light-color, var(--default-tertiary-1-light-color));
+          --default-input-border-disabled-color: var(--gray-color, var(--default-gray-color));
+          --default-input-background-disabled-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
+          --default-input-icon-hint-color: var(--primary-color, var(--default-primary-color));
+          --default-input-icon-valid-color: var(--primary-color, var(--default-primary-color));
+          --default-input-icon-error-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
+          font-family: var(--input-font, var(--default-input-font));
+          font-size: var(--input-text-size, var(--default-input-text-size));
           border-collapse: collapse;
           user-select: none;
         }
         .label {
           margin-bottom: 6px;
           padding: 0;
-          font-size: var(--text-size);
-          color: var(--label-color);
+          color: var(--input-label-color, var(--default-input-label-color));
         }
         .bottom {
           margin: 0;
@@ -493,15 +501,15 @@ class UnityTextInput extends LitElement {
         .remark {
           flex: 1;
           word-break: break-word;
-          font-size: var(--text-size);
-          color: var(--label-color);
+          font-size: var(--input-small-text-size, var(--default-input-small-text-size));
+          color: var(--input-label-color, var(--default-input-label-color));
         }
         .charCount {
           flex: 0;
           padding-left: 4px;
           text-align: right;
-          font-size: var(--text-size);
-          color: var(--label-color);
+          font-size: var(--input-small-text-size, var(--default-input-small-text-size));
+          color: var(--input-label-color, var(--default-input-label-color));
         }
         .input-wrapper {
           width: 100%;
@@ -570,7 +578,7 @@ class UnityTextInput extends LitElement {
           flex: 0;
           padding-left: 8px;
           align-self: center;
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          font-size: var(--input-small-text-size, var(--default-input-small-text-size));
           color: rgb(var(--text-color));
           line-height: 2;
         }
