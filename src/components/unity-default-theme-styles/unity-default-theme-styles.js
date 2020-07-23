@@ -22,6 +22,7 @@ export const UnityDefaultThemeStyles = css`
     --default-sky-blue-tint-2-rgb: 217, 243, 244; /* #D9F3F4 */
     --default-red-orange-rgb: 250, 70, 22;        /* #FA4616 */
     --default-dark-red-orange-rgb: 145, 61, 38;   /* #913D26 */
+    --default-light-red-range-rgb: 252, 221, 220; /* #FCDDDC */
     --default-yellow-rgb: 255, 198, 0;            /* #FFC600 */
     --default-green-rgb: 71, 162, 63;             /* #47A23F */
 
@@ -68,6 +69,9 @@ export const UnityDefaultThemeStyles = css`
 
     /* darker tertiary 1, pressed alert button */
     --default-tertiary-1-shade-color: rgb(var(--default-dark-red-orange-rgb));
+
+    /* lighter tertiary 1, field error background */
+    --default-tertiary-1-light-color: rgb(var(--default-light-red-orange-rgb));
 
     /* utility color, warning, alert, future/present-tense */
     --default-tertiary-2-color: rgb(var(--default-yellow-rgb));
