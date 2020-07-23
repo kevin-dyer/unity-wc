@@ -132,7 +132,6 @@ class UnityPageHeader extends LitElement {
           display: flex;
           flex-direction: row;
           align-items: center;
-          min-width: 0;
         }
 
         .right-action::slotted(*) {
