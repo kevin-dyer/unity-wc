@@ -6,8 +6,7 @@ import {
   object,
   number
 } from "@storybook/addon-knobs"
-// import '@bit/smartworks.unity.unity-core/unity-page-header'
-import '../src/components/unity-layout/unity-page-header'
+import '@bit/smartworks.unity.unity-core/unity-page-header'
 
 
 export default {
