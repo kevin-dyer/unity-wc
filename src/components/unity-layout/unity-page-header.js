@@ -158,10 +158,6 @@ class UnityPageHeader extends LitElement {
           font-family: var(--header-font-family);
         }
 
-        paper-tab:focus .tab-content {
-          font-weight: 400;
-        }
-
         .hide {
           display: none;
         }

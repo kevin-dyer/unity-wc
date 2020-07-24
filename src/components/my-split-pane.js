@@ -160,10 +160,7 @@ class MySplitPane extends PageViewElement {
           flex-direction: column;
           align-items: stretch;
         }
-        #title {
-          overflow: var(--left-wrapper-overflow);
-          white-space: var(--title-white-space);
-        }
+
         .example-container {
           border: 1px dashed black;
           position: relative;
