@@ -124,7 +124,7 @@ class MyTextInput extends PageViewElement {
           <div class="input-box">
             <unity-text-input
               disabled
-              .label="Disabled Input"
+              .label="${"Disabled Input"}"
               .value="${"Can't edit this text."}"
               .onChange="${this.onInputChange}"
             ></unity-text-input>
@@ -183,6 +183,22 @@ class MyTextInput extends PageViewElement {
             .innerRightIcon="${"unity:step_in"}"
             ></unity-text-input>
           </div>
+          <div class="input-box">
+            <unity-text-input
+              .label="${"Required"}"
+              .value="${"This input is required"}"
+              .onChange="${this.onInputChange}"
+              required
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .label="${"Read Only"}"
+              .value="${"This input is read only"}"
+              .onChange="${this.onInputChange}"
+              readOnly
+            ></unity-text-input>
+          </div>
         </div>
         <div class="col">
           <div class="input-box">
@@ -197,6 +213,7 @@ class MyTextInput extends PageViewElement {
               }}"
               .onChange="${this.onInputChange}"
               showIcon
+              required
             ></unity-text-input>
           </div>
           <div class="input-box">
