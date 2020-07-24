@@ -72,18 +72,17 @@ class UnityPageHeader extends LitElement {
           --header-font-family: var(--font-family, var(--default-font-family));
           font-family: var(--header-font-family);
           --tab-height: 38px;
-          --tab-padding: 0 var(--page-header-margin);
+          --tab-padding: 0 var(--page-header-padding-size);
           --left-wrapper-overflow: hidden;
           --title-white-space: nowrap;
           --tab-color: var(--secondary-color, var(--default-secondary-color));
-          --page-header-margin: var(--margin-size-md, var(--default-margin-size-md));
-          --page-header-padding: var(--padding-size-md, var(--default-padding-size-md));
+          --page-header-padding-size: var(--padding-size-md, var(--default-padding-size-md));
+          --page-header-padding: var(--page-header-padding-size);
           --page-header-border: 1px solid var(--gray-color, var(--default-gray-color));
           --page-header-font-size: var(--header1-font-size, var(--default-header1-font-size));
           --page-header-font-weight: var(--header1-font-weight, var(--default-header1-font-weight));
           --page-header-tabs-font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --page-header-icon-size: var(--unity-button-height, var(--default-unity-button-height));
-          --left-action-padding: var(--padding-size-sm, var(--default-padding-size-sm));
         }
 
         #header {
@@ -152,7 +151,6 @@ class UnityPageHeader extends LitElement {
           display: flex;
           flex-direction: row;
           align-items: center;
-          padding-left: var(--left-action-padding);
         }
 
         paper-tab {
