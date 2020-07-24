@@ -7,24 +7,24 @@ import { css } from 'lit-element';
 export const UnityDefaultThemeStyles = css`
   :host {
     /* Colors */
-    --default-black-rgb: 0, 0, 0;                 /* #000000 */
-    --default-white-rgb: 255, 255, 255;           /* #FFFFFF */
-    --default-charcoal-rgb: 77, 77, 77;           /* #4D4D4D */
-    --default-gray-rgb: 162, 170, 173;            /* #A2AAAD */
-    --default-light-gray-1-rgb: 235, 235, 235;    /* #EBEBEB */
-    --default-light-gray-2-rgb: 244, 244, 244;    /* #F4F4F4 */
-    --default-white-rgb: 255, 255, 255;           /* #FFFFFF */
-    --default-deep-blue-rgb: 0, 87, 118;          /* #005776 */
-    --default-deep-blue-tint-rgb: 64, 129, 153;   /* #408199 */
-    --default-sky-blue-rgb: 45, 204, 211;         /* #2DCCD3 */
-    --default-sky-blue-shade-rgb: 50, 166, 172;   /* #32A6AC */
-    --default-sky-blue-tint-1-rgb: 234, 249, 250; /* #EAF9FA */
-    --default-sky-blue-tint-2-rgb: 217, 243, 244; /* #D9F3F4 */
-    --default-red-orange-rgb: 250, 70, 22;        /* #FA4616 */
-    --default-dark-red-orange-rgb: 145, 61, 38;   /* #913D26 */
-    --default-light-red-range-rgb: 252, 221, 220; /* #FCDDDC */
-    --default-yellow-rgb: 255, 198, 0;            /* #FFC600 */
-    --default-green-rgb: 71, 162, 63;             /* #47A23F */
+    --default-black-rgb: 0, 0, 0;                   /* #000000 */
+    --default-white-rgb: 255, 255, 255;             /* #FFFFFF */
+    --default-charcoal-rgb: 77, 77, 77;             /* #4D4D4D */
+    --default-gray-rgb: 162, 170, 173;              /* #A2AAAD */
+    --default-light-gray-1-rgb: 235, 235, 235;      /* #EBEBEB */
+    --default-light-gray-2-rgb: 244, 244, 244;      /* #F4F4F4 */
+    --default-white-rgb: 255, 255, 255;             /* #FFFFFF */
+    --default-deep-blue-rgb: 0, 87, 118;            /* #005776 */
+    --default-deep-blue-tint-rgb: 64, 129, 153;     /* #408199 */
+    --default-sky-blue-rgb: 45, 204, 211;           /* #2DCCD3 */
+    --default-sky-blue-shade-rgb: 50, 166, 172;     /* #32A6AC */
+    --default-sky-blue-tint-1-rgb: 234, 249, 250;   /* #EAF9FA */
+    --default-sky-blue-tint-2-rgb: 217, 243, 244;   /* #D9F3F4 */
+    --default-red-orange-rgb: 250, 70, 22;          /* #FA4616 */
+    --default-dark-red-orange-rgb: 145, 61, 38;     /* #913D26 */
+    --default-light-red-orange-rgb: 252, 221, 220;  /* #FCDDDC */
+    --default-yellow-rgb: 255, 198, 0;              /* #FFC600 */
+    --default-green-rgb: 71, 162, 63;               /* #47A23F */
 
     /* Uses */
 
