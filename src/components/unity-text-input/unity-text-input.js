@@ -47,6 +47,20 @@ import '@bit/smartworks.unity.unity-icon-set'
 *   password
 *   showIcon
 * </unity-text-input>
+
+css vars
+  input-border-color
+  input-border-hover-color
+  input-border-focus-color
+  input-border-readOnly-color
+  input-border-error-color
+  input-background-error-color
+  input-border-disabled-color
+  input-background-disabled-color
+  input-icon-hint-color
+  input-icon-valid-color
+  input-icon-error-color
+
 **/
 
 const MIN_LINES = 4
