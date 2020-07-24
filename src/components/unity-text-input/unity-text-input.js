@@ -473,6 +473,9 @@ class UnityTextInput extends LitElement {
           border-collapse: collapse;
           user-select: none;
         }
+        p {
+          margin-top: 0;
+        }
         .label {
           margin-bottom: 6px;
           padding: 0;
@@ -519,12 +522,12 @@ class UnityTextInput extends LitElement {
           color: var(--input-border-error-color, var(--default-input-border-error-color)) !important;
         }
         .input-wrapper.border-effects:hover {
-          border-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          border-color: var(--input-border-hover-color, var(--default-input-border-hover-color));
         }
         .input-wrapper.border-effects:focus-within {
-          border-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          border-color: var(--input-border-focus-color, var(--default-input-border-focus-color));
           outline: none;
-          box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
         }
         .rounded {
           border-radius: calc(var(--unity-text-input-height, var(--default-unity-text-input-height)) * 0.5);
@@ -537,9 +540,9 @@ class UnityTextInput extends LitElement {
           margin: 0;
           align-self: center;
           flex: 1;
-          font-family: var(--input-font);
-          font-size: var(--text-size);
-          color: rgb(var(--text-color));
+          font-family: var(--input-font, var(--default-input-font));
+          font-size: var(--input-text-size, var(--default-input-text-size));
+          color: var(--input-text-color, var(--default-input-text-color));
           border: 0;
           background-color: transparent;
         }
@@ -550,14 +553,14 @@ class UnityTextInput extends LitElement {
           padding: 0;
           margin: 0;
           width: 100%;
-          font-family: var(--input-font);
-          font-size: var(--text-size);
-          color: rgb(var(--text-color));
+          font-family: var(--input-font, var(--default-input-font));
+          font-size: var(--input-text-size, var(--default-input-text-size));
+          color: var(--input-text-color, var(--default-input-text-color));
           border: 0;
           background-color: transparent;
           resize: none;
-          min-height: calc(var(--text-size) * 1.4545 * var(--area-min-lines, ${MIN_LINES}));
-          max-height: calc(var(--text-size) * 1.4545 * var(--area-max-lines, ${MAX_LINES}));
+          min-height: calc(var(--input-text-size, var(--default-input-text-size)) * 1.4545 * var(--area-min-lines, ${MIN_LINES}));
+          max-height: calc(var(--input-text-size, var(--default-input-text-size)) * 1.4545 * var(--area-max-lines, ${MAX_LINES}));
           -webkit-appearance: none;
         }
         #textarea:focus {
@@ -568,7 +571,7 @@ class UnityTextInput extends LitElement {
           padding-left: 8px;
           align-self: center;
           font-size: var(--input-small-text-size, var(--default-input-small-text-size));
-          color: rgb(var(--text-color));
+          color: var(--input-text-color, var(--default-input-text-color));
           line-height: 2;
         }
         .icon-wrapper {
@@ -597,7 +600,7 @@ class UnityTextInput extends LitElement {
         }
         .showBorder {
           border-width: 1px;
-          border-color: var(--border-color);
+          border-color: var(--input-border-color, var(--default-input-border-color));
           border-style: solid;
         }
         .hideBorder {
@@ -613,7 +616,7 @@ class UnityTextInput extends LitElement {
         .icon-text {
           font-size: 11px;
           line-height: 16px;
-          color: var(--label-text)
+          color: var(--input-label-color, var(--default-input-label-color));
         }
         .icon {
           position: absolute;
@@ -644,7 +647,7 @@ class UnityTextInput extends LitElement {
 
         }
         .dirty {
-          background-color: var(--dirty-color);
+          background-color: var(--input-dirty-color, var(--default-input-dirty-color));
           width: 5px;
           height: calc(100% + 2px);
           position: absolute;
@@ -653,7 +656,7 @@ class UnityTextInput extends LitElement {
         }
 
         .required {
-          color: var(--default-tertiary-1-color);
+          color: var(--tertiary-1-color, var(--default-tertiary-1-color));
           font-size: 12px;
           line-height: 12px;
         }
@@ -668,7 +671,10 @@ class UnityTextInput extends LitElement {
         .disabled {
           border-color: var(--dark-grey-background, var(--default-dark-grey-background)) !important;
           background-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
-          color: rgba(var(--text-color), .4);
+          color: var(--input-text-color, var(--default-input-text-color));
+        }
+        input.disabled {
+          opacity: 50%;
         }
       `
     ]
