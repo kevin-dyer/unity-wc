@@ -1,10 +1,10 @@
 import { LitElement, html, css } from 'lit-element';
 import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 
 import {UnityDefaultThemeStyles} from '@bit/smartworks.unity.unity-default-theme-styles';
+import  '@bit/smartworks.unity.unity-icon';
 import  '@bit/smartworks.unity.unity-typography';
 import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
 
@@ -72,24 +72,31 @@ class UnityPageHeader extends LitElement {
           --header-font-family: var(--font-family, var(--default-font-family));
           font-family: var(--header-font-family);
           --tab-height: 38px;
-          --tab-padding: 0 14px;
+          --tab-padding: 0 var(--page-header-margin);
           --left-wrapper-overflow: hidden;
           --title-white-space: nowrap;
           --tab-color: var(--secondary-color, var(--default-secondary-color));
+          --page-header-margin: var(--margin-size-md, var(--default-margin-size-md));
+          --page-header-padding: var(--padding-size-md, var(--default-padding-size-md));
+          --page-header-border: 1px solid var(--gray-color, var(--default-gray-color));
+          --page-header-font-size: var(--header1-font-size, var(--default-header1-font-size));
+          --page-header-font-weight: var(--header1-font-weight, var(--default-header1-font-weight));
+          --page-header-tabs-font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          --page-header-icon-size: var(--unity-button-height, var(--default-unity-button-height));
+          --left-action-padding: var(--padding-size-sm, var(--default-padding-size-sm));
         }
 
         #header {
           flex: 1;
-          height: 48px;
-          min-height: 48px;
           display: flex;
           flex-direction: row;
           justify-content: space-between;
           align-items: stretch;
+          padding: var(--page-header-padding);
         }
 
         .bottom {
-          border-bottom: 1px solid var(--light-gray-1-color, var(--default-light-gray-1-color));
+          border-bottom: var(--page-header-border);
         }
 
         #left-wrapper {
@@ -106,7 +113,6 @@ class UnityPageHeader extends LitElement {
         }
 
         #title {
-          margin-left: 16px;
           overflow: var(--left-wrapper-overflow);
           white-space: var(--title-white-space);
         }
@@ -122,8 +128,8 @@ class UnityPageHeader extends LitElement {
         }
 
         .separator {
-          --iron-icon-height: var(--unity-button-height, var(--default-unity-button-height));
-          --iron-icon-width: var(--unity-button-height, var(--default-unity-button-height));
+          --unity-icon-height: var(--page-header-icon-size);
+          --unity-icon-width: var(--page-header-icon-size);
           transform: rotate(90deg);
           color: var(--gray-color, var(--default-gray-color));
         }
@@ -138,14 +144,13 @@ class UnityPageHeader extends LitElement {
           display: flex;
           flex-direction: row;
           align-items: center;
-          padding-right: calc(var(--padding-size-sm, var(--default-padding-size-sm))/2);
         }
 
         .left-action::slotted(*) {
           display: flex;
           flex-direction: row;
           align-items: center;
-          padding-left: var(--padding-size-sm, var(--default-padding-size-sm));
+          padding-left: var(--left-action-padding);
         }
 
         paper-tab {
@@ -266,7 +271,7 @@ class UnityPageHeader extends LitElement {
           </div>
           <div class="button-container">
             <slot name="${LEFT_ACTION}" class="left-action"></slot>
-            <iron-icon icon="unity:minus" class="separator${!showSeparator ? ' hide' : ''}"></iron-icon>
+            <unity-icon icon="unity:minus" class="separator${!showSeparator ? ' hide' : ''}"></unity-icon>
             <slot name="${RIGHT_ACTION}" class="right-action"></slot>
           </div>
         </div>
