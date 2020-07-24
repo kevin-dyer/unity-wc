@@ -4,6 +4,7 @@ import '@polymer/iron-autogrow-textarea'
 import '@polymer/iron-icon/iron-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-icon-set'
+import '@bit/smartworks.unity.unity-icon'
 
 /**
 * Renders a bordered text input
@@ -257,7 +258,7 @@ class UnityTextInput extends LitElement {
       const icon = !_valid ? 'unity:warning_circle_outline' : 'unity:circle_check'
       return html`
         <div class="icon-wrapper">
-          <iron-icon class="icon ${validClass}" icon="${icon}"></iron-icon>
+          <unity-icon class="icon ${validClass}" icon="${icon}"></unity-icon>
         </div>
       `
     } else {
@@ -274,7 +275,7 @@ class UnityTextInput extends LitElement {
     if (!icon) return
     return html`
       <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
-        <iron-icon class="inner-icon${password ? ' password' : ''}" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _clickUnits}"></iron-icon>
+        <unity-icon class="inner-icon${password ? ' password' : ''}" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _clickUnits}"></unity-icon>
       </div>
     `
   }
