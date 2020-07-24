@@ -23,7 +23,7 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @param {bool} time, option to have input by type time, overriden by password
 * @param {bool} password, converts characters to dots/password field, overwrites rightIcon
 * @param {''} error, error message for external error control or default forcing, can give true to not render remark error text, if validation is also sent it it will overwrite error's effects
-* @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 2+ or 1 for strong/weak, otherwise considered failure
+* @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid.
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @param {bool} rounded, if specified, makes the text input edges rounded, defaults: false (square corners)
 * @param {bool} hideBorder, hides the border of the element, defaults: false (show border)
@@ -220,19 +220,6 @@ class UnityTextInput extends LitElement {
       this.value = value.slice(0, maxlength)
     if (validation instanceof Function) {
       const isValid = validation(value)
-      if (!!password) {
-        if (isValid === 2) {
-          this._valid = true
-          this._strength = 2
-          this._errorText = ''
-          return
-        } else if (isValid === 1) {
-          this._valid = true
-          this._strength = 1
-          this._errorText = ''
-          return
-        }
-      }
       if (isValid === true) {
         this._valid = true
         this._errorText = ''
