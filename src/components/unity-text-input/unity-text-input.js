@@ -351,6 +351,7 @@ class UnityTextInput extends LitElement {
     const {
       maxlength,
       _errorText,
+      _valid,
       remark,
       value,
       charCount
@@ -358,7 +359,7 @@ class UnityTextInput extends LitElement {
 
     return html`
       <div class="bottom">
-        <span class="remark">
+        <span class="remark${_errorText && !_valid ? " invalid-text": ""}">
         ${_errorText || remark}
       </span>
       ${!!charCount ?
@@ -540,8 +541,11 @@ class UnityTextInput extends LitElement {
           padding: 6px 8px;
         }
         .invalid {
-          border-color: var(--danger-color, var(--default-danger-color));
-          background-color: rgba(var(--danger-rgb, var(--default-danger-rgb)), .2);
+          background-color: var(--input-background-error-color, var(--default-input-background-error-color));
+          border-color: var(--input-border-error-color, var(--default-input-border-error-color)) !important;
+        }
+        .invalid-text {
+          color: var(--input-border-error-color, var(--default-input-border-error-color)) !important;
         }
         .input-wrapper.border-effects:hover {
           border-color: var(--primary-brand-color, var(--default-primary-brand-color));
