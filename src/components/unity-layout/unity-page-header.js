@@ -118,13 +118,15 @@ class UnityPageHeader extends LitElement {
         }
 
         paper-tabs {
-          font-size: 14px; /*var(--paragraph-font-size, var(--default-paragraph-font-size));*/
+          font-size: var(--page-header-tabs-font-size);
           height: 28px;
           width: min-content;
           align-self: flex-start;
-          --paper-tabs-selection-bar-color: var(--tab-color);
-          /*height: var(--tab-height);*/
-          font-family: var(--header-font-family);
+          --paper-tabs-selection-bar-color: var(--tab-color);      
+        }
+
+        paper-tabs paper-tab.iron-selected {
+          --font-color: var(--tab-color);
         }
 
         .separator {
@@ -155,6 +157,11 @@ class UnityPageHeader extends LitElement {
 
         paper-tab {
           padding: var(--tab-padding);
+          font-family: var(--header-font-family);
+        }
+
+        paper-tab:focus .tab-content {
+          font-weight: 400;
         }
 
         .hide {
@@ -276,14 +283,17 @@ class UnityPageHeader extends LitElement {
           </div>
         </div>
         ${hasTabs
-          ? html`<paper-tabs selected="${selectedTab}" id="header-tabs" noink>
+          ? html`
+            <paper-tabs selected="${selectedTab}" id="header-tabs" noink>
               ${tabs.map((tab, index) => {
                 const {label} = tab
 
-                return html`<paper-tab @click=${e => this._handleTabSelect(tab, index)}>
-                  ${label}
-                </paper-tab>`
-              })}
+                return html`
+                  <paper-tab @click=${e => this._handleTabSelect(tab, index)}>
+                    <unity-typography>${label}</unity-typography>
+                  </paper-tab>`
+                }
+              )}
             </paper-tabs>`
           : ''
         }
