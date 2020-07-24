@@ -266,27 +266,10 @@ class UnityTextInput extends LitElement {
     } = this
 
     if (!!showIcon) {
-      if (!!password) {
-        if (_strength >= 1) {
-          const strong = _strength >= 2
-          return html`
-            <div class="icon-wrapper rect">
-              <div class="icon-text">${!!strong ? "Strong" : "Weak"}</div>
-              <div class="circles-wrapper">
-                <div class="password-circle ${strong ? 'green' : ''}" ></div>
-                <div class="password-circle ${strong ? 'green' : ''}" ></div>
-                <div class="password-circle ${strong ? 'green' : ''}" ></div>
-                <div class="password-circle ${strong ? 'green' : ''}" ></div>
-                <div class="password-circle ${strong ? 'green' : ''}" ></div>
-              </div>
-            </div>
-          `
-        }
-      }
       const validClass = !_valid ? 'icon-error' : 'icon-valid'
-      const icon = !_valid ? 'unity:error' : 'unity:check'
+      const icon = !_valid ? 'unity:warning_circle_outline' : 'unity:circle_check'
       return html`
-        <div class="icon-wrapper circle ${!_valid ? 'invalid' : 'valid'}">
+        <div class="icon-wrapper">
           <iron-icon class="icon ${validClass}" icon="${icon}"></iron-icon>
         </div>
       `
@@ -602,8 +585,10 @@ class UnityTextInput extends LitElement {
         }
         .icon-wrapper {
           position: absolute;
-          left: calc(100% + 8px);
+          left: calc(100% + 4px);
           top: 50%;
+          height: 24px;
+          width: 24px;
           transform: translateY(-50%);
         }
         .icon-left-wrapper {
@@ -634,15 +619,6 @@ class UnityTextInput extends LitElement {
         .hideBorder:focus-within {
           box-shadow: none;
         }
-        .circle {
-          height: 20px;
-          width: 20px;
-          border-radius: 10px;
-          background-color: var(--success-color, var(--default-success-color));
-        }
-        .circle.invalid {
-          background-color: var(--danger-color, var(--default-danger-color));
-        }
         .rect {
           width: 40px;
         }
@@ -656,9 +632,9 @@ class UnityTextInput extends LitElement {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          height: 16px;
-          width: 16px;
-          color: white;
+          height: 24px;
+          width: 24px;
+          color: var(--input-icon-valid-color, var(--default-input-icon-valid-color));
         }
         .inner-icon {
           position: absolute;
@@ -673,28 +649,11 @@ class UnityTextInput extends LitElement {
           cursor: pointer;
         }
         .icon-error {
-          top: calc(50% - 1px);
+          /*top: calc(50% - 1px);*/
+          color: var(--input-icon-error-color, var(--default-input-icon-error-color));
         }
         .icon-valid {
 
-        }
-        .password-circle {
-          height: 5px;
-          width: 5px;
-          border-radius: 2.5px;
-          background-color: var(--dark-grey-background-color, var(--default-dark-grey-background-color));
-          margin: 0;
-          margin-right: 3px;
-          padding: 0;
-          display: inline-block;
-        }
-        .green {
-          background-color: var(--success-color, var(--default-success-color));
-        }
-        .circles-wrapper {
-          font-size: 0;
-          margin-top: 3px;
-          line-height: 0;
         }
         .dirty {
           background-color: var(--dirty-color);
