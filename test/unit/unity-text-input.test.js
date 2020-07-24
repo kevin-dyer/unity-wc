@@ -146,7 +146,7 @@ describe('unity-text-input', () => {
       const el = await fixture(`<unity-text-input password></unity-text-input>`)
       const input = el.shadowRoot.querySelector('input#input')
       const iconWrapper = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper')
-      const icon = iconWrapper.querySelector('iron-icon.inner-icon.password')
+      const icon = iconWrapper.querySelector('unity-icon.inner-icon.password')
       expect(input.type).to.equal('password')
       expect(icon).to.exist
       expect(icon.icon).to.equal('unity:show')
@@ -155,7 +155,7 @@ describe('unity-text-input', () => {
     it('should toggle type and icon when icon is clicked', async () => {
       const el = await fixture(`<unity-text-input password></unity-text-input>`)
       let input = el.shadowRoot.querySelector('input#input')
-      let icon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper iron-icon.inner-icon.password')
+      let icon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper unity-icon.inner-icon.password')
       const listener = oneEvent(el, 'click')
       expect(input.type).to.equal('password')
       expect(icon.icon).to.equal('unity:show')
@@ -258,15 +258,15 @@ describe('unity-text-input', () => {
 
     it('should not show icon without showIcon', async () => {
       let el = await fixture(html`<unity-text-input .validation="${validation}" .value="${valid}"></unity-text-input>`)
-      let circIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper iron-icon.icon')
+      let circIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon')
 
       expect(circIcon).to.not.exist
     })
 
     it('should show valid icon without validation', async () => {
       let el = await fixture(html`<unity-text-input showIcon .value="${valid}"></unity-text-input>`)
-      let validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper iron-icon.icon.icon-valid')
-      let invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper iron-icon.icon.icon-error')
+      let validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-valid')
+      let invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-error')
 
       expect(invalidCircleIcon).to.not.exist
       expect(validCircleIcon).to.exist
@@ -274,16 +274,16 @@ describe('unity-text-input', () => {
 
     it('should show correct icon based on validation', async () => {
       let el = await fixture(html`<unity-text-input showIcon .validation="${validation}" .value="${notValid}"></unity-text-input>`)
-      let validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper iron-icon.icon.icon-valid')
-      let invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper iron-icon.icon.icon-error')
+      let validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-valid')
+      let invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-error')
 
       expect(validCircleIcon).to.not.exist
       expect(invalidCircleIcon).to.exist
       expect(invalidCircleIcon.icon).to.equal('unity:warning_circle_outline')
 
       el = await fixture(html`<unity-text-input showIcon .validation="${validation}" .value="${valid}"></unity-text-input>`)
-      validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper iron-icon.icon.icon-valid')
-      invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper iron-icon.icon.icon-error')
+      validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-valid')
+      invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-error')
 
       expect(invalidCircleIcon).to.not.exist
       expect(validCircleIcon).to.exist
@@ -292,8 +292,8 @@ describe('unity-text-input', () => {
 
     it('should render inner right icon', async () => {
       const el = await fixture(`<unity-text-input innerRightIcon="${innerIcon}"></unity-text-input>`)
-      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper iron-icon.inner-icon')
-      const leftIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-left-wrapper iron-icon.inner-icon')
+      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper unity-icon.inner-icon')
+      const leftIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-left-wrapper unity-icon.inner-icon')
       expect(rightIcon).to.exist
       expect(leftIcon).to.not.exist
       expect(rightIcon.icon).to.equal(innerIcon)
@@ -302,7 +302,7 @@ describe('unity-text-input', () => {
     it('should override right icon with password icon', async () => {
       const passwordIcon = 'unity:show'
       const el = await fixture(`<unity-text-input password innerRightIcon="${innerIcon}"></unity-text-input>`)
-      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper iron-icon.inner-icon')
+      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper unity-icon.inner-icon')
       expect(rightIcon).to.exist
       expect(rightIcon.icon).to.not.equal(innerIcon)
       expect(rightIcon.icon).to.equal(passwordIcon)
@@ -310,8 +310,8 @@ describe('unity-text-input', () => {
 
     it('should render inner left icon', async () => {
       const el = await fixture(`<unity-text-input innerLeftIcon="${innerIcon}"></unity-text-input>`)
-      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper iron-icon.inner-icon')
-      const leftIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-left-wrapper iron-icon.inner-icon')
+      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper unity-icon.inner-icon')
+      const leftIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-left-wrapper unity-icon.inner-icon')
       expect(leftIcon).to.exist
       expect(rightIcon).to.not.exist
       expect(leftIcon.icon).to.equal(innerIcon)
@@ -394,8 +394,8 @@ describe('unity-text-input', () => {
 
     it('should not render left or right icons', async () => {
       const el = await fixture(`<unity-text-input area innerRightIcon="${innerIcon}" innerLeftIcon="${innerIcon}"></unity-text-input>`)
-      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper.area div.icon-right-wrapper iron-icon.inner-icon')
-      const leftIcon = el.shadowRoot.querySelector('iron-input.input-wrapper.area div.icon-left-wrapper iron-icon.inner-icon')
+      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper.area div.icon-right-wrapper unity-icon.inner-icon')
+      const leftIcon = el.shadowRoot.querySelector('iron-input.input-wrapper.area div.icon-left-wrapper unity-icon.inner-icon')
       expect(rightIcon).to.not.exist
       expect(leftIcon).to.not.exist
 
