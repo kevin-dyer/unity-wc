@@ -226,25 +226,11 @@ class MyTextInput extends PageViewElement {
           </div>
           <div class="input-box">
             <unity-text-input
-              .label="${'Weak Validation'}"
+              .label="${'Validation'}"
               .value="${"aweakpass"}"
               .validation="${val=> {
                 if (val.length < 8) return 'Password should be at least 8 characters'
-                else return 1
-              }}"
-              .onChange="${this.onInputChange}"
-              password
-              showIcon
-            ></unity-text-input>
-          </div>
-          <div class="input-box">
-            <unity-text-input
-              .label="${'Strong Validation'}"
-              .value="${"astrongerpassword"}"
-              .validation="${val=> {
-                if (val.length < 8) return 'Password should be at least 8 characters'
-                else if (val.length < 16) return 1
-                else return 2
+                else return true
               }}"
               .onChange="${this.onInputChange}"
               password
