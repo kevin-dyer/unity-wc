@@ -183,6 +183,8 @@ class MyTextInput extends PageViewElement {
             .innerRightIcon="${"unity:step_in"}"
             ></unity-text-input>
           </div>
+        </div>
+        <div class="col">
           <div class="input-box">
             <unity-text-input
               .label="${"Required"}"
@@ -199,8 +201,6 @@ class MyTextInput extends PageViewElement {
               readOnly
             ></unity-text-input>
           </div>
-        </div>
-        <div class="col">
           <div class="input-box">
             <unity-text-input
               .label="${"Validation Icon"}"
@@ -222,19 +222,6 @@ class MyTextInput extends PageViewElement {
               .onChange="${this.onInputChange}"
               .label="${"Password Field"}"
               password
-            ></unity-text-input>
-          </div>
-          <div class="input-box">
-            <unity-text-input
-              .label="${'Validation'}"
-              .value="${"aweakpass"}"
-              .validation="${val=> {
-                if (val.length < 8) return 'Password should be at least 8 characters'
-                else return true
-              }}"
-              .onChange="${this.onInputChange}"
-              password
-              showIcon
             ></unity-text-input>
           </div>
         </div>
