@@ -100,8 +100,8 @@ export const UnityThemeStyles = css`
     --light-grey-background-color: rgb(var(--light-gray-2-rgb));
 
     /* Fonts */
-    --font-family: 'Noto', sans-serif;
-    --monospace-font-family: 'Noto', monospace;
+    --font-family: 'NotoSans', sans-serif;
+    --monospace-font-family: 'NotoMono', monospace;
 
     --header1-font-size: 16px;
     --header1-font-weight: 400;
@@ -142,13 +142,5 @@ export const UnityThemeStyles = css`
     --padding-size-md: 12px;
     --padding-size-lg: 16px;
     --padding-size-xl: 24px;
-  },
-  @font-face {
-    font-family: NotoSans;
-    src: url(unity-default-theme-styles/fonts/NotoSans/NotoSans-Regular.ttf);
-  }
-  @font-face {
-    font-family: NotoMono;
-    src: url(unity-default-theme-styles/fonts/NotoMono/NotoMono-Regular.ttf);
   }
 `;
