@@ -1,4 +1,5 @@
 import { css } from 'lit-element';
+import './noto-fonts.js'
 
 //Note: was not able to import css files,
 // Therefore any specified font should be loaded in parent app
@@ -100,8 +101,8 @@ export const UnityDefaultThemeStyles = css`
     --default-light-grey-background-color: rgb(var(--default-light-gray-2-rgb));
 
     /* Fonts */
-    --default-font-family: 'Noto', sans-serif;
-    --default-monospace-font-family: 'Noto', monospace;
+    --default-font-family: 'NotoSans', sans-serif;
+    --default-monospace-font-family: 'NotoMono', monospace;
 
     --default-header1-font-size: 16px;
     --default-header1-font-weight: 400;
@@ -141,13 +142,5 @@ export const UnityDefaultThemeStyles = css`
     --default-padding-size-md: 12px;
     --default-padding-size-lg: 16px;
     --default-padding-size-xl: 24px;
-  },
-  @font-face {
-    font-family: NotoSans;
-    src: url(fonts/NotoSans/NotoSans-Regular.ttf);
-  }
-  @font-face {
-    font-family: NotoMono;
-    src: url(fonts/NotoMono/NotoMono-Regular.ttf);
   }
 `;

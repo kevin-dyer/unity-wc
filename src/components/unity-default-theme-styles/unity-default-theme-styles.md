@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.2
+- Add required color for light-red, fix small text size, properly add fonts to default style
+
 ### v1.2.1
 - Remove old and unused default for nav colors
 
