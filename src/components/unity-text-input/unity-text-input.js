@@ -1,9 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import '@polymer/iron-input/iron-input'
 import '@polymer/iron-autogrow-textarea'
-import '@polymer/iron-icon/iron-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-icon-set'
 import '@bit/smartworks.unity.unity-icon'
 
 /**
@@ -623,8 +621,8 @@ class UnityTextInput extends LitElement {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          height: 24px;
-          width: 24px;
+          --unity-icon-height: 24px;
+          --unity-icon-width: 24px;
           color: var(--input-icon-valid-color, var(--default-input-icon-valid-color));
         }
         .inner-icon {
@@ -632,15 +630,14 @@ class UnityTextInput extends LitElement {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          height: 16px;
-          width: 16px;
+          --unity-icon-height: 16px;
+          --unity-icon-width: 16px;
           color: black;
         }
         .inner-icon.password {
           cursor: pointer;
         }
         .icon-error {
-          /*top: calc(50% - 1px);*/
           color: var(--input-icon-error-color, var(--default-input-icon-error-color));
         }
         .icon-valid {
