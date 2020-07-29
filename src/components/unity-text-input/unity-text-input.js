@@ -48,6 +48,12 @@ import '@bit/smartworks.unity.unity-icon'
 * </unity-text-input>
 
 css vars
+  input-font
+  input-label-color
+  input-text-color
+  input-text-size
+  input-small-text-size
+  input-dirty-color
   input-border-color
   input-border-hover-color
   input-border-focus-color
@@ -59,7 +65,7 @@ css vars
   input-icon-hint-color
   input-icon-valid-color
   input-icon-error-color
-
+  inner-icon-size
 **/
 
 const MIN_LINES = 4
