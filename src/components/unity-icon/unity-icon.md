@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- Fixed peer dependencies issue
+
 ### v1.1.0
 - Added `src` property to allow displaying custom images.
 - Added CSS variables to control height and width.

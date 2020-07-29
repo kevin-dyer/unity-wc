@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.1
+- Fixed peer dependencies issue
+
 ### v1.2.0
 - Update to use newest unity-button's modes and styles
 

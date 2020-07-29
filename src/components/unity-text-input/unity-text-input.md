@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.1.1
+- Fixed peer dependencies issue
+- Added this changelog
+
 ### v1.1.0
 - update styles to use new Unity brand styles, adds required and readOnly args, use unity-icon
 

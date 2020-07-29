@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.5
+- Fixed peer dependencies issue
+
 ### v1.1.4
 - Fix missing right border
 

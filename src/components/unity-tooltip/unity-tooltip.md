@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- Fixed peer dependencies issue
+
 ### v1.1.0
 - Added rightAlign and bottomAlign properties to change where the tooltip is displayed with respect to the reference point.
 
