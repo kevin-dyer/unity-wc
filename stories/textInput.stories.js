@@ -32,6 +32,8 @@ export const Standard = () => {
   const rounded = boolean("Rounded Input", false)
   const hideBorder = boolean("Borderless Input", false)
   const borderEffects = boolean("Border Hover Effects", true)
+  const readonly = boolean("Read Only", false)
+  const required = boolean("Required", false)
   const area = boolean("Text Area Mode", false)
   const minLines = number("Minimum Rendered Lines", 4)
   const maxLines = number("Lines before Scrolling", 12)
@@ -59,6 +61,8 @@ export const Standard = () => {
         .units="${units}"
         .hint="${hint}"
         .error="${error}"
+        .readonly="${readonly}"
+        .reqiured="${required}"
         .minLines="${minLines}"
         .maxLines="${maxLines}"
         .innerRightIcon="${innerRightIcon}"

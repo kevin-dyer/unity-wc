@@ -7,23 +7,24 @@ import { css } from 'lit-element';
 export const UnityThemeStyles = css`
   :host {
     /* Colors */
-    --black-rgb: 0, 0, 0;                 /* #000000 */
-    --white-rgb: 255, 255, 255;           /* #FFFFFF */
-    --charcoal-rgb: 77, 77, 77;           /* #4D4D4D */
-    --gray-rgb: 162, 170, 173;            /* #A2AAAD */
-    --light-gray-1-rgb: 235, 235, 235;    /* #EBEBEB */
-    --light-gray-2-rgb: 244, 244, 244;    /* #F4F4F4 */
-    --white-rgb: 255, 255, 255;           /* #FFFFFF */
-    --deep-blue-rgb: 0, 87, 118;          /* #005776 */
-    --deep-blue-tint-rgb: 64, 129, 153;   /* #408199 */
-    --sky-blue-rgb: 45, 204, 211;         /* #2DCCD3 */
-    --sky-blue-shade-rgb: 50, 166, 172;   /* #32A6AC */
-    --sky-blue-tint-1-rgb: 234, 249, 250; /* #EAF9FA */
-    --sky-blue-tint-2-rgb: 217, 243, 244; /* #D9F3F4 */
-    --red-orange-rgb: 250, 70, 22;        /* #FA4616 */
-    --dark-red-orange-rgb: 145, 61, 38;   /* #913D26 */
-    --yellow-rgb: 255, 198, 0;            /* #FFC600 */
-    --green-rgb: 71, 162, 63;             /* #47A23F */
+    --black-rgb: 0, 0, 0;                   /* #000000 */
+    --white-rgb: 255, 255, 255;             /* #FFFFFF */
+    --charcoal-rgb: 77, 77, 77;             /* #4D4D4D */
+    --gray-rgb: 162, 170, 173;              /* #A2AAAD */
+    --light-gray-1-rgb: 235, 235, 235;      /* #EBEBEB */
+    --light-gray-2-rgb: 244, 244, 244;      /* #F4F4F4 */
+    --white-rgb: 255, 255, 255;             /* #FFFFFF */
+    --deep-blue-rgb: 0, 87, 118;            /* #005776 */
+    --deep-blue-tint-rgb: 64, 129, 153;     /* #408199 */
+    --sky-blue-rgb: 45, 204, 211;           /* #2DCCD3 */
+    --sky-blue-shade-rgb: 50, 166, 172;     /* #32A6AC */
+    --sky-blue-tint-1-rgb: 234, 249, 250;   /* #EAF9FA */
+    --sky-blue-tint-2-rgb: 217, 243, 244;   /* #D9F3F4 */
+    --red-orange-rgb: 250, 70, 22;          /* #FA4616 */
+    --dark-red-orange-rgb: 145, 61, 38;     /* #913D26 */
+    --light-red-orange-rgb: 252, 221, 220;  /* #FCDDDC */
+    --yellow-rgb: 255, 198, 0;              /* #FFC600 */
+    --green-rgb: 71, 162, 63;               /* #47A23F */
 
     /* Uses */
 
@@ -68,6 +69,9 @@ export const UnityThemeStyles = css`
 
     /* darker tertiary 1, pressed alert button */
     --tertiary-1-shade-color: rgb(var(--dark-red-orange-rgb));
+
+    /* lighter tertiary 1, field error background */
+    --tertiary-1-light-color: rgb(var(--light-red-orange-rgb));
 
     /* utility color, warning, alert, future/present-tense */
     --tertiary-2-color: rgb(var(--yellow-rgb));
@@ -115,10 +119,10 @@ export const UnityThemeStyles = css`
     --paragraph-line-height: 16px;
 
     /* this font size should likely change */
-    --small-text-size: 8px;
+    --small-text-size: 10px;
     --small-text-weight: 400;
 
-    --small-text-selected-size: 8px;
+    --small-text-selected-size: 10px;
     --small-text-selected-weight: 600;
 
     --medium-icon-size: 18px;
@@ -138,13 +142,5 @@ export const UnityThemeStyles = css`
     --padding-size-md: 12px;
     --padding-size-lg: 16px;
     --padding-size-xl: 24px;
-  },
-  @font-face {
-    font-family: NotoSans;
-    src: url(unity-default-theme-styles/fonts/NotoSans/NotoSans-Regular.ttf);
-  }
-  @font-face {
-    font-family: NotoMono;
-    src: url(unity-default-theme-styles/fonts/NotoMono/NotoMono-Regular.ttf);
   }
 `;

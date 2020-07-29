@@ -124,7 +124,7 @@ class MyTextInput extends PageViewElement {
           <div class="input-box">
             <unity-text-input
               disabled
-              .label="Disabled Input"
+              .label="${"Disabled Input"}"
               .value="${"Can't edit this text."}"
               .onChange="${this.onInputChange}"
             ></unity-text-input>
@@ -187,6 +187,22 @@ class MyTextInput extends PageViewElement {
         <div class="col">
           <div class="input-box">
             <unity-text-input
+              .label="${"Required"}"
+              .value="${"This input is required"}"
+              .onChange="${this.onInputChange}"
+              required
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              .label="${"Read Only"}"
+              .value="${"This input is read only"}"
+              .onChange="${this.onInputChange}"
+              readOnly
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
               .label="${"Validation Icon"}"
               .value="${"Will only be correct if this equals \"valid\"."}"
               .remark="${"This must equal \"valid\""}"
@@ -197,6 +213,7 @@ class MyTextInput extends PageViewElement {
               }}"
               .onChange="${this.onInputChange}"
               showIcon
+              required
             ></unity-text-input>
           </div>
           <div class="input-box">
@@ -205,33 +222,6 @@ class MyTextInput extends PageViewElement {
               .onChange="${this.onInputChange}"
               .label="${"Password Field"}"
               password
-            ></unity-text-input>
-          </div>
-          <div class="input-box">
-            <unity-text-input
-              .label="${'Weak Validation'}"
-              .value="${"aweakpass"}"
-              .validation="${val=> {
-                if (val.length < 8) return 'Password should be at least 8 characters'
-                else return 1
-              }}"
-              .onChange="${this.onInputChange}"
-              password
-              showIcon
-            ></unity-text-input>
-          </div>
-          <div class="input-box">
-            <unity-text-input
-              .label="${'Strong Validation'}"
-              .value="${"astrongerpassword"}"
-              .validation="${val=> {
-                if (val.length < 8) return 'Password should be at least 8 characters'
-                else if (val.length < 16) return 1
-                else return 2
-              }}"
-              .onChange="${this.onInputChange}"
-              password
-              showIcon
             ></unity-text-input>
           </div>
         </div>
