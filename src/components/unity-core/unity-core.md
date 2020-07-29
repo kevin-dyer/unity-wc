@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.4.12
+- update components:
+  - unity-default-theme-styles v1.3.0
+  - unity-icon-set v1.0.0
+  - unity-text-input v1.1.0
+
 ### v1.4.11
 - Fixed outdated peer dependencies in several components:
   - unity-split-pane v1.1.1

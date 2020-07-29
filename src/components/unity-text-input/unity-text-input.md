@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.0
+- update styles to use new Unity brand styles, adds required and readOnly args, use unity-icon
+
 ### v1.0.0
 - Moved all @bit depedencies to peerDependencies
 

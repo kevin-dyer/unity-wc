@@ -1,9 +1,8 @@
 import { LitElement, html, css } from 'lit-element'
 import '@polymer/iron-input/iron-input'
 import '@polymer/iron-autogrow-textarea'
-import '@polymer/iron-icon/iron-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-icon-set'
+import '@bit/smartworks.unity.unity-icon'
 
 /**
 * Renders a bordered text input
@@ -16,12 +15,14 @@ import '@bit/smartworks.unity.unity-icon-set'
 * @param {bool} charCount, show current char count
 * @param {int} maxlength, maximum number of characters to allow
 * @param {bool} disabled, controls if field is enabled/disabled, defaults: false (enabled)
+* @param {bool} required, marks field as being required, defaults: false
+* @param {bool} readOnly, marks field as being readOnly, defaults: false
 * @param {''} units, right bound units
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} time, option to have input by type time, overriden by password
 * @param {bool} password, converts characters to dots/password field, overwrites rightIcon
 * @param {''} error, error message for external error control or default forcing, can give true to not render remark error text, if validation is also sent it it will overwrite error's effects
-* @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid. if in password mode, return 2+ or 1 for strong/weak, otherwise considered failure
+* @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid.
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
 * @param {bool} rounded, if specified, makes the text input edges rounded, defaults: false (square corners)
 * @param {bool} hideBorder, hides the border of the element, defaults: false (show border)
@@ -45,6 +46,26 @@ import '@bit/smartworks.unity.unity-icon-set'
 *   password
 *   showIcon
 * </unity-text-input>
+
+css vars
+  input-font
+  input-label-color
+  input-text-color
+  input-text-size
+  input-small-text-size
+  input-dirty-color
+  input-border-color
+  input-border-hover-color
+  input-border-focus-color
+  input-border-readOnly-color
+  input-border-error-color
+  input-background-error-color
+  input-border-disabled-color
+  input-background-disabled-color
+  input-icon-hint-color
+  input-icon-valid-color
+  input-icon-error-color
+  inner-icon-size
 **/
 
 const MIN_LINES = 4
@@ -58,6 +79,8 @@ class UnityTextInput extends LitElement {
     this.label = ""
     this.remark = ""
     this.disabled = false
+    this.required = false
+    this.readOnly = false
     this.onChange = ()=>{}
     this.time = false
     this.placeholder = ""
@@ -91,6 +114,8 @@ class UnityTextInput extends LitElement {
       label: { type: String },
       remark: { type: String },
       disabled: { type: Boolean },
+      required: { type: Boolean },
+      readOnly: { type: Boolean },
       onChange: { type: Function },
       time: { type: Boolean },
       password: { type: Boolean },
@@ -200,19 +225,6 @@ class UnityTextInput extends LitElement {
       this.value = value.slice(0, maxlength)
     if (validation instanceof Function) {
       const isValid = validation(value)
-      if (!!password) {
-        if (isValid === 2) {
-          this._valid = true
-          this._strength = 2
-          this._errorText = ''
-          return
-        } else if (isValid === 1) {
-          this._valid = true
-          this._strength = 1
-          this._errorText = ''
-          return
-        }
-      }
       if (isValid === true) {
         this._valid = true
         this._errorText = ''
@@ -246,28 +258,11 @@ class UnityTextInput extends LitElement {
     } = this
 
     if (!!showIcon) {
-      if (!!password) {
-        if (_strength >= 1) {
-          const strong = _strength >= 2
-          return html`
-            <div class="icon-wrapper rect">
-              <div class="icon-text">${!!strong ? "Strong" : "Weak"}</div>
-              <div class="circles-wrapper">
-                <div class="password-circle ${strong ? 'green' : ''}" ></div>
-                <div class="password-circle ${strong ? 'green' : ''}" ></div>
-                <div class="password-circle ${strong ? 'green' : ''}" ></div>
-                <div class="password-circle ${strong ? 'green' : ''}" ></div>
-                <div class="password-circle ${strong ? 'green' : ''}" ></div>
-              </div>
-            </div>
-          `
-        }
-      }
       const validClass = !_valid ? 'icon-error' : 'icon-valid'
-      const icon = !_valid ? 'unity:error' : 'unity:check'
+      const icon = !_valid ? 'unity:warning_circle_outline' : 'unity:circle_check'
       return html`
-        <div class="icon-wrapper circle ${!_valid ? 'invalid' : 'valid'}">
-          <iron-icon class="icon ${validClass}" icon="${icon}"></iron-icon>
+        <div class="icon-wrapper">
+          <unity-icon class="icon ${validClass}" icon="${icon}"></unity-icon>
         </div>
       `
     } else {
@@ -284,7 +279,7 @@ class UnityTextInput extends LitElement {
     if (!icon) return
     return html`
       <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
-        <iron-icon class="inner-icon${password ? ' password' : ''}" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _clickUnits}"></iron-icon>
+        <unity-icon class="inner-icon${password ? ' password' : ''}" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _clickUnits}"></unity-icon>
       </div>
     `
   }
@@ -295,6 +290,7 @@ class UnityTextInput extends LitElement {
       _valid,
       units,
       disabled,
+      readOnly,
       hideBorder,
       rounded,
       borderEffects
@@ -303,7 +299,6 @@ class UnityTextInput extends LitElement {
     if (!!area) {
       classes.push('area', 'showBorder', 'notRounded')
     } else {
-      if (!!units) classes.push('units')
       if (!!hideBorder) classes.push('hideBorder')
       else classes.push('showBorder')
       if (!!rounded) classes.push('rounded')
@@ -311,6 +306,7 @@ class UnityTextInput extends LitElement {
     }
     if (!_valid) classes.push('invalid')
     else classes.push('valid')
+    if (!!readOnly) classes.push('readOnly')
     if (!!disabled) classes.push('disabled')
     if (borderEffects) classes.push('border-effects')
     return classes.join(" ")
@@ -330,6 +326,7 @@ class UnityTextInput extends LitElement {
     const {
       maxlength,
       _errorText,
+      _valid,
       remark,
       value,
       charCount
@@ -337,7 +334,7 @@ class UnityTextInput extends LitElement {
 
     return html`
       <div class="bottom">
-        <span class="remark">
+        <span class="remark${_errorText && !_valid ? " invalid-text": ""}">
         ${_errorText || remark}
       </span>
       ${!!charCount ?
@@ -355,6 +352,8 @@ class UnityTextInput extends LitElement {
       label,
       remark,
       disabled,
+      required,
+      readOnly,
       units,
       charCount,
       maxlength,
@@ -369,6 +368,7 @@ class UnityTextInput extends LitElement {
       password,
       placeholder,
       dirty,
+      showIcon,
       _onChange,
       _valid,
       _strength,
@@ -400,7 +400,7 @@ class UnityTextInput extends LitElement {
       <div>
         ${!!label ?
           html`<p class="label">
-            ${label}
+            ${label}${required ? html`<span class="required"> *</span>`: ''}
             </p>`
           : null
         }
@@ -414,8 +414,8 @@ class UnityTextInput extends LitElement {
               id="textarea"
               value="{{value::iron-autogrow-textarea}}"
               maxlength="${maxlength || null}"
-              class="${!!disabled ? 'disabled' : ''}"
-              ?disabled=${!!disabled}
+              class="${!!disabled ? "disabled" : ""}"
+              ?disabled=${!!disabled || !!readOnly}
               placeholder="${!!placeholder ? placeholder : ''}"
               style="--area-min-lines: ${minLines}; --area-max-lines: ${maxLines}"
             ></iron-autogrow-textarea>`
@@ -427,8 +427,8 @@ class UnityTextInput extends LitElement {
               maxlength="${maxlength || null}"
               placeholder="${!!placeholder ? placeholder : ''}"
               style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
-              class="${!!disabled ? 'disabled' : ''}"
-              ?disabled=${!!disabled}
+              class="${!!disabled ? "disabled" : ""}"
+              ?disabled=${!!disabled || !!readOnly}
             >`
           }
           ${!!dirty ? html`<div class="dirty" />` : null}
@@ -436,12 +436,13 @@ class UnityTextInput extends LitElement {
           ${!area ? this._renderInnerIcon(innerLeftIcon, true) : null}
           ${(!area && !!units) ?
             html`<div
-              class="units ${!!disabled ? 'disabled' : ''}"
+              class="units ${!!disabled ? "disabled" : ""}"
               @click="${_clickUnits}"
             >
               ${units}
             </div>`
           : null}
+          ${!showIcon && required ? html`<span class="required field">*</span>` : null}
           ${!area ? this._renderIcon() : null}
         </iron-input>
         ${(_errorText || remark || charCount)? this.renderBottomDiv() : null}
@@ -454,21 +455,36 @@ class UnityTextInput extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --input-font: var(--font-family, var(--default-font-family));
-          --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
-          --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
-          --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
-          --dirty-color: var(--danger-color, var(--defualt-danger-color));
-          font-family: var(--input-font);
+          --default-input-font: var(--font-family, var(--default-font-family));
+          --default-input-label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --default-input-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
+          --default-input-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          --default-input-small-text-size: var(--small-text-size, var(--default-small-text-size));
+          --default-input-dirty-color: var(--primary-color, var(--defualt-primary-color));
+          --default-input-border-color: var(--gray-color, var(--default-gray-color));
+          --default-input-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-input-border-focus-color: var(--primary-color, var(--default-primary-color));
+          --default-input-border-readOnly-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
+          --default-input-border-error-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
+          --default-input-background-error-color: var(--tertiary-1-light-color, var(--default-tertiary-1-light-color));
+          --default-input-border-disabled-color: var(--gray-color, var(--default-gray-color));
+          --default-input-background-disabled-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
+          --default-input-icon-hint-color: var(--primary-color, var(--default-primary-color));
+          --default-input-icon-valid-color: var(--primary-color, var(--default-primary-color));
+          --default-input-icon-error-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
+          font-family: var(--input-font, var(--default-input-font));
+          font-size: var(--input-text-size, var(--default-input-text-size));
+          --default-inner-icon-size: calc(var(--input-text-size, var(--default-input-text-size)) * 4 / 3);
           border-collapse: collapse;
           user-select: none;
+        }
+        p {
+          margin-top: 0;
         }
         .label {
           margin-bottom: 6px;
           padding: 0;
-          font-size: var(--text-size);
-          color: var(--label-color);
+          color: var(--input-label-color, var(--default-input-label-color));
         }
         .bottom {
           margin: 0;
@@ -479,15 +495,15 @@ class UnityTextInput extends LitElement {
         .remark {
           flex: 1;
           word-break: break-word;
-          font-size: var(--text-size);
-          color: var(--label-color);
+          font-size: var(--input-small-text-size, var(--default-input-small-text-size));
+          color: var(--input-label-color, var(--default-input-label-color));
         }
         .charCount {
           flex: 0;
           padding-left: 4px;
           text-align: right;
-          font-size: var(--text-size);
-          color: var(--label-color);
+          font-size: var(--input-small-text-size, var(--default-input-small-text-size));
+          color: var(--input-label-color, var(--default-input-label-color));
         }
         .input-wrapper {
           width: 100%;
@@ -504,16 +520,19 @@ class UnityTextInput extends LitElement {
           padding: 6px 8px;
         }
         .invalid {
-          border-color: var(--danger-color, var(--default-danger-color));
-          background-color: rgba(var(--danger-rgb, var(--default-danger-rgb)), .2);
+          background-color: var(--input-background-error-color, var(--default-input-background-error-color));
+          border-color: var(--input-border-error-color, var(--default-input-border-error-color)) !important;
+        }
+        .invalid-text {
+          color: var(--input-border-error-color, var(--default-input-border-error-color)) !important;
         }
         .input-wrapper.border-effects:hover {
-          border-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          border-color: var(--input-border-hover-color, var(--default-input-border-hover-color));
         }
         .input-wrapper.border-effects:focus-within {
-          border-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          border-color: var(--input-border-focus-color, var(--default-input-border-focus-color));
           outline: none;
-          box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: none;
         }
         .rounded {
           border-radius: calc(var(--unity-text-input-height, var(--default-unity-text-input-height)) * 0.5);
@@ -526,9 +545,9 @@ class UnityTextInput extends LitElement {
           margin: 0;
           align-self: center;
           flex: 1;
-          font-family: var(--input-font);
-          font-size: var(--text-size);
-          color: rgb(var(--text-color));
+          font-family: var(--input-font, var(--default-input-font));
+          font-size: var(--input-text-size, var(--default-input-text-size));
+          color: var(--input-text-color, var(--default-input-text-color));
           border: 0;
           background-color: transparent;
         }
@@ -539,14 +558,14 @@ class UnityTextInput extends LitElement {
           padding: 0;
           margin: 0;
           width: 100%;
-          font-family: var(--input-font);
-          font-size: var(--text-size);
-          color: rgb(var(--text-color));
+          font-family: var(--input-font, var(--default-input-font));
+          font-size: var(--input-text-size, var(--default-input-text-size));
+          color: var(--input-text-color, var(--default-input-text-color));
           border: 0;
           background-color: transparent;
           resize: none;
-          min-height: calc(var(--text-size) * 1.4545 * var(--area-min-lines, ${MIN_LINES}));
-          max-height: calc(var(--text-size) * 1.4545 * var(--area-max-lines, ${MAX_LINES}));
+          min-height: calc(var(--input-text-size, var(--default-input-text-size)) * 1.4545 * var(--area-min-lines, ${MIN_LINES}));
+          max-height: calc(var(--input-text-size, var(--default-input-text-size)) * 1.4545 * var(--area-max-lines, ${MAX_LINES}));
           -webkit-appearance: none;
         }
         #textarea:focus {
@@ -556,19 +575,16 @@ class UnityTextInput extends LitElement {
           flex: 0;
           padding-left: 8px;
           align-self: center;
-          font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
-          color: rgb(var(--text-color));
+          font-size: var(--input-small-text-size, var(--default-input-small-text-size));
+          color: var(--input-text-color, var(--default-input-text-color));
           line-height: 2;
-        }
-        .disabled {
-          border-color: var(--dark-grey-background, var(--default-dark-grey-background));
-          background-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
-          color: rgba(var(--text-color), .4);
         }
         .icon-wrapper {
           position: absolute;
-          left: calc(100% + 8px);
+          left: calc(100% + 4px);
           top: 50%;
+          height: 24px;
+          width: 24px;
           transform: translateY(-50%);
         }
         .icon-left-wrapper {
@@ -589,7 +605,7 @@ class UnityTextInput extends LitElement {
         }
         .showBorder {
           border-width: 1px;
-          border-color: var(--border-color);
+          border-color: var(--input-border-color, var(--default-input-border-color));
           border-style: solid;
         }
         .hideBorder {
@@ -599,75 +615,70 @@ class UnityTextInput extends LitElement {
         .hideBorder:focus-within {
           box-shadow: none;
         }
-        .circle {
-          height: 20px;
-          width: 20px;
-          border-radius: 10px;
-          background-color: var(--success-color, var(--default-success-color));
-        }
-        .circle.invalid {
-          background-color: var(--danger-color, var(--default-danger-color));
-        }
         .rect {
           width: 40px;
         }
         .icon-text {
           font-size: 11px;
           line-height: 16px;
-          color: var(--label-text)
+          color: var(--input-label-color, var(--default-input-label-color));
         }
         .icon {
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          height: 16px;
-          width: 16px;
-          color: white;
+          --unity-icon-height: 24px;
+          --unity-icon-width: 24px;
+          color: var(--input-icon-valid-color, var(--default-input-icon-valid-color));
         }
         .inner-icon {
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          height: 16px;
-          width: 16px;
+          --unity-icon-height: var(--inner-icon-size, var(--default-inner-icon-size));
+          --unity-icon-width: var(--inner-icon-size, var(--default-inner-icon-size));
           color: black;
         }
         .inner-icon.password {
           cursor: pointer;
         }
         .icon-error {
-          top: calc(50% - 1px);
+          color: var(--input-icon-error-color, var(--default-input-icon-error-color));
         }
         .icon-valid {
 
         }
-        .password-circle {
-          height: 5px;
-          width: 5px;
-          border-radius: 2.5px;
-          background-color: var(--dark-grey-background-color, var(--default-dark-grey-background-color));
-          margin: 0;
-          margin-right: 3px;
-          padding: 0;
-          display: inline-block;
-        }
-        .green {
-          background-color: var(--success-color, var(--default-success-color));
-        }
-        .circles-wrapper {
-          font-size: 0;
-          margin-top: 3px;
-          line-height: 0;
-        }
         .dirty {
-          background-color: var(--dirty-color);
+          background-color: var(--input-dirty-color, var(--default-input-dirty-color));
           width: 5px;
           height: calc(100% + 2px);
           position: absolute;
           left: -10px;
           top: -1px;
+        }
+
+        .required {
+          color: var(--tertiary-1-color, var(--default-tertiary-1-color));
+          font-size: 12px;
+          line-height: 12px;
+        }
+        .required.field {
+          position: relative;
+          top: 1px;
+          left: 19px;
+        }
+        .readOnly {
+          border-color: var(--light-gray-1-color, var(--default-light-gray-1-color)) !important;
+        }
+        .disabled {
+          border-color: var(--dark-grey-background, var(--default-dark-grey-background)) !important;
+          background-color: var(--light-grey-background-color, var(--default-light-grey-background-color));
+          color: var(--input-text-color, var(--default-input-text-color));
+        }
+        input.disabled {
+          opacity: 50%;
         }
       `
     ]
