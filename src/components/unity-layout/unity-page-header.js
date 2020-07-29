@@ -50,6 +50,23 @@ import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
  *      />
  *    </div>
  *  </unity-page-header>
+ * 
+ * 
+ * Custom CSS variables:
+ * --header-font-family
+ * --tab-height
+ * --tab-padding
+ * --left-wrapper-overflow
+ * --title-white-space
+ * --tab-colora
+ * --page-header-padding-size
+ * --page-header-padding
+ * --page-header-border
+ * --page-header-font-size
+ * --page-header-font-weight
+ * --page-header-tabs-font-size
+ * --page-header-icon-size
+ * 
  */
 
 //This component will render a page header
