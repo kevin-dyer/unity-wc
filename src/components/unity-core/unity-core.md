@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.4.13
+- unity-page-header 1.1.1
+
 ### v1.4.12
 - update components:
   - unity-default-theme-styles v1.3.0

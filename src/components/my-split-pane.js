@@ -10,7 +10,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { html, css } from 'lit-element';
 import '@polymer/paper-input/paper-input.js';
 
-import '@bit/smartworks.unity.unity-core/unity-page-header'
 import '@bit/smartworks.unity.unity-core/unity-button';
 import '@bit/smartworks.unity.unity-core/unity-table';
 import '@bit/smartworks.unity.unity-core/unity-page-header';
@@ -160,11 +159,7 @@ class MySplitPane extends PageViewElement {
           flex-direction: column;
           align-items: stretch;
         }
-        #title {
-          margin-left: 16px;
-          overflow: var(--left-wrapper-overflow);
-          white-space: var(--title-white-space);
-        }
+
         .example-container {
           border: 1px dashed black;
           position: relative;
@@ -274,15 +269,10 @@ class MySplitPane extends PageViewElement {
         .onClose="${this.toggleDetails.bind(this)}"
         .onCollapseChange="${this.toggleCollapse.bind(this)}"
       >
-        <unity-page-header slot="header" >
+        <unity-page-header 
+          header="Unity Table"
+          slot="header" >
 
-          <unity-typography
-            slot="center-content"
-            size="header1"
-            id="title"
-          >
-            Unity Table
-          </unity-typography>
           <div slot="right-content">
             <unity-text-input
               ?rounded=${true}

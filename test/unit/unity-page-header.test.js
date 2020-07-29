@@ -15,7 +15,7 @@ describe('page header test', () => {
 
   it('should render', async () => {
     const el = await fixture('<unity-page-header></unity-page-header>')
-    expect(el).shadowDom.to.equal('<div class="bottom"><div id="header"><div id="left-wrapper"><slot name="left-content" class="left-container"></slot><slot name="center-content" class="center-container"><unity-typography size="header1" id="title"></unity-typography></slot></div><div class="button-container"><slot name="left-action" class="left-action"></slot><iron-icon icon="unity:minus" class="separator hide"></iron-icon><slot name="right-action" class="right-action"></slot></div></div></div>')
+    expect(el).shadowDom.to.equal('<div class="bottom"><div id="header"><div id="left-wrapper"><slot name="left-content" class="left-container"></slot><slot name="center-content" class="center-container"><unity-typography size="header1" id="title"></unity-typography></slot></div><div class="button-container"><slot name="left-action" class="left-action"></slot><unity-icon icon="unity:minus" class="separator hide"></unity-icon><slot name="right-action" class="right-action"></slot></div></div></div>')
   })
 
   it('should have a title header', async () => {

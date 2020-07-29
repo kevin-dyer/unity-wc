@@ -2,6 +2,11 @@
 
 ## Changelog:
 
+### v1.1.1
+- Updated fonts, spacing and tab colors to match Unity 2020 designs
+- Changed iron-icon for unity-icon 
+- Added CSS variables for customization
+
 ### v1.1.0
 - Remove border between header and tabs, but always have border on bottom of element
 - Split right-content slot into left- and right-action slots, with dynamically rendering separator
