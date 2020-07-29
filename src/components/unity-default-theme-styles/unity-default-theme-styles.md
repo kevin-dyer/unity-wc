@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.2.2
+### v1.3.0
 - Add required color for light-red, fix small text size, properly add fonts to default style
 
 ### v1.2.1
