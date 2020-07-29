@@ -468,6 +468,7 @@ class UnityTextInput extends LitElement {
           --default-input-icon-error-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
           font-family: var(--input-font, var(--default-input-font));
           font-size: var(--input-text-size, var(--default-input-text-size));
+          --default-inner-icon-size: calc(var(--input-text-size, var(--default-input-text-size)) * 4 / 3);
           border-collapse: collapse;
           user-select: none;
         }
@@ -525,7 +526,7 @@ class UnityTextInput extends LitElement {
         .input-wrapper.border-effects:focus-within {
           border-color: var(--input-border-focus-color, var(--default-input-border-focus-color));
           outline: none;
-          box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+          box-shadow: none;
         }
         .rounded {
           border-radius: calc(var(--unity-text-input-height, var(--default-unity-text-input-height)) * 0.5);
@@ -630,8 +631,8 @@ class UnityTextInput extends LitElement {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          --unity-icon-height: 16px;
-          --unity-icon-width: 16px;
+          --unity-icon-height: var(--inner-icon-size, var(--default-inner-icon-size));
+          --unity-icon-width: var(--inner-icon-size, var(--default-inner-icon-size));
           color: black;
         }
         .inner-icon.password {
