@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.4.14": {
+    "smartworks.unity/unity-core@1.4.15": {
         "files": [
             {
                 "name": "index.js",
@@ -205,58 +205,8 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-default-theme-styles@1.3.0": {
+    "smartworks.unity/unity-default-theme-styles@1.3.1": {
         "files": [
-            {
-                "relativePath": "src/components/unity-default-theme-styles/fonts/NotoMono/LICENSE_OFL.txt",
-                "test": false,
-                "name": "LICENSE_OFL.txt"
-            },
-            {
-                "relativePath": "src/components/unity-default-theme-styles/fonts/NotoMono/NotoMono-Regular.ttf",
-                "test": false,
-                "name": "NotoMono-Regular.ttf"
-            },
-            {
-                "relativePath": "src/components/unity-default-theme-styles/fonts/NotoMono/README",
-                "test": false,
-                "name": "README"
-            },
-            {
-                "relativePath": "src/components/unity-default-theme-styles/fonts/NotoSans/LICENSE_OFL.txt",
-                "test": false,
-                "name": "LICENSE_OFL.txt"
-            },
-            {
-                "relativePath": "src/components/unity-default-theme-styles/fonts/NotoSans/NotoSans-Bold.ttf",
-                "test": false,
-                "name": "NotoSans-Bold.ttf"
-            },
-            {
-                "relativePath": "src/components/unity-default-theme-styles/fonts/NotoSans/NotoSans-BoldItalic.ttf",
-                "test": false,
-                "name": "NotoSans-BoldItalic.ttf"
-            },
-            {
-                "relativePath": "src/components/unity-default-theme-styles/fonts/NotoSans/NotoSans-Italic.ttf",
-                "test": false,
-                "name": "NotoSans-Italic.ttf"
-            },
-            {
-                "relativePath": "src/components/unity-default-theme-styles/fonts/NotoSans/NotoSans-Regular.ttf",
-                "test": false,
-                "name": "NotoSans-Regular.ttf"
-            },
-            {
-                "relativePath": "src/components/unity-default-theme-styles/fonts/NotoSans/README",
-                "test": false,
-                "name": "README"
-            },
-            {
-                "relativePath": "src/components/unity-default-theme-styles/noto-fonts.js",
-                "test": false,
-                "name": "noto-fonts.js"
-            },
             {
                 "name": "unity-default-theme-styles.js",
                 "relativePath": "src/components/unity-default-theme-styles/unity-default-theme-styles.js",
