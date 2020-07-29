@@ -5,6 +5,16 @@
 
 ## Changelog:
 
+### v1.4.14
+- Fixed peer dependencies issue with several components:
+  - unity-dropdown v1.1.4
+  - unity-dropzone v1.0.1
+  - unity-global-nav-base v1.1.5
+  - unity-icon v1.1.1
+  - unity-text-input v1.1.1
+  - unity-toggle-switch v1.0.1
+  - unity-tooltip v1.1.1
+
 ### v1.4.13
 - unity-page-header 1.1.1
 
