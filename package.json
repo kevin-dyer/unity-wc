@@ -260,7 +260,8 @@
       },
       "unity-page-header": {
         "peerDependencies": {
-          "@bit/smartworks.unity.unity-typography": "^1.0.0"
+          "@bit/smartworks.unity.unity-typography": "^1.0.0",
+          "@bit/smartworks.unity.unity-icon": "^1.1.0"
         },
         "propagate": true
       },
