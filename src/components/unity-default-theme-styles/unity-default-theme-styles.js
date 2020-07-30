@@ -1,5 +1,4 @@
 import { css } from 'lit-element';
-import './noto-fonts.js'
 
 //Note: was not able to import css files,
 // Therefore any specified font should be loaded in parent app

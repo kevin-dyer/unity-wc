@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.4.15
+- update unity-default-theme-styles v1.3.1 to revert font change
+
 ### v1.4.14
 - Fixed peer dependencies issue with several components:
   - unity-dropdown v1.1.4
