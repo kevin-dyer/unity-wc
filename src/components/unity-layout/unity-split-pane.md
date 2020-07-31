@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- Remove flex: 0 that was causing issues in Safari
+
 ### v1.1.1
 - Fixed peer dependencies
 

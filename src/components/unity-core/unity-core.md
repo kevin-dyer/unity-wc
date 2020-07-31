@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.4.16
+- update unity-split-pane v1.1.2
+
 ### v1.4.15
 - update unity-default-theme-styles v1.3.1 to revert font change
 

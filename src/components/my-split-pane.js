@@ -192,9 +192,6 @@ class MySplitPane extends PageViewElement {
           width: 300px;
         }
 
-        unity-page-header {
-          flex: 0;
-        }
         .pane {
           height: 100%;
           overflow: hidden;
@@ -269,7 +266,7 @@ class MySplitPane extends PageViewElement {
         .onClose="${this.toggleDetails.bind(this)}"
         .onCollapseChange="${this.toggleCollapse.bind(this)}"
       >
-        <unity-page-header 
+        <unity-page-header
           header="Unity Table"
           slot="header" >
 
