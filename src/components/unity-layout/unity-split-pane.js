@@ -36,7 +36,7 @@ const MIN_PANE_WIDTH = 20 // %
  *       Details
  *     </div>
  *   </unity-split-pane>
- * 
+ *
  * CSS variables:
  *   --border-color       -
  *   --bar-border-color
@@ -243,7 +243,6 @@ class UnitySplitPane extends LitElement {
           display: none;
         }
         .header {
-          flex: 0;
           display: flex;
           align-items: center;
           border-bottom: var(--header-border);
