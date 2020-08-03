@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.4.16": {
+    "smartworks.unity/unity-core@1.4.17": {
         "files": [
             {
                 "name": "index.js",
@@ -540,7 +540,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@1.1.1": {
+    "smartworks.unity/unity-text-input@1.1.2": {
         "files": [
             {
                 "name": "unity-text-input.js",

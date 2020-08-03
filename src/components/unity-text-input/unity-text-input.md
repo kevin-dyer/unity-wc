@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- Add click handler to iron-input to focus into the input
+
 ### v1.1.1
 - Fixed peer dependencies issue
 - Added this changelog
