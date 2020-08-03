@@ -236,13 +236,13 @@ class UnityTextInput extends LitElement {
     }
   }
 
-  _clickUnits() {
+  _focusInput() {
     const input = this.shadowRoot.getElementById('input')
     input.focus()
   }
 
   _clickRightIcon() {
-    this._clickUnits()
+    this._focusInput()
     // if password, toggles password
     if (!!this.password) {
       this.togglePassword()
@@ -273,13 +273,13 @@ class UnityTextInput extends LitElement {
   _renderInnerIcon(icon, iconOnLeftSide) {
     const {
       password,
-      _clickUnits,
+      _focusInput,
       _clickRightIcon
     } = this
     if (!icon) return
     return html`
       <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
-        <unity-icon class="inner-icon${password ? ' password' : ''}" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _clickUnits}"></unity-icon>
+        <unity-icon class="inner-icon${password ? ' password' : ''}" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _focusInput}"></unity-icon>
       </div>
     `
   }
@@ -373,7 +373,7 @@ class UnityTextInput extends LitElement {
       _valid,
       _strength,
       _errorText,
-      _clickUnits,
+      _focusInput,
       _showPassword
     } = this
     const minLines = givenMinLines < 1 ? 1 : Math.floor(givenMinLines)
@@ -408,6 +408,7 @@ class UnityTextInput extends LitElement {
           class="${this._getInputWrapperClasses()}"
           bind-value="${value}"
           @input="${_onChange}"
+          @click="${_focusInput}"
         >
           ${!!area ?
             html`<iron-autogrow-textarea
@@ -437,7 +438,7 @@ class UnityTextInput extends LitElement {
           ${(!area && !!units) ?
             html`<div
               class="units ${!!disabled ? "disabled" : ""}"
-              @click="${_clickUnits}"
+              @click="${_focusInput}"
             >
               ${units}
             </div>`
