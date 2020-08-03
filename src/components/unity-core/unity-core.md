@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.4.17
+- update unity-text-input v1.1.2
+
 ### v1.4.16
 - update unity-split-pane v1.1.2
 
