@@ -238,7 +238,17 @@ class UnityTextInput extends LitElement {
 
   _focusInput() {
     const input = this.shadowRoot.getElementById('input')
-    input.focus()
+
+    if (!!input) {
+      input.focus()
+    } else {
+      //If input is not found, look for textarea
+      const textarea = this.shadowRoot.getElementById('textarea')
+
+      if (!!textarea) {
+        textarea.focus()
+      }
+    }
   }
 
   _clickRightIcon() {
