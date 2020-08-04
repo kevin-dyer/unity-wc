@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.4.17": {
+    "smartworks.unity/unity-core@1.4.18": {
         "files": [
             {
                 "name": "index.js",
@@ -296,7 +296,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@1.1.1": {
+    "smartworks.unity/unity-global-nav-top-item@1.1.2": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",
