@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.4.18
+- update unity-global-nav-top-item v1.1.2
+
 ### v1.4.17
 - update unity-text-input v1.1.2
 
