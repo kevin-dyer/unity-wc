@@ -103,7 +103,7 @@ package:
   - rm -rf /tmp/storybook-static
   - mv ./storybook-static /tmp
   - echo "***************************** pulling changes from the Packer repo"
-  - git -C /home/gitlab-runner/packer pull https://$DEPLOYERU:$DEPLOYERP@carritosdev.carriots.com/devops/kubernetes-and-containers/packer.git
+  - cd /home/gitlab-runner/packer && git pull https://oauth2:$GITLAB_TOKEN@gitlab.pclm.altair.com/SmartWorks/devops/kubernetes-and-containers/packer.git
   - cd /home/gitlab-runner/packer && git fetch --all && git reset --hard origin/master
   - echo "***************************** creating Docker image"
   - sed -i "s/__CI_COMMIT_SHORT_SHA__/$TAG/g" /home/gitlab-runner/packer/2020-smartworks-webcomponents.json
