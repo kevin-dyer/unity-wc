@@ -102,8 +102,6 @@ class UnityTag extends LitElement {
       withClose
     } = this
 
-    console.log('withClose', withClose)
-
     return html`
       <div id="tag" @click="${e => this.handleClick(e)}">
         <unity-typography class="label">${label}</unity-typography>
