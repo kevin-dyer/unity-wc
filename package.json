@@ -174,6 +174,7 @@
           "@bit/smartworks.unity.unity-table": "-",
           "@bit/smartworks.unity.unity-table-cell": "-",
           "@bit/smartworks.unity.unity-table-export": "-",
+          "@bit/smartworks.unity.unity-tag": "-",
           "@bit/smartworks.unity.unity-text-input": "-",
           "@bit/smartworks.unity.unity-toggle-switch": "-",
           "@bit/smartworks.unity.unity-tooltip": "-",
@@ -316,6 +317,13 @@
       "unity-table-export": {
         "peerDependencies": {
           "@bit/smartworks.unity.unity-button": "^1.0.0"
+        },
+        "propagate": true
+      },
+      "unity-tag": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-icon": "^1.1.0",
+          "@bit/smartworks.unity.unity-typography": "^1.1.0"
         },
         "propagate": true
       },
