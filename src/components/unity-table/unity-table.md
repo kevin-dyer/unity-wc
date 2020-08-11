@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.10
+- Update Unity Table Cell to specify custom content in named slot rather than default slot.
+
 ### v1.0.9
 - Fix peer dependencies
 
