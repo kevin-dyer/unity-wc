@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.3
+- Fix focus handler for textarea
+
 ### v1.1.2
 - Add click handler to iron-input to focus into the input
 
