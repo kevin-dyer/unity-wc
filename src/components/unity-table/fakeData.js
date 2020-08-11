@@ -536,3 +536,79 @@ export const justDevices = {
     },
   ]
 }
+
+
+//Test custom content in hierarchy
+export const customContentTest = {
+  data: [
+    {
+      id: 'root',
+      name: 'Global',
+      icon: 'icons:folder',
+      status: 'Active',
+      groups: [
+        {
+          id: 'africa',
+          name: 'Africa',
+          icon: 'icons:folder',//Not sure if this works
+          description: 'Device Group',
+          deployments: 'Test App, Control center Video Wall',
+          createdAt: 'January 12, 2018 7:06pm',
+          devices: [],
+          status: 'Probable to fail'
+        },
+        {
+          id: 'northAmerica',
+          name: 'North America',
+          icon: 'icons:folder',
+          description: 'Device Group',
+          deployments: 'Test App, Control center Video Wall',
+          createdAt: 'January 12, 2018 7:06pm',
+        },
+      ],
+    },
+    {
+      id: 'abc001',
+      name: 'abc001',
+      icon: 'unity:cube',
+      description: 'Switch',
+      deployments: 'Test App, Control center Video Wall',
+      firmwareVersion: '1.0.1 (latest)',
+      status: 'Not Responding',
+      createdAt: 'January 12, 2018 7:06pm',
+    },
+  ]
+  ,
+  columns: [
+    {
+      key: 'name',
+      label: 'Name'
+    },
+    {
+      key: 'deployments',
+      label: 'Used in Deployments',
+      formatLabel: (deployments='') => deployments
+    },
+    {
+      key: 'firmwareVersion',
+      label: 'Firmware Version',
+      formatLabel: (version='') => version
+    },
+    {
+      key: 'description',
+      label: 'Description',
+      formatLabel: (description='') => description
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      formatLabel: (status='...') => status
+    },
+    {
+      key: 'createdAt',
+      label: 'Created at',
+      formatLabel: (createdAt='') => createdAt
+    },
+  ],
+  childKeys: ['groups', 'devices']
+}
