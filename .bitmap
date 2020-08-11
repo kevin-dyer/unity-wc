@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.4.18": {
+    "smartworks.unity/unity-core@1.4.23": {
         "files": [
             {
                 "name": "index.js",
@@ -484,7 +484,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-cell@1.0.3": {
+    "smartworks.unity/unity-table-cell@1.0.4": {
         "files": [
             {
                 "name": "unity-table-cell.js",
@@ -513,7 +513,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@1.0.9": {
+    "smartworks.unity/unity-table@1.0.10": {
         "files": [
             {
                 "name": "filter-dropdown.js",
@@ -540,7 +540,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@1.1.2": {
+    "smartworks.unity/unity-text-input@1.1.4": {
         "files": [
             {
                 "name": "unity-text-input.js",
@@ -548,9 +548,9 @@
                 "test": false
             },
             {
+                "name": "unity-text-input.md",
                 "relativePath": "src/components/unity-text-input/unity-text-input.md",
-                "test": false,
-                "name": "unity-text-input.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-text-input/unity-text-input.js",
