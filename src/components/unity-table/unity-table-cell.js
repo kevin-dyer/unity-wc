@@ -22,11 +22,12 @@ function getIndent({icon, expandable, tabIndex}) {
  * @name UnityTableCell
  * @param {string} icon, iron-icon to display in the cell
  * @param {string} id, relational id to the data, used in selection
+ * @param {string} slotId, slot name of custom cell content
  * @param {integer} tabIndex, level of indentation required between checkbox and icon
  * @param {bool} selectable
  * @param {bool} selected
  * @param {function} onSelect, action handler on being selected
- * @slot {HTML}, default slot passed in as child, used to display cell content
+ * @slot {HTML}, named slot passed in as child, used to display cell content
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-table-cell
@@ -59,6 +60,7 @@ class UnityTableCell extends LitElement {
     this.selectable = false
     this.selected = false
     this.id = undefined
+    this.slotId = undefined
     this.tabIndex = 0
     this.expandable = false
     this.expanded = false
@@ -80,6 +82,7 @@ class UnityTableCell extends LitElement {
       selectable: { type: Boolean },
       selected: { type: Boolean },
       id: { type: Number },
+      slotId: {type: String},
       tabIndex: { type: Number },
       expandable: { type: Boolean },
       expanded: { type: Boolean },
@@ -145,7 +148,7 @@ class UnityTableCell extends LitElement {
               : null
           }
 
-          <slot></slot>
+          <slot name="${this.slotId}"></slot>
         </div>
       </table-cell-base>
     `

@@ -21,6 +21,7 @@ import '@bit/smartworks.unity.unity-core/unity-table-export'
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
 import {devices} from './unity-table/fakeData'
+// import {customContentTest as devices} from './unity-table/fakeData'
 // import {deviceData} from './unity-table/largeDataSet'
 
 
@@ -45,7 +46,8 @@ class MyTable extends PageViewElement {
     this.highlightedRow = ''
     this.showDetails = false
     this.tableRef = undefined
-    this.selected = ["abc001"]
+    // this.selected = ["abc001"]
+    this.selected = []
   }
 
   static get properties() {
@@ -126,7 +128,7 @@ class MyTable extends PageViewElement {
     const slots = nodes.filter((row, index) => {
       const status = row[columnKey] || ''
 
-      return /Online|Offline|Not responding/.test(status)
+      return /Online|Offline|Not responding|Not Responding|Active|Probable to fail/.test(status)
     }).map((row, index) => {
       const rowId = this._keyExtractor(row, index)
       let color
@@ -157,7 +159,6 @@ class MyTable extends PageViewElement {
           color = 'white'
           break
       }
-
 
       return html`<iron-icon
         slot="${rowId}-${columnKey}"
@@ -256,7 +257,7 @@ class MyTable extends PageViewElement {
 
         .header-container {
           width: 100%;
-          flex: 0;
+          flex: "0 1 auto";
         }
 
         .table-container {
@@ -270,7 +271,7 @@ class MyTable extends PageViewElement {
         }
 
         unity-page-header {
-          flex: 0;
+          flex: "0 1 auto";
         }
         .table-container {
           position: relative;

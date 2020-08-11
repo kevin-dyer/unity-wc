@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.4
+- Changed default slot to a named slot to ensure correct content is displayed in cell. Seems to fix issues around custom content in hierarchical table in chrome.
+
 ### V1.0.3
 - Fixed peer dependencies
 
