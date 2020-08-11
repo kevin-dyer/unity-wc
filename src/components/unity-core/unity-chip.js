@@ -1,1 +1,1 @@
-export * from "@bit/smartworks.unity.unity-chip"
+export * from "@bit/smartworks.unity.unity-tag"
