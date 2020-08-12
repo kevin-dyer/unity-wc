@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.5.1
+- unity-tag v1.0.1
+
+### v1.5.0
+- add unity-tag v1.0.0
+
 ### v1.4.18
 - update unity-global-nav-top-item v1.1.2
 
