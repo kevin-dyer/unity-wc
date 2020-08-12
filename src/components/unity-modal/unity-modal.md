@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.4
+- add ignore unity-tags
+
 ### v1.0.3
 - Fix header alignment issue.
 

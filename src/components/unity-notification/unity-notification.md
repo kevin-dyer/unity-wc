@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.2
+- add ignore unity-tags
+
 ### v1.0.1
 - Changes to conform to unity-button 1.1.0 naming changes
 

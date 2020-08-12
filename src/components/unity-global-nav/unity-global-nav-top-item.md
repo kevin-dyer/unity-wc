@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.3
+- add ignore unity-tags
+
 ### v1.1.2
 - Fix missing default style
 
