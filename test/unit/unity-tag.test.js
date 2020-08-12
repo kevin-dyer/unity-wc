@@ -2,8 +2,7 @@
 import { fixture, expect, oneEvent } from '@open-wc/testing'
 import { LitElement, html, css } from 'lit-element'
 
-// import '@bit/smartworks.unity.unity-tag'
-import '../../src/components/unity-tag/unity-tag'
+import '@bit/smartworks.unity.unity-tag'
 
 
 describe('tag test', () => {
