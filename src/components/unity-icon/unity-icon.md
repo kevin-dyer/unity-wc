@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- add ignore unity-tags
+
 ### v1.1.1
 - Fixed peer dependencies issue
 
@@ -13,4 +16,4 @@
 - Moved all @bit depedencies to peerDependencies
 
 ### v0.1.0
-- Display individual Unity icons using iron-icon element. 
+- Display individual Unity icons using iron-icon element.

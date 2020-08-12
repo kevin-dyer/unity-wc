@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- add ignore unity-tags
+
 ### v1.1.1
 - Fixed peer dependencies issue
 

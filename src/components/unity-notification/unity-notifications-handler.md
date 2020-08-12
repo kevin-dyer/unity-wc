@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.2
+- add ignore unity-tags
+
 ### v1.2.1
 - Styling change; fixed fata disconnectedCallback bug
 

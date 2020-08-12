@@ -3,12 +3,13 @@
  * All unity components are included in this library
  * Import file path matches component name:
  * `import @bit/smartworks.unity.unity-core/<component-name>.js`
- * 
+ *
  * Usage Example:
  * import '@bit/smartworks.unity.unity-core/unity-button' // imports unity-button web component
 */
 export * from "@bit/smartworks.unity.table-cell-base"
 export * from "@bit/smartworks.unity.unity-button"
+export * from "@bit/smartworks.unity.unity-tag"
 export * from "@bit/smartworks.unity.unity-column-editor"
 export * from "@bit/smartworks.unity.unity-default-theme-styles"
 export * from "@bit/smartworks.unity.unity-dropdown"

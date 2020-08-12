@@ -2,9 +2,12 @@
 
 ## Changelog:
 
+### v1.1.2
+- add ignore unity-tags
+
 ### v1.1.1
 - Updated fonts, spacing and tab colors to match Unity 2020 designs
-- Changed iron-icon for unity-icon 
+- Changed iron-icon for unity-icon
 - Added CSS variables for customization
 
 ### v1.1.0

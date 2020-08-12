@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.5
+- add ignore unity-tags
+
 ### v1.0.4
 - Removed errant log line
 

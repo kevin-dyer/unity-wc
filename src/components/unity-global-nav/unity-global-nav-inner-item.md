@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- add ignore unity-tags
+
 ### v1.1.1
 - Fix styles to properly propagate from higher level components, remove duplicates
 

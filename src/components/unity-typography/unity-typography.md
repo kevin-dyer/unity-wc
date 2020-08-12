@@ -3,6 +3,9 @@
 ## Changelog:
 
 ### v1.1.0
+- add ignore unity-tags
+
+### v1.1.0
 - Added monospace property
 - Updated defaults
 

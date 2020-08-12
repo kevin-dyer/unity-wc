@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- add ignore unity-tags
+
 ### v1.1.1
 - Fix borderless styles, add disabled to jsdocs
 

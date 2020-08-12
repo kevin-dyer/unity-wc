@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.4
+- add ignore unity-tags
+
 ### v1.1.3
 - Fix focus handler for textarea
 
