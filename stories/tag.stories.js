@@ -18,7 +18,8 @@ export const Standard = () => {
       .label="${label}"
       .value="${value}"
       .withClose="${withClose}"
-      .onClose"${action("onClose")}
-      .onChange"${action("onChange")}
+      .onClose="${action("onClose")}"
+      .onClick="${action("onChange")}"
+    ></unity-tag>
   `
 }
