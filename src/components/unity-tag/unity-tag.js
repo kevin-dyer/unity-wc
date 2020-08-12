@@ -32,6 +32,7 @@ class UnityTag extends LitElement {
           --default-tag-font-size: var(--small-text-size, var(--default-small-text-size));
           --default-tag-padding: var(--padding-size-sm, var(--default-padding-size-sm));
           --icon-size: calc(var(--tag-font-size, var(--default-tag-font-size)) * 1.4);
+          display: flex;
         }
         #tag {
           display: flex;
