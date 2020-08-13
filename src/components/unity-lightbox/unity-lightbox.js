@@ -2,7 +2,6 @@ import { LitElement, html, css } from 'lit-element'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-core/unity-icon'
-import { isVisible } from '../unity-utils/unity-utils'
 
 /**
 * Shadowed lightbox/popover with optional close button for holding variable content
@@ -15,7 +14,7 @@ import { isVisible } from '../unity-utils/unity-utils'
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-lightbox
-*   .onHide=${() => { console.log(`lightbox closed`)}}
+*   .onClose=${() => { console.log(`lightbox closed`)}}
 *   .show=${true}
 * ></unity-lightbox>
 **/
@@ -24,19 +23,28 @@ class UnityLightbox extends LitElement {
 
   constructor() {
     super()
-    this.onShow = () => true
-    this.onHide = () => true
-    this.show = false
+    this.onClose = () => true
+    this._show = false
+    this._yOffset = 0
+    this._xOffset = 0
   }
 
   static get properties() {
     return {
-      onShow: { type: Function },
-      onHide: { type: Function },
+      onClose: { type: Function },
       show: { type: Boolean },
     }
   }
 
+  set show(val) {
+    const oldVal = this._show
+    this._show = val
+    if (!!val) document.addEventListener('click', this.outsideClickListener.bind(this))
+    this.requestUpdate('show', oldVal)
+  }
+  
+  get show() { return this._show }
+  
   static get styles() {
     return [
       UnityDefaultThemeStyles,
@@ -44,65 +52,66 @@ class UnityLightbox extends LitElement {
         :host {
           --default-lightbox-min-width: 120px;
           --default-lightbox-max-width: 300px;
-          --default-lightbox-shadow: 0 0 0 10px rgba(0,0,0,1)
+          --default-lightbox-min-height: 38px;
+          --default-lightbox-max-height: 300px;
+          --default-lightbox-shadow: 0 0 3px 2px rgba(0,0,0,0.2)
         }
         #lightbox {
-          position: fixed;
+          position: absolute;
           max-width: var(--lightbox-max-width, var(--default-lightbox-max-width));
           min-width: var(--lightbox-min-width, var(--default-lightbox-min-width));
+          max-height: var(--lightbox-max-height, var(--default-lightbox-max-height));
+          min-height: var(--lightbox-min-height, var(--default-lightbox-min-height));
           background-color: var(--lightbox-background-color, var(--default-white-color));
           box-shadow: var(--lightbox-shadow, var(--default-lightbox-shadow));
           padding: 2px 8px;
-          border-radius: 3px;
+          overflow-y: scroll;
         }
         #close-button {
           position: absolute;
-          top: 10px;
-          right: 10px;
+          top: 5px;
+          right: 5px;
           --button-color: var(--default-dark-grey-text-color);
         }
-      `
-    ]
-  }
-
-  outsideClickListener(event) {
-    const element = this.shadowRoot.getElementById('lightbox')
-    if (!element) throw `Could not find lightbox in shadowroot`
-    if (!element.contains(event.target) && !!this.show) this.handleHideLightbox()
-  }
-
-  handleShowLightbox() {
-    const { onShow } = this
-    const shouldShow = onShow()
-    if (shouldShow) {
-      this.show = true
-      document.addEventListener('click', this.outsideClickListener)
+        `
+      ]
     }
+    
+    outsideClickListener(event) {
+    const element = this.shadowRoot?.getElementById('lightbox')
+    if (!element) throw `Could not find lightbox in shadowroot`
+    if (!element.contains(event.target) && !!this.show) this.handleCloseLightbox()
   }
 
-  handleHideLightbox() {
-    const { onHide } = this
-    const shouldHide = onHide()
-    if (shouldHide) {
+  handleCloseLightbox() {
+    const { onClose } = this
+    const shouldClose = onClose()
+    if (shouldClose) {
       this.show = false
       document.removeEventListener('click', this.outsideClickListener)
     }
   }
 
   render() {
-    const { show } = this
+    const { show, _yOffset, _xOffset } = this
+    console.log("UnityLightbox -> render -> this", this)
+    console.log(`this.offsetParent`, this.offsetParent)
+    console.log(`this.offsetLeft`, this.offsetLeft)
+    console.log(`this.offsetTop`, this.offsetTop)
     return html`
-      <div id='lightbox' ${!show ? `style='display: none;'` : ''}>
-        <unity-button
-          id='close-button'
-          type='borderless'
-          centerIcon='unity:close'
-          @click=${this.handleHideLightbox}
-        </unity-button>
-        <slot></slot>
+      <div id="lb-container"
+        <slot name="on-page-content"></slot>
+        <div id='lightbox' style="top: ${_yOffset.toString()}px; left: ${_xOffset.toString()}px; display: ${!!show ? 'flex' : 'none'}">
+          <unity-button
+            id='close-button'
+            type='borderless'
+            centerIcon='unity:close'
+            @click=${this.handleCloseLightbox}
+          </unity-button>
+          <slot name="lightbox-content"></slot>
+        </div>
       </div>
     `
-    return
   }
 }
 
