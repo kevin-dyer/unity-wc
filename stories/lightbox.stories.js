@@ -1,5 +1,5 @@
 import { html } from 'lit-element'
-import { withKnobs, number } from "@storybook/addon-knobs"
+import { withKnobs, number, boolean } from "@storybook/addon-knobs"
 import { action } from '@storybook/addon-actions';
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-tag'
@@ -11,96 +11,133 @@ export default {
 }
 
 export const Standard = () => {
-  let showLightbox = false
-  const onClose = action(() => {
-    console.log(`action called`)
-    showLightbox = false
-    return 'onClose'  
-  })
+  let showLightbox = boolean('show', false)
+  const onClose = () => {
+    action('onClose')
+    return true
+  }
   const handleDivClick = () => {
     console.log(`div clicked`)
-    showLightbox = true
   }
+
+  console.log(`showLightbox: `, showLightbox)
   return html`
-    <div
-      id='tag-holder'
-      onclick=${handleDivClick}  
+    <unity-lightbox
+      id='lightbox'
+      .show=${showLightbox}
+      .onClose=${onClose}
     >
-      ${renderActiveTags()}
-      <unity-lightbox
-        id='lightbox'
-        .show=${showLightbox}
-        .onClose=${onClose}
-      >
-        ${renderInactiveTags()}
+        <div
+          id='tag-holder'
+          slot="on-page-content"
+          @click=${handleDivClick}  
+        >
+          ${renderActiveTags()}
+        </div>
+        <div
+          slot="lightbox-content"
+        >
+          ${renderInactiveTags()}
+        </div>
       </unity-lightbox>
-    </div>
     <style>
       #tag-holder {
+        display: flex;
+        position: relative;
+        overflow-y: visible;
+        overflow-x: scroll;
         border: 1px solid black;
         box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
-        width: 250px;
+        min-width: 250px;
+        max-width: 500px;
         height: 30px;
+      }
+      .tag {
+
       }
     </style>
   `
 }
 
 // Tag Management
-const activeTags = {
-  tag1: false,
-  tag2: false,
-  tag3: false,
+const tags = [
+  {
+    active: true,
+    value: `tag1`,
+    label: `example tag 1`,
+    color: `yellow`
+  },
+  {
+    active: false,
+    value: `tag2`,
+    label: `example tag 2`,
+    color: `red`
+  },
+  {
+    active: false,
+    value: `tag3`,
+    label: `example tag 3`,
+    color: `green`
+  },
+  {
+    active: false,
+    value: `tag4`,
+    label: `example tag 4`,
+    color: `orange`
+  },
+  {
+    active: false,
+    value: `tag5`,
+    label: `example tag 5`,
+    color: `cyan`
+  },
+]
+
+const addTag = (e, tagValue) => {
+  const tag = findTagByValue(tagValue)
+  tag.active = true
 }
 
-const addTag = (tagValue) => {
-  activeTags[tagValue] = true
+const removeTag = (e, tagValue) => {
+  const tag = findTagByValue(tagValue)
+  tag.active = false
+  console.log("removeTag -> tag", tag)
 }
 
-const removeTag = (tagValue) => {
-  activeTags[tagValue] = false
+const findTagByValue = (tagValue) => {
+  const index = tags.findIndex(tag => {
+    console.log(`tag: `, tag)
+    console.log(`tagValue: `, tagValue)
+    return tag.value === tagValue;
+  })
+  console.log("findTagByValue -> tags", tags)
+  console.log("findTagByValue -> index", index)
+  console.log("findTagByValue -> tags[index]", tags[index])
+  return tags[index] || {}
 }
 
-const renderActiveTags = () => `
-  ${!!activeTags.tag1 ? `<unity-tag
-    .value="tag1"
-    label="example tag 1"
-    withClose
-    .onClose=${removeTag}
-    style='--tag-color: blue;'
-  />` : ''}
-  ${!!activeTags.tag2 ? `<unity-tag
-    .value="tag2"
-    label="example tag 2"
-    withClose
-    .onClose=${removeTag}
-    style='--tag-color: red;'
-  />` : ''}
-  ${!!activeTags.tag3 ? `<unity-tag
-    .value="tag3"
-    label="example tag 3"
-    withClose
-    .onClose=${removeTag}
-    style='--tag-color: green;'
-  />` : ''}
-`
-const renderInactiveTags = () => `
-  ${!activeTags.tag1 ? `<unity-tag
-    .value="tag1"
-    label="example tag 1"
-    .onClick=${addTag}
-    style='--tag-color: blue;'
-  />` : ''}
-  ${!activeTags.tag2 ? `<unity-tag
-    .value="tag2"
-    label="example tag 2"
-    .onClick=${addTag}
-    style='--tag-color: red;'
-  />` : ''}
-  ${!activeTags.tag3 ? `<unity-tag
-    .value="tag3"
-    label="example tag 3"
-    .onClick=${addTag}
-    style='--tag-color: green;'
-  />` : ''}
-`
+const renderActiveTags = () => tags.map(({ active, value, label, color}) => {
+  if (!active) return html``;
+  return html`
+    <unity-tag
+      .value=${value}
+      .label=${label}
+      .onClose=${removeTag}
+      style='--tag-color: ${color};'
+      withClose
+    />
+  `
+})
+const renderInactiveTags = () => tags.map(({ active, value, label, color}) => {
+  if (!!active) return html``;
+  return html`
+    <unity-tag
+      .value=${value}
+      .label=${label}
+      .onClose=${addTag}
+      style='--tag-color: ${color};'
+    />
+  `
+})
+
+console.log(`render inactive `)
