@@ -33,13 +33,13 @@ class UnitySearchBar extends LitElement {
   constructor() {
     super()
 
-    this._currValue = ""
-    this._currTags = []
-    this.search = ""
-    this.tags = []
-    this.textSeed = []
-    this.tagSeed = []
+    this._search = ""
+    this._tags = []
+    this._textSeed = []
+    this._tagSeed = []
     this.onChange = ()=>{console.log("onChange not set")}  // TODO: rest to empty func
+
+    this._showOptions = false
   }
 
   static get properties() {
