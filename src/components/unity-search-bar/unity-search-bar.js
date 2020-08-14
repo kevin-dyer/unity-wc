@@ -48,37 +48,52 @@ class UnitySearchBar extends LitElement {
       tags: { type: Array },
       textSeed: { type: Array },
       tagSeed: { type: Array },
+      onChange: { type: Function },
 
       // internals
-      _currValue: { type: false },
-      _currTags: { type: false }
+      _showOptions: { type: false }
     }
   }
 
-  // set _currValue
-  // get _currValue
+  set search(value) {
+    const oldValue = this._search
+    this._search = value
+    // run debounceOnChange
+    this.onChange(value)
+    this.requestUpdate('search', oldValue)
+  }
+  get search() { return this._search }
 
-  // set _currTags
-  // get _currTags
+  // set tags
+  // get tags() { return this._tags }
 
   // set textSeed
-  // get textSeed
+  // get textSeed() { return this._textSeed }
 
   // set tagSeed
-  // get tagSeed
+  // get tagSeed() { return this._tagSeed}
 
-  // _updateAutocomplete
+  // debounceOnChange
 
-  // _debounceOnChange
+  // updateAutocomplete
+
+  // selectTag
+
+  // clearInput
 
   render() {
     const {
-      _currValue
+      search
     } = this
 
     return html`
       <div id="search-bar">
-        This is the search-bar value: [${_currValue}]
+        <unity-text-input
+          class="input"
+          hideBorder
+          .value="${search}"
+          .onChange="${(e, v) => this.search = v}"
+        ></unity-text-input>
       </div>
     `
   }
