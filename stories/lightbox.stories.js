@@ -12,34 +12,37 @@ export default {
 
 export const Standard = () => {
   let showLightbox = boolean('show', false)
+  const uselessBool = boolean('I do not do anything', true)
   const onClose = () => {
     action('onClose')
     return true
   }
   const handleDivClick = () => {
     console.log(`div clicked`)
+    showLightbox = true
+    // Call rerender
   }
+  console.log("handleDivClick -> showLightbox", showLightbox)
 
-  console.log(`showLightbox: `, showLightbox)
   return html`
     <unity-lightbox
-      id='lightbox'
       .show=${showLightbox}
       .onClose=${onClose}
     >
-        <div
-          id='tag-holder'
-          slot="on-page-content"
-          @click=${handleDivClick}  
-        >
-          ${renderActiveTags()}
-        </div>
-        <div
-          slot="lightbox-content"
-        >
-          ${renderInactiveTags()}
-        </div>
-      </unity-lightbox>
+      <div
+        id='tag-holder'
+        slot="on-page-content"
+        @click=${handleDivClick}  
+      >
+        ${renderActiveTags()}
+      </div>
+      <div
+        slot="lightbox-content"
+      >
+        <div>Test Content</div>
+        ${renderInactiveTags()}
+      </div>
+    </unity-lightbox>
     <style>
       #tag-holder {
         display: flex;
@@ -48,8 +51,7 @@ export const Standard = () => {
         overflow-x: scroll;
         border: 1px solid black;
         box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
-        min-width: 250px;
-        max-width: 500px;
+        width: 250px;
         height: 30px;
       }
       .tag {
@@ -74,7 +76,7 @@ const tags = [
     color: `red`
   },
   {
-    active: false,
+    active: true,
     value: `tag3`,
     label: `example tag 3`,
     color: `green`
@@ -86,7 +88,7 @@ const tags = [
     color: `orange`
   },
   {
-    active: false,
+    active: true,
     value: `tag5`,
     label: `example tag 5`,
     color: `cyan`
@@ -106,13 +108,8 @@ const removeTag = (e, tagValue) => {
 
 const findTagByValue = (tagValue) => {
   const index = tags.findIndex(tag => {
-    console.log(`tag: `, tag)
-    console.log(`tagValue: `, tagValue)
     return tag.value === tagValue;
   })
-  console.log("findTagByValue -> tags", tags)
-  console.log("findTagByValue -> index", index)
-  console.log("findTagByValue -> tags[index]", tags[index])
   return tags[index] || {}
 }
 

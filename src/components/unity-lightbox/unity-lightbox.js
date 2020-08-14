@@ -54,7 +54,11 @@ class UnityLightbox extends LitElement {
           --default-lightbox-max-width: 300px;
           --default-lightbox-min-height: 38px;
           --default-lightbox-max-height: 300px;
-          --default-lightbox-shadow: 0 0 3px 2px rgba(0,0,0,0.2)
+          --default-lightbox-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
+          --default-lightbox-left-offset: auto;
+        }
+        #container {
+          position: relative;
         }
         #lightbox {
           position: absolute;
@@ -66,6 +70,7 @@ class UnityLightbox extends LitElement {
           box-shadow: var(--lightbox-shadow, var(--default-lightbox-shadow));
           padding: 2px 8px;
           overflow-y: scroll;
+          left: var(--lightbox-left-offset, var(--default-lightbox-left-offset));
         }
         #close-button {
           position: absolute;
@@ -94,21 +99,19 @@ class UnityLightbox extends LitElement {
 
   render() {
     const { show, _yOffset, _xOffset } = this
-    console.log("UnityLightbox -> render -> this", this)
-    console.log(`this.offsetParent`, this.offsetParent)
-    console.log(`this.offsetLeft`, this.offsetLeft)
-    console.log(`this.offsetTop`, this.offsetTop)
     return html`
-      <div id="lb-container"
+      <div id="container">
         <slot name="on-page-content"></slot>
-        <div id='lightbox' style="top: ${_yOffset.toString()}px; left: ${_xOffset.toString()}px; display: ${!!show ? 'flex' : 'none'}">
+        <div id='lightbox' style="display: ${!!show ? 'flex' : 'none'}">
           <unity-button
             id='close-button'
             type='borderless'
             centerIcon='unity:close'
             @click=${this.handleCloseLightbox}
-          </unity-button>
-          <slot name="lightbox-content"></slot>
+          ></unity-button>
+          <div id="content">
+            <slot name="lightbox-content">Not Lightbox Content</slot>
+          </div>
         </div>
       </div>
     `
