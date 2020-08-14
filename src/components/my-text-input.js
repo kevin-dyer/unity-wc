@@ -12,6 +12,9 @@ import { PageViewElement } from './page-view-element.js';
 // import './unity-text-input/unity-text-input.js'
 import '@bit/smartworks.unity.unity-core/unity-text-input'
 
+import './unity-search-bar/unity-search-bar'
+// import '@bit/smartworks.unity.unity-core/unity-search-bar'
+
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
@@ -224,6 +227,7 @@ class MyTextInput extends PageViewElement {
               password
             ></unity-text-input>
           </div>
+          <unity-search-bar></unity-search-bar>
         </div>
       </div>
     `
