@@ -29,6 +29,8 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   button color
  **/
 
+ const DEBOUNCE_TIME = 250 // ms
+
 class UnitySearchBar extends LitElement {
   constructor() {
     super()
@@ -37,9 +39,11 @@ class UnitySearchBar extends LitElement {
     this._tags = []
     this._textSeed = []
     this._tagSeed = []
-    this.onChange = ()=>{console.log("onChange not set")}  // TODO: rest to empty func
+    this._onChange = ()=>{console.log("onChange not set")}  // TODO: reset to empty func
 
     this._showOptions = false
+    this._searchMatches = []
+    this._debouncedOnChange = ()=>{console.log('debounce not set up')} // TODO: reset to empty func
   }
 
   static get properties() {
@@ -51,15 +55,16 @@ class UnitySearchBar extends LitElement {
       onChange: { type: Function },
 
       // internals
-      _showOptions: { type: false }
+      _showOptions: { type: false },
+      _matches: { type: false }
     }
   }
 
   set search(value) {
     const oldValue = this._search
     this._search = value
-    // run debounceOnChange
-    this.onChange(value)
+    // run updateAutocomplete
+    console.log('update search', value)
     this.requestUpdate('search', oldValue)
   }
   get search() { return this._search }
@@ -73,7 +78,17 @@ class UnitySearchBar extends LitElement {
   // set tagSeed
   // get tagSeed() { return this._tagSeed}
 
-  // debounceOnChange
+  set onChange(value) {
+    const oldValue = this._onChange
+    this._onChange = value
+    this._debouncedOnChange = debounce(v => this.onInputChange(v), DEBOUNCE_TIME)
+  }
+  get onChange() { return this._onChange }
+
+  onInputChange(value) {
+    this.search = value
+    this.onChange(this.searchMatches)
+  }
 
   // updateAutocomplete
 
@@ -92,7 +107,7 @@ class UnitySearchBar extends LitElement {
           class="input"
           hideBorder
           .value="${search}"
-          .onChange="${(e, v) => this.search = v}"
+          .onChange="${(e, v) => this._debouncedOnChange(v)}"
         ></unity-text-input>
       </div>
     `
