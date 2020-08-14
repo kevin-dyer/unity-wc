@@ -41,8 +41,9 @@ class UnitySearchBar extends LitElement {
     this._tagSeed = []
     this._onChange = ()=>{console.log("onChange not set")}  // TODO: reset to empty func
 
+    // will track off of input, component will render off of this and if _currentOptions has matches
     this._showOptions = false
-    this._searchMatches = []
+    this._currentOptions = []
     this._debouncedOnChange = ()=>{console.log('debounce not set up')} // TODO: reset to empty func
   }
 
@@ -56,6 +57,7 @@ class UnitySearchBar extends LitElement {
 
       // internals
       _showOptions: { type: false },
+      _currentOptions: { type: false },
       _matches: { type: false }
     }
   }
@@ -63,7 +65,7 @@ class UnitySearchBar extends LitElement {
   set search(value) {
     const oldValue = this._search
     this._search = value
-    // run updateAutocomplete
+    this.findMatches(value)
     console.log('update search', value)
     this.requestUpdate('search', oldValue)
   }
@@ -87,12 +89,40 @@ class UnitySearchBar extends LitElement {
 
   onInputChange(value) {
     this.search = value
-    this.onChange(this.searchMatches)
+    this.onChange(this._currentOptions)
   }
 
-  // updateAutocomplete
+  // compares value given against seeds to return best options
+  // saves obj{ tags, strings } to _currentOptions
+  findMatches(search) {
+    // split search on spaces into terms
+    const allTerms = search.toLowerCase().split(' ')
+    let newMatches = { tags: [], text: [] }
+    // for each term
+    allTerms.forEach(term => {
+      // check against all tag results (string, tag.label, tag.value)
+      this.tagSeed.forEach(tag => {
+        // if tag includes term in any, add to matches
+        if (typeof tag === "string") {
+          if (tag.toLowerCase().includes(term)) newMatches.tags.push(tag)
+        } else if (tag instanceof Object) {
+          if (tag.value.toLowerCase().includes(term)
+          ||  tag.label.toLowerCase().includes(term))
+            newMatches.tags.push(tag)
+        }
+      })
+      // check against all strings in seed
+      this.textSeed.forEach(text => {
+        // if string includes term, add to matches
+        if (text.toLowerCase().includes(text)) newMatches.text.push(text)
+      })
+    })
+    this._currentOptions = newMatches
+  }
 
   // selectTag
+
+  // removeTag
 
   // clearInput
 
@@ -112,6 +142,7 @@ class UnitySearchBar extends LitElement {
       </div>
     `
   }
+
 
   static get styles() {
     return [
