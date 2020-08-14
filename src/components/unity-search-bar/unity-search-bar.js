@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit-element'
-import matchSorter from 'match-sorter'
 import { debounce } from 'underscore'
 import '@bit/smartworks.unity.unity-text-input'
 import '@bit/smartworks.unity.unity-icon'
