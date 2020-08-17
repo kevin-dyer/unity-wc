@@ -2,7 +2,6 @@ import { LitElement, html, css } from 'lit-element'
 import { debounce } from 'underscore'
 import '@bit/smartworks.unity.unity-text-input'
 import '@bit/smartworks.unity.unity-icon'
-import '@bit/smartworks.unity.unity-button'
 // import dropdown or lightbox
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
@@ -132,7 +131,12 @@ class UnitySearchBar extends LitElement {
 
   // removeTag
 
-  // clearInput
+  clearInput() {
+    this.tags = []
+    this.search = ""
+    this._showOptions = false
+    this._currentOptions = []
+  }
 
   render() {
     const {
@@ -148,7 +152,7 @@ class UnitySearchBar extends LitElement {
           .value="${search}"
           .onChange="${(e, v) => this._debouncedOnChange(v)}"
         ></unity-text-input>
-        <unity-button type="borderless" label="CLEAR"></unity-button>
+        <div class="clear-button" @click="${() => this.clearInput()}">CLEAR</unity-button>
       </div>
     `
   }
@@ -171,6 +175,8 @@ class UnitySearchBar extends LitElement {
           display: flex;
           flex-direction: row;
           align-items: center;
+          box-sizing: border-box;
+          height: var(--unity-text-input-height, var(--default-unity-text-input-height))
         }
         #search-bar.showBorder {
           border-width: 1px;
@@ -180,12 +186,17 @@ class UnitySearchBar extends LitElement {
         }
         unity-icon {
           flex: 0;
+          margin: 0 var(--padding-size-sm, var(--default-padding-size-sm));
         }
         .input {
           flex: 1;
         }
-        unity-button {
+        div.clear-button {
           flex: 0;
+          font-size: var(--small-text-selected-size, var(--default-small-text-selected-size));
+          color: var(--dark-gray-color, var(--default-dark-gray-color));
+          margin: 0 var(--padding-size-sm, var(--default-padding-size-sm));
+          cursor: pointer;
         }
       `
     ]
