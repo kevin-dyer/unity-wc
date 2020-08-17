@@ -3,6 +3,10 @@ import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-core/unity-icon'
 
+import { createPopper } from '@popperjs/core/lib/popper-lite.js'
+import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow.js'
+import flip from '@popperjs/core/lib/modifiers/flip.js'
+
 /**
 * Shadowed lightbox/popover with optional close button for holding variable content
 * @name UnityLightbox
@@ -25,8 +29,7 @@ class UnityLightbox extends LitElement {
     super()
     this.onClose = () => true
     this._show = false
-    this._yOffset = 0
-    this._xOffset = 0
+    this._lightboxInstance = null
   }
 
   static get properties() {
@@ -40,6 +43,16 @@ class UnityLightbox extends LitElement {
     const oldVal = this._show
     this._show = val
     if (!!val) document.addEventListener('click', this.outsideClickListener.bind(this))
+
+    const pageContent = this.shadowRoot?.querySelector('#page-content')
+    console.log("UnityLightbox -> setshow -> button", button)
+    const lightbox = document.querySelector('#lightbox')
+    console.log("UnityLightbox -> setshow -> lightbox", lightbox)
+
+    this._lightboxInstance = createPopper(pageContent, lightbox, {
+      modifiers: [preventOverflow, flip],
+    })
+
     this.requestUpdate('show', oldVal)
   }
   
@@ -82,7 +95,7 @@ class UnityLightbox extends LitElement {
       ]
     }
     
-    outsideClickListener(event) {
+  outsideClickListener(event) {
     const element = this.shadowRoot?.getElementById('lightbox')
     if (!element) throw `Could not find lightbox in shadowroot`
     if (!element.contains(event.target) && !!this.show) this.handleCloseLightbox()
@@ -93,15 +106,17 @@ class UnityLightbox extends LitElement {
     const shouldClose = onClose()
     if (shouldClose) {
       this.show = false
+      this._lightboxInstance?.destroy()
+      this._lightboxInstance = null
       document.removeEventListener('click', this.outsideClickListener)
     }
   }
 
   render() {
-    const { show, _yOffset, _xOffset } = this
+    const { show } = this
     return html`
-      <div id="container">
-        <slot name="on-page-content"></slot>
+      <div id="container">spo
+        <slot name="on-page-content" id='page-content'></slot>
         <div id='lightbox' style="display: ${!!show ? 'flex' : 'none'}">
           <unity-button
             id='close-button'
@@ -109,7 +124,7 @@ class UnityLightbox extends LitElement {
             centerIcon='unity:close'
             @click=${this.handleCloseLightbox}
           ></unity-button>
-          <div id="content">
+          <div id="lightbox-content-container">
             <slot name="lightbox-content">Not Lightbox Content</slot>
           </div>
         </div>
