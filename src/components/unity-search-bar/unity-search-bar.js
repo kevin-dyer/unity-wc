@@ -141,12 +141,14 @@ class UnitySearchBar extends LitElement {
 
     return html`
       <div id="search-bar" class="showBorder">
+        <unity-icon icon="unity:search"></unity-icon>
         <unity-text-input
           class="input"
           hideBorder
           .value="${search}"
           .onChange="${(e, v) => this._debouncedOnChange(v)}"
         ></unity-text-input>
+        <unity-button type="borderless" label="CLEAR"></unity-button>
       </div>
     `
   }
@@ -166,13 +168,24 @@ class UnitySearchBar extends LitElement {
           font-family: var(--input-font, var(--default-input-font));
         }
         #search-bar {
-        }
-        .input {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
         }
         #search-bar.showBorder {
           border-width: 1px;
           border-color: var(--input-border-color, var(--default-input-border-color));
           border-style: solid;
+          border-radius: 2px;
+        }
+        unity-icon {
+          flex: 0;
+        }
+        .input {
+          flex: 1;
+        }
+        unity-button {
+          flex: 0;
         }
       `
     ]
