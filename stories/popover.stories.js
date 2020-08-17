@@ -3,15 +3,15 @@ import { withKnobs, number, boolean } from "@storybook/addon-knobs"
 import { action } from '@storybook/addon-actions';
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-tag'
-import '../src/components/unity-lightbox/unity-lightbox'
+import '../src/components/unity-popover/unity-popover'
 
 export default {
-  title: 'Lightbox',
+  title: 'popover',
   decorators: [withKnobs]
 }
 
 export const Standard = () => {
-  let showLightbox = boolean('show', false)
+  let showpopover = boolean('show', false)
   const uselessBool = boolean('I do not do anything', true)
   const onClose = () => {
     action('onClose')
@@ -19,14 +19,14 @@ export const Standard = () => {
   }
   const handleDivClick = () => {
     console.log(`div clicked`)
-    showLightbox = true
+    showpopover = true
     // Call rerender
   }
-  console.log("handleDivClick -> showLightbox", showLightbox)
+  console.log("handleDivClick -> showpopover", showpopover)
 
   return html`
-    <unity-lightbox
-      .show=${showLightbox}
+    <unity-popover
+      .show=${showpopover}
       .onClose=${onClose}
     >
       <div
@@ -37,12 +37,12 @@ export const Standard = () => {
         ${renderActiveTags()}
       </div>
       <div
-        slot="lightbox-content"
+        slot="popover-content"
       >
         <div>Test Content</div>
         ${renderInactiveTags()}
       </div>
-    </unity-lightbox>
+    </unity-popover>
     <style>
       #tag-holder {
         display: flex;

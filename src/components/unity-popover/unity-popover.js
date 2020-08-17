@@ -8,28 +8,28 @@ import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow.js'
 import flip from '@popperjs/core/lib/modifiers/flip.js'
 
 /**
-* Shadowed lightbox/popover with optional close button for holding variable content
-* @name UnityLightbox
+* Shadowed popover/popover with optional close button for holding variable content
+* @name Unitypopover
 * @param {string} label, the text of the tooltip
 * @param {string} arrow, direction of the tooltip arrow (top, bottom, right or left), optional
-* @param {bool} bottomAlign, if the lightbox should be aligned to the bottom of the reference point
+* @param {bool} bottomAlign, if the popover should be aligned to the bottom of the reference point
 * @param {bool} rightAlign, if the tooltip should be aligned to the right of the reference point
 
 * @return {LitElement} returns a class extended from LitElement
 * @example
-* <unity-lightbox
-*   .onClose=${() => { console.log(`lightbox closed`)}}
+* <unity-popover
+*   .onClose=${() => { console.log(`popover closed`)}}
 *   .show=${true}
-* ></unity-lightbox>
+* ></unity-popover>
 **/
 
-class UnityLightbox extends LitElement {
+class Unitypopover extends LitElement {
 
   constructor() {
     super()
     this.onClose = () => true
     this._show = false
-    this._lightboxInstance = null
+    this._popoverInstance = null
   }
 
   static get properties() {
@@ -45,11 +45,11 @@ class UnityLightbox extends LitElement {
     if (!!val) document.addEventListener('click', this.outsideClickListener.bind(this))
 
     const pageContent = this.shadowRoot?.querySelector('#page-content')
-    console.log("UnityLightbox -> setshow -> button", button)
-    const lightbox = document.querySelector('#lightbox')
-    console.log("UnityLightbox -> setshow -> lightbox", lightbox)
+    console.log("Unitypopover -> setshow -> button", button)
+    const popover = document.querySelector('#popover')
+    console.log("Unitypopover -> setshow -> popover", popover)
 
-    this._lightboxInstance = createPopper(pageContent, lightbox, {
+    this._popoverInstance = createPopper(pageContent, popover, {
       modifiers: [preventOverflow, flip],
     })
 
@@ -63,27 +63,27 @@ class UnityLightbox extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --default-lightbox-min-width: 120px;
-          --default-lightbox-max-width: 300px;
-          --default-lightbox-min-height: 38px;
-          --default-lightbox-max-height: 300px;
-          --default-lightbox-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
-          --default-lightbox-left-offset: auto;
+          --default-popover-min-width: 120px;
+          --default-popover-max-width: 300px;
+          --default-popover-min-height: 38px;
+          --default-popover-max-height: 300px;
+          --default-popover-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
+          --default-popover-left-offset: auto;
         }
         #container {
           position: relative;
         }
-        #lightbox {
+        #popover {
           position: absolute;
-          max-width: var(--lightbox-max-width, var(--default-lightbox-max-width));
-          min-width: var(--lightbox-min-width, var(--default-lightbox-min-width));
-          max-height: var(--lightbox-max-height, var(--default-lightbox-max-height));
-          min-height: var(--lightbox-min-height, var(--default-lightbox-min-height));
-          background-color: var(--lightbox-background-color, var(--default-white-color));
-          box-shadow: var(--lightbox-shadow, var(--default-lightbox-shadow));
+          max-width: var(--popover-max-width, var(--default-popover-max-width));
+          min-width: var(--popover-min-width, var(--default-popover-min-width));
+          max-height: var(--popover-max-height, var(--default-popover-max-height));
+          min-height: var(--popover-min-height, var(--default-popover-min-height));
+          background-color: var(--popover-background-color, var(--default-white-color));
+          box-shadow: var(--popover-shadow, var(--default-popover-shadow));
           padding: 2px 8px;
           overflow-y: scroll;
-          left: var(--lightbox-left-offset, var(--default-lightbox-left-offset));
+          left: var(--popover-left-offset, var(--default-popover-left-offset));
         }
         #close-button {
           position: absolute;
@@ -96,18 +96,18 @@ class UnityLightbox extends LitElement {
     }
     
   outsideClickListener(event) {
-    const element = this.shadowRoot?.getElementById('lightbox')
-    if (!element) throw `Could not find lightbox in shadowroot`
-    if (!element.contains(event.target) && !!this.show) this.handleCloseLightbox()
+    const element = this.shadowRoot?.getElementById('popover')
+    if (!element) throw `Could not find popover in shadowroot`
+    if (!element.contains(event.target) && !!this.show) this.handleClosepopover()
   }
 
-  handleCloseLightbox() {
+  handleClosepopover() {
     const { onClose } = this
     const shouldClose = onClose()
     if (shouldClose) {
       this.show = false
-      this._lightboxInstance?.destroy()
-      this._lightboxInstance = null
+      this._popoverInstance?.destroy()
+      this._popoverInstance = null
       document.removeEventListener('click', this.outsideClickListener)
     }
   }
@@ -117,15 +117,15 @@ class UnityLightbox extends LitElement {
     return html`
       <div id="container">spo
         <slot name="on-page-content" id='page-content'></slot>
-        <div id='lightbox' style="display: ${!!show ? 'flex' : 'none'}">
+        <div id='popover' style="display: ${!!show ? 'flex' : 'none'}">
           <unity-button
             id='close-button'
             type='borderless'
             centerIcon='unity:close'
-            @click=${this.handleCloseLightbox}
+            @click=${this.handleClosepopover}
           ></unity-button>
-          <div id="lightbox-content-container">
-            <slot name="lightbox-content">Not Lightbox Content</slot>
+          <div id="popover-content-container">
+            <slot name="popover-content">Not popover Content</slot>
           </div>
         </div>
       </div>
@@ -133,4 +133,4 @@ class UnityLightbox extends LitElement {
   }
 }
 
-window.customElements.define('unity-lightbox', UnityLightbox)
+window.customElements.define('unity-popover', Unitypopover)
