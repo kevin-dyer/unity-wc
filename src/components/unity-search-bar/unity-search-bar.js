@@ -95,28 +95,36 @@ class UnitySearchBar extends LitElement {
   // compares value given against seeds to return best options
   // saves obj{ tags, strings } to _currentOptions
   findMatches(search) {
+    const {
+      tagSeed=[],
+      textSeed=[]
+    } = this
+    if (!Array.isArray(tagSeed) || !Array.isArray(textSeed)) return
     // split search on spaces into terms
     const allTerms = search.toLowerCase().split(' ')
-    let newMatches = { tags: [], text: [] }
+    let tagMatches = {}
+    let textMatches = {}
     // for each term
     allTerms.forEach(term => {
+      if (!term) return
       // check against all tag results (string, tag.label, tag.value)
-      this.tagSeed.forEach(tag => {
+      tagSeed.forEach(tag => {
         // if tag includes term in any, add to matches
         if (typeof tag === "string") {
-          if (tag.toLowerCase().includes(term)) newMatches.tags.push(tag)
+          if (tag.toLowerCase().includes(term)) tagMatches[tag] = tag
         } else if (tag instanceof Object) {
           if (tag.value.toLowerCase().includes(term)
           ||  tag.label.toLowerCase().includes(term))
-            newMatches.tags.push(tag)
+            tagMatches[tag.value] = tag
         }
       })
       // check against all strings in seed
-      this.textSeed.forEach(text => {
+      textSeed.forEach(text => {
         // if string includes term, add to matches
-        if (text.toLowerCase().includes(text)) newMatches.text.push(text)
+        if (text.toLowerCase().includes(text)) textMatches[text] = text
       })
     })
+    const newMatches = { tags: Object.values(tagMatches), text: Object.values(textMatches) }
     this._currentOptions = newMatches
   }
 
