@@ -89,7 +89,7 @@ class UnitySearchBar extends LitElement {
 
   onInputChange(value) {
     this.search = value
-    this.onChange(this._currentOptions)
+    this.onChange(this._currentOptions) // should return {tags, text: search}
   }
 
   // compares value given against seeds to return best options
@@ -140,7 +140,7 @@ class UnitySearchBar extends LitElement {
     } = this
 
     return html`
-      <div id="search-bar">
+      <div id="search-bar" class="showBorder">
         <unity-text-input
           class="input"
           hideBorder
@@ -157,7 +157,22 @@ class UnitySearchBar extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --default-stuff-here: var(--thing, var(--default-thing));
+          --default-input-font: var(--font-family, var(--default-font-family));
+          --default-input-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
+          --default-input-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          --default-input-border-color: var(--gray-color, var(--default-gray-color));
+          --default-input-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-input-border-focus-color: var(--primary-color, var(--default-primary-color));
+          font-family: var(--input-font, var(--default-input-font));
+        }
+        #search-bar {
+        }
+        .input {
+        }
+        #search-bar.showBorder {
+          border-width: 1px;
+          border-color: var(--input-border-color, var(--default-input-border-color));
+          border-style: solid;
         }
       `
     ]
