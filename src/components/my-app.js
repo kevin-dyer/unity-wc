@@ -218,6 +218,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'globalNav'}" href="/globalNav">Global Nav</a>
           <a ?selected="${this._page === 'page-layout'}" href="/page-layout">Page Layout</a>
           <a ?selected="${this._page === 'split-pane'}" href="/split-pane">Split Pane</a>
+          <a ?selected="${this._page === 'popover'}" href="/popover">Popover</a>
           <a ?selected="${this._page === 'my-buttons'}" href="/my-buttons">Buttons</a>
           <a ?selected="${this._page === 'textInput'}" href="/textInput">Text Input</a>
           <a ?selected="${this._page === 'dropdowns'}" href="/dropdowns">Dropdowns</a>
@@ -238,7 +239,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'table'}" href="/table">Table</a>
           <a ?selected="${this._page === 'globalNav'}" href="/globalNav">Global Nav</a>
           <a ?selected="${this._page === 'page-layout'}" href="/page-layout">Page Layout</a>
-          <a ?selected="${this._page === 'split-pane'}" href="/split-pane">Split Pane</a>
+          <a ?selected="${this._page === 'popover'}" href="/popover">Popover</a>
           <a ?selected="${this._page === 'my-buttons'}" href="/my-buttons">Buttons</a>
           <a ?selected="${this._page === 'textInput'}" href="/textInput">Text Input</a>
           <a ?selected="${this._page === 'dropdowns'}" href="/dropdowns">Dropdowns</a>
@@ -258,6 +259,7 @@ class MyApp extends connect(store)(LitElement) {
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
         <my-layout class="page" ?active="${this._page === 'page-layout'}"></my-layout>
         <my-split-pane class="page" ?active="${this._page === 'split-pane'}"></my-split-pane>
+        <my-popover class="page" ?active="${this._page === 'popover'}"></my-popover>
         <my-buttons class="page" ?active="${this._page === 'my-buttons'}"></my-buttons>
         <my-text-input class="page" ?active="${this._page === 'textInput'}"></my-text-input>
         <my-dropdowns class="page" ?active="${this._page === 'dropdowns'}"></my-dropdowns>

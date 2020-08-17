@@ -6,7 +6,7 @@ import '@bit/smartworks.unity.unity-core/unity-tag'
 import '../src/components/unity-popover/unity-popover'
 
 export default {
-  title: 'popover',
+  title: 'Popover',
   decorators: [withKnobs]
 }
 
@@ -26,6 +26,7 @@ export const Standard = () => {
 
   return html`
     <unity-popover
+      withClose
       .show=${showpopover}
       .onClose=${onClose}
     >
@@ -136,5 +137,3 @@ const renderInactiveTags = () => tags.map(({ active, value, label, color}) => {
     />
   `
 })
-
-console.log(`render inactive `)
