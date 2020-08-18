@@ -70,7 +70,11 @@ class UnitySearchBar extends LitElement {
     const oldValue = this._search
     this._search = value
     this.findMatches(value)
-    this._showOptions = this._currentOptions.length > 0
+    const {
+      tags: tagOptions,
+      text: textOptions
+    } = this._currentOptions
+    this._showOptions = tagOptions.length > 0 || textOptions.length > 0
     console.log('update search', value)
     this.requestUpdate('search', oldValue)
   }
