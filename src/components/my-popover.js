@@ -45,23 +45,38 @@ const initialTags = {
 class MyPopover extends PageViewElement {
   constructor() {
     super()
-    this.showPopover = false
-    this._showPopover = false
+    this.showPopover1 = false
+    this._showPopover1 = false
+    this.showPopover2 = false
+    this._showPopover2 = false
     this.tags = initialTags
     this._tags = initialTags
+    this.boundary1 = null
+    this._boundary1 = null
+    this.boundary2 = null
+    this._boundary2 = null
 
     this.addTag = this.addTag.bind(this)
     this.removeTag = this.removeTag.bind(this)
     this.onClose = this.onClose.bind(this)
   }
 
-  set showPopover(value) {
-    const oldValue = this._showPopover
-    this._showPopover = value
-    this.requestUpdate('showPopover', oldValue)
+  set showPopover1(value) {
+    const oldValue = this._showPopover1
+    this._showPopover1 = value
+    this.requestUpdate('showPopover1', oldValue)
   }
 
-  get showPopover() { return this._showPopover }
+  get showPopover1() { return this._showPopover1 }
+
+  set showPopover2(value) {
+    console.log(`set showpopover 2`)
+    const oldValue = this._showPopover2
+    this._showPopover2 = value
+    this.requestUpdate('showPopover2', oldValue)
+  }
+
+  get showPopover2() { return this._showPopover2 }
 
   set tags(value) {
     const oldValue = this._tags
@@ -70,9 +85,30 @@ class MyPopover extends PageViewElement {
   }
 
   get tags() { return this._tags }
+  
+  set boundary1(value) {
+    const oldValue = this._boundary1
+    this._boundary1 = value
+    this.requestUpdate('boundary1', oldValue)
+  }
+
+  get boundary1() { return this._boundary1 }
+  
+  set boundary2(value) {
+    const oldValue = this._boundary2
+    this._boundary2 = value
+    this.requestUpdate('boundary2', oldValue)
+  }
+
+  get boundary2() { return this._boundary2 }
+
+  firstUpdated() {
+    this.boundary1 = this.shadowRoot.getElementById('overflow-frame-left')
+    this.boundary2 = this.shadowRoot.getElementById('overflow-frame-right')
+  }
 
   onClose() {
-    this.showPopover = false
+    this.showPopover1 = false
   }
   
   addTag(e, tagValue) {
@@ -126,49 +162,100 @@ class MyPopover extends PageViewElement {
     }).filter(tagHtml => !!tagHtml)
   }
 
-  handleDivClick() {
-    console.log(`div clicked`)
-    this.showPopover = true
+  handleTagHolderClick() {
+    this.showPopover1 = true
+  }
+
+  handleButtonClick() {
+    console.log(`handle button click`)
+    const { showPopover2 } = this
+    this.showPopover2 = !showPopover2
   }
 
   render() {
-    console.log(`this.showPopover`, this.showPopover)
+    console.log(`this.showPopover1`, this.showPopover1)
+    console.log(`this.showPopover2`, this.showPopover2)
     return html`
       <div id='my-popover-container'>
-        <h3>Try Scrolling with the Popover Active</h3>
-        <div
-          id='overflow-frame'
-        >
-          <unity-popover
-            withClose
-            .show=${this.showPopover}
-            .onClose=${this.onClose}
-            placement='bottom'
-            id='popover-1'
+        <h2>Unity Popover</h2>
+        <div id='box-container'>
+
+          <div
+            id='overflow-frame-left'
+            class='overflow-frame'
           >
-            <div
-              id='tag-holder'
-              slot="on-page-content"
-              @click=${this.handleDivClick}  
+            <unity-popover
+              withClose
+              flip
+              .show=${this.showPopover1}
+              .onClose=${this.onClose}
+              placement='bottom'
+              .boundary=${this._boundary1}
+              id='popover-1'
             >
-              ${this.renderActiveTags()}
-            </div>
-            <div
-              slot="popover-content"
-              style='padding: 12px;'
-            >
-              <div>Popover Content</div>
-              <div id='inactive-tags-container'>
-                ${this.renderInactiveTags()}
+              <div
+                id='tag-holder'
+                slot="on-page-content"
+                @click=${this.handleTagHolderClick}  
+              >
+                ${this.renderActiveTags()}
               </div>
+              <div
+                slot="popover-content"
+                style='padding: 12px;'
+              >
+                <div>Popover 1 Content</div>
+                <div id='inactive-tags-container'>
+                  ${this.renderInactiveTags()}
+                </div>
+              </div>
+            </unity-popover>
+          </div>
+
+          <div
+            id='overflow-frame-right'
+            class='overflow-frame'
+          >
+            <div id='button-container'>
+              <unity-popover
+                preventOverflow
+                .show=${this.showPopover2}
+                .onClose=${this.onClose}
+                placement='bottom'
+                .boundary=${this._boundary2}
+                .distance=${10}
+                id='popover-2'
+              >
+                <div slot='on-page-content'>
+                  <unity-button
+                    id='button'
+                    label='${this.showPopover2 ? 'Close' : 'Open'} Popover'
+                    @click=${this.handleButtonClick}  
+                  ></unity-button>
+                </div>
+                <div
+                  slot="popover-content"
+                  style='padding: 12px;'
+                >
+                  <div>Popover 2 Content</div>
+                  <div id='popover-2-content'>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse urna diam, vestibulum in odio ac, blandit egestas justo. Integer id accumsan dolor. Mauris ac diam vestibulum, rhoncus sem quis, eleifend magna. Morbi varius semper ante non iaculis. Aliquam non felis ac magna accumsan gravida a non turpis. Quisque elit quam, blandit a tincidunt vitae, varius nec ante. Duis lacinia velit ut dolor rutrum mattis. Mauris ex magna, viverra porta dictum a, condimentum at enim. Cras ut neque vitae neque pretium eleifend.
+                  </div>
+                </div>
+              </unity-popover>
             </div>
-          </unity-popover>
+          </div>
         </div>
+        <h4>Try Scrolling with the Popover Active</h4>
       </div>
       <style>
         #popover-1 {
           --popover-min-width: 150px;
           --popover-max-width: 250px;
+        }
+        #popover-2 {
+          --popover-max-width: 250px;
+          --popover-margin-top: 8px;
         }
         #popover-1::before {
           box-sizing: border-box;
@@ -184,6 +271,11 @@ class MyPopover extends PageViewElement {
           height: 320px;
           width: 1px;
         }
+        #box-container {
+          width: 100%;
+          display: flex;
+          justify-content: space-around;
+        }
         #tag-holder {
           display: flex;
           position: relative;
@@ -195,17 +287,31 @@ class MyPopover extends PageViewElement {
           margin-left: 50px;
         }
         #my-popover-container {
+          width: 100%;
           padding: 32px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
         #inactive-tags-container {
           display: flex;
           flex-wrap: wrap;
         }
-        #overflow-frame {
+        .overflow-frame {
           height: 300px;
           width: 350px;
           overflow: scroll;
-          border: 1px solid blue;
+          border: 2px solid blue;
+        }
+        #button-container {
+          height: 270px;
+          width: 800px;
+          display: flex;
+          justify-content: center;
+          padding-top: 30px;
+        }
+        #popover-2-content {
+          font-size: 0.5em;
         }
       </style>
     `

@@ -27,6 +27,11 @@ import {createPopper} from '@popperjs/core'
 *  'left'
 *  'left-start'
 *  'left-end'
+* @param {bool} flip, determines whether popover will change placement to try to stay in view
+* @param {array} fallbackPlacements, if flip is true, this is an array of strings (selected from placement options) for possible placements the Popover will flip to
+* @param {bool} preventOveflow, nudge the popover inwards to prevent it escaping the container
+* @param {htmlElement} boundary, ref specifying the boundary element for flip and preventOverflow
+* @param {number} distance, offset of the popover from the on-page-content, in pixels
 
 * @return {LitElement} returns a class extended from LitElement
 * @example
@@ -34,6 +39,8 @@ import {createPopper} from '@popperjs/core'
 *   withClose
 *   .onClose=${() => { console.log(`popover closed`); return true; }}
 *   .show=${true}
+*   placement='bottom'
+*   flip
 * >
 *   <div slot='on-page-content'>Content always visible, to which popover is anchored</div>
 *   <div slot='popover-content'>Content to be placed inside the popover</div>
@@ -49,21 +56,23 @@ class UnityPopover extends LitElement {
     this.onClose = ()=>{}
     this.withClose = false
     this.show = false
+    this.flip = false
+    this.preventOverflow = false
+    this.fallbackPlacements = []
+    this.boundary = null
     this.placement = defaultPlacement
+    this.distance = 0
+    this._distance = 0
     this._placement = defaultPlacement
     this._show = false
     this._popoverInstance = null
+
     this.outsideClickListener = this.outsideClickListener.bind(this)
   }
 
   connectedCallback() {
     super.connectedCallback()
     document.addEventListener('click', this.outsideClickListener)
-  }
-
-  firstUpdated() {
-    this.defineElements()
-    this.createPopover()
   }
 
   disconnectedCallback() {
@@ -77,7 +86,12 @@ class UnityPopover extends LitElement {
       withClose: { type: Boolean },
       onClose: { type: Function },
       show: { type: Boolean },
-      placement: { type: String }
+      placement: { type: String },
+      flip: { type: Boolean },
+      fallbackPlacements: { type: Array },
+      preventOverflow: { type: Boolean },
+      boundary: { type: Object },
+      distance: { type: Number }
     }
   }
 
@@ -108,12 +122,21 @@ class UnityPopover extends LitElement {
 
   get placement() { return this._placement; }
 
-  outsideClickListener(event) {
-    return
-    // if (!this.shadowRoot.contains(event.target)) { // for some reason, this is always evaluating to true
+  set distance(val) {
+    const oldVal = this._distance
+    this._distance = val
+    this.requestUpdate('distance', oldVal)
+  }
+
+  get distance() { return this._distance; }
+
+  outsideClickListener({ target }) {
+    // console.log("UnityPopover -> outsideClickListener -> target", target) // for some reason, this is always evaluating to something way up in the hierarchy (i.e. `my-app`)
+    if (!target) return
+    // const containerElement = this.shadowRoot.getElementById('up_id1')
+    // if (!containerElement.contains(target)) { // this is always evaluating to true due to target issues
     //   event.stopPropagation()
-    //   console.log(`click outside element`)
-    //   if (!!this.show) this.handleClosePopover()
+    //   if (!!this.show) this.onClose()
     // } 
   }
 
@@ -121,9 +144,10 @@ class UnityPopover extends LitElement {
     const pageContent = this.shadowRoot.getElementById('up_id2')
     const popover = this.shadowRoot.getElementById('up_id4')
 
+    console.log("createPopover -> this.makeModifiers()", this.makeModifiers())
     this._popoverInstance = createPopper(pageContent, popover, {
-      placement: this.placement
-      
+      placement: this.placement,
+      modifiers: this.makeModifiers()
     })
   }
 
@@ -131,6 +155,39 @@ class UnityPopover extends LitElement {
     this._popoverInstance.destroy()
     this._popoverInstance = null
   }
+
+  makeModifiers() {
+    const modifiers = []
+    if (this.flip) {
+      const flipModifier = {
+        name: 'flip',
+        options: {}
+      }
+      if (!!this.fallbackPlacements[0]) flipModifier.options.fallbackPlacements = this.fallbackPlacements
+      if (!!this.boundary) flipModifier.options.boundary = this.boundary
+      modifiers.push(flipModifier)
+    }
+    if (this.preventOverflow) {
+      const preventOverflowModifier = {
+        name: 'preventOverflow',
+        options: {}
+      }
+      if (!!this.boundary) preventOverflowModifier.options.boundary = this.boundary
+      modifiers.push(preventOverflowModifier)
+    }
+    if (this.distance) {
+      const offsetModifier = {
+        name: 'offset',
+        options: {
+          offset: [0, this.distance],
+        }
+      }
+      modifiers.push(offsetModifier)
+    }
+    return modifiers
+  }
+
+
   
   static get styles() {
     return [
@@ -142,7 +199,6 @@ class UnityPopover extends LitElement {
           --default-popover-min-height: 38px;
           --default-popover-max-height: 300px;
           --default-popover-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
-          --default-popover-left-offset: auto;
         }
         #up_id4 {
           display: none;
@@ -169,19 +225,18 @@ class UnityPopover extends LitElement {
   }
 
   render() {
-    const { show } = this
     return html`
       <div id='up_id1'>
         <div id='up_id2'>
-          <slot name="on-page-content" id='up_id3'>Popover</slot>
+          <slot name="on-page-content" id='up_id3'>No On-Page Content</slot>
         </div>
         <div id='up_id4'>
-          <unity-button
+          ${this.withClose ? html`<unity-button
             id='up_id5'
             type='borderless'
             centerIcon='unity:close'
             @click=${this.onClose}
-          ></unity-button>
+          ></unity-button>` : ``}
           <div id="up_id6">
             <slot name="popover-content">No Popover Content Provided</slot>
           </div>
