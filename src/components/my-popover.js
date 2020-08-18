@@ -70,7 +70,6 @@ class MyPopover extends PageViewElement {
   get showPopover1() { return this._showPopover1 }
 
   set showPopover2(value) {
-    console.log(`set showpopover 2`)
     const oldValue = this._showPopover2
     this._showPopover2 = value
     this.requestUpdate('showPopover2', oldValue)
@@ -167,14 +166,11 @@ class MyPopover extends PageViewElement {
   }
 
   handleButtonClick() {
-    console.log(`handle button click`)
     const { showPopover2 } = this
     this.showPopover2 = !showPopover2
   }
 
   render() {
-    console.log(`this.showPopover1`, this.showPopover1)
-    console.log(`this.showPopover2`, this.showPopover2)
     return html`
       <div id='my-popover-container'>
         <h2>Unity Popover</h2>

@@ -131,6 +131,7 @@ class UnityPopover extends LitElement {
   get distance() { return this._distance; }
 
   outsideClickListener({ target }) {
+    // REVIEWERS - take a look if you have a minute
     // console.log("UnityPopover -> outsideClickListener -> target", target) // for some reason, this is always evaluating to something way up in the hierarchy (i.e. `my-app`)
     if (!target) return
     // const containerElement = this.shadowRoot.getElementById('up_id1')
