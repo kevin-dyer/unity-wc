@@ -135,39 +135,77 @@ class MyPopover extends PageViewElement {
     console.log(`this.showPopover`, this.showPopover)
     return html`
       <div id='my-popover-container'>
-        <unity-popover
-          withClose
-          .show=${this.showPopover}
-          .onClose=${this.onClose}
+        <h3>Try Scrolling with the Popover Active</h3>
+        <div
+          id='overflow-frame'
         >
-          <div
-            id='tag-holder'
-            slot="on-page-content"
-            @click=${this.handleDivClick}  
+          <unity-popover
+            withClose
+            .show=${this.showPopover}
+            .onClose=${this.onClose}
+            placement='bottom'
+            id='popover-1'
           >
-            ${this.renderActiveTags()}
-          </div>
-          <div
-            slot="popover-content"
-          >
-            <div>Popover Content</div>
-            ${this.renderInactiveTags()}
-          </div>
-        </unity-popover>
+            <div
+              id='tag-holder'
+              slot="on-page-content"
+              @click=${this.handleDivClick}  
+            >
+              ${this.renderActiveTags()}
+            </div>
+            <div
+              slot="popover-content"
+              style='padding: 12px;'
+            >
+              <div>Popover Content</div>
+              <div id='inactive-tags-container'>
+                ${this.renderInactiveTags()}
+              </div>
+            </div>
+          </unity-popover>
+        </div>
       </div>
       <style>
+        #popover-1 {
+          --popover-min-width: 150px;
+          --popover-max-width: 250px;
+        }
+        #popover-1::before {
+          box-sizing: border-box;
+          content: '';
+          display: block;
+          height: 320px;
+          width: 1px;
+        }
+        #popover-1::after {
+          box-sizing: border-box;
+          content: '';
+          display: block;
+          height: 320px;
+          width: 1px;
+        }
         #tag-holder {
           display: flex;
           position: relative;
-          overflow-y: visible;
           overflow-x: scroll;
           border: 1px solid black;
           box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
           width: 250px;
           height: 30px;
+          margin-left: 50px;
         }
         #my-popover-container {
           padding: 32px;
+        }
+        #inactive-tags-container {
+          display: flex;
+          flex-wrap: wrap;
+        }
+        #overflow-frame {
+          height: 300px;
+          width: 350px;
+          overflow: scroll;
+          border: 1px solid blue;
         }
       </style>
     `

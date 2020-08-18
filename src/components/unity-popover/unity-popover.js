@@ -53,8 +53,6 @@ class UnityPopover extends LitElement {
     this._placement = defaultPlacement
     this._show = false
     this._popoverInstance = null
-    this._onPageContent = null
-    this
     this.outsideClickListener = this.outsideClickListener.bind(this)
   }
 
@@ -79,13 +77,14 @@ class UnityPopover extends LitElement {
       withClose: { type: Boolean },
       onClose: { type: Function },
       show: { type: Boolean },
+      placement: { type: String }
     }
   }
 
   set show(val) {
     const oldVal = this._show
     this._show = val
-    const popoverElement = this.shadowRoot.querySelector('#popover')
+    const popoverElement = this.shadowRoot.querySelector('#up_id4')
     if (!!popoverElement) {
       if (!!val) {
         this.createPopover()
@@ -101,6 +100,14 @@ class UnityPopover extends LitElement {
   
   get show() { return this._show }
 
+  set placement(val) {
+    const oldVal = this._placement
+    this._placement = val
+    this.requestUpdate('placement', oldVal)
+  }
+
+  get placement() { return this._placement; }
+
   outsideClickListener(event) {
     return
     // if (!this.shadowRoot.contains(event.target)) { // for some reason, this is always evaluating to true
@@ -110,19 +117,13 @@ class UnityPopover extends LitElement {
     // } 
   }
 
-  defineElements() {
-    
-    return
-  }
-
   createPopover() {
-    const pageContent = this.shadowRoot.getElementById('page-content')
-    console.log("UnityPopover -> createPopover -> pageContent", pageContent)
-    const popover = this.shadowRoot.querySelector('#popover')
-    console.log("UnityPopover -> createPopover -> popover", popover)
+    const pageContent = this.shadowRoot.getElementById('up_id2')
+    const popover = this.shadowRoot.getElementById('up_id4')
 
     this._popoverInstance = createPopper(pageContent, popover, {
       placement: this.placement
+      
     })
   }
 
@@ -143,10 +144,7 @@ class UnityPopover extends LitElement {
           --default-popover-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
           --default-popover-left-offset: auto;
         }
-        #page-content {
-
-        }
-        #popover {
+        #up_id4 {
           display: none;
           max-width: var(--popover-max-width, var(--default-popover-max-width));
           min-width: var(--popover-min-width, var(--default-popover-min-width));
@@ -157,10 +155,10 @@ class UnityPopover extends LitElement {
           padding: 2px 8px;
           overflow-y: scroll;
         }
-        #popover[data-show] {
+        #up_id4[data-show] {
           display: block;
         }
-        #close-button {
+        #up_id5 {
           position: absolute;
           top: 5px;
           right: 5px;
@@ -173,16 +171,18 @@ class UnityPopover extends LitElement {
   render() {
     const { show } = this
     return html`
-      <div id='main-container'>
-        <slot name="on-page-content" id='page-content'>Popover</slot>
-        <div id='popover'>
+      <div id='up_id1'>
+        <div id='up_id2'>
+          <slot name="on-page-content" id='up_id3'>Popover</slot>
+        </div>
+        <div id='up_id4'>
           <unity-button
-            id='close-button'
+            id='up_id5'
             type='borderless'
             centerIcon='unity:close'
             @click=${this.onClose}
           ></unity-button>
-          <div id="popover-content-container">
+          <div id="up_id6">
             <slot name="popover-content">No Popover Content Provided</slot>
           </div>
         </div>
