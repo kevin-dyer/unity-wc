@@ -151,15 +151,28 @@ class UnitySearchBar extends LitElement {
   renderMenu() {
     const {
       _showOptions,
-      _currentOptions,
+      _currentOptions: {
+        tags=[],
+        text=[]
+      }={},
       _menuLeft,
       _menuWidth
     } = this
-    if (!_showOptions) return null
+    if (!_showOptions || (tags.length === 0 && text.length === 0)) return null
+
+    const tagOptions = tags.map((tag, i) => {
+      let tagLabel
+      if (typeof tag === "string") tagLabel = tag
+      else tagLabel = tag.label
+      return {
+        label: tagLabel,
+        tag: true
+      }
+    })
 
     return html`
       <unity-select-menu
-        .items="${[{label: 'label 1'}, {label: 'label 2'}]}"
+        .items="${[...tagOptions, ...text]}"
         .onMenuClick="${index => console.log('clicked option: ', index)}"
         style="left: ${_menuLeft}px; width: ${_menuWidth}px;"
       ></unity-select-menu>
