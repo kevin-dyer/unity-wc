@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit-element'
 import { debounce } from 'underscore'
-import '@bit/smartworks.unity.unity-text-input'
-import '@bit/smartworks.unity.unity-icon'
+import '@bit/smartworks.unity.unity-core/unity-text-input'
+import '@bit/smartworks.unity.unity-core/unity-icon'
+import '@bit/smartworks.unity.unity-core/unity-select-menu'
 // import dropdown or lightbox
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
@@ -44,6 +45,8 @@ class UnitySearchBar extends LitElement {
     this._showOptions = false
     this._currentOptions = []
     this._debouncedOnChange = ()=>{console.log('debounce not set up')} // TODO: reset to empty func
+    this._menuLeft = 0
+    this._menuWidth = 0
   }
 
   static get properties() {
@@ -57,7 +60,9 @@ class UnitySearchBar extends LitElement {
       // internals
       _showOptions: { type: false },
       _currentOptions: { type: false },
-      _matches: { type: false }
+      _matches: { type: false },
+      _menuLeft: { type: false },
+      _menuWidth: { type: false }
     }
   }
 
@@ -65,6 +70,7 @@ class UnitySearchBar extends LitElement {
     const oldValue = this._search
     this._search = value
     this.findMatches(value)
+    this._showOptions = this._currentOptions.length > 0
     console.log('update search', value)
     this.requestUpdate('search', oldValue)
   }
@@ -138,6 +144,41 @@ class UnitySearchBar extends LitElement {
     this._currentOptions = []
   }
 
+  renderMenu() {
+    const {
+      _showOptions,
+      _currentOptions,
+      _menuLeft,
+      _menuWidth
+    } = this
+    if (!_showOptions) return null
+
+    return html`
+      <unity-select-menu
+        .items="${[{label: 'label 1'}, {label: 'label 2'}]}"
+        .onMenuClick="${index => console.log('clicked option: ', index)}"
+        style="left: ${_menuLeft}px; width: ${_menuWidth}px;"
+      ></unity-select-menu>
+    `
+  }
+
+  updated() {
+    const search = this.shadowRoot.querySelector('div#search-bar')
+    const input = this.shadowRoot.querySelector('div#search-bar unity-text-input.input')
+
+    const { [0]: {
+      left: outerLeft,
+      width
+    }} = search.getClientRects()
+    const { [0]: {
+      left: innerLeft=0,
+    }} = input.getClientRects()
+
+    const leftPos = Math.abs(outerLeft - innerLeft)
+    this._menuLeft = leftPos
+    this._menuWidth = width - leftPos
+  }
+
   render() {
     const {
       search
@@ -152,6 +193,7 @@ class UnitySearchBar extends LitElement {
           .value="${search}"
           .onChange="${(e, v) => this._debouncedOnChange(v)}"
         ></unity-text-input>
+        ${this.renderMenu()}
         <div class="clear-button" @click="${() => this.clearInput()}">CLEAR</unity-button>
       </div>
     `
@@ -169,14 +211,16 @@ class UnitySearchBar extends LitElement {
           --default-input-border-color: var(--gray-color, var(--default-gray-color));
           --default-input-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-input-border-focus-color: var(--primary-color, var(--default-primary-color));
+          --search-bar-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
           font-family: var(--input-font, var(--default-input-font));
+          position: relative;
         }
         #search-bar {
           display: flex;
           flex-direction: row;
           align-items: center;
           box-sizing: border-box;
-          height: var(--unity-text-input-height, var(--default-unity-text-input-height))
+          height: var(--search-bar-height);
         }
         #search-bar.showBorder {
           border-width: 1px;
@@ -197,6 +241,10 @@ class UnitySearchBar extends LitElement {
           color: var(--dark-gray-color, var(--default-dark-gray-color));
           margin: 0 var(--padding-size-sm, var(--default-padding-size-sm));
           cursor: pointer;
+        }
+        unity-select-menu {
+          position: absolute;
+          top: calc(var(--search-bar-height) - 1px);
         }
       `
     ]
