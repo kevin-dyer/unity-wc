@@ -3,6 +3,7 @@ import { debounce } from 'underscore'
 import '@bit/smartworks.unity.unity-core/unity-text-input'
 import '@bit/smartworks.unity.unity-core/unity-icon'
 import '@bit/smartworks.unity.unity-core/unity-select-menu'
+import '@bit/smartworks.unity.unity-core/unity-tag'
 // import dropdown or lightbox
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
@@ -127,8 +128,6 @@ class UnitySearchBar extends LitElement {
       // check against all tag results (string, tag.label, tag.value)
       tagSeed.forEach(tag => {
         // if tag includes term in any, add to matches
-        console.log('tag', tag)
-        console.log('_tagsLib', _tagsLib)
         if (typeof tag === "string") {
           // if tag is already selected, skip showing
           if (!!_tagsLib[tag.toLowerCase()]) return
@@ -165,6 +164,38 @@ class UnitySearchBar extends LitElement {
     this._currentOptions = []
   }
 
+  renderTags() {
+    const {
+      tags
+    } = this
+
+    if (tags.length === 0) return null
+
+    // iterate over tags
+    const tagsToRender = tags.map(tag => {
+      console.log('tag', tag)
+      const {
+        label=tag,
+        value=tag
+      } = tag
+      console.log('label', label)
+      console.log('value', value)
+      return html`
+        <unity-tag
+          withClose
+          .label="${label}"
+          .value="${value}"
+        ></unity-tag>
+      `
+    })
+    console.log('tagsToRender', tagsToRender)
+    return html`
+      <div class="tag-list">
+        ${tagsToRender}
+      </div>
+    `
+  }
+
   renderMenu() {
     const {
       _showOptions,
@@ -183,7 +214,8 @@ class UnitySearchBar extends LitElement {
       else tagLabel = tag.label
       return {
         label: tagLabel,
-        tag: true
+        tag: true,
+        id: tagLabel
       }
     })
 
@@ -191,7 +223,7 @@ class UnitySearchBar extends LitElement {
       <unity-select-menu
         .items="${[...tagOptions, ...text]}"
         .onMenuClick="${index => console.log('clicked option: ', index)}"
-        style="left: ${_menuLeft}px; width: ${_menuWidth}px;"
+        style="left: ${_menuLeft}px; max-width: ${_menuWidth}px;"
       ></unity-select-menu>
     `
   }
@@ -221,6 +253,7 @@ class UnitySearchBar extends LitElement {
     return html`
       <div id="search-bar" class="showBorder">
         <unity-icon icon="unity:search"></unity-icon>
+        ${this.renderTags()}
         <unity-text-input
           class="input"
           hideBorder
@@ -266,6 +299,14 @@ class UnitySearchBar extends LitElement {
           flex: 0;
           margin: 0 var(--padding-size-sm, var(--default-padding-size-sm));
         }
+        div.tag-list {
+          display: flex;
+          max-width: 50%;
+          max-height: var(--search-bar-height);
+          overflow-x: hidden;
+          overflow-y: hidden;
+          flex-wrap: wrap;
+        }
         .input {
           flex: 1;
         }
@@ -279,6 +320,8 @@ class UnitySearchBar extends LitElement {
         unity-select-menu {
           position: absolute;
           top: calc(var(--search-bar-height) - 1px);
+          white-space: nowrap;
+          overflow-x: auto;
         }
       `
     ]
