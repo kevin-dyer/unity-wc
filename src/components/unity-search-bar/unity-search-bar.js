@@ -155,7 +155,9 @@ class UnitySearchBar extends LitElement {
 
   // selectTag
 
-  // removeTag
+  removeTag(tagValue) {
+    this.tags = this.tags.filter(tag => tag !== tagValue && tag.label !== tagValue && tag.value !== tagValue)
+  }
 
   clearInput() {
     this.tags = []
@@ -173,18 +175,16 @@ class UnitySearchBar extends LitElement {
 
     // iterate over tags
     const tagsToRender = tags.map(tag => {
-      console.log('tag', tag)
-      const {
+      let {
         label=tag,
         value=tag
       } = tag
-      console.log('label', label)
-      console.log('value', value)
       return html`
         <unity-tag
           withClose
           .label="${label}"
           .value="${value}"
+          .onClick="${(e, v) => this.removeTag(v)}"
         ></unity-tag>
       `
     })
