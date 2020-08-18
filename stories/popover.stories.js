@@ -5,62 +5,62 @@ import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-tag'
 import '../src/components/unity-popover/unity-popover'
 
-export default {
-  title: 'Popover',
-  decorators: [withKnobs]
-}
+// export default {
+//   title: 'Popover',
+//   decorators: [withKnobs]
+// }
 
-export const Standard = () => {
-  let showpopover = boolean('show', false)
-  const uselessBool = boolean('I do not do anything', true)
-  const onClose = () => {
-    action('onClose')
-    return true
-  }
-  const handleDivClick = () => {
-    console.log(`div clicked`)
-    showpopover = true
-    // Call rerender
-  }
-  console.log("handleDivClick -> showpopover", showpopover)
+// export const Standard = () => {
+//   let showpopover = boolean('show', false)
+//   const uselessBool = boolean('I do not do anything', true)
+//   const onClose = () => {
+//     action('onClose')
+//     return true
+//   }
+//   const handleDivClick = () => {
+//     console.log(`div clicked`)
+//     showpopover = true
+//     // Call rerender
+//   }
+//   console.log("handleDivClick -> showpopover", showpopover)
 
-  return html`
-    <unity-popover
-      withClose
-      .show=${showpopover}
-      .onClose=${onClose}
-    >
-      <div
-        id='tag-holder'
-        slot="on-page-content"
-        @click=${handleDivClick}  
-      >
-        ${renderActiveTags()}
-      </div>
-      <div
-        slot="popover-content"
-      >
-        <div>Test Content</div>
-        ${renderInactiveTags()}
-      </div>
-    </unity-popover>
-    <style>
-      #tag-holder {
-        display: flex;
-        position: relative;
-        overflow-y: visible;
-        overflow-x: scroll;
-        border: 1px solid black;
-        box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
-        width: 250px;
-        height: 30px;
-      }
-      .tag {
+//   return html`
+//     <unity-popover
+//       withClose
+//       .show=${showpopover}
+//       .onClose=${onClose}
+//     >
+//       <div
+//         id='tag-holder'
+//         slot="on-page-content"
+//         @click=${handleDivClick}  
+//       >
+//         ${renderActiveTags()}
+//       </div>
+//       <div
+//         slot="popover-content"
+//       >
+//         <div>Test Content</div>
+//         ${renderInactiveTags()}
+//       </div>
+//     </unity-popover>
+//     <style>
+//       #tag-holder {
+//         display: flex;
+//         position: relative;
+//         overflow-y: visible;
+//         overflow-x: scroll;
+//         border: 1px solid black;
+//         box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
+//         width: 250px;
+//         height: 30px;
+//       }
+//       .tag {
 
-      }
-    </style>
-  `
-}
+//       }
+//     </style>
+//   `
+// }
 
 // Tag Management
 const tags = [
