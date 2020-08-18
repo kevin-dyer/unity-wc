@@ -37,8 +37,9 @@ class UnitySearchBar extends LitElement {
 
     this._search = ""
     this._tags = []
-    this._textSeed = []
-    this._tagSeed = []
+    this._tagsLib = {}
+    this.textSeed = []
+    this.tagSeed = []
     this._onChange = ()=>{console.log("onChange not set")}  // TODO: reset to empty func
 
     // will track off of input, component will render off of this and if _currentOptions has matches
@@ -58,6 +59,7 @@ class UnitySearchBar extends LitElement {
       onChange: { type: Function },
 
       // internals
+      _tagsLib: { type: false },
       _showOptions: { type: false },
       _currentOptions: { type: false },
       _matches: { type: false },
@@ -80,8 +82,13 @@ class UnitySearchBar extends LitElement {
   }
   get search() { return this._search }
 
-  // set tags
-  // get tags() { return this._tags }
+  set tags(value) {
+    const oldValue = this._tags
+    this._tags = value
+    this._tagsLib = value.reduce((a,v)=>({...a,[v.label || v]: v}), {})
+    this.requestUpdate('tags', oldValue)
+  }
+  get tags() { return this._tags }
 
   // set textSeed
   // get textSeed() { return this._textSeed }
@@ -106,7 +113,8 @@ class UnitySearchBar extends LitElement {
   findMatches(search) {
     const {
       tagSeed=[],
-      textSeed=[]
+      textSeed=[],
+      _tagsLib
     } = this
     if (!Array.isArray(tagSeed) || !Array.isArray(textSeed)) return
     // split search on spaces into terms
@@ -119,9 +127,17 @@ class UnitySearchBar extends LitElement {
       // check against all tag results (string, tag.label, tag.value)
       tagSeed.forEach(tag => {
         // if tag includes term in any, add to matches
+        console.log('tag', tag)
+        console.log('_tagsLib', _tagsLib)
         if (typeof tag === "string") {
+          // if tag is already selected, skip showing
+          if (!!_tagsLib[tag.toLowerCase()]) return
           if (tag.toLowerCase().includes(term)) tagMatches[tag] = tag
         } else if (tag instanceof Object) {
+          // if tag is already selected, skip showing
+          if (!!_tagsLib[tag.value.toLowerCase()]
+          ||  !!_tagsLib[tag.label.toLowerCase()])
+            return
           if (tag.value.toLowerCase().includes(term)
           ||  tag.label.toLowerCase().includes(term))
             tagMatches[tag.value] = tag
@@ -130,6 +146,7 @@ class UnitySearchBar extends LitElement {
       // check against all strings in seed
       textSeed.forEach(text => {
         // if string includes term, add to matches
+        //
         if (text.toLowerCase().includes(text)) textMatches[text] = text
       })
     })
