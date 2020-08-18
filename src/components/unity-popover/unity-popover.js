@@ -145,7 +145,6 @@ class UnityPopover extends LitElement {
     const pageContent = this.shadowRoot.getElementById('up_id2')
     const popover = this.shadowRoot.getElementById('up_id4')
 
-    console.log("createPopover -> this.makeModifiers()", this.makeModifiers())
     this._popoverInstance = createPopper(pageContent, popover, {
       placement: this.placement,
       modifiers: this.makeModifiers()
