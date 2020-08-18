@@ -1,146 +1,198 @@
 
-// import { html, css } from 'lit-element' // throwing an error for some reason
-import { html, css } from '../../node_modules/lit-element/lit-element'
+import { html, css } from 'lit-element' // throwing an error for some reason
+// import { html, css } from '../../node_modules/lit-element/lit-element'
 
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-tag'
 
 import './unity-popover/unity-popover'
 import { PageViewElement } from './page-view-element'
+import { SharedStyles } from './shared-styles'
+
+const initialTags = {
+  tag1: {
+    active: true,
+    value: `tag1`,
+    label: `example tag 1`,
+    color: `rgb(132, 199, 255)`
+  },
+  tag2: {
+    active: false,
+    value: `tag2`,
+    label: `example tag 2`,
+    color: `rgb(255, 236, 132)`
+  },
+  tag3: {
+    active: true,
+    value: `tag3`,
+    label: `example tag 3`,
+    color: `rgb(237, 147, 101)`
+  },
+  tag4: {
+    active: false,
+    value: `tag4`,
+    label: `example tag 4`,
+    color: `rgb(83, 209, 179)`
+  },
+  tag5: {
+    active: false,
+    value: `tag5`,
+    label: `example tag 5`,
+    color: `rgb(220, 144, 249)`
+  },
+}
 
 class MyPopover extends PageViewElement {
   constructor() {
     super()
     this.showPopover = false
-    this.onClose = () => { console.log(`closing popover`) }
+    this._showPopover = false
+    this.tags = initialTags
+    this._tags = initialTags
+
+    this.addTag = this.addTag.bind(this)
+    this.removeTag = this.removeTag.bind(this)
+    this.onClose = this.onClose.bind(this)
   }
 
-  get styles() {
-    return css`
-      #tag-holder {
-        display: flex;
-        position: relative;
-        overflow-y: visible;
-        overflow-x: scroll;
-        border: 1px solid black;
-        box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
-        width: 250px;
-        height: 30px;
-      }
-      .tag {
-
-      }
-    `
+  set showPopover(value) {
+    const oldValue = this._showPopover
+    this._showPopover = value
+    this.requestUpdate('showPopover', oldValue)
   }
 
-  tags = [
-    {
-      active: true,
-      value: `tag1`,
-      label: `example tag 1`,
-      color: `yellow`
-    },
-    {
-      active: false,
-      value: `tag2`,
-      label: `example tag 2`,
-      color: `red`
-    },
-    {
-      active: true,
-      value: `tag3`,
-      label: `example tag 3`,
-      color: `green`
-    },
-    {
-      active: false,
-      value: `tag4`,
-      label: `example tag 4`,
-      color: `orange`
-    },
-    {
-      active: false,
-      value: `tag5`,
-      label: `example tag 5`,
-      color: `cyan`
-    },
-  ]
+  get showPopover() { return this._showPopover }
+
+  set tags(value) {
+    const oldValue = this._tags
+    this._tags = value
+    this.requestUpdate('tags', oldValue)
+  }
+
+  get tags() { return this._tags }
+
+  onClose() {
+    this.showPopover = false
+  }
   
   addTag(e, tagValue) {
-    const tag = findTagByValue(tagValue)
-    tag.active = true
+    const { tags } = this
+    this.tags = {
+      ...tags,
+      [tagValue]: {
+        ...tags[tagValue],
+        active: true
+      }
+    }
   }
   
   removeTag(e, tagValue) {
-    const tag = findTagByValue(tagValue)
-    tag.active = false
-    console.log("removeTag -> tag", tag)
+    const { tags } = this
+    this.tags = {
+      ...tags,
+      [tagValue]: {
+        ...tags[tagValue],
+        active: false
+      }
+    }
   }
   
-  findTagByValue(tagValue) {
-    const index = this.tags.findIndex(tag => {
-      return tag.value === tagValue;
-    })
-    return this.tags[index] || {}
-  }
-  
-  renderActiveTags = () => {
-    return this.tags.map(({ active, value, label, color }) => {
-      if (!active) return html``
+  renderActiveTags() {
+    return Object.values(this.tags).map(({ active, value, label, color }) => {
+      if (!active) return false
       return html`
         <unity-tag
           .value=${value}
           .label=${label}
-          .onClose=${removeTag}
+          .onClose=${this.removeTag}
           style='--tag-color: ${color};'
           withClose
         />
       `
-    })
+    }).filter(tagHtml => !!tagHtml)
   }
 
   renderInactiveTags() {
-    return this.tags.map(({ active, value, label, color }) => {
-      if (!!active) return html``
+    return Object.values(this.tags).map(({ active, value, label, color }) => {
+      if (!!active) return false
       return html`
         <unity-tag
           .value=${value}
           .label=${label}
-          .onClose=${addTag}
+          .onClick=${this.addTag}
           style='--tag-color: ${color};'
         />
       `
-    })
+    }).filter(tagHtml => !!tagHtml)
   }
 
   handleDivClick() {
     console.log(`div clicked`)
     this.showPopover = true
-    // rerender?
   }
 
   render() {
+    console.log(`this.showPopover`, this.showPopover)
     return html`
-      <unity-popover
-        withClose
-        .show=${this.showPopover}
-        .onClose=${this.onClose}
-      >
-        <div
-          id='tag-holder'
-          slot="on-page-content"
-          @click=${this.handleDivClick}  
+      <div id='my-popover-container'>
+        <unity-popover
+          withClose
+          .show=${this.showPopover}
+          .onClose=${this.onClose}
         >
-          ${renderActiveTags()}
-        </div>
-        <div
-          slot="popover-content"
-        >
-          <div>Test Content</div>
-          ${renderInactiveTags()}
-        </div>
-      </unity-popover>
+          <div
+            id='tag-holder'
+            slot="on-page-content"
+            @click=${this.handleDivClick}  
+          >
+            ${this.renderActiveTags()}
+          </div>
+          <div
+            slot="popover-content"
+          >
+            <div>Popover Content</div>
+            ${this.renderInactiveTags()}
+          </div>
+        </unity-popover>
+      </div>
+      <style>
+        #tag-holder {
+          display: flex;
+          position: relative;
+          overflow-y: visible;
+          overflow-x: scroll;
+          border: 1px solid black;
+          box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
+          width: 250px;
+          height: 30px;
+        }
+        #my-popover-container {
+          padding: 32px;
+        }
+      </style>
     `
+  }
+
+  get styles() {
+    // QUESTION: Why is this not working? (tried re-ordering methods to no avail)
+    return [
+      SharedStyles,
+      css`
+        #my-popover-container {
+          padding: 32px;
+        }
+        #tag-holder {
+          display: flex;
+          position: relative;
+          overflow-y: visible;
+          overflow-x: scroll;
+          border: 1px solid black;
+          box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
+          width: 250px;
+          height: 30px;
+        }
+      `
+    ]
   }
 }
 

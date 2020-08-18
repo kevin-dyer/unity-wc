@@ -9,7 +9,7 @@ import {createPopper} from '@popperjs/core'
 * Shadowed popover/popover with optional close button for holding variable content
 * @name UnityPopover
 * @param {bool} withClose, determines whether the close button is displayed
-* @param {func} onClose, callback fired when the close button is clicked
+* @param {func} onClose, callback fired when the close button is clicked; return true 
 * @param {bool} show, determines whether the popover is visible
 * @param {string} placement, the position of the popover in reference to the on-page content options are
 *  'auto'
@@ -32,7 +32,7 @@ import {createPopper} from '@popperjs/core'
 * @example
 * <unity-popover
 *   withClose
-*   .onClose=${() => { console.log(`popover closed`)}}
+*   .onClose=${() => { console.log(`popover closed`); return true; }}
 *   .show=${true}
 * >
 *   <div slot='on-page-content'>Content always visible, to which popover is anchored</div>
@@ -40,16 +40,21 @@ import {createPopper} from '@popperjs/core'
 * </unity-popover>
 **/
 
+const defaultPlacement = 'bottom'
+
 class UnityPopover extends LitElement {
 
   constructor() {
     super()
-    this.onClose = () => true
+    this.onClose = ()=>{}
     this.withClose = false
     this.show = false
-    this.placement = 'bottom'
+    this.placement = defaultPlacement
+    this._placement = defaultPlacement
     this._show = false
     this._popoverInstance = null
+    this._onPageContent = null
+    this
     this.outsideClickListener = this.outsideClickListener.bind(this)
   }
 
@@ -59,17 +64,8 @@ class UnityPopover extends LitElement {
   }
 
   firstUpdated() {
-    console.log("UnityPopover -> firstUpdated -> this", this)
-    console.log("UnityPopover -> firstUpdated -> this.shadowRoot", this.shadowRoot)
-    const pageContent = this.shadowRoot.getElementById('page-content')
-    console.log("UnityPopover -> firstUpdated -> pageContent", pageContent)
-    const popover = this.shadowRoot.querySelector('#popover')
-    console.log("UnityPopover -> firstUpdated -> popover", popover)
-
-    this._popoverInstance = createPopper(pageContent, popover, {
-      placement: this.placement
-    })
-
+    this.defineElements()
+    this.createPopover()
   }
 
   disconnectedCallback() {
@@ -90,17 +86,13 @@ class UnityPopover extends LitElement {
     const oldVal = this._show
     this._show = val
     const popoverElement = this.shadowRoot.querySelector('#popover')
-    console.log("UnityPopover -> setshow -> popoverElement", popoverElement)
     if (!!popoverElement) {
-    console.log("UnityPopover -> setshow -> popoverElement", popoverElement)
       if (!!val) {
-        console.log(`showing`)
+        this.createPopover()
         popoverElement.setAttribute('data-show', '')
-        console.log("UnityPopover -> setshow -> popoverElement", popoverElement)
       } else {
-        console.log(`hiding`)
+        this.destroyPopover()
         popoverElement.removeAttribute('data-show')
-        console.log("UnityPopover -> setshow -> popoverElement", popoverElement)
       }
     }
 
@@ -118,19 +110,24 @@ class UnityPopover extends LitElement {
     // } 
   }
 
-  handleClosePopover() {
-    console.log(`closing popover`)
-    const { onClose } = this
-    const shouldClose = onClose()
-    if (shouldClose) {
-      this.show = false
-      // this.destroyPopover()
-      document.removeEventListener('click', this.outsideClickListener)
-    }
+  defineElements() {
+    
+    return
+  }
+
+  createPopover() {
+    const pageContent = this.shadowRoot.getElementById('page-content')
+    console.log("UnityPopover -> createPopover -> pageContent", pageContent)
+    const popover = this.shadowRoot.querySelector('#popover')
+    console.log("UnityPopover -> createPopover -> popover", popover)
+
+    this._popoverInstance = createPopper(pageContent, popover, {
+      placement: this.placement
+    })
   }
 
   destroyPopover() {
-    this._popoverInstance?.destroy()
+    this._popoverInstance.destroy()
     this._popoverInstance = null
   }
   
@@ -147,7 +144,7 @@ class UnityPopover extends LitElement {
           --default-popover-left-offset: auto;
         }
         #page-content {
-          
+
         }
         #popover {
           display: none;
@@ -183,7 +180,7 @@ class UnityPopover extends LitElement {
             id='close-button'
             type='borderless'
             centerIcon='unity:close'
-            @click=${this.handleClosePopover}
+            @click=${this.onClose}
           ></unity-button>
           <div id="popover-content-container">
             <slot name="popover-content">No Popover Content Provided</slot>
