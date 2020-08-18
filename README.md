@@ -55,3 +55,9 @@ Test files must be located in the `test/unit/` folder and end with `.test.js`. W
 To run the tests, run `npm test`. It will display success/errors and code coverage on console, and also will create a `coverage` folder with complete coverage results. The tests will fail if a minimum of coverage is not reached. To see the complete coverage results, open the `coverage/index.html` file in the browser. There you can inspect the code to see how many times each line of code is executed in the tests, and which statements/functions/branches are not executed at all.
 
 A CI pipeline is configured in Gitlab to run unit tests when pushing or merging to `develop`. The pipeline is triggered with each merge request created or when new code is pushed to it. If the unit tests fail (because of test failure or insufficient coverage), it will prevent the user from merging.
+
+## Possible Issues
+
+If you encounter and error that looks like `Uncaught TypeError: Failed to resolve module specifier. Relative references must start with either "/", "./", or "../".`, you might be running into a different issue.
+
+When we encountered this issue, it had to do with use of unsupported syntax. It was fixed by putting the appropriate babel parser into the `.babelrc` file.
