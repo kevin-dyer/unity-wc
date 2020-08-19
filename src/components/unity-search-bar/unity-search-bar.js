@@ -130,12 +130,12 @@ class UnitySearchBar extends LitElement {
         // if tag includes term in any, add to matches
         if (typeof tag === "string") {
           // if tag is already selected, skip showing
-          if (!!_tagsLib[tag.toLowerCase()]) return
+          if (!!_tagsLib[tag]) return
           if (tag.toLowerCase().includes(term)) tagMatches[tag] = tag
         } else if (tag instanceof Object) {
           // if tag is already selected, skip showing
-          if (!!_tagsLib[tag.value.toLowerCase()]
-          ||  !!_tagsLib[tag.label.toLowerCase()])
+          if (!!_tagsLib[tag.value]
+          ||  !!_tagsLib[tag.label])
             return
           if (tag.value.toLowerCase().includes(term)
           ||  tag.label.toLowerCase().includes(term))
