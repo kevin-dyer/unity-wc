@@ -41,7 +41,7 @@ class UnitySearchBar extends LitElement {
     this._tagsLib = {}
     this.textSeed = []
     this.tagSeed = []
-    this._onChange = ()=>{console.log("onChange not set")}  // TODO: reset to empty func
+    this._onChange = ()=>{}
 
     // will track off of input, component will render off of this and if _currentOptions has matches
     this._showOptions = false
@@ -78,7 +78,6 @@ class UnitySearchBar extends LitElement {
       text: textOptions
     } = this._currentOptions
     this._showOptions = tagOptions.length > 0 || textOptions.length > 0
-    console.log('update search', value)
     this.requestUpdate('search', oldValue)
   }
   get search() { return this._search }
@@ -153,7 +152,21 @@ class UnitySearchBar extends LitElement {
     this._currentOptions = newMatches
   }
 
-  // selectTag
+  selectTag(tagValue) {
+    const {
+      search,
+      tagSeed,
+      tags
+    } = this
+    const newTag = tagSeed.find(tag => tag === tagValue || tag.label === tagValue || tag.value === tagValue)
+    this.tags = [...tags, newTag]
+    // clear input of matching chars
+    // split input on spaces
+    const terms = search.toLowerCase().split(" ")
+    // filter out anything that is included in tagValue
+    const filteredTerms = terms.filter(term => !tagValue.toLowerCase().includes(term))
+    this.search = filteredTerms.join(" ")
+  }
 
   removeTag(tagValue) {
     this.tags = this.tags.filter(tag => tag !== tagValue && tag.label !== tagValue && tag.value !== tagValue)
@@ -188,7 +201,7 @@ class UnitySearchBar extends LitElement {
         ></unity-tag>
       `
     })
-    console.log('tagsToRender', tagsToRender)
+
     return html`
       <div class="tag-list">
         ${tagsToRender}
@@ -222,7 +235,7 @@ class UnitySearchBar extends LitElement {
     return html`
       <unity-select-menu
         .items="${[...tagOptions, ...text]}"
-        .onMenuClick="${index => console.log('clicked option: ', index)}"
+        .onMenuClick="${tag => this.selectTag(tag)}"
         style="left: ${_menuLeft}px; max-width: ${_menuWidth}px;"
       ></unity-select-menu>
     `
