@@ -30,13 +30,15 @@ class MyTextInput extends PageViewElement {
     return [
       SharedStyles,
       css`
+        :host {
+          display: flex;
+          justify-content: center;
+        }
         .example-container {
           position: relative;
           width: 1000px;
           height: 750px;
           top: 75px;
-          left: 50%;
-          transform: translateX(-50%);
           border: 1px solid grey;
           padding: 20px;
           box-sizing: border-box;
