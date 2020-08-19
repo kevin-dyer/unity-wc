@@ -16,6 +16,7 @@ import '@bit/smartworks.unity.unity-core/unity-button';
 import '@bit/smartworks.unity.unity-core/unity-table'
 import '@bit/smartworks.unity.unity-core/unity-text-input';
 import '@bit/smartworks.unity.unity-core/unity-column-editor'
+// import './unity-table/unity-column-editor'
 import '@bit/smartworks.unity.unity-core/unity-table-export'
 
 import { PageViewElement } from './page-view-element.js';
@@ -173,10 +174,11 @@ class MyTable extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
+
         <unity-page-header
-          title="Unity Table"
+          header="Unity Table"
         >
-          <div slot="right-content">
+          <div slot="right-action">
             <unity-text-input
               ?rounded=${true}
               innerLeftIcon="icons:search"
