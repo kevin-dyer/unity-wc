@@ -181,71 +181,77 @@ class MyPopover extends PageViewElement {
         <h2>Unity Popover</h2>
         <div id='box-container'>
 
-          <div
-            id='overflow-frame-left'
-            class='overflow-frame'
-          >
-            <unity-popover
-              withClose
-              flip
-              closeOnOutsideClick
-              .show=${this.showPopover1}
-              .onClose=${this.onClose1}
-              placement='bottom'
-              .boundary=${this._boundary1}
-              id='popover-1'
+          <div>
+            <h4>"Flip" Popover</h4>
+            <div
+              id='overflow-frame-left'
+              class='overflow-frame'
             >
-              <div
-                id='tag-holder'
-                slot="on-page-content"
-                @click=${this.handleTagHolderClick}  
-              >
-                ${this.renderActiveTags()}
-              </div>
-              <div
-                slot="popover-content"
-                style='padding: 12px;'
-              >
-                <div>Popover 1 Content</div>
-                <div id='inactive-tags-container'>
-                  ${this.renderInactiveTags()}
-                </div>
-              </div>
-            </unity-popover>
-          </div>
-
-          <div
-            id='overflow-frame-right'
-            class='overflow-frame'
-          >
-            <div id='button-container'>
               <unity-popover
-                preventOverflow
+                withClose
+                flip
                 closeOnOutsideClick
-                .show=${this.showPopover2}
-                .onClose=${this.onClose2}
+                .show=${this.showPopover1}
+                .onClose=${this.onClose1}
                 placement='bottom'
-                .boundary=${this._boundary2}
-                .distance=${10}
-                id='popover-2'
+                .boundary=${this._boundary1}
+                id='popover-1'
               >
-                <div slot='on-page-content'>
-                  <unity-button
-                    id='button'
-                    label='${this.showPopover2 ? 'Close' : 'Open'} Popover'
-                    @click=${this.handleButtonClick}  
-                  ></unity-button>
+                <div
+                  id='tag-holder'
+                  slot="on-page-content"
+                  @click=${this.handleTagHolderClick}  
+                >
+                  ${this.renderActiveTags()}
                 </div>
                 <div
                   slot="popover-content"
                   style='padding: 12px;'
                 >
-                  <div>Popover 2 Content</div>
-                  <div id='popover-2-content'>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse urna diam, vestibulum in odio ac, blandit egestas justo. Integer id accumsan dolor. Mauris ac diam vestibulum, rhoncus sem quis, eleifend magna. Morbi varius semper ante non iaculis. Aliquam non felis ac magna accumsan gravida a non turpis. Quisque elit quam, blandit a tincidunt vitae, varius nec ante. Duis lacinia velit ut dolor rutrum mattis. Mauris ex magna, viverra porta dictum a, condimentum at enim. Cras ut neque vitae neque pretium eleifend.
+                  <div>Popover 1 Content</div>
+                  <div id='inactive-tags-container'>
+                    ${this.renderInactiveTags()}
                   </div>
                 </div>
               </unity-popover>
+            </div>
+          </div>
+
+          <div>
+            <h4>"Prevent Overrflow" Popover</h4>
+            <div
+              id='overflow-frame-right'
+              class='overflow-frame'
+            >
+              <div id='button-container'>
+                <unity-popover
+                  preventOverflow
+                  closeOnOutsideClick
+                  .show=${this.showPopover2}
+                  .onClose=${this.onClose2}
+                  placement='bottom'
+                  .boundary=${this._boundary2}
+                  .distance=${10}
+                  id='popover-2'
+                >
+                  <div slot='on-page-content'>
+                    <unity-button
+                      id='button'
+                      label='${this.showPopover2 ? 'Close' : 'Open'} Popover'
+                      @click=${this.handleButtonClick}  
+                    ></unity-button>
+                  </div>
+                  <div
+                    slot="popover-content"
+                    style='padding: 12px;'
+                  >
+                    <div>Popover 2 Content</div>
+                    <div id='popover-2-content'>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse urna diam, vestibulum in odio ac, blandit egestas justo. Integer id accumsan dolor. Mauris ac diam vestibulum, rhoncus sem quis, eleifend magna. Morbi varius semper ante non iaculis. Aliquam non felis ac magna accumsan gravida a non turpis. Quisque elit quam, blandit a tincidunt vitae, varius nec ante. Duis lacinia velit ut dolor rutrum mattis. Mauris ex magna, viverra porta dictum a, condimentum at enim. Cras ut neque vitae neque pretium eleifend.
+                    </div>
+                  </div>
+                </unity-popover>
+              </div>
             </div>
           </div>
         </div>
@@ -259,70 +265,69 @@ class MyPopover extends PageViewElement {
     return [
       SharedStyles,
       css`
-      #popover-1 {
-        --popover-min-width: 150px;
-        --popover-max-width: 250px;
-      }
-      #popover-2 {
-        --popover-max-width: 250px;
-        --popover-margin-top: 8px;
-      }
-      #popover-1::before {
-        box-sizing: border-box;
-        content: '';
-        display: block;
-        height: 280px;
-        width: 1px;
-      }
-      #popover-1::after {
-        box-sizing: border-box;
-        content: '';
-        display: block;
-        height: 320px;
-        width: 1px;
-      }
-      #box-container {
-        width: 100%;
-        display: flex;
-        justify-content: space-around;
-      }
-      #tag-holder {
-        display: flex;
-        position: relative;
-        overflow-x: scroll;
-        border: 1px solid black;
-        box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
-        width: 250px;
-        height: 30px;
-        margin-left: 50px;
-      }
-      #my-popover-container {
-        width: 100%;
-        padding: 32px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      #inactive-tags-container {
-        display: flex;
-        flex-wrap: wrap;
-      }
-      .overflow-frame {
-        height: 300px;
-        width: 350px;
-        overflow: scroll;
-        border: 2px solid blue;
-      }
-      #button-container {
-        height: 270px;
-        width: 800px;
-        display: flex;
-        justify-content: center;
-        padding-top: 30px;
-      }
-      #popover-2-content {
-        font-size: 0.5em;
-      }
+        #popover-1 {
+          --popover-min-width: 150px;
+          --popover-max-width: 250px;
+        }
+        #popover-2 {
+          --popover-max-width: 250px;
+          --popover-margin-top: 8px;
+        }
+        #popover-1::before {
+          box-sizing: border-box;
+          content: '';
+          display: block;
+          height: 280px;
+          width: 1px;
+        }
+        #popover-1::after {
+          box-sizing: border-box;
+          content: '';
+          display: block;
+          height: 320px;
+          width: 1px;
+        }
+        #box-container {
+          width: 100%;
+          display: flex;
+          justify-content: space-around;
+        }
+        #tag-holder {
+          display: flex;
+          position: relative;
+          overflow-x: scroll;
+          border: 1px solid black;
+          box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
+          width: 250px;
+          height: 30px;
+          margin-left: 50px;
+        }
+        #my-popover-container {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        #inactive-tags-container {
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .overflow-frame {
+          height: 300px;
+          width: 350px;
+          overflow: scroll;
+          border: 2px solid blue;
+        }
+        #button-container {
+          height: 270px;
+          width: 800px;
+          display: flex;
+          justify-content: center;
+          padding-top: 30px;
+        }
+        #popover-2-content {
+          font-size: 0.5em;
+        }
       `
     ]
   }
