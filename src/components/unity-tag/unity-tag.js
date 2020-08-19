@@ -31,6 +31,7 @@ class UnityTag extends LitElement {
           --default-tag-text-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --default-tag-font-size: var(--small-text-size, var(--default-small-text-size));
           --default-tag-padding: var(--padding-size-sm, var(--default-padding-size-sm));
+          --default-tag-margin: 4px;
           --icon-size: calc(var(--tag-font-size, var(--default-tag-font-size)) * 1.4);
           display: flex;
         }
@@ -43,7 +44,7 @@ class UnityTag extends LitElement {
           white-space: nowrap;
           user-select: none;
           cursor: pointer;
-          margin: 4px;
+          margin: var(--tag-margin, var(--default-tag-margin));
         }
         .label {
           display: flex;
