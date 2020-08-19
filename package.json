@@ -170,6 +170,7 @@
           "@bit/smartworks.unity.unity-modal": "-",
           "@bit/smartworks.unity.unity-notification": "-",
           "@bit/smartworks.unity.unity-page-header": "-",
+          "@bit/smartworks.unity.unity-popover": "-",
           "@bit/smartworks.unity.unity-progress": "-",
           "@bit/smartworks.unity.unity-section": "-",
           "@bit/smartworks.unity.unity-select-menu": "-",
@@ -268,6 +269,12 @@
         "peerDependencies": {
           "@bit/smartworks.unity.unity-typography": "^1.0.0",
           "@bit/smartworks.unity.unity-icon": "^1.1.0"
+        },
+        "propagate": true
+      },
+      "unity-popover": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-button": "^1.0.0"
         },
         "propagate": true
       },

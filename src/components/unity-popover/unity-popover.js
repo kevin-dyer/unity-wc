@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-import '@bit/smartworks.unity.unity-core/unity-icon'
+import '@bit/smartworks.unity.unity-button'
 
 import {createPopper} from '@popperjs/core'
 
@@ -126,7 +126,6 @@ class UnityPopover extends LitElement {
     const targetInContainer = containerElement.contains(target) 
 
     if (!pathInContainer && !targetInContainer) {
-      console.log(`closing`)
       event.stopPropagation()
       if (!!this.show) this.onClose()
     } 

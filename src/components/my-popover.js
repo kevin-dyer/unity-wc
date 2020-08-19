@@ -271,7 +271,7 @@ class MyPopover extends PageViewElement {
         box-sizing: border-box;
         content: '';
         display: block;
-        height: 320px;
+        height: 280px;
         width: 1px;
       }
       #popover-1::after {
