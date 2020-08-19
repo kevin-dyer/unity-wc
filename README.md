@@ -60,4 +60,4 @@ A CI pipeline is configured in Gitlab to run unit tests when pushing or merging 
 
 If you encounter and error that looks like `Uncaught TypeError: Failed to resolve module specifier. Relative references must start with either "/", "./", or "../".`, you might be running into a different issue.
 
-When we encountered this issue, it had to do with use of unsupported syntax. It was fixed by putting the appropriate babel parser into the `.babelrc` file.
+When we encountered this issue, it had to do with use of unsupported syntax (Syntax Not Allowed). It was fixed by putting the appropriate babel parser into the `.babelrc` file.

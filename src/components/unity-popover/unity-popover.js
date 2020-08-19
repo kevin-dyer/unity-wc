@@ -10,6 +10,7 @@ import {createPopper} from '@popperjs/core'
 * @name UnityPopover
 * @param {bool} withClose, determines whether the close button is displayed
 * @param {func} onClose, callback fired when the close button is clicked; return true 
+* @param {bool} closeOnOutsideClick, determines whether popover will close when the user clicks outside of it or its on-page-content
 * @param {bool} show, determines whether the popover is visible
 * @param {string} placement, the position of the popover in reference to the on-page content options are
 *  'auto'
@@ -53,31 +54,33 @@ class UnityPopover extends LitElement {
 
   constructor() {
     super()
+    
     this.onClose = ()=>{}
     this.withClose = false
-    this.show = false
+    this.closeOnOutsideClick = false
     this.flip = false
     this.preventOverflow = false
-    this.fallbackPlacements = []
     this.boundary = null
+    this.fallbackPlacements = []
     this.placement = defaultPlacement
-    this.distance = 0
-    this._distance = 0
-    this._placement = defaultPlacement
-    this._show = false
-    this._popoverInstance = null
+    this.distance = 0  
 
+    this.show = false
+    this._show = false
+    
+    this._popoverInstance = null
+    
     this.outsideClickListener = this.outsideClickListener.bind(this)
   }
 
   connectedCallback() {
     super.connectedCallback()
-    document.addEventListener('click', this.outsideClickListener)
+    if (this.closeOnOutsideClick) document.addEventListener('click', this.outsideClickListener)
   }
 
   disconnectedCallback() {
     this.destroyPopover()
-    document.removeEventListener('click', this.outsideClickListener)
+    if (this.closeOnOutsideClick) document.removeEventListener('click', this.outsideClickListener)
     super.disconnectedCallback()
   }
 
@@ -85,6 +88,7 @@ class UnityPopover extends LitElement {
     return {
       withClose: { type: Boolean },
       onClose: { type: Function },
+      closeOnOutsideClick: { type: Boolean },
       show: { type: Boolean },
       placement: { type: String },
       flip: { type: Boolean },
@@ -98,7 +102,7 @@ class UnityPopover extends LitElement {
   set show(val) {
     const oldVal = this._show
     this._show = val
-    const popoverElement = this.shadowRoot.querySelector('#up_id4')
+    const popoverElement = this.shadowRoot.querySelector('#popover-container')
     if (!!popoverElement) {
       if (!!val) {
         this.createPopover()
@@ -114,36 +118,23 @@ class UnityPopover extends LitElement {
   
   get show() { return this._show }
 
-  set placement(val) {
-    const oldVal = this._placement
-    this._placement = val
-    this.requestUpdate('placement', oldVal)
-  }
+  outsideClickListener({ target, path }) {
+    if (!target || !Array.isArray(path)) return
 
-  get placement() { return this._placement; }
+    const containerElement = this.shadowRoot.getElementById('main-container')
+    const pathInContainer = path.some(comp => comp === containerElement)
+    const targetInContainer = containerElement.contains(target) 
 
-  set distance(val) {
-    const oldVal = this._distance
-    this._distance = val
-    this.requestUpdate('distance', oldVal)
-  }
-
-  get distance() { return this._distance; }
-
-  outsideClickListener({ target }) {
-    // REVIEWERS - take a look if you have a minute
-    // console.log("UnityPopover -> outsideClickListener -> target", target) // for some reason, this is always evaluating to something way up in the hierarchy (i.e. `my-app`)
-    if (!target) return
-    // const containerElement = this.shadowRoot.getElementById('up_id1')
-    // if (!containerElement.contains(target)) { // this is always evaluating to true due to target issues
-    //   event.stopPropagation()
-    //   if (!!this.show) this.onClose()
-    // } 
+    if (!pathInContainer && !targetInContainer) {
+      console.log(`closing`)
+      event.stopPropagation()
+      if (!!this.show) this.onClose()
+    } 
   }
 
   createPopover() {
-    const pageContent = this.shadowRoot.getElementById('up_id2')
-    const popover = this.shadowRoot.getElementById('up_id4')
+    const pageContent = this.shadowRoot.getElementById('page-content-container')
+    const popover = this.shadowRoot.getElementById('popover-container')
 
     this._popoverInstance = createPopper(pageContent, popover, {
       placement: this.placement,
@@ -199,8 +190,11 @@ class UnityPopover extends LitElement {
           --default-popover-min-height: 38px;
           --default-popover-max-height: 300px;
           --default-popover-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
+          --default-popover-border: none;
+          --default-popover-close-button-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
         }
-        #up_id4 {
+
+        #popover-container {
           display: none;
           max-width: var(--popover-max-width, var(--default-popover-max-width));
           min-width: var(--popover-min-width, var(--default-popover-min-width));
@@ -208,17 +202,20 @@ class UnityPopover extends LitElement {
           min-height: var(--popover-min-height, var(--default-popover-min-height));
           background-color: var(--popover-background-color, var(--default-white-color));
           box-shadow: var(--popover-shadow, var(--default-popover-shadow));
+          border: var(--popover-border, var(--default-popover-border));
           padding: 2px 8px;
           overflow-y: scroll;
         }
-        #up_id4[data-show] {
+
+        #popover-container[data-show] {
           display: block;
         }
-        #up_id5 {
+        
+        #close-button {
           position: absolute;
           top: 5px;
           right: 5px;
-          --button-color: var(--default-dark-grey-text-color);
+          --button-color: var(--popover-close-button-color, var(--default-popover-close-button-color));
         }
       `
     ]
@@ -226,18 +223,18 @@ class UnityPopover extends LitElement {
 
   render() {
     return html`
-      <div id='up_id1'>
-        <div id='up_id2'>
-          <slot name="on-page-content" id='up_id3'>No On-Page Content</slot>
+      <div id='main-container'>
+        <div id='page-content-container'>
+          <slot name="on-page-content" id='page-content'>No On-Page Content</slot>
         </div>
-        <div id='up_id4'>
+        <div id='popover-container'>
           ${this.withClose ? html`<unity-button
-            id='up_id5'
+            id='close-button'
             type='borderless'
             centerIcon='unity:close'
             @click=${this.onClose}
           ></unity-button>` : ``}
-          <div id="up_id6">
+          <div id="popover-content-container">
             <slot name="popover-content">No Popover Content Provided</slot>
           </div>
         </div>

@@ -58,7 +58,8 @@ class MyPopover extends PageViewElement {
 
     this.addTag = this.addTag.bind(this)
     this.removeTag = this.removeTag.bind(this)
-    this.onClose = this.onClose.bind(this)
+    this.onClose1 = this.onClose1.bind(this)
+    this.onClose2 = this.onClose2.bind(this)
   }
 
   set showPopover1(value) {
@@ -106,8 +107,12 @@ class MyPopover extends PageViewElement {
     this.boundary2 = this.shadowRoot.getElementById('overflow-frame-right')
   }
 
-  onClose() {
+  onClose1() {
     this.showPopover1 = false
+  }
+
+  onClose2() {
+    this.showPopover2 = false
   }
   
   addTag(e, tagValue) {
@@ -183,8 +188,9 @@ class MyPopover extends PageViewElement {
             <unity-popover
               withClose
               flip
+              closeOnOutsideClick
               .show=${this.showPopover1}
-              .onClose=${this.onClose}
+              .onClose=${this.onClose1}
               placement='bottom'
               .boundary=${this._boundary1}
               id='popover-1'
@@ -215,8 +221,9 @@ class MyPopover extends PageViewElement {
             <div id='button-container'>
               <unity-popover
                 preventOverflow
+                closeOnOutsideClick
                 .show=${this.showPopover2}
-                .onClose=${this.onClose}
+                .onClose=${this.onClose2}
                 placement='bottom'
                 .boundary=${this._boundary2}
                 .distance=${10}
@@ -244,93 +251,78 @@ class MyPopover extends PageViewElement {
         </div>
         <h4>Try Scrolling with the Popover Active</h4>
       </div>
-      <style>
-        #popover-1 {
-          --popover-min-width: 150px;
-          --popover-max-width: 250px;
-        }
-        #popover-2 {
-          --popover-max-width: 250px;
-          --popover-margin-top: 8px;
-        }
-        #popover-1::before {
-          box-sizing: border-box;
-          content: '';
-          display: block;
-          height: 320px;
-          width: 1px;
-        }
-        #popover-1::after {
-          box-sizing: border-box;
-          content: '';
-          display: block;
-          height: 320px;
-          width: 1px;
-        }
-        #box-container {
-          width: 100%;
-          display: flex;
-          justify-content: space-around;
-        }
-        #tag-holder {
-          display: flex;
-          position: relative;
-          overflow-x: scroll;
-          border: 1px solid black;
-          box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
-          width: 250px;
-          height: 30px;
-          margin-left: 50px;
-        }
-        #my-popover-container {
-          width: 100%;
-          padding: 32px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        #inactive-tags-container {
-          display: flex;
-          flex-wrap: wrap;
-        }
-        .overflow-frame {
-          height: 300px;
-          width: 350px;
-          overflow: scroll;
-          border: 2px solid blue;
-        }
-        #button-container {
-          height: 270px;
-          width: 800px;
-          display: flex;
-          justify-content: center;
-          padding-top: 30px;
-        }
-        #popover-2-content {
-          font-size: 0.5em;
-        }
-      </style>
     `
   }
 
-  get styles() {
+  static get styles() {
     // QUESTION: Why is this not working? (tried re-ordering methods to no avail)
     return [
       SharedStyles,
       css`
-        #my-popover-container {
-          padding: 32px;
-        }
-        #tag-holder {
-          display: flex;
-          position: relative;
-          overflow-y: visible;
-          overflow-x: scroll;
-          border: 1px solid black;
-          box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
-          width: 250px;
-          height: 30px;
-        }
+      #popover-1 {
+        --popover-min-width: 150px;
+        --popover-max-width: 250px;
+      }
+      #popover-2 {
+        --popover-max-width: 250px;
+        --popover-margin-top: 8px;
+      }
+      #popover-1::before {
+        box-sizing: border-box;
+        content: '';
+        display: block;
+        height: 320px;
+        width: 1px;
+      }
+      #popover-1::after {
+        box-sizing: border-box;
+        content: '';
+        display: block;
+        height: 320px;
+        width: 1px;
+      }
+      #box-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+      }
+      #tag-holder {
+        display: flex;
+        position: relative;
+        overflow-x: scroll;
+        border: 1px solid black;
+        box-shadow: 0 0 3px 1px rgba(0,0,0,0.25);
+        width: 250px;
+        height: 30px;
+        margin-left: 50px;
+      }
+      #my-popover-container {
+        width: 100%;
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #inactive-tags-container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .overflow-frame {
+        height: 300px;
+        width: 350px;
+        overflow: scroll;
+        border: 2px solid blue;
+      }
+      #button-container {
+        height: 270px;
+        width: 800px;
+        display: flex;
+        justify-content: center;
+        padding-top: 30px;
+      }
+      #popover-2-content {
+        font-size: 0.5em;
+      }
       `
     ]
   }
