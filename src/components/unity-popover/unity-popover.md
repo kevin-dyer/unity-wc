@@ -1,4 +1,4 @@
 # unity-popover
 
-## v1.0.0
-- Initial component version
+## v0.1.0
+- Initial beta component
