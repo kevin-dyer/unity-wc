@@ -276,7 +276,7 @@ class UnityColumnEditor extends LitElement {
           color: var(--black-text-color, var(--default-black-text-color));
           --paper-checkbox-size: 14px;
           --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --paper-checkbox-checked-color: rgb(var(--primary-brand-rgb, var(--default-primary-brand-rgb)));
+          --paper-checkbox-checked-color: var(--primary-color, var(--default-primary-color));
           --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
           --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
         }

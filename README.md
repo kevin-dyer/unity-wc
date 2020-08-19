@@ -1,4 +1,6 @@
 ## Running app
+```npm install```  
+
 ```npm start```
 or
 ```npm start -- --hostname 0.0.0.0 --port 4444```
