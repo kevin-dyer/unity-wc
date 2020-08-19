@@ -19,6 +19,14 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   .onClose=${removetag}
  *   .onClick=${searchByLabel}
  * />
+ * 
+ * CSS Variables:
+ * --tag-color
+ * --tag-text-color
+ * --tag-font-size
+ * --tag-padding
+ * --tag-margin
+ * --tag-border
  */
 
 class UnityTag extends LitElement {
