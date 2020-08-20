@@ -1,9 +1,9 @@
 import { LitElement, html, css } from 'lit-element'
 import { debounce } from 'underscore'
-import '@bit/smartworks.unity.unity-core/unity-text-input'
-import '@bit/smartworks.unity.unity-core/unity-icon'
-import '@bit/smartworks.unity.unity-core/unity-select-menu'
-import '@bit/smartworks.unity.unity-core/unity-tag'
+import '@bit/smartworks.unity.unity-text-input'
+import '@bit/smartworks.unity.unity-icon'
+import '@bit/smartworks.unity.unity-select-menu'
+import '@bit/smartworks.unity.unity-tag'
 // import dropdown or lightbox
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
