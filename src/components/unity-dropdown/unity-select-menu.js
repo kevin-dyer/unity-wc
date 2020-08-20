@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 import '@bit/smartworks.unity.unity-core/unity-tag'
+import '@bit/smartworks.unity.unity-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
 
 /**
@@ -166,13 +167,13 @@ class UnitySelectMenu extends LitElement {
         ` : html`
           <div class="item-label-wrapper">
           ${!!icon? html`<div class="icon-left-wrapper">
-                <iron-icon class="inner-icon" icon="${icon}"}"></iron-icon>
+                <unity-icon class="inner-icon" icon="${icon}"}"></unity-icon>
               </div> `
             : null }
           <p class="item-label">${label}</p>
           ${!!item.submenu? html`
             <div class="icon-right-wrapper">
-              <iron-icon class="inner-icon" icon="unity:right_chevron"></iron-icon>
+              <unity-icon class="inner-icon" icon="unity:right_chevron"></unity-icon>
             </div>`
             : null }
           </div>
