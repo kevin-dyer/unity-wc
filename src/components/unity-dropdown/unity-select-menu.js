@@ -1,16 +1,18 @@
 import { LitElement, html, css } from 'lit-element';
+import '@bit/smartworks.unity.unity-tag'
+import '@bit/smartworks.unity.unity-icon'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
 
 /**
 * Renders a menu with optional submenus that display on hover.
 * @name UnitySelectMenu
 * @fileOverview A menu component with optional submenus
-* @param {Array} items, the list of menu items
+* @param {Array} items, the list of menu items, item properties include: label, icon, comment (subtext), submenu, tag (flag), id (returned to onMenuClick), tagStyles (customizable tag styles only)
 * @param {func} onMenuClick, callback when a menu option is clicked
 * @param {bool} borderless, do not render list border, default: true
 *
 * @example
-* <unity-select-menu 
+* <unity-select-menu
 *   .items=${dataMock.submenus}
 *   .onMenuClick=${this.onMenuClick}
 * >
@@ -132,23 +134,53 @@ class UnitySelectMenu extends LitElement {
   }
 
   renderItem(item) {
-    const {label, icon, comment, submenu, id } = item;
+    const {
+      label,
+      icon,
+      comment,
+      submenu,
+      id,
+      tag,
+      tagStyles: {
+        "--tag-color": tagColor,
+        "--tag-text-color": tagTextColor,
+        "--tag-font-size": tagFontSize,
+        "--tag-padding": tagPadding
+      }={}
+    } = item
+
+    let tagStyle = ""
+    if (tag) {
+      if (tagColor) tagStyle += `--tag-color: ${tagColor};`
+      if (tagTextColor) tagStyle += `--tag--text-color: ${tagTextColor};`
+      if (tagFontSize) tagStyle += `--tag-font-size: ${tagFontSize};`
+      if (tagPadding) tagStyle += `--tag-padding: ${tagPadding};`
+    }
+
     return html`
       <li @click=${() => this.clickedMenu(id, submenu)}>
-        <div class="item-label-wrapper">
-          ${!!icon? html`<div class="icon-left-wrapper">
-                <iron-icon class="inner-icon" icon="${icon}"}"></iron-icon>
-              </div> ` 
+        ${tag ? html`
+          <unity-tag
+            .label="${label}"
+            style="${tagStyle}"
+          ></unity-tag>
+        ` : html`
+          <div class="item-label-wrapper">
+            ${!!icon? html`
+              <div class="icon-left-wrapper">
+                <unity-icon class="inner-icon" icon="${icon}"}"></unity-icon>
+              </div>`
             : null }
-          <p class="item-label">${label}</p>
-          ${!!item.submenu? html`
-            <div class="icon-right-wrapper">
-              <iron-icon class="inner-icon" icon="unity:right_chevron"></iron-icon>
-            </div>` 
-          : null }
-        </div>
-        ${!!comment? html`<p class="item-comment">${comment}</p>`: null}
-        ${!!submenu? this.renderSubmenu(submenu) : null}
+            <p class="item-label">${label}</p>
+            ${!!item.submenu? html`
+              <div class="icon-right-wrapper">
+                <unity-icon class="inner-icon" icon="unity:right_chevron"></unity-icon>
+              </div>`
+            : null }
+          </div>
+          ${!!comment? html`<p class="item-comment">${comment}</p>`: null}
+          ${!!submenu? this.renderSubmenu(submenu) : null}
+        `}
       </li>
     `;
   }
