@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.3
+- add margin and border to tag style propagation
+
 ### v1.2.2
 - fix version/changelog
 

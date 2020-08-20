@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.6.5
+- unity-select-menu v 1.2.3
+
 ### v1.6.4
 - unity-select-menu v1.2.1, fix changelog
 
