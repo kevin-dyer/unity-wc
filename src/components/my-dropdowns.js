@@ -121,6 +121,21 @@ const dataMock = {
       "icon": "unity:download_alt1",
       "id": "3"
     }
+  ],
+  tags: [
+    {
+      label: "Tag 1",
+      tag: true,
+      id: "tag-1"
+    },
+    {
+      label: "Tag 2",
+      tag: true,
+      id: "tag-2",
+      tagStyles: {
+        "--tag-color": "red"
+      }
+    }
   ]
 };
 
@@ -188,6 +203,18 @@ class MyDropdowns extends PageViewElement {
               .items=${dataMock.withIcons}
             >
             </unity-select-menu>
+          </div>
+
+          <div class="input-box ">
+            <unity-select-menu
+              .items=${dataMock.tags}
+              .onMenuClick="${id => console.log('id clicked', id)}"
+            >
+            </unity-select-menu>
+          </div>
+
+          <div class="input-box ">
+            <unity-select-menu></unity-select-menu>
           </div>
 
         </div>
