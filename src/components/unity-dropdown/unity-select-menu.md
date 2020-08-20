@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.2.2
+- fix version/changelog
+
+### v1.2.1
+- add tag as render option
+
 ### v1.0.1
 - add ignore unity-tags
 
