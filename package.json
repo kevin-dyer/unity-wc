@@ -71,6 +71,7 @@
     "@polymer/paper-spinner": "^3.0.2",
     "@polymer/paper-tabs": "^3.1.0",
     "@polymer/polymer": "^3.1.0",
+    "@popperjs/core": "^2.4.4",
     "@spectrum-web-components/dropzone": "^0.2.5",
     "@webcomponents/webcomponentsjs": "^2.3.0",
     "babel-loader": "^8.0.6",
@@ -86,10 +87,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-proposal-decorators": "^7.6.0",
     "@babel/plugin-proposal-export-default-from": "^7.5.2",
     "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.6.3",
     "@bit/bit.envs.internal.babel-base-compiler": "^1.0.1",
@@ -168,6 +170,7 @@
           "@bit/smartworks.unity.unity-modal": "-",
           "@bit/smartworks.unity.unity-notification": "-",
           "@bit/smartworks.unity.unity-page-header": "-",
+          "@bit/smartworks.unity.unity-popover": "-",
           "@bit/smartworks.unity.unity-progress": "-",
           "@bit/smartworks.unity.unity-section": "-",
           "@bit/smartworks.unity.unity-select-menu": "-",
@@ -266,6 +269,12 @@
         "peerDependencies": {
           "@bit/smartworks.unity.unity-typography": "^1.0.0",
           "@bit/smartworks.unity.unity-icon": "^1.1.0"
+        },
+        "propagate": true
+      },
+      "unity-popover": {
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-button": "^1.0.0"
         },
         "propagate": true
       },
