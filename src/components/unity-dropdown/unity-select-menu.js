@@ -166,15 +166,16 @@ class UnitySelectMenu extends LitElement {
           ></unity-tag>
         ` : html`
           <div class="item-label-wrapper">
-          ${!!icon? html`<div class="icon-left-wrapper">
+            ${!!icon? html`
+              <div class="icon-left-wrapper">
                 <unity-icon class="inner-icon" icon="${icon}"}"></unity-icon>
-              </div> `
+              </div>`
             : null }
-          <p class="item-label">${label}</p>
-          ${!!item.submenu? html`
-            <div class="icon-right-wrapper">
-              <unity-icon class="inner-icon" icon="unity:right_chevron"></unity-icon>
-            </div>`
+            <p class="item-label">${label}</p>
+            ${!!item.submenu? html`
+              <div class="icon-right-wrapper">
+                <unity-icon class="inner-icon" icon="unity:right_chevron"></unity-icon>
+              </div>`
             : null }
           </div>
           ${!!comment? html`<p class="item-comment">${comment}</p>`: null}
