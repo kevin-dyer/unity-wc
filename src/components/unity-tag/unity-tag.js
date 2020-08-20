@@ -19,6 +19,14 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   .onClose=${removetag}
  *   .onClick=${searchByLabel}
  * />
+ * 
+ * CSS Variables:
+ * --tag-color
+ * --tag-text-color
+ * --tag-font-size
+ * --tag-padding
+ * --tag-margin
+ * --tag-border
  */
 
 class UnityTag extends LitElement {
@@ -31,6 +39,8 @@ class UnityTag extends LitElement {
           --default-tag-text-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --default-tag-font-size: var(--small-text-size, var(--default-small-text-size));
           --default-tag-padding: var(--padding-size-sm, var(--default-padding-size-sm));
+          --default-tag-margin: 4px;
+          --default-tag-border: none;
           --icon-size: calc(var(--tag-font-size, var(--default-tag-font-size)) * 1.4);
           display: flex;
         }
@@ -38,12 +48,13 @@ class UnityTag extends LitElement {
           display: flex;
           align-items: center;
           background-color: var(--tag-color, var(--default-tag-color));
+          border: var(--tag-border, var(--default-tag-border));
           border-radius: var(--tag-font-size, var(--default-tag-font-size));
           padding: 2px var(--tag-padding, var(--default-tag-padding));
           white-space: nowrap;
           user-select: none;
           cursor: pointer;
-          margin: 4px;
+          margin: var(--tag-margin, var(--default-tag-margin));
         }
         .label {
           display: flex;
