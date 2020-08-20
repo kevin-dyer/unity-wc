@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.4
+- updated colors to new default.
+
 ### v1.1.1
 - set max height of modal content to 300px and enabled scrolling to display list of many columns.
 
@@ -21,4 +24,3 @@ Ex: <unity-column-editor .buttonProps=${{label: 'Edit Columns', leftIcon: 'setti
 ### v0.0.10
 - Fixed buttons to follow last version implementation.
 - Updated unity-modal to v0.1.5.
-
