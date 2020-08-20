@@ -75,13 +75,45 @@ describe ('unity-select-menu', () => {
     expect(label.innerText).to.equal(labelText)
   })
 
-  // should render item with comment
+  it('should render item with comment', async () => {
+    const el = await fixture(html`<unity-select-menu .items="${[itemOne]}"></unity-select-menu`)
+    const comment = el.shadowRoot.querySelector('ul li p.item-comment')
 
-  // should render item with icon
+    expect(comment).to.exist
+    expect(comment.innerText).to.equal(commentText)
+  })
 
-  // should render borderless
+  it('should render item with icon', async () => {
+    const el = await fixture(html`<unity-select-menu .items="${[itemOne]}"></unity-select-menu`)
+    const icon = el.shadowRoot.querySelector('ul li div.item-label-wrapper div.icon-left-wrapper unity-icon')
 
-  // should send id to func
+    expect(icon).to.exist
+    expect(icon.icon).to.equal(iconName)
+  })
+
+  it('should render borderless', async () => {
+    const el = await fixture(html`<unity-select-menu borderless .items="${[itemOne]}"></unity-select-menu`)
+    const borderlessUl = el.shadowRoot.querySelector('ul.borderless')
+
+    expect(borderlessUl).to.exist
+  })
+
+  it('should send id to onMenuClick', async () => {
+    let ref = {}
+    const onClick = makeOnClick(ref)
+
+    const el = await fixture(html`<unity-select-menu .items="${[itemOne]}" .onMenuClick="${onClick}"></unity-select-menu>`)
+    const li = el.shadowRoot.querySelector('ul li')
+
+    const eventName = 'click'
+    const event = new Event(eventName)
+    const listener = oneEvent(li, eventName)
+
+    li.dispatchEvent(event)
+    await listener
+
+    expect(ref.value).to.equal(idText)
+  })
 
   // should render item with submenu
 
