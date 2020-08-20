@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.6.2
+- unity-column-editor v1.1.2
+
 ### v1.6.1
 - unity-tag v1.1.0
 
