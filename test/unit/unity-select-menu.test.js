@@ -6,6 +6,7 @@ import '../../src/components/unity-dropdown/unity-select-menu'
 describe ('unity-select-menu', () => {
   // testing consts
   const labelText = "label text"
+  const otherLabelText = "other label text"
   const idText = "ID"
   const otherId = "ID2"
   const iconName = "unity:db_candi"
@@ -25,7 +26,7 @@ describe ('unity-select-menu', () => {
     comment: commentText
   }
   const itemTwo = {
-    label: labelText,
+    label: otherLabelText,
     id: otherId
   }
   const itemWithSubmenu = {
@@ -61,10 +62,12 @@ describe ('unity-select-menu', () => {
     const ul = el.shadowRoot.querySelector('ul')
     const li = ul.querySelector('li')
     const labelWrapper = li.querySelector('div.item-label-wrapper')
+    const submenuIcon = labelWrapper.querySelector('div.icon-right-wrapper')
 
     expect(ul).to.exist
     expect(li).to.exist
     expect(labelWrapper).to.exist
+    expect(submenuIcon).to.not.exist
   })
 
   it('should render item with label', async () => {
@@ -115,9 +118,36 @@ describe ('unity-select-menu', () => {
     expect(ref.value).to.equal(idText)
   })
 
-  // should render item with submenu
+  it('should render multiple items', async () => {
+    const el = await fixture(html`<unity-select-menu .items="${[itemOne, itemTwo]}"></unity-select-menu>`)
+    const ul = el.shadowRoot.querySelector('ul')
+    const lis = ul.querySelectorAll('li')
+    const firstLabel = lis[0].querySelector('div.item-label-wrapper p.item-label')
+    const secondLabel = lis[1].querySelector('div.item-label-wrapper p.item-label')
 
-  // should render tag with label
+    expect(lis.length).to.equal(2)
+    expect(firstLabel.innerText).to.equal(labelText)
+    expect(secondLabel.innerText).to.equal(otherLabelText)
+  })
 
-  // should render tag with style
+  it('should render item with submenu', async () => {
+    const el = await fixture(html`<unity-select-menu .items="${[itemWithSubmenu]}"></unity-select-menu>`)
+    const rootItem = el.shadowRoot.querySelector('ul li')
+    const submenuIcon = rootItem.querySelector('div.item-label-wrapper div.icon-right-wrapper unity-icon.inner-icon')
+    const submenuItem = rootItem.querySelector('ul li')
+    const submenuLabel = submenuItem.querySelector('div.item-label-wrapper p.item-label')
+
+    expect(submenuIcon).to.exist
+    expect(submenuItem).to.exist
+    expect(submenuLabel).to.exist
+    expect(submenuLabel.innerText).to.equal(subLabelText)
+  })
+
+  it('should render tag with label', async () => {
+    const el = await fixture(html`<unity-select-menu .items="${[tagItem]}"></unity-select-menu>`)
+    const tag = el.shadowRoot.querySelector('ul li unity-tag')
+
+    expect(tag).to.exist
+    expect(tag.label).to.equal(labelText)
+  })
 })
