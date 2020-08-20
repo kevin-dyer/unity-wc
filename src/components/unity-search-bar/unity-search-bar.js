@@ -228,7 +228,12 @@ class UnitySearchBar extends LitElement {
       return {
         label: tagLabel,
         tag: true,
-        id: tagLabel
+        id: tagLabel,
+        tagStyles: {
+          "--tag-text-color": "var(--black-color, var(--default-black-color))",
+          "--tag-color": "transparent",
+          "--tag-border": "1px solid var(--black-color, var(--default-black-color))"
+        }
       }
     })
 
@@ -292,6 +297,9 @@ class UnitySearchBar extends LitElement {
           --default-input-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-input-border-focus-color: var(--primary-color, var(--default-primary-color));
           --search-bar-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
+          --default-label-color: transparent;
+          --default-label-text-color: var(--black-color, var(--default-black-color));
+          --default-label-border: 1px solid var(--black-color, var(--default-black-color));
           font-family: var(--input-font, var(--default-input-font));
           position: relative;
         }
@@ -335,6 +343,11 @@ class UnitySearchBar extends LitElement {
           top: calc(var(--search-bar-height) - 1px);
           white-space: nowrap;
           overflow-x: auto;
+        }
+        unity-tag {
+          --tag-color: var(--label-color, var(--default-label-color));
+          --tag-text-color: var(--label-text-color, var(--default-label-text-color));
+          --tag-border: var(--label-border, var(--default-label-border));
         }
       `
     ]
