@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { fixture, expect, oneEvent } from '@open-wc/testing'
 import { LitElement, html, css } from 'lit-element'
-import '../../src/components/unity-dropdown/unity-select-menu'
+import '@bit/smartworks.unity.unity-select-menu'
 
 describe ('unity-select-menu', () => {
   // testing consts
