@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.6.2": {
+    "smartworks.unity/unity-core@1.6.4": {
         "files": [
             {
                 "name": "index.js",
@@ -478,7 +478,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-select-menu@1.0.2": {
+    "smartworks.unity/unity-select-menu@1.2.2": {
         "files": [
             {
                 "name": "unity-select-menu.js",
