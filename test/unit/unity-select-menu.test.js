@@ -18,13 +18,13 @@ describe ('unity-select-menu', () => {
 
   const tagStyleColor = "red"
 
-  const item = {
+  const itemOne = {
     label: labelText,
     id: idText,
     icon: iconName,
     comment: commentText
   }
-  const item = {
+  const itemTwo = {
     label: labelText,
     id: otherId
   }
@@ -56,13 +56,30 @@ describe ('unity-select-menu', () => {
     expect(el).shadowDom.to.equal('<ul class="null"></ul>')
   })
 
-  // should render item
+  it('should render item', async () => {
+    const el = await fixture(html`<unity-select-menu .items="${[itemOne]}"></unity-select-menu>`)
+    const ul = el.shadowRoot.querySelector('ul')
+    const li = ul.querySelector('li')
+    const labelWrapper = li.querySelector('div.item-label-wrapper')
 
-  // should render item with label
+    expect(ul).to.exist
+    expect(li).to.exist
+    expect(labelWrapper).to.exist
+  })
+
+  it('should render item with label', async () => {
+    const el = await fixture(html`<unity-select-menu .items="${[itemOne]}"></unity-select-menu`)
+    const label = el.shadowRoot.querySelector('ul li div.item-label-wrapper p.item-label')
+
+    expect(label).to.exist
+    expect(label.innerText).to.equal(labelText)
+  })
 
   // should render item with comment
 
   // should render item with icon
+
+  // should render borderless
 
   // should send id to func
 
