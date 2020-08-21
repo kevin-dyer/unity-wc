@@ -832,6 +832,7 @@ class UnityDropdown extends LitElement {
                 ${this.inputType === MULTI_SELECT ? this.renderSelectAll() : null}
                 ${this.renderList()}
                 ${!!this.helperText? html`<p class="helper-text">${this.helperText}</p>` :null}
+                <slot name="bottom-content"></slot>
               </paper-dialog>`
             :null}
         </div>
