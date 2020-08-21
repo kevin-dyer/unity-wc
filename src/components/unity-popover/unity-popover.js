@@ -204,6 +204,7 @@ class UnityPopover extends LitElement {
           border: var(--popover-border, var(--default-popover-border));
           padding: 2px 8px;
           overflow-y: scroll;
+          z-index: 1;
         }
 
         #popover-container[data-show] {
