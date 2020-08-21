@@ -4,6 +4,7 @@ import '@bit/smartworks.unity.unity-text-input'
 import '@bit/smartworks.unity.unity-icon'
 import '@bit/smartworks.unity.unity-select-menu'
 import '@bit/smartworks.unity.unity-tag'
+import '@bit/smartworks.unity.unity-popover'
 // import dropdown or lightbox
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
@@ -49,6 +50,7 @@ class UnitySearchBar extends LitElement {
     this._debouncedOnChange = ()=>{console.log('debounce not set up')} // TODO: reset to empty func
     this._menuLeft = 0
     this._menuWidth = 0
+    this._showPopover = false
   }
 
   static get properties() {
@@ -65,7 +67,8 @@ class UnitySearchBar extends LitElement {
       _currentOptions: { type: false },
       _matches: { type: false },
       _menuLeft: { type: false },
-      _menuWidth: { type: false }
+      _menuWidth: { type: false },
+      _showPopover: { type: false }
     }
   }
 
@@ -181,7 +184,8 @@ class UnitySearchBar extends LitElement {
 
   renderTags() {
     const {
-      tags
+      tags,
+      _showPopover
     } = this
 
     if (tags.length === 0) return null
@@ -202,11 +206,27 @@ class UnitySearchBar extends LitElement {
       `
     })
 
+    // try to see if click handler can be added.
+    // probably on remoteTag
+    // if tags is bigger than available space, show popover unless popover is open
+
     return html`
       <div class="tag-list">
-        ${tagsToRender}
+        <unity-popover
+          .show="${_showPopover}"
+          closeOnOutsideClick
+          .onClose="${() => this.togglePopover(false)}"
+          placement="top"
+        >
+          <div class="popover-list" slot="on-page-content" @click="${() => this.togglePopover(true)}">${tagsToRender}</div>
+          <div class="popover-content" slot="popover-content">${tagsToRender}</div>
+        </unity-popover>
       </div>
     `
+  }
+
+  togglePopover(show) {
+    this._showPopover = typeof show === 'boolean' ? show : !this._showPopover
   }
 
   renderMenu() {
@@ -302,9 +322,11 @@ class UnitySearchBar extends LitElement {
           --default-label-border: 1px solid var(--black-color, var(--default-black-color));
           font-family: var(--input-font, var(--default-input-font));
           position: relative;
+          flex: 1;
         }
         #search-bar {
           display: flex;
+          flex: 1;
           flex-direction: row;
           align-items: center;
           box-sizing: border-box;
@@ -321,11 +343,20 @@ class UnitySearchBar extends LitElement {
           margin: 0 var(--padding-size-sm, var(--default-padding-size-sm));
         }
         div.tag-list {
-          display: flex;
           max-width: 50%;
           max-height: var(--search-bar-height);
           overflow-x: hidden;
           overflow-y: hidden;
+        }
+        div.popover-list {
+          cursor: pointer;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+        div.popover-content {
+          display: flex;
+          flex-direction: row;
           flex-wrap: wrap;
         }
         .input {
@@ -348,6 +379,7 @@ class UnitySearchBar extends LitElement {
           --tag-color: var(--label-color, var(--default-label-color));
           --tag-text-color: var(--label-text-color, var(--default-label-text-color));
           --tag-border: var(--label-border, var(--default-label-border));
+          --tag-margin: 3px;
         }
       `
     ]
