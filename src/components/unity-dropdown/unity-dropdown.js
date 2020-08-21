@@ -348,6 +348,7 @@ class UnityDropdown extends LitElement {
   }
 
   clickedMenu(index) {
+    this._searchValue = ""
     this.onMenuClick(index);
     this.toggleCollapse();
   }
@@ -601,10 +602,10 @@ class UnityDropdown extends LitElement {
     return html`
       <div class="search-box">
         <unity-text-input
-        .value="${this._searchValue}"
-        .onChange="${this._onInputSearchChange}"
-        .innerLeftIcon="${"unity:search"}"
-        .borderEffects=${false}
+          value="${this._searchValue}"
+          .onChange="${this._onInputSearchChange}"
+          .innerLeftIcon="${"unity:search"}"
+          .borderEffects=${false}
         ></unity-text-input>
       </div>`
   }
@@ -694,9 +695,10 @@ class UnityDropdown extends LitElement {
     if (boxType === SEARCH) {
       return html`
         <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
-            <unity-text-input id="search-input"
+            <unity-text-input
+              id="search-input"
+              value="${this._searchValue}"
               hideBorder=${true}
-              .value="${label}"
               .onChange="${this._onInputSearchChange}"
               placeholder=${placeholder}
               .borderEffects=${false}
@@ -752,19 +754,20 @@ class UnityDropdown extends LitElement {
   }
 
   renderList() {
-    // if this._visibleOptions.length > 50
-    let optionsList = this._visibleOptions.map(option => this.renderOption(option));
-
-    return (this.inputType === MENU)?
-      html`
-        <unity-select-menu
-          .items=${this.options}
-          .onMenuClick=${(index) => this.clickedMenu(index)}
-          borderless
-        >
-        </unity-select-menu>`
-      : optionsList.every(element => element === null)? html`<p class="helper-text">${strings.NO_MATCHES}</p>`
-                                                         : html`<ul id="options-list">${optionsList}</ul>`;
+    const optionsList = this._visibleOptions.map(option => this.renderOption(option));
+    return (
+      optionsList.every(element => element === null)?
+        html`<p class="helper-text">${strings.NO_MATCHES}</p>`
+      : (this.inputType === MENU)? 
+        html`
+          <unity-select-menu
+            .items=${this._visibleOptions}
+            .onMenuClick=${(index) => this.clickedMenu(index)}
+            borderless
+          >
+          </unity-select-menu>`
+        : html`<ul id="options-list">${optionsList}</ul>`
+    )
   }
 
   renderSelectAll() {
