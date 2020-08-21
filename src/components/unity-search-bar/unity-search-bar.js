@@ -171,6 +171,29 @@ class UnitySearchBar extends LitElement {
     this.search = filteredTerms.join(" ")
   }
 
+  handleToggleOrTag(e, tagValue) {
+    // avoid open on clicking inside .tag-list
+    !!e && e.stopPropagation()
+
+    // get boxes for .tag-list and unity-popover
+    const tagList = this.shadowRoot.querySelector('div.tag-list')
+    const popover = this.shadowRoot.querySelector('unity-popover')
+
+    const { [0]: {
+      height: tagListHeight,
+      width: tagListWidth
+    }} = tagList.getClientRects()
+
+    const { [1]: {
+      height: popoverHeight,
+      width: popoverWidth
+    }} = popover.getClientRects()
+
+    // open if needed, otherwise delete tag
+    if ((tagListHeight < popoverHeight || tagListWidth < popoverWidth) && !this._showPopover) this.togglePopover(true)
+    else if (!!tagValue) this.removeTag(tagValue)
+  }
+
   removeTag(tagValue) {
     this.tags = this.tags.filter(tag => tag !== tagValue && tag.label !== tagValue && tag.value !== tagValue)
   }
@@ -201,24 +224,26 @@ class UnitySearchBar extends LitElement {
           withClose
           .label="${label}"
           .value="${value}"
-          .onClick="${(e, v) => this.removeTag(v)}"
+          .onClick="${(e, v) => {
+            this.handleToggleOrTag(e, v)
+          }}"
         ></unity-tag>
       `
     })
 
-    // try to see if click handler can be added.
-    // probably on remoteTag
-    // if tags is bigger than available space, show popover unless popover is open
-
     return html`
-      <div class="tag-list">
+      <div class="tag-list" @click="${() => {
+        console.log('in @click on div.tag-list')
+        this.handleToggleOrTag()
+      }}">
         <unity-popover
           .show="${_showPopover}"
           closeOnOutsideClick
           .onClose="${() => this.togglePopover(false)}"
-          placement="top"
+          placement="bottom-start"
+          distance="-27"
         >
-          <div class="popover-list" slot="on-page-content" @click="${() => this.togglePopover(true)}">${tagsToRender}</div>
+          <div class="popover-list" slot="on-page-content" >${tagsToRender}</div>
           <div class="popover-content" slot="popover-content">${tagsToRender}</div>
         </unity-popover>
       </div>
@@ -297,6 +322,7 @@ class UnitySearchBar extends LitElement {
           hideBorder
           .value="${search}"
           .onChange="${(e, v) => this._debouncedOnChange(v)}"
+          placeholder="Search"
         ></unity-text-input>
         ${this.renderMenu()}
         <div class="clear-button" @click="${() => this.clearInput()}">CLEAR</unity-button>
@@ -347,12 +373,19 @@ class UnitySearchBar extends LitElement {
           max-height: var(--search-bar-height);
           overflow-x: hidden;
           overflow-y: hidden;
+          z-index: 2;
+        }
+        unity-popover {
+          height: 100%;
+          width: 100%;
         }
         div.popover-list {
-          cursor: pointer;
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
+          /*height: var(--search-bar-height);*/
+          height: 100%;
+          width: 100%;
         }
         div.popover-content {
           display: flex;
