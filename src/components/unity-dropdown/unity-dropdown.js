@@ -70,19 +70,18 @@ class UnityDropdown extends LitElement {
           --dropdown-color-light: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
           --dropdown-label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --dropdown-line-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
-          --dropdown-options-box-width: 100%;
           --dropdown-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --dropdown-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --dropdown-button-color: var(--secondary-color, var(--default-secondary-color));
           --dropdown-button-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color));
           --dropdown-button-font-color: var(--background-color, var(--default-background-color));
           --default-dropdown-border-radius: 2px;
+          --default-dropdown-width: 100%;
           font-family: var(--dropdown-input-font);
           border-collapse: collapse;
           user-select: none;
           display: inline-block;
-          width: 100%;
-          max-width: 300px;
+          width: var(--dropdown-width, var(--default-dropdown-width));
         }
         * {
           -moz-box-sizing: border-box;
@@ -155,15 +154,15 @@ class UnityDropdown extends LitElement {
           overflow-y: auto;
           max-height: 330px;
         }
-        .options-box {
+        #options-dialog {
           border: 1px solid var(--dropdown-border-color);
           border-radius: 0 0 var(--dropdown-border-radius, var(--default-dropdown-border-radius)) var(--dropdown-border-radius, var(--default-dropdown-border-radius));
           background-color: var(--dropdown-background-color);
           z-index: 10;
-          width: var(--dropdown-options-box-width);
           position: absolute;
-          max-width: 300px;
           overflow: hidden;
+          width: var(--dropdown-width, var(--default-dropdown-width));
+          margin-top: -1px; /* force input and dialog borders collapse */
         }
         .right-align {
           right: 0;
@@ -204,7 +203,6 @@ class UnityDropdown extends LitElement {
           overflow: hidden;
         }
         .expanded .input-box {
-          border-bottom: none;
           border-radius: var(--dropdown-border-radius, var(--default-dropdown-border-radius)) var(--dropdown-border-radius, var(--default-dropdown-border-radius)) 0 0;
         }
         .selectable:hover:not(.disabled){
@@ -307,6 +305,7 @@ class UnityDropdown extends LitElement {
           width: 100%;
           margin: 0;
           padding: 0;
+          max-width: unset;
         }
         paper-dialog {
           display: block;
@@ -811,7 +810,7 @@ class UnityDropdown extends LitElement {
   // }
 
   render() {
-    let classes = 'options-box'
+    let classes = ''
     if(this.boxType === PRIMARY || this.boxType === SECONDARY || this.boxType === BORDERLESS) classes += ' button-options'
     if(this.rightAlign) classes += ' right-align'
     return html`
