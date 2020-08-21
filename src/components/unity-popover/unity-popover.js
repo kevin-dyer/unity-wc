@@ -4,6 +4,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 import '@bit/smartworks.unity.unity-button'
 
 import {createPopper} from '@popperjs/core'
+import { isElement } from '../unity-utils/unity-utils'
 
 /**
 * Shadowed popover/popover with optional close button for holding variable content
@@ -33,6 +34,7 @@ import {createPopper} from '@popperjs/core'
 * @param {bool} preventOveflow, nudge the popover inwards to prevent it escaping the container
 * @param {htmlElement} boundary, ref specifying the boundary element for flip and preventOverflow
 * @param {number} distance, offset of the popover from the on-page-content, in pixels
+* @param {HTML Element} referenceElement, if provided, this will be the element to which the popover is anchored (not the on-page-content slot)
 
 * @return {LitElement} returns a class extended from LitElement
 * @example
@@ -63,7 +65,8 @@ class UnityPopover extends LitElement {
     this.boundary = null
     this.fallbackPlacements = []
     this.placement = defaultPlacement
-    this.distance = 0  
+    this.distance = 0 
+    this.referenceElement = {}
 
     this.show = false
     this._show = false
@@ -95,7 +98,8 @@ class UnityPopover extends LitElement {
       fallbackPlacements: { type: Array },
       preventOverflow: { type: Boolean },
       boundary: { type: Object },
-      distance: { type: Number }
+      distance: { type: Number },
+      referenceElement: { type: Object }
     }
   }
 
@@ -112,7 +116,6 @@ class UnityPopover extends LitElement {
         popoverElement.removeAttribute('data-show')
       }
     }
-
     this.requestUpdate('show', oldVal)
   }
   
@@ -123,26 +126,28 @@ class UnityPopover extends LitElement {
 
     const containerElement = this.shadowRoot.getElementById('main-container')
     const pathInContainer = path.some(comp => comp === containerElement)
-    const targetInContainer = containerElement.contains(target) 
+    const pathInReferenceElement = isElement(this.referenceElement) && path.some(comp => comp === this.referenceElement)
 
-    if (!pathInContainer && !targetInContainer) {
+    if (!pathInContainer && !pathInReferenceElement) {
       event.stopPropagation()
       if (!!this.show) this.onClose()
     } 
   }
 
   createPopover() {
-    const pageContent = this.shadowRoot.getElementById('page-content-container')
+    const reference = isElement(this.referenceElement) ?
+      this.referenceElement
+      : this.shadowRoot.getElementById('page-content-container')
     const popover = this.shadowRoot.getElementById('popover-container')
 
-    this._popoverInstance = createPopper(pageContent, popover, {
+    this._popoverInstance = createPopper(reference, popover, {
       placement: this.placement,
       modifiers: this.makeModifiers()
     })
   }
 
   destroyPopover() {
-    this._popoverInstance.destroy()
+    if (this._popoverInstance) this._popoverInstance.destroy()
     this._popoverInstance = null
   }
 
@@ -193,6 +198,10 @@ class UnityPopover extends LitElement {
           --default-popover-close-button-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
         }
 
+        #page-content-containerr {
+          height: fit-content;
+        }
+
         #popover-container {
           display: none;
           max-width: var(--popover-max-width, var(--default-popover-max-width));
@@ -224,7 +233,7 @@ class UnityPopover extends LitElement {
     return html`
       <div id='main-container'>
         <div id='page-content-container'>
-          <slot name="on-page-content" id='page-content'>No On-Page Content</slot>
+          <slot name="on-page-content" id='page-content'></slot>
         </div>
         <div id='popover-container'>
           ${this.withClose ? html`<unity-button
