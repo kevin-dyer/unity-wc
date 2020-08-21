@@ -50,6 +50,7 @@ class UnityButton extends LitElement {
           --default-button-important-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
           --default-button-important-pressed-color: var(--tertiary-1-shade-color, var(--default-tertiary-1-shade-color));
           --default-background-color: var(--white-color, var(--default-white-color));
+          --default-button-width: unset;
           flex-shrink: 0;
           display: block;
           --button-color: var(--button-primary-color, var(--default-button-primary-color));
@@ -70,6 +71,7 @@ class UnityButton extends LitElement {
           margin: 0;
           border: 1px solid var(--button-color);
           padding: 7px 14px; /* Design wants 8x15, but must account for border 1 */
+          width: var(--button-width, var(--default-button-width));
         }
 
         paper-button.text-button {
