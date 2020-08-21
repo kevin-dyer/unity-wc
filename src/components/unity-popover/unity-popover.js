@@ -4,7 +4,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 import '@bit/smartworks.unity.unity-button'
 
 import {createPopper} from '@popperjs/core'
-import { isElement } from '../unity-utils/unity-utils'
+import { isElement } from '@bit/smartworks.unity.unity-utils'
 
 /**
 * Shadowed popover/popover with optional close button for holding variable content
