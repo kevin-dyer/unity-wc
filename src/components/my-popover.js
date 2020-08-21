@@ -5,7 +5,7 @@ import { html, css } from 'lit-element' // throwing an error for some reason
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-tag'
 
-import './unity-popover/unity-popover'
+import '@bit/smartworks.unity.unity-core/unity-popover'
 import { PageViewElement } from './page-view-element'
 import { SharedStyles } from './shared-styles'
 
