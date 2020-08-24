@@ -3,7 +3,7 @@ import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-button'
 
-import {createPopper} from '@popperjs/core'
+import { createPopper } from '@popperjs/core'
 import { isElement } from '@bit/smartworks.unity.unity-utils'
 
 /**
