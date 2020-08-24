@@ -213,6 +213,10 @@ class UnitySearchBar extends LitElement {
 
     if (tags.length === 0) return null
 
+    // get element to act as root for popover
+    const popoverRoot = this.shadowRoot.querySelector('div.tag-list')
+    // get height offset for popover
+    const popoverOffset = popoverRoot && ((popoverRoot.clientHeight * -1) + 1) || 0
     // iterate over tags
     const tagsToRender = tags.map(tag => {
       let {
@@ -233,15 +237,16 @@ class UnitySearchBar extends LitElement {
 
     return html`
       <div class="tag-list" @click="${() => {
-        console.log('in @click on div.tag-list')
         this.handleToggleOrTag()
       }}">
         <unity-popover
           .show="${_showPopover}"
+          .flip="${false}"
           closeOnOutsideClick
           .onClose="${() => this.togglePopover(false)}"
           placement="bottom-start"
-          distance="-27"
+          .distance="${popoverOffset}"
+          .referenceElement="${popoverRoot}"
         >
           <div class="popover-list" slot="on-page-content" >${tagsToRender}</div>
           <div class="popover-content" slot="popover-content">${tagsToRender}</div>
@@ -286,14 +291,14 @@ class UnitySearchBar extends LitElement {
       <unity-select-menu
         .items="${[...tagOptions, ...text]}"
         .onMenuClick="${tag => this.selectTag(tag)}"
-        style="left: ${_menuLeft}px; max-width: ${_menuWidth}px;"
+        style="max-width: ${_menuWidth}px;"
       ></unity-select-menu>
     `
   }
 
   updated() {
     const search = this.shadowRoot.querySelector('div#search-bar')
-    const input = this.shadowRoot.querySelector('div#search-bar unity-text-input.input')
+    const input = this.shadowRoot.querySelector('unity-text-input.input')
 
     const { [0]: {
       left: outerLeft,
@@ -304,7 +309,6 @@ class UnitySearchBar extends LitElement {
     }} = input.getClientRects()
 
     const leftPos = Math.abs(outerLeft - innerLeft)
-    this._menuLeft = leftPos
     this._menuWidth = width - leftPos
   }
 
