@@ -317,14 +317,16 @@ class UnitySearchBar extends LitElement {
       <div id="search-bar" class="showBorder">
         <unity-icon icon="unity:search"></unity-icon>
         ${this.renderTags()}
-        <unity-text-input
-          class="input"
-          hideBorder
-          .value="${search}"
-          .onChange="${(e, v) => this._debouncedOnChange(v)}"
-          placeholder="Search"
-        ></unity-text-input>
-        ${this.renderMenu()}
+        <div class="input-wrapper">
+          <unity-text-input
+            class="input"
+            hideBorder
+            .value="${search}"
+            .onChange="${(e, v) => this._debouncedOnChange(v)}"
+            placeholder="Search"
+          ></unity-text-input>
+          ${this.renderMenu()}
+        </div>
         <div class="clear-button" @click="${() => this.clearInput()}">CLEAR</unity-button>
       </div>
     `
@@ -347,7 +349,6 @@ class UnitySearchBar extends LitElement {
           --default-label-text-color: var(--black-color, var(--default-black-color));
           --default-label-border: 1px solid var(--black-color, var(--default-black-color));
           font-family: var(--input-font, var(--default-input-font));
-          position: relative;
           flex: 1;
         }
         #search-bar {
@@ -383,7 +384,6 @@ class UnitySearchBar extends LitElement {
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-          /*height: var(--search-bar-height);*/
           height: 100%;
           width: 100%;
         }
@@ -391,6 +391,13 @@ class UnitySearchBar extends LitElement {
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
+        }
+        div.input-wrapper {
+          position: relative;
+          flex: 1;
+          display: flex;
+          height: 100%;
+          align-items: center;
         }
         .input {
           flex: 1;
@@ -404,7 +411,7 @@ class UnitySearchBar extends LitElement {
         }
         unity-select-menu {
           position: absolute;
-          top: calc(var(--search-bar-height) - 1px);
+          top: calc(var(--search-bar-height) - 2px);
           white-space: nowrap;
           overflow-x: auto;
         }
