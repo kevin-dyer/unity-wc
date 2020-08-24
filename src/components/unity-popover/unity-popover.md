@@ -1,5 +1,9 @@
 # unity-popover
 
+## v1.0.0
+- typo / bug fixes
+- official stable component version
+
 ## v0.1.2
 - Added support for referenceElement
 

@@ -11,7 +11,7 @@ import { isElement } from '@bit/smartworks.unity.unity-utils'
 * @name UnityPopover
 * @param {bool} withClose, determines whether the close button is displayed
 * @param {func} onClose, callback fired when the close button is clicked; return true 
-* @param {bool} closeOnOutsideClick, determines whether popover will close when the user clicks outside of it or its on-page-content
+* @param {bool} closeOnOutsideClick, determines whether popover will close when the user clicks outside of it or its on-page-content (not supported on IE)
 * @param {bool} show, determines whether the popover is visible
 * @param {string} placement, the position of the popover in reference to the on-page content options are
 *  'auto'
@@ -123,7 +123,8 @@ class UnityPopover extends LitElement {
 
   outsideClickListener(event) {
     const { target, path: eventPath} = event
-    const path = eventPath || (event.composedPath && event.composedPath());
+    const path = eventPath || (event.composedPath && event.composedPath())
+    if (!path) return // IE will not have a path here
     
     if (!target || !Array.isArray(path)) return
 
