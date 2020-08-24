@@ -169,6 +169,9 @@ class UnitySearchBar extends LitElement {
     // filter out anything that is included in tagValue
     const filteredTerms = terms.filter(term => !tagValue.toLowerCase().includes(term))
     this.search = filteredTerms.join(" ")
+    // keep focus on input
+    this.shadowRoot.querySelector('.input').shadowRoot.querySelector(
+'#input').focus()
   }
 
   handleToggleOrTag(e, tagValue) {
