@@ -198,7 +198,7 @@ class UnityPopover extends LitElement {
           --default-popover-close-button-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
         }
 
-        #page-content-containerr {
+        #page-content-container {
           height: fit-content;
         }
 
