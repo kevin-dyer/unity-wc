@@ -121,7 +121,10 @@ class UnityPopover extends LitElement {
   
   get show() { return this._show }
 
-  outsideClickListener({ target, path }) {
+  outsideClickListener(event) {
+    const { target, path: eventPath} = event
+    const path = eventPath || (event.composedPath && event.composedPath());
+    
     if (!target || !Array.isArray(path)) return
 
     const containerElement = this.shadowRoot.getElementById('main-container')
@@ -213,6 +216,7 @@ class UnityPopover extends LitElement {
           border: var(--popover-border, var(--default-popover-border));
           padding: 2px 8px;
           overflow-y: scroll;
+          z-index: 1;
         }
 
         #popover-container[data-show] {
