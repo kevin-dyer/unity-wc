@@ -3,8 +3,7 @@ import '@polymer/iron-icon/iron-icon';
 import "@polymer/paper-checkbox";
 import "@polymer/paper-dialog";
 
-// import '@bit/smartworks.unity.unity-button';
-import '../unity-button/unity-button';
+import '@bit/smartworks.unity.unity-button';
 import '@bit/smartworks.unity.unity-icon-set';
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
 import '@bit/smartworks.unity.unity-text-input';
@@ -758,7 +757,7 @@ class UnityDropdown extends LitElement {
     return (
       optionsList.every(element => element === null)?
         html`<p class="helper-text">${strings.NO_MATCHES}</p>`
-      : (this.inputType === MENU)? 
+      : (this.inputType === MENU)?
         html`
           <unity-select-menu
             .items=${this._visibleOptions}

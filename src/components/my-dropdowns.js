@@ -1,9 +1,7 @@
 import { html, css } from 'lit-element';
-// import '@bit/smartworks.unity.unity-core/unity-dropdown'
-import './unity-dropdown/unity-dropdown'
-import './unity-button/unity-button'
+import '@bit/smartworks.unity.unity-core/unity-button'
+import '@bit/smartworks.unity.unity-core/unity-dropdown'
 import '@bit/smartworks.unity.unity-core/unity-select-menu'
-// import '@bit/smartworks.unity.unity-core/unity-button'
 
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
