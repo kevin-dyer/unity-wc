@@ -16,12 +16,14 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {func} onChange, the callback to return the current list of terms to search by
  * @param {[]} textSeed, the list of keywords to seed the autocomplete, array of strings
  * @param {[]} tagSeed, the list of tags to seed the autocomplete, array of str or obj as above
+ * @param {number} debounceTime, the ms value to debounce input changes by, defaults to 250
  * @example
  * <unity-search-bar
  *   .search="${searchFromCookie}"
  *   .tags="${tagsFromCookie}"
  *   .textSeed="${[...listOfThingNames, ...listOfThingActions, ...listOfThingProperties]}"
  *   .tagSeed="${[...listOfThingTags, "Online", { label: "Offline", value: "disconnected" }]}"
+ *   .debounceTime="${500}"
  * />
  *
  * css vars
@@ -30,8 +32,6 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   icon color
  *   button color
  **/
-
- const DEBOUNCE_TIME = 250 // ms
 
 class UnitySearchBar extends LitElement {
   constructor() {
@@ -43,11 +43,12 @@ class UnitySearchBar extends LitElement {
     this.textSeed = []
     this.tagSeed = []
     this._onChange = ()=>{}
+    this._debounceTime = 250
 
     // will track off of input, component will render off of this and if _currentOptions has matches
     this._showOptions = false
     this._currentOptions = []
-    this._debouncedOnChange = ()=>{console.log('debounce not set up')} // TODO: reset to empty func
+    this._debouncedOnChange = ()=>{}
     this._menuLeft = 0
     this._menuWidth = 0
     this._showPopover = false
@@ -60,6 +61,7 @@ class UnitySearchBar extends LitElement {
       textSeed: { type: Array },
       tagSeed: { type: Array },
       onChange: { type: Function },
+      debounceTime: { type: Number },
 
       // internals
       _tagsLib: { type: false },
@@ -93,19 +95,25 @@ class UnitySearchBar extends LitElement {
   }
   get tags() { return this._tags }
 
-  // set textSeed
-  // get textSeed() { return this._textSeed }
-
-  // set tagSeed
-  // get tagSeed() { return this._tagSeed}
-
   set onChange(value) {
     const oldValue = this._onChange
     this._onChange = value
-    this._debouncedOnChange = debounce(v => this.onInputChange(v), DEBOUNCE_TIME)
+    this._makeDebounced()
+    this.requestUpdate('onChange', oldValue)
   }
   get onChange() { return this._onChange }
 
+  set debounceTime(value) {
+    const oldValue = this._debounceTime
+    this._debounceTime = value
+    this._makeDebounced()
+    this.requestUpdate('debounceTime', oldValue)
+  }
+  get debounceTime() { return this._debounceTime }
+
+  _makeDebounced() {
+    this._debouncedOnChange = debounce(v => this.onInputChange(v), this.debounceTime)
+  }
   onInputChange(value) {
     this.search = value
     this.onChange(this._currentOptions) // should return {tags, text: search}
