@@ -249,17 +249,13 @@ class UnitySearchBar extends LitElement {
           withClose
           .label="${label}"
           .value="${value}"
-          .onClick="${(e, v) => {
-            this.handleToggleOrTag(e, v)
-          }}"
+          .onClick="${(e, v) => this.handleToggleOrTag(e, v)}"
         ></unity-tag>
       `
     })
 
     return html`
-      <div class="tag-list" @click="${() => {
-        this.handleToggleOrTag()
-      }}">
+      <div class="tag-list" @click="${() => this.handleToggleOrTag()}">
         <unity-popover
           .show="${_showPopover}"
           .flip="${false}"
