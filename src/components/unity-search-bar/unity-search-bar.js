@@ -5,8 +5,8 @@ import '@bit/smartworks.unity.unity-icon'
 import '@bit/smartworks.unity.unity-select-menu'
 import '@bit/smartworks.unity.unity-tag'
 import '@bit/smartworks.unity.unity-popover'
-import { findMatches } from '@bit/smartworks.unity.unity-utils'
-// import dropdown or lightbox
+// import { findMatches } from '@bit/smartworks.unity.unity-utils'
+import { findMatches } from '../unity-utils/unity-utils'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
 
@@ -28,10 +28,16 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * />
  *
  * css vars
- *   extend needed text input
- *   border color
- *   icon color
- *   button color
+ *   input-font
+ *   input-text-color
+ *   input-text-size
+ *   input-icon-color
+ *   input-border-color
+ *   input-border-hover-color
+ *   input-border-focus-color
+ *   search-tag-color
+ *   search-tag-text-color
+ *   search-tag-border
  **/
 
 class UnitySearchBar extends LitElement {
@@ -331,13 +337,14 @@ class UnitySearchBar extends LitElement {
           --default-input-font: var(--font-family, var(--default-font-family));
           --default-input-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --default-input-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          --default-input-icon-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --default-input-border-color: var(--gray-color, var(--default-gray-color));
           --default-input-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-input-border-focus-color: var(--primary-color, var(--default-primary-color));
           --search-bar-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
-          --default-label-color: transparent;
-          --default-label-text-color: var(--black-color, var(--default-black-color));
-          --default-label-border: 1px solid var(--black-color, var(--default-black-color));
+          --default-search-tag-color: transparent;
+          --default-search-tag-text-color: var(--black-color, var(--default-black-color));
+          --default-search-tag-border: 1px solid var(--black-color, var(--default-black-color));
           font-family: var(--input-font, var(--default-input-font));
           flex: 1;
         }
@@ -358,6 +365,7 @@ class UnitySearchBar extends LitElement {
         unity-icon {
           flex: 0;
           margin: 0 var(--padding-size-sm, var(--default-padding-size-sm));
+          color: var(--input-icon-color, var(--default-input-icon-color));
         }
         div.tag-list {
           max-width: 50%;
@@ -406,9 +414,9 @@ class UnitySearchBar extends LitElement {
           overflow-x: auto;
         }
         unity-tag {
-          --tag-color: var(--label-color, var(--default-label-color));
-          --tag-text-color: var(--label-text-color, var(--default-label-text-color));
-          --tag-border: var(--label-border, var(--default-label-border));
+          --tag-color: var(--search-tag-color, var(--default-search-tag-color));
+          --tag-text-color: var(--search-tag-text-color, var(--default-search-tag-text-color));
+          --tag-border: var(--search-tag-border, var(--default-search-tag-border));
           --tag-margin: 3px;
         }
       `
