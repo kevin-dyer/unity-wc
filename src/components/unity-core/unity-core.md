@@ -6,6 +6,9 @@
 ## Changelog:
 
 ### v1.6.7
+- unity-popover v1.0.1
+
+### v1.6.7
 - unity-popover v1.0.0
 
 ### v1.6.6

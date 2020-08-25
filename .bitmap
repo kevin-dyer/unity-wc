@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.6.7": {
+    "smartworks.unity/unity-core@1.6.8": {
         "files": [
             {
                 "name": "index.js",
@@ -426,7 +426,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-popover@1.0.0": {
+    "smartworks.unity/unity-popover@1.0.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-popover/unity-popover.js",
