@@ -429,14 +429,14 @@
     "smartworks.unity/unity-popover@1.0.3": {
         "files": [
             {
+                "name": "unity-popover.js",
                 "relativePath": "src/components/unity-popover/unity-popover.js",
-                "test": false,
-                "name": "unity-popover.js"
+                "test": false
             },
             {
+                "name": "unity-popover.md",
                 "relativePath": "src/components/unity-popover/unity-popover.md",
-                "test": false,
-                "name": "unity-popover.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-popover/unity-popover.js",
