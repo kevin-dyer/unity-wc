@@ -66,7 +66,9 @@ class UnityPopover extends LitElement {
     this.fallbackPlacements = []
     this.placement = defaultPlacement
     this.distance = 0 
+    
     this.referenceElement = {}
+    this._referenceElement = {}
 
     this.show = false
     this._show = false
@@ -120,6 +122,15 @@ class UnityPopover extends LitElement {
   }
   
   get show() { return this._show }
+
+  set referenceElement(val) {
+    const oldVal = this._referenceElement
+    this._referenceElement = val
+    this.createPopover()
+    this.requestUpdate('referenceElement')
+  }
+
+  get referenceElement() { return this._referenceElement }
 
   outsideClickListener(event) {
     const { target, path: eventPath} = event
