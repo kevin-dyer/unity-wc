@@ -66,7 +66,9 @@ class UnityPopover extends LitElement {
     this.fallbackPlacements = []
     this.placement = defaultPlacement
     this.distance = 0 
+    
     this.referenceElement = {}
+    this._referenceElement = {}
 
     this.show = false
     this._show = false
@@ -121,6 +123,15 @@ class UnityPopover extends LitElement {
   
   get show() { return this._show }
 
+  set referenceElement(val) {
+    const oldVal = this._referenceElement
+    this._referenceElement = val
+    this.createPopover()
+    this.requestUpdate('referenceElement')
+  }
+
+  get referenceElement() { return this._referenceElement }
+
   outsideClickListener(event) {
     const { target, path: eventPath} = event
     const path = eventPath || (event.composedPath && event.composedPath())
@@ -143,6 +154,8 @@ class UnityPopover extends LitElement {
       this.referenceElement
       : this.shadowRoot.getElementById('page-content-container')
     const popover = this.shadowRoot.getElementById('popover-container')
+
+    if (!reference || !popover ) return
 
     this._popoverInstance = createPopper(reference, popover, {
       placement: this.placement,
@@ -200,6 +213,7 @@ class UnityPopover extends LitElement {
           --default-popover-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
           --default-popover-border: none;
           --default-popover-close-button-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --default-popover-z-index: 1;
         }
 
         #page-content-container {
@@ -217,7 +231,7 @@ class UnityPopover extends LitElement {
           border: var(--popover-border, var(--default-popover-border));
           padding: 2px 8px;
           overflow-y: scroll;
-          z-index: 1;
+          z-index: var(--popover-z-index, var(--default-popover-z-index));
         }
 
         #popover-container[data-show] {
