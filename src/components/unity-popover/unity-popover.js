@@ -155,6 +155,8 @@ class UnityPopover extends LitElement {
       : this.shadowRoot.getElementById('page-content-container')
     const popover = this.shadowRoot.getElementById('popover-container')
 
+    if (!reference || !popover ) return
+
     this._popoverInstance = createPopper(reference, popover, {
       placement: this.placement,
       modifiers: this.makeModifiers()
@@ -211,6 +213,7 @@ class UnityPopover extends LitElement {
           --default-popover-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
           --default-popover-border: none;
           --default-popover-close-button-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --default-popover-z-index: 1;
         }
 
         #page-content-container {
@@ -228,7 +231,7 @@ class UnityPopover extends LitElement {
           border: var(--popover-border, var(--default-popover-border));
           padding: 2px 8px;
           overflow-y: scroll;
-          z-index: 1;
+          z-index: var(--popover-z-index, var(--default-popover-z-index));
         }
 
         #popover-container[data-show] {
