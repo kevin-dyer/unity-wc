@@ -5,6 +5,13 @@
 
 ## Changelog:
 
+### v1.6.7
+- unity-popover v1.0.0
+
+### v1.6.6
+- unity-popover v0.1.2
+- unity-utils v0.0.5
+
 ### v1.6.5
 - unity-select-menu v 1.2.3
 

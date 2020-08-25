@@ -5,7 +5,7 @@ import { html, css } from 'lit-element' // throwing an error for some reason
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-tag'
 
-import './unity-popover/unity-popover'
+import '@bit/smartworks.unity.unity-core/unity-popover'
 import { PageViewElement } from './page-view-element'
 import { SharedStyles } from './shared-styles'
 
@@ -105,6 +105,7 @@ class MyPopover extends PageViewElement {
   firstUpdated() {
     this.boundary1 = this.shadowRoot.getElementById('overflow-frame-left')
     this.boundary2 = this.shadowRoot.getElementById('overflow-frame-right')
+    this._buttonReference = this.shadowRoot.getElementById('button')
   }
 
   onClose1() {
@@ -218,12 +219,18 @@ class MyPopover extends PageViewElement {
           </div>
 
           <div>
-            <h4>"Prevent Overrflow" Popover</h4>
+            <h4>"Prevent Overflow" Popover</h4>
             <div
               id='overflow-frame-right'
               class='overflow-frame'
             >
               <div id='button-container'>
+                <unity-button
+                  id='button'
+                  label='${this.showPopover2 ? 'Close' : 'Open'} Popover'
+                  @click=${this.handleButtonClick}  
+                  style='height: fit-content;'
+                ></unity-button>
                 <unity-popover
                   preventOverflow
                   closeOnOutsideClick
@@ -233,14 +240,8 @@ class MyPopover extends PageViewElement {
                   .boundary=${this._boundary2}
                   .distance=${10}
                   id='popover-2'
+                  .referenceElement=${this._buttonReference}
                 >
-                  <div slot='on-page-content'>
-                    <unity-button
-                      id='button'
-                      label='${this.showPopover2 ? 'Close' : 'Open'} Popover'
-                      @click=${this.handleButtonClick}  
-                    ></unity-button>
-                  </div>
                   <div
                     slot="popover-content"
                     style='padding: 12px;'
