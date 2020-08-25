@@ -5,7 +5,6 @@ import '@bit/smartworks.unity.unity-icon'
 import '@bit/smartworks.unity.unity-select-menu'
 import '@bit/smartworks.unity.unity-tag'
 import '@bit/smartworks.unity.unity-popover'
-// import { findMatches } from '@bit/smartworks.unity.unity-utils'
 import { findMatches } from '../unity-utils/unity-utils'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
@@ -15,7 +14,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {''} search, the initial value of the search field
  * @param {[]} tags, the initial tags applied to the search, either strings or obj w/ label and value
  * @param {func} onChange, the callback to return the current list of terms to search by
- * @param {[]} textSeed, the list of keywords to seed the autocomplete, array of strings
+ * @param {[]} textSeed, the list of keywords to seed the autocomplete, array of strings, not implemented
  * @param {[]} tagSeed, the list of tags to seed the autocomplete, array of str or obj as above
  * @param {number} debounceTime, the ms value to debounce input changes by, defaults to 250
  * @example
@@ -47,7 +46,7 @@ class UnitySearchBar extends LitElement {
     this._search = ""
     this._tags = []
     this._tagsMap = []
-    this.textSeed = []
+    // this.textSeed = []
     this.tagSeed = []
     this._onChange = ()=>{}
     this._debounceTime = 250
@@ -65,7 +64,7 @@ class UnitySearchBar extends LitElement {
     return {
       search: { type: String },
       tags: { type: Array },
-      textSeed: { type: Array },
+      // textSeed: { type: Array },
       tagSeed: { type: Array },
       onChange: { type: Function },
       debounceTime: { type: Number },
@@ -135,12 +134,12 @@ class UnitySearchBar extends LitElement {
   getMatches() {
     const {
       tagSeed,
-      textSeed,
+      // textSeed,
       search,
       _tagsMap: exclude
     } = this
 
-    this._currentOptions = findMatches({ tagSeed, textSeed, search, exclude })
+    this._currentOptions = findMatches({ tagSeed, /*textSeed,*/ search, exclude })
   }
 
   selectTag(tagValue) {
@@ -163,6 +162,11 @@ class UnitySearchBar extends LitElement {
     this.shadowRoot.querySelector('.input').shadowRoot.querySelector(
 '#input').focus()
   }
+
+  // TODO: add selectText, selecting text option from menu would remove all terms that match and add selected text to the search
+  // term would need to be saved in a list to make sure it's included in the match exclude
+  // careful around terms that include spaces
+  // need to make sure to update said lib when term is entered manually or removed
 
   handleToggleOrTag(e, tagValue) {
     // avoid open on clicking inside .tag-list
