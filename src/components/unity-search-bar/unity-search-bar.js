@@ -114,9 +114,14 @@ class UnitySearchBar extends LitElement {
   _makeDebounced() {
     this._debouncedOnChange = debounce(v => this.onInputChange(v), this.debounceTime)
   }
+
+  report() {
+     this.onChange({tags: this.tags, text: this.search})
+  }
+
   onInputChange(value) {
     this.search = value
-    this.onChange(this._currentOptions) // should return {tags, text: search}
+    this.report() // should return {tags, text: search}
   }
 
   // compares value given against seeds to return best options
@@ -177,6 +182,8 @@ class UnitySearchBar extends LitElement {
     // filter out anything that is included in tagValue
     const filteredTerms = terms.filter(term => !tagValue.toLowerCase().includes(term))
     this.search = filteredTerms.join(" ")
+    // call report to onChange
+    this.report()
     // keep focus on input
     this.shadowRoot.querySelector('.input').shadowRoot.querySelector(
 '#input').focus()
@@ -207,6 +214,7 @@ class UnitySearchBar extends LitElement {
 
   removeTag(tagValue) {
     this.tags = this.tags.filter(tag => tag !== tagValue && tag.label !== tagValue && tag.value !== tagValue)
+    this.report()
   }
 
   clearInput() {
@@ -214,6 +222,8 @@ class UnitySearchBar extends LitElement {
     this.search = ""
     this._showOptions = false
     this._currentOptions = []
+    // report to onChange
+    this.report()
   }
 
   renderTags() {
