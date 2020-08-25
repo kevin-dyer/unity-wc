@@ -152,7 +152,7 @@ class UnitySearchBar extends LitElement {
     this.tags = [...tags, newTag]
     // clear input of matching chars
     // split input on spaces
-    const terms = search.toLowerCase().split(" ")
+    const terms = search.toLowerCase().split(/\s+/)
     // filter out anything that is included in tagValue
     const filteredTerms = terms.filter(term => !tagValue.toLowerCase().includes(term))
     this.search = filteredTerms.join(" ")

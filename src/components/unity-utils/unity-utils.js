@@ -98,7 +98,7 @@ export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) =>
   if (!Array.isArray(tagSeed) || !Array.isArray(textSeed)) return
   const excludeLib = exclude.reduce((lib, item) => ({...lib, [item]: item}), {})
   // split search on spaces into terms
-  const allTerms = search.toLowerCase().split(' ')
+  const allTerms = search.toLowerCase().split(/\s+/)
   let tagMatches = {}
   let textMatches = {}
   // for each term
