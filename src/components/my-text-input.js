@@ -231,8 +231,7 @@ class MyTextInput extends PageViewElement {
           </div>
           <unity-search-bar
             search="search value"
-            .tags="${["tag 1", "tag 1.5", { label: "tag_2", value:"tag_2" }]}"
-            .tagSeed="${[{ label: "Tag 1", value: "tag 1" }, "Tag 2"]}"
+            .tagSeed="${[{ label: "Tag 1", value: "tag 1" }, "tag 1.5", { label: "tag_2", value:"Tag 2" }]}"
             .onChange="${v => console.log('updating search to: ', v)}"
           ></unity-search-bar>
         </div>
