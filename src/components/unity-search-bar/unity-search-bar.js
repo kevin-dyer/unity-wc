@@ -5,6 +5,7 @@ import '@bit/smartworks.unity.unity-icon'
 import '@bit/smartworks.unity.unity-select-menu'
 import '@bit/smartworks.unity.unity-tag'
 import '@bit/smartworks.unity.unity-popover'
+import { findMatches } from '@bit/smartworks.unity.unity-utils'
 // import dropdown or lightbox
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
@@ -39,7 +40,7 @@ class UnitySearchBar extends LitElement {
 
     this._search = ""
     this._tags = []
-    this._tagsLib = {}
+    this._tagsMap = []
     this.textSeed = []
     this.tagSeed = []
     this._onChange = ()=>{}
@@ -64,7 +65,7 @@ class UnitySearchBar extends LitElement {
       debounceTime: { type: Number },
 
       // internals
-      _tagsLib: { type: false },
+      _tagsMap: { type: false },
       _showOptions: { type: false },
       _currentOptions: { type: false },
       _matches: { type: false },
@@ -77,7 +78,7 @@ class UnitySearchBar extends LitElement {
   set search(value) {
     const oldValue = this._search
     this._search = value
-    this.findMatches(value)
+    this.getMatches()
     const {
       tags: tagOptions,
       text: textOptions
@@ -90,7 +91,8 @@ class UnitySearchBar extends LitElement {
   set tags(value) {
     const oldValue = this._tags
     this._tags = value
-    this._tagsLib = value.reduce((a,v)=>({...a,[v.label || v]: v}), {})
+    let tagKeys = value.reduce((a,v)=>({...a,[v.value || v]: v}), {})
+    this._tagsMap = Object.keys(tagKeys)
     this.requestUpdate('tags', oldValue)
   }
   get tags() { return this._tags }
@@ -124,48 +126,15 @@ class UnitySearchBar extends LitElement {
     this.report() // should return {tags, text: search}
   }
 
-  // compares value given against seeds to return best options
-  // saves obj{ tags, strings } to _currentOptions
-  findMatches(search) {
+  getMatches() {
     const {
-      tagSeed=[],
-      textSeed=[],
-      _tagsLib
+      tagSeed,
+      textSeed,
+      search,
+      _tagsMap: exclude
     } = this
-    if (!Array.isArray(tagSeed) || !Array.isArray(textSeed)) return
-    // split search on spaces into terms
-    const allTerms = search.toLowerCase().split(' ')
-    let tagMatches = {}
-    let textMatches = {}
-    // for each term
-    allTerms.forEach(term => {
-      if (!term) return
-      // check against all tag results (string, tag.label, tag.value)
-      tagSeed.forEach(tag => {
-        // if tag includes term in any, add to matches
-        if (typeof tag === "string") {
-          // if tag is already selected, skip showing
-          if (!!_tagsLib[tag]) return
-          if (tag.toLowerCase().includes(term)) tagMatches[tag] = tag
-        } else if (tag instanceof Object) {
-          // if tag is already selected, skip showing
-          if (!!_tagsLib[tag.value]
-          ||  !!_tagsLib[tag.label])
-            return
-          if (tag.value.toLowerCase().includes(term)
-          ||  tag.label.toLowerCase().includes(term))
-            tagMatches[tag.value] = tag
-        }
-      })
-      // check against all strings in seed
-      textSeed.forEach(text => {
-        // if string includes term, add to matches
-        //
-        if (text.toLowerCase().includes(text)) textMatches[text] = text
-      })
-    })
-    const newMatches = { tags: Object.values(tagMatches), text: Object.values(textMatches) }
-    this._currentOptions = newMatches
+
+    this._currentOptions = findMatches({ tagSeed, textSeed, search, exclude })
   }
 
   selectTag(tagValue) {

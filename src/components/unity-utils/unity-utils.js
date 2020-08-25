@@ -81,3 +81,53 @@ export const isElement = (obj) => {
       (typeof obj.ownerDocument ==="object")
   }
 }
+
+// function to perform search/find from tagSeed and textSeed based on search input
+// input:
+//    tagSeed = array of tag-format objects (string "value" || object { label: string, value: string})
+//   textSeed = array of strings
+//     search = string with space separated terms to search for within tagSeed and textSeed
+//    exclude = array of strings (tag component strings and/or text strings) to ignore from the seeds
+//              given how exclude works, tags and text seeds should have no crossover
+// output:
+//   {
+//     tags: [tag strings/objects that match],
+//     text: [text strings that match]
+//   }
+export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) => {
+  if (!Array.isArray(tagSeed) || !Array.isArray(textSeed)) return
+  const excludeLib = exclude.reduce((lib, item) => ({...lib, [item]: item}), {})
+  // split search on spaces into terms
+  const allTerms = search.toLowerCase().split(' ')
+  let tagMatches = {}
+  let textMatches = {}
+  // for each term
+  allTerms.forEach(term => {
+    if (!term) return
+    // check against all tag results (string, tag.label, tag.value)
+    tagSeed.forEach(tag => {
+      // if tag includes term in any, add to matches
+      if (typeof tag === "string") {
+        // if tag is already selected, skip showing
+        if (!!excludeLib[tag]) return
+        if (tag.toLowerCase().includes(term)) tagMatches[tag] = tag
+      } else if (tag instanceof Object) {
+        // if tag is already selected, skip showing
+        if (!!excludeLib[tag.value]
+        ||  !!excludeLib[tag.label])
+          return
+        if (tag.value.toLowerCase().includes(term)
+        ||  tag.label.toLowerCase().includes(term))
+          tagMatches[tag.value] = tag
+      }
+    })
+    // check against all strings in seed
+    textSeed.forEach(text => {
+      // if string includes term, add to matches
+      //
+      if (!!excludeLib[tag]) return
+      if (text.toLowerCase().includes(text)) textMatches[text] = text
+    })
+  })
+  return { tags: Object.values(tagMatches), text: Object.values(textMatches) }
+}
