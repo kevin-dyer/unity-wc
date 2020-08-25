@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+### v1.6.10
+- unity-button v1.1.4
+- unity-dropdown 1.1.5
+
 ### v1.6.9
 - unity-popover v1.0.2
 

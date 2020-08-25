@@ -1,6 +1,5 @@
 import { html, css } from 'lit-element';
-// import '@bit/smartworks.unity.unity-core/unity-dropdown'
-import './unity-dropdown/unity-dropdown'
+import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-dropdown'
 import '@bit/smartworks.unity.unity-core/unity-select-menu'
 
@@ -214,10 +213,6 @@ class MyDropdowns extends PageViewElement {
             </unity-select-menu>
           </div>
 
-          <div class="input-box ">
-            <unity-select-menu></unity-select-menu>
-          </div>
-
         </div>
 
         <div class="col">
@@ -318,18 +313,37 @@ class MyDropdowns extends PageViewElement {
 
        <div class="col">
 
-       <div class="input-box">
+      <div class="input-box">
         <unity-dropdown
           label="${"Search"}"
           boxType="search"
-          inputType="single-select"
+          inputType="menu"
           placeholder = "Write here or choose below"
           .options=${dataMock.labelsOnly}
-
+          .onMenuClick=${this.onMenuClick}
         >
         </unity-dropdown>
-       </div>
+      </div>
 
+      <div class="input-box">
+        <unity-dropdown
+          label="${"Bottom content slot"}"
+          inputType="single-select"
+          .options=${dataMock.labelsOnly}
+        >
+          <div slot="bottom-content" style="margin:0;padding:0;">
+            <unity-button
+              type="borderless"
+              label="Add Option"
+              leftIcon="unity:add"
+              @click=${(e)=>console.log("Add Option button clicked")}
+              style="--unity-border-radius: 0; width:100%; --button-width: 100%;"
+            >
+            </unity-button>
+            </div>
+          </unity-dropdown>
+        </div>
+     
         <div class="input-box">
           <unity-dropdown
             label="${"Multi select"}"

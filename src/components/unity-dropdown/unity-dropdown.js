@@ -41,13 +41,6 @@ import * as strings from './strings'
 * </unity-dropdown>
 **/
 
-
-/**
- * TODOS:
- * - Fix button not closing
- * - Match colors to spec
- */
-
 const MENU = "menu"
 const SINGLE_SELECT = "single-select"
 const MULTI_SELECT = "multi-select"
@@ -77,18 +70,18 @@ class UnityDropdown extends LitElement {
           --dropdown-color-light: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
           --dropdown-label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --dropdown-line-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
-          --dropdown-options-box-width: 100%;
           --dropdown-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --dropdown-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --dropdown-button-color: var(--secondary-color, var(--default-secondary-color));
           --dropdown-button-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color));
           --dropdown-button-font-color: var(--background-color, var(--default-background-color));
+          --default-dropdown-border-radius: 2px;
+          --default-dropdown-width: 100%;
           font-family: var(--dropdown-input-font);
           border-collapse: collapse;
           user-select: none;
           display: inline-block;
-          width: 100%;
-          max-width: 300px;
+          width: var(--dropdown-width, var(--default-dropdown-width));
         }
         * {
           -moz-box-sizing: border-box;
@@ -161,14 +154,15 @@ class UnityDropdown extends LitElement {
           overflow-y: auto;
           max-height: 330px;
         }
-        .options-box {
+        #options-dialog {
           border: 1px solid var(--dropdown-border-color);
-          border-radius: 0 0 2px 2px;
+          border-radius: 0 0 var(--dropdown-border-radius, var(--default-dropdown-border-radius)) var(--dropdown-border-radius, var(--default-dropdown-border-radius));
           background-color: var(--dropdown-background-color);
           z-index: 10;
-          width: var(--dropdown-options-box-width);
           position: absolute;
-          max-width: 300px;
+          overflow: hidden;
+          width: var(--dropdown-width, var(--default-dropdown-width));
+          margin-top: -1px; /* force input and dialog borders collapse */
         }
         .right-align {
           right: 0;
@@ -204,12 +198,12 @@ class UnityDropdown extends LitElement {
         }
         .input-box {
           border: 1px solid var(--dropdown-border-color);
-          border-radius: 2px;
+          border-radius: var(--dropdown-border-radius, var(--default-dropdown-border-radius));
           height: var(--dropdown-line-height);
+          overflow: hidden;
         }
         .expanded .input-box {
-          border-bottom: none;
-          border-radius: 2px 2px 0 0;
+          border-radius: var(--dropdown-border-radius, var(--default-dropdown-border-radius)) var(--dropdown-border-radius, var(--default-dropdown-border-radius)) 0 0;
         }
         .selectable:hover:not(.disabled){
           cursor:pointer;
@@ -311,6 +305,7 @@ class UnityDropdown extends LitElement {
           width: 100%;
           margin: 0;
           padding: 0;
+          max-width: unset;
         }
         paper-dialog {
           display: block;
@@ -352,6 +347,7 @@ class UnityDropdown extends LitElement {
   }
 
   clickedMenu(index) {
+    this._searchValue = ""
     this.onMenuClick(index);
     this.toggleCollapse();
   }
@@ -425,16 +421,19 @@ class UnityDropdown extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this._visibleOptions = this.options;
-    this.addEventListener("iron-overlay-canceled", this.collapse); // collapse component when clicking outside options box
+    this.addEventListener("iron-overlay-canceled", this._delayClose); // collapse component when clicking outside options box
     window.addEventListener("scroll", this.resizeOptionsBox.bind(this));
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener("iron-overlay-canceled", this.collapse);
+    this.removeEventListener("iron-overlay-canceled", this._delayClose);
     window.removeEventListener("scroll", this.resizeOptionsBox.bind(this));
   }
 
+  _delayClose() {
+    setTimeout(() => this.collapse(), 0)
+  }
   /**
    * Adjust options box size when scrolling
    */
@@ -498,12 +497,7 @@ class UnityDropdown extends LitElement {
   }
 
 
-  collapse(event) {
-    /** only for the button dropdown, when the menu is expanded and you press the button again to close it,
-     * both the iron-overlay cancel (click outside) and the button click event are triggered (in that order).
-     * The consequence is that the dropdown is closed due to the click outside, then opened again by the mouse click
-     * event, making it impossible to close the menu by clicking the button.
-     */
+  collapse() {
     this._collapsed = true;
   }
 
@@ -607,10 +601,10 @@ class UnityDropdown extends LitElement {
     return html`
       <div class="search-box">
         <unity-text-input
-        .value="${this._searchValue}"
-        .onChange="${this._onInputSearchChange}"
-        .innerLeftIcon="${"unity:search"}"
-        .borderEffects=${false}
+          value="${this._searchValue}"
+          .onChange="${this._onInputSearchChange}"
+          .innerLeftIcon="${"unity:search"}"
+          .borderEffects=${false}
         ></unity-text-input>
       </div>`
   }
@@ -700,9 +694,10 @@ class UnityDropdown extends LitElement {
     if (boxType === SEARCH) {
       return html`
         <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
-            <unity-text-input id="search-input"
+            <unity-text-input
+              id="search-input"
+              value="${this._searchValue}"
               hideBorder=${true}
-              .value="${label}"
               .onChange="${this._onInputSearchChange}"
               placeholder=${placeholder}
               .borderEffects=${false}
@@ -758,19 +753,20 @@ class UnityDropdown extends LitElement {
   }
 
   renderList() {
-    // if this._visibleOptions.length > 50
-    let optionsList = this._visibleOptions.map(option => this.renderOption(option));
-
-    return (this.inputType === MENU)?
-      html`
-        <unity-select-menu
-          .items=${this.options}
-          .onMenuClick=${(index) => this.clickedMenu(index)}
-          borderless
-        >
-        </unity-select-menu>`
-      : optionsList.every(element => element === null)? html`<p class="helper-text">${strings.NO_MATCHES}</p>`
-                                                         : html`<ul id="options-list">${optionsList}</ul>`;
+    const optionsList = this._visibleOptions.map(option => this.renderOption(option));
+    return (
+      optionsList.every(element => element === null)?
+        html`<p class="helper-text">${strings.NO_MATCHES}</p>`
+      : (this.inputType === MENU)?
+        html`
+          <unity-select-menu
+            .items=${this._visibleOptions}
+            .onMenuClick=${(index) => this.clickedMenu(index)}
+            borderless
+          >
+          </unity-select-menu>`
+        : html`<ul id="options-list">${optionsList}</ul>`
+    )
   }
 
   renderSelectAll() {
@@ -814,7 +810,7 @@ class UnityDropdown extends LitElement {
   // }
 
   render() {
-    let classes = 'options-box'
+    let classes = ''
     if(this.boxType === PRIMARY || this.boxType === SECONDARY || this.boxType === BORDERLESS) classes += ' button-options'
     if(this.rightAlign) classes += ' right-align'
     return html`
@@ -838,6 +834,7 @@ class UnityDropdown extends LitElement {
                 ${this.inputType === MULTI_SELECT ? this.renderSelectAll() : null}
                 ${this.renderList()}
                 ${!!this.helperText? html`<p class="helper-text">${this.helperText}</p>` :null}
+                <slot name="bottom-content"></slot>
               </paper-dialog>`
             :null}
         </div>
