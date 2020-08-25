@@ -168,29 +168,6 @@ class UnitySearchBar extends LitElement {
   // careful around terms that include spaces
   // need to make sure to update said lib when term is entered manually or removed
 
-  handleToggleOrTag(e, tagValue) {
-    // avoid open on clicking inside .tag-list
-    !!e && e.stopPropagation()
-
-    // get boxes for .tag-list and unity-popover
-    const tagList = this.shadowRoot.querySelector('div.tag-list')
-    const popover = this.shadowRoot.querySelector('unity-popover')
-
-    const { [0]: {
-      height: tagListHeight,
-      width: tagListWidth
-    }} = tagList.getClientRects()
-
-    const { [1]: {
-      height: popoverHeight,
-      width: popoverWidth
-    }} = popover.getClientRects()
-
-    // open if needed, otherwise delete tag
-    if ((tagListHeight < popoverHeight || tagListWidth < popoverWidth) && !this._showPopover) this.togglePopover(true)
-    else if (!!tagValue) this.removeTag(tagValue)
-  }
-
   removeTag(tagValue) {
     this.tags = this.tags.filter(tag => tag !== tagValue && tag.label !== tagValue && tag.value !== tagValue)
     this.report()
@@ -228,13 +205,13 @@ class UnitySearchBar extends LitElement {
           withClose
           .label="${label}"
           .value="${value}"
-          .onClick="${(e, v) => this.handleToggleOrTag(e, v)}"
+          .onClose="${(e, v) => this.removeTag(v)}"
         ></unity-tag>
       `
     })
 
     return html`
-      <div class="tag-list" @click="${() => this.handleToggleOrTag()}">
+      <div class="tag-list" @mouseover="${() => this.handleHover()}">
         <unity-popover
           .show="${_showPopover}"
           .flip="${false}"
@@ -251,7 +228,27 @@ class UnitySearchBar extends LitElement {
     `
   }
 
+  handleHover() {
+    // get boxes for .tag-list and unity-popover
+    const tagList = this.shadowRoot.querySelector('div.tag-list')
+    const popover = this.shadowRoot.querySelector('unity-popover')
+
+    const { [0]: {
+      height: tagListHeight,
+      width: tagListWidth
+    }} = tagList.getClientRects()
+
+    const { [1]: {
+      height: popoverHeight,
+      width: popoverWidth
+    }} = popover.getClientRects()
+
+    // open if needed, otherwise delete tag
+    if ((tagListHeight < popoverHeight || tagListWidth < popoverWidth) && !this._showPopover) this.togglePopover(true)
+  }
+
   togglePopover(show) {
+    console.log('entering togglePopover', show)
     this._showPopover = typeof show === 'boolean' ? show : !this._showPopover
   }
 
