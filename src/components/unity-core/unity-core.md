@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.6.13
+- Added missing export for unity-popover
+
 ### v1.6.12
 - unity-tag v1.1.2
 
