@@ -16,7 +16,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {func} onChange, the callback to return the current list of terms to search by
  * @param {[]} textSeed, the list of keywords to seed the autocomplete, array of strings, not implemented
  * @param {[]} tagSeed, the list of tags to seed the autocomplete, array of str or obj as above
- * @param {number} debounceTime, the ms value to debounce input changes by, defaults to 250
+ * @param {number} debounceTime, the ms value to debounce input changes by, defaults to 300
  * @example
  * <unity-search-bar
  *   .search="${searchFromCookie}"
@@ -48,7 +48,7 @@ class UnitySearchBar extends LitElement {
     // this.textSeed = []
     this._tagSeed = []
     this._onChange = ()=>{}
-    this._debounceTime = 250
+    this._debounceTime = 300
 
     // will track off of input, component will render off of this and if _currentOptions has matches
     this._showOptions = false
