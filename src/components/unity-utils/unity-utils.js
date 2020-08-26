@@ -113,7 +113,7 @@ export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) =>
         if (!!excludeLib[tag.value]
         ||  !!excludeLib[tag.label])
           return
-        if (termRegex.test(tag.value) || termRegex.test(tag.label))
+        if (tag.value && (termRegex.test(tag.value)) || (tag.label && termRegex.test(tag.label)))
           tagMatches[tag.value] = tag
       }
     })
