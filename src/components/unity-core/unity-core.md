@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.6.12
+- unity-tag v1.1.2
+
+### v1.6.11
+- unity-tag v1.1.1
+
 ### v1.6.10
 - unity-button v1.1.4
 - unity-dropdown 1.1.5
