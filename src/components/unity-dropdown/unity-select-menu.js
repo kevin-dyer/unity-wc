@@ -154,7 +154,7 @@ class UnitySelectMenu extends LitElement {
     let tagStyle = ""
     if (tag) {
       if (tagColor) tagStyle += `--tag-color: ${tagColor};`
-      if (tagTextColor) tagStyle += `--tag--text-color: ${tagTextColor};`
+      if (tagTextColor) tagStyle += `--tag-text-color: ${tagTextColor};`
       if (tagFontSize) tagStyle += `--tag-font-size: ${tagFontSize};`
       if (tagPadding) tagStyle += `--tag-padding: ${tagPadding};`
       if (tagMargin) tagStyle += `--tag-margin: ${tagMargin};`
