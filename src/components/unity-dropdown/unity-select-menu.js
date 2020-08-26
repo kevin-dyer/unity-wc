@@ -151,7 +151,8 @@ class UnitySelectMenu extends LitElement {
       }={}
     } = item
 
-    let tagStyle = ""
+    // tag height should be 2 * (font size + internal margin)
+    let tagStyle = "height: calc( (var(--tag-font-size, var(--default-tag-font-size)) + var(--tag-margin, var(--default-tag-margin)) ) * 2 );"
     if (tag) {
       if (tagColor) tagStyle += `--tag-color: ${tagColor};`
       if (tagTextColor) tagStyle += `--tag-text-color: ${tagTextColor};`
