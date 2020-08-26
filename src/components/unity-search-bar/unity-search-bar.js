@@ -12,7 +12,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 /**
  * @name UnitySearchBar
  * @param {''} search, the initial value of the search field
- * @param {[]} tags, the initial tags applied to the search, either strings or obj w/ label and value
+ * @param {[]} tags, the initial tags applied to the search, obj w/ value and label
  * @param {func} onChange, the callback to return the current list of terms to search by
  * @param {[]} textSeed, the list of keywords to seed the autocomplete, array of strings, not implemented
  * @param {[]} tagSeed, the list of tags to seed the autocomplete, array of str or obj as above
@@ -44,8 +44,7 @@ class UnitySearchBar extends LitElement {
     super()
 
     this._search = ""
-    this._tags = []
-    this._tagsMap = []
+    this._tags = new Map()
     // this.textSeed = []
     this.tagSeed = []
     this._onChange = ()=>{}
@@ -58,6 +57,7 @@ class UnitySearchBar extends LitElement {
     this._menuLeft = 0
     this._menuWidth = 0
     this._showPopover = false
+    this._excludedTags = []
   }
 
   static get properties() {
@@ -70,7 +70,7 @@ class UnitySearchBar extends LitElement {
       debounceTime: { type: Number },
 
       // internals
-      _tagsMap: { type: false },
+      _excludedTags: { type: false },
       _showOptions: { type: false },
       _currentOptions: { type: false },
       _matches: { type: false },
@@ -95,9 +95,26 @@ class UnitySearchBar extends LitElement {
 
   set tags(value) {
     const oldValue = this._tags
-    this._tags = value
-    let tagKeys = value.reduce((a,v)=>({...a,[v.value || v]: v}), {})
-    this._tagsMap = Object.keys(tagKeys)
+    let newValue = value
+    // if not a map, make it into a map
+    if (!(value instanceof Map)) {
+      // if not an array, make an empty map
+      if (!Array.isArray(value)) {
+        newValue = new Map()
+      } else {
+        // get array of tag strings to exclude
+        newValue = new Map(value.map(tag => [tag.value, tag]))
+      }
+    }
+    this._tags = newValue
+    // all [tag values and labels]
+    let excluded = []
+    console.log('newValue', newValue)
+    newValue.forEach(({value, label}) => {
+      excluded.push(value)
+      if (label) excluded.push(label)
+    })
+    this._excludedTags = excluded
     this.requestUpdate('tags', oldValue)
   }
   get tags() { return this._tags }
@@ -123,7 +140,7 @@ class UnitySearchBar extends LitElement {
   }
 
   report() {
-     this.onChange({tags: this.tags, text: this.search})
+     this.onChange({tags: Array.from(this.tags), text: this.search})
   }
 
   onInputChange(value) {
@@ -136,9 +153,8 @@ class UnitySearchBar extends LitElement {
       tagSeed,
       // textSeed,
       search,
-      _tagsMap: exclude
+      _excludedTags: exclude
     } = this
-
     this._currentOptions = findMatches({ tagSeed, /*textSeed,*/ search, exclude })
   }
 
@@ -148,9 +164,11 @@ class UnitySearchBar extends LitElement {
       tagSeed,
       tags
     } = this
-    const newTag = tagSeed.find(tag => tag === tagValue || tag.label === tagValue || tag.value === tagValue)
+    const newTag = tagSeed.find(tag => tag.value === tagValue || tag.label === tagValue)
     this.tags = [...tags, newTag]
-    // clear input of matching chars
+    // clear input of matching chars or first from end
+    // see if can remove whole tag
+    // let terms = search.includes
     // split input on spaces
     const terms = search.toLowerCase().split(/\s+/)
     // filter out anything that is included in tagValue
@@ -169,7 +187,9 @@ class UnitySearchBar extends LitElement {
   // need to make sure to update said lib when term is entered manually or removed
 
   removeTag(tagValue) {
-    this.tags = this.tags.filter(tag => tag !== tagValue && tag.label !== tagValue && tag.value !== tagValue)
+    const { tags } = this
+    tags.delete(tagValue)
+    this.tags = tags
     this.report()
   }
 
@@ -195,19 +215,16 @@ class UnitySearchBar extends LitElement {
     // get height offset for popover
     const popoverOffset = popoverRoot && ((popoverRoot.clientHeight * -1) + 1) || 0
     // iterate over tags
-    const tagsToRender = tags.map(tag => {
-      let {
-        label=tag,
-        value=tag
-      } = tag
-      return html`
+    let tagsToRender = []
+    tags.forEach(({label, value}) => {
+      tagsToRender.push(html`
         <unity-tag
           withClose
           .label="${label}"
           .value="${value}"
           .onClose="${(e, v) => this.removeTag(v)}"
         ></unity-tag>
-      `
+      `)
     })
 
     return html`
