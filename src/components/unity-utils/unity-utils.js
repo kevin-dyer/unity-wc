@@ -102,10 +102,14 @@ export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) =>
   let tagMatches = {}
   let textMatches = {}
   // for each term
-  allTerms.forEach(term => {
+  allTerms.forEach((term, index) => {
     if (!term) return
     // check against all tag results (string, tag.label, tag.value)
-    const termRegex = RegExp(term, 'i')
+    let tagTermRegex
+    if (tagSeed.length > 0) {
+      const tagTerm = index > 0 ? allTerms.slice(index).join(" ") : allTerms.join(" ")
+      tagTermRegex = RegExp(tagTerm, 'i')
+    }
     tagSeed.forEach(tag => {
       // if tag includes term in any, add to matches
       if (tag instanceof Object) {
@@ -113,7 +117,7 @@ export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) =>
         if (!!excludeLib[tag.value]
         ||  !!excludeLib[tag.label])
           return
-        if (tag.value && (termRegex.test(tag.value)) || (tag.label && termRegex.test(tag.label)))
+        if (tag.value && (tagTermRegex.test(tag.value)) || (tag.label && tagTermRegex.test(tag.label)))
           tagMatches[tag.value] = tag
       }
     })
@@ -122,7 +126,7 @@ export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) =>
       // if string includes term, add to matches
       // if text is excluded, skip
       if (!!excludeLib[tag]) return
-      if (termRegex.test(text)) textMatches[text] = text
+      if (RegExp(term, 'i').test(text)) textMatches[text] = text
     })
   })
   return { tags: Object.values(tagMatches), text: Object.values(textMatches) }
