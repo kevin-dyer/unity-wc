@@ -656,12 +656,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-utils@0.0.5": {
+    "smartworks.unity/unity-utils@1.0.0": {
         "files": [
             {
                 "name": "unity-utils.js",
                 "relativePath": "src/components/unity-utils/unity-utils.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-utils/unity-utils.md",
+                "test": false,
+                "name": "unity-utils.md"
             }
         ],
         "mainFile": "src/components/unity-utils/unity-utils.js",
