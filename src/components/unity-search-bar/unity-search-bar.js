@@ -59,6 +59,7 @@ class UnitySearchBar extends LitElement {
     this._showPopover = false
     this._excludedTags = []
     this._availableTags = new Map()
+    this._oversized = false
   }
 
   static get properties() {
@@ -78,7 +79,8 @@ class UnitySearchBar extends LitElement {
       _menuLeft: { type: false },
       _menuWidth: { type: false },
       _showPopover: { type: false },
-      _availableTags: { type: false }
+      _availableTags: { type: false },
+      _oversized: { type: false }
     }
   }
 
@@ -274,22 +276,7 @@ class UnitySearchBar extends LitElement {
   }
 
   handleHover() {
-    // get boxes for .tag-list and unity-popover
-    const tagList = this.shadowRoot.querySelector('div.tag-list')
-    const popover = this.shadowRoot.querySelector('unity-popover')
-
-    const { [0]: {
-      height: tagListHeight,
-      width: tagListWidth
-    }} = tagList.getClientRects()
-
-    const { [1]: {
-      height: popoverHeight,
-      width: popoverWidth
-    }} = popover.getClientRects()
-
-    // open if needed, otherwise delete tag
-    if (this.tags.size > 0 && (tagListHeight < popoverHeight || tagListWidth < popoverWidth) && !this._showPopover) this.togglePopover(true)
+    if (this._oversized) this.togglePopover(true)
   }
 
   togglePopover(show) {
@@ -331,6 +318,7 @@ class UnitySearchBar extends LitElement {
   }
 
   updated() {
+    // setting position for autocomplet menu
     const search = this.shadowRoot.querySelector('div#search-bar')
     const input = this.shadowRoot.querySelector('unity-text-input.input')
 
@@ -344,6 +332,25 @@ class UnitySearchBar extends LitElement {
 
     const leftPos = Math.abs(outerLeft - innerLeft)
     this._menuWidth = width - leftPos
+
+    // controls if popover and tag elipsis should show
+    const tagList = this.shadowRoot.querySelector('div.tag-list')
+    const popover = this.shadowRoot.querySelector('unity-popover')
+
+    const { [0]: {
+      height: tagListHeight,
+      width: tagListWidth
+    }} = tagList.getClientRects()
+
+    const { [1]: {
+      height: popoverHeight,
+      width: popoverWidth
+    }} = popover.getClientRects()
+
+    // open if needed, otherwise delete tag
+    const overbounds = tagListHeight < popoverHeight || tagListWidth < popoverWidth
+    if (this.tags.size > 0 && overbounds && !this._showPopover)
+      this._oversized = true
   }
 
   render() {
