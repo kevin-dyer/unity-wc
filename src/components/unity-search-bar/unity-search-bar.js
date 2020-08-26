@@ -353,8 +353,6 @@ class UnitySearchBar extends LitElement {
       const tagList = this.shadowRoot.querySelector('div.tag-list')
       const popover = this.shadowRoot.querySelector('unity-popover')
 
-      console.log('popover.getClientRects', popover.getClientRects())
-
       const { [0]: {
         height: tagListHeight,
         width: tagListWidth
