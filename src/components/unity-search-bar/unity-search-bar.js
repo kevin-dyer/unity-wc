@@ -54,12 +54,12 @@ class UnitySearchBar extends LitElement {
     this._showOptions = false
     this._currentOptions = []
     this._debouncedOnChange = ()=>{}
-    this._menuLeft = 0
     this._menuWidth = 0
     this._showPopover = false
     this._excludedTags = []
     this._availableTags = new Map()
     this._oversized = false
+    this._ellipsisRight = 0
   }
 
   static get properties() {
@@ -76,11 +76,11 @@ class UnitySearchBar extends LitElement {
       _showOptions: { type: false },
       _currentOptions: { type: false },
       _matches: { type: false },
-      _menuLeft: { type: false },
       _menuWidth: { type: false },
       _showPopover: { type: false },
       _availableTags: { type: false },
-      _oversized: { type: false }
+      _oversized: { type: false },
+      _ellipsisRight: { type: false }
     }
   }
 
@@ -235,7 +235,8 @@ class UnitySearchBar extends LitElement {
   renderTags() {
     const {
       tags,
-      _showPopover
+      _showPopover,
+      _oversized
     } = this
 
     if (tags.length === 0) return null
@@ -290,7 +291,6 @@ class UnitySearchBar extends LitElement {
         tags=[],
         text=[]
       }={},
-      _menuLeft,
       _menuWidth
     } = this
     if (!_showOptions || (tags.length === 0 && text.length === 0)) return null
@@ -301,9 +301,9 @@ class UnitySearchBar extends LitElement {
         tag: true,
         id: value,
         tagStyles: {
-          "--tag-text-color": "var(--black-color, var(--default-black-color))",
+          "--tag-text-color": "var(--dark-gray-color, var(--default-dark-gray-color))",
           "--tag-color": "transparent",
-          "--tag-border": "1px solid var(--black-color, var(--default-black-color))"
+          "--tag-border": "1px solid var(--dark-gray-color, var(--default-dark-gray-color))"
         }
       }
     })
@@ -328,34 +328,43 @@ class UnitySearchBar extends LitElement {
     }} = search.getClientRects()
     const { [0]: {
       left: innerLeft=0,
+      width: inputWidth
     }} = input.getClientRects()
 
     const leftPos = Math.abs(outerLeft - innerLeft)
     this._menuWidth = width - leftPos
+    this._ellipsisRight = inputWidth
 
-    // controls if popover and tag elipsis should show
-    const tagList = this.shadowRoot.querySelector('div.tag-list')
-    const popover = this.shadowRoot.querySelector('unity-popover')
+    // controls if popover and tag ellipsis should show
+    this.updateComplete.then(() => {
+      const tagList = this.shadowRoot.querySelector('div.tag-list')
+      const popover = this.shadowRoot.querySelector('unity-popover')
 
-    const { [0]: {
-      height: tagListHeight,
-      width: tagListWidth
-    }} = tagList.getClientRects()
+      console.log('popover.getClientRects', popover.getClientRects())
 
-    const { [1]: {
-      height: popoverHeight,
-      width: popoverWidth
-    }} = popover.getClientRects()
+      const { [0]: {
+        height: tagListHeight,
+        width: tagListWidth
+      }} = tagList.getClientRects()
 
-    // open if needed, otherwise delete tag
-    const overbounds = tagListHeight < popoverHeight || tagListWidth < popoverWidth
-    if (this.tags.size > 0 && overbounds && !this._showPopover)
-      this._oversized = true
+      const { [1]: {
+        height: popoverHeight,
+        width: popoverWidth
+      }} = popover.getClientRects()
+
+      // open if needed, otherwise delete tag
+      const overbounds = tagListHeight < popoverHeight || tagListWidth < popoverWidth
+      if (this.tags.size > 0 && overbounds && !this._showPopover)
+        this._oversized = true
+      else this._oversized = false
+    })
   }
 
   render() {
     const {
-      search
+      search,
+      _oversized,
+      _ellipsisRight
     } = this
 
     return html`
@@ -363,6 +372,7 @@ class UnitySearchBar extends LitElement {
         <unity-icon icon="unity:search"></unity-icon>
         ${this.renderTags()}
         <div class="input-wrapper">
+          ${!!_oversized ? html`<unity-typography style="right: ${_ellipsisRight}px;" class="ellipsis">...</unity-typography>` : null}
           <unity-text-input
             class="input"
             hideBorder
@@ -392,8 +402,8 @@ class UnitySearchBar extends LitElement {
           --default-input-border-focus-color: var(--primary-color, var(--default-primary-color));
           --search-bar-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
           --default-search-tag-color: transparent;
-          --default-search-tag-text-color: var(--black-color, var(--default-black-color));
-          --default-search-tag-border: 1px solid var(--black-color, var(--default-black-color));
+          --default-search-tag-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-search-tag-border: 1px solid var(--dark-gray-color, var(--default-dark-gray-color));
           font-family: var(--input-font, var(--default-input-font));
           flex: 1;
         }
@@ -438,6 +448,11 @@ class UnitySearchBar extends LitElement {
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
+        }
+        unity-typography.ellipsis {
+          position: absolute;
+          bottom: 0;
+          z-index: 1;
         }
         div.input-wrapper {
           position: relative;
