@@ -50,6 +50,7 @@ class UnitySelectMenu extends LitElement {
           --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
+          --default-menu-hover-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
           font-family: var(--input-font);
           border-collapse: collapse;
           user-select: none;
@@ -86,7 +87,7 @@ class UnitySelectMenu extends LitElement {
         position:relative;
       }
       li:hover {
-        background-color: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+        background-color: var(--menu-hover-color, var(--default-menu-hover-color));
       }
       li:hover > .submenu {
         display: block;

@@ -61,13 +61,13 @@ class UnityDropdown extends LitElement {
         :host {
           --dropdown-background-color: var(--background-color, var(--default-background-color));
           --dropdown-background-color-disabled: var(--light-grey-background-color, var(--default-light-grey-background-color));
-          --dropdown-border-color: var(--medium-grey-text-color, var(--default-medium-grey-text-color));
-          --dropdown-border-color-disabled: var(--dark-grey-background, var(--default-dark-grey-background));
+          --dropdown-border-color: var(--gray-color, var(--default-gray-color));
+          --dropdown-border-color-disabled: var(--gray-color, var(--default-gray-color));
           --dropdown-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           --dropdown-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --dropdown-color-dark: var(--primary-brand-color-dark, var(--default-primary-brand-color-dark));
           --dropdown-input-font: var(--font-family, var(--default-font-family));
-          --dropdown-color-light: var(--primary-brand-color-light, var(--default-primary-brand-color-light));
+          --dropdown-color-light: var(--light-gray-2-color, var(--default-light-gray-2-color));
           --dropdown-label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --dropdown-line-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
           --dropdown-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
@@ -77,6 +77,8 @@ class UnityDropdown extends LitElement {
           --dropdown-button-font-color: var(--background-color, var(--default-background-color));
           --default-dropdown-border-radius: 2px;
           --default-dropdown-width: 100%;
+          --default-dropdown-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
+
           font-family: var(--dropdown-input-font);
           border-collapse: collapse;
           user-select: none;
@@ -102,9 +104,6 @@ class UnityDropdown extends LitElement {
           margin-block-end: 0.5em;
           padding: 0 8px;
           white-space: normal;
-        }
-        .dropdown-menu.expanded {
-          box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);;
         }
         .label {
           padding: 0;
@@ -162,7 +161,8 @@ class UnityDropdown extends LitElement {
           position: absolute;
           overflow: hidden;
           width: var(--dropdown-width, var(--default-dropdown-width));
-          margin-top: -1px; /* force input and dialog borders collapse */
+          box-shadow: 0px 2px 4px -1px var(--gray-color);
+          border-top: none;
         }
         .right-align {
           right: 0;
@@ -202,6 +202,12 @@ class UnityDropdown extends LitElement {
           height: var(--dropdown-line-height);
           overflow: hidden;
         }
+        .dropdown-menu.expanded .input-box{
+          border: 1px solid var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color));
+        }
+        .input-box:not(.disabled):hover {
+          border: 1px solid var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color));
+        }
         .expanded .input-box {
           border-radius: var(--dropdown-border-radius, var(--default-dropdown-border-radius)) var(--dropdown-border-radius, var(--default-dropdown-border-radius)) 0 0;
         }
@@ -234,6 +240,15 @@ class UnityDropdown extends LitElement {
         }
         .placeholder {
           color: var(--light-grey-text-color) !important;
+        }
+        .disabled .placeholder {
+          color: var(--dropdown-border-color-disabled) !important;
+        }
+        .input-box:hover:not(.disabled) .placeholder {
+          color: var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color)) !important;
+        }
+        .dropdown-menu.expanded .placeholder {
+          color: var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color)) !important;
         }
         .option-comment {
           font-size: 0.9em;
