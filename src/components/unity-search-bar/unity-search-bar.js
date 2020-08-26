@@ -247,13 +247,19 @@ class UnitySearchBar extends LitElement {
     const popoverOffset = popoverRoot && ((popoverRoot.clientHeight * -1) + 1) || 0
     // iterate over tags
     let tagsToRender = []
-    tags.forEach(({label, value}) => {
+    tags.forEach(({label, value, styles}) => {
+      // make style str from tag.styles
+      let tagStyles = ''
+      if (styles instanceof Object) {
+        tagStyles = Object.entries(styles).reduce((a, [key, value]) => `${a}${key}: ${value};`, '')
+      }
       tagsToRender.push(html`
         <unity-tag
           withClose
           .label="${label || value}"
           .value="${value}"
           .onClose="${(e, v) => this.removeTag(v)}"
+          style="${tagStyles}"
         ></unity-tag>
       `)
     })
@@ -295,16 +301,23 @@ class UnitySearchBar extends LitElement {
     } = this
     if (!_showOptions || (tags.length === 0 && text.length === 0)) return null
 
-    const tagOptions = tags.map(({label, value}, i) => {
+    const tagOptions = tags.map(({label, value, styles}, i) => {
+      let tagStyles = {
+        "--tag-text-color": "var(--dark-gray-color, var(--default-dark-gray-color))",
+        "--tag-color": "transparent",
+        "--tag-border": "1px solid var(--dark-gray-color, var(--default-dark-gray-color))"
+      }
+
+      if (styles instanceof Object) {
+        Object.entries(styles).forEach(([key, value]) => {
+          tagStyles[key] = value
+        })
+      }
       return {
         label: label || value,
         tag: true,
         id: value,
-        tagStyles: {
-          "--tag-text-color": "var(--dark-gray-color, var(--default-dark-gray-color))",
-          "--tag-color": "transparent",
-          "--tag-border": "1px solid var(--dark-gray-color, var(--default-dark-gray-color))"
-        }
+        tagStyles
       }
     })
 
