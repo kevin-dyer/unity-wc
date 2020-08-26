@@ -79,6 +79,7 @@ class UnityDropdown extends LitElement {
           --default-dropdown-border-radius: 2px;
           --default-dropdown-width: 100%;
           --default-dropdown-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-dropdown-search-input-padding: 0;
 
           font-family: var(--dropdown-input-font);
           border-collapse: collapse;
@@ -332,6 +333,9 @@ class UnityDropdown extends LitElement {
           --button-color: var(--dropdown-button-color);
           --pressed-color: var(--dropdown-button-pressed-color);
           --font-color: var(--dropdown-button-font-color);
+        }
+        #search-input {
+          padding: var(--dropdown-search-input-padding, var(--default-dropdown-search-input-padding));
         }
       `
     ];
