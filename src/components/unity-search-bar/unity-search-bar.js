@@ -218,6 +218,7 @@ class UnitySearchBar extends LitElement {
     this.tags = tags
     this.getMatches()
     this.report()
+    if (tags.size === 0) this.togglePopover(false)
   }
 
   clearInput() {
@@ -288,7 +289,7 @@ class UnitySearchBar extends LitElement {
     }} = popover.getClientRects()
 
     // open if needed, otherwise delete tag
-    if ((tagListHeight < popoverHeight || tagListWidth < popoverWidth) && !this._showPopover) this.togglePopover(true)
+    if (this.tags.size > 0 && (tagListHeight < popoverHeight || tagListWidth < popoverWidth) && !this._showPopover) this.togglePopover(true)
   }
 
   togglePopover(show) {
