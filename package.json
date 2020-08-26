@@ -82,10 +82,9 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "sortablejs": "^1.10.2",
-    "throttle-debounce": "^2.1.0",
+    "throttle-debounce": "^2.3.0",
     "typeface-nunito": "0.0.72",
-    "typeface-nunito-sans": "0.0.72",
-    "underscore": "^1.10.2"
+    "typeface-nunito-sans": "0.0.72"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",

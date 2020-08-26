@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element'
-import { debounce } from 'underscore'
+import { debounce } from 'throttle-debounce'
 import '@bit/smartworks.unity.unity-text-input'
 import '@bit/smartworks.unity.unity-icon'
 import '@bit/smartworks.unity.unity-select-menu'
@@ -145,7 +145,7 @@ class UnitySearchBar extends LitElement {
   get debounceTime() { return this._debounceTime }
 
   _makeDebounced() {
-    this._debouncedOnChange = debounce(v => this.onInputChange(v), this.debounceTime)
+    this._debouncedOnChange = debounce(this.debounceTime, v => this.onInputChange(v))
   }
 
   report() {
