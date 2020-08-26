@@ -1,10 +1,7 @@
 import { html, css } from 'lit-element';
 import '@bit/smartworks.unity.unity-core/unity-button'
-// import '@bit/smartworks.unity.unity-core/unity-dropdown'
-import './unity-dropdown/unity-dropdown'
-import './unity-dropdown/unity-dropdown'
-// import '@bit/smartworks.unity.unity-core/unity-select-menu'
-import './unity-dropdown/unity-select-menu'
+import '@bit/smartworks.unity.unity-core/unity-dropdown'
+import '@bit/smartworks.unity.unity-core/unity-select-menu'
 
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
@@ -145,10 +142,6 @@ const dataMock = {
 class MyDropdowns extends PageViewElement {
   constructor() {
     super();
-    this.search="Hi"
-    this.onSearchChange = value => {
-      this.search = value
-    }
   }
 
   static get styles() {
@@ -187,22 +180,11 @@ class MyDropdowns extends PageViewElement {
     ];
   }
 
-  static get properties() {
-    return {
-      search: {type: String}
-    }
-  }
-
   onMenuClick(index) {
     window.alert(`Clicked option  with index=${index}`);
   }
 
-  onSearchChange(value) {
-    this.search = value
-  }
-
   render() {
-    const { search } = this
     return html`
       <div class="example-container">
         <div class="col">
@@ -333,27 +315,13 @@ class MyDropdowns extends PageViewElement {
 
       <div class="input-box">
         <unity-dropdown
-          id="search-dropdown"
-          style=${'--dropdown-border-radius: 1em;'}
           label="${"Search"}"
           boxType="search"
           inputType="menu"
           placeholder = "Write here or choose below"
-          searchValue=${this.search}
-          .onInputSearchChange=${this.onSearchChange}
           .options=${dataMock.labelsOnly}
           .onMenuClick=${this.onMenuClick}
         >
-        <div slot="bottom-content" style="margin:0;padding:0;">
-            <unity-button
-              type="borderless"
-              label="Add Option"
-              leftIcon="unity:add"
-              @click=${(e)=>{console.log(this.search)}}
-              style="--unity-border-radius: 0; width:100%; --button-width: 100%;"
-            >
-            </unity-button>
-            </div>
         </unity-dropdown>
       </div>
 

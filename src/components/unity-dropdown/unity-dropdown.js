@@ -7,8 +7,7 @@ import '@bit/smartworks.unity.unity-button';
 import '@bit/smartworks.unity.unity-icon-set';
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
 import '@bit/smartworks.unity.unity-text-input';
-// import '@bit/smartworks.unity.unity-select-menu';
-import './unity-select-menu'
+import '@bit/smartworks.unity.unity-select-menu';
 import * as strings from './strings'
 
 /**
@@ -358,25 +357,18 @@ class UnityDropdown extends LitElement {
     this.showTags = false;
     this.onValueChange = () => {};
     this.rightAlign = false;
-    this.onInputSearchChange = () => {}
-    this.searchValue = "";
-
     this._collapsed = true;
     this._dropdown = () => this.toggleCollapse();
     this._changeValue = (id) => () => {this.changeSelected(id)};
+    this._onInputSearchChange = (e) => {this.updateSearchValue(e.target.value)};
+    this._searchValue = "";
     this._visibleOptions = [];
   }
 
   clickedMenu(index) {
-    this.searchValue = ""
-    this._visibleOptions = this.options
+    this._searchValue = ""
     this.onMenuClick(index);
     this.toggleCollapse();
-  }
-
-  inputSearchChange(value) {
-    this.updateSearchValue(value)
-    this.onInputSearchChange(value)
   }
 
   static get properties() {
@@ -398,8 +390,8 @@ class UnityDropdown extends LitElement {
       _collapsed: { type: Boolean },
       _dropdown: { type: Function },
       _changeValue: { type: Function },
-      onInputSearchChange: { type: Function },
-      searchValue: { type: String }
+      _onInputSearchChange: { type: Function },
+      _searchValue: { type: String }
     };
   }
 
@@ -417,8 +409,6 @@ class UnityDropdown extends LitElement {
   get selected() { return this._selected }
 
   set options(value) {
-    console.log("a")
-    // TODO: find out why this is being called 
     const oldValue = this._options
     this._options = value
     this._visibleOptions = value
@@ -515,15 +505,14 @@ class UnityDropdown extends LitElement {
 
 
   updateSearchValue(newValue) {
-    this.searchValue = newValue;
+    this._searchValue = newValue;
     // expand options list when some text is written
     if(this.boxType === SEARCH) {
-      this._collapsed = !(this.searchValue.length > 0);
+      this._collapsed = !(this._searchValue.length > 0);
     }
     // match and update visible values
-    const searchRegex = new RegExp(this.searchValue, "i")
+    const searchRegex = new RegExp(this._searchValue, "i")
     this._visibleOptions = this.options.filter(option => searchRegex.test(option.label))
-    console.log(this._visibleOptions)
   }
 
 
@@ -551,11 +540,11 @@ class UnityDropdown extends LitElement {
   // TODO: extract the different conditions in another component
   renderOption(option) {
     let label = option.label;
-    const start = label.toString().toLowerCase().indexOf(this.searchValue.toLowerCase());
+    const start = label.toString().toLowerCase().indexOf(this._searchValue.toLowerCase());
 
     // highlight searched text
     if (this.searchBox) {
-      let end = start + this.searchValue.length;
+      let end = start + this._searchValue.length;
       if (start >= 0) {
         label = html`${label.slice(0, start)}<span class="text-highlight">${label.substring(start, end)}</span>${label.slice(end)}`
       }
@@ -631,8 +620,8 @@ class UnityDropdown extends LitElement {
     return html`
       <div class="search-box">
         <unity-text-input
-          value="${this.searchValue}"
-          .onChange="${(e) => this.inputSearchChange(e.target.value)}"
+          value="${this._searchValue}"
+          .onChange="${this._onInputSearchChange}"
           .innerLeftIcon="${"unity:search"}"
           .borderEffects=${false}
         ></unity-text-input>
@@ -726,9 +715,9 @@ class UnityDropdown extends LitElement {
         <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
             <unity-text-input
               id="search-input"
-              value="${this.searchValue}"
+              value="${this._searchValue}"
               hideBorder=${true}
-              .onChange="${(e) => this.inputSearchChange(e.target.value)}"
+              .onChange="${this._onInputSearchChange}"
               placeholder=${placeholder}
               .borderEffects=${false}
             >
@@ -783,7 +772,6 @@ class UnityDropdown extends LitElement {
   }
 
   renderList() {
-    console.log({visible: this._visibleOptions})
     const optionsList = this._visibleOptions.map(option => this.renderOption(option));
     return (
       optionsList.every(element => element === null)?
@@ -835,9 +823,12 @@ class UnityDropdown extends LitElement {
     this.selected = [...selectedSet]
   }
 
+  // updateComplete() {
+  //   super.updateComplete();
+  //   this._visibleOptions = [];
+  // }
 
   render() {
-    console.log("render")
     let classes = ''
     if(this.boxType === PRIMARY || this.boxType === SECONDARY || this.boxType === BORDERLESS) classes += ' button-options'
     if(this.rightAlign) classes += ' right-align'
