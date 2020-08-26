@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
-import '@bit/smartworks.unity.unity-core/unity-button'
+// import '@bit/smartworks.unity.unity-core/unity-button'
+import './unity-button/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-tag'
 import { SharedStyles } from './shared-styles.js';
 
@@ -44,6 +45,7 @@ class MyButtons extends LitElement {
 
           <div class="button-container">
             <unity-button
+              style='--button-color: lightgray; --button-hover-color: gray; --pressed-color: lightgray;'
               label="primary"
               ?disabled=${false}
               @click=${e => console.log("unity-button clicked! e: ", e)}

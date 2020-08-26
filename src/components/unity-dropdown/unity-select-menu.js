@@ -1,6 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
-import '@bit/smartworks.unity.unity-tag'
+// import '@bit/smartworks.unity.unity-tag'
 import '@bit/smartworks.unity.unity-icon'
+// import '../unity-icon/unity-icon'
+import '../unity-tag/unity-tag'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
 
 /**
