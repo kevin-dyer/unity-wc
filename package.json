@@ -293,7 +293,10 @@
         "propagate": true
       },
       "unity-select-menu": {
-        "peerDependencies": {},
+        "peerDependencies": {
+          "@bit/smartworks.unity.unity-icon": "^1.1.3",
+          "@bit/smartworks.unity.unity-tag": "^1.1.0"
+        },
         "propagate": true
       },
       "unity-split-pane": {
