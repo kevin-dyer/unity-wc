@@ -98,35 +98,31 @@ export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) =>
   if (!Array.isArray(tagSeed) || !Array.isArray(textSeed)) return
   const excludeLib = exclude.reduce((lib, item) => ({...lib, [item]: item}), {})
   // split search on spaces into terms
-  const allTerms = search.toLowerCase().split(/\s+/)
+  const allTerms = search.split(/\s+/)
   let tagMatches = {}
   let textMatches = {}
   // for each term
   allTerms.forEach(term => {
     if (!term) return
     // check against all tag results (string, tag.label, tag.value)
+    const termRegex = RegExp(term, 'i')
     tagSeed.forEach(tag => {
       // if tag includes term in any, add to matches
-      if (typeof tag === "string") {
-        // if tag is already selected, skip showing
-        if (!!excludeLib[tag]) return
-        if (tag.toLowerCase().includes(term)) tagMatches[tag] = tag
-      } else if (tag instanceof Object) {
-        // if tag is already selected, skip showing
+      if (tag instanceof Object) {
+        // if tag is excluded, skip
         if (!!excludeLib[tag.value]
         ||  !!excludeLib[tag.label])
           return
-        if (tag.value.toLowerCase().includes(term)
-        ||  tag.label.toLowerCase().includes(term))
+        if (termRegex.test(tag.value) || termRegex.test(tag.label))
           tagMatches[tag.value] = tag
       }
     })
     // check against all strings in seed
     textSeed.forEach(text => {
       // if string includes term, add to matches
-      //
+      // if text is excluded, skip
       if (!!excludeLib[tag]) return
-      if (text.toLowerCase().includes(text)) textMatches[text] = text
+      if (termRegex.test(text)) textMatches[text] = text
     })
   })
   return { tags: Object.values(tagMatches), text: Object.values(textMatches) }
