@@ -46,7 +46,7 @@ class UnitySearchBar extends LitElement {
     this._search = ""
     this._tags = new Map()
     // this.textSeed = []
-    this.tagSeed = []
+    this._tagSeed = []
     this._onChange = ()=>{}
     this._debounceTime = 250
 
@@ -58,6 +58,7 @@ class UnitySearchBar extends LitElement {
     this._menuWidth = 0
     this._showPopover = false
     this._excludedTags = []
+    this._availableTags = new Map()
   }
 
   static get properties() {
@@ -76,7 +77,8 @@ class UnitySearchBar extends LitElement {
       _matches: { type: false },
       _menuLeft: { type: false },
       _menuWidth: { type: false },
-      _showPopover: { type: false }
+      _showPopover: { type: false },
+      _availableTags: { type: false }
     }
   }
 
@@ -109,7 +111,6 @@ class UnitySearchBar extends LitElement {
     this._tags = newValue
     // all [tag values and labels]
     let excluded = []
-    console.log('newValue', newValue)
     newValue.forEach(({value, label}) => {
       excluded.push(value)
       if (label) excluded.push(label)
@@ -118,6 +119,14 @@ class UnitySearchBar extends LitElement {
     this.requestUpdate('tags', oldValue)
   }
   get tags() { return this._tags }
+
+  set tagSeed(value) {
+    const oldValue = this._tagSeed
+    this._tagSeed = value
+    this._availableTags = new Map(value.map(tag => [tag.value, tag]))
+    this.requestUpdate('tagSeed', oldValue)
+  }
+  get tagSeed() { return this._tagSeed }
 
   set onChange(value) {
     const oldValue = this._onChange
@@ -159,21 +168,38 @@ class UnitySearchBar extends LitElement {
   }
 
   selectTag(tagValue) {
-    const {
+    let {
       search,
-      tagSeed,
+      _availableTags,
       tags
     } = this
-    const newTag = tagSeed.find(tag => tag.value === tagValue || tag.label === tagValue)
-    this.tags = [...tags, newTag]
+    const newTag = _availableTags.get(tagValue)
+    tags.set(tagValue, newTag)
+    this.tags = tags
     // clear input of matching chars or first from end
     // see if can remove whole tag
-    // let terms = search.includes
-    // split input on spaces
-    const terms = search.toLowerCase().split(/\s+/)
+    const valueRegex = RegExp(newTag.value, 'i')
+    const labelRegex = RegExp(newTag.label, 'i')
+    let newSearch
+    if (valueRegex.test(search)) {
+      let removed = search.split(valueRegex)
+      newSearch = removed.map(term => term.trim())
+    } else if (labelRegex.test(search)) {
+      let removed = search.split(labelRegex)
+      newSearch = removed.map(term => term.trim())
+    } else {
+      // split input on spaces
+      const terms = search.split(/\s+/)
+      // check from back to remove only last-most possible tag
+      let found = false
+      for (let i = terms.length - 1; i >= 0 && found === false ; i--) {
+        let term = RegExp(terms[i], 'i')
+        found = (term.test(newTag.value) || term.test(newTag.label)) ? i : false
+      }
+      newSearch = [...terms.slice(0, found), ...terms.slice(found + 1)]
+    }
     // filter out anything that is included in tagValue
-    const filteredTerms = terms.filter(term => !tagValue.toLowerCase().includes(term))
-    this.search = filteredTerms.join(" ")
+    this.search = newSearch.join(" ")
     // call report to onChange
     this.report()
     // keep focus on input
@@ -220,7 +246,7 @@ class UnitySearchBar extends LitElement {
       tagsToRender.push(html`
         <unity-tag
           withClose
-          .label="${label}"
+          .label="${label || value}"
           .value="${value}"
           .onClose="${(e, v) => this.removeTag(v)}"
         ></unity-tag>
@@ -265,7 +291,6 @@ class UnitySearchBar extends LitElement {
   }
 
   togglePopover(show) {
-    console.log('entering togglePopover', show)
     this._showPopover = typeof show === 'boolean' ? show : !this._showPopover
   }
 
@@ -281,14 +306,11 @@ class UnitySearchBar extends LitElement {
     } = this
     if (!_showOptions || (tags.length === 0 && text.length === 0)) return null
 
-    const tagOptions = tags.map((tag, i) => {
-      let tagLabel
-      if (typeof tag === "string") tagLabel = tag
-      else tagLabel = tag.label
+    const tagOptions = tags.map(({label, value}, i) => {
       return {
-        label: tagLabel,
+        label: label || value,
         tag: true,
-        id: tagLabel,
+        id: value,
         tagStyles: {
           "--tag-text-color": "var(--black-color, var(--default-black-color))",
           "--tag-color": "transparent",
