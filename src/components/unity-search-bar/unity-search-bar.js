@@ -181,10 +181,10 @@ class UnitySearchBar extends LitElement {
     const valueRegex = RegExp(newTag.value, 'i')
     const labelRegex = RegExp(newTag.label, 'i')
     let newSearch
-    if (valueRegex.test(search)) {
+    if (newTag.value && valueRegex.test(search)) {
       let removed = search.split(valueRegex)
       newSearch = removed.map(term => term.trim())
-    } else if (labelRegex.test(search)) {
+    } else if (newTag.label && labelRegex.test(search)) {
       let removed = search.split(labelRegex)
       newSearch = removed.map(term => term.trim())
     } else {
@@ -216,6 +216,7 @@ class UnitySearchBar extends LitElement {
     const { tags } = this
     tags.delete(tagValue)
     this.tags = tags
+    this.getMatches()
     this.report()
   }
 
