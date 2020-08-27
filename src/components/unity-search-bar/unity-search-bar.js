@@ -5,6 +5,7 @@ import '@bit/smartworks.unity.unity-icon'
 import '@bit/smartworks.unity.unity-select-menu'
 import '@bit/smartworks.unity.unity-tag'
 import '@bit/smartworks.unity.unity-popover'
+import '@bit/smartworks.unity.unity-typography'
 import { findMatches } from '@bit/smartworks.unity.unity-utils'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
