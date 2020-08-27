@@ -656,7 +656,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-utils@1.0.0": {
+    "smartworks.unity/unity-utils@1.0.1": {
         "files": [
             {
                 "name": "unity-utils.js",
