@@ -180,19 +180,20 @@ class UnitySearchBar extends LitElement {
     tags.set(tagValue, newTag)
     this.tags = tags
     // clear input of matching chars or first from end
+    const trimmedSearch = search.trim()
     // see if can remove whole tag
     const valueRegex = RegExp(newTag.value, 'i')
     const labelRegex = RegExp(newTag.label, 'i')
     let newSearch
-    if (newTag.value && valueRegex.test(search)) {
-      let removed = search.split(valueRegex)
+    if (newTag.value && valueRegex.test(trimmedSearch)) {
+      let removed = trimmedSearch.split(valueRegex)
       newSearch = removed.map(term => term.trim())
-    } else if (newTag.label && labelRegex.test(search)) {
-      let removed = search.split(labelRegex)
+    } else if (newTag.label && labelRegex.test(trimmedSearch)) {
+      let removed = trimmedSearch.split(labelRegex)
       newSearch = removed.map(term => term.trim())
     } else {
       // split input on spaces
-      const terms = search.split(/\s+/)
+      const terms = trimmedSearch.split(/\s+/)
       // check from back to remove only last-most possible tag
       let found = false
       for (let i = terms.length - 1; i >= 0 && found === false ; i--) {
@@ -460,6 +461,8 @@ class UnitySearchBar extends LitElement {
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
+          height: 100%;
+          width: 100%;
         }
         unity-typography.ellipsis {
           position: absolute;
