@@ -153,6 +153,7 @@ class UnityButton extends LitElement {
           min-width: 30px;
           width: 30px;
           padding: 0;
+          border-radius: 50%;
         }
 
         /* Important Styles */
