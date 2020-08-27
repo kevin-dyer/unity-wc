@@ -99,8 +99,8 @@ export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) =>
   const excludeLib = exclude.reduce((lib, item) => ({...lib, [item]: item}), {})
   // split search on spaces into terms
   const allTerms = search.trim().split(/\s+/)
-  let tagMatches = {}
-  let textMatches = {}
+  let tagMatches = new Map()
+  let textMatches = new Map()
   // for each term
   allTerms.forEach((term, index) => {
     if (!term) return
@@ -118,7 +118,7 @@ export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) =>
         ||  !!excludeLib[tag.label])
           return
         if (tag.value && (tagTermRegex.test(tag.value)) || (tag.label && tagTermRegex.test(tag.label)))
-          tagMatches[tag.value] = tag
+          tagMatches.set(tag.value, tag)
       }
     })
     // check against all strings in seed
@@ -126,8 +126,12 @@ export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) =>
       // if string includes term, add to matches
       // if text is excluded, skip
       if (!!excludeLib[tag]) return
-      if (RegExp(term, 'i').test(text)) textMatches[text] = text
+      if (RegExp(term, 'i').test(text)) textMatches.set(text, text)
     })
   })
-  return { tags: Object.values(tagMatches), text: Object.values(textMatches) }
+  let outTags = []
+  let outText = []
+  tagMatches.forEach(tag => outTags.push(tag))
+  textMatches.forEach(text => outText.push(tag))
+  return { tags: outTags, text: outText }
 }
