@@ -1,4 +1,4 @@
-import '@bit/smartworks.unity.unity-global-nav-base'
+import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
 
 import { html, LitElement } from 'lit-element';
 import {

@@ -23,7 +23,6 @@ import { PageViewElement } from './page-view-element.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
-
 //Extra rows of fake data to test infinite scroll
 let fillerRows = []
 
