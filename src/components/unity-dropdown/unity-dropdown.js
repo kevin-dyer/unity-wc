@@ -396,26 +396,30 @@ class UnityDropdown extends LitElement {
   }
 
   set selected(value) {
-    const oldValue = this._selected
-    let newSelected = [...value]
+    if(this._selected !== value) {
+      const oldValue = this._selected
+      let newSelected = [...value]
 
-    // run parse selection only if there are options
-    if (this.options.length > 0) newSelected = this.filterSelection(newSelected)
+      // run parse selection only if there are options
+      if (this.options.length > 0) newSelected = this.filterSelection(newSelected)
 
-    this._selected = newSelected
-    this.requestUpdate('selected', oldValue)
+      this._selected = newSelected
+      this.requestUpdate('selected', oldValue)
+    }
   }
 
   get selected() { return this._selected }
 
   set options(value) {
-    const oldValue = this._options
-    this._options = value
-    this._visibleOptions = value
+    if (this._options !== value) {
+      const oldValue = this._options
+      this._options = value
+      this._visibleOptions = value
 
-    // run filterSelection to remove invalid options
-    if (value.length > 0) this.selected = this.filterSelection(this.selected)
-    this.requestUpdate('options', oldValue)
+      // run filterSelection to remove invalid options
+      if (value.length > 0) this.selected = this.filterSelection(this.selected)
+      this.requestUpdate('options', oldValue)
+    }
   }
 
   get options() { return this._options }
