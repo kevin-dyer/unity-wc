@@ -3,7 +3,7 @@ import { withKnobs, number, boolean } from "@storybook/addon-knobs"
 import { action } from '@storybook/addon-actions';
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-tag'
-import '../src/components/unity-popover/unity-popover'
+import '@bit/smartworks.unity.unity-core/unity-popover'
 
 // export default {
 //   title: 'Popover',
