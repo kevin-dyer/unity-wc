@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.6.14
+- unity-button v1.1.5
+- unity-dropdown v1.2.0
+- unity-select-menu v1.3.0
+- unity-text-input v1.1.7
+
 ### v1.6.13
 - Added missing export for unity-popover
 

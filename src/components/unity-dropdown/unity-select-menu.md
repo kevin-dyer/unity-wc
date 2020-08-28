@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.3.0
+- add --menu-hover-color CSS variable and update default color to Unity2020 designs
+- add unity dependencies to peer dependencies
+- fix wrong CSS property name (--tag--text-color)
+- set label height
+
 ### v1.2.3
 - add margin and border to tag style propagation
 

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.7
+- fit input width to container size
+
 ### v1.1.4
 - add ignore unity-tags
 

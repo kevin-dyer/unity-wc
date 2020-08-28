@@ -561,6 +561,8 @@ class UnityTextInput extends LitElement {
           color: var(--input-text-color, var(--default-input-text-color));
           border: 0;
           background-color: transparent;
+          width: 100%;
+          overflow: hidden;
         }
         #input:focus {
           outline: none;
