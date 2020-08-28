@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-expressions */
 import { fixture, expect, oneEvent } from '@open-wc/testing'
 import { LitElement, html, css } from 'lit-element'
-import '../../src/components/unity-text-input/unity-text-input'
+// import '../../src/components/unity-text-input/unity-text-input'
+import '@bit/smartworks.unity.unity-text-input'
 
 describe('unity-text-input', () => {
   // testing consts
