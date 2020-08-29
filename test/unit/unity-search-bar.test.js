@@ -17,12 +17,16 @@ describe('search bar test', () => {
     label: tagTwoLabel,
     value: tagTwoValue
   }]
-  const debouncetime = 300
+  const debounceTime = 100
 
   const makeOnChange = inj => ({tags, text}) => {
     inj.tags = tags
     inj.text = text
   }
+
+  const first = 'first'
+  const second = 'second'
+  const third = 'third'
 
   it("should render", async () => {
     const el = await fixture('<unity-search-bar></unity-search-bar>')
@@ -61,6 +65,68 @@ describe('search bar test', () => {
     expect(input.value).to.equal(search)
   })
 
+  it("should update search when unity-text-input changes", async () => {
+    let ref = {}
+    const onChange = makeOnChange(ref)
+    const el = await fixture(html`<unity-search-bar .search="${first}" .onChange="${onChange}" .debounceTime="${debounceTime}"></unity-search-bar>`)
+    const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const input = unityTextInput.shadowRoot.querySelector('input#input')
+
+    const inputEventName = 'input'
+    const inputEvent = new Event(inputEventName)
+    const listener = oneEvent(el, inputEventName)
+    const doneEventName = 'done'
+    const doneEvent = new Event(doneEventName)
+
+    expect(el.search).to.equal(first)
+    expect(input.value).to.equal(first)
+    expect(ironInput.bindValue).to.equal(first)
+
+    ironInput.dispatchEvent(inputEvent)
+    input.value = second
+    ironInput.dispatchEvent(inputEvent)
+    setTimeout(() => el.dispatchEvent(doneEvent), debounceTime)
+    await oneEvent(el, doneEventName)
+
+    expect(el.search).to.equal(second)
+    expect(ref.text).to.equal(second)
+  })
+
+  it("should debounce for the given debounceTime", async () => {
+    const longerDebounce = 500
+    const ref = {}
+    const onChange = makeOnChange(ref)
+    const el = await fixture(html`<unity-search-bar search="${first}" debounceTime="${debounceTime}" .onChange="${onChange}"></unity-search-bar>`)
+    const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const input = unityTextInput.shadowRoot.querySelector('input#input')
+
+    const inputEventName = 'input'
+    const inputEvent = new Event(inputEventName)
+    const listener = oneEvent(el, inputEventName)
+    const doneEventName = 'done'
+    const doneEvent = new Event(doneEventName)
+
+    expect(ref.text).to.be.undefined
+    ironInput.dispatchEvent(inputEvent)
+    expect(ref.text).to.be.undefined
+    setTimeout(() => el.dispatchEvent(doneEvent), debounceTime)
+    await oneEvent(el, doneEventName)
+    expect(ref.text).to.equal(first)
+
+    el.debounceTime = longerDebounce
+    input.value = second
+    ironInput.dispatchEvent(inputEvent)
+    expect(ref.text).to.equal(first)
+    setTimeout(() => el.dispatchEvent(doneEvent), debounceTime)
+    await oneEvent(el, doneEventName)
+    expect(ref.text).to.equal(first)
+    setTimeout(() => el.dispatchEvent(doneEvent), longerDebounce - debounceTime)
+    await oneEvent(el, doneEventName)
+    expect(ref.text).to.equal(second)
+  })
+
   it("should take tags array and convert to map", async () => {
     const el = await fixture(html`<unity-search-bar .tags="${tagSeed}" ></unity-search-bar>`)
     expect(el.tags.size).to.equal(2)
@@ -76,6 +142,26 @@ describe('search bar test', () => {
   it("should have tagSeed array", async () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" ></unity-search-bar>`)
     expect(el.tagSeed).to.deep.equal(tagSeed)
+  })
+
+  it("should add tagSeed to _availableTags as map", async () => {
+    const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" ></unity-search-bar>`)
+    expect(el._availableTags.get(tagOne)).to.deep.equal({ value: tagOne })
+    expect(el._availableTags.get(tagTwoValue)).to.deep.equal({value: tagTwoValue, label: tagTwoLabel})
+  })
+
+  it("should update _debouncedOnChange when passing onChange", async () => {
+    const el = await fixture(html`<unity-search-bar></unity-search-bar>`)
+    const orgDebounced = el._debouncedOnChange
+    el.onChange = ()=>{}
+    expect(el._debouncedOnChange).to.not.equal(orgDebounced)
+  })
+
+  it("should update _debouncedOnChange when passing debounceTime", async () => {
+    const el = await fixture(html`<unity-search-bar></unity-search-bar>`)
+    const orgDebounced = el._debouncedOnChange
+    el.debounceTime = 500
+    expect(el._debouncedOnChange).to.not.equal(orgDebounced)
   })
 
 })
