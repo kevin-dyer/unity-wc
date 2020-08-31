@@ -348,6 +348,23 @@ describe('search bar test', () => {
 
     expect(boxContent).to.exist
   })
+
+  it("should call getMatches when removeTag is called", async () => {
+    const el = await fixture(html`<unity-search-bar .tags="${tagSeed}" .tagSeed="${tagSeed}"></unity-search-bar>`)
+    let popover = el.shadowRoot.querySelector('div#search-bar div.tag-list unity-popover div.popover-list')
+    let tagList = popover.querySelectorAll('unity-tag')
+
+    expect(el.tags.size).to.equal(2)
+
+    const tagClose = tagList[0].shadowRoot.querySelector('div#tag unity-icon.close')
+    tagClose.click()
+
+    popover = el.shadowRoot.querySelector('div#search-bar div.tag-list unity-popover div.popover-list')
+    tagList = popover.querySelectorAll('unity-tag')
+
+    expect(el.tags.size).to.equal(1)
+    expect(el.tags.has(tagOneValue)).to.be.false
+  })
 })
 
 /*
