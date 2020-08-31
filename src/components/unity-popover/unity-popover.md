@@ -1,8 +1,11 @@
 # unity-popover
 
+## v1.0.3
+- Added --popover-content-overflow
+
 ## v1.0.2
 - Added --popover-z-index
-- nade it so that popover escapes rather than erroring out when reference is undefined/null
+- Made it so that popover escapes rather than erroring out when reference is undefined/null
 
 ## v1.0.1
 - Made it so that popover is rebuilt when ref changes

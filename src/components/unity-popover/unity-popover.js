@@ -214,6 +214,7 @@ class UnityPopover extends LitElement {
           --default-popover-border: none;
           --default-popover-close-button-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
           --default-popover-z-index: 1;
+          --default-popover-content-overflow: scroll;
         }
 
         #page-content-container {
@@ -230,7 +231,7 @@ class UnityPopover extends LitElement {
           box-shadow: var(--popover-shadow, var(--default-popover-shadow));
           border: var(--popover-border, var(--default-popover-border));
           padding: 2px 8px;
-          overflow-y: scroll;
+          overflow-y: var(--popover-content-overflow, var(--default-popover-content-overflow));
           z-index: var(--popover-z-index, var(--default-popover-z-index));
         }
 
