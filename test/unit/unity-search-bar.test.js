@@ -164,6 +164,12 @@ describe('search bar test', () => {
     expect(el._debouncedOnChange).to.not.equal(orgDebounced)
   })
 
+  it("should have _excludedTags be array of tags", async() => {
+    const el = await fixture(html`<unity-search-bar .tags="${tagSeed}"></unity-search-bar>`)
+    expect(el._excludedTags.includes(tagOne)).to.be.true
+    expect(el._excludedTags.includes(tagTwoLabel)).to.be.true
+    expect(el._excludedTags.includes(tagTwoValue)).to.be.true
+  })
 })
 
 /*
