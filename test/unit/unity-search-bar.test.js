@@ -411,11 +411,3 @@ describe('search bar test', () => {
     expect(ref.text).to.equal("")
   })
 })
-
-/*
-
-it("should", async () => {
-  const el = await fixture(html`<unity-search-bar></unity-search-bar>`)
-})
-
-*/
