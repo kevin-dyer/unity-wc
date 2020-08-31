@@ -83,7 +83,6 @@ describe('search bar test', () => {
     expect(input.value).to.equal(first)
     expect(ironInput.bindValue).to.equal(first)
 
-    ironInput.dispatchEvent(inputEvent)
     input.value = second
     ironInput.dispatchEvent(inputEvent)
     setTimeout(() => el.dispatchEvent(doneEvent), debounceTime)
@@ -171,26 +170,29 @@ describe('search bar test', () => {
     expect(el._excludedTags.includes(tagTwoValue)).to.be.true
   })
 
-  it("should return correct tag option for one match", async () => {
+  it("should return correct tag option and set _showOptions for one match", async () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" search="1" ></unity-search-bar>`)
     const tagMatches = el._currentOptions.tags
     expect(tagMatches.length).to.equal(1)
     expect(tagMatches[0].value).to.equal(tagOne)
     expect(tagMatches[0].value).to.not.equal(tagTwoValue)
+    expect(el._showOptions).to.be.true
   })
 
-  it("should return correct tag options for multiple matches", async () => {
+  it("should return correct tag options and set _showOptions for multiple matches", async () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" search="t" ></unity-search-bar>`)
     const tagMatches = el._currentOptions.tags
     expect(tagMatches.length).to.equal(2)
     expect(tagMatches[0].value).to.equal(tagOne)
     expect(tagMatches[1].value).to.equal(tagTwoValue)
+    expect(el._showOptions).to.be.true
   })
 
-  it("should return correct tag options for no matches", async () => {
+  it("should return correct tag options and set _showOptions for no matches", async () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" search="x" ></unity-search-bar>`)
     const tagMatches = el._currentOptions.tags
     expect(tagMatches.length).to.equal(0)
+    expect(el._showOptions).to.be.false
   })
 })
 
