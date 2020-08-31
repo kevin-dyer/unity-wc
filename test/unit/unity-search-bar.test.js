@@ -330,6 +330,24 @@ describe('search bar test', () => {
     expect(el.tags.size).to.equal(1)
     expect(el.tags.has(tagTwoValue)).to.be.true
   })
+
+  // render tags in proper place
+  it("should show tags when selected", async () => {
+    const el = await fixture(html`<unity-search-bar .tags="${tagSeed}"></unity-search-bar>`)
+    const popover = el.shadowRoot.querySelector('div#search-bar div.tag-list unity-popover')
+    const tagList = popover.querySelector('div.popover-list')
+    const boxContent = popover.querySelector('div.popover-content')
+
+    expect(popover).to.exist
+    expect(tagList).to.exist
+
+    const tags = tagList.querySelectorAll('unity-tag')
+
+    expect(tags.length).to.equal(2)
+    expect(tags[0].label).to.equal(tagOneValue)
+
+    expect(boxContent).to.exist
+  })
 })
 
 /*
