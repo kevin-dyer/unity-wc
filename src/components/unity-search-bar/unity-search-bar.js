@@ -149,7 +149,7 @@ class UnitySearchBar extends LitElement {
   }
 
   report() {
-     this.onChange({tags: Array.from(this.tags), text: this.search})
+    this.onChange({tags: Array.from(this.tags.values()), text: this.search})
   }
 
   onInputChange(value) {
