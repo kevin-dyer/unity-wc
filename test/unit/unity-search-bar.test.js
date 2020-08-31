@@ -298,6 +298,17 @@ describe('search bar test', () => {
     expect(tagMatches.length).to.equal(0)
     expect(el._showOptions).to.be.false
   })
+
+  it("should render menu when _showOptions is true with each option in _currentOptions", async () => {
+    const el = await fixture(html`<unity-search-bar .tagSeed="${[...tagSeed, { value: third }]}" search="a"></unity-search-bar>`)
+    const menu = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-select-menu')
+    expect(menu).to.exist
+    expect(menu.items.length).to.equal(2)
+    expect(menu.items[0].id).to.equal(tagOneValue)
+    expect(menu.items[0].label).to.equal(tagOneValue)
+    expect(menu.items[1].id).to.equal(tagTwoValue)
+    expect(menu.items[1].label).to.equal(tagTwoLabel)
+  })
 })
 
 /*
