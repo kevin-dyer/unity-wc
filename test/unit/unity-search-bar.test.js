@@ -194,6 +194,50 @@ describe('search bar test', () => {
     expect(tagMatches.length).to.equal(0)
     expect(el._showOptions).to.be.false
   })
+
+  it("should change options and _showOptions if search changes results", async () => {
+    const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" search="x" debounceTime="${debounceTime}"></unity-search-bar>`)
+    const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const input = unityTextInput.shadowRoot.querySelector('input#input')
+
+    const inputEventName = 'input'
+    const inputEvent = new Event(inputEventName)
+    const listener = oneEvent(el, inputEventName)
+    const doneEventName = 'done'
+    const doneEvent = new Event(doneEventName)
+
+    let tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(0)
+    expect(el._showOptions).to.be.false
+
+    input.value = 't'
+    ironInput.dispatchEvent(inputEvent)
+    setTimeout(() => el.dispatchEvent(doneEvent), debounceTime)
+    await oneEvent(el, doneEventName)
+
+    tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(2)
+    expect(el._showOptions).to.be.true
+
+    input.value = '1'
+    ironInput.dispatchEvent(inputEvent)
+    setTimeout(() => el.dispatchEvent(doneEvent), debounceTime)
+    await oneEvent(el, doneEventName)
+
+    tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(1)
+    expect(el._showOptions).to.be.true
+
+    input.value = ''
+    ironInput.dispatchEvent(inputEvent)
+    setTimeout(() => el.dispatchEvent(doneEvent), debounceTime)
+    await oneEvent(el, doneEventName)
+
+    tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(0)
+    expect(el._showOptions).to.be.false
+  })
 })
 
 /*
