@@ -372,6 +372,44 @@ describe('search bar test', () => {
     expect(clear).to.exist
     expect(clear.innerText).to.equal("CLEAR")
   })
+
+  it("should clear all tags and search when clear button is clicked", async () => {
+    const ref = {}
+    const onChange = makeOnChange(ref)
+    const testStr = 'some silly long string'
+    const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" .tags="${tagSeed}" search="${testStr}" .debounceTime="${debounceTime}" .onChange="${onChange}"></unity-search-bar>`)
+    const clear = el.shadowRoot.querySelector('div#search-bar div.clear-button')
+    const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const input = unityTextInput.shadowRoot.querySelector('input#input')
+
+    const inputEventName = 'input'
+    const inputEvent = new Event(inputEventName)
+    const listener = oneEvent(el, inputEventName)
+    const doneEventName = 'done'
+    const doneEvent = new Event(doneEventName)
+    ironInput.dispatchEvent(inputEvent)
+    setTimeout(() => el.dispatchEvent(doneEvent), debounceTime)
+    await oneEvent(el, doneEventName)
+
+    expect(el.search).to.equal(testStr)
+    expect(el.tags.has(tagOneValue)).to.be.true
+    expect(el.tags.has(tagTwoValue)).to.be.true
+    expect(ref.tags).to.deep.equal(tagSeed)
+    expect(ref.text).to.equal(testStr)
+
+    clear.click()
+
+    expect(el.search).to.not.equal(testStr)
+    expect(el.search).to.equal("")
+    expect(el.tags.has(tagOneValue)).to.be.false
+    expect(el.tags.has(tagTwoValue)).to.be.false
+    expect(el.tags.size).to.equal(0)
+    expect(ref.tags).to.not.deep.equal(tagSeed)
+    expect(ref.tags.length).to.equal(0)
+    expect(ref.text).to.not.equal(testStr)
+    expect(ref.text).to.equal("")
+  })
 })
 
 /*
