@@ -309,6 +309,20 @@ describe('search bar test', () => {
     expect(menu.items[1].id).to.equal(tagTwoValue)
     expect(menu.items[1].label).to.equal(tagTwoLabel)
   })
+
+  it("should add tag when menu item is clicked", async () => {
+    const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" search="2"></unity-search-bar>`)
+    const menu = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-select-menu')
+    const item = menu.shadowRoot.querySelector('ul li unity-tag')
+
+    expect(el.tags.size).to.equal(0)
+    expect(item.label).to.equal(tagTwoLabel)
+
+    item.click()
+
+    expect(el.tags.size).to.equal(1)
+    expect(el.tags.has(tagTwoValue)).to.be.true
+  })
 })
 
 /*
