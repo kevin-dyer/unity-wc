@@ -240,6 +240,64 @@ describe('search bar test', () => {
     expect(tagMatches.length).to.equal(0)
     expect(el._showOptions).to.be.false
   })
+
+  it("should change options and _showOptions if tags changes results", async () => {
+    const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" search="t" debounceTime="${debounceTime}"></unity-search-bar>`)
+    const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const input = unityTextInput.shadowRoot.querySelector('input#input')
+
+    let tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(2)
+    expect(el._showOptions).to.be.true
+
+    el.tags = [tagOne, tagTwo]
+
+    tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(0)
+    expect(el._showOptions).to.be.false
+
+    el.tags = [tagOne]
+
+    tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(1)
+    expect(el._showOptions).to.be.true
+
+    el.tags = []
+
+    tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(2)
+    expect(el._showOptions).to.be.true
+  })
+
+  it("should change options and _showOptions if tagSeed changes results", async () => {
+    const el = await fixture(html`<unity-search-bar search="t" debounceTime="${debounceTime}"></unity-search-bar>`)
+    const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const input = unityTextInput.shadowRoot.querySelector('input#input')
+
+    let tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(0)
+    expect(el._showOptions).to.be.false
+
+    el.tagSeed = [tagOne, tagTwo]
+
+    tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(2)
+    expect(el._showOptions).to.be.true
+
+    el.tagSeed = [tagOne]
+
+    tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(1)
+    expect(el._showOptions).to.be.true
+
+    el.tagSeed = []
+
+    tagMatches = el._currentOptions.tags
+    expect(tagMatches.length).to.equal(0)
+    expect(el._showOptions).to.be.false
+  })
 })
 
 /*
