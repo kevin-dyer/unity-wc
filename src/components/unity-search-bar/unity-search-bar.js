@@ -89,11 +89,6 @@ class UnitySearchBar extends LitElement {
     const oldValue = this._search
     this._search = value
     this.getMatches()
-    const {
-      tags: tagOptions,
-      text: textOptions
-    } = this._currentOptions
-    this._showOptions = tagOptions.length > 0 || textOptions.length > 0
     this.requestUpdate('search', oldValue)
   }
   get search() { return this._search }
@@ -119,6 +114,7 @@ class UnitySearchBar extends LitElement {
       if (label) excluded.push(label)
     })
     this._excludedTags = excluded
+    this.getMatches()
     this.requestUpdate('tags', oldValue)
   }
   get tags() { return this._tags }
@@ -127,6 +123,7 @@ class UnitySearchBar extends LitElement {
     const oldValue = this._tagSeed
     this._tagSeed = value
     this._availableTags = new Map(value.map(tag => [tag.value, tag]))
+    this.getMatches()
     this.requestUpdate('tagSeed', oldValue)
   }
   get tagSeed() { return this._tagSeed }
@@ -167,7 +164,13 @@ class UnitySearchBar extends LitElement {
       search,
       _excludedTags: exclude
     } = this
-    this._currentOptions = findMatches({ tagSeed, /*textSeed,*/ search, exclude })
+    const matches = findMatches({ tagSeed, /*textSeed,*/ search, exclude })
+    const {
+      tags: tagOptions,
+      text: textOptions
+    } = matches
+    this._showOptions = tagOptions.length > 0 || textOptions.length > 0
+    this._currentOptions = matches
   }
 
   selectTag(tagValue) {
