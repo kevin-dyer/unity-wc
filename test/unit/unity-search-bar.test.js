@@ -36,6 +36,13 @@ describe('search bar test', () => {
     expect(el).to.exist
   })
 
+  it("should have a leading icon", async () => {
+    const el = await fixture('<unity-search-bar></unity-search-bar>')
+    const icon = el.shadowRoot.querySelector('div#search-bar unity-icon')
+    expect(icon).to.exist
+    expect(icon.icon).to.equal("unity:search")
+  })
+
   it("should have properties default correctly", async () => {
     const el = await fixture('<unity-search-bar></unity-search-bar>')
     expect(el.search).to.equal('')
