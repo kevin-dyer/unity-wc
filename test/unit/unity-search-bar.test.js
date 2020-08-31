@@ -8,15 +8,17 @@ import '../../src/components/unity-search-bar/unity-search-bar'
 describe('search bar test', () => {
   // defaults
   const search = "search"
-  const tagOne = "tag 1"
+  const tagOneValue = "tag 1"
   const tagTwoLabel = "Tag 2"
   const tagTwoValue = "tag 2"
-  const tagSeed = [{
-    value: tagOne
-  }, {
+  const tagOne = {
+    value: tagOneValue
+  }
+  const tagTwo = {
     label: tagTwoLabel,
     value: tagTwoValue
-  }]
+  }
+  const tagSeed = [tagOne, tagTwo]
   const debounceTime = 100
 
   const makeOnChange = inj => ({tags, text}) => {
@@ -129,13 +131,13 @@ describe('search bar test', () => {
   it("should take tags array and convert to map", async () => {
     const el = await fixture(html`<unity-search-bar .tags="${tagSeed}" ></unity-search-bar>`)
     expect(el.tags.size).to.equal(2)
-    expect(el.tags.get(tagOne)).to.deep.equal({value: tagOne})
+    expect(el.tags.get(tagOneValue)).to.deep.equal(tagOne)
     expect(el.tags.get(tagTwoValue)).to.deep.equal({value: tagTwoValue, label: tagTwoLabel})
   })
 
   it("should add tag values and labels to _excludedTags", async () => {
     const el = await fixture(html`<unity-search-bar .tags="${tagSeed}"></unity-search-bar>`)
-    expect(el._excludedTags).to.deep.equal([tagOne, tagTwoValue, tagTwoLabel])
+    expect(el._excludedTags).to.deep.equal([tagOneValue, tagTwoValue, tagTwoLabel])
   })
 
   it("should have tagSeed array", async () => {
@@ -145,7 +147,7 @@ describe('search bar test', () => {
 
   it("should add tagSeed to _availableTags as map", async () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" ></unity-search-bar>`)
-    expect(el._availableTags.get(tagOne)).to.deep.equal({ value: tagOne })
+    expect(el._availableTags.get(tagOneValue)).to.deep.equal(tagOne)
     expect(el._availableTags.get(tagTwoValue)).to.deep.equal({value: tagTwoValue, label: tagTwoLabel})
   })
 
@@ -165,7 +167,7 @@ describe('search bar test', () => {
 
   it("should have _excludedTags be array of tags", async() => {
     const el = await fixture(html`<unity-search-bar .tags="${tagSeed}"></unity-search-bar>`)
-    expect(el._excludedTags.includes(tagOne)).to.be.true
+    expect(el._excludedTags.includes(tagOneValue)).to.be.true
     expect(el._excludedTags.includes(tagTwoLabel)).to.be.true
     expect(el._excludedTags.includes(tagTwoValue)).to.be.true
   })
@@ -174,7 +176,7 @@ describe('search bar test', () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" search="1" ></unity-search-bar>`)
     const tagMatches = el._currentOptions.tags
     expect(tagMatches.length).to.equal(1)
-    expect(tagMatches[0].value).to.equal(tagOne)
+    expect(tagMatches[0].value).to.equal(tagOneValue)
     expect(tagMatches[0].value).to.not.equal(tagTwoValue)
     expect(el._showOptions).to.be.true
   })
@@ -183,7 +185,7 @@ describe('search bar test', () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" search="t" ></unity-search-bar>`)
     const tagMatches = el._currentOptions.tags
     expect(tagMatches.length).to.equal(2)
-    expect(tagMatches[0].value).to.equal(tagOne)
+    expect(tagMatches[0].value).to.equal(tagOneValue)
     expect(tagMatches[1].value).to.equal(tagTwoValue)
     expect(el._showOptions).to.be.true
   })
