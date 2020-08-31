@@ -365,6 +365,13 @@ describe('search bar test', () => {
     expect(el.tags.size).to.equal(1)
     expect(el.tags.has(tagOneValue)).to.be.false
   })
+
+  it("should render a clear button", async () => {
+    const el = await fixture(html`<unity-search-bar></unity-search-bar>`)
+    const clear = el.shadowRoot.querySelector('div#search-bar div.clear-button')
+    expect(clear).to.exist
+    expect(clear.innerText).to.equal("CLEAR")
+  })
 })
 
 /*
