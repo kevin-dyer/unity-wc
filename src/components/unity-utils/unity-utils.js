@@ -66,3 +66,72 @@ export const getNode = (getFunc, node) => {
   if (isWhitespace(node)) return getFunc(node)
   return node
 }
+
+export const isElement = (obj) => {
+  try {
+    //Using W3 DOM2 (works for FF, Opera and Chrome)
+    return obj instanceof HTMLElement
+  }
+  catch(e){
+    //Browsers not supporting W3 DOM2 don't have HTMLElement and
+    //an exception is thrown and we end up here. Testing some
+    //properties that all elements have (works on IE7)
+    return (typeof obj==="object") &&
+      (obj.nodeType===1) && (typeof obj.style === "object") &&
+      (typeof obj.ownerDocument ==="object")
+  }
+}
+
+// function to perform search/find from tagSeed and textSeed based on search input
+// input:
+//    tagSeed = array of tag-format objects (string "value" || object { label: string, value: string})
+//   textSeed = array of strings
+//     search = string with space separated terms to search for within tagSeed and textSeed
+//    exclude = array of strings (tag component strings and/or text strings) to ignore from the seeds
+//              given how exclude works, tags and text seeds should have no crossover
+// output:
+//   {
+//     tags: [tag strings/objects that match],
+//     text: [text strings that match]
+//   }
+export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) => {
+  if (!Array.isArray(tagSeed) || !Array.isArray(textSeed)) return
+  const excludeLib = exclude.reduce((lib, item) => ({...lib, [item]: item}), {})
+  // split search on spaces into terms
+  const allTerms = search.trim().split(/\s+/)
+  let tagMatches = new Map()
+  let textMatches = new Map()
+  // for each term
+  allTerms.forEach((term, index) => {
+    if (!term) return
+    // check against all tag results (string, tag.label, tag.value)
+    let tagTermRegex
+    if (tagSeed.length > 0) {
+      const tagTerm = index > 0 ? allTerms.slice(index).join(" ") : allTerms.join(" ")
+      tagTermRegex = RegExp(tagTerm, 'i')
+    }
+    tagSeed.forEach(tag => {
+      // if tag includes term in any, add to matches
+      if (tag instanceof Object) {
+        // if tag is excluded, skip
+        if (!!excludeLib[tag.value]
+        ||  !!excludeLib[tag.label])
+          return
+        if (tag.value && (tagTermRegex.test(tag.value)) || (tag.label && tagTermRegex.test(tag.label)))
+          tagMatches.set(tag.value, tag)
+      }
+    })
+    // check against all strings in seed
+    textSeed.forEach(text => {
+      // if string includes term, add to matches
+      // if text is excluded, skip
+      if (!!excludeLib[tag]) return
+      if (RegExp(term, 'i').test(text)) textMatches.set(text, text)
+    })
+  })
+  let outTags = []
+  let outText = []
+  tagMatches.forEach(tag => outTags.push(tag))
+  textMatches.forEach(text => outText.push(tag))
+  return { tags: outTags, text: outText }
+}

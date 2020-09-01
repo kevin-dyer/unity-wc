@@ -1,4 +1,4 @@
-import '@bit/smartworks.unity.unity-tooltip'
+import '@bit/smartworks.unity.unity-core/unity-tooltip'
 // import '../src/components/unity-tooltip/unity-tooltip'
 import { html } from 'lit-element'
 import { withKnobs, text, select } from "@storybook/addon-knobs";

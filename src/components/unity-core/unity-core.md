@@ -5,6 +5,44 @@
 
 ## Changelog:
 
+### v1.7.0
+- unity-search-bar v1.0.0
+
+### v1.6.15
+- unity-popover v1.0.3
+
+### v1.6.14
+- unity-button v1.1.5
+- unity-dropdown v1.2.0
+- unity-select-menu v1.3.0
+- unity-text-input v1.1.7
+
+### v1.6.13
+- Added missing export for unity-popover
+
+### v1.6.12
+- unity-tag v1.1.2
+
+### v1.6.11
+- unity-tag v1.1.1
+
+### v1.6.10
+- unity-button v1.1.4
+- unity-dropdown 1.1.5
+
+### v1.6.9
+- unity-popover v1.0.2
+
+### v1.6.8
+- unity-popover v1.0.1
+
+### v1.6.7
+- unity-popover v1.0.0
+
+### v1.6.6
+- unity-popover v0.1.2
+- unity-utils v0.0.5
+
 ### v1.6.5
 - unity-select-menu v 1.2.3
 

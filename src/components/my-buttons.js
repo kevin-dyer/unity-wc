@@ -44,6 +44,7 @@ class MyButtons extends LitElement {
 
           <div class="button-container">
             <unity-button
+              style='--button-color: lightgray; --button-hover-color: gray; --pressed-color: lightgray;'
               label="primary"
               ?disabled=${false}
               @click=${e => console.log("unity-button clicked! e: ", e)}

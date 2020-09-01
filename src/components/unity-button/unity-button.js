@@ -50,12 +50,15 @@ class UnityButton extends LitElement {
           --default-button-important-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
           --default-button-important-pressed-color: var(--tertiary-1-shade-color, var(--default-tertiary-1-shade-color));
           --default-background-color: var(--white-color, var(--default-white-color));
+          --default-button-width: unset;
+          --default-button-padding: 7px 14px; /* Design wants 8x15, but must account for border 1 */
           flex-shrink: 0;
           display: block;
           --button-color: var(--button-primary-color, var(--default-button-primary-color));
           --pressed-color: var(--button-primary-pressed-color, var(--default-button-primary-pressed-color));
           --font-color: var(--background-color, var(--default-background-color));
           --icon-color: var(--font-color);
+          --default-button-hover-color: var(--button-color);
         }
 
         paper-button {
@@ -69,7 +72,8 @@ class UnityButton extends LitElement {
           outline: none;
           margin: 0;
           border: 1px solid var(--button-color);
-          padding: 7px 14px; /* Design wants 8x15, but must account for border 1 */
+          padding: var(--button-padding, var(--default-button-padding));
+          width: var(--button-width, var(--default-button-width));
         }
 
         paper-button.text-button {
@@ -91,9 +95,9 @@ class UnityButton extends LitElement {
 
         paper-button.unity-button:hover {
           /*NOTE: css filters are not supported on older browsers*/
-          border-color: var(--button-color);
+          border-color: var(--button-hover-color, var(--default-button-hover-color));
           background-color: var(--background-color, var(--default-background-color));
-          --font-color: var(--button-color);
+          --font-color: var(--button-hover-color, var(--default-button-hover-color));
         }
 
         paper-button.unity-button:active {

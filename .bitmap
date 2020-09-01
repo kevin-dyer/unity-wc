@@ -18,7 +18,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-button@1.1.3": {
+    "smartworks.unity/unity-button@1.1.5": {
         "files": [
             {
                 "name": "unity-button.js",
@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.6.5": {
+    "smartworks.unity/unity-core@1.7.0": {
         "files": [
             {
                 "name": "index.js",
@@ -150,6 +150,11 @@
                 "test": false
             },
             {
+                "relativePath": "src/components/unity-core/unity-search-bar.js",
+                "test": false,
+                "name": "unity-search-bar.js"
+            },
+            {
                 "name": "unity-section.js",
                 "relativePath": "src/components/unity-core/unity-section.js",
                 "test": false
@@ -232,7 +237,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@1.1.4": {
+    "smartworks.unity/unity-dropdown@1.2.0": {
         "files": [
             {
                 "name": "strings.js",
@@ -426,17 +431,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-popover@0.1.1": {
+    "smartworks.unity/unity-popover@1.0.3": {
         "files": [
             {
+                "name": "unity-popover.js",
                 "relativePath": "src/components/unity-popover/unity-popover.js",
-                "test": false,
-                "name": "unity-popover.js"
+                "test": false
             },
             {
+                "name": "unity-popover.md",
                 "relativePath": "src/components/unity-popover/unity-popover.md",
-                "test": false,
-                "name": "unity-popover.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-popover/unity-popover.js",
@@ -461,6 +466,24 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-search-bar@1.0.0": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-search-bar/unity-search-bar.js",
+                "test": false,
+                "name": "unity-search-bar.js"
+            },
+            {
+                "relativePath": "src/components/unity-search-bar/unity-search-bar.md",
+                "test": false,
+                "name": "unity-search-bar.md"
+            }
+        ],
+        "mainFile": "src/components/unity-search-bar/unity-search-bar.js",
+        "trackDir": "src/components/unity-search-bar",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "smartworks.unity/unity-section@1.0.2": {
         "files": [
             {
@@ -478,7 +501,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-select-menu@1.2.3": {
+    "smartworks.unity/unity-select-menu@1.3.0": {
         "files": [
             {
                 "name": "unity-select-menu.js",
@@ -568,7 +591,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-tag@1.1.0": {
+    "smartworks.unity/unity-tag@1.1.2": {
         "files": [
             {
                 "name": "unity-tag.js",
@@ -586,7 +609,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@1.1.6": {
+    "smartworks.unity/unity-text-input@1.1.7": {
         "files": [
             {
                 "name": "unity-text-input.js",
@@ -656,12 +679,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-utils@0.0.4": {
+    "smartworks.unity/unity-utils@1.0.1": {
         "files": [
             {
                 "name": "unity-utils.js",
                 "relativePath": "src/components/unity-utils/unity-utils.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-utils/unity-utils.md",
+                "test": false,
+                "name": "unity-utils.md"
             }
         ],
         "mainFile": "src/components/unity-utils/unity-utils.js",

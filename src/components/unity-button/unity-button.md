@@ -2,8 +2,14 @@
 
 ## Changelog:
 
+### v1.1.5
+- add --button-padding and --hover-color CSS variables
+
+### v1.1.4
+- Add CSS variable for button width
+
 ### v1.1.2
-- add ignore unity-tags
+- Add ignore unity-tags
 
 ### v1.1.1
 - Fix borderless styles, add disabled to jsdocs

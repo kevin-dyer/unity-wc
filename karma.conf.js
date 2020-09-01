@@ -33,6 +33,16 @@ module.exports = config => {
         classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
         properties: {}, // key value pair of properties to add to the <properties> section of the report
         xmlVersion: null // use '1' if reporting to be per SonarQube 6.2 XML format
+      },
+      coverageIstanbulReporter: {
+        thresholds: {
+          global: {
+            statements: 50,
+            branches: 50,
+            functions: 50,
+            lines: 50
+          }
+        }
       }
     }),
   );
