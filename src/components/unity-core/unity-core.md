@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.7.1
+- unity-button v1.1.6
+
 ### v1.7.0
 - unity-search-bar v1.0.0
 

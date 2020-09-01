@@ -18,7 +18,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-button@1.1.5": {
+    "smartworks.unity/unity-button@1.1.6": {
         "files": [
             {
                 "name": "unity-button.js",
@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.7.0": {
+    "smartworks.unity/unity-core@1.7.1": {
         "files": [
             {
                 "name": "index.js",
