@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.6
+- Changed border-radius to 50% for icon-only buttons
+
 ### v1.1.5
 - add --button-padding and --hover-color CSS variables
 
