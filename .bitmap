@@ -150,6 +150,11 @@
                 "test": false
             },
             {
+                "relativePath": "src/components/unity-core/unity-search-bar.js",
+                "test": false,
+                "name": "unity-search-bar.js"
+            },
+            {
                 "name": "unity-section.js",
                 "relativePath": "src/components/unity-core/unity-section.js",
                 "test": false
@@ -458,6 +463,24 @@
             }
         ],
         "mainFile": "src/components/unity-progress/unity-progress.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-search-bar@1.0.0": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-search-bar/unity-search-bar.js",
+                "test": false,
+                "name": "unity-search-bar.js"
+            },
+            {
+                "relativePath": "src/components/unity-search-bar/unity-search-bar.md",
+                "test": false,
+                "name": "unity-search-bar.md"
+            }
+        ],
+        "mainFile": "src/components/unity-search-bar/unity-search-bar.js",
+        "trackDir": "src/components/unity-search-bar",
         "origin": "AUTHORED",
         "exported": true
     },

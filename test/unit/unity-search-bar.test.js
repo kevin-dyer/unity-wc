@@ -2,8 +2,8 @@
 import { fixture, expect, oneEvent } from '@open-wc/testing'
 import { LitElement, html, css } from 'lit-element'
 
-import '../../src/components/unity-search-bar/unity-search-bar'
-// import '@bit/smartworks.unity.unity-search-bar'
+// import '../../src/components/unity-search-bar/unity-search-bar'
+import '@bit/smartworks.unity.unity-search-bar'
 
 describe('search bar test', () => {
   // defaults

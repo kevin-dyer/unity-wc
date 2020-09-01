@@ -1,5 +1,5 @@
-// import '@bit/smartworks.unity.unity-core/unity-search-bar'
-import '../src/components/unity-search-bar/unity-search-bar'
+import '@bit/smartworks.unity.unity-search-bar'
+// import '../src/components/unity-search-bar/unity-search-bar'
 import { html } from 'lit-element'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, number, text, object} from '@storybook/addon-knobs'
