@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.7.0
+- unity-search-bar v1.0.0
+
 ### v1.6.15
 - unity-popover v1.0.3
 
