@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.6.15": {
+    "smartworks.unity/unity-core@1.7.0": {
         "files": [
             {
                 "name": "index.js",
@@ -148,6 +148,11 @@
                 "name": "unity-progress.js",
                 "relativePath": "src/components/unity-core/unity-progress.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-search-bar.js",
+                "test": false,
+                "name": "unity-search-bar.js"
             },
             {
                 "name": "unity-section.js",
@@ -429,14 +434,14 @@
     "smartworks.unity/unity-popover@1.0.3": {
         "files": [
             {
+                "name": "unity-popover.js",
                 "relativePath": "src/components/unity-popover/unity-popover.js",
-                "test": false,
-                "name": "unity-popover.js"
+                "test": false
             },
             {
+                "name": "unity-popover.md",
                 "relativePath": "src/components/unity-popover/unity-popover.md",
-                "test": false,
-                "name": "unity-popover.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-popover/unity-popover.js",
@@ -458,6 +463,24 @@
             }
         ],
         "mainFile": "src/components/unity-progress/unity-progress.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-search-bar@1.0.0": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-search-bar/unity-search-bar.js",
+                "test": false,
+                "name": "unity-search-bar.js"
+            },
+            {
+                "relativePath": "src/components/unity-search-bar/unity-search-bar.md",
+                "test": false,
+                "name": "unity-search-bar.md"
+            }
+        ],
+        "mainFile": "src/components/unity-search-bar/unity-search-bar.js",
+        "trackDir": "src/components/unity-search-bar",
         "origin": "AUTHORED",
         "exported": true
     },
@@ -656,12 +679,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-utils@0.0.5": {
+    "smartworks.unity/unity-utils@1.0.1": {
         "files": [
             {
                 "name": "unity-utils.js",
                 "relativePath": "src/components/unity-utils/unity-utils.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-utils/unity-utils.md",
+                "test": false,
+                "name": "unity-utils.md"
             }
         ],
         "mainFile": "src/components/unity-utils/unity-utils.js",

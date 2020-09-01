@@ -12,6 +12,9 @@ import { PageViewElement } from './page-view-element.js';
 // import './unity-text-input/unity-text-input.js'
 import '@bit/smartworks.unity.unity-core/unity-text-input'
 
+// import './unity-search-bar/unity-search-bar'
+import '@bit/smartworks.unity.unity-core/unity-search-bar'
+
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
@@ -27,13 +30,15 @@ class MyTextInput extends PageViewElement {
     return [
       SharedStyles,
       css`
+        :host {
+          display: flex;
+          justify-content: center;
+        }
         .example-container {
           position: relative;
           width: 1000px;
           height: 750px;
           top: 75px;
-          left: 50%;
-          transform: translateX(-50%);
           border: 1px solid grey;
           padding: 20px;
           box-sizing: border-box;
@@ -224,6 +229,11 @@ class MyTextInput extends PageViewElement {
               password
             ></unity-text-input>
           </div>
+          <unity-search-bar
+            search="search value"
+            .tagSeed="${[{ label: "Tag 1", value: "tag 1" }, {value: "tag 1.5", styles: { '--tag-color': 'red'}}, { label: "Tag 2", value:"tag_2" }]}"
+            .onChange="${v => console.log('updating search to: ', v)}"
+          ></unity-search-bar>
         </div>
       </div>
     `
