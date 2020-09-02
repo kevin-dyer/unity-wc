@@ -361,17 +361,15 @@ class UnitySearchBar extends LitElement {
       const popover = this.shadowRoot.querySelector('unity-popover')
 
       const { [0]: {
-        height: tagListHeight,
-        width: tagListWidth
+        height: tagListHeight
       }} = tagList.getClientRects()
 
       const { [1]: {
-        height: popoverHeight,
-        width: popoverWidth
+        height: popoverHeight
       }} = popover.getClientRects()
 
       // open if needed, otherwise delete tag
-      const overbounds = tagListHeight < popoverHeight || tagListWidth < popoverWidth
+      const overbounds = tagListHeight * 1.25 < popoverHeight
       if (this.tags.size > 0 && overbounds && !this._showPopover)
         this._oversized = true
       else this._oversized = false
