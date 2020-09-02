@@ -61,6 +61,8 @@ class UnitySearchBar extends LitElement {
     this._availableTags = new Map()
     this._oversized = false
     this._ellipsisRight = 0
+
+    this._makeDebounced()
   }
 
   static get properties() {
