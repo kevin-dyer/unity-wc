@@ -61,6 +61,7 @@ class UnitySearchBar extends LitElement {
     this._availableTags = new Map()
     this._oversized = false
     this._ellipsisRight = 0
+    this._popoverWidth = 0
 
     this._makeDebounced()
   }
@@ -83,7 +84,8 @@ class UnitySearchBar extends LitElement {
       _showPopover: { type: false },
       _availableTags: { type: false },
       _oversized: { type: false },
-      _ellipsisRight: { type: false }
+      _ellipsisRight: { type: false },
+      _popoverWidth: { type: false }
     }
   }
 
@@ -243,7 +245,8 @@ class UnitySearchBar extends LitElement {
     const {
       tags,
       _showPopover,
-      _oversized
+      _oversized,
+      _popoverWidth
     } = this
 
     if (tags.length === 0) return null
@@ -281,6 +284,8 @@ class UnitySearchBar extends LitElement {
           placement="bottom-start"
           .distance="${popoverOffset}"
           .referenceElement="${popoverRoot}"
+          id="tag-popover"
+          style="--popover-max-width: ${_popoverWidth}px"
         >
           <div class="popover-list" slot="on-page-content" >${tagsToRender}</div>
           <div class="popover-content" slot="popover-content">${tagsToRender}</div>
@@ -361,8 +366,11 @@ class UnitySearchBar extends LitElement {
       const popover = this.shadowRoot.querySelector('unity-popover')
 
       const { [0]: {
-        height: tagListHeight
+        height: tagListHeight,
+        width: tagListWidth
       }} = tagList.getClientRects()
+
+      this._popoverWidth = tagListWidth - 16 // account for popover's padding
 
       const { [1]: {
         height: popoverHeight
@@ -449,9 +457,11 @@ class UnitySearchBar extends LitElement {
           overflow-y: hidden;
           z-index: 2;
         }
-        unity-popover {
+        unity-popover#tag-popover {
           height: 100%;
           width: 100%;
+          --popover-content-overflow: visible;
+          --popover-max-height: unset;
         }
         div.popover-list {
           display: flex;
