@@ -656,7 +656,7 @@ class UnityTable extends LitElement {
   set onColumnChange(value) {
     if (!(value instanceof Function)) return
     const oldVal = this._onColumnChange
-    this._onColumnChange = debounce(100, v => this.value())
+    this._onColumnChange = debounce(100, v => value(v))
     this.requestUpdate('onColumnChange', oldVal)
   }
 
