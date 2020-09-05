@@ -4,6 +4,7 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
+import { debounce } from 'throttle-debounce'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-table-cell'
@@ -192,7 +193,7 @@ class UnityTable extends LitElement {
     // this.onSearchFilter = ()=>{}
     // this.onColumnSort = ()=>{}
     this.onEndReached = ()=>{}
-    this.onColumnChange = ()=>{}
+    this._onColumnChange = ()=>{}
 
     // defaults of internal references
     this._filter = ''
@@ -634,9 +635,7 @@ class UnityTable extends LitElement {
     this.data = [...this.data]
   }
 
-  get keyExtractor() {
-    return this._keyExtractor
-  }
+  get keyExtractor() { return this._keyExtractor }
 
   // when the highlightedRow changes, run onHighlight
   set highlightedRow(value) {
@@ -653,6 +652,15 @@ class UnityTable extends LitElement {
   get highlightedRow() {
     return this._highlightedRow
   }
+
+  set onColumnChange(value) {
+    if (!(value instanceof Function)) return
+    const oldVal = this._onColumnChange
+    this._onColumnChange = debounce(100, v => this.value())
+    this.requestUpdate('onColumnChange', oldVal)
+  }
+
+  get onColumnChange() { return this._onColumnChange}
 
   setDataMap(value) {
     const dataMap = new Map()
