@@ -225,6 +225,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'toggle'}" href="/toggle">Switch</a>
           <a ?selected="${this._page === 'modal'}" href="/modal">Modal</a>
           <a ?selected="${this._page === 'dropzone'}" href="/dropzone">Dropzone</a>
+          <a ?selected="${this._page === 'my-maps'}" href="/map">Maps</a>
         </nav>
       </app-header>
 
@@ -251,6 +252,7 @@ class MyApp extends connect(store)(LitElement) {
 
       <!-- Main content -->
       <main role="main" class="main-content">
+        <my-map class="page" ?active="${this._page === 'map'}"></my-map>
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
         <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
         <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
