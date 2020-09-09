@@ -16,6 +16,7 @@ import '@bit/smartworks.unity.unity-icon'
  * --notification-color: color for icon and left bar. Defaults to primary brand color.
  * --notification-height: height of the notification. Defaults to 60px.
  * --notification-width: width of the notification. Defaults to 450px.
+ * --notification-button-padding: padding applied to the close button.
  *
  * @example
  *   <unity-notification
@@ -53,6 +54,7 @@ class UnityNotification extends LitElement {
           --notification-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --notification-height: 60px;
           --notification-width: 450px;
+          --default-notification-button-padding: var(--padding-size-sm, --default-padding-size-sm);
         }
         .notification {
           display: flex;
@@ -85,6 +87,7 @@ class UnityNotification extends LitElement {
         }
         unity-button {
           --button-color: var(--default-dark-grey-text-color);
+          padding: var(--notification-button-padding, --default-notification-button-padding);
         }
       `
     ]
