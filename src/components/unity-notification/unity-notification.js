@@ -77,7 +77,7 @@ class UnityNotification extends LitElement {
           white-space: nowrap;
         }
         .subtext {
-          margin-top: 2px;
+          margin-top: 4px;
         }
         unity-icon {
           color: var(--notification-color);
@@ -100,7 +100,7 @@ class UnityNotification extends LitElement {
             <unity-typography>${text}</unity-typography>
           </div>
           <div class="subtext">
-            <unity-typography color='dark' size='paragraph'>${subtext}</unity-typography>
+            <unity-typography color='dark' size='small'>${subtext}</unity-typography>
           </div>
         </div>
         <unity-button
