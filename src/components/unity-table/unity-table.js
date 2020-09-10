@@ -184,7 +184,7 @@ class UnityTable extends LitElement {
     this._highlightedRow = ''
 
     // action handlers
-    this.onClickRow = ()=>{}
+    this.onClickRow = null
     this.onSelectionChange = ()=>{}
     this.onExpandedChange = ()=>{}
     this.onDisplayColumnsChange = ()=>{}
@@ -1138,6 +1138,7 @@ class UnityTable extends LitElement {
     //NOTE: using == so that rowId can be number or string
     if (rowId == this.highlightedRow) rowClasses.push('highlight')
     if (this.compact) rowClasses.push('compact')
+    if (this.onClickRow) rowClasses.push('clickable')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
@@ -1152,7 +1153,7 @@ class UnityTable extends LitElement {
           //Compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
           const deltaX = Math.abs(e.screenX - this.startingX)
 
-          if (deltaX < MOUSE_MOVE_THRESHOLD) {
+          if (deltaX < MOUSE_MOVE_THRESHOLD && this.onClickRow) {
             this.onClickRow(datum, rowId, e)
           }
         }}"
@@ -1515,9 +1516,11 @@ class UnityTable extends LitElement {
           height: var(--trow-height);
           line-height: var(--trow-height);
           border-collapse: collapse;
-          cursor: pointer;
           background-color: var(--background-color, var(--default-background-color));
           border-bottom: 1px solid var(--separator-color);
+        }
+        .row.clickable {
+          cursor: pointer;
         }
         .row.compact {
           height: var(--trow-compact-height);
