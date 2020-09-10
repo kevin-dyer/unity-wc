@@ -4,7 +4,6 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
-import { debounce } from 'throttle-debounce'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-table-cell'
@@ -197,6 +196,7 @@ class UnityTable extends LitElement {
 
     // defaults of internal references
     this._filter = ''
+    this._nextColumns = []
     this._sortBy = {column: '', direction: UNS}
     this._filteredData = []
     this._sortedData = []
@@ -652,15 +652,6 @@ class UnityTable extends LitElement {
   get highlightedRow() {
     return this._highlightedRow
   }
-
-  set onColumnChange(value) {
-    if (!(value instanceof Function)) return
-    const oldVal = this._onColumnChange
-    this._onColumnChange = debounce(100, v => value(v))
-    this.requestUpdate('onColumnChange', oldVal)
-  }
-
-  get onColumnChange() { return this._onColumnChange}
 
   setDataMap(value) {
     const dataMap = new Map()
@@ -1225,11 +1216,13 @@ class UnityTable extends LitElement {
   }
 
   _handleColumnResize(colKey, xOffset) {
-    const oldColumns = this._columns
+    const {
+      columns: oldColumns,
+      _nextColumns
+    } = this
     const colIndex = oldColumns.findIndex(col => col.key === colKey)
-    const nextColumns = [...this._columns]
-    const {startingWidth: currentWidth=0} = nextColumns[colIndex]
-    const {startingWidth: nextWidth=0} = nextColumns[colIndex + 1]
+    const {startingWidth: currentWidth=0} = _nextColumns[colIndex]
+    const {startingWidth: nextWidth=0} = _nextColumns[colIndex + 1]
 
     //Determine how much to offset column
     const totalOffset = nextWidth - xOffset <= MIN_CELL_WIDTH
@@ -1239,11 +1232,10 @@ class UnityTable extends LitElement {
         : xOffset
 
     //Update offsets of col to resize, and the following col
-    nextColumns[colIndex].xOffset = totalOffset
-    nextColumns[colIndex + 1].xOffset = -totalOffset
+    _nextColumns[colIndex].xOffset = totalOffset
+    _nextColumns[colIndex + 1].xOffset = -totalOffset
 
-    this._columns = nextColumns
-    this.requestUpdate('columns', oldColumns)
+    this._nextColumns = nextColumns
   }
 
   _handleColumnResizeComplete(colKey) {
