@@ -101,15 +101,13 @@ class UnityGlobalNavInnerItem extends LitElement {
       css`
         :host {
           font-family: var(--font-family, var(--default-font-family));
-          --item-height: 32px;
-          --global-nav-inner-item-primary-color: var(--global-nav-item-primary-color, var(--default-global-nav-item-primary-color));
-          --global-nav-inner-item-secondary-color: var(--global-nav-item-secondary-color, var(--default-global-nav-item-secondary-color));
-          --global-nav-inner-item-highlight-color: var(--global-nav-item-highlight-color, var(--default-global-nav-item-highlight-color));
-          --global-nav-inner-item-text-color: var(--global-nav-item-text-color, var(--default-global-nav-item-text-color));
-          --global-nav-inner-item-font-size: var(--global-nav-item-font-size, var(--default-global-nav-item-font-size));
-          --global-nav-inner-item-height: var(--global-nav-item-short-height, var(--default-global-nav-item-short-height));
-          --global-nav-inner-item-margin-size: var(--global-nav-item-margin-size, var(--default-global-nav-item-margin-size));
-          --global-nav-inner-item-padding-size: var(--global-nav-item-padding-size, var(--default-global-nav-item-padding-size));
+          --default-global-nav-inner-item-color: var(--global-nav-item-secondary-color, var(--default-global-nav-item-secondary-color));
+          --default-global-nav-inner-item-highlight-color: var(--global-nav-item-highlight-color, var(--default-global-nav-item-highlight-color));
+          --default-global-nav-inner-item-text-color: var(--global-nav-item-text-color, var(--default-global-nav-item-text-color));
+          --default-global-nav-inner-item-font-size: var(--global-nav-item-font-size, var(--default-global-nav-item-font-size));
+          --default-global-nav-inner-item-height: var(--global-nav-item-short-height, var(--default-global-nav-item-short-height));
+          --default-global-nav-inner-item-margin-size: var(--global-nav-item-margin-size, var(--default-global-nav-item-margin-size));
+          --default-global-nav-inner-item-padding-size: var(--global-nav-item-padding-size, var(--default-global-nav-item-padding-size));
         }
         * {
           box-sizing: border-box;
@@ -118,7 +116,7 @@ class UnityGlobalNavInnerItem extends LitElement {
           border-collapse: collapse;
           height: var(--global-nav-inner-item-height, var(--default-global-nav-inner-item-height));
           width: 100%;
-          background-color: var(--global-nav-inner-item-secondary-color, var(--defaultglobal-nav-inner-item-secondary-color));
+          background-color: var(--global-nav-inner-item-color, var(--defaultglobal-nav-inner-item-color));
           cursor: pointer;
           position: relative;
           --font-color: var(--global-nav-inner-item-text-color, var(--default-global-nav-inner-item-text-color));
