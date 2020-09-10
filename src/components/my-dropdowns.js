@@ -20,7 +20,7 @@ const dataMock = {
     {
       "label": "Option 3",
       "id": "3",
-      "disabled": true
+      "disabled": true // not implemented
     }
   ],
   "submenus": [
