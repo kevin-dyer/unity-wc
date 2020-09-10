@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.7.4
+- unity-table v1.0.12
+
+### v1.7.3
+- unity-table v1.0.11
+
 ### v1.7.2
 - unity-search-bar v1.0.1
 
