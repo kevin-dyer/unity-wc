@@ -21,6 +21,7 @@ import {
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
  * @param {[]} selected, array of strings, each a cell identifier to be selected ('this.selected' is only set in table when attribute changes)
+ * @param {[]} columnFilters, array of filters for columns, each one with the scructure {column: string, values: string[], include:bool}
  * @param {func} keyExtractor, func with row datum and row index as arguments. Retuns unique row identifier.
  * @param {func} slotIdExtractor, func with row datum and column datum as arguments. Returns unique cell identifier.
  * @param {bool} headless, controls if the table has a header row
@@ -84,6 +85,8 @@ import {
  *    ]}"
  *    ?selectable="${true}"
  *    .onSelectionChange="${selected => console.log('These elements are selected: ', selected')}"
+ *    .columnFilters=${[{column: "name", values: ["Grey"], include: false} ]}
+
  *  />
  */
 
@@ -113,6 +116,7 @@ import {
 //   endReachedThreshold  :  Number of px before scroll boundary to update this._rowOffset
 //   onExpandedChange     :  On Change Callback Function for expanded array
 //   onEndReached         :  Callback fired when bottom of table has been reached. useful for external pagination.
+//   columnFilter:           array of column filters. Each filter has the structure: {column: <columnKey>, values: [<value1>, <value2>], include: true|false}
 //
 //   Internals for creating/editing
 //   _data:                  data marked w/ rowId for uniq references
