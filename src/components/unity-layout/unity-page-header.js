@@ -50,23 +50,25 @@ import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
  *      />
  *    </div>
  *  </unity-page-header>
- * 
- * 
+ *
+ *
  * Custom CSS variables:
- * --header-font-family
- * --tab-height
- * --tab-padding
- * --left-wrapper-overflow
- * --title-white-space
- * --tab-colora
+ * --page-header-font-family
+ * --page-header-left-wrapper-overflow
+ * --page-header-title-white-space
  * --page-header-padding-size
- * --page-header-padding
+ * --page-header-padding (overrides --page-header-padding-size)
+ * --page-header-border-color
+ * --page-header-border-width
  * --page-header-border
  * --page-header-font-size
  * --page-header-font-weight
- * --page-header-tabs-font-size
  * --page-header-icon-size
- * 
+ * --page-header-tab-height
+ * --page-header-tab-color
+ * --page-header-tab-font-size
+ * --page-header-tab-padding-size
+ * --page-header-tab-padding (overrides --page-header-tab-padding-size)
  */
 
 //This component will render a page header
@@ -83,23 +85,28 @@ class UnityPageHeader extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
+          --default-page-header-font-family: var(--font-family, var(--default-font-family));
+          --default-page-header-left-wrapper-overflow: hidden;
+          --default-page-header-title-white-space: nowrap;
+          --default-page-header-padding-size: var(--padding-size-md, var(--default-padding-size-md));
+          --default-page-header-padding: 0 var(--page-header-padding-size, var(--default-page-header-padding-size));
+          --default-page-header-border-color: var(--gray-color, var(--default-gray-color));
+          --default-page-header-border-width: 1px;
+          --default-page-header-border: var(--page-header-border-width, var(--default-page-header-border-width)) solid var(--default-page-header-border-color);
+          --default-page-header-font-size: var(--header1-font-size, var(--default-header1-font-size));
+          --default-page-header-font-weight: var(--header1-font-weight, var(--default-header1-font-weight));
+          --default-page-header-icon-size: var(--unity-button-height, var(--default-unity-button-height));
+
+          --default-page-header-tab-height: 28px;
+          --default-page-header-tab-color: var(--secondary-color, var(--default-secondary-color));
+          --default-page-header-tab-font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          --default-page-header-tab-padding-size: var(--page-header-padding-size, var(--default-page-header-padding-size));
+          --default-page-header-tab-padding: 0 var(--page-header-tab-padding-size, var(--default-page-header-tab-padding-size));
+
           width: 100%;
           display: flex;
           flex-direction: column;
-          --header-font-family: var(--font-family, var(--default-font-family));
-          font-family: var(--header-font-family);
-          --tab-height: 38px;
-          --tab-padding: 0 var(--page-header-padding-size);
-          --left-wrapper-overflow: hidden;
-          --title-white-space: nowrap;
-          --tab-color: var(--secondary-color, var(--default-secondary-color));
-          --page-header-padding-size: var(--padding-size-md, var(--default-padding-size-md));
-          --page-header-padding: var(--page-header-padding-size);
-          --page-header-border: 1px solid var(--gray-color, var(--default-gray-color));
-          --page-header-font-size: var(--header1-font-size, var(--default-header1-font-size));
-          --page-header-font-weight: var(--header1-font-weight, var(--default-header1-font-weight));
-          --page-header-tabs-font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
-          --page-header-icon-size: var(--unity-button-height, var(--default-unity-button-height));
+          font-family: var(--page-header-font-family, var(--default-page-header-font-family));
         }
 
         #header {
@@ -108,18 +115,18 @@ class UnityPageHeader extends LitElement {
           flex-direction: row;
           justify-content: space-between;
           align-items: stretch;
-          padding: var(--page-header-padding);
+          padding: var(--page-header-padding, var(--default-page-header-padding));
         }
 
         .bottom {
-          border-bottom: var(--page-header-border);
+          border-bottom: var(--page-header-border, var(--default-page-header-border));
         }
 
         #left-wrapper {
           display: flex;
           flex-direction: row;
           align-items: center;
-          overflow: var(--left-wrapper-overflow);
+          overflow: var(--page-header-left-wrapper-overflow, var(--default-page-header-left-wrapper-overflow));
         }
 
         .left-container {
@@ -129,25 +136,27 @@ class UnityPageHeader extends LitElement {
         }
 
         #title {
-          overflow: var(--left-wrapper-overflow);
-          white-space: var(--title-white-space);
+          overflow: var(--page-header-left-wrapper-overflow, var(--default-page-header-left-wrapper-overflow));
+          white-space: var(--page-header-title-white-space, var(--default-page-header-title-white-space));
+          --header1-size: var(--page-header-font-size, var(--default-page-header-font-size));
+          --header1-wight: var(--page-header-font-weight, var(--default-page-header-font-weight));
         }
 
         paper-tabs {
-          font-size: var(--page-header-tabs-font-size);
-          height: 28px;
+          font-size: var(--page-header-tab-font-size, var(--default-page-header-tab-font-size));
+          height: var(--page-header-tab-height, var(--default-page-header-tab-height));
           width: min-content;
           align-self: flex-start;
-          --paper-tabs-selection-bar-color: var(--tab-color);      
+          --paper-tabs-selection-bar-color: var(--page-header-tab-color, var(--default-page-header-tab-color));
         }
 
         paper-tabs paper-tab.iron-selected {
-          --font-color: var(--tab-color);
+          --font-color: var(--page-header-tab-color, var(--default-page-header-tab-color));
         }
 
         .separator {
-          --unity-icon-height: var(--page-header-icon-size);
-          --unity-icon-width: var(--page-header-icon-size);
+          --unity-icon-height: var(--page-header-icon-size, var(--default-page-header-icon-size));
+          --unity-icon-width: var(--page-header-icon-size, var(--default-page-header-icon-size));
           transform: rotate(90deg);
           color: var(--gray-color, var(--default-gray-color));
         }
@@ -171,8 +180,8 @@ class UnityPageHeader extends LitElement {
         }
 
         paper-tab {
-          padding: var(--tab-padding);
-          font-family: var(--header-font-family);
+          padding: var(--page-header-tab-padding, var(--default-page-header-tab-padding));
+          font-family: var(--page-header-font-family, var(--default-page-header-font-family));
         }
 
         .hide {
