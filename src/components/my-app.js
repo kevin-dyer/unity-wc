@@ -225,7 +225,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'toggle'}" href="/toggle">Switch</a>
           <a ?selected="${this._page === 'modal'}" href="/modal">Modal</a>
           <a ?selected="${this._page === 'dropzone'}" href="/dropzone">Dropzone</a>
-          <a ?selected="${this._page === 'my-maps'}" href="/map">Maps</a>
+          <a ?selected="${this._page === 'map'}" href="/map">Map</a>
         </nav>
       </app-header>
 
@@ -247,6 +247,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'toggle'}" href="/toggle">Switch</a>
           <a ?selected="${this._page === 'modal'}" href="/modal">Modal</a>
           <a ?selected="${this._page === 'dropzone'}" href="/dropzone">Dropzone</a>
+          <a ?selected="${this._page === 'map'}" href="/map">Map</a>
         </nav>
       </app-drawer> -->
 
