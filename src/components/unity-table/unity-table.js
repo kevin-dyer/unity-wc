@@ -4,6 +4,7 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
+import { throttle } from 'throttle-debounce'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-table-cell'
@@ -196,7 +197,7 @@ class UnityTable extends LitElement {
 
     // defaults of internal references
     this._filter = ''
-    this._nextColumns = []
+    this._nextColumns = null
     this._sortBy = {column: '', direction: UNS}
     this._filteredData = []
     this._sortedData = []
@@ -296,6 +297,7 @@ class UnityTable extends LitElement {
       columnFilter: { type: Array },
       isFlat: { type: false },
       hasIcons: { type: false },
+      _nextColumns: { type: false },
 
       // TBI
       // controls: { type: Boolean },
@@ -956,7 +958,7 @@ class UnityTable extends LitElement {
     this.expanded = nextExpanded
   }
 
-  _renderTableHeader(columns) {
+  _renderTableHeader(columns, offsets) {
     const {
       column,
       direction: dir
@@ -970,11 +972,13 @@ class UnityTable extends LitElement {
           ${columns.map(({
             key,
             label,
-            width: rootWidth=0,
-            startingWidth,
-            xOffset=0
+            width: rootWidth=0
           }, i) => {
             const sortIcon = column === key ? getSortedIcon(direction) : 'unity:sort'
+            const {
+              startingWidth,
+              xOffset=0
+            } = offsets && offsets[i] || {}
 
             //NOTE: only working with px
             const width = !!startingWidth
@@ -1207,7 +1211,7 @@ class UnityTable extends LitElement {
   }
 
   _handleColumnResizeStart(colKey, colIndex) {
-    this._columns = this._columns.map(col => {
+    this._nextColumns = this._columns.map(col => {
       const cell = this.shadowRoot.getElementById(`col-header-${col.key}`)
       const cellWidth = !!cell ? cell.offsetWidth : 0
 
@@ -1216,13 +1220,11 @@ class UnityTable extends LitElement {
   }
 
   _handleColumnResize(colKey, xOffset) {
-    const {
-      columns: oldColumns,
-      _nextColumns
-    } = this
+    const oldColumns = this._nextColumns
     const colIndex = oldColumns.findIndex(col => col.key === colKey)
-    const {startingWidth: currentWidth=0} = _nextColumns[colIndex]
-    const {startingWidth: nextWidth=0} = _nextColumns[colIndex + 1]
+    const nextColumns = [...this._nextColumns]
+    const {startingWidth: currentWidth=0} = nextColumns[colIndex]
+    const {startingWidth: nextWidth=0} = nextColumns[colIndex + 1]
 
     //Determine how much to offset column
     const totalOffset = nextWidth - xOffset <= MIN_CELL_WIDTH
@@ -1232,14 +1234,14 @@ class UnityTable extends LitElement {
         : xOffset
 
     //Update offsets of col to resize, and the following col
-    _nextColumns[colIndex].xOffset = totalOffset
-    _nextColumns[colIndex + 1].xOffset = -totalOffset
+    nextColumns[colIndex].xOffset = totalOffset
+    nextColumns[colIndex + 1].xOffset = -totalOffset
 
     this._nextColumns = nextColumns
   }
 
   _handleColumnResizeComplete(colKey) {
-    const nextColumns = this._columns.map(col => {
+    const nextColumns = this._nextColumns.map(col => {
 
       const nextCol = {
         ...col,
@@ -1252,6 +1254,7 @@ class UnityTable extends LitElement {
       return nextCol
     })
 
+    this._nextColumns = null
     this.columns = nextColumns
   }
 
@@ -1338,7 +1341,7 @@ class UnityTable extends LitElement {
         class="container"
       >
         <table>
-          ${!this.headless ? this._renderTableHeader(this.columns) : null}
+          ${!this.headless ? this._renderTableHeader(this.columns, this._nextColumns) : null}
           ${fill?
             isLoading?
               html`<paper-spinner-lite active class="spinner center" />`
