@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.2
+- prevent elements sizes recalculation when root div is not displayed to avoid component crash
+
 ### v1.0.1
 - add margin for ellipsis/popover render, add popover stylings, _makeDebounced on initial load
 
