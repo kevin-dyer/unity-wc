@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.0.12
+- Update table to track offsets more accurately
+
+### v1.0.11
+- Update Table to not use columns to store changing column size, only reporting on finish
+
 ### v1.0.10
 - Update Unity Table Cell to specify custom content in named slot rather than default slot.
 
