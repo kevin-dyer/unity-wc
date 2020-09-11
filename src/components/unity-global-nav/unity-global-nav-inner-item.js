@@ -13,11 +13,13 @@ import '@bit/smartworks.unity.unity-tooltip'
 * @param {''} label, string label to render for item
 * @param {bool} collapsed,
 * @param {bool} disabled,
-* @param {css} --global-nav-background-color, css var used for coloring the component
-* @param {css} --global-nav-expanded-color, css var used for coloring the component
-* @param {css} --primary-brand-color, var, css var used for coloring the component
-* @param {css} --global-nav-border-color, css var used for coloring the component
-* @param {css} --global-nav-text-color, css var used for coloring the component
+* @param {css} --global-nav-inner-item-color, css var used for coloring the component
+* @param {css} --global-nav-inner-item-highlight-color, css var used for coloring the component
+* @param {css} --global-nav-inner-item-text-color, var, css var used for coloring the component
+* @param {css} --global-nav-inner-item-font-size, css var used for coloring the component
+* @param {css} --global-nav-inner-item-height, css var used for coloring the component
+* @param {css} --global-nav-inner-item-margin-size, css var used for coloring the component
+* @param {css} --global-nav-inner-item-padding-size, css var used for coloring the component
 * @param {css} --font-family, css var used for font
 * @return {LitElement} returns a class extended from LitElement
 * @example
@@ -116,7 +118,7 @@ class UnityGlobalNavInnerItem extends LitElement {
           border-collapse: collapse;
           height: var(--global-nav-inner-item-height, var(--default-global-nav-inner-item-height));
           width: 100%;
-          background-color: var(--global-nav-inner-item-color, var(--defaultglobal-nav-inner-item-color));
+          background-color: var(--global-nav-inner-item-color, var(--default-global-nav-inner-item-color));
           cursor: pointer;
           position: relative;
           --font-color: var(--global-nav-inner-item-text-color, var(--default-global-nav-inner-item-text-color));
@@ -140,7 +142,7 @@ class UnityGlobalNavInnerItem extends LitElement {
           flex-wrap: nowrap;
           align-items: center;
           height: 100%;
-          padding: 0 calc(var(--global-nav-inner-item-padding-size, var(--defaultglobal-nav-inner-item-padding-size)) * 2);
+          padding: 0 calc(var(--global-nav-inner-item-padding-size, var(--default-global-nav-inner-item-padding-size)) * 2);
           min-height: var(--global-nav-inner-item-height, var(--default-global-nav-inner-item-height));
         }
         .selected.container::before {
