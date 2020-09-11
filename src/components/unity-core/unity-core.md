@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.7.6
+- unity-global-nav-inner-item v1.2.0
+
 ### v1.7.5
 - unity-search-bar v1.0.2
 
