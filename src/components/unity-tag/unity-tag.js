@@ -101,18 +101,18 @@ class UnityTag extends LitElement {
     this.value = ''
     this.label = ''
     this.withClose = false
-    this.onClose = false
-    this.onClick = false
+    this.onClose = null
+    this.onClick = null
   }
 
   handleClick(e) {
-    if(this.onClick) {
+    if(this.onClick instanceof Function) {
       this.onClick(e, this.value)
     }
   }
 
   handleClose(e) {
-    if (!!this.onClose) {
+    if (this.onClose instanceof Function) {
       e.stopImmediatePropagation()
       this.onClose(e, this.value)
     }
@@ -125,7 +125,7 @@ class UnityTag extends LitElement {
     } = this
 
     return html`
-      <div class=${this.onClick? 'clickable':''} id="tag" @click="${e => this.handleClick(e)}">
+      <div class=${this.onClick instanceof Function? 'clickable':''} id="tag" @click="${e => this.handleClick(e)}">
         <unity-typography class="label">${label}</unity-typography>
         ${!!withClose ? html`<unity-icon icon="unity:close" class="close" @click="${e => this.handleClose(e)}"></unity-icon>` : null}
       </div>

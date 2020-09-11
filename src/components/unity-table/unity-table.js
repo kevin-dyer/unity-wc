@@ -1138,7 +1138,7 @@ class UnityTable extends LitElement {
     //NOTE: using == so that rowId can be number or string
     if (rowId == this.highlightedRow) rowClasses.push('highlight')
     if (this.compact) rowClasses.push('compact')
-    if (this.onClickRow) rowClasses.push('clickable')
+    if (this.onClickRow instanceof Function) rowClasses.push('clickable')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
@@ -1153,7 +1153,7 @@ class UnityTable extends LitElement {
           //Compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
           const deltaX = Math.abs(e.screenX - this.startingX)
 
-          if (deltaX < MOUSE_MOVE_THRESHOLD && this.onClickRow) {
+          if (deltaX < MOUSE_MOVE_THRESHOLD && this.onClickRow instanceof Function) {
             this.onClickRow(datum, rowId, e)
           }
         }}"
