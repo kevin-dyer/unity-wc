@@ -13,13 +13,13 @@ import '@bit/smartworks.unity.unity-tooltip'
 * @param {''} label, string label to render for item
 * @param {bool} collapsed,
 * @param {bool} disabled,
-* @param {css} --global-nav-inner-item-color, css var used for coloring the component
-* @param {css} --global-nav-inner-item-highlight-color, css var used for coloring the component
-* @param {css} --global-nav-inner-item-text-color, var, css var used for coloring the component
-* @param {css} --global-nav-inner-item-font-size, css var used for coloring the component
-* @param {css} --global-nav-inner-item-height, css var used for coloring the component
-* @param {css} --global-nav-inner-item-margin-size, css var used for coloring the component
-* @param {css} --global-nav-inner-item-padding-size, css var used for coloring the component
+* @param {css} --global-nav-inner-item-color, css var used for styling the component
+* @param {css} --global-nav-inner-item-highlight-color, css var used for styling the component
+* @param {css} --global-nav-inner-item-text-color, var, css var used for styling the component
+* @param {css} --global-nav-inner-item-font-size, css var used for styling the component
+* @param {css} --global-nav-inner-item-height, css var used for styling the component
+* @param {css} --global-nav-inner-item-margin-size, css var used for styling the component
+* @param {css} --global-nav-inner-item-padding-size, css var used for styling the component
 * @param {css} --font-family, css var used for font
 * @return {LitElement} returns a class extended from LitElement
 * @example
