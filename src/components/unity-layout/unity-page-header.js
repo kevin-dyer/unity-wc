@@ -14,6 +14,22 @@ import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
  * @param {''} header
  * @param {[]} tabs
  * @param {''} selectedTab
+ * @param {css} --page-header-font-family, css var used for styling the component
+ * @param {css} --page-header-left-wrapper-overflow, css var used for styling the component
+ * @param {css} --page-header-title-white-space, css var used for styling the component
+ * @param {css} --page-header-padding-size, css var used for styling the component
+ * @param {css} --page-header-padding, css var used for styling the component (overrides --page-header-padding-size)
+ * @param {css} --page-header-border-color, css var used for styling the component
+ * @param {css} --page-header-border-width, css var used for styling the component
+ * @param {css} --page-header-border, css var used for styling the component
+ * @param {css} --page-header-font-size, css var used for styling the component
+ * @param {css} --page-header-font-weight, css var used for styling the component
+ * @param {css} --page-header-icon-size, css var used for styling the component
+ * @param {css} --page-header-tab-height, css var used for styling the component
+ * @param {css} --page-header-tab-color, css var used for styling the component
+ * @param {css} --page-header-tab-font-size, css var used for styling the component
+ * @param {css} --page-header-tab-padding-size, css var used for styling the component
+ * @param {css} --page-header-tab-padding, css var used for styling the component (overrides --page-header-tab-padding-size)
  * @returns {LitElement} returns a a class extended from LitElement
  * @example
  *  <unity-page-header
@@ -50,25 +66,6 @@ import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
  *      />
  *    </div>
  *  </unity-page-header>
- *
- *
- * Custom CSS variables:
- * --page-header-font-family
- * --page-header-left-wrapper-overflow
- * --page-header-title-white-space
- * --page-header-padding-size
- * --page-header-padding (overrides --page-header-padding-size)
- * --page-header-border-color
- * --page-header-border-width
- * --page-header-border
- * --page-header-font-size
- * --page-header-font-weight
- * --page-header-icon-size
- * --page-header-tab-height
- * --page-header-tab-color
- * --page-header-tab-font-size
- * --page-header-tab-padding-size
- * --page-header-tab-padding (overrides --page-header-tab-padding-size)
  */
 
 //This component will render a page header
