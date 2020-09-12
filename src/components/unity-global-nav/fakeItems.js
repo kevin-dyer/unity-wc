@@ -29,7 +29,10 @@ export const items = {
         {
           key: 'item-0-0',
           label: 'Item 0-0',
-          icon: 'unity:db'
+          icon: 'unity:db',
+          style: {
+            '--global-nav-inner-item-color': 'green'
+          }
         },
         {
           key: 'item-0-1',
@@ -52,7 +55,10 @@ export const items = {
       key: 'item-2',
       label: 'Top Item 2',
       short: false,
-      icon: 'unity:schedule'
+      icon: 'unity:schedule',
+      style: {
+        '--global-nav-background-color': 'red'
+      }
     },
     {
       key: 'item-3',
