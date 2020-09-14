@@ -29,6 +29,7 @@ import * as strings from './strings'
 * @param {bool} showTags, show tags with selected options (only for multi-select)
 * @param {func} onValueChange, callback on clicking a value that returns current seelcted for single select, and option and bool selected when multiselect
 * @param {bool} rightAlign, if the dropdown box should be aligned to the right
+* @param {bool} autofocus, focus input on load (only for boxType=search)
 * @example
 * <unity-dropdown
 *   label="${"Full example"}"
@@ -357,6 +358,7 @@ class UnityDropdown extends LitElement {
     this.showTags = false;
     this.onValueChange = () => {};
     this.rightAlign = false;
+    this.autofocus = false;
     this._collapsed = true;
     this._dropdown = () => this.toggleCollapse();
     this._changeValue = (id) => () => {this.changeSelected(id)};
@@ -387,6 +389,7 @@ class UnityDropdown extends LitElement {
       searchBox: { type: Boolean },
       showTags: { type: Boolean },
       rightAlign: { type: Boolean },
+      autofocus: { type: Boolean },
       _collapsed: { type: Boolean },
       _dropdown: { type: Function },
       _changeValue: { type: Function },
@@ -724,6 +727,7 @@ class UnityDropdown extends LitElement {
               .onChange="${this._onInputSearchChange}"
               placeholder=${placeholder}
               .borderEffects=${false}
+              .autofocus=${this.autofocus}
             >
           </unity-text-input>
           <div class="icon-right-wrapper chevron" @click="${_dropdown}">

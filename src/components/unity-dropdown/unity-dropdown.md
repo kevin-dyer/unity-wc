@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.0
+- added `autofocus` property to autofocus input on first render (for `boxType='search'` only)
+
 ### v1.2.0
 - update colors to Unity2020 designs
 - add --dropdown-search-input-padding CSS variable to set input padding

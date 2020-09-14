@@ -71,6 +71,7 @@ class MyTextInput extends PageViewElement {
             <unity-text-input
               .value="${"Plain Input"}"
               .onChange="${this.onInputChange}"
+              autofocus
             ></unity-text-input>
           </div>
           <div class="input-box">

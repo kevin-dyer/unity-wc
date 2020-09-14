@@ -5,6 +5,25 @@
 
 ## Changelog:
 
+### v1.7.8
+- unity-text-input v1.2.0
+- unity-dropdown v1.3.0
+
+### v1.7.7
+- unity-page-header v1.2.0
+
+### v1.7.6
+- unity-global-nav-inner-item v1.2.0
+
+### v1.7.5
+- unity-search-bar v1.0.2
+
+### v1.7.4
+- unity-table v1.0.12
+
+### v1.7.3
+- unity-table v1.0.11
+
 ### v1.7.2
 - unity-search-bar v1.0.1
 

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.0
+- fix typos and update exposed vars for more controls
+
 ### v1.1.2
 - add ignore unity-tags
 
