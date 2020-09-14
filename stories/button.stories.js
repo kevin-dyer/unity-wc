@@ -8,48 +8,55 @@ export default {
   decorators: [withKnobs]
 };
 
-
-
 export const Standard = () => {
   const label = text("Button text", "Button")
   const disabled = boolean("Disabled", false)
+  const loading = boolean("Loading", false)
+  const important = boolean("Important", false)
   const typeOptions = {
-    'None': null,
-    'Primary': 'primary',
+    'Primary (default)': 'primary',
     'Secondary': 'secondary',
     'Borderless': 'borderless'
   }
   const type = select("Button Type", typeOptions, 'None')
   return html`
-    <unity-button label=${label} type="${type}" ?disabled=${disabled} @click=${action("clicked")}></unity-button>
+    <unity-button
+      label=${label}
+      type="${type}"
+      ?disabled=${disabled}
+      ?loading=${loading}
+      ?important=${important}
+      @click=${action("clicked")}>
+    </unity-button>
   `;
 }
 
+export const CenterIcon = () => {
+  const centerIcon = text("centerIcon", "unity:add")
+  return (
+    html`
+      <unity-button centerIcon=${centerIcon}></unity-button>
+    `
+  )
+}
 
-export const Loading = () => html`
-  <unity-button label="Button" ?loading=${true}></unity-button>
-`;
+export const leftIcon = () => {
+  const leftIcon = text("leftIcon", "unity:edit")
+  const label = text("label", "Edit")
 
-export const NoOutline = () => html`
-  <unity-button label="Button"></unity-button>
-`;
+  return (
+    html`
+      <unity-button label=${label} leftIcon=${leftIcon}></unity-button>
+    `
+  )
+}
 
-export const CenterIcon = () => html`
-  <unity-button centerIcon="add" gradient></unity-button>
-`;
-
-export const Danger = () => html`
-  <unity-button label="Button" outlined danger></unity-button>
-`;
-
-export const DangerGradient = () => html`
-  <unity-button label="Button" gradient danger></unity-button>
-`;
-
-export const Disabled = () => html`
-  <unity-button label="Button" outlined disabled></unity-button>
-`;
-
-export const GradientDisabled = () => html`
-  <unity-button label="Button" outlined disabled></unity-button>
-`;
+export const rightIcon = () => {
+  const rightIcon = text("rightIcon", "unity:down_chevron")
+  const label = text("label", "Expand")
+  return (
+    html`
+      <unity-button label=${label} rightIcon=${rightIcon}></unity-button>
+    `
+  )
+}

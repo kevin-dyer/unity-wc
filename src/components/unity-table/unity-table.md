@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.0.13
+- Show pointer cursor on row hover only if onRowClick is defined
+- Update docs
+
 ### v1.0.12
 - Update table to track offsets more accurately
 

@@ -162,7 +162,8 @@ class UnityButton extends LitElement {
 
         /* Important Styles */
         paper-button.important {
-          --button-color: var(--button-important-color, var(--default-button-important-color));
+          --button-color: var(--button-important-color, var(--default-button-important-color)) !important;
+          --button-hover-color: var(--button-important-color, var(--default-button-important-color)) !important;
           --pressed-color: var(--button-important-pressed-color, var(--default-button-important-pressed-color));
         }
 

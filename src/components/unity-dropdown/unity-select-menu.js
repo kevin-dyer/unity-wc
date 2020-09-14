@@ -148,7 +148,8 @@ class UnitySelectMenu extends LitElement {
         "--tag-font-size": tagFontSize,
         "--tag-padding": tagPadding,
         "--tag-margin": tagMargin,
-        "--tag-border": tagBorder
+        "--tag-border": tagBorder,
+        "--tag-hover-text-color": tagHoverTextColor
       }={}
     } = item
 
@@ -161,6 +162,7 @@ class UnitySelectMenu extends LitElement {
       if (tagPadding) tagStyle += `--tag-padding: ${tagPadding};`
       if (tagMargin) tagStyle += `--tag-margin: ${tagMargin};`
       if (tagBorder) tagStyle += `--tag-border: ${tagBorder};`
+      if (tagHoverTextColor) tagStyle += `--tag-hover-text-color: ${tagHoverTextColor};`
     }
 
     return html`

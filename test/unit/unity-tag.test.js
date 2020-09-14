@@ -27,14 +27,14 @@ describe('tag test', () => {
     expect(el.withClose).to.equal(false)
   })
 
-  it('should have false as onClose default', async () => {
+  it('should have null as onClose default', async () => {
     const el = /** @type {A11yInput} */ (await fixture('<unity-tag></unity-tag>'))
-    expect(el.onClose).to.equal(false)
+    expect(el.onClose).to.be.null
   })
 
-  it('should have function as onClick default', async () => {
+  it('should have null as onClick default', async () => {
     const el = /** @type {A11yInput} */ (await fixture('<unity-tag></unity-tag>'))
-    expect(el.onClick instanceof Function).to.equal(true)
+    expect(el.onClick).to.be.null
   })
 
   it('should have unity-typography for label', async () => {

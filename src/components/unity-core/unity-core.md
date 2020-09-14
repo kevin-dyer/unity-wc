@@ -5,6 +5,22 @@
 
 ## Changelog:
 
+### v1.7.10
+- unity-select-menu v1.3.1
+
+### v1.7.9
+- Small fixes and updates:
+  - unity-button v1.1.7
+  - unity-notification v1.1.0
+  - unity-table v1.0.13
+  - unity-tag v1.1.3
+  - unity-toggle-switch v1.0.4
+  - unity-typography v1.1.3
+- Updated peer dependencies:
+  - unity-modal v1.0.6
+  - unity-popover v1.0.4
+  - unity-section v1.0.3
+
 ### v1.7.8
 - unity-text-input v1.2.0
 - unity-dropdown v1.3.0

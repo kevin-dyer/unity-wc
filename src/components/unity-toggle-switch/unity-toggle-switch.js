@@ -23,6 +23,12 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   .onChange="${report}"
  *   .remark="${Whether water is running through the valve.}"
  * ></unity-toggle-switch>
+ * 
+ * CSS variables:
+ * --color: switch color
+ * --size: switch size, used for both width and height to maintain proportions
+ * --on-color: color for 'on' label
+ * --off-color: color for 'off' label
  **/
 
 class UnityToggleSwitch extends LitElement {
@@ -71,7 +77,7 @@ class UnityToggleSwitch extends LitElement {
     const switchMode = `unity:toggle_${value ? 'on' : 'off'}`
     return html`
       <div class="wrapper">
-        ${label ? html`<unity-typography size="paragraph" color="medium" class="label">
+        ${label ? html`<unity-typography size="paragraph" color="dark" class="label">
           ${label}
         </unity-typography>` : null}
         <div class="switch-container">
@@ -115,10 +121,10 @@ class UnityToggleSwitch extends LitElement {
           align-self: center;
         }
         .off-label {
-          color: var(--off-label-color);
+          --font-color: var(--off-color);
         }
         .on-label {
-          color: var(--on-label-color);
+          --font-color: var(--on-color);
         }
         .toggle {
           flex: 0;

@@ -27,6 +27,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * --tag-padding
  * --tag-margin
  * --tag-border
+ * --tag-hover-text-color
  */
 
 class UnityTag extends LitElement {
@@ -41,6 +42,7 @@ class UnityTag extends LitElement {
           --default-tag-padding: var(--padding-size-sm, var(--default-padding-size-sm));
           --default-tag-margin: 4px;
           --default-tag-border: none;
+          --default-tag-hover-text-color: var(--gray-color, var(--default-gray-color));
           --icon-size: calc(var(--tag-font-size, var(--default-tag-font-size)) * 1.4);
           display: flex;
         }
@@ -53,8 +55,10 @@ class UnityTag extends LitElement {
           padding: 2px var(--tag-padding, var(--default-tag-padding));
           white-space: nowrap;
           user-select: none;
-          cursor: pointer;
           margin: var(--tag-margin, var(--default-tag-margin));
+        }
+        #tag.clickable {
+          cursor: pointer;
         }
         .label {
           display: flex;
@@ -72,6 +76,10 @@ class UnityTag extends LitElement {
           padding-left: 4px;
           --unity-icon-height: var(--icon-size);
           --unity-icon-width: var(--icon-size);
+        }
+        .close:hover {
+          color: var(--tag-hover-text-color, var(--default-tag-hover-text-color));
+          cursor: pointer;
         }
       `
     ]
@@ -93,16 +101,18 @@ class UnityTag extends LitElement {
     this.value = ''
     this.label = ''
     this.withClose = false
-    this.onClose = false
-    this.onClick = () => {}
+    this.onClose = null
+    this.onClick = null
   }
 
   handleClick(e) {
-    this.onClick(e, this.value)
+    if(this.onClick instanceof Function) {
+      this.onClick(e, this.value)
+    }
   }
 
   handleClose(e) {
-    if (!!this.onClose) {
+    if (this.onClose instanceof Function) {
       e.stopImmediatePropagation()
       this.onClose(e, this.value)
     }
@@ -115,7 +125,7 @@ class UnityTag extends LitElement {
     } = this
 
     return html`
-      <div id="tag" @click="${e => this.handleClick(e)}">
+      <div class=${this.onClick instanceof Function? 'clickable':''} id="tag" @click="${e => this.handleClick(e)}">
         <unity-typography class="label">${label}</unity-typography>
         ${!!withClose ? html`<unity-icon icon="unity:close" class="close" @click="${e => this.handleClose(e)}"></unity-icon>` : null}
       </div>

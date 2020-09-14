@@ -22,6 +22,7 @@ import {
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
  * @param {[]} selected, array of strings, each a cell identifier to be selected ('this.selected' is only set in table when attribute changes)
+ * @param {[]} columnFilters, array of filters for columns, each one with the scructure {column: string, values: string[], include:bool}
  * @param {func} keyExtractor, func with row datum and row index as arguments. Retuns unique row identifier.
  * @param {func} slotIdExtractor, func with row datum and column datum as arguments. Returns unique cell identifier.
  * @param {bool} headless, controls if the table has a header row
@@ -85,6 +86,8 @@ import {
  *    ]}"
  *    ?selectable="${true}"
  *    .onSelectionChange="${selected => console.log('These elements are selected: ', selected')}"
+ *    .columnFilters=${[{column: "name", values: ["Grey"], include: false} ]}
+
  *  />
  */
 
@@ -114,6 +117,7 @@ import {
 //   endReachedThreshold  :  Number of px before scroll boundary to update this._rowOffset
 //   onExpandedChange     :  On Change Callback Function for expanded array
 //   onEndReached         :  Callback fired when bottom of table has been reached. useful for external pagination.
+//   columnFilter:           array of column filters. Each filter has the structure: {column: <columnKey>, values: [<value1>, <value2>], include: true|false}
 //
 //   Internals for creating/editing
 //   _data:                  data marked w/ rowId for uniq references
@@ -181,7 +185,7 @@ class UnityTable extends LitElement {
     this._highlightedRow = ''
 
     // action handlers
-    this.onClickRow = ()=>{}
+    this.onClickRow = null
     this.onSelectionChange = ()=>{}
     this.onExpandedChange = ()=>{}
     this.onDisplayColumnsChange = ()=>{}
@@ -1137,6 +1141,7 @@ class UnityTable extends LitElement {
     //NOTE: using == so that rowId can be number or string
     if (rowId == this.highlightedRow) rowClasses.push('highlight')
     if (this.compact) rowClasses.push('compact')
+    if (this.onClickRow instanceof Function) rowClasses.push('clickable')
     // if index is 0, add check-all button
     // need to add handler for icon/img and label
     return html`
@@ -1151,7 +1156,7 @@ class UnityTable extends LitElement {
           //Compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
           const deltaX = Math.abs(e.screenX - this.startingX)
 
-          if (deltaX < MOUSE_MOVE_THRESHOLD) {
+          if (deltaX < MOUSE_MOVE_THRESHOLD && this.onClickRow instanceof Function) {
             this.onClickRow(datum, rowId, e)
           }
         }}"
@@ -1376,7 +1381,6 @@ class UnityTable extends LitElement {
           --default-hover-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
           --default-highlight-color: var(--default-primary-tint-1-color, var(--default-primary-tint-1-color));
           --default-hover-highlight-color: var(--primary-tint-2-color, var(--default-primary-tint-2-color));
-          --paper-checkbox-checked-ink-color: transparent;
           --paper-checkbox-ink-size: 0;
           --paper-icon-button-ink-color: transparent;
           --padding-small: var(--padding-size-sm, var(--default-padding-size-sm));
@@ -1511,9 +1515,11 @@ class UnityTable extends LitElement {
           height: var(--trow-height);
           line-height: var(--trow-height);
           border-collapse: collapse;
-          cursor: pointer;
           background-color: var(--background-color, var(--default-background-color));
           border-bottom: 1px solid var(--separator-color);
+        }
+        .row.clickable {
+          cursor: pointer;
         }
         .row.compact {
           height: var(--trow-compact-height);

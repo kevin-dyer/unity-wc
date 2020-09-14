@@ -136,7 +136,7 @@ class UnityTypography extends LitElement {
           --header2-size: var(--header2-font-size, var(--default-header2-font-size));
           --paragraph-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --medium-size: var(--medium-text-size, var(--default-medium-text-size));
-          --small-size: var(--small-text-size, var(--default-));
+          --small-size: var(--small-text-size, var(--default-small-text-size));
           --header1-weight: var(--header1-font-weight, var(--default-header1-font-weight));
           --header2-weight: var(--header2-font-weight, var(--default-header2-font-weight));
           --paragraph-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));

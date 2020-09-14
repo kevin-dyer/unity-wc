@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.3
+- Fix default small text size
+
 ### v1.1.0
 - add ignore unity-tags
 
