@@ -135,3 +135,14 @@ export const findMatches = ({tagSeed=[], textSeed=[], search="", exclude=[]}) =>
   textMatches.forEach(text => outText.push(tag))
   return { tags: outTags, text: outText }
 }
+
+// function to translate a React/Object style to an HTML/String style
+// input:  givenStyle = string or object styling
+// output: string version of the given style
+export const styleToString = givenStyle => {
+  if (typeof givenStyle === 'string') return givenStyle
+  if (givenStyle instanceof Object) {
+    return Object.entries(givenStyle).reduce((out, [key, val]) => out += `${key}: ${val};`, '')
+  }
+  return ''
+}

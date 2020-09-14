@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import { styleToString } from '@bit/smartworks.unity.unity-utils'
 import '@bit/smartworks.unity.unity-global-nav-top-item'
 import '@bit/smartworks.unity.unity-icon-set'
 import '@bit/smartworks.unity.unity-typography'
@@ -81,7 +82,6 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   _changeSelection(key) {
-    this.selected = key
     this.onSelect(key)
   }
 
@@ -94,7 +94,7 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   renderItems(items) {
-    return items.map(({key, label, short, icon, children, disabled}) => html`
+    return items.map(({key, label, short, icon, children, disabled, style}) => html`
       <unity-global-nav-top-item
         .key="${key}"
         .onSelect="${this._itemClicked}"
@@ -109,6 +109,7 @@ class UnityGlobalNavBase extends LitElement {
         }))}"
         ?collapsed=${this.collapsed}
         ?disabled=${disabled}
+        style=${styleToString(style)}
       ></unity-global-nav-top-item>`)
   }
 

@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import { styleToString } from '@bit/smartworks.unity.unity-utils'
 import '@bit/smartworks.unity.unity-global-nav-inner-item'
 import '@bit/smartworks.unity.unity-tooltip'
 import '@bit/smartworks.unity.unity-icon'
@@ -155,7 +156,7 @@ class UnityGlobalNavTopItem extends LitElement {
           ${collapsed? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
           ${!collapsed && hasChildren ? html`<unity-icon class="icon" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
         </div>
-        ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled}) => html`
+        ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled, style}) => html`
         <unity-global-nav-inner-item
           .key="${key}"
           .onSelect="${onSelect}"
@@ -164,6 +165,7 @@ class UnityGlobalNavTopItem extends LitElement {
           .selected="${selected}"
           ?collapsed=${collapsed}
           ?disabled=${disabled}
+          style=${styleToString(style)}
         ></unity-global-nav-inner-item>
         `) : null}
       </div>

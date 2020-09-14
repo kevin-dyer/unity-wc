@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.7
+- add styleToString to add item.styles to top-item, remove selected change on clicking element
+
 ### v1.1.6
 - add ignore unity-tags
 

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.4
+- add styleToString to pass item.styles to inner-item
+
 ### v1.1.3
 - add ignore unity-tags
 
