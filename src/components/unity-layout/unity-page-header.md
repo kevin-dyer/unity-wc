@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.0
+- update exposed css vars to properly inherit and increase what can be controled
+
 ### v1.1.2
 - add ignore unity-tags
 
