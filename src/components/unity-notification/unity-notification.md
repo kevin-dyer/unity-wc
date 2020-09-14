@@ -2,6 +2,11 @@
 
 ## Changelog:
 
+### v1.1.0
+- Add `--notification-button-padding` CSS var and set default button padding
+- Fix notification subtext size
+- Increased spacing between text and subtext
+
 ### v1.0.2
 - add ignore unity-tags
 

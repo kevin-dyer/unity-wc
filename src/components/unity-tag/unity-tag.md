@@ -2,6 +2,11 @@
 
 ## Changelog:
 
+### v1.1.3
+- Add `--tag-hover-text-color` variable
+- Highlight close button on button hover
+- Show pointer cursor on tag hover only if `onClick` is defined
+
 ### v1.1.2
 - Removed helpful comment
 

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.7
+- Fix color on hover for `important` buttons
+
 ### v1.1.6
 - Changed border-radius to 50% for icon-only buttons
 

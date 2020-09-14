@@ -1,5 +1,8 @@
 # unity-popover
 
+## v1.0.4
+- update unity-utils peer dependency
+
 ## v1.0.3
 - Added --popover-content-overflow
 

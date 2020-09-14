@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.4
+- Fix default color for labels
+
 ### v1.0.2
 - add ignore unity-tags
 
