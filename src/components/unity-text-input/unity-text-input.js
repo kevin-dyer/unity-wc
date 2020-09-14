@@ -33,6 +33,7 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {''} innerRightIcon, if defined, puts an icon (specified) from the unity icon set on the right side of the text input
 * @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
 * @param {bool} dirty, if true, will render left-side bar to show that the element has been changed from it's original contents
+* @param {bool} autofocus, focus input on load
 * @example
 * <unity-text-input>
 *   .label="${'Strong Validation'}"
@@ -97,6 +98,7 @@ class UnityTextInput extends LitElement {
     this.minLines = MIN_LINES
     this.maxLines = MAX_LINES
     this.dirty = false
+    this.autofocus = false
 
     // internals
     this._error = ''
@@ -135,6 +137,7 @@ class UnityTextInput extends LitElement {
       minLines: { type: Number },
       maxLines: { type: Number },
       dirty: { type: Boolean },
+      autofocus: { type: Boolean },
 
       // internals
       _valid: { type: Boolean },
@@ -159,6 +162,10 @@ class UnityTextInput extends LitElement {
       this._errorText = value
     }
     this.requestUpdate('error', oldValue)
+  }
+
+  firstUpdated() {
+    if(this.autofocus) this._focusInput()
   }
 
   get error() { return this._error }
@@ -379,6 +386,7 @@ class UnityTextInput extends LitElement {
       placeholder,
       dirty,
       showIcon,
+      autofocus,
       _onChange,
       _valid,
       _strength,
@@ -429,6 +437,7 @@ class UnityTextInput extends LitElement {
               ?disabled=${!!disabled || !!readOnly}
               placeholder="${!!placeholder ? placeholder : ''}"
               style="--area-min-lines: ${minLines}; --area-max-lines: ${maxLines}"
+              ?autofocus=${autofocus}
             ></iron-autogrow-textarea>`
             :
             html`<input
@@ -440,6 +449,7 @@ class UnityTextInput extends LitElement {
               style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
               class="${!!disabled ? "disabled" : ""}"
               ?disabled=${!!disabled || !!readOnly}
+              ?autofocus=${autofocus}
             >`
           }
           ${!!dirty ? html`<div class="dirty" />` : null}

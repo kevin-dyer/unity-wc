@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+### v1.7.8
+- unity-text-input v1.2.0
+- unity-dropdown v1.3.0
+
 ### v1.7.7
 - unity-page-header v1.2.0
 

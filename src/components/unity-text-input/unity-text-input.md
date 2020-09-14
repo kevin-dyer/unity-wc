@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.0
+- Added `autofocus` property to autofocus input on first render
+
 ### v1.1.7
 - fit input width to container size
 
