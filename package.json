@@ -256,14 +256,15 @@
       "unity-modal": {
         "peerDependencies": {
           "@bit/smartworks.unity.unity-typography": "^1.0.0",
-          "@bit/smartworks.unity.unity-utils": "^0.0.4"
+          "@bit/smartworks.unity.unity-utils": "^1.0.1"
         },
         "propagate": true
       },
       "unity-notification": {
         "peerDependencies": {
           "@bit/smartworks.unity.unity-button": "^1.0.0",
-          "@bit/smartworks.unity.unity-icon": "^1.0.0"
+          "@bit/smartworks.unity.unity-icon": "^1.0.0",
+          "@bit/smartworks.unity.unity-typography": "^1.1.3"
         },
         "propagate": true
       },
@@ -277,7 +278,7 @@
       "unity-popover": {
         "peerDependencies": {
           "@bit/smartworks.unity.unity-button": "^1.0.0",
-          "@bit/smartworks.unity.unity-utils": "^0.0.5"
+          "@bit/smartworks.unity.unity-utils": "^1.0.1"
         },
         "propagate": true
       },
@@ -289,7 +290,7 @@
       },
       "unity-section": {
         "peerDependencies": {
-          "@bit/smartworks.unity.unity-utils": "^0.0.4"
+          "@bit/smartworks.unity.unity-utils": "^1.0.1"
         },
         "propagate": true
       },
