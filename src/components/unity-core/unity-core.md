@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.7.10
+- unity-select-menu v1.3.1
+
 ### v1.7.9
 - Small fixes and updates:
   - unity-button v1.1.7

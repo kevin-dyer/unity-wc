@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.1
+- add support for `--tag-hover-text-color` in item's `tagStyles`
+
 ### v1.3.0
 - add --menu-hover-color CSS variable and update default color to Unity2020 designs
 - add unity dependencies to peer dependencies
