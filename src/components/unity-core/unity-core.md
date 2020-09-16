@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.7.11
+- unity-column-editor v1.1.5
+
 ### v1.7.10
 - unity-select-menu v1.3.1
 

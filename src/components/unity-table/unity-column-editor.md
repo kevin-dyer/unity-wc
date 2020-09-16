@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.5
+- added margin to bottom buttons inside modal
+
 ### v1.1.4
 - updated colors to new default.
 
