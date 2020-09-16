@@ -252,6 +252,7 @@ class UnityColumnEditor extends LitElement {
           slot="bottom"
           type="secondary"
           @click=${this.handleCancel.bind(this)}
+          class="modal-button"
         ></unity-button>
         <unity-button
           label="Save"
@@ -259,6 +260,7 @@ class UnityColumnEditor extends LitElement {
           autofocus
           type="primary"
           @click=${this.handleSave.bind(this)}
+          class="modal-button"
         ></unity-button>
       </unity-modal>
     `
@@ -346,6 +348,9 @@ class UnityColumnEditor extends LitElement {
 
         .drag-handle {
           cursor: move;
+        }
+        .modal-button: {
+          margin-left: 8px;
         }
       `
     ]
