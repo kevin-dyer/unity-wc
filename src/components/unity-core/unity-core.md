@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.7.12
+- unity-column-editor v1.1.6
+
 ### v1.7.11
 - unity-column-editor v1.1.5
 
