@@ -35,7 +35,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@1.1.5": {
+    "smartworks.unity/unity-column-editor@1.1.6": {
         "files": [
             {
                 "name": "unity-column-editor.js",
@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.7.11": {
+    "smartworks.unity/unity-core@1.7.12": {
         "files": [
             {
                 "name": "index.js",
