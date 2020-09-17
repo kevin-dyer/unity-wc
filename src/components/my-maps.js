@@ -1,20 +1,11 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit-element'
 import '@bit/smartworks.unity.unity-core/unity-icon'
 import '@openlayers-elements/maps/ol-map'
 import '@openlayers-elements/maps/ol-layer-openstreetmap'
 import '@openlayers-elements/core/ol-layer-vector'
 import '@openlayers-elements/maps/ol-marker-icon'
 import '@openlayers-elements/maps/ol-select'
-// import OSM from 'ol/source/OSM';
-// import Map from 'ol/Map';
-// import Overlay from 'ol/Overlay';
-// import TileLayer from 'ol/layer/Tile';
-// import View from 'ol/View';
-// import Feature from 'ol/Feature';
-// import Point from 'ol/geom/Point';
-// import Vector from 'ol/layer/Vector';
-// import Source from 'ol/source/Vector';
-// import {fromLonLat} from 'ol/proj';
+import '@deckdeckgo/drag-resize-rotate'
 
 class MyMaps extends LitElement {
   firstUpdated() {
@@ -38,6 +29,11 @@ class MyMaps extends LitElement {
     return html`
     <div class="map-page">
       <h2>My Maps</h2>
+      <deckgo-drr
+        style="--width: 10%; --height:19%; --top:15%; --left:12.5%;">
+        <img src="https://www.roomsketcher.com/wp-content/uploads/2017/11/RoomSketcher-Order-Floor-Plans-2D-Floor-Plan.jpg">
+      </deckgo-drr>
+      <h2>End of drr test</h2>
         <ol-map id="map" zoom="3" lat="16.231564" lon="-28.992471">
         <ol-layer-openstreetmap></ol-layer-openstreetmap>
           <ol-layer-vector z-index="1">
