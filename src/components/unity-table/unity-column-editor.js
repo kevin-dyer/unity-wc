@@ -349,7 +349,7 @@ class UnityColumnEditor extends LitElement {
         .drag-handle {
           cursor: move;
         }
-        .modal-button: {
+        .modal-button {
           margin-left: 8px;
         }
       `
