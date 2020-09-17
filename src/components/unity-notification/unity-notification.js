@@ -54,7 +54,7 @@ class UnityNotification extends LitElement {
           --notification-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --notification-height: 60px;
           --notification-width: 450px;
-          --default-notification-button-padding: var(--padding-size-sm, --default-padding-size-sm);
+          --default-notification-button-padding: var(--padding-size-sm, var(--default-padding-size-sm));
         }
         .notification {
           display: flex;
@@ -87,7 +87,7 @@ class UnityNotification extends LitElement {
         }
         unity-button {
           --button-color: var(--default-dark-grey-text-color);
-          padding: var(--notification-button-padding, --default-notification-button-padding);
+          padding: var(--notification-button-padding, var(--default-notification-button-padding));
         }
       `
     ]
