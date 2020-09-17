@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- Fix default css values for button padding
+
 ### v1.1.0
 - Add `--notification-button-padding` CSS var and set default button padding
 - Fix notification subtext size

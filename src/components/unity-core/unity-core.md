@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.7.13
+- unity-notification v1.1.1
+
 ### v1.7.12
 - unity-column-editor v1.1.6
 
