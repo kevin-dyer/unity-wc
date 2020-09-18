@@ -1477,9 +1477,7 @@ class UnityTable extends LitElement {
         .text {
           flex: 1;
           overflow: hidden;
-
           white-space: nowrap;
-          overflow: hidden;
           text-overflow: ellipsis;
         }
         .header-content {
