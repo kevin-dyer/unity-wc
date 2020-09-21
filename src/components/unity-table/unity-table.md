@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.14
+- Remove `overflow: hidden;` from `td` element. The rule is moved to `unity-table-cell`. This allows dropdowns to overflow the cell while preventing other elements from doing so.
+
 ### v1.0.13
 - Show pointer cursor on row hover only if onRowClick is defined
 - Update docs

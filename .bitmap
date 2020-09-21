@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.7.13": {
+    "smartworks.unity/unity-core@1.7.14": {
         "files": [
             {
                 "name": "index.js",
@@ -535,7 +535,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table-cell@1.0.6": {
+    "smartworks.unity/unity-table-cell@1.0.7": {
         "files": [
             {
                 "name": "unity-table-cell.js",
@@ -564,7 +564,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@1.0.13": {
+    "smartworks.unity/unity-table@1.0.14": {
         "files": [
             {
                 "name": "filter-dropdown.js",
