@@ -199,6 +199,7 @@ class UnityTableCell extends LitElement {
           align-items: center;
           min-width: 0;
           flex-shrink: 0;
+          overflow: hidden;
         }
         .text {
           position: relative;
