@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.1
+- Added CSS Variables for z-index and background-color
+
 ### v1.2.0
 - update exposed css vars to properly inherit and increase what can be controled
 
