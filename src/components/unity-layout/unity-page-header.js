@@ -30,6 +30,8 @@ import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
  * @param {css} --page-header-tab-font-size, css var used for styling the component
  * @param {css} --page-header-tab-padding-size, css var used for styling the component
  * @param {css} --page-header-tab-padding, css var used for styling the component (overrides --page-header-tab-padding-size)
+ * @param {css} --page-header-z-index, css var used for styling the component
+ * @param {css} --page-header-background-color, css var used for styling the component
  * @returns {LitElement} returns a a class extended from LitElement
  * @example
  *  <unity-page-header
@@ -93,6 +95,8 @@ class UnityPageHeader extends LitElement {
           --default-page-header-font-size: var(--header1-font-size, var(--default-header1-font-size));
           --default-page-header-font-weight: var(--header1-font-weight, var(--default-header1-font-weight));
           --default-page-header-icon-size: var(--unity-button-height, var(--default-unity-button-height));
+          --default-page-header-background-color: inherit;
+          --default-page-header-z-index: 4;
 
           --default-page-header-tab-height: 28px;
           --default-page-header-tab-color: var(--secondary-color, var(--default-secondary-color));
@@ -117,6 +121,8 @@ class UnityPageHeader extends LitElement {
 
         .bottom {
           border-bottom: var(--page-header-border, var(--default-page-header-border));
+          z-index: var(--page-header-z-index, var(--default-page-header-z-index));
+          background-color: var(--page-header-background-color, var(--default-page-header-background-color));
         }
 
         #left-wrapper {
