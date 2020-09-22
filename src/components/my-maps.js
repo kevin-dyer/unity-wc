@@ -25,34 +25,34 @@ class MyMaps extends LitElement {
         // duration: 400,
         maxZoom: 18
       })
-      console.log(floorplanOverlay)
       floorplanOverlay.setPosition(coordinates)
     })
   }
 
   manipulateImage() {
     var floorplan = this.shadowRoot.querySelector('#madrid-floorplan')
-    const moveable = new Moveable(this.shadowRoot.querySelector('.map-page'), {
+    const moveable = new Moveable(this.shadowRoot.querySelector('#floorplan'), {
       target: floorplan,
       draggable:true,
-      // resizable: true,
-      // rotatable: true,
+      rotatable: true,
+      resizable: true,
     });
 
     // draggable
-    moveable.on('drag', ({ target, transform, left, top}) => {
-      console.log(transform) // displays pixel translation
-      console.log("Left: ", left)
-      console.log("Top: ", top)
+    moveable.on('drag', ({ target, transform, left, top }) => {
+      // console.log(transform) // displays pixel translation
+      // console.log("Left: ", left)
+      // console.log("Top: ", top)
+      // console.log(target.style)
+      target.style.transform = transform
+    });
+    moveable.on('rotate', ({ target, transform }) => {
       target.style.transform = transform;
     });
-    // moveable.on('resize', ({ target, width, height }) => {
-    //   target.style.width = width + 'px';
-    //   target.style.height = height + 'px';
-    // });
-    // moveable.on('rotate', ({ target, transform }) => {
-    //   target.style.transform = transform;
-    // });
+    moveable.on('resize', ({ target, width, height }) => {
+      target.style.width = width + 'px';
+      target.style.height = height + 'px';
+    });
   }
 
   render() {
