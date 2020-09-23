@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.3
+- add css variable --pane-z-index for specifying z-index of pane. Defaults to 3.
+
 ### v1.1.2
 - add ignore unity-tags
 
