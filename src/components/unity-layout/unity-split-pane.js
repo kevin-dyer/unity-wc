@@ -21,6 +21,7 @@ const MIN_PANE_WIDTH = 20 // %
  * @param {func} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
  * @param {number} paneWidth, width for the pane in percentage
  * @param {func} onResize, function to call when panel is being resized
+ * @param {css} --pane-z-index, css var used for defining z-index of the right pane. Defaults to 3
  * @example
  *   <unity-split-pane
  *     closeButton
@@ -223,6 +224,7 @@ class UnitySplitPane extends LitElement {
           --bar-background: var(--background);
           --pane-border-width: 1px;
           --pane-border-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-pane-z-index: 3;
           --bar-width: 40px;
           --header-border: none;
           --collapse-button-padding: var(--padding-size-sm, var(--default-padding-size-sm));
@@ -274,6 +276,7 @@ class UnitySplitPane extends LitElement {
           position: relative;
           border-left: var(--pane-border-width) solid var(--pane-border-color);
           box-sizing: border-box;
+          z-index: var(--pane-z-index, var(--default-pane-z-index));
         }
         .hide {
           display: none;
