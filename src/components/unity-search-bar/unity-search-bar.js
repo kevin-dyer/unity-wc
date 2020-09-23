@@ -35,6 +35,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   input-border-color
  *   input-border-hover-color
  *   input-border-focus-color
+ *   input-border-radius
  *   search-tag-color
  *   search-tag-text-color
  *   search-tag-border
@@ -427,6 +428,7 @@ class UnitySearchBar extends LitElement {
           --default-input-border-color: var(--gray-color, var(--default-gray-color));
           --default-input-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-input-border-focus-color: var(--primary-color, var(--default-primary-color));
+          --default-input-border-radius: 2px;
           --search-bar-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
           --default-search-tag-color: transparent;
           --default-search-tag-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
@@ -446,7 +448,7 @@ class UnitySearchBar extends LitElement {
           border-width: 1px;
           border-color: var(--input-border-color, var(--default-input-border-color));
           border-style: solid;
-          border-radius: 2px;
+          border-radius: var(--input-border-radius, var(--default-input-border-radius));
         }
         unity-icon {
           flex: 0;
