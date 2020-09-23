@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.3
+- added css var --input-border-radius to control text input field border radius.
+
 ### v1.0.2
 - prevent elements sizes recalculation when root div is not displayed to avoid component crash
 
