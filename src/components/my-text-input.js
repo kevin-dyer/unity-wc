@@ -53,6 +53,10 @@ class MyTextInput extends PageViewElement {
           width: 250px;
           margin: 1em 0;
         }
+
+        unity-search-bar {
+          --input-border-radius: 30px;
+        }
       `
     ]
   }
