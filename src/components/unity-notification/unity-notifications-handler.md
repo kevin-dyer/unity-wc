@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.2.3
+### v1.2.4
 - support for `--notification-z-index`
 - expanded secure values to allow decimal places
 
