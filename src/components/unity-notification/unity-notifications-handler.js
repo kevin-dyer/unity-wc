@@ -62,7 +62,7 @@ const defaultColors  = {
 }
 
 const testValidTarget = target => /^[A-z0-9\-]+$/.test(target)
-const testValidColor = color => /^[A-z0-9\#\(\), \-]+$/.test(color)
+const testValidColor = color => /^[A-z0-9\#\(\), \-\.]+$/.test(color)
 
 class UnityNotificationsHandler extends LitElement {
   constructor() {
@@ -116,10 +116,10 @@ class UnityNotificationsHandler extends LitElement {
         :host {
           --notification-height: 60px;
           --notification-width: 450px;
+          --notification-z-index: 10;
           --internal-notification-height: var(--notification-height);
           --internal-notification-width: var(--notification-width);
-          width: 100%;
-          height: 100%;
+          --internal-notification-z-index: var(--notification-z-index);
         }
 
         #container {
@@ -140,6 +140,7 @@ class UnityNotificationsHandler extends LitElement {
           z-index: 10;
           --notification-height: var(--internal-notification-height, 60px);
           --notification-width: var(--internal-notification-width, 450px);
+          --notification-z-index: var(--internal-notification-z-index, 10);
         }
 
         .top {
