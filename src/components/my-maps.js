@@ -14,6 +14,12 @@ class MyMaps extends LitElement {
   constructor() {
     super()
     this.editing = false
+    this.isSaved = false
+    this.state = {
+      imgSrc: undefined,
+      imgId: undefined,
+      imgStyle: undefined
+    }
   }
 
   static get styles() {
@@ -31,29 +37,45 @@ class MyMaps extends LitElement {
     return {
       editing: {
         type: Boolean
+      },
+      isSaved: {
+        type: Boolean
       }
     }
   }
 
   loadImage() {
+    this.state.imgId = 'madrid-floorplan'
+    this.state.imgSrc = 'https://support.robinpowered.com/hc/article_attachments/360000862346/maps-before-plan.png'
+    this.state.imgStyle = 'width:200px;height:100px'
+
     this.editing = true
-    var floorplans = this.shadowRoot.querySelector('#floorplan-image')
-    var img = document.createElement('img')
-    img.id = 'madrid-floorplan'
-    img.src = 'https://support.robinpowered.com/hc/article_attachments/360000862346/maps-before-plan.png'
-    img.style = 'width:200px;height:100px'
-    floorplans.appendChild(img)
+
+    console.log(this.shadowRoot.querySelector('#floorplan-image'))
+    // var floorplans = this.shadowRoot.querySelector('#floorplan-image')
+    // var img = document.createElement('img')
+    // floorplans.appendChild(img)
 
     this.manipulateImage();
   }
 
   saveChanges() {
     this.editing = false
+    this.isSaved = true
+    // doesn't disable being able to move, rotate, and resize image
+    // this.moveable = null
+
+    // removes UI for rotating and resizing, but still allows the image to be moved
+    // this.moveable.destroy();
+
+    // doesn't get rid of red circle in the middle of floor plan, but disables all features
+    this.moveable.draggable = false
+    this.moveable.rotatable = false
+    this.moveable.resizable = false
   }
 
   firstUpdated() {
     this.zoomToFeature()
-    // this.manipulateImage()
   }
 
   zoomToFeature() {
@@ -73,7 +95,8 @@ class MyMaps extends LitElement {
 
   manipulateImage() {
     var floorplan = this.shadowRoot.querySelector('#madrid-floorplan')
-    const moveable = new Moveable(this.shadowRoot.querySelector('#floorplan-image'), {
+    // console.log(floorplan)
+    this.moveable = new Moveable(this.shadowRoot.querySelector('#floorplan-image'), {
       target: floorplan,
       draggable:true,
       rotatable: true,
@@ -81,16 +104,16 @@ class MyMaps extends LitElement {
     });
 
     // draggable
-    moveable.on('drag', ({ target, transform, left, top }) => {
+    this.moveable.on('drag', ({ target, transform, left, top }) => {
       console.log(transform) // displays pixel translation
       target.style.transform = transform
     })
     //rotatable
-    moveable.on('rotate', ({ target, transform }) => {
+    this.moveable.on('rotate', ({ target, transform }) => {
       target.style.transform = transform
     })
     //resizeable
-    moveable.on('resize', ({ target, width, height }) => {
+    this.moveable.on('resize', ({ target, width, height }) => {
       target.style.width = width + 'px'
       target.style.height = height + 'px'
     })
@@ -121,8 +144,19 @@ class MyMaps extends LitElement {
             <ol-marker-icon id='Troy Office' src='https://github.com/zazuko/openlayers-elements/blob/master/demos/assets/icon.png?raw=true' lon='-83.111720' lat='42.562050' scale='0.5'></ol-marker-icon>
           </ol-layer-vector>
           <ol-select></ol-select>
-          <div id='floorplan-image'>
-          </div>
+          ${this.editing ?
+            html`
+            <div id='floorplan-image'>
+              <img id=${this.state.imgId} src=${this.state.imgSrc} style=${this.state.imgStyle}>
+            </div>` :
+            html`
+            <div id='floorplan-overlay'>
+              <ol-overlay id='floorplan'>
+                <img id=${this.state.imgId} src=${this.state.imgSrc} style=${this.state.imgStyle}>
+              </ol-overlay>
+            </div>`}
+          <!-- <div id='floorplan-image'>
+          </div> -->
           <!-- <ol-overlay id='floorplan'>
             <img id='madrid-floorplan' src='https://support.robinpowered.com/hc/article_attachments/360000862346/maps-before-plan.png' style='width:200px;height:100px'>
           </ol-overlay> -->
