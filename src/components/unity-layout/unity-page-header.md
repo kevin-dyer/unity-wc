@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.2
+- Updated separator height to 12px, vertically centered.
+
 ### v1.2.1
 - Added CSS Variables for z-index and background-color
 
