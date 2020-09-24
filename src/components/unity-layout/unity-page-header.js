@@ -163,7 +163,8 @@ class UnityPageHeader extends LitElement {
 
         .inner-separator {
           flex: 1;
-          margin: 4px;
+          align-self: center;
+          height: 12px;
           border-right: 1px solid var(--gray-color, var(--default-gray-color));
         }
 
