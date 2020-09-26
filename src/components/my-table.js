@@ -13,7 +13,8 @@ import '@polymer/paper-input/paper-input.js';
 
 import '@bit/smartworks.unity.unity-core/unity-page-header'
 import '@bit/smartworks.unity.unity-core/unity-button';
-import '@bit/smartworks.unity.unity-core/unity-table'
+// import '@bit/smartworks.unity.unity-core/unity-table'
+import './unity-table/unity-table.js'
 import '@bit/smartworks.unity.unity-core/unity-text-input';
 import '@bit/smartworks.unity.unity-core/unity-column-editor'
 import '@bit/smartworks.unity.unity-core/unity-table-export'
@@ -170,6 +171,20 @@ class MyTable extends PageViewElement {
     return slots
   }
 
+  _renderRightActions() {
+    return html`
+      <div class="right-actions-container" slot="right-actions">
+        <unity-column-editor
+          ?buttonGradient=${false}
+          ?buttonOutlined=${true}
+          .columns=${this.columns}
+          .onUpdate=${this.handleColUpdate.bind(this)}
+          .buttonProps=${{centerIcon: 'settings', type: 'borderless'}}
+        ></unity-column-editor>
+      </div>
+    `
+  }
+
   render() {
     return html`
       <div class="example-container">
@@ -185,14 +200,6 @@ class MyTable extends PageViewElement {
               placeholder="${"Search input"}"
               .onChange="${this.onInputChange.bind(this)}"
             ></unity-text-input>
-
-            <unity-column-editor
-              ?buttonGradient=${false}
-              ?buttonOutlined=${true}
-              .columns=${this.columns}
-              .onUpdate=${this.handleColUpdate.bind(this)}
-              .buttonProps=${{centerIcon: 'settings', type: 'borderless'}}
-            ></unity-column-editor>
 
             <unity-table-export .tableRef=${this.tableRef}>
               <unity-typography size="paragraph">
@@ -229,6 +236,7 @@ class MyTable extends PageViewElement {
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
             id="unity-table"
           >
+            ${this._renderRightActions()}
             ${this._renderStatusIcons()}
 
           </unity-table>
