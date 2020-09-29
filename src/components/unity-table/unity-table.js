@@ -1035,8 +1035,9 @@ class UnityTable extends LitElement {
                       ></paper-icon-button>
                     </div>
 
-                    ${i === (colLength - 1) &&
-                      html`<slot name="right-actions"></slot>`
+                    ${i === (colLength - 1)
+                      ? html`<slot name="right-actions"></slot>`
+                      : null
                     }
                   </div>
                 </table-cell-base>
