@@ -1466,9 +1466,6 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           border-bottom: 1px solid var(--separator-color);
         }
-        .header ::slotted(*) {
-          align-self: flex-end;
-        }
         tr {
           width: 100%;
           table-layout: fixed;
