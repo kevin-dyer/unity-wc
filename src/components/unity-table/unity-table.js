@@ -969,7 +969,7 @@ class UnityTable extends LitElement {
     } = this._sortBy
     const direction = !!dir ? dir : UNS
     const trClass = `sticky-header-row${this.compact ? ' compact': ''}`
-
+    const colLength = columns.length
     return html`
       <thead>
         <tr class="${trClass}">
@@ -1034,6 +1034,11 @@ class UnityTable extends LitElement {
                         @click="${()=>{this.sortBy = key}}"
                       ></paper-icon-button>
                     </div>
+
+                    ${i === (colLength - 1)
+                      ? html`<slot name="right-actions"></slot>`
+                      : null
+                    }
                   </div>
                 </table-cell-base>
               </th>

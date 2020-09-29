@@ -14,8 +14,10 @@ import '@polymer/paper-input/paper-input.js';
 import '@bit/smartworks.unity.unity-core/unity-page-header'
 import '@bit/smartworks.unity.unity-core/unity-button';
 import '@bit/smartworks.unity.unity-core/unity-table'
+// import './unity-table/unity-table.js'
 import '@bit/smartworks.unity.unity-core/unity-text-input';
 import '@bit/smartworks.unity.unity-core/unity-column-editor'
+// import './unity-table/unity-column-editor.js';
 import '@bit/smartworks.unity.unity-core/unity-table-export'
 
 import { PageViewElement } from './page-view-element.js';
@@ -48,6 +50,7 @@ class MyTable extends PageViewElement {
     this.tableRef = undefined
     // this.selected = ["abc001"]
     this.selected = []
+    this.showColumnEditor = false
   }
 
   static get properties() {
@@ -59,7 +62,8 @@ class MyTable extends PageViewElement {
       showDetails: { type: Boolean },
       tableRef: { type: Object },
       showDetails: { type: Boolean },
-      selected: { type: Array }
+      selected: { type: Array },
+      showColumnEditor: {type: Boolean}
     }
   }
 //   handleSearchInput(e={}) {
@@ -82,6 +86,10 @@ class MyTable extends PageViewElement {
     console.log("handleColUpdate nextColumns: ", nextColumns)
     // this.columns = nextColumns
     this._visibleColumns = nextColumns
+  }
+
+  handleColEditorClose() {
+    this.showColumnEditor = false
   }
 
   handleEditColumns() {
@@ -108,6 +116,12 @@ class MyTable extends PageViewElement {
 
   _slotIdExtractor(row, column) {
     return `${row._rowId}-${column.key}`
+  }
+
+  _toggleColumnEditor(showEditor) {
+    this.showColumnEditor = typeof showEditor === 'boolean'
+      ? showEditor
+      : !this.showColumnEditor
   }
 
   _renderStatusIcons() {
@@ -170,6 +184,19 @@ class MyTable extends PageViewElement {
     return slots
   }
 
+  _renderRightActions() {
+    return html`
+      <div class="right-actions-container" slot="right-actions">
+
+        <unity-button
+          centerIcon='settings'
+          type='borderless'
+          @click="${this._toggleColumnEditor.bind(this)}"
+        ></unity-column-editor>
+      </div>
+    `
+  }
+
   render() {
     return html`
       <div class="example-container">
@@ -185,14 +212,6 @@ class MyTable extends PageViewElement {
               placeholder="${"Search input"}"
               .onChange="${this.onInputChange.bind(this)}"
             ></unity-text-input>
-
-            <unity-column-editor
-              ?buttonGradient=${false}
-              ?buttonOutlined=${true}
-              .columns=${this.columns}
-              .onUpdate=${this.handleColUpdate.bind(this)}
-              .buttonProps=${{centerIcon: 'settings', type: 'borderless'}}
-            ></unity-column-editor>
 
             <unity-table-export .tableRef=${this.tableRef}>
               <unity-typography size="paragraph">
@@ -229,10 +248,19 @@ class MyTable extends PageViewElement {
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
             id="unity-table"
           >
+            ${this._renderRightActions()}
             ${this._renderStatusIcons()}
 
           </unity-table>
         </div>
+
+        <unity-column-editor
+          ?modalOnly=${true}
+          ?show=${this.showColumnEditor}
+          .columns=${this.columns}
+          .onUpdate=${this.handleColUpdate.bind(this)}
+          .onClose=${this.handleColEditorClose.bind(this)}
+        ></unity-column-editor>
       </div>
     `
   }
@@ -277,6 +305,10 @@ class MyTable extends PageViewElement {
         .table-container {
           position: relative;
           flex: 1
+        }
+        .right-actions-container {
+          height: 30px;
+          align-self: center;
         }
       `
     ];
