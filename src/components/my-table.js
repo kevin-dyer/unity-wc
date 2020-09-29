@@ -187,6 +187,7 @@ class MyTable extends PageViewElement {
   _renderRightActions() {
     return html`
       <div class="right-actions-container" slot="right-actions">
+
         <unity-button
           centerIcon='settings'
           type='borderless'
@@ -304,6 +305,10 @@ class MyTable extends PageViewElement {
         .table-container {
           position: relative;
           flex: 1
+        }
+        .right-actions-container {
+          height: 30px;
+          align-self: center;
         }
       `
     ];
