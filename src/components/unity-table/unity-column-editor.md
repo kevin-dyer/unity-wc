@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.1.7
+- Button to open modal is hidden when `modalOnly` property set to true
+- `show` boolean property controls dialog visibility
+
 ### v1.1.6
 - added margin to bottom buttons inside modal
 
