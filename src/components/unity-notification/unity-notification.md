@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.3
+- Fixed defaulting of --notification-z-index
+
 ### v1.1.2
 - Add `--notification-z-index` CSS var
 
