@@ -120,6 +120,8 @@ class UnityNotificationsHandler extends LitElement {
           --internal-notification-height: var(--notification-height);
           --internal-notification-width: var(--notification-width);
           --internal-notification-z-index: var(--notification-z-index);
+
+          width: 100%;
         }
 
         #container {
