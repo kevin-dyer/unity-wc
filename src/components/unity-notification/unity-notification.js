@@ -56,7 +56,7 @@ class UnityNotification extends LitElement {
           --notification-height: 60px;
           --notification-width: 450px;
           --default-notification-button-padding: var(--padding-size-sm, var(--default-padding-size-sm));
-          --notification-z-index: 10;
+          --default-notification-z-index: 10;
         }
         .notification {
           display: flex;
@@ -65,7 +65,7 @@ class UnityNotification extends LitElement {
           height: var(--notification-height);
           background: var(--background-color, var(--default-background-color));
           box-shadow: 0 0 5px 1px rgba(0,0,0,0.25);
-          z-index: var(--notification-z-index)
+          z-index: var(--notification-z-index, var(--default-notification-z-index));
         }
         .notification::before {
           content: "";
