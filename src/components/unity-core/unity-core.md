@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+### 1.7.19
+- unity-notification 1.1.2
+- unity-notifications-handler 1.2.4
+
 ### v1.7.14
 Updated table cell overflow to allow dropdowns to overflow the cell while keeping the rest of overflowing elements hidden:
 - unity-table 1.0.14

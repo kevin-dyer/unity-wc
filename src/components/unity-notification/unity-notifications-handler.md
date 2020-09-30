@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.2.4
+- support for `--notification-z-index`
+- expanded secure values to allow decimal places
+
 ### v1.2.2
 - add ignore unity-tags
 
