@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v 1.2.8
+ - added back width:100% to notifications-handler :host. Removed --notification-flex css var as it is unnecessary.
+
 ### v1.2.5
 - Added css var --notification-flex to define container flex.
 
