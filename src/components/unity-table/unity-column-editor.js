@@ -14,6 +14,9 @@ import '@bit/smartworks.unity.unity-modal'
  * @param {[]} columns, array of objects - same as what is passed into unity-table
  * @param {[]} selectedColumns, array of column keys from columns that are visible
  * @param {func} onUpdate, callback that is sent an array of sorted visible columns
+ * @param {bool} modalOnly, if true, no button is displayed. Modal show/hide behavior is controlled with 'show' property
+ * @param {bool} show, controls whether or not the column editor modal is displayed. Must be used in conjunction with modalOnly
+ * @param {func} onClose, callback fired when modal is closed via save or close buttons. Must be used in conjunction with modalOnly
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-column-editor
@@ -55,6 +58,9 @@ class UnityColumnEditor extends LitElement {
     this.columns = []
     this.buttonProps = {label: 'Edit Columns'}
     this.onUpdate = (columns) => {}
+    this.modalOnly = false
+    this.show = false
+    this.onClose = undefined
 
     this._dialogVisible = false
     this._sortedColumns = []
@@ -70,6 +76,9 @@ class UnityColumnEditor extends LitElement {
       selectedColumns: {type: Array},
       onUpdate: {type: Function},
       buttonProps: {type: Object},
+      modalOnly: {type: Boolean},
+      show: {type: Boolean},
+      onClose: {type: Function},
       _dialogVisible: {type: Boolean},
       _selectedColumns: {type: Array},
       _formSelectedColumns: {type: Array}
@@ -133,6 +142,11 @@ class UnityColumnEditor extends LitElement {
 
   toggleDialog() {
     this._dialogVisible = !this._dialogVisible
+
+    //Fire onClose when closing dialog and modalOnly
+    if (this.modalOnly && this.show && this.onClose instanceof Function) {
+      this.onClose()
+    }
   }
 
   handleColumnCheck(column) {
@@ -223,23 +237,27 @@ class UnityColumnEditor extends LitElement {
       important,
       loading
     } = this.buttonProps
+    const showModal = this.modalOnly ? this.show : this._dialogVisible
+
     return html`
-      <unity-button
-        label=${label}
-        leftIcon=${leftIcon}
-        rightIcon=${rightIcon}
-        centerIcon=${centerIcon}
-        type=${type}
-        ?important=${important}
-        ?loading=${loading}
-        @click=${this.toggleDialog.bind(this)}
-      >
-      </unity-button>
+      ${!this.modalOnly
+        ? html`<unity-button
+            label=${label}
+            leftIcon=${leftIcon}
+            rightIcon=${rightIcon}
+            centerIcon=${centerIcon}
+            type=${type}
+            ?important=${important}
+            ?loading=${loading}
+            @click=${this.toggleDialog.bind(this)}
+          >
+          </unity-button>`
+        : null
+      }
 
       <unity-modal
         id="dialog"
-        ?opened="${this._dialogVisible}"
-        ?show="${this._dialogVisible}"
+        ?show="${showModal}"
         .title="${'Edit Columns'}"
         .toggle="${this.toggleDialog.bind(this)}"
       >

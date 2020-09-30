@@ -1,10 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
-import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tabs/paper-tab.js';
 
 import {UnityDefaultThemeStyles} from '@bit/smartworks.unity.unity-default-theme-styles';
-import  '@bit/smartworks.unity.unity-icon';
 import  '@bit/smartworks.unity.unity-typography';
 import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
 
@@ -158,10 +156,16 @@ class UnityPageHeader extends LitElement {
         }
 
         .separator {
-          --unity-icon-height: var(--page-header-icon-size, var(--default-page-header-icon-size));
-          --unity-icon-width: var(--page-header-icon-size, var(--default-page-header-icon-size));
-          transform: rotate(90deg);
-          color: var(--gray-color, var(--default-gray-color));
+          height: 100%;
+          align-self: stretch;
+          display: flex;
+        }
+
+        .inner-separator {
+          flex: 1;
+          align-self: center;
+          height: 12px;
+          border-right: 1px solid var(--gray-color, var(--default-gray-color));
         }
 
         .button-container, ::slotted(*) {
@@ -282,6 +286,7 @@ class UnityPageHeader extends LitElement {
     }
   }
 
+
   render() {
     const {
       header,
@@ -301,7 +306,9 @@ class UnityPageHeader extends LitElement {
           </div>
           <div class="button-container">
             <slot name="${LEFT_ACTION}" class="left-action"></slot>
-            <unity-icon icon="unity:minus" class="separator${!showSeparator ? ' hide' : ''}"></unity-icon>
+            <div class="separator${!showSeparator ? ' hide' : ''}">
+              <div class="inner-separator"></div>
+            </div>
             <slot name="${RIGHT_ACTION}" class="right-action"></slot>
           </div>
         </div>

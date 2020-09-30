@@ -35,7 +35,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@1.1.6": {
+    "smartworks.unity/unity-column-editor@1.1.7": {
         "files": [
             {
                 "name": "unity-column-editor.js",
@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.7.19": {
+    "smartworks.unity/unity-core@1.7.23": {
         "files": [
             {
                 "name": "index.js",
@@ -414,7 +414,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-page-header@1.2.1": {
+    "smartworks.unity/unity-page-header@1.2.3": {
         "files": [
             {
                 "name": "unity-page-header.js",
@@ -564,7 +564,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@1.0.14": {
+    "smartworks.unity/unity-table@1.0.16": {
         "files": [
             {
                 "name": "filter-dropdown.js",

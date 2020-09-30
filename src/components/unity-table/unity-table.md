@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.16
+- Added slot named 'right-actions' to top right corner of table.
+
 ### v1.0.14
 - Remove `overflow: hidden;` from `td` element. The rule is moved to `unity-table-cell`. This allows dropdowns to overflow the cell while preventing other elements from doing so.
 
