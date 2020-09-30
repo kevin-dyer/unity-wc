@@ -18,6 +18,7 @@ import '@bit/smartworks.unity.unity-notification'
  * CSS vars:
  * --notification-height: height of the notification. Defaults to 60px.
  * --notification-width: width of the notification. Defaults to 450px.
+ * --notification-flex: flex definition of the component. Default to none.
  *
  * @example
  *  // to import addNotification
@@ -118,8 +119,10 @@ class UnityNotificationsHandler extends LitElement {
           --notification-width: 450px;
           --internal-notification-height: var(--notification-height);
           --internal-notification-width: var(--notification-width);
+          --default-notification-flex: '1 0 auto';
           width: 100%;
           height: 100%;
+          flex: var(--notification-flex, var(--default-notification-flex));
         }
 
         #container {

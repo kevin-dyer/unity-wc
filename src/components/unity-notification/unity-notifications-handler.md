@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.3
+- Added css var --notification-flex to define container flex.
+
 ### v1.2.2
 - add ignore unity-tags
 
