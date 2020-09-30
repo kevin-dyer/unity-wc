@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.7.27": {
+    "smartworks.unity/unity-core@1.7.28": {
         "files": [
             {
                 "name": "index.js",
@@ -397,7 +397,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-notifications-handler@1.2.7": {
+    "smartworks.unity/unity-notifications-handler@1.2.8": {
         "files": [
             {
                 "relativePath": "src/components/unity-notification/unity-notifications-handler.js",
