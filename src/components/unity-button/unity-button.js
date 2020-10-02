@@ -154,8 +154,8 @@ class UnityButton extends LitElement {
         }
 
         paper-button.icon-btn {
-          min-width: 30px;
-          width: 30px;
+          min-width: 27px;
+          width: 27px;
           padding: 0;
           border-radius: 50%;
         }
