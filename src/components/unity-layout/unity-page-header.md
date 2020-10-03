@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.4
+- added css var --separator-color to control color of separator bar
+
 ### v1.2.2
 - Updated separator height to 12px, vertically centered.
 

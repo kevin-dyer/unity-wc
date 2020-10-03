@@ -30,6 +30,7 @@ import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
  * @param {css} --page-header-tab-padding, css var used for styling the component (overrides --page-header-tab-padding-size)
  * @param {css} --page-header-z-index, css var used for styling the component
  * @param {css} --page-header-background-color, css var used for styling the component
+ * @param {css} --separator-color, css var used for styling the separator color
  * @returns {LitElement} returns a a class extended from LitElement
  * @example
  *  <unity-page-header
@@ -101,6 +102,7 @@ class UnityPageHeader extends LitElement {
           --default-page-header-tab-font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --default-page-header-tab-padding-size: var(--page-header-padding-size, var(--default-page-header-padding-size));
           --default-page-header-tab-padding: 0 var(--page-header-tab-padding-size, var(--default-page-header-tab-padding-size));
+          --default-separator-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
 
           width: 100%;
           display: flex;
@@ -165,7 +167,7 @@ class UnityPageHeader extends LitElement {
           flex: 1;
           align-self: center;
           height: 12px;
-          border-right: 1px solid var(--gray-color, var(--default-gray-color));
+          border-right: 1px solid var(--separator-color, var(--default-separator-color));
         }
 
         .button-container, ::slotted(*) {
