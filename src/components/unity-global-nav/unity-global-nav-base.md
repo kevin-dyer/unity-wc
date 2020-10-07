@@ -1,8 +1,8 @@
-# unity-select-menu
+# unity-global-nav-base
 
 ## Changelog:
 
-### v1.1.7
+### v1.1.8
 - add styleToString to add item.styles to top-item, remove selected change on clicking element
 
 ### v1.1.6
