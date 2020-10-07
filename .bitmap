@@ -52,7 +52,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.7.30": {
+    "smartworks.unity/unity-core@1.7.31": {
         "files": [
             {
                 "name": "index.js",
@@ -277,7 +277,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@1.1.7": {
+    "smartworks.unity/unity-global-nav-base@1.1.8": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
@@ -311,7 +311,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@1.1.4": {
+    "smartworks.unity/unity-global-nav-top-item@1.1.5": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",
@@ -679,7 +679,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-utils@1.0.1": {
+    "smartworks.unity/unity-utils@1.1.0": {
         "files": [
             {
                 "name": "unity-utils.js",
