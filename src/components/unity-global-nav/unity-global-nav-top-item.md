@@ -1,8 +1,8 @@
-# unity-select-menu
+# unity-global-nav-top-item
 
 ## Changelog:
 
-### v1.1.4
+### v1.1.5
 - add styleToString to pass item.styles to inner-item
 
 ### v1.1.3

@@ -5,6 +5,11 @@
 
 ## Changelog:
 
+### 1.7.31
+- unity-global-nav-base v1.1.8
+- unity-global-nav-top-item v1.1.5
+- unity-utils v1.1.0
+
 ### 1.7.19
 - unity-notification 1.1.2
 - unity-notifications-handler 1.2.4
