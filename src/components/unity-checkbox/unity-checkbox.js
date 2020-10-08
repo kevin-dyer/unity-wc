@@ -11,6 +11,7 @@ import '@bit/smartworks.unity.unity-typography'
  * @param {boolean} checked, whether the checkbox is checked
  * @param {boolean} indeterminate, whether the checkbox is in the indeterminate state, overrides checked
  * @param {boolean} disabled, whether the checkbox is disabled
+ * @param {func} onChange, callback for returning the checkbox's new state
  * @return {LitElement} return s aclass extended from LitElement
  * @example
  *  <unity-checkbox
@@ -29,6 +30,7 @@ class UnityCheckbox extends LitElement {
     this.checked = false
     this.indeterminate = false
     this.disabled = false
+    this.onChange = ()=>{}
   }
 
   // inputs
@@ -37,8 +39,19 @@ class UnityCheckbox extends LitElement {
       label: { type: String },
       checked: { type: Boolean },
       indeterminate: { type: Boolean },
-      disabled: { type: Boolean }
+      disabled: { type: Boolean },
+      onChange: { type: Function }
     }
+  }
+
+  _handleClick() {
+    const {
+      checked: priorChecked,
+      indeterminate: priorIndeterminate
+    } = this
+    this.checked = priorIndeterminate ? true : !priorChecked
+    this.indeterminate = false
+    this.onChange(this.checked)
   }
 
   render() {
@@ -48,12 +61,14 @@ class UnityCheckbox extends LitElement {
       indeterminate,
       disabled
     } = this
+    const state = indeterminate ? 2 : checked ? 1 : 0
     return html`
       <sp-checkbox
         class="checkbox${disabled ? " disabled" : ""}"
         ?disabled="${disabled ? true : null}"
-        ?checked="${checked ? true : null}"
-        ?indeterminate="${indeterminate ? true: null}"
+        ?checked="${state === 1 ? true : null}"
+        ?indeterminate="${state === 2 ? true: null}"
+        @change="${this._handleClick}"
       ><unity-typography>${label}</unity-typography></sp-checkbox>
     `
   }
