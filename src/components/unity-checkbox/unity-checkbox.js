@@ -114,7 +114,7 @@ class UnityCheckbox extends LitElement {
           --spectrum-checkbox-emphasized-box-background-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
         }
 
-        sp-checkbox..checkbox.disabled {
+        sp-checkbox.checkbox.disabled {
           --spectrum-checkbox-checkmark-color: var(--gray-color, var(--default-gray-color));
         }
 
