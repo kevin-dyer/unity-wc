@@ -44,14 +44,14 @@ class UnityCheckbox extends LitElement {
     }
   }
 
-  _handleClick() {
+  _handleClick(e) {
     const {
       checked: priorChecked,
       indeterminate: priorIndeterminate
     } = this
     this.checked = priorIndeterminate ? true : !priorChecked
     this.indeterminate = false
-    this.onChange(this.checked)
+    this.onChange(e, this.checked)
   }
 
   render() {
