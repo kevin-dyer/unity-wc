@@ -1,9 +1,9 @@
 import { LitElement, html, css } from 'lit-element';
 import '@polymer/iron-icon/iron-icon';
-import "@polymer/paper-checkbox";
 import "@polymer/paper-dialog";
 
 import '@bit/smartworks.unity.unity-button';
+import '@bit/smartworks.unity.unity-checkbox';
 import '@bit/smartworks.unity.unity-icon-set';
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles';
 import '@bit/smartworks.unity.unity-text-input';
@@ -92,14 +92,10 @@ class UnityDropdown extends LitElement {
           -webkit-box-sizing: border-box;
           box-sizing: border-box;
         }
-        paper-checkbox.custom-checkbox {
-          --paper-checkbox-size: 14px;
-          --paper-checkbox-border-radius: 0;
-          --paper-checkbox-border: 1px solid;
+        unity-checkbox.custom-checkbox {
+          /*--paper-checkbox-size: 14px;
           --paper-checkbox-unchecked-color: var(--dropdown-checkbox-unchecked-color);
-          --paper-checkbox-checked-color: var(--dropdown-color);
-          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
-          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
+          --paper-checkbox-checked-color: var(--dropdown-color);*/
         }
         p {
           margin-block-start: 0.5em;
@@ -568,11 +564,10 @@ class UnityDropdown extends LitElement {
       return html`
         <li class="selectable" @click=${this._changeValue(option.id)}>
           <div class="option-label-wrapper">
-              <paper-checkbox class="icon-left-wrapper custom-checkbox"
+              <unity-checkbox class="icon-left-wrapper custom-checkbox"
                 id=${option.id}
-                noink
-                .checked="${isSelected}"
-              ></paper-checkbox>
+                ?checked="${isSelected ? true : null}"
+              ></unity-checkbox>
               ${!!option.icon? this.renderLeftIcon(option.icon) : null }
             <p>${label}</p>
           </div>
