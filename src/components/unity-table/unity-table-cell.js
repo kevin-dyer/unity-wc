@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/iron-icons/image-icons.js'
@@ -8,6 +7,7 @@ import '@polymer/iron-icons/hardware-icons.js'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.table-cell-base'
+import '@bit/smartworks.unity.unity-checkbox'
 
 const TAB_ICON = 22
 const TAB_ARROW = 20
@@ -121,11 +121,10 @@ class UnityTableCell extends LitElement {
         <div class="cell">
           ${this.selectable
             ? html`
-              <paper-checkbox
-                noink
-                .checked="${this.selected}"
-                @click="${this.onSelect}"
-              ></paper-checkbox>`
+              <unity-checkbox
+                ?checked="${this.selected ? true : null}"
+                .onChange="${this.onSelect}"
+              ></unity-checkbox>`
             : null
           }
           ${tabIndex > 0
@@ -165,13 +164,6 @@ class UnityTableCell extends LitElement {
           font-weight: var(--small-text-weight, var(--default-small-text-weight));
           /* Might have to change this as header needs to be black */
           color: var(--dark-gray-color, var(--default-dark-gray-color));
-          --paper-checkbox-size: 16px;
-          --paper-checkbox-unchecked-background-color: var(--white-color, var(--default-white-color));
-          --paper-checkbox-unchecked-color: var(--gray-color, var(--default-gray-color));
-          --paper-checkbox-checked-color: var(--primary-color, var(--default-primary-color));
-          --paper-checkbox-unchecked-ink-color: var(--paper-checkbox-unchecked-background-color);
-          --paper-checkbox-checked-ink-color: transparent;
-          --paper-checkbox-ink-size: 0;
           --paper-icon-button-ink-color: transparent;
           --padding-small: var(--padding-size-sm, var(--default-padding-size-sm));
           --padding-medium: var(--padding-size-md, var(--default-padding-size-md));
@@ -180,16 +172,9 @@ class UnityTableCell extends LitElement {
           --margin-medium: var(--margin-size-md, var(--default-margin-size-md));
           --cell-text-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
         }
-        paper-checkbox {
-          height: var(--paper-checkbox-size);
-          width: var(--paper-checkbox-size);
-          margin-right: var(--padding-large);
+        unity-checkbox {
+          margin-right: var(--margin-medium);
           z-index: 2;
-          overflow: hidden;
-          flex-shrink: 0;
-        }
-        paper-checkbox.with-icon {
-          margin-right: var(--padding-medium);
         }
         .cell {
           padding: 0 13px;
