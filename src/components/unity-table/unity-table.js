@@ -1013,7 +1013,7 @@ class UnityTable extends LitElement {
                       ? html`
                         <unity-checkbox
                           ?checked="${this._allSelected ? true : null}"
-                          .onChange="${this._handleHeaderSelect}"
+                          .onChange="${(e, v) => this._handleHeaderSelect(e, v)}"
                         ></unity-checkbox>` : null
                     }
                     <div class="header-content">
