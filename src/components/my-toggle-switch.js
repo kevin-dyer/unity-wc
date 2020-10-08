@@ -92,8 +92,63 @@ class MyToggleSwitch extends LitElement {
             </div>
           </div>
           <div class="container">
-            Checkboxes go here
-            <unity-checkbox></unity-checkbox>
+            <div class="switch-box">
+              <unity-checkbox
+                .onChange="${e => console.log('change', e)}"
+              ></unity-checkbox>
+            </div>
+            <div class="switch-box">
+              <unity-checkbox
+                label="With Label"
+                .onChange="${e => console.log('change', e)}"
+              ></unity-checkbox>
+            </div>
+            <div class="switch-box">
+              <unity-checkbox
+                label="Checked"
+                checked
+                .onChange="${e => console.log('change', e)}"
+              ></unity-checkbox>
+            </div>
+            <div class="switch-box">
+              <unity-checkbox
+                label="Indeterminate"
+                indeterminate
+                .onChange="${e => console.log('change', e)}"
+              ></unity-checkbox>
+            </div>
+            <div class="switch-box">
+              <unity-checkbox
+                label="Indeterminate and Checked"
+                checked
+                indeterminate
+                .onChange="${e => console.log('change', e)}"
+              ></unity-checkbox>
+            </div>
+            <div class="switch-box">
+              <unity-checkbox
+                label="Disabled"
+                disabled
+                .onChange="${e => console.log('change', e)}"
+              ></unity-checkbox>
+            </div>
+            <div class="switch-box">
+              <unity-checkbox
+                label="Disabled Checked"
+                disabled
+                checked
+                .onChange="${e => console.log('change', e)}"
+              ></unity-checkbox>
+            </div>
+            <div class="switch-box">
+              <unity-checkbox
+                label="Disabled Indeterminate"
+                disabled
+                checked
+                indeterminate
+                .onChange="${e => console.log('change', e)}"
+              ></unity-checkbox>
+            </div>
           </div>
         </div>
     `
