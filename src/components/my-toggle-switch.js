@@ -1,6 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 // import './unity-toggle-switch/unity-toggle-switch.js'
 import '@bit/smartworks.unity.unity-core/unity-toggle-switch'
+import './unity-checkbox/unity-checkbox.js'
+// import '@bit/smartworks.unity.unity-checkbox'
 import { SharedStyles } from './shared-styles.js';
 
 class MyToggleSwitch extends LitElement {
@@ -24,68 +26,74 @@ class MyToggleSwitch extends LitElement {
     const { val } = this
     console.log('switch on render', val)
     return html`
-      <div class="container">
-        <div class="switch-box">
-          <unity-toggle-switch
-            ?value="${val}"
-            .onChange="${v => this.flip(v)}"
-          ></unity-toggle-switch>
-        </div>
+      <div class="sections">
+        <div class="container">
           <div class="switch-box">
             <unity-toggle-switch
-              label="My Switch w/ Label"
               ?value="${val}"
               .onChange="${v => this.flip(v)}"
             ></unity-toggle-switch>
           </div>
-          <div class="switch-box">
-            <unity-toggle-switch
-              label="My Switch w/ Disabled"
-              disabled
-              ?value="${val}"
-              .onChange="${v => this.flip(v)}"
-            ></unity-toggle-switch>
+            <div class="switch-box">
+              <unity-toggle-switch
+                label="My Switch w/ Label"
+                ?value="${val}"
+                .onChange="${v => this.flip(v)}"
+              ></unity-toggle-switch>
+            </div>
+            <div class="switch-box">
+              <unity-toggle-switch
+                label="My Switch w/ Disabled"
+                disabled
+                ?value="${val}"
+                .onChange="${v => this.flip(v)}"
+              ></unity-toggle-switch>
+            </div>
+            <div class="switch-box">
+              <unity-toggle-switch
+                label="My Switch w/ Remark"
+                ?value="${val}"
+                remark="A remark goes here"
+                .onChange="${v => this.flip(v)}"
+              ></unity-toggle-switch>
+            </div>
+            <div class="switch-box">
+              <unity-toggle-switch
+                label="My Switch w/ no onChange"
+                ?value="${val}"
+              ></unity-toggle-switch>
+            </div>
+            <div class="switch-box">
+              <unity-toggle-switch
+                label="My Switch w/ onLabel"
+                ?value="${val}"
+                onLabel="To the Right"
+                .onChange="${v => this.flip(v)}"
+              ></unity-toggle-switch>
+            </div>
+            <div class="switch-box">
+              <unity-toggle-switch
+                label="My Switch w/ offLabel"
+                ?value="${val}"
+                offLabel="To the Left"
+                remark="A remark goes here"
+                .onChange="${v => this.flip(v)}"
+              ></unity-toggle-switch>
+            </div>
+            <div class="switch-box">
+              <unity-toggle-switch
+                label="My Switch w/ everything"
+                ?value="${val}"
+                onLabel="To the Right"
+                offLabel="To the Left"
+                remark="A remark goes here"
+                .onChange="${v => this.flip(v)}"
+              ></unity-toggle-switch>
+            </div>
           </div>
-          <div class="switch-box">
-            <unity-toggle-switch
-              label="My Switch w/ Remark"
-              ?value="${val}"
-              remark="A remark goes here"
-              .onChange="${v => this.flip(v)}"
-            ></unity-toggle-switch>
-          </div>
-          <div class="switch-box">
-            <unity-toggle-switch
-              label="My Switch w/ no onChange"
-              ?value="${val}"
-            ></unity-toggle-switch>
-          </div>
-          <div class="switch-box">
-            <unity-toggle-switch
-              label="My Switch w/ onLabel"
-              ?value="${val}"
-              onLabel="To the Right"
-              .onChange="${v => this.flip(v)}"
-            ></unity-toggle-switch>
-          </div>
-          <div class="switch-box">
-            <unity-toggle-switch
-              label="My Switch w/ offLabel"
-              ?value="${val}"
-              offLabel="To the Left"
-              remark="A remark goes here"
-              .onChange="${v => this.flip(v)}"
-            ></unity-toggle-switch>
-          </div>
-          <div class="switch-box">
-            <unity-toggle-switch
-              label="My Switch w/ everything"
-              ?value="${val}"
-              onLabel="To the Right"
-              offLabel="To the Left"
-              remark="A remark goes here"
-              .onChange="${v => this.flip(v)}"
-            ></unity-toggle-switch>
+          <div class="container">
+            Checkboxes go here
+            <unity-checkbox></unity-checkbox>
           </div>
         </div>
     `
@@ -95,7 +103,11 @@ class MyToggleSwitch extends LitElement {
     return [
       SharedStyles,
       css`
+        .section {
+          display: flex;
+        }
         .container {
+          flex: 1;
           display: flex;
         }
         .switch-box {
