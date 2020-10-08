@@ -105,6 +105,10 @@ class UnityCheckbox extends LitElement {
           --spectrum-checkbox-emphasized-box-border-color-disabled: var(--spectrum-checkbox-emphasized-box-border-color);
         }
 
+        sp-checkbox.checkbox {
+          outline: none;
+        }
+
         sp-checkbox.checkbox:hover {
           --spectrum-checkbox-emphasized-box-background-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
         }
