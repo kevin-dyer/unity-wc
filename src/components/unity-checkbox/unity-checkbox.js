@@ -69,7 +69,7 @@ class UnityCheckbox extends LitElement {
         ?checked="${state === 1 ? true : null}"
         ?indeterminate="${state === 2 ? true: null}"
         @change="${this._handleClick}"
-      ><unity-typography>${label}</unity-typography></sp-checkbox>
+      >${label ? html`<unity-typography>${label}</unity-typography>` : ''}</sp-checkbox>
     `
   }
 
@@ -79,6 +79,7 @@ class UnityCheckbox extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
+          display: flex;
           --spectrum-checkbox-box-size: 16px;
           --spectrum-checkbox-box-border-radius: 1px;
           --spectrum-checkbox-box-border-size: 1px;
