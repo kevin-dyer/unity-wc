@@ -146,7 +146,6 @@ export const UnityDefaultThemeStyles = css`
     --default-unity-checkbox-size: 16px;
     --default-unity-checkbox-border-size: 1px;
     --default-unity-checkbox-border-radius: 1px;
-    --default-unity-checkbox-checkmark-size: 10px; /* *.625 */
     --default-unity-checkbox-text-margin: 4px;
     --default-unity-checkbox-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
     --default-unity-checkbox-text-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
