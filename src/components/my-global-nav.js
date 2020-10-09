@@ -44,17 +44,13 @@ class MyGlobalNav extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        <unity-global-nav-base 
-          collapsible
+        <unity-global-nav-base collapsible useCustomHeader
           .items=${items}
           .onSelect=${this.onSelect}
           .grid=${true}
-          useCustomHeader
           customHeader={(
-            <div style="background-color:#befc03", z"-index:500">
               <unity-page-header 
-                header="SOME TEXT"/>
-            </div>
+                header="Header Text"/>
           )}>
         </unity-global-nav-base>
       </div>
