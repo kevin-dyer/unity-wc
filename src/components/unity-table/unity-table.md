@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.17
+- update to unity-checkbox
+
 ### v1.0.16
 - Added slot named 'right-actions' to top right corner of table.
 

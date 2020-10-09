@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.2
+-- add unity-checkbox styles
+
 ### v1.3.1
 - revert font changes
 

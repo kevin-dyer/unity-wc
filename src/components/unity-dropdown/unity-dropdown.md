@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.1
+- update to unity-checkbox
+
 ### v1.3.0
 - added `autofocus` property to autofocus input on first render (for `boxType='search'` only)
 
