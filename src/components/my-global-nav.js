@@ -49,7 +49,8 @@ class MyGlobalNav extends PageViewElement {
           .items=${items}
           .onSelect=${this.onSelect}
           .grid=${true}
-          .customHeader={(
+          useCustomHeader
+          customHeader={(
             <div style="background-color:#befc03", z"-index:500">
               <unity-page-header 
                 header="SOME TEXT"/>
