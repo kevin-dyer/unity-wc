@@ -5,6 +5,7 @@ import '@bit/smartworks.unity.unity-global-nav-top-item'
 import '@bit/smartworks.unity.unity-icon-set'
 import '@bit/smartworks.unity.unity-typography'
 import '@bit/smartworks.unity.unity-icon'
+import { resetHistory } from 'sinon'
 
 /**
 * Renders a left-bound navigation bar
@@ -24,6 +25,7 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {css} --global-nav-text-color, css var used for coloring the component
 * @param {css} --global-nav-border-color, css var used for coloring the component
 * @return {LitElement} returns a class extended from LitElement
+* @param {bool} useCustomHeader, flag for testing custom header
 * @example
 * <unity-global-nav gutter
 *   logo="../path/to/hosted/image"
@@ -59,6 +61,7 @@ class UnityGlobalNavBase extends LitElement {
     this.header = ''
     this.headerImg = ''
     this.grid = false
+    this.useCustomHeader = false
 
     this._itemClicked = (key) => { this._changeSelection(key)}
     this._showGrid = false
@@ -77,7 +80,8 @@ class UnityGlobalNavBase extends LitElement {
       headerImg: { type: String },
       grid: { type: Boolean },
       _itemClicked: { type: Function },
-      _showGrid: { type: Boolean }
+      _showGrid: { type: Boolean },
+      useCustomHeader: {type: Boolean}
     }
   }
 
@@ -114,28 +118,32 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   render() {
-    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, _showGrid } = this
+    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, _showGrid, useCustomHeader } = this
     const { bottom, top } = items
 
     // Adding customHeader, bare bones to see if it at least renders
     return html`
         <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
-        <div class="customHeader" style=${styleToString(style)}>
-        <slot name="customHeader"></slot>
-        </div>
           <div class="header-container">
-            <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
-              <div class="logo">
-              ${logo?
-                html`<img src=${logo}>`
-                : html`<unity-icon icon="unity:app_menu"></unity-icon>`}
+            ${!useCustomHeader? 
+              html`
+              <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
+                <div class="logo">
+                ${logo?
+                  html`<img src=${logo}>`
+                  : html`<unity-icon icon="unity:app_menu"></unity-icon>`}
+                </div>
               </div>
-            </div>
-            ${!collapsed?
-                headerImg?
-                  html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
-                  html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
-                : ''}
+              ${!collapsed?
+                  headerImg?
+                    html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
+                    html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
+                  : ''}`
+
+            : hmtl`        
+              <div class="customHeader" style=${styleToString(style)}>
+                <slot name="customHeader"></slot>
+              </div>`}
           </div>
           <div class="menu-box">
 
