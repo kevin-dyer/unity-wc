@@ -80,46 +80,49 @@ class UnityCheckbox extends LitElement {
       css`
         :host {
           display: flex;
-          --spectrum-checkbox-box-size: 16px;
-          --spectrum-checkbox-box-border-radius: 1px;
-          --spectrum-checkbox-box-border-size: 1px;
-          --spectrum-icon-checkmark-small-height: 14px;
-          --spectrum-icon-checkmark-small-width: 14px;
-          --spectrum-icon-dash-small-height: 14px;
-          --spectrum-icon-dash-small-width: 14px;
-          --spectrum-checkbox-text-gap: 4px;
+          --spectrum-checkbox-box-size: var(--unity-checkbox-size, var(--default-unity-checkbox-size));
+          --spectrum-checkbox-box-border-size: var(--unity-checkbox-border-size, var(--default-unity-checkbox-border-size));
+          --spectrum-checkbox-box-border-radius: var(--unity-checkbox-border-radius, var(--default-unity-checkbox-border-radius));
+          --spectrum-icon-checkmark-small-height: var(--unity-checkbox-checkmark-size, var(--default-unity-checkbox-checkmark-size));
+          --spectrum-icon-checkmark-small-width: var(--unity-checkbox-checkmark-size, var(--default-unity-checkbox-checkmark-size));
+          --spectrum-icon-dash-small-height: var(--unity-checkbox-checkmark-size, var(--default-unity-checkbox-checkmark-size));
+          --spectrum-icon-dash-small-width: var(--unity-checkbox-checkmark-size, var(--default-unity-checkbox-checkmark-size));
+          --spectrum-checkbox-text-gap: var(--unity-checkbox-text-margin, var(--default-unity-checkbox-text-margin));
 
-          /* Unselected */
-          --spectrum-checkbox-emphasized-box-background-color: var(--white-color, var(--default-white-color));
-          --spectrum-checkbox-emphasized-box-border-color: var(--gray-color, var(--default-gray-color));
-          --spectrum-checkbox-emphasized-box-border-color-hover: var(--spectrum-checkbox-emphasized-box-border-color);
-          --spectrum-checkbox-emphasized-box-border-color-down: var(--spectrum-checkbox-emphasized-box-border-color);
+          --font-color: var(--unity-checkbox-text-color, var(--default-unity-checkbox-text-color));
+          --font-size: var(--unity-checkbox-text-size, var(--default-unity-checkbox-text-size));
 
-          /* Selected */
-          --spectrum-checkbox-checkmark-color: var(--spectrum-checkbox-emphasized-box-background-color);
-          --spectrum-checkbox-emphasized-box-border-color-selected: var(--primary-color, var(--default-primary-color));
-          --spectrum-checkbox-emphasized-box-border-color-selected-hover: var(--primary-shade-color, var(--default-primary-shade-color));
-          --spectrum-checkbox-emphasized-box-border-color-selected-down: var(--primary-shade-color, var(--default-primary-shade-color));
+          /* Backgrounds */
+          --spectrum-checkbox-emphasized-box-background-color: var(--unity-checkbox-background-color, var(--default-unity-checkbox-background-color));
+          --spectrum-checkbox-emphasized-box-background-color-disabled: var(--unity-checkbox-background-color-disabled, var(--unity-checkbox-background-color-disabled));
 
-          /* Disabled */
-          --spectrum-checkbox-emphasized-box-background-color-disabled: var(--light-gray-2-color, var(--default-light-gray-2-color));
-          --spectrum-checkbox-emphasized-box-border-color-disabled: var(--spectrum-checkbox-emphasized-box-border-color);
+          /* Borders */
+          --spectrum-checkbox-emphasized-box-border-color: var(--unity-checkbox-border-color, var(--default-unity-checkbox-border-color));
+          --spectrum-checkbox-emphasized-box-border-color-hover: var(--unity-checkbox-border-color, var(--default-unity-checkbox-border-color));
+          --spectrum-checkbox-emphasized-box-border-color-down: var(--unity-checkbox-border-color, var(--default-unity-checkbox-border-color));
+          --spectrum-checkbox-emphasized-box-border-color-selected: var(--unity-checkbox-color, var(--default-unity-checkbox-color));
+          --spectrum-checkbox-emphasized-box-border-color-selected-hover: var(--unity-checkbox-color-hover, var(--default-unity-checkbox-color-hover));
+          --spectrum-checkbox-emphasized-box-border-color-selected-down: var(--unity-checkbox-color-hover, var(--default-unity-checkbox-color-hover));
+          --spectrum-checkbox-emphasized-box-border-color-disabled: var(--unity-checkbox-color-disabled, var(--default-unity-checkbox-color-disabled));
+
+          /* Icon */
+          --spectrum-checkbox-checkmark-color: var(--unity-checkbox-checkmark-color, var(--default-unity-checkbox-checkmark-color));
         }
 
         sp-checkbox.checkbox {
           outline: none;
         }
 
-        sp-checkbox.checkbox:hover {
-          --spectrum-checkbox-emphasized-box-background-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
+        sp-checkbox.checkbox.disabled {
+          --spectrum-checkbox-checkmark-color: var(--unity-checkbox-checkmark-color-disabled, var(--default-unity-checkbox-checkmark-color-disabled));
         }
 
-        sp-checkbox.checkbox.disabled {
-          --spectrum-checkbox-checkmark-color: var(--gray-color, var(--default-gray-color));
+        sp-checkbox.checkbox:hover {
+          --spectrum-checkbox-emphasized-box-background-color: var(--unity-checkbox-background-color-hover, var(--unity-checkbox-background-color-hover));
         }
 
         sp-checkbox.checkbox.disabled unity-typography {
-          --font-color: var(--gray-color, var(--default-gray-color));
+          --font-color: var(--unity-checkbox-text-color-disabled, var(--default-unity-checkbox-text-color-disabled));
         }
       `
     ]
