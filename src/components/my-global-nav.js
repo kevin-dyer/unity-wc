@@ -12,6 +12,7 @@ import { PageViewElement } from './page-view-element.js';
 import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
 import '@bit/smartworks.unity.unity-core/unity-icon'
 import { items } from './unity-global-nav/fakeItems.js'
+import '@bit/smartworks.unity.unity-core/unity-page-header';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
@@ -44,11 +45,13 @@ class MyGlobalNav extends PageViewElement {
     return html`
       <div class="example-container">
         <unity-global-nav-base collapsible
-          headerImg="../../images/logo_SmartWorks_color.svg"
           .items=${items}
           .onSelect=${this.onSelect}
           .grid=${true}
-        >
+          .customHeader={(
+            <unity-page-header
+            header="SOME TEXT"/>
+          )}>
         </unity-global-nav-base>
       </div>
     `
