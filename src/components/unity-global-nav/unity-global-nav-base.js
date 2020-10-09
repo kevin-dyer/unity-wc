@@ -123,9 +123,9 @@ class UnityGlobalNavBase extends LitElement {
 
     // Adding customHeader, bare bones to see if it at least renders
     return html`
-        <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
+        <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}${useCustomHeader? ' useCustomHeader':''}">
           <div class="header-container">
-            ${!useCustomHeader? 
+            ${useCustomHeader? 
               html`
               <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
                 <div class="logo">
