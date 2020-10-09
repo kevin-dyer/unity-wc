@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.8
+- update to unity-checkbox
+
 ### v1.0.7
 - Moved `overflow: hidden;` from `unity-table` to content wrapper div here. This allows dropdowns to overflow the cell while preventing other elements from doing so.
 

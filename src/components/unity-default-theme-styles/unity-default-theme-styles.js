@@ -141,5 +141,23 @@ export const UnityDefaultThemeStyles = css`
     --default-padding-size-md: 12px;
     --default-padding-size-lg: 16px;
     --default-padding-size-xl: 24px;
+
+    /* Checkbox */
+    --default-unity-checkbox-size: 16px;
+    --default-unity-checkbox-border-size: 1px;
+    --default-unity-checkbox-border-radius: 1px;
+    --default-unity-checkbox-text-margin: 4px;
+    --default-unity-checkbox-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+    --default-unity-checkbox-text-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+    --default-unity-checkbox-text-color-disabled: var(--gray-color, var(--default-gray-color));
+    --default-unity-checkbox-background-color: var(--white-color, var(--default-white-color));
+    --default-unity-checkbox-background-color-hover: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
+    --default-unity-checkbox-background-color-disabled: var(--light-gray-2-color, var(--default-light-gray-2-color));
+    --default-unity-checkbox-border-color: var(--gray-color, var(--default-gray-color));
+    --default-unity-checkbox-color: var(--primary-color, var(--default-primary-color));
+    --default-unity-checkbox-color-hover: var(--primary-shade-color, var(--default-primary-shade-color));
+    --default-unity-checkbox-color-disabled: var(--gray-color, var(--default-gray-color));
+    --default-unity-checkbox-checkmark-color: var(--white-color, var(--default-white-color));
+    --default-unity-checkbox-checkmark-color-disabled: var(--white-color, var(--default-white-color));
   }
 `;

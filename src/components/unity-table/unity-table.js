@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import '@polymer/paper-spinner/paper-spinner-lite.js'
@@ -8,6 +7,7 @@ import { throttle } from 'throttle-debounce'
 
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-table-cell'
+import '@bit/smartworks.unity.unity-checkbox'
 import '@bit/smartworks.unity.table-cell-base'
 import './filter-dropdown'
 
@@ -1011,11 +1011,10 @@ class UnityTable extends LitElement {
                   <div class="header">
                     ${this.selectable && i === 0
                       ? html`
-                        <paper-checkbox
-                          noink
-                          .checked="${this._allSelected}"
-                          @click="${this._handleHeaderSelect}"
-                        ></paper-checkbox>` : null
+                        <unity-checkbox
+                          ?checked="${this._allSelected ? true : null}"
+                          .onChange="${(e, v) => this._handleHeaderSelect(e, v)}"
+                        ></unity-checkbox>` : null
                     }
                     <div class="header-content">
                       <span class="header-label"><b>${label || name}</b></span>
@@ -1372,12 +1371,6 @@ class UnityTable extends LitElement {
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           color: var(--dark-gray-color, var(--default-dark-gray-color));
           border-collapse: collapse;
-          --paper-checkbox-size: 16px;
-          --paper-checkbox-unchecked-background-color: var(--white-color, var(--default-white-color));
-          --paper-checkbox-unchecked-color: var(--gray-color, var(--default-gray-color));
-          --paper-checkbox-checked-color: var(--primary-color, var(--default-primary-color));
-          --paper-checkbox-unchecked-ink-color: var(--paper-checkbox-unchecked-background-color);
-          --paper-checkbox-checked-ink-color: var(--paper-checkbox-unchecked-background-color);
           --paper-spinner-color: var(--primary-color, var(--default-primary-color));
           --thead-height: 36px;
           --thead-compact-height: 24px;
@@ -1386,7 +1379,6 @@ class UnityTable extends LitElement {
           --default-hover-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
           --default-highlight-color: var(--default-primary-tint-1-color, var(--default-primary-tint-1-color));
           --default-hover-highlight-color: var(--primary-tint-2-color, var(--default-primary-tint-2-color));
-          --paper-checkbox-ink-size: 0;
           --paper-icon-button-ink-color: transparent;
           --padding-small: var(--padding-size-sm, var(--default-padding-size-sm));
           --padding-medium: var(--padding-size-md, var(--default-padding-size-md));
@@ -1497,13 +1489,9 @@ class UnityTable extends LitElement {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        paper-checkbox {
-          height: var(--paper-checkbox-size);
-          width: var(--paper-checkbox-size);
-          margin-right: var(--padding-large);
+        unity-checkbox {
+          margin-right: var(--margin-medium);
           z-index: 2;
-          overflow: hidden;
-          flex-shrink: 0;
         }
         paper-icon-button {
           width: 33px;
