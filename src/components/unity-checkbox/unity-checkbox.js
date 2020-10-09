@@ -83,11 +83,11 @@ class UnityCheckbox extends LitElement {
           --spectrum-checkbox-box-size: var(--unity-checkbox-size, var(--default-unity-checkbox-size));
           --spectrum-checkbox-box-border-size: var(--unity-checkbox-border-size, var(--default-unity-checkbox-border-size));
           --spectrum-checkbox-box-border-radius: var(--unity-checkbox-border-radius, var(--default-unity-checkbox-border-radius));
-          --checkbox-checkmark-size: calc(var(--spectrum-checkbox-box-size) * .625);
-          --spectrum-icon-checkmark-small-height: var(--checkbox-checkmark-size);
-          --spectrum-icon-checkmark-small-width: var(--checkbox-checkmark-size);
-          --spectrum-icon-dash-small-height: var(--checkbox-checkmark-size);
-          --spectrum-icon-dash-small-width: var(--checkbox-checkmark-size);
+          --default-checkmark-size: calc(var(--spectrum-checkbox-box-size) * .625);
+          --spectrum-icon-checkmark-small-height: var(--unity-checkbox-checkmark-size, var(--default-checkmark-size));
+          --spectrum-icon-checkmark-small-width: var(--unity-checkbox-checkmark-size, var(--default-checkmark-size));
+          --spectrum-icon-dash-small-height: var(--unity-checkbox-checkmark-size, var(--default-checkmark-size));
+          --spectrum-icon-dash-small-width: var(--unity-checkbox-checkmark-size, var(--default-checkmark-size));
           --spectrum-checkbox-text-gap: var(--unity-checkbox-text-margin, var(--default-unity-checkbox-text-margin));
 
           --font-color: var(--unity-checkbox-text-color, var(--default-unity-checkbox-text-color));

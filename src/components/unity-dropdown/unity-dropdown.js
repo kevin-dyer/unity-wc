@@ -64,7 +64,6 @@ class UnityDropdown extends LitElement {
           --dropdown-background-color-disabled: var(--light-grey-background-color, var(--default-light-grey-background-color));
           --dropdown-border-color: var(--gray-color, var(--default-gray-color));
           --dropdown-border-color-disabled: var(--gray-color, var(--default-gray-color));
-          --dropdown-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
           --dropdown-color: var(--primary-brand-color, var(--default-primary-brand-color));
           --dropdown-color-dark: var(--primary-brand-color-dark, var(--default-primary-brand-color-dark));
           --dropdown-input-font: var(--font-family, var(--default-font-family));
@@ -93,9 +92,7 @@ class UnityDropdown extends LitElement {
           box-sizing: border-box;
         }
         unity-checkbox.custom-checkbox {
-          /*--paper-checkbox-size: 14px;
-          --paper-checkbox-unchecked-color: var(--dropdown-checkbox-unchecked-color);
-          --paper-checkbox-checked-color: var(--dropdown-color);*/
+          --unity-checkbox-size: 14px;
         }
         p {
           margin-block-start: 0.5em;
@@ -564,11 +561,11 @@ class UnityDropdown extends LitElement {
       return html`
         <li class="selectable" @click=${this._changeValue(option.id)}>
           <div class="option-label-wrapper">
-              <unity-checkbox class="icon-left-wrapper custom-checkbox"
-                id=${option.id}
-                ?checked="${isSelected ? true : null}"
-              ></unity-checkbox>
-              ${!!option.icon? this.renderLeftIcon(option.icon) : null }
+            <unity-checkbox class="icon-left-wrapper custom-checkbox"
+              id=${option.id}
+              ?checked="${isSelected ? true : null}"
+            ></unity-checkbox>
+            ${!!option.icon? this.renderLeftIcon(option.icon) : null }
             <p>${label}</p>
           </div>
           ${!!option.comment? html`<p class="option-comment">${option.comment}</p>`: null}
