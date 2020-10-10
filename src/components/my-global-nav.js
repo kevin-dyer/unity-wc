@@ -53,34 +53,34 @@ class MyGlobalNav extends PageViewElement {
           <div slot="customHeader" style="background-color:#7bed9a">
             <div style="padding-left: 5px">
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:home"></unity-icon><unity-icon icon="unity:rewind"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:copy"></unity-icon><unity-icon icon="unity:db_maria"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:local_system"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:add"></unity-icon><unity-icon icon="unity:sync"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:move"></unity-icon><unity-icon icon="unity:columns"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:user"></unity-icon><unity-icon icon="unity:history"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:euro"></unity-icon><unity-icon icon="unity:columns"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:lock"></unity-icon><unity-icon icon="unity:image"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:details"></unity-icon><unity-icon icon="unity:memory_card"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:trash_delete"></unity-icon><unity-icon icon="unity:help"></unity-icon>
               </span>
             </div>
             <div style="padding-left: 5px; background-color: #baffff">
@@ -88,34 +88,34 @@ class MyGlobalNav extends PageViewElement {
             </div>
             <div style="padding-left: 5px; background-color: #f9affa">
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:donut_chart"></unity-icon><unity-icon icon="unity:rupee"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:relate"></unity-icon><unity-icon icon="unity:move"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:columns"></unity-icon><unity-icon icon="unity:db_alt"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:move"></unity-icon><unity-icon icon="unity:loading_spinner"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:numeral"></unity-icon><unity-icon icon="unity:job_run"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:copy"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:paste"></unity-icon><unity-icon icon="unity:add"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:share"></unity-icon><unity-icon icon="unity:join"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:copy"></unity-icon><unity-icon icon="unity:info_circle"></unity-icon>
               </span>
               <span>
-                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+                <unity-icon icon="unity:pause"></unity-icon><unity-icon icon="unity:add"></unity-icon>
               </span>
             </div>
           </div>
