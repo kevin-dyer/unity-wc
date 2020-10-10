@@ -49,77 +49,76 @@ class MyGlobalNav extends PageViewElement {
           headerImg="../../images/logo_SmartWorks_color.svg"
           .items=${items}
           .onSelect=${this.onSelect}
-          .grid=${true}
-          customHeader={(
-            <slot>
-              <div>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <div style="background-color:#7bed9a">
-                  <unity-typography color="dark" weight="header1" size="header1"> This is a custom header</unity-typography>
-                </div>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-                <span>
-                  <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
-                </span>
-              </div>
-            </slot>
-          )}
-        >
+          .grid=${true}>
+          <div slot="customHeader" style="background-color:#7bed9a">
+            <div style="padding-left: 5px">
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+            </div>
+            <div style="padding-left: 5px; background-color: #baffff">
+              <unity-typography color="dark" weight="header1" size="header1"> This is a custom header</unity-typography>
+            </div>
+            <div style="padding-left: 5px; background-color: #f9affa">
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+              <span>
+                <unity-icon icon="unity:globe"></unity-icon><unity-icon icon="unity:app_menu"></unity-icon>
+              </span>
+            </div>
+          </div>
         </unity-global-nav-base>
       </div>
     `
