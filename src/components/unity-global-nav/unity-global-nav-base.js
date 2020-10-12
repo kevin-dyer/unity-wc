@@ -126,7 +126,7 @@ class UnityGlobalNavBase extends LitElement {
                 <div class="logo">
                 ${logo?
                   html`<img src=${logo}>`
-                  : html`<unity-icon icon="unity:app_menu"></unity-icon>`}
+                  : ''}
                 </div>
               </div>
               ${!collapsed?
