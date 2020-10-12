@@ -123,9 +123,7 @@ class UnityGlobalNavBase extends LitElement {
             ${logo?
               html`<div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
                 <div class="logo">
-                ${logo?
-                  html`<img src=${logo}>`
-                  : html`<unity-icon icon="unity:app_menu"></unity-icon>`}
+                  <img src=${logo}>
                 </div>
               </div>`: ''}
               ${!collapsed?
