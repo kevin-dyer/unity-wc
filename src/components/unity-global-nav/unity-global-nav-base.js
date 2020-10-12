@@ -119,16 +119,14 @@ class UnityGlobalNavBase extends LitElement {
     return html`
         <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
           <div class="header-container">
-            <slot name="customHeader">
-            </slot>
-            <slot>
-              <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
+            <slot name="customHeader"></slot>
+            ${logo?
+              html`<div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
                 <div class="logo">
-                ${logo?
-                  html`<img src=${logo}>`
-                  : ''}
+                  <img src=${logo}>
                 </div>
-              </div>
+              </div>`
+              : ''}
               ${!collapsed?
                   headerImg?
                     html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
