@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.1.9
+### v1.2.0
 - Added customHeader property
 
 ### v1.1.8

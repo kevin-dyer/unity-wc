@@ -6,7 +6,7 @@
 ## Changelog:
 
 ### v1.7.33
-- unity-global-nav-base v1.1.9
+- unity-global-nav-base v1.2.0
 
 ### v1.7.32
 - unity-checkbox v1.0.0
