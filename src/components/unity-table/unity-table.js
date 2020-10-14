@@ -970,7 +970,6 @@ class UnityTable extends LitElement {
     const direction = !!dir ? dir : UNS
     const trClass = `sticky-header-row${this.compact ? ' compact': ''}`
     const colLength = columns.length
-    const isColSorted = column === key
 
     return html`
       <thead>
@@ -980,6 +979,7 @@ class UnityTable extends LitElement {
             label,
             width: rootWidth=0
           }, i) => {
+            const isColSorted = column === key && direction !== UNS
             const sortIcon = isColSorted ? getSortedIcon(direction) : 'unity:sort'
             const {
               startingWidth,
@@ -1031,13 +1031,13 @@ class UnityTable extends LitElement {
                       </filter-dropdown>
 
                       ${isColSorted
-                        ? <paper-icon-button
+                        ? html`<paper-icon-button
                             noink
                             icon="${sortIcon}"
                             title="${direction}"
                             class="header-sort-icon"
                             @click="${()=>{this.sortBy = key}}"
-                          ></paper-icon-button>
+                          ></paper-icon-button>`
                         : null
                       }
                     </div>
