@@ -119,31 +119,26 @@ class UnityGlobalNavBase extends LitElement {
     return html`
         <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
           <div class="header-container">
+            <slot name="customHeader">
             <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
               <div class="logo">
-              ${logo?
-                html`<img src=${logo}>`
-                : html`<unity-icon icon="unity:app_menu"></unity-icon>`}
+                <img src=${logo}>
               </div>
             </div>
             ${!collapsed?
-                headerImg?
-                  html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
-                  html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
-                : ''}
+              headerImg?
+                html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
+                html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
+              : ''}
           </div>
           <div class="menu-box">
-
             <div class="top-container">
               ${top? this.renderItems(top) : ''}
             </div>
-
             <div class="bottom-container">
               ${bottom? this.renderItems(bottom) : '' }
             </div>
-
           </div>
-
           ${collapsible ? html`
           <div>
             <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
@@ -151,7 +146,6 @@ class UnityGlobalNavBase extends LitElement {
             </div>
           </div>
         `  : ''}
-
         </div>
       ${gutter ? html`</div>` : ''}
       ${grid && _showGrid? html`<div class="grid"></div>` : ''}
