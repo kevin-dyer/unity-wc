@@ -70,7 +70,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.7.32": {
+    "smartworks.unity/unity-core@1.7.33": {
         "files": [
             {
                 "name": "index.js",
@@ -300,7 +300,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@1.1.9": {
+    "smartworks.unity/unity-global-nav-base@1.2.0": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",
