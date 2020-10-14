@@ -970,6 +970,8 @@ class UnityTable extends LitElement {
     const direction = !!dir ? dir : UNS
     const trClass = `sticky-header-row${this.compact ? ' compact': ''}`
     const colLength = columns.length
+    const isColSorted = column === key
+
     return html`
       <thead>
         <tr class="${trClass}">
@@ -978,7 +980,7 @@ class UnityTable extends LitElement {
             label,
             width: rootWidth=0
           }, i) => {
-            const sortIcon = column === key ? getSortedIcon(direction) : 'unity:sort'
+            const sortIcon = isColSorted ? getSortedIcon(direction) : 'unity:sort'
             const {
               startingWidth,
               xOffset=0
@@ -1017,7 +1019,10 @@ class UnityTable extends LitElement {
                         ></unity-checkbox>` : null
                     }
                     <div class="header-content">
-                      <span class="header-label"><b>${label || name}</b></span>
+                      <span
+                        class="header-label"
+                        @click="${()=>{this.sortBy = key}}"
+                      ><b>${label || name}</b></span>
 
                       <filter-dropdown
                         .onValueChange="${this.dropdownValueChange(key)}"
@@ -1025,13 +1030,16 @@ class UnityTable extends LitElement {
                         .selected=${this.getSelected(key)}>
                       </filter-dropdown>
 
-                      <paper-icon-button
-                        noink
-                        icon="${sortIcon}"
-                        title="${direction}"
-                        class="header-sort-icon"
-                        @click="${()=>{this.sortBy = key}}"
-                      ></paper-icon-button>
+                      ${isColSorted
+                        ? <paper-icon-button
+                            noink
+                            icon="${sortIcon}"
+                            title="${direction}"
+                            class="header-sort-icon"
+                            @click="${()=>{this.sortBy = key}}"
+                          ></paper-icon-button>
+                        : null
+                      }
                     </div>
 
                     ${i === (colLength - 1)
@@ -1488,6 +1496,7 @@ class UnityTable extends LitElement {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          cursor: pointer;
         }
         unity-checkbox {
           margin-right: var(--margin-medium);
