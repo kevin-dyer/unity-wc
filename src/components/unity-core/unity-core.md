@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.7.35
+- unity-global-nav-base v1.3.1
+
+### v1.7.34
+- unity-global-nav-base v1.3.0
+
 ### v1.7.33
 - unity-global-nav-base v1.2.0
 

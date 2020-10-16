@@ -119,17 +119,21 @@ class UnityGlobalNavBase extends LitElement {
     return html`
         <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
           <div class="header-container">
-            <slot name="customHeader">
-            <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
-              <div class="logo">
-                <img src=${logo}>
-              </div>
-            </div>
-            ${!collapsed?
-              headerImg?
-                html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
-                html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
-              : ''}
+             <slot name="customHeader">
+               <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
+                 <div class="logo">
+                   <img src=${logo}>
+                 </div>
+               </div>
+               ${!collapsed?
+                 headerImg?
+                   html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
+                   html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
+               : ''}
+             </slot> 
+             ${!collapsed? 
+               html`<slot name="customExpandedHeader"></slot>`
+             : ''}
           </div>
           <div class="menu-box">
             <div class="top-container">
