@@ -131,7 +131,7 @@ class UnityGlobalNavBase extends LitElement {
                    html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
                : ''}
              </slot> 
-             ${!collapsed? html`<slot name="customCollapsibleContent" ></slot>`: ''}
+             ${!collapsed? html`<slot name="customExpandedHeader" ></slot>`: ''}
           </div>
           <div class="menu-box">
             <div class="top-container">
@@ -153,7 +153,7 @@ class UnityGlobalNavBase extends LitElement {
       ${grid && _showGrid? html`<div class="grid"></div>` : ''}
     `
   }
-  
+
   // styles
   static get styles() {
     // CSS vars using the --global-nav prefix follow the Unity 2020 designs. The rest are kept for backwards compatibility.
