@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.0
+- Added customExpandedHeader property
+
 ### v1.2.0
 - Added customHeader property
 
