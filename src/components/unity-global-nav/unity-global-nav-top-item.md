@@ -2,14 +2,17 @@
 
 ## Changelog:
 
+### v1.2.0
+- Added exposed css vars for adjusting icon height and width
+
 ### v1.1.5
-- add styleToString to pass item.styles to inner-item
+- Added styleToString to pass item.styles to inner-item
 
 ### v1.1.3
-- add ignore unity-tags
+- Added ignore unity-tags
 
 ### v1.1.2
-- Fix missing default style
+- Fixed missing default style
 
 ### v1.1.1
 - Fix styles to properly propagate from higher level components, remove duplicates

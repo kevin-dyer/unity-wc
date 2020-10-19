@@ -110,6 +110,8 @@ class UnityGlobalNavInnerItem extends LitElement {
           --default-global-nav-inner-item-height: var(--global-nav-item-short-height, var(--default-global-nav-item-short-height));
           --default-global-nav-inner-item-margin-size: var(--global-nav-item-margin-size, var(--default-global-nav-item-margin-size));
           --default-global-nav-inner-item-padding-size: var(--global-nav-item-padding-size, var(--default-global-nav-item-padding-size));
+          --default-global-nav-inner-item-icon-height: var(--global-nav-item-icon-height, var(--default-global-nav-item-icon-height));
+          --default-global-nav-inner-item-icon-width: var(--global-nav-item-icon-width, var(--default-global-nav-item-icon-width));
         }
         * {
           box-sizing: border-box;
@@ -165,6 +167,8 @@ class UnityGlobalNavInnerItem extends LitElement {
         .icon {
           height: 16px;
           width: 16px;
+          height: var(--global-nav-inner-item-icon-height, var(--default-global-nav-inner-item-icon-height));
+          width: var(--global-nav-inner-item-icon-width, var(--default-global-nav-inner-item-icon-width));
           color: var(--global-nav-inner-item-text-color, var(--default-global-nav-inner-item-text-color));
           --layout-inline_-_display: initial;
         }
