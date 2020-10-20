@@ -2,14 +2,17 @@
 
 ## Changelog:
 
+### v1.3.0
+- Added exposed css vars for adjusting icon height and width
+
 ### v1.2.0
-- fix typos and update exposed vars for more controls
+- Fixed typos and update exposed vars for more controls
 
 ### v1.1.2
-- add ignore unity-tags
+- Added ignore unity-tags
 
 ### v1.1.1
-- Fix styles to properly propagate from higher level components, remove duplicates
+- Fixed styles to properly propagate from higher level components, remove duplicates
 
 ### v1.1.0
 - Updated to Unity 2020 designs.
