@@ -164,8 +164,6 @@ class UnityGlobalNavInnerItem extends LitElement {
           --font-size: var(--global-nav-inner-item-font-size, var(--default-global-nav-inner-item-font-size));
         }
         .icon {
-          height: 16px;
-          width: 16px;
           height: var(--global-nav-inner-item-icon-size, var(--default-global-nav-inner-item-icon-size));
           width: var(--global-nav-inner-item-icon-size, var(--default-global-nav-inner-item-icon-size));
           color: var(--global-nav-inner-item-text-color, var(--default-global-nav-inner-item-text-color));

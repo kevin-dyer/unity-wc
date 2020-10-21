@@ -264,8 +264,6 @@ class UnityGlobalNavTopItem extends LitElement {
           margin: 0 var(--global-nav-item-margin-size, var(--default-global-nav-item-margin-size));
         }
         .icon {
-          height: 16px;
-          width: 16px;
           height: var(--global-nav-item-icon-size, var(--default-global-nav-item-icon-size));
           width: var(--global-nav-item-icon-size, var(--default-global-nav-item-icon-size));
           color: var(--global-nav-item-text-color, var(--default-global-nav-item-text-color));
