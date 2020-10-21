@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+### v1.7.37
+- unity-global-nav-top-item v1.2.1
+- unity-global-nav-inner-item- v1.3.1
+
 ### v1.7.36
 - unity-global-nav-top-item v1.2.0
 - unity-global-nav-inner-item- v1.3.0
