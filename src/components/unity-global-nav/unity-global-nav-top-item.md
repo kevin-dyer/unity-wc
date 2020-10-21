@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+
+### v1.2.1
+- Fixed typo
+
 ### v1.2.0
 - Added exposed css vars for adjusting icon height and width
 
