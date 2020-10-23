@@ -2,6 +2,11 @@
 
 ## Changelog:
 
+### v1.2.2
+- Made open state of nav-top-item controllable. added props:
+  `open` - (bool) open state of top item,
+  `onOpen` - (func) callback when top nav item has been opened or closed, and
+  `openNeighbor` - (bool) open state of adjacent top nav item (if exists). If true, the bottom border is hidden.
 
 ### v1.2.1
 - Fixed typo
