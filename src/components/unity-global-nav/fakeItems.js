@@ -52,6 +52,34 @@ export const items = {
       ]
     },
     {
+      key: 'item-0A',
+      label: 'Top Item 0A',
+      short: false,
+      icon: 'unity:cube',
+      children: [
+        {
+          key: 'item-0-0A',
+          label: 'Item 0-0A',
+          icon: 'unity:db'
+        },
+        {
+          key: 'item-0-1A',
+          label: 'Item 0-1A',
+          icon: 'unity:scatter_chart'
+        },
+        {
+          key: 'item-0-2A',
+          label: 'Item 0-2A',
+          icon: 'unity:image'
+        },
+        {
+          key: 'item-0-3A',
+          label: 'Item 0-3A',
+          icon: 'unity:adv_forecast'
+        }
+      ]
+    },
+    {
       key: 'item-2',
       label: 'Top Item 2',
       short: false,
