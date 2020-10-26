@@ -17,6 +17,9 @@ import '@bit/smartworks.unity.unity-typography'
 * @param {''} label, string label to render for item
 * @param {bool} collapsed,
 * @param {bool} disabled,
+* @param {bool} open, if true, the top nav item is exapnded and child links are visible
+* @param {func} onOpen, action handler for when top nav item is opened or closed. Arguments are key and current open state
+* @param {bool} openNeighbor, if true, the next item is an open nav-top-item, so bottom border should be hidden
 * @param {[]} children, TO BE IMPLEMENTED, list of child item elements, could be slots
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
@@ -69,9 +72,9 @@ class UnityGlobalNavTopItem extends LitElement {
     this.children = []
     this.collapsed = false
     this.disabled = false
-
-    // internals
-    this._expanded = true
+    this.open = true
+    this.onOpen = ()=>{}
+    this.openNeighbor = false
   }
 
   static get properties() {
@@ -85,16 +88,18 @@ class UnityGlobalNavTopItem extends LitElement {
       children: { type: Array },
       collapsed: { type: Boolean },
       disabled: { type: Boolean },
-      // internals
-      _expanded: { type: Boolean },
+      open: { type: Boolean },
+      onOpen: { type: Function },
+      openNeighbor: { type: Boolean }
     }
   }
 
-  // either uses passed in onSelect, or toggles _expanded to show/hide children
+  // either uses passed in onSelect, or toggles open to show/hide children
   _onSelect() {
     const { children, onSelect } = this
     if (Array.isArray(children) && children.length > 1) {
-      this._expanded = !this._expanded
+      this.open = !this.open
+      this.onOpen(this.key, this.open)
     } else if (Array.isArray(children) && children.length === 1) {
       const { onSelect, key, label } = children[0]
       onSelect(key, label)
@@ -126,9 +131,10 @@ class UnityGlobalNavTopItem extends LitElement {
       label=key,
       icon='',
       children=[],
-      _expanded: open=false,
+      open=false,
       collapsed,
-      disabled
+      disabled,
+      openNeighbor
     } = this
     let hasChildren = Array.isArray(children) && children.length > 0
     if (hasChildren && children.length === 1) {
@@ -147,6 +153,7 @@ class UnityGlobalNavTopItem extends LitElement {
           ${hasChildren && open ? 'open' : ''}
           ${!hasChildren && selected ? 'selected' : ''}
           ${disabled? 'disabled' : ''}
+          ${openNeighbor? 'no-bottom-border' : ''}
         "
         @click=${!disabled? _onSelect : null}
       >
@@ -238,6 +245,10 @@ class UnityGlobalNavTopItem extends LitElement {
           border-top: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
           border-bottom: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
           padding-bottom: var(--global-nav-item-padding-size-sm, var(--defauult-global-nav-item-padding-size-sm));
+        }
+
+        .open.no-bottom-border {
+          border-bottom: none;
         }
         .label {
           display: flex;

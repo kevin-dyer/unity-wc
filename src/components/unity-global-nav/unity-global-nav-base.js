@@ -62,6 +62,7 @@ class UnityGlobalNavBase extends LitElement {
 
     this._itemClicked = (key) => { this._changeSelection(key)}
     this._showGrid = false
+    this._openDict = {}
   }
 
   static get properties() {
@@ -77,7 +78,8 @@ class UnityGlobalNavBase extends LitElement {
       headerImg: { type: String },
       grid: { type: Boolean },
       _itemClicked: { type: Function },
-      _showGrid: { type: Boolean }
+      _showGrid: { type: Boolean },
+      _openDict: { type: Object }
     }
   }
 
@@ -93,24 +95,43 @@ class UnityGlobalNavBase extends LitElement {
     this._showGrid = !this._showGrid
   }
 
+  _setOpenState(key, open) {
+    this._openDict = {
+      ...this._openDict,
+      [key]: open
+    }
+  }
+
   renderItems(items) {
-    return items.map(({key, label, short, icon, children, disabled, style}) => html`
-      <unity-global-nav-top-item
-        .key="${key}"
-        .onSelect="${this._itemClicked}"
-        .label="${label}"
-        .icon="${icon}"
-        .short="${short}"
-        .selected="${this.selected === key}"
-        .children="${children && children.map(child => ({
-          ...child,
-          onSelect: this._itemClicked,
-          selected: this.selected === child.key
-        }))}"
-        ?collapsed=${this.collapsed}
-        ?disabled=${disabled}
-        style=${styleToString(style)}
-      ></unity-global-nav-top-item>`)
+
+    return items.map(({key, label, short, icon, children, disabled, style}, index) => {
+      //Determine if next item is open, if so, set openNeighbor to true
+      const isLast = index === items.length - 1
+      const nextKey = !isLast && items[index + 1].key
+      const nextOpenState = !isLast && this._openDict[nextKey]
+      const hasOpenNeighbor = !isLast && nextOpenState === undefined || !!nextOpenState
+
+      return html`
+        <unity-global-nav-top-item
+          .key="${key}"
+          .onSelect="${this._itemClicked}"
+          .label="${label}"
+          .icon="${icon}"
+          .short="${short}"
+          .selected="${this.selected === key}"
+          .children="${children && children.map(child => ({
+            ...child,
+            onSelect: this._itemClicked,
+            selected: this.selected === child.key
+          }))}"
+          ?collapsed=${this.collapsed}
+          ?disabled=${disabled}
+          ?open=${this._openDict[key]}
+          .onOpen=${this._setOpenState.bind(this)}
+          ?openNeighbor=${hasOpenNeighbor}
+          style=${styleToString(style)}
+        ></unity-global-nav-top-item>`
+    })
   }
 
   render() {
