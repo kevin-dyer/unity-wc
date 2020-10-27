@@ -33,7 +33,8 @@ import { isElement } from '@bit/smartworks.unity.unity-utils'
 * @param {array} fallbackPlacements, if flip is true, this is an array of strings (selected from placement options) for possible placements the Popover will flip to
 * @param {bool} preventOveflow, nudge the popover inwards to prevent it escaping the container
 * @param {htmlElement} boundary, ref specifying the boundary element for flip and preventOverflow
-* @param {number} distance, offset of the popover from the on-page-content, in pixels
+* @param {number} distance, offset of the popover from the on-page-content, in pixels. Overrides offsetModifier
+* @param {func} offsetModifier, used to define Popper's offset modifier. Use in place of distance param. Overridden by distance.
 * @param {HTML Element} referenceElement, if provided, this will be the element to which the popover is anchored (not the on-page-content slot)
 
 * @return {LitElement} returns a class extended from LitElement
@@ -66,6 +67,7 @@ class UnityPopover extends LitElement {
     this.fallbackPlacements = []
     this.placement = defaultPlacement
     this.distance = 0 
+    this.offsetModifier = undefined
     
     this.referenceElement = {}
     this._referenceElement = {}
@@ -101,6 +103,7 @@ class UnityPopover extends LitElement {
       preventOverflow: { type: Boolean },
       boundary: { type: Object },
       distance: { type: Number },
+      offsetModifier: { type: Function },
       referenceElement: { type: Object }
     }
   }
@@ -187,11 +190,11 @@ class UnityPopover extends LitElement {
       if (!!this.boundary) preventOverflowModifier.options.boundary = this.boundary
       modifiers.push(preventOverflowModifier)
     }
-    if (this.distance) {
+    if (this.distance || this.offsetModifier) {
       const offsetModifier = {
         name: 'offset',
         options: {
-          offset: [0, this.distance],
+          offset: this.distance ? [0, this.distance] : this.offsetModifier,
         }
       }
       modifiers.push(offsetModifier)

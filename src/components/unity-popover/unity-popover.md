@@ -1,5 +1,8 @@
 # unity-popover
 
+## v1.0.6
+- Added offsetModifier prop, function used to define Popper's offset modifier. This prop cannot be used along with distance. Distance will override this prop.
+
 ## v1.0.4
 - update unity-utils peer dependency
 
