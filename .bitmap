@@ -70,7 +70,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.7.39": {
+    "smartworks.unity/unity-core@1.7.40": {
         "files": [
             {
                 "name": "index.js",
@@ -454,7 +454,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-popover@1.0.5": {
+    "smartworks.unity/unity-popover@1.0.6": {
         "files": [
             {
                 "name": "unity-popover.js",
