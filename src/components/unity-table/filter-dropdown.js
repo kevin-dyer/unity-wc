@@ -54,6 +54,11 @@ class FilterDropdown extends LitElement {
           --button-color: var(--filter-button-color);
           --paper-button-ink-color: transparent;
         }
+        .filtered {
+          --button-borderless-text-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          --button-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          --pressed-color: var(--primary-brand-color, var(--default-primary-brand-color));
+        }
       `
     ]
   }
@@ -110,18 +115,26 @@ class FilterDropdown extends LitElement {
   }
 
   render() {
+    const {
+      dropdownSide,
+      onValueChange,
+      toggleDropdown,
+      options,
+      selected
+    } = this
+
     return html`
       ${this.show?
         html`<unity-dropdown
-              class="${this.dropdownSide}"
+              class="${dropdownSide}"
               inputType="multi-select"
               boxType="none"
               placeholder="Filter"
               .searchBox=${true}
               ._collapsed=${false}
-              .onValueChange="${this.onValueChange}"
-              .options=${this.options}
-              .selected=${this.selected}
+              .onValueChange="${onValueChange}"
+              .options=${options}
+              .selected=${selected}
           >
         </unity-dropdown>`
         : null}
@@ -129,6 +142,7 @@ class FilterDropdown extends LitElement {
         centerIcon="unity:filter"
         type="borderless"
         @click=${() => this.toggleDropdown()}
+        class="${options.length > selected.length ? "filtered" : ""}"
       ></unity-button>
       `;
   }
