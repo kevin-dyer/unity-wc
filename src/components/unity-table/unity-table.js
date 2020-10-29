@@ -257,19 +257,20 @@ class UnityTable extends LitElement {
             currentColumn.include = false
           }
           else {
-            this.columnFilter.splice(this.columnFilter.indexOf(currentColumn))
+            this.columnFilter = columnFilter.splice(this.columnFilter.indexOf(currentColumn))
           }
         }
 
       }
       else {
         //add new filter for this column
-        this.columnFilter.push({column: key, values: [value], include: selected });
+        columnFilter.push({column: key, values: [value], include: selected });
+        this.columnFilter = columnFilter
       }
     }
     this._flattenedData = this.removeCollapsedChildren(this.getFilteredData())
     this._expandAll()
-    this.onFilterChange(this.columnFilter);
+    this.onFilterChange(columnFilter);
     // this.requestUpdate();
   }
 
