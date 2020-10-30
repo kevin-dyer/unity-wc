@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.9
+- swap paper for unity-checkbox
+
 ### v1.1.7
 - Button to open modal is hidden when `modalOnly` property set to true
 - `show` boolean property controls dialog visibility
