@@ -10,6 +10,7 @@ export const UnityDefaultThemeStyles = css`
     --default-black-rgb: 0, 0, 0;                   /* #000000 */
     --default-white-rgb: 255, 255, 255;             /* #FFFFFF */
     --default-charcoal-rgb: 77, 77, 77;             /* #4D4D4D */
+    --default-dark-gray-rgb: 151, 151, 151;         /* #979797 */
     --default-gray-rgb: 162, 170, 173;              /* #A2AAAD */
     --default-light-gray-1-rgb: 235, 235, 235;      /* #EBEBEB */
     --default-light-gray-2-rgb: 244, 244, 244;      /* #F4F4F4 */
@@ -36,6 +37,9 @@ export const UnityDefaultThemeStyles = css`
 
     /* dark grey, text default */
     --default-dark-gray-color: rgb(var(--default-charcoal-rgb));
+
+    /* dark grey 2 */
+    --default-dark-gray-2-color: rgb(var(--default-dark-gray-rgb));
 
     /* normal gray, border default, disabled text */
     --default-gray-color: rgb(var(--default-gray-rgb));
