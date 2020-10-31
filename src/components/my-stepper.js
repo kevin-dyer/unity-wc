@@ -18,6 +18,23 @@ import { SharedStyles } from './shared-styles.js';
 // example table data, should eventually turn into controls
 // normally this would be taken from the store
 
+const steps = [
+  {
+    name: "Step 1",
+    key: "step1",
+    buttonText: "Authorize"
+  },
+  {
+    name: "Step 2",
+    key: "step2"
+  },
+  {
+    name: "Step 3",
+    key: "step3",
+    buttonText: "Start"
+  }
+]
+
 class MyStepper extends PageViewElement {
   constructor() {
     super()
@@ -47,14 +64,17 @@ class MyStepper extends PageViewElement {
   }
 
   onStepChange(key) {
-    console.log('step  is', key)
+    console.log('step is', key)
   }
 
   render() {
     return html`
       <div class="example-container">
         Stepper is below this text
-        <unity-stepper></unity-stepper>
+        <unity-stepper
+          .steps="${steps}"
+          currentStep="0"
+        ></unity-stepper>
       </div>
     `
   }
