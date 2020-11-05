@@ -104,7 +104,6 @@ class UnityStepper extends LitElement {
     const icon = currentStep > pos ?
       html`<unity-icon class="icon" icon="unity:check"></unity-icon>` :
       html`<unity-typography>${pos}</unity-typography>`
-    console.log('creating step')
     return html`
       <div class="step${active ? " active": ""}">
         <div class="bubble">${icon}</div>
