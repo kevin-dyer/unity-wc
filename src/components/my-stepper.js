@@ -32,6 +32,11 @@ const steps = [
     name: "Step 3",
     key: "step3",
     buttonText: "Start"
+  },
+  {
+    name: "Step 4",
+    key: "step4",
+    buttonText: "End"
   }
 ]
 
@@ -70,10 +75,10 @@ class MyStepper extends PageViewElement {
   render() {
     return html`
       <div class="example-container">
-        Stepper is below this text
         <unity-stepper
           .steps="${steps}"
-          currentStep="0"
+          backtrack
+          valid
         ></unity-stepper>
       </div>
     `
