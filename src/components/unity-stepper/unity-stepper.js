@@ -98,12 +98,13 @@ class UnityStepper extends LitElement {
   // this will create the bubble and the text
   createStep({name, key, pos}) {
     const { currentStep } = this
-    const active = currentStep >= pos
+    const active = currentStep === pos
+    const done = currentStep > pos
     const icon = currentStep > pos ?
       html`<unity-icon class="icon" icon="unity:check"></unity-icon>` :
       html`<unity-typography>${pos}</unity-typography>`
     return html`
-      <div class="step${active ? " active": ""}">
+      <div class="step${active ? " active": ""}${done ? " done": ""}">
         <div class="bubble">${icon}</div>
         <unity-typography>
           ${name}
@@ -223,7 +224,7 @@ class UnityStepper extends LitElement {
           align-items: center;
           margin: var(--bubble-margin);
         }
-        .step.active .bubble {
+        .step.done .bubble, .step.active .bubble {
           background-color: var(--unity-stepper-step-active-color, var(--default-unity-stepper-step-active-color))
         }
         .step .bubble .icon {
