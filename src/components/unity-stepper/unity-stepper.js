@@ -92,15 +92,48 @@ class UnityStepper extends LitElement {
 
   get steps() { return this._steps }
 
+  // this will create the bubble and the text
+  createStep({name, key, pos}) {
+    const {
+      currentStep
+    } = this
+    const active = currentStep >= pos
+    const icon = currentStep > pos ?
+      html`<unity-icon class="icon" icon="unity:check"></unity-icon>` :
+      html`<unity-typography>${pos}</unity-typography>`
+    console.log('creating step')
+    return html`<div class="bubble${active ? " active": ""}">${icon}</div>`
+  }
+
+  // this will order the bubbles and make the lines
+  orderSteps() {
+    const {
+      steps,
+      currentStep,
+      valid
+    } = this
+
+    return html``
+  }
+
   render() {
     const {
       steps,
-      currentStep
+      currentStep,
+      valid
     } = this
 
     const defaultButtonText = currentStep === steps.length-1 ? "Finish" : "Next"
     const buttonText = steps[currentStep].buttonText || defaultButtonText
-    return html`<div>This is the stepper</div><unity-button label="${buttonText}"></unity-button>`
+    return html`
+      <div>
+        ${this.createStep({...steps[0], pos: 0})}
+      </div>
+      <unity-button
+        ?disabled="${!valid || null}"
+        label="${buttonText}"
+      ></unity-button>
+    `
   }
 
   static get styles() {
@@ -113,11 +146,41 @@ class UnityStepper extends LitElement {
           --default-unity-stepper-spacer-color: var(--dark-gray-2-color, var(--default-dark-gray-2-color));
           --default-unity-stepper-step-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-unity-stepper-step-icon-color: var(--white-color, var(--default-white-color));
-          --default-unity-stepper-step-size: ;
+          --default-unity-stepper-step-size: 24px;
+          --step-icon-size: calc(var(--default-unity-stepper-step-size, var(--default-unity-stepper-step-size)) * 5 / 6);
 
           display: flex;
+          flex: 1;
+          flex-direction: column;
+          user-select: none;
         }
-        .bubble {}
+        .icon {
+          --unity-icon-height: var(--unity-stepper-step-size, var(--default-unity-stepper-step-size));
+          --unity-icon-width: var(--unity-stepper-step-size, var(--default-unity-stepper-step-size));
+        }
+        .bubble {
+          color: var(--unity-stepper-step-icon-color, var(--default-unity-stepper-step-icon-color));
+          background-color: var(--unity-stepper-step-inactive-color, var(--default-unity-stepper-step-inactive-color));
+          height: var(--unity-stepper-step-size, var(--default-unity-stepper-step-size));
+          width: var(--unity-stepper-step-size, var(--default-unity-stepper-step-size));
+          border-radius: calc(var(--unity-stepper-step-size, var(--default-unity-stepper-step-size)) / 2);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .bubble.active {
+          background-color: var(--unity-stepper-step-active-color, var(--default-unity-stepper-step-active-color))
+        }
+        .bubble unity-typography {
+          --font-color: var(--unity-stepper-step-icon-color, var(--default-unity-stepper-step-icon-color));
+          --font-weight: var(--header2-selected-font-weight, var(--default-header2-selected-font-weight));
+          flex: 0;
+        }
+        .bubble unity-icon {
+          --unity-icon-height: var(--step-icon-size);
+          --unity-icon-width: var(--step-icon-size);
+          flex: 0;
+        }
         .step {}
         .bar{}
         .button-wrapper {
