@@ -10,6 +10,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {bool} valid, if the current step is valid, enables next button
  * @param {bool} noButton, flag for having no button
  * @param {func} onChangeStep, the callback to return the current step
+ * @param {bool} backtrack, controls if the user can backtrack through the steps
  * @param {number} currentStep, override the current step to the one given, should be used carefully
  * @example
  * <unity-stepper
@@ -44,6 +45,7 @@ class UnityStepper extends LitElement {
     this._steps = []
     this.valid = false
     this.noButton = false
+    this.backtrack = false
     this.onChangeStep = ()=>{}
     this._currentStep = 0
 
@@ -56,6 +58,7 @@ class UnityStepper extends LitElement {
       steps: { type: Array },
       valid: { type: Boolean },
       noButton: { type: Boolean },
+      backtrack: { type: Boolean },
       onChangeStep: { type: Function },
       currentStep: { type: Number },
 
@@ -97,14 +100,20 @@ class UnityStepper extends LitElement {
 
   // this will create the bubble and the text
   createStep({name, key, pos}) {
-    const { currentStep } = this
+    const {
+      currentStep,
+      backtrack
+    } = this
     const active = currentStep === pos
     const done = currentStep > pos
     const icon = currentStep > pos ?
       html`<unity-icon class="icon" icon="unity:check"></unity-icon>` :
       html`<unity-typography>${pos}</unity-typography>`
     return html`
-      <div class="step${active ? " active": ""}${done ? " done": ""}">
+      <div
+        class="step${active ? " active": ""}${done ? " done": ""}${backtrack ? " clickable": ""}"
+        @click="${(done && backtrack) ? ()=>this.advance(pos) : ()=>{}}"
+      >
         <div class="bubble">${icon}</div>
         <unity-typography>
           ${name}
@@ -205,6 +214,9 @@ class UnityStepper extends LitElement {
           white-space: nowrap;
           justify-content: center;
           align-items: center;
+        }
+        .step.done.clickable {
+          cursor: pointer;
         }
         .step unity-typography {
           flex: 0;
