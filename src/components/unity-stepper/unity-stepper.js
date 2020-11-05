@@ -183,12 +183,14 @@ class UnityStepper extends LitElement {
           user-select: none;
           justify-content: center;
           align-items: center;
-          height: calc(var(--step-icon-size) + (2 * var(--bubble-margin)))
+          height: calc(var(--unity-stepper-step-size, var(--default-unity-stepper-step-size)) + (2 * var(--bubble-margin)))
         }
         .stepper {
           flex: 1;
           display: flex;
           flex-direction: row;
+          justify-content: center;
+          align-items: center;
         }
         .step {
           flex: 0;
@@ -239,10 +241,15 @@ class UnityStepper extends LitElement {
           margin-left: var(--padding-size-sm, var(--default-padding-size-sm));
         }
         hr {
-          color: #333;
-          overflow: visible;
-          text-align: center;
-          height: 5px;
+          flex: 1;
+          --hr-side-margin: calc(var(--margin-size-md, var(--default-margin-size-md)) / 2);
+          margin-right: var(--hr-side-margin);
+          margin-left: var(--hr-side-margin);
+          margin-bottom: calc(var(--step-icon-size) / 2);
+          width: 100%;
+          border: none;
+          background-color: var(--unity-stepper-spacer-color, var(--default-unity-stepper-spacer-color));
+          height: 1px;
         }
       `
     ]
