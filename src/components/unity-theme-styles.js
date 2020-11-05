@@ -39,7 +39,7 @@ export const UnityThemeStyles = css`
     --dark-gray-color: rgb(var(--charcoal-rgb));
 
     /* dark grey 2 */
-    --dark-gray-2-color: rgb(var(--default-dark-gray-rgb));
+    --dark-gray-2-color: rgb(var(--dark-gray-rgb));
 
     /* normal gray, border default, disabled text */
     --gray-color: rgb(var(--gray-rgb));
