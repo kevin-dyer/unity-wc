@@ -72,7 +72,7 @@ class UnityStepper extends LitElement {
   }
 
   set currentStep(value) {
-    if (this.steps.length > 0) checkCurrentStep(value)
+    if (this.steps.length > 0) this.checkCurrentStep(value)
     else this._currentStep = value
   }
 
@@ -97,9 +97,7 @@ class UnityStepper extends LitElement {
 
   // this will create the bubble and the text
   createStep({name, key, pos}) {
-    const {
-      currentStep
-    } = this
+    const { currentStep } = this
     const active = currentStep >= pos
     const icon = currentStep > pos ?
       html`<unity-icon class="icon" icon="unity:check"></unity-icon>` :
@@ -137,6 +135,12 @@ class UnityStepper extends LitElement {
     return renderedSteps
   }
 
+  advance(targetStep) {
+    const { currentStep } = this
+    this.currentStep = typeof targetStep === 'number' ? targetStep : currentStep + 1
+    this.onChangeStep(this.currentStep)
+  }
+
   render() {
     const {
       steps,
@@ -155,6 +159,7 @@ class UnityStepper extends LitElement {
         <unity-button
           ?disabled="${!valid || null}"
           label="${buttonText}"
+          @click="${this.advance}"
         ></unity-button>
       `}
     `
