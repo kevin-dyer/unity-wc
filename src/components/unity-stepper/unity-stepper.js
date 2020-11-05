@@ -8,6 +8,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @name UnityStepper
  * @param {[]} steps, the steps to be tracked, {name, key, buttonText(opt)}, buttonText defaults to Next/Finish
  * @param {bool} valid, if the current step is valid, enables next button
+ * @param {bool} noButton, flag for having no button
  * @param {func} onChangeStep, the callback to return the current step
  * @param {number} currentStep, override the current step to the one given, should be used carefully
  * @example
@@ -42,6 +43,7 @@ class UnityStepper extends LitElement {
 
     this._steps = []
     this.valid = false
+    this.noButton = false
     this.onChangeStep = ()=>{}
     this._currentStep = 0
 
@@ -53,6 +55,7 @@ class UnityStepper extends LitElement {
     return {
       steps: { type: Array },
       valid: { type: Boolean },
+      noButton: { type: Boolean },
       onChangeStep: { type: Function },
       currentStep: { type: Number },
 
@@ -102,7 +105,18 @@ class UnityStepper extends LitElement {
       html`<unity-icon class="icon" icon="unity:check"></unity-icon>` :
       html`<unity-typography>${pos}</unity-typography>`
     console.log('creating step')
-    return html`<div class="bubble${active ? " active": ""}">${icon}</div>`
+    return html`
+      <div class="step${active ? " active": ""}">
+        <div class="bubble">${icon}</div>
+        <unity-typography>
+          ${name}
+        </unity-typography>
+      </div>
+    `
+  }
+
+  createBar() {
+    return html`<hr>`
   }
 
   // this will order the bubbles and make the lines
@@ -113,26 +127,37 @@ class UnityStepper extends LitElement {
       valid
     } = this
 
-    return html``
+    let renderedSteps = []
+
+    steps.forEach((step, pos, list) => {
+      renderedSteps.push(this.createStep({...step, pos}))
+      if (pos < list.length - 1)
+      renderedSteps.push(this.createBar())
+    })
+
+    return renderedSteps
   }
 
   render() {
     const {
       steps,
       currentStep,
+      noButton,
       valid
     } = this
 
     const defaultButtonText = currentStep === steps.length-1 ? "Finish" : "Next"
     const buttonText = steps[currentStep].buttonText || defaultButtonText
     return html`
-      <div>
-        ${this.createStep({...steps[0], pos: 0})}
+      <div class="stepper">
+        ${this.orderSteps()}
       </div>
-      <unity-button
-        ?disabled="${!valid || null}"
-        label="${buttonText}"
-      ></unity-button>
+      ${noButton ? null : html`
+        <unity-button
+          ?disabled="${!valid || null}"
+          label="${buttonText}"
+        ></unity-button>
+      `}
     `
   }
 
@@ -145,20 +170,43 @@ class UnityStepper extends LitElement {
           --default-unity-stepper-step-inactive-color: var(--dark-gray-2-color, var(--default-dark-gray-2-color));
           --default-unity-stepper-spacer-color: var(--dark-gray-2-color, var(--default-dark-gray-2-color));
           --default-unity-stepper-step-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-unity-stepper-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --default-unity-stepper-step-icon-color: var(--white-color, var(--default-white-color));
           --default-unity-stepper-step-size: 24px;
           --step-icon-size: calc(var(--default-unity-stepper-step-size, var(--default-unity-stepper-step-size)) * 5 / 6);
 
+          --bubble-margin: calc(var(--padding-size-sm, var(--default-padding-size-sm)) / 2);
+
           display: flex;
           flex: 1;
-          flex-direction: column;
+          width: 100%;
+          flex-direction: row;
           user-select: none;
+          justify-content: center;
+          align-items: center;
+          height: calc(var(--step-icon-size) + (2 * var(--bubble-margin)))
         }
-        .icon {
-          --unity-icon-height: var(--unity-stepper-step-size, var(--default-unity-stepper-step-size));
-          --unity-icon-width: var(--unity-stepper-step-size, var(--default-unity-stepper-step-size));
+        .stepper {
+          flex: 1;
+          display: flex;
+          flex-direction: row;
         }
-        .bubble {
+        .step {
+          flex: 0;
+          display: flex;
+          flex-direction: row;
+          white-space: nowrap;
+          justify-content: center;
+          align-items: center;
+        }
+        .step unity-typography {
+          flex: 0;
+          --font-size: var(--unity-stepper-text-size, var(--default-unity-stepper-text-size));
+        }
+        .step.active unity-typography {
+          --font-weight: var(--bold-text-weight, var(--default-bold-text-weight));
+        }
+        .step .bubble {
           color: var(--unity-stepper-step-icon-color, var(--default-unity-stepper-step-icon-color));
           background-color: var(--unity-stepper-step-inactive-color, var(--default-unity-stepper-step-inactive-color));
           height: var(--unity-stepper-step-size, var(--default-unity-stepper-step-size));
@@ -167,27 +215,35 @@ class UnityStepper extends LitElement {
           display: flex;
           justify-content: center;
           align-items: center;
+          margin: var(--bubble-margin);
         }
-        .bubble.active {
+        .step.active .bubble {
           background-color: var(--unity-stepper-step-active-color, var(--default-unity-stepper-step-active-color))
         }
-        .bubble unity-typography {
+        .step .bubble .icon {
+          --unity-icon-height: var(--unity-stepper-step-size, var(--default-unity-stepper-step-size));
+          --unity-icon-width: var(--unity-stepper-step-size, var(--default-unity-stepper-step-size));
+        }
+        .step .bubble unity-typography {
           --font-color: var(--unity-stepper-step-icon-color, var(--default-unity-stepper-step-icon-color));
           --font-weight: var(--header2-selected-font-weight, var(--default-header2-selected-font-weight));
           flex: 0;
         }
-        .bubble unity-icon {
+        .step .bubble unity-icon {
           --unity-icon-height: var(--step-icon-size);
           --unity-icon-width: var(--step-icon-size);
           flex: 0;
         }
-        .step {}
         .bar{}
-        .button-wrapper {
+        unity-button {
           flex: 0;
+          margin-left: var(--padding-size-sm, var(--default-padding-size-sm));
         }
-        .stepper {
-          flex: 1
+        hr {
+          color: #333;
+          overflow: visible;
+          text-align: center;
+          height: 5px;
         }
       `
     ]
