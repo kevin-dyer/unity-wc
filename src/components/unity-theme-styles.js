@@ -129,6 +129,8 @@ export const UnityThemeStyles = css`
     --small-text-selected-size: 10px;
     --small-text-selected-weight: 600;
 
+    --bold-text-weight: 600;
+
     --medium-icon-size: 18px;
     --small-icon-size: 14px;
     --xsmall-icon-size: 10px;
