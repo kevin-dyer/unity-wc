@@ -48,9 +48,6 @@ class UnityStepper extends LitElement {
     this.backtrack = false
     this.onChangeStep = ()=>{}
     this._currentStep = 1
-
-    // internals
-    this.lib = {}
   }
 
   static get properties() {
@@ -61,8 +58,6 @@ class UnityStepper extends LitElement {
       backtrack: { type: Boolean },
       onChangeStep: { type: Function },
       currentStep: { type: Number },
-
-      // lib: {type: false}
     }
   }
 
