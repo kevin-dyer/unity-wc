@@ -116,7 +116,7 @@ class UnityStepper extends LitElement {
         @click="${(done && backtrack) ? ()=>this.advance(pos) : ()=>{}}"
       >
         <div class="bubble">${icon}</div>
-        <unity-typography>
+        <unity-typography class="step-name">
           ${name}
         </unity-typography>
       </div>
@@ -138,7 +138,8 @@ class UnityStepper extends LitElement {
     let renderedSteps = []
 
     steps.forEach((step, pos, list) => {
-      renderedSteps.push(this.createStep({...step, pos}))
+      const stepToRender = typeof step === 'string' ? {name: step} : step
+      renderedSteps.push(this.createStep({...stepToRender, pos}))
       if (pos < list.length - 1)
       renderedSteps.push(this.createBar())
     })
@@ -224,11 +225,11 @@ class UnityStepper extends LitElement {
         .step.done.clickable {
           cursor: pointer;
         }
-        .step unity-typography {
+        .step unity-typography.step-name {
           flex: 0;
           --font-size: var(--unity-stepper-text-size, var(--default-unity-stepper-text-size));
         }
-        .step.active unity-typography {
+        .step.active unity-typography.step-name {
           --font-weight: var(--bold-text-weight, var(--default-bold-text-weight));
         }
         .step .bubble {
