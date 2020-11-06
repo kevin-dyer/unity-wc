@@ -100,7 +100,7 @@ describe ('unity-stepper', () => {
 
     let activeStep = stepper.querySelector('div.step.active')
 
-    expect(el.currentStep).to.equal(0)
+    expect(el.currentStep).to.equal(1)
     expect(activeStep).to.equal(steps[0])
     expect(activeStep).to.not.equal(steps[1])
 
@@ -117,7 +117,7 @@ describe ('unity-stepper', () => {
     activeStep = stepper.querySelector('div.step.active')
     let doneStep = stepper.querySelector('div.step.done')
 
-    expect(el.currentStep).to.equal(1)
+    expect(el.currentStep).to.equal(2)
     expect(activeStep).to.not.equal(steps[0])
     expect(doneStep).to.equal(steps[0])
     expect(activeStep).to.equal(steps[1])
@@ -146,15 +146,12 @@ describe ('unity-stepper', () => {
 
     expect(ref.value).to.equal(stepzero)
   })
-  // backtrack reports step clicked
-  // doesn't backtrack current or future steps
 
   it('should accept currentStep', async () => {
     const stepsToTest = [testStepOne, testStepThree, stepzero]
-    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" .currentStep="${1}"></unity-stepper>`)
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" .currentStep="${2}"></unity-stepper>`)
 
     const stepper = el.shadowRoot.querySelector('div.stepper')
-    console.log('stepper', stepper)
     const steps = stepper.querySelectorAll('div.step')
 
     const doneStep = stepper.querySelector('div.step.done')
@@ -170,13 +167,50 @@ describe ('unity-stepper', () => {
     expect(position.innerText).to.equal('2')
   })
 
+  it('should backtrack if enabled', async () => {
+    let ref = {}
+    const onChange = makeOnChange(ref)
+    const stepsToTest = [testStepOne, testStepThree, stepzero]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" .currentStep="${2}" .onChangeStep="${onChange}" backtrack></unity-stepper>`)
+    const doneStep = el.shadowRoot.querySelector('div.stepper div.step.done')
+
+    expect(ref.value).to.be.undefined
+
+    const eventName = 'click'
+    const event = new Event(eventName)
+    const listener = oneEvent(doneStep, eventName)
+
+    doneStep.dispatchEvent(event)
+    await listener
+
+    expect(ref.value).to.equal(testStepOne)
+  })
+
+  it('should not backtrack forwards if enabled', async () => {
+    let ref = {}
+    const onChange = makeOnChange(ref)
+    const stepsToTest = [testStepOne, testStepThree, stepzero]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" .currentStep="${2}" .onChangeStep="${onChange}" backtrack></unity-stepper>`)
+    const stepper = el.shadowRoot.querySelector('div.stepper')
+    const activeStep = stepper.querySelector('div.step.active')
+    const futureStep = stepper.querySelectorAll('div.step')[2]
+
+    expect(ref.value).to.be.undefined
+
+    const eventName = 'click'
+    const event = new Event(eventName)
+    const activeListener = oneEvent(activeStep, eventName)
+    const futureListener = oneEvent(futureStep, eventName)
+
+    activeStep.dispatchEvent(event)
+    await activeListener
+
+    expect(ref.value).to.equal(undefined)
+
+    futureStep.dispatchEvent(event)
+    await futureListener
+
+    expect(ref.value).to.equal(undefined)
+  })
+
 })
-
-/*
-
-it('should ', async () => {
-  const el = await fixture(html`<unity-stepper></unity-stepper>`)
-
-})
-
-*/
