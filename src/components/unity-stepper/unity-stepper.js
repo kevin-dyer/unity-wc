@@ -109,7 +109,7 @@ class UnityStepper extends LitElement {
     const done = currentStep > pos
     const icon = currentStep > pos ?
       html`<unity-icon class="icon" icon="unity:check"></unity-icon>` :
-      html`<unity-typography>${pos}</unity-typography>`
+      html`<unity-typography>${pos+1}</unity-typography>`
     return html`
       <div
         class="step${active ? " active": ""}${done ? " done": ""}${backtrack ? " clickable": ""}"
@@ -148,9 +148,12 @@ class UnityStepper extends LitElement {
   }
 
   advance(targetStep) {
-    const { currentStep } = this
+    const {
+      steps,
+      currentStep
+    } = this
     this.currentStep = typeof targetStep === 'number' ? targetStep : currentStep + 1
-    this.onChangeStep(this.currentStep)
+    this.onChangeStep(steps[this.currentStep])
   }
 
   render() {
