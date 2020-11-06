@@ -77,6 +77,7 @@ class MyStepper extends PageViewElement {
       <div class="example-container">
         <unity-stepper
           .steps="${steps}"
+          .onChangeStep="${step => console.log('step', step)}"
           backtrack
           valid
         ></unity-stepper>
