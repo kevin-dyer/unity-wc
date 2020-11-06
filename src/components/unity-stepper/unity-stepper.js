@@ -47,7 +47,7 @@ class UnityStepper extends LitElement {
     this.noButton = false
     this.backtrack = false
     this.onChangeStep = ()=>{}
-    this._currentStep = 0
+    this._currentStep = 1
 
     // internals
     this.lib = {}
@@ -68,8 +68,8 @@ class UnityStepper extends LitElement {
 
   checkCurrentStep(value) {
     const oldValue = this._currentStep
-    if (value < 0) this._currentStep = 0
-    else if (value >= this.steps.length) this._currentStep = this.steps.length - 1
+    if (value < 1) this._currentStep = 1
+    else if (value > this.steps.length) this._currentStep = this.steps.length
     else this._currentStep = value
     this.requestUpdate('currentStep', oldValue)
   }
@@ -109,7 +109,7 @@ class UnityStepper extends LitElement {
     const done = currentStep > pos
     const icon = currentStep > pos ?
       html`<unity-icon class="icon" icon="unity:check"></unity-icon>` :
-      html`<unity-typography>${pos+1}</unity-typography>`
+      html`<unity-typography>${pos}</unity-typography>`
     return html`
       <div
         class="step${active ? " active": ""}${done ? " done": ""}${backtrack ? " clickable": ""}"
@@ -139,9 +139,9 @@ class UnityStepper extends LitElement {
 
     steps.forEach((step, pos, list) => {
       const stepToRender = typeof step === 'string' ? {name: step} : step
-      renderedSteps.push(this.createStep({...stepToRender, pos}))
+      renderedSteps.push(this.createStep({...stepToRender, pos: pos+1}))
       if (pos < list.length - 1)
-      renderedSteps.push(this.createBar())
+        renderedSteps.push(this.createBar())
     })
 
     return renderedSteps
@@ -166,8 +166,8 @@ class UnityStepper extends LitElement {
 
     if (!steps) return
 
-    const defaultButtonText = currentStep === steps.length-1 ? "Finish" : "Next"
-    const buttonText = steps[currentStep].buttonText || defaultButtonText
+    const defaultButtonText = currentStep === steps.length ? "Finish" : "Next"
+    const buttonText = steps[currentStep-1].buttonText || defaultButtonText
     return html`
       <div class="stepper">
         ${this.orderSteps()}
