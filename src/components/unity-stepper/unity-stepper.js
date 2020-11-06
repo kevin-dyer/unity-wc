@@ -6,7 +6,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 /**
  * @name UnityStepper
- * @param {[]} steps, the steps to be tracked, {name, key, buttonText(opt)}, buttonText defaults to Next/Finish
+ * @param {[]} steps, the steps to be tracked, string of step name to be rendered or obj{name, key(opt), buttonText(opt)}, buttonText defaults to Next/Finish
  * @param {bool} valid, if the current step is valid, enables next button
  * @param {bool} noButton, flag for having no button
  * @param {func} onChangeStep, the callback to return the current step
@@ -18,7 +18,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   .valid="${formValid}"
  *   .textSeed="${[
  *     {name: 'Step 1', buttonText: "Authorize"},
- *     {name: 'Step 2' },
+ *     'Step 2',
  *     {name: 'Step 3', key: 'step3', buttonText: "Start"}
  *   ]}"
  * />
@@ -42,7 +42,7 @@ class UnityStepper extends LitElement {
   constructor() {
     super()
 
-    this._steps = []
+    this._steps = undefined
     this.valid = false
     this.noButton = false
     this.backtrack = false
@@ -83,9 +83,16 @@ class UnityStepper extends LitElement {
 
   set steps(value) {
     const oldValue = this._steps
-    this._steps = value
-    // check currentStep
-    this.checkCurrentStep(this.currentStep)
+    // check if all steps are valid
+    // if step is not a string and not an object with a name field, then it's invalid
+    const valid = value.reduce((valid, step) => !valid ? false : typeof step === 'string' || step.name, true)
+    if (valid) {
+      this._steps = value
+      // check currentStep
+      this.checkCurrentStep(this.currentStep)
+    } else {
+      this._steps = undefined
+    }
 
     this.requestUpdate('steps', oldValue)
   }
@@ -153,7 +160,7 @@ class UnityStepper extends LitElement {
       valid
     } = this
 
-    if (steps.length === 0) {
+    if (!steps) {
       console.warn("unity-stepper requires steps")
       return
     }
