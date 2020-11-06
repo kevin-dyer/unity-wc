@@ -70,9 +70,9 @@ describe ('unity-stepper', () => {
     expect(button.label).to.equal(steptwo)
   })
 
-  it('should render no button if noButton', async () => {
+  it('should render no button if hideButton', async () => {
     const stepsToTest = [stepzero, stepone]
-    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" noButton></unity-stepper>`)
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" hideButton></unity-stepper>`)
     const button = el.shadowRoot.querySelector("unity-button")
     expect(button).to.not.exist
   })
