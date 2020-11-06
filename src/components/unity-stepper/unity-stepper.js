@@ -17,8 +17,8 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  *   .onChaneStep="${step => reportStep(step)}"
  *   .valid="${formValid}"
  *   .textSeed="${[
- *     {name: 'Step 1', key: 'step1', buttonText: "Authorize"},
- *     {name: 'Step 2', key: 'step2'},
+ *     {name: 'Step 1', buttonText: "Authorize"},
+ *     {name: 'Step 2' },
  *     {name: 'Step 3', key: 'step3', buttonText: "Start"}
  *   ]}"
  * />
@@ -86,13 +86,7 @@ class UnityStepper extends LitElement {
     this._steps = value
     // check currentStep
     this.checkCurrentStep(this.currentStep)
-    // // update lib
-    // this.lib = value.reduce((a, step) => {
-    //   return {
-    //     ...a,
-    //     [step.key]: step
-    //   }
-    // }, {})
+
     this.requestUpdate('steps', oldValue)
   }
 
