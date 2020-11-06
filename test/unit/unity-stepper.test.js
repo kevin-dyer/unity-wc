@@ -22,7 +22,6 @@ describe ('unity-stepper', () => {
   })
 
   it('should render when given steps', async () => {
-    console.log('testStepOne', testStepOne)
     const el = await fixture(html`<unity-stepper .steps="${[testStepOne]}"></unity-stepper>`)
     expect(el).shadowDom.to.equal(`<div class="stepper"><div class="active step"><div class="bubble"><unity-typography>0</unity-typography></div><unity-typography class="step-name">Step 1</unity-typography></div></div><unity-button disabled="" label="Finish"></unity-button>`)
   })
@@ -77,10 +76,53 @@ describe ('unity-stepper', () => {
     const button = el.shadowRoot.querySelector("unity-button")
     expect(button).to.not.exist
   })
-  // button is invalid
-  // clicking invalid button does nothing
-  // button is valid with valid
-  // clicking valid button updates currentStep and reports to function
+
+  it('should render invalid button as default', async () => {
+    const stepsToTest = [stepzero, stepone]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}"></unity-stepper>`)
+    const button = el.shadowRoot.querySelector("unity-button")
+    expect(button.disabled).to.be.true
+  })
+
+  it('should render valid button if valid', async () => {
+    const stepsToTest = [stepzero, stepone]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" valid></unity-stepper>`)
+    const button = el.shadowRoot.querySelector("unity-button")
+    expect(button.disabled).to.be.false
+  })
+
+  it('should advance the step when button is clicked', async () => {
+    const stepsToTest = [stepzero, stepone]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" valid></unity-stepper>`)
+    const button = el.shadowRoot.querySelector("unity-button")
+    let stepper = el.shadowRoot.querySelector("div.stepper")
+    let steps = stepper.querySelectorAll("div.step")
+
+    let activeStep = stepper.querySelector('div.step.active')
+
+    expect(el.currentStep).to.equal(0)
+    expect(activeStep).to.equal(steps[0])
+    expect(activeStep).to.not.equal(steps[1])
+
+    const eventName = 'click'
+    const event = new Event(eventName)
+    const listener = oneEvent(button, eventName)
+
+    button.dispatchEvent(event)
+    await listener
+
+    stepper = el.shadowRoot.querySelector("div.stepper")
+    steps = stepper.querySelectorAll("div.step")
+
+    activeStep = stepper.querySelector('div.step.active')
+    let doneStep = stepper.querySelector('div.step.done')
+
+    expect(el.currentStep).to.equal(1)
+    expect(activeStep).to.not.equal(steps[0])
+    expect(doneStep).to.equal(steps[0])
+    expect(activeStep).to.equal(steps[1])
+  })
+
   // clicking reports whole step
   // backtrack reports step clicked
   // doesn't backtrack current or future steps
