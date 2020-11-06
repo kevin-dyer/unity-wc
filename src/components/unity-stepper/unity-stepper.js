@@ -153,6 +153,11 @@ class UnityStepper extends LitElement {
       valid
     } = this
 
+    if (steps.length === 0) {
+      console.warn("unity-stepper requires steps")
+      return
+    }
+
     const defaultButtonText = currentStep === steps.length-1 ? "Finish" : "Next"
     const buttonText = steps[currentStep].buttonText || defaultButtonText
     return html`
