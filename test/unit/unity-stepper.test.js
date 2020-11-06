@@ -5,7 +5,7 @@ import '../../src/components/unity-stepper/unity-stepper'
 
 describe ('unity-stepper', () => {
   const makeOnChange = injector => value => {
-    injectfor.value = value
+    injector.value = value
   }
   const makeStep = (name, buttonText, key) => ({name, buttonText, key})
   const stepzero = "Step 0"
@@ -23,7 +23,7 @@ describe ('unity-stepper', () => {
 
   it('should render when given steps', async () => {
     const el = await fixture(html`<unity-stepper .steps="${[testStepOne]}"></unity-stepper>`)
-    expect(el).shadowDom.to.equal(`<div class="stepper"><div class="active step"><div class="bubble"><unity-typography>0</unity-typography></div><unity-typography class="step-name">Step 1</unity-typography></div></div><unity-button disabled="" label="Finish"></unity-button>`)
+    expect(el).shadowDom.to.equal(`<div class="stepper"><div class="active step"><div class="bubble"><unity-typography>1</unity-typography></div><unity-typography class="step-name">Step 1</unity-typography></div></div><unity-button disabled="" label="Finish"></unity-button>`)
   })
 
   it('should render for steps given', async () => {
@@ -123,12 +123,52 @@ describe ('unity-stepper', () => {
     expect(activeStep).to.equal(steps[1])
   })
 
-  // clicking reports whole step
+  it('should report step when given onChangeStep', async () => {
+    let ref = {}
+    const onChange = makeOnChange(ref)
+    const stepsToTest = [testStepOne, testStepThree, stepzero]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" valid .onChangeStep="${onChange}"></unity-stepper>`)
+    const button = el.shadowRoot.querySelector("unity-button")
+
+    expect(ref.value).to.be.undefined
+
+    const eventName = 'click'
+    const event = new Event(eventName)
+    const listener = oneEvent(button, eventName)
+
+    button.dispatchEvent(event)
+    await listener
+
+    expect(ref.value).to.equal(testStepThree)
+
+    button.dispatchEvent(event)
+    await listener
+
+    expect(ref.value).to.equal(stepzero)
+  })
   // backtrack reports step clicked
   // doesn't backtrack current or future steps
-  // passing current step updates which step is current
 
+  it('should accept currentStep', async () => {
+    const stepsToTest = [testStepOne, testStepThree, stepzero]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" .currentStep="${1}"></unity-stepper>`)
 
+    const stepper = el.shadowRoot.querySelector('div.stepper')
+    console.log('stepper', stepper)
+    const steps = stepper.querySelectorAll('div.step')
+
+    const doneStep = stepper.querySelector('div.step.done')
+    const check = doneStep.querySelector('div.step.done div.bubble unity-icon.icon')
+    const activeStep = stepper.querySelector('div.step.active')
+    const position = activeStep.querySelector('div.step.active div.bubble unity-typography')
+
+    expect(steps[0]).to.equal(doneStep)
+    expect(check).to.exist
+    expect(check.icon).to.equal('unity:check')
+    expect(steps[1]).to.equal(activeStep)
+    expect(position).to.exist
+    expect(position.innerText).to.equal('2')
+  })
 
 })
 
