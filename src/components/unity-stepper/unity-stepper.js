@@ -8,7 +8,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @name UnityStepper
  * @param {[]} steps, the steps to be tracked, string of step name to be rendered or obj{name, key(opt), buttonText(opt)}, buttonText defaults to Next/Finish
  * @param {bool} valid, if the current step is valid, enables next button
- * @param {bool} noButton, flag for having no button
+ * @param {bool} hideButton, flag for having no button
  * @param {func} onChangeStep, the callback to return the current step
  * @param {bool} backtrack, controls if the user can backtrack through the steps
  * @param {number} currentStep, override the current step to the one given, should be used carefully
@@ -44,7 +44,7 @@ class UnityStepper extends LitElement {
 
     this._steps = undefined
     this.valid = false
-    this.noButton = false
+    this.hideButton = false
     this.backtrack = false
     this.onChangeStep = ()=>{}
     this._currentStep = 1
@@ -54,7 +54,7 @@ class UnityStepper extends LitElement {
     return {
       steps: { type: Array },
       valid: { type: Boolean },
-      noButton: { type: Boolean },
+      hideButton: { type: Boolean },
       backtrack: { type: Boolean },
       onChangeStep: { type: Function },
       currentStep: { type: Number },
@@ -155,7 +155,7 @@ class UnityStepper extends LitElement {
     const {
       steps,
       currentStep,
-      noButton,
+      hideButton,
       valid
     } = this
 
@@ -167,7 +167,7 @@ class UnityStepper extends LitElement {
       <div class="stepper">
         ${this.orderSteps()}
       </div>
-      ${noButton ? null : html`
+      ${hideButton ? null : html`
         <unity-button
           ?disabled="${!valid || null}"
           label="${buttonText}"
