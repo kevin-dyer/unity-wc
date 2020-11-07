@@ -189,7 +189,7 @@ class UnityStepper extends LitElement {
     const currentStep = steps[currentPos-1] || {}
 
     const defaultButtonText = currentPos === totalSteps ? "Finish" : "Next"
-    const buttonText = currentPos.buttonText || defaultButtonText
+    const buttonText = currentStep.buttonText || defaultButtonText
     return html`
       <div class="stepper">
         ${this.orderSteps()}
