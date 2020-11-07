@@ -7,11 +7,12 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 /**
  * @name UnityStepper
  * @param {[]} steps, the steps to be tracked, string of step name to be rendered or obj{name, key(opt), buttonText(opt)}, buttonText defaults to Next/Finish
+ * @param {number} totalSteps, total number of steps, not needed if given steps
+ * @param {number} currentStep, override the current step to the one given, should be used carefully
  * @param {bool} valid, if the current step is valid, enables next button
  * @param {bool} hideButton, flag for having no button
- * @param {func} onChangeStep, the callback to return the current step
  * @param {bool} backtrack, controls if the user can backtrack through the steps
- * @param {number} currentStep, override the current step to the one given, should be used carefully
+ * @param {func} onChangeStep, the callback to return the current step
  * @example
  * <unity-stepper
  *   .onChaneStep="${step => reportStep(step)}"
@@ -43,6 +44,7 @@ class UnityStepper extends LitElement {
     super()
 
     this._steps = undefined
+    this.totalSteps = 0
     this.valid = false
     this.hideButton = false
     this.backtrack = false
@@ -53,6 +55,7 @@ class UnityStepper extends LitElement {
   static get properties() {
     return {
       steps: { type: Array },
+      totalSteps: { type: Number },
       valid: { type: Boolean },
       hideButton: { type: Boolean },
       backtrack: { type: Boolean },
@@ -63,8 +66,13 @@ class UnityStepper extends LitElement {
 
   checkCurrentStep(value) {
     const oldValue = this._currentStep
+    const {
+      steps,
+      totalSteps: givenSteps
+    } = this
+    const totalSteps = steps.length < givenSteps ? givenSteps : steps.length
     if (value < 1) this._currentStep = 1
-    else if (value > this.steps.length) this._currentStep = this.steps.length
+    else if (value > totalSteps) this._currentStep = totalSteps
     else this._currentStep = value
     this.requestUpdate('currentStep', oldValue)
   }
@@ -111,9 +119,11 @@ class UnityStepper extends LitElement {
         @click="${(done && backtrack) ? ()=>this.advance(pos) : ()=>{}}"
       >
         <div class="bubble">${icon}</div>
-        <unity-typography class="step-name">
-          ${name}
-        </unity-typography>
+        ${!name ? null : html`
+          <unity-typography class="step-name">
+            ${name}
+          </unity-typography>
+        `}
       </div>
     `
   }
@@ -126,18 +136,30 @@ class UnityStepper extends LitElement {
   orderSteps() {
     const {
       steps,
+      totalSteps: givenSteps,
       currentStep,
       valid
     } = this
 
+    const totalSteps = steps.length < givenSteps ? givenSteps : steps.length
     let renderedSteps = []
 
     steps.forEach((step, pos, list) => {
       const stepToRender = typeof step === 'string' ? {name: step} : step
       renderedSteps.push(this.createStep({...stepToRender, pos: pos+1}))
-      if (pos < list.length - 1)
+      if (pos < totalSteps - 1)
         renderedSteps.push(this.createBar())
     })
+
+    const emptySteps = totalSteps - steps.length
+
+    if (emptySteps > 0) {
+      for (let i = 1; i <= emptySteps; i++) {
+        renderedSteps.push(this.createStep({pos: steps.length+i}))
+        if (i < emptySteps - 1)
+          renderedSteps.push(this.createBar())
+      }
+    }
 
     return renderedSteps
   }
@@ -145,6 +167,7 @@ class UnityStepper extends LitElement {
   advance(targetStep) {
     const {
       steps,
+      totalSteps,
       currentStep
     } = this
     this.currentStep = typeof targetStep === 'number' ? targetStep : currentStep + 1
@@ -154,15 +177,18 @@ class UnityStepper extends LitElement {
   render() {
     const {
       steps,
-      currentStep,
+      totalSteps,
+      currentStep: currentPos,
       hideButton,
       valid
     } = this
 
-    if (!steps) return
+    if (!steps && !totalSteps) return
 
-    const defaultButtonText = currentStep === steps.length ? "Finish" : "Next"
-    const buttonText = steps[currentStep-1].buttonText || defaultButtonText
+    const currentStep = steps[currentPos-1] || {}
+
+    const defaultButtonText = currentPos === steps.length ? "Finish" : "Next"
+    const buttonText = currentPos.buttonText || defaultButtonText
     return html`
       <div class="stepper">
         ${this.orderSteps()}
@@ -258,7 +284,7 @@ class UnityStepper extends LitElement {
         .bar{}
         unity-button {
           flex: 0;
-          margin-left: var(--padding-size-sm, var(--default-padding-size-sm));
+          margin-left: var(--padding-size-xl, var(--default-padding-size-xl));
         }
         hr {
           flex: 1;
