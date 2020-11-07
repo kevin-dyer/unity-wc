@@ -27,6 +27,7 @@ const stepList = [
 
 export const Standard = () => {
   const steps = object("Step List", stepList)
+  const totalSteps = number("Total Steps", 5)
   const valid = boolean("Step Valid", false)
   const hideButton = boolean("Hide Button", false)
   const backtrack = boolean("Allow Backtrack", false)
@@ -35,6 +36,7 @@ export const Standard = () => {
   return html`
     <unity-stepper
       .steps="${steps}"
+      .totalSteps="${totalSteps}"
       .valid="${valid}"
       .hideButton="${hideButton}"
       .backtrack="${backtrack}"
