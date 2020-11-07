@@ -42,6 +42,29 @@ describe ('unity-stepper', () => {
     expect(stepName.innerText).to.equal(stepthree)
   })
 
+  it('should render for steps given', async () => {
+    const stepsToTest = [stepzero, testStepOne, testStepTwo, testStepThree]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}"></unity-stepper>`)
+    const steps = el.shadowRoot.querySelectorAll("div.stepper div.step")
+    expect(steps.length).to.equal(stepsToTest.length)
+
+    let stepName = steps[0].querySelector("div.step unity-typography.step-name")
+    expect(stepName.innerText).to.equal(stepzero)
+    stepName = steps[1].querySelector("div.step unity-typography.step-name")
+    expect(stepName.innerText).to.equal(stepone)
+    stepName = steps[2].querySelector("div.step unity-typography.step-name")
+    expect(stepName.innerText).to.equal(steptwo)
+    stepName = steps[3].querySelector("div.step unity-typography.step-name")
+    expect(stepName.innerText).to.equal(stepthree)
+  })
+
+  it('should render for given totalSteps', async () => {
+    const totalSteps = 5
+    const el = await fixture(html`<unity-stepper .totalSteps="${totalSteps}"></unity-stepper>`)
+    const steps = el.shadowRoot.querySelectorAll("div.stepper div.step")
+    expect(steps.length).to.equal(totalSteps)
+  })
+
   it('should render one less hr than step', async () => {
     const stepsToTest = [stepzero, testStepOne, testStepTwo, testStepThree]
     const el = await fixture(html`<unity-stepper .steps="${stepsToTest}"></unity-stepper>`)
