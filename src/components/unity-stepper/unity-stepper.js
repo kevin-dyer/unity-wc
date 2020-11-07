@@ -135,7 +135,7 @@ class UnityStepper extends LitElement {
   // this will order the bubbles and make the lines
   orderSteps() {
     const {
-      steps,
+      steps=[],
       totalSteps: givenSteps,
       currentStep,
       valid
@@ -156,7 +156,7 @@ class UnityStepper extends LitElement {
     if (emptySteps > 0) {
       for (let i = 1; i <= emptySteps; i++) {
         renderedSteps.push(this.createStep({pos: steps.length+i}))
-        if (i < emptySteps - 1)
+        if (i < emptySteps)
           renderedSteps.push(this.createBar())
       }
     }
@@ -176,18 +176,19 @@ class UnityStepper extends LitElement {
 
   render() {
     const {
-      steps,
-      totalSteps,
+      steps=[],
+      totalSteps: givenSteps,
       currentStep: currentPos,
       hideButton,
       valid
     } = this
 
-    if (!steps && !totalSteps) return
+    if (!steps.length && !givenSteps) return
 
+    const totalSteps = steps.length < givenSteps ? givenSteps : steps.length
     const currentStep = steps[currentPos-1] || {}
 
-    const defaultButtonText = currentPos === steps.length ? "Finish" : "Next"
+    const defaultButtonText = currentPos === totalSteps ? "Finish" : "Next"
     const buttonText = currentPos.buttonText || defaultButtonText
     return html`
       <div class="stepper">
