@@ -15,7 +15,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
  * @param {func} onChangeStep, the callback to return the current step
  * @example
  * <unity-stepper
- *   .onChaneStep="${step => reportStep(step)}"
+ *   .onChangeStep="${step => reportStep(step)}"
  *   .valid="${formValid}"
  *   .textSeed="${[
  *     {name: 'Step 1', buttonText: "Authorize"},
@@ -70,7 +70,7 @@ class UnityStepper extends LitElement {
       steps,
       totalSteps: givenSteps
     } = this
-    const totalSteps = steps.length < givenSteps ? givenSteps : steps.length
+    const totalSteps = Math.max(steps.length, givenSteps)
     if (value < 1) this._currentStep = 1
     else if (value > totalSteps) this._currentStep = totalSteps
     else this._currentStep = value
@@ -185,7 +185,7 @@ class UnityStepper extends LitElement {
 
     if (!steps.length && !givenSteps) return
 
-    const totalSteps = steps.length < givenSteps ? givenSteps : steps.length
+    const totalSteps = Math.max(steps.length, givenSteps)
     const currentStep = steps[currentPos-1] || {}
 
     const defaultButtonText = currentPos === totalSteps ? "Finish" : "Next"
