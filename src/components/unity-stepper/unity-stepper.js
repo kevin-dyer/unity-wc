@@ -195,11 +195,13 @@ class UnityStepper extends LitElement {
         ${this.orderSteps()}
       </div>
       ${hideButton ? null : html`
-        <unity-button
-          ?disabled="${!valid || null}"
-          label="${buttonText}"
-          @click="${this.advance}"
-        ></unity-button>
+        <div class="button-box">
+          <unity-button
+            ?disabled="${!valid || null}"
+            label="${buttonText}"
+            @click="${this.advance}"
+          ></unity-button>
+        </div>
       `}
     `
   }
@@ -216,6 +218,7 @@ class UnityStepper extends LitElement {
           --default-unity-stepper-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           --default-unity-stepper-step-icon-color: var(--white-color, var(--default-white-color));
           --default-unity-stepper-step-size: 24px;
+          --default-unity-stepper-button-min-width: 85px;
           --step-icon-size: calc(var(--default-unity-stepper-step-size, var(--default-unity-stepper-step-size)) * 5 / 6);
 
           --bubble-margin: calc(var(--padding-size-sm, var(--default-padding-size-sm)) / 2);
@@ -253,7 +256,28 @@ class UnityStepper extends LitElement {
         }
         .step.active unity-typography.step-name {
           --font-weight: var(--bold-text-weight, var(--default-bold-text-weight));
+          text-align: center;
         }
+
+        .step.active unity-typography.step-name::before {
+          display: block;
+          content: attr(title);
+          font-weight: bold;
+          height: 0;
+          overflow: hidden;
+          visibility: hidden;
+          text-align: center;
+        }
+        .step.active unity-typography.step-name::after {
+          display: block;
+          content: attr(title);
+          font-weight: bold;
+          height: 0;
+          overflow: hidden;
+          visibility: hidden;
+          text-align: center;
+        }
+
         .step .bubble {
           color: var(--unity-stepper-step-icon-color, var(--default-unity-stepper-step-icon-color));
           background-color: var(--unity-stepper-step-inactive-color, var(--default-unity-stepper-step-inactive-color));
@@ -283,9 +307,13 @@ class UnityStepper extends LitElement {
           flex: 0;
         }
         .bar{}
+        div.button-box {
+          margin-left: var(--padding-size-xl, var(--default-padding-size-xl));
+          min-width: var(--unity-stepper-button-min-width, var(--default-unity-stepper-button-min-width));
+          text-align: center;
+        }
         unity-button {
           flex: 0;
-          margin-left: var(--padding-size-xl, var(--default-padding-size-xl));
         }
         hr {
           flex: 1;
