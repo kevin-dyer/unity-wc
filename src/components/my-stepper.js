@@ -9,8 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import './unity-stepper/unity-stepper.js'
-// import '@bit/smartworks.unity.unity-core/unity-stepper'
+// import './unity-stepper/unity-stepper.js'
+import '@bit/smartworks.unity.unity-core/unity-stepper'
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
