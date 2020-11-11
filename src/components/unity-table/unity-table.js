@@ -196,7 +196,7 @@ class UnityTable extends LitElement {
     // this.controls = false
     // this.onSearchFilter = ()=>{}
     // this.onColumnSort = ()=>{}
-    this.onEndReached = ()=>{}
+    this.onEndReached = async ()=>{}
     this._onColumnChange = ()=>{}
 
     // defaults of internal references
@@ -367,25 +367,19 @@ class UnityTable extends LitElement {
     }
   }
 
-  handleLowerThreshold(e) {
+  async handleLowerThreshold(e) {
+    if(typeof this.onEndReached === 'function') await this.onEndReached()
+
     const dataLength = this._flattenedData.length
     const maxOffset = Math.max((dataLength - this._visibleRowCount), 0) //Ensure that this is never negative, even if dataLength < this.visibleRowCount
     const nextOffset = this._rowOffset + this._visibleRowCount
 
     this._rowOffset = Math.min(maxOffset, nextOffset)
 
-    if ((nextOffset + this._visibleRowCount) >= dataLength && typeof this.onEndReached === 'function') {
-      //NOTE: this is throttled via END_REACHED_TIMEOUT
-      this.onEndReached()
-
-      setTimeout(() => {
-        this.tableRef && this.tableRef.clearTriggers()
-      }, END_REACHED_TIMEOUT)
-    } else {
-      setTimeout(() => {
-        this.tableRef && this.tableRef.clearTriggers()
-      }, THRESHOLD_TIMEOUT);
-    }
+    //NOTE: this is throttled via END_REACHED_TIMEOUT
+    setTimeout(() => {
+      this.tableRef && this.tableRef.clearTriggers()
+    }, END_REACHED_TIMEOUT)
   }
 
   //NOTE: this should only be fired when at the very top
