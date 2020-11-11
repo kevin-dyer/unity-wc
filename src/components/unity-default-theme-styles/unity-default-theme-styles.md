@@ -2,8 +2,11 @@
 
 ## Changelog:
 
+### v1.3.3
+- add new needed styles, new dark grey, specific bold weight
+
 ### v1.3.2
--- add unity-checkbox styles
+- add unity-checkbox styles
 
 ### v1.3.1
 - revert font changes
