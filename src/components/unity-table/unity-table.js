@@ -30,6 +30,7 @@ import {
  * @param {bool} startExpanded, controls if the table data begins as expanded (true) or collapsed (false / default)
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
+ * @param {bool} fixedColumns, controls if the columns should have fixed witdth instead of being resizable
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
@@ -110,6 +111,7 @@ import {
 //   onSelectionChange:      callback function, recieves selected array when it changes
 //   emptyDisplay:           String to display when data array is empty
 //   isLoading:              Boolean to show spinner instead of table
+//   fixedColumns:           controls if the columns should have fixed witdth instead of being resizable
 //   keyExtractor         :  Function to define a unique key on each data element
 //   slotIdExtractor      :  Function to define a unique slot name for each table cell. Used for adding custom content to specific table cells.
 //   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
@@ -175,6 +177,7 @@ class UnityTable extends LitElement {
     this.compact = false
     this.startExpanded = false
     this.isLoading = false
+    this.fixedColumns = false
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
@@ -296,6 +299,7 @@ class UnityTable extends LitElement {
       onHighlight: { type: Function },
       highlightedRow: { type: String },
       startExpanded: { type: Boolean },
+      fixedColumns: { type: Boolean },
       // internals, tracking for change
       _allSelected: { type: Boolean },
       _rowOffset: { type: Number },
@@ -1000,7 +1004,7 @@ class UnityTable extends LitElement {
                 style="width: ${width};"
               >
                 <table-cell-base
-                  .resizable=${i < columns.length - 1}
+                  .resizable=${!this.fixedColumns && i < columns.length - 1}
                   .onResizeStart="${() => {
                     this._handleColumnResizeStart(key, i)
                   }}"
