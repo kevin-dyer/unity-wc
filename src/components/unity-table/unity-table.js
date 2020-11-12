@@ -31,6 +31,7 @@ import {
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
  * @param {bool} fixedColumns, controls if the columns should have fixed witdth instead of being resizable
+ * @param {bool} hideFilterIcons, hides icons for column filtering
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
@@ -112,6 +113,7 @@ import {
 //   emptyDisplay:           String to display when data array is empty
 //   isLoading:              Boolean to show spinner instead of table
 //   fixedColumns:           controls if the columns should have fixed witdth instead of being resizable
+//   hideFilterIcons:        hides icons for column filtering
 //   keyExtractor         :  Function to define a unique key on each data element
 //   slotIdExtractor      :  Function to define a unique slot name for each table cell. Used for adding custom content to specific table cells.
 //   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
@@ -178,6 +180,7 @@ class UnityTable extends LitElement {
     this.startExpanded = false
     this.isLoading = false
     this.fixedColumns = false
+    this.hideFilterIcons = false
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
@@ -300,6 +303,7 @@ class UnityTable extends LitElement {
       highlightedRow: { type: String },
       startExpanded: { type: Boolean },
       fixedColumns: { type: Boolean },
+      hideFilterIcons: { type: Boolean },
       // internals, tracking for change
       _allSelected: { type: Boolean },
       _rowOffset: { type: Number },
@@ -1029,11 +1033,13 @@ class UnityTable extends LitElement {
                         @click="${()=>{this.sortBy = key}}"
                       ><b>${label || name}</b></span>
 
-                      <filter-dropdown
-                        .onValueChange="${this.dropdownValueChange(key)}"
-                        .options=${this.getDropdownOptions(key)}
-                        .selected=${this.getSelected(key)}>
-                      </filter-dropdown>
+                      ${!this.hideFilterIcons?
+                        html`<filter-dropdown
+                          .onValueChange="${this.dropdownValueChange(key)}"
+                          .options=${this.getDropdownOptions(key)}
+                          .selected=${this.getSelected(key)}>
+                        </filter-dropdown>` : null
+                      }
 
                       ${isColSorted
                         ? html`<paper-icon-button
