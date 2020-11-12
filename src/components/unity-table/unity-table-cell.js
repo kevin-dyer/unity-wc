@@ -64,7 +64,7 @@ class UnityTableCell extends LitElement {
     this.tabIndex = 0
     this.expandable = false
     this.expanded = false
-    this.resizeable = false
+    this.resizable = false
 
     this.onSelect = ()=>{}
     this.onExpand = ()=>{}
