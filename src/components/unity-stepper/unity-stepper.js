@@ -106,11 +106,12 @@ class UnityStepper extends LitElement {
   createStep({name, key, pos}) {
     const {
       currentStep,
-      backtrack
+      backtrack,
+      valid
     } = this
     const active = currentStep === pos
     const done = currentStep > pos
-    const icon = currentStep > pos ?
+    const icon = ((currentStep > pos) || (active && valid)) ?
       html`<unity-icon class="icon" icon="unity:check"></unity-icon>` :
       html`<unity-typography>${pos}</unity-typography>`
     return html`

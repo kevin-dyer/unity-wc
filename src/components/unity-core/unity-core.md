@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.7.44
+- unity-stepper v1.0.1
+
 ### v1.7.43
 - unity-stepper v1.0.0
 
