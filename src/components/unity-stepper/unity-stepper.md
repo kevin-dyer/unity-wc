@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.2
+- check step instanceof Object if step is not a string
+
 ### v1.0.1
 - change current step icon to check when valid
 

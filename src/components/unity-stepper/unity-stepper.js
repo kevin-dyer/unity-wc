@@ -88,7 +88,7 @@ class UnityStepper extends LitElement {
     const oldValue = this._steps
     // check if all steps are valid
     // if step is not a string and not an object with a name field, then it's invalid
-    const valid = value.reduce((valid, step) => !valid ? false : typeof step === 'string' || step.name, true)
+    const valid = value.reduce((valid, step) => !valid ? false : typeof step === 'string' || step instanceof Object, true)
     if (valid) {
       this._steps = value
       // check currentStep
