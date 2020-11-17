@@ -30,7 +30,7 @@ import {
  * @param {bool} startExpanded, controls if the table data begins as expanded (true) or collapsed (false / default)
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
- * @param {bool} fixedColumns, controls if the columns should have fixed witdth instead of being resizable
+ * @param {bool} disableColumnResize, controls if column resize should be disabled
  * @param {bool} hideFilterIcons, hides icons for column filtering
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
@@ -112,7 +112,7 @@ import {
 //   onSelectionChange:      callback function, recieves selected array when it changes
 //   emptyDisplay:           String to display when data array is empty
 //   isLoading:              Boolean to show spinner instead of table
-//   fixedColumns:           controls if the columns should have fixed witdth instead of being resizable
+//   disableColumnResize:    controls if column resize should be disabled
 //   hideFilterIcons:        hides icons for column filtering
 //   keyExtractor         :  Function to define a unique key on each data element
 //   slotIdExtractor      :  Function to define a unique slot name for each table cell. Used for adding custom content to specific table cells.
@@ -179,7 +179,7 @@ class UnityTable extends LitElement {
     this.compact = false
     this.startExpanded = false
     this.isLoading = false
-    this.fixedColumns = false
+    this.disableColumnResize = false
     this.hideFilterIcons = false
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
@@ -302,7 +302,7 @@ class UnityTable extends LitElement {
       onHighlight: { type: Function },
       highlightedRow: { type: String },
       startExpanded: { type: Boolean },
-      fixedColumns: { type: Boolean },
+      disableColumnResize: { type: Boolean },
       hideFilterIcons: { type: Boolean },
       // internals, tracking for change
       _allSelected: { type: Boolean },
@@ -1008,7 +1008,7 @@ class UnityTable extends LitElement {
                 style="width: ${width};"
               >
                 <table-cell-base
-                  .resizable=${!this.fixedColumns && i < columns.length - 1}
+                  .resizable=${!this.disableColumnResize && i < columns.length - 1}
                   .onResizeStart="${() => {
                     this._handleColumnResizeStart(key, i)
                   }}"
