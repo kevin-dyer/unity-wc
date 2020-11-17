@@ -73,7 +73,9 @@ import {
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
-*         formatLabel: (colValue, datum) => `Building: ${colValue}`
+ *        formatLabel: (colValue, datum) => `Building: ${colValue}`
+ *        width: 50,
+ *        centered: true
  *      },
  *      {
  *        key: 'columnN',
@@ -986,7 +988,8 @@ class UnityTable extends LitElement {
           ${columns.map(({
             key,
             label,
-            width: rootWidth=0
+            width: rootWidth=0,
+            centered=false
           }, i) => {
             const isColSorted = column === key && direction !== UNS
             const sortIcon = isColSorted ? getSortedIcon(direction) : 'unity:sort'
@@ -1019,7 +1022,7 @@ class UnityTable extends LitElement {
                     this._handleColumnResizeComplete(key)
                   }}"
                 >
-                  <div class="header">
+                  <div class="header ${centered?'centered':''}">
                     ${this.selectable && i === 0
                       ? html`
                         <unity-checkbox
@@ -1029,7 +1032,7 @@ class UnityTable extends LitElement {
                     }
                     <div class="header-content">
                       <span
-                        class="header-label"
+                        class="header-label ${centered?'centered':''}"
                         @click="${()=>{this.sortBy = key}}"
                       ><b>${label || name}</b></span>
 
@@ -1477,6 +1480,9 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           border-bottom: 1px solid var(--separator-color);
         }
+        .header.centered {
+          padding-left: 0;
+        }
         tr {
           width: 100%;
           table-layout: fixed;
@@ -1508,6 +1514,9 @@ class UnityTable extends LitElement {
           overflow: hidden;
           text-overflow: ellipsis;
           cursor: pointer;
+        }
+        .header-label.centered {
+          margin: auto;
         }
         unity-checkbox {
           margin-right: var(--margin-medium);
