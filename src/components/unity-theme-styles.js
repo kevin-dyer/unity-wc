@@ -10,6 +10,7 @@ export const UnityThemeStyles = css`
     --black-rgb: 0, 0, 0;                   /* #000000 */
     --white-rgb: 255, 255, 255;             /* #FFFFFF */
     --charcoal-rgb: 77, 77, 77;             /* #4D4D4D */
+    --dark-gray-rgb: 151, 151, 151;         /* #979797 */
     --gray-rgb: 162, 170, 173;              /* #A2AAAD */
     --light-gray-1-rgb: 235, 235, 235;      /* #EBEBEB */
     --light-gray-2-rgb: 244, 244, 244;      /* #F4F4F4 */
@@ -36,6 +37,9 @@ export const UnityThemeStyles = css`
 
     /* dark grey, text default */
     --dark-gray-color: rgb(var(--charcoal-rgb));
+
+    /* dark grey 2 */
+    --dark-gray-2-color: rgb(var(--dark-gray-rgb));
 
     /* normal gray, border default, disabled text */
     --gray-color: rgb(var(--gray-rgb));
@@ -124,6 +128,8 @@ export const UnityThemeStyles = css`
 
     --small-text-selected-size: 10px;
     --small-text-selected-weight: 600;
+
+    --bold-text-weight: 600;
 
     --medium-icon-size: 18px;
     --small-icon-size: 14px;
