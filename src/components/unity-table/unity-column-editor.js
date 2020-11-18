@@ -1,11 +1,11 @@
 import { LitElement, html, css } from 'lit-element'
-import '@polymer/paper-checkbox/paper-checkbox.js'
 import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/iron-icons/iron-icons.js'
 import Sortable from 'sortablejs/modular/sortable.core.esm.js' // Core SortableJS (without default plugins)
 import '@bit/smartworks.unity.unity-button'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-modal'
+import '@bit/smartworks.unity.unity-checkbox'
 
 /**
  * Displays button which will open column editor modal.
@@ -204,11 +204,10 @@ class UnityColumnEditor extends LitElement {
     return html`
       <div class="row" data-id="${col.key}">
         <div class="checkbox-container">
-          <paper-checkbox
-            noink
+          <unity-checkbox
             .checked="${isSelected}"
-            @click="${e => this.handleColumnCheck(col)}"
-          ></paper-checkbox>
+            .onChange="${(e, v) => this.handleColumnCheck(col)}"
+          ></unity-checkbox>
         </div>
 
         <div class="column-content">
@@ -294,11 +293,10 @@ class UnityColumnEditor extends LitElement {
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
           font-weight: var(--paragraph-font-weight, var(--default-paragraph-font-weight));
           color: var(--black-text-color, var(--default-black-text-color));
-          --paper-checkbox-size: 14px;
-          --paper-checkbox-unchecked-color: var(--medium-grey-background-color, var(--default-medium-grey-background-color));
-          --paper-checkbox-checked-color: var(--primary-color, var(--default-primary-color));
-          --paper-checkbox-unchecked-ink-color: rgba(0,0,0,0);
-          --paper-checkbox-checked-ink-color: rgba(0,0,0,0);
+        }
+
+        unity-checkbox {
+          --unity-checkbox-size: 14px;
         }
 
         paper-dialog {

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.19
+- update filter button to primary color when not-all options are included
+
 ### v1.0.17
 - update to unity-checkbox
 

@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.7.42
+- unity-column-editor v1.1.9
+
+### v1.7.41
+- unity-table v1.0.19
+
 ### v1.7.37
 - unity-global-nav-top-item v1.2.1
 - unity-global-nav-inner-item- v1.3.1
