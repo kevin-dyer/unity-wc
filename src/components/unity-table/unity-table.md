@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.1.0
+- add `disableColumnResize` and `hideFilterIcons` properties
+- allow centering a column's header by setting the `centered` property to `true` for that column
+
 ### v1.0.19
 - update filter button to primary color when not-all options are included
 
