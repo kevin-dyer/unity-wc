@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.9
+- fix `resizable` property name
+
 ### v1.0.8
 - update to unity-checkbox
 

@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+### v1.7.46
+- unity-table-cell v1.0.9
+- unity-table v1.1.0
+
 ### v1.7.45
 - unity-stepper v1.0.2
 

@@ -30,6 +30,8 @@ import {
  * @param {bool} startExpanded, controls if the table data begins as expanded (true) or collapsed (false / default)
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
+ * @param {bool} disableColumnResize, controls if column resize should be disabled
+ * @param {bool} hideFilterIcons, hides icons for column filtering
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
@@ -71,7 +73,9 @@ import {
  *      {
  *        key: 'column2',
  *        label: 'Column #2'
-*         formatLabel: (colValue, datum) => `Building: ${colValue}`
+ *        formatLabel: (colValue, datum) => `Building: ${colValue}`
+ *        width: 50,
+ *        centered: true
  *      },
  *      {
  *        key: 'columnN',
@@ -110,6 +114,8 @@ import {
 //   onSelectionChange:      callback function, recieves selected array when it changes
 //   emptyDisplay:           String to display when data array is empty
 //   isLoading:              Boolean to show spinner instead of table
+//   disableColumnResize:    controls if column resize should be disabled
+//   hideFilterIcons:        hides icons for column filtering
 //   keyExtractor         :  Function to define a unique key on each data element
 //   slotIdExtractor      :  Function to define a unique slot name for each table cell. Used for adding custom content to specific table cells.
 //   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
@@ -175,6 +181,8 @@ class UnityTable extends LitElement {
     this.compact = false
     this.startExpanded = false
     this.isLoading = false
+    this.disableColumnResize = false
+    this.hideFilterIcons = false
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
@@ -296,6 +304,8 @@ class UnityTable extends LitElement {
       onHighlight: { type: Function },
       highlightedRow: { type: String },
       startExpanded: { type: Boolean },
+      disableColumnResize: { type: Boolean },
+      hideFilterIcons: { type: Boolean },
       // internals, tracking for change
       _allSelected: { type: Boolean },
       _rowOffset: { type: Number },
@@ -978,7 +988,8 @@ class UnityTable extends LitElement {
           ${columns.map(({
             key,
             label,
-            width: rootWidth=0
+            width: rootWidth=0,
+            centered=false
           }, i) => {
             const isColSorted = column === key && direction !== UNS
             const sortIcon = isColSorted ? getSortedIcon(direction) : 'unity:sort'
@@ -1000,7 +1011,7 @@ class UnityTable extends LitElement {
                 style="width: ${width};"
               >
                 <table-cell-base
-                  .resizable=${i < columns.length - 1}
+                  .resizable=${!this.disableColumnResize && i < columns.length - 1}
                   .onResizeStart="${() => {
                     this._handleColumnResizeStart(key, i)
                   }}"
@@ -1011,7 +1022,7 @@ class UnityTable extends LitElement {
                     this._handleColumnResizeComplete(key)
                   }}"
                 >
-                  <div class="header">
+                  <div class="header ${centered?'centered':''}">
                     ${this.selectable && i === 0
                       ? html`
                         <unity-checkbox
@@ -1021,15 +1032,17 @@ class UnityTable extends LitElement {
                     }
                     <div class="header-content">
                       <span
-                        class="header-label"
+                        class="header-label ${centered?'centered':''}"
                         @click="${()=>{this.sortBy = key}}"
                       ><b>${label || name}</b></span>
 
-                      <filter-dropdown
-                        .onValueChange="${this.dropdownValueChange(key)}"
-                        .options=${this.getDropdownOptions(key)}
-                        .selected=${this.getSelected(key)}>
-                      </filter-dropdown>
+                      ${!this.hideFilterIcons?
+                        html`<filter-dropdown
+                          .onValueChange="${this.dropdownValueChange(key)}"
+                          .options=${this.getDropdownOptions(key)}
+                          .selected=${this.getSelected(key)}>
+                        </filter-dropdown>` : null
+                      }
 
                       ${isColSorted
                         ? html`<paper-icon-button
@@ -1467,6 +1480,9 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           border-bottom: 1px solid var(--separator-color);
         }
+        .header.centered {
+          padding-left: 0;
+        }
         tr {
           width: 100%;
           table-layout: fixed;
@@ -1498,6 +1514,9 @@ class UnityTable extends LitElement {
           overflow: hidden;
           text-overflow: ellipsis;
           cursor: pointer;
+        }
+        .header-label.centered {
+          margin: auto;
         }
         unity-checkbox {
           margin-right: var(--margin-medium);
