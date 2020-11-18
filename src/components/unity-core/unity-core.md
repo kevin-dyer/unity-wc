@@ -5,6 +5,15 @@
 
 ## Changelog:
 
+### v1.7.45
+- unity-stepper v1.0.2
+
+### v1.7.44
+- unity-stepper v1.0.1
+
+### v1.7.43
+- unity-stepper v1.0.0
+
 ### v1.7.42
 - unity-column-editor v1.1.9
 
