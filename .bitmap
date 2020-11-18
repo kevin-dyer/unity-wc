@@ -70,7 +70,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.7.42": {
+    "smartworks.unity/unity-core@1.7.45": {
         "files": [
             {
                 "name": "index.js",
@@ -193,6 +193,11 @@
                 "test": false
             },
             {
+                "name": "unity-stepper.js",
+                "relativePath": "src/components/unity-core/unity-stepper.js",
+                "test": false
+            },
+            {
                 "name": "unity-table-cell.js",
                 "relativePath": "src/components/unity-core/unity-table-cell.js",
                 "test": false
@@ -243,7 +248,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-default-theme-styles@1.3.2": {
+    "smartworks.unity/unity-default-theme-styles@1.3.3": {
         "files": [
             {
                 "name": "unity-default-theme-styles.js",
