@@ -5,6 +5,11 @@
 
 ## Changelog:
 
+### v1.7.47
+Add ids to global nav items:
+- unity-global-nav-base v1.3.3
+- unity-global-nav-top-item v1.2.3
+
 ### v1.7.46
 - unity-table-cell v1.0.9
 - unity-table v1.1.0

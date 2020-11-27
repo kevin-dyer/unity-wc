@@ -165,6 +165,7 @@ class UnityGlobalNavTopItem extends LitElement {
         </div>
         ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled, style}) => html`
         <unity-global-nav-inner-item
+          id="${key}"
           .key="${key}"
           .onSelect="${onSelect}"
           .label="${label}"

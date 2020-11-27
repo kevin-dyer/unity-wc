@@ -113,6 +113,7 @@ class UnityGlobalNavBase extends LitElement {
 
       return html`
         <unity-global-nav-top-item
+          id="${key}"
           .key="${key}"
           .onSelect="${this._itemClicked}"
           .label="${label}"
