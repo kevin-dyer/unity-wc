@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.3
+- Add id to internal nav items
+
 ### v1.3.1
 - Fixed wrong version of unity-global-nav
 
