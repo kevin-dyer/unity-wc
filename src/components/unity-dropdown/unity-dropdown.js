@@ -17,6 +17,7 @@ import * as strings from './strings'
 * @fileOverview A dropdown select input web component
 * @param {Boolean} [autofocus], focus input on load (only for boxType=search)
 * @param {Boolean} [disabled], controls if field is enabled/disabled, defaults: false (enabled)
+* @param {Boolean} [expanded], controls the expanded/collapsed state of the dropdown
 * @param {Boolean} [important], if the button should follow important styles, only works with buttons
 * @param {Boolean} [rightAlign], if the dropdown box should be aligned to the right
 * @param {Boolean} [searchBox], when expanded, include a search box that highlights the searched text
@@ -360,7 +361,7 @@ class UnityDropdown extends LitElement {
     this.onMenuClick = () => {}
     this.onValueChange = () => {}
     
-    this._collapsed = true
+    this._expanded = false
 
     this._searchValue = ""
     
@@ -368,7 +369,7 @@ class UnityDropdown extends LitElement {
     this._selected = []
     this._visibleOptions = []
     
-    this._dropdown = () => this.toggleCollapse()
+    this._dropdown = () => this.toggleShowDropdown()
     this._changeValue = (id) => () => {this.changeSelected(id)}
     this._onInputSearchChange = (e) => {this.updateSearchValue(e.target.value)}
     
@@ -377,14 +378,14 @@ class UnityDropdown extends LitElement {
   clickedMenu(index) {
     this._searchValue = ""
     this.onMenuClick(index)
-    this.toggleCollapse()
+    this.toggleShowDropdown()
   }
 
   static get properties() {
     return {
       autofocus: { type: Boolean },
-      collapsed: { type: Boolean },
       disabled: { type: Boolean },
+      expanded: { type: Boolean },
       important: { type: Boolean },
       rightAlign: { type: Boolean },
       searchBox: { type: Boolean },
@@ -439,6 +440,15 @@ class UnityDropdown extends LitElement {
 
   get options() { return this._options }
 
+  set expanded(value) {
+    if (this._expanded !== value) {
+      const oldValue = this._expanded
+      this._expanded = value
+      this.requestUpdate('expanded', oldValue)
+    }
+  }
+
+  get expanded() { return this._expanded}
 
   // takes the list of selected ids and parses out invalids
   // keeps only one if single-select
@@ -497,7 +507,7 @@ class UnityDropdown extends LitElement {
    * @param {String} id
    */
   handleSingleSelect(id) {
-    this.collapsed = true
+    this.expanded = false
     const newSelected = this.selected[0] === id ? [] : [id]
     this.onValueChange(newSelected[0])
     return newSelected
@@ -538,12 +548,12 @@ class UnityDropdown extends LitElement {
 
 
   collapse() {
-    this.collapsed = true
+    this.expanded = false
   }
 
-  toggleCollapse() {
+  toggleShowDropdown() {
     if(!this.disabled){
-      this.collapsed = !this.collapsed
+      this.expanded = !this.expanded
     }
   }
 
@@ -681,7 +691,7 @@ class UnityDropdown extends LitElement {
       placeholder,
       inputType,
       _dropdown,
-      collapsed,
+      expanded,
     } = this
     const anySelected = selected.length > 0
     let label, icon
@@ -695,6 +705,8 @@ class UnityDropdown extends LitElement {
     }
     const isMulti = inputType === INPUT_TYPE_MULTI_SELECT
     const isButton = boxType === BOX_TYPE_PRIMARY || boxType === BOX_TYPE_SECONDARY || boxType === BOX_TYPE_BORDERLESS
+
+    const arrowIcon = !expanded ? "unity:down_chevron" : "unity:up_chevron"
     if (boxType === BOX_TYPE_FIXED) {
       return html`
           <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
@@ -725,7 +737,7 @@ class UnityDropdown extends LitElement {
                 </p>`}
             </div>
             <div class="icon-right-wrapper chevron">
-              <iron-icon class="inner-icon" icon="${collapsed ? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
+              <iron-icon class="inner-icon" icon="${arrowIcon}"></iron-icon>
             </div>
           </div>
         </div>`
@@ -744,7 +756,7 @@ class UnityDropdown extends LitElement {
             >
           </unity-text-input>
           <div class="icon-right-wrapper chevron" @click="${_dropdown}">
-            <iron-icon class="inner-icon" icon="${collapsed ? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
+            <iron-icon class="inner-icon" icon="${arrowIcon}"></iron-icon>
           </div>
         </div>
         `
@@ -755,7 +767,7 @@ class UnityDropdown extends LitElement {
         <unity-button
           class="dropdown-button"
           label="${label || placeholder}"
-          rightIcon="${collapsed ? "unity:down_chevron" : "unity:up_chevron"}"
+          rightIcon="${arrowIcon}"
           type="${boxType.slice(7)}"
           ?important="${important || null}"
           ?disabled=${disabled}
@@ -774,7 +786,7 @@ class UnityDropdown extends LitElement {
             ${label || placeholder}
           </div>
           <div class="icon-right-wrapper chevron">
-            <iron-icon class="inner-icon" icon="${collapsed ? "unity:down_chevron" : "unity:up_chevron"}"></iron-icon>
+            <iron-icon class="inner-icon" icon="${arrowIcon}"></iron-icon>
           </div>
         </div>`
     }
@@ -786,7 +798,7 @@ class UnityDropdown extends LitElement {
    */
   getMenuClass() {
     let className = "dropdown-menu"
-    if(!this.collapsed && (this.boxType === BOX_TYPE_LABEL || this.boxType === BOX_TYPE_SEARCH)) {
+    if(this.expanded && (this.boxType === BOX_TYPE_LABEL || this.boxType === BOX_TYPE_SEARCH)) {
       className += " expanded" // for box shadow and border
     }
     return className
@@ -865,7 +877,7 @@ class UnityDropdown extends LitElement {
 
           ${this.getInputBox()}
 
-          ${!this.collapsed ?
+          ${this.expanded ?
             html`
               <paper-dialog .noAutoFocus="${true}" id="options-dialog" opened
                             class=${classes}
