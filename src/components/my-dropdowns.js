@@ -1,10 +1,10 @@
-import { html, css } from 'lit-element';
+import { html, css } from 'lit-element'
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-dropdown'
 import '@bit/smartworks.unity.unity-core/unity-select-menu'
 
-import { PageViewElement } from './page-view-element.js';
-import { SharedStyles } from './shared-styles.js';
+import { PageViewElement } from './page-view-element.js'
+import { SharedStyles } from './shared-styles.js'
 
 
 const dataMock = {
@@ -137,11 +137,11 @@ const dataMock = {
       }
     }
   ]
-};
+}
 
 class MyDropdowns extends PageViewElement {
   constructor() {
-    super();
+    super()
   }
 
   static get styles() {
@@ -177,11 +177,11 @@ class MyDropdowns extends PageViewElement {
           width: max-content;
         }
       `
-    ];
+    ]
   }
 
   onMenuClick(index) {
-    window.alert(`Clicked option  with index=${index}`);
+    window.alert(`Clicked option  with index=${index}`)
   }
 
   render() {
@@ -421,8 +421,8 @@ class MyDropdowns extends PageViewElement {
         </div>
 
       </div>
-    </div>`;
+    </div>`
   }
 }
 
-window.customElements.define('my-dropdowns', MyDropdowns);
+window.customElements.define('my-dropdowns', MyDropdowns)
