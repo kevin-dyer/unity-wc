@@ -12,8 +12,8 @@ import '@bit/smartworks.unity.unity-select-menu'
 import * as strings from './strings'
 
 /**
-* Renders a dropdown component that displays a list of options for selection.
-* @name UnityDropdown
+ * @name UnityDropdown
+* @description Renders a dropdown component that displays a list of options for selection.
 * @fileOverview A dropdown select input web component
 * @param {Boolean} [autofocus], focus input on load (only for boxType=search)
 * @param {Boolean} [disabled], controls if field is enabled/disabled, defaults: false (enabled)
@@ -41,6 +41,8 @@ import * as strings from './strings'
 *   searchBox=${true}
 *   helperText="Choose any option"
 * >
+*   <!-- This content will appear in a custom content slot below the list of options -->
+*   <unity-button slot="bottom-content" label="Click Me"></unity-button>
 * </unity-dropdown>
 **/
 
@@ -709,15 +711,14 @@ class UnityDropdown extends LitElement {
     const arrowIcon = !expanded ? "unity:down_chevron" : "unity:up_chevron"
     if (boxType === BOX_TYPE_FIXED) {
       return html`
-          <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
+        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
           ${(isMulti && showTags) ? this.renderTags() : null}
           <div class="input-label-div${!showTags ? " no-tags" : ""}">
             <div class="displayed-wrapper">
-                <p id="displayed">
-                  <b>${placeholder}</b>
-                </p>
+              <p id="displayed">
+                <b>${placeholder}</b>
+              </p>
             </div>
-
           </div>
         </div>`
     }
@@ -745,22 +746,20 @@ class UnityDropdown extends LitElement {
     if (boxType === BOX_TYPE_SEARCH) {
       return html`
         <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
-            <unity-text-input
-              id="search-input"
-              value="${this._searchValue}"
-              hideBorder=${true}
-              .onChange="${this._onInputSearchChange}"
-              placeholder=${placeholder}
-              .borderEffects=${false}
-              .autofocus=${this.autofocus}
-            >
-          </unity-text-input>
+          <unity-text-input
+            id="search-input"
+            value="${this._searchValue}"
+            hideBorder=${true}
+            .onChange="${this._onInputSearchChange}"
+            placeholder=${placeholder}
+            .borderEffects=${false}
+            .autofocus=${this.autofocus}
+          ></unity-text-input>
           <div class="icon-right-wrapper chevron" @click="${_dropdown}">
             <iron-icon class="inner-icon" icon="${arrowIcon}"></iron-icon>
           </div>
         </div>
-        `
-      
+      `
     }
     if (isButton) {
       return html`
@@ -788,7 +787,8 @@ class UnityDropdown extends LitElement {
           <div class="icon-right-wrapper chevron">
             <iron-icon class="inner-icon" icon="${arrowIcon}"></iron-icon>
           </div>
-        </div>`
+        </div>
+      `
     }
   }
 
@@ -815,14 +815,12 @@ class UnityDropdown extends LitElement {
             .items=${this._visibleOptions}
             .onMenuClick=${(index) => this.clickedMenu(index)}
             borderless
-          >
-          </unity-select-menu>`
-        : html`<ul id="options-list">${optionsList}</ul>`
+          ></unity-select-menu>
+        ` : html`<ul id="options-list">${optionsList}</ul>`
     )
   }
 
   renderSelectAll() {
-
     const visibleIds = this._visibleOptions.map(x => x.id)
     const select = !visibleIds.every(val => this.selected.includes(val))
 
@@ -853,13 +851,8 @@ class UnityDropdown extends LitElement {
       const intersection = boxIds.filter(x => this.selected.includes(x))
       this.onValueChange(intersection, select)
     }
-    this.selected = [...selectedSet]
+    this.selected = Array.from(selectedSet)
   }
-
-  // updateComplete() {
-  //   super.updateComplete()
-  //   this._visibleOptions = []
-  // }
 
   render() {
     let classes = ''
@@ -868,20 +861,22 @@ class UnityDropdown extends LitElement {
     return html`
       <div>
         ${!!this.label ?
-          html`<p class="label">
-            ${this.label}
-            </p>`
-          : null
+          html`
+            <p class="label">
+              ${this.label}
+            </p>
+          ` : null
         }
         <div class=${this.getMenuClass()}>
-
           ${this.getInputBox()}
-
           ${this.expanded ?
             html`
-              <paper-dialog .noAutoFocus="${true}" id="options-dialog" opened
-                            class=${classes}
-                            >
+              <paper-dialog
+                .noAutoFocus="${true}"
+                id="options-dialog"
+                opened
+                class=${classes}
+              >
                 ${this.searchBox ? this.renderSearchBox() : null}
                 ${this.inputType === INPUT_TYPE_MULTI_SELECT ? this.renderSelectAll() : null}
                 ${this.renderList()}
