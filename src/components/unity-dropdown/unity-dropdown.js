@@ -69,275 +69,275 @@ class UnityDropdown extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --dropdown-background-color: var(--background-color, var(--default-background-color))
-          --dropdown-background-color-disabled: var(--light-grey-background-color, var(--default-light-grey-background-color))
-          --dropdown-border-color: var(--gray-color, var(--default-gray-color))
-          --dropdown-border-color-disabled: var(--gray-color, var(--default-gray-color))
-          --dropdown-color: var(--primary-brand-color, var(--default-primary-brand-color))
-          --dropdown-color-dark: var(--primary-brand-color-dark, var(--default-primary-brand-color-dark))
-          --dropdown-input-font: var(--font-family, var(--default-font-family))
-          --dropdown-color-light: var(--light-gray-2-color, var(--default-light-gray-2-color))
-          --dropdown-label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color))
-          --dropdown-line-height: var(--unity-text-input-height, var(--default-unity-text-input-height))
-          --dropdown-text-color: var(--black-text-rgb, var(--default-black-text-rgb))
-          --dropdown-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size))
-          --dropdown-button-color: var(--secondary-color, var(--default-secondary-color))
-          --dropdown-button-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color))
-          --dropdown-button-font-color: var(--background-color, var(--default-background-color))
-          --default-dropdown-border-radius: 2px
-          --default-dropdown-width: 100%
-          --default-dropdown-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color))
-          --default-dropdown-search-input-padding: 0
+          --dropdown-background-color: var(--background-color, var(--default-background-color));
+          --dropdown-background-color-disabled: var(--light-grey-background-color, var(--default-light-grey-background-color));
+          --dropdown-border-color: var(--gray-color, var(--default-gray-color));
+          --dropdown-border-color-disabled: var(--gray-color, var(--default-gray-color));
+          --dropdown-color: var(--primary-brand-color, var(--default-primary-brand-color));
+          --dropdown-color-dark: var(--primary-brand-color-dark, var(--default-primary-brand-color-dark));
+          --dropdown-input-font: var(--font-family, var(--default-font-family));
+          --dropdown-color-light: var(--light-gray-2-color, var(--default-light-gray-2-color));
+          --dropdown-label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --dropdown-line-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
+          --dropdown-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
+          --dropdown-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          --dropdown-button-color: var(--secondary-color, var(--default-secondary-color));
+          --dropdown-button-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color));
+          --dropdown-button-font-color: var(--background-color, var(--default-background-color));
+          --default-dropdown-border-radius: 2px;
+          --default-dropdown-width: 100%;
+          --default-dropdown-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-dropdown-search-input-padding: 0;
 
-          font-family: var(--dropdown-input-font)
-          border-collapse: collapse
-          user-select: none
-          display: inline-block
-          width: var(--dropdown-width, var(--default-dropdown-width))
+          font-family: var(--dropdown-input-font);
+          border-collapse: collapse;
+          user-select: none;
+          display: inline-block;
+          width: var(--dropdown-width, var(--default-dropdown-width));
         }
         * {
-          -moz-box-sizing: border-box
-          -webkit-box-sizing: border-box
-          box-sizing: border-box
+          -moz-box-sizing: border-box;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
         }
         unity-checkbox.custom-checkbox {
-          --unity-checkbox-size: 14px
+          --unity-checkbox-size: 14px;
         }
         p {
-          margin-block-start: 0.5em
-          margin-block-end: 0.5em
-          padding: 0 8px
-          white-space: normal
+          margin-block-start: 0.5em;
+          margin-block-end: 0.5em;
+          padding: 0 8px;
+          white-space: normal;
         }
         .label {
-          padding: 0
-          font-size: var(--dropdown-text-size)
-          color: var(--dropdown-label-color)
+          padding: 0;
+          font-size: var(--dropdown-text-size);
+          color: var(--dropdown-label-color);
         }
         .list-element-wrapper {
-          margin: 0
+          margin: 0;
         }
         .icon-right-wrapper {
-          display: flex
-          flex: 0
-          padding-right: 8px
+          display: flex;
+          flex: 0;
+          padding-right: 8px;
         }
         .icon-right-wrapper.chevron {
-          padding-right: 4px
+          padding-right: 4px;
         }
         .icon-left-wrapper {
-          padding-left: 8px
+          padding-left: 8px;
         }
         .inner-icon {
-          max-height: 20px
-          max-width: 20px
+          max-height: 20px;
+          max-width: 20px;
         }
         .selected-icon {
-          color: var(--dropdown-color)
+          color: var(--dropdown-color);
         }
         .option-label-wrapper {
-          display: flex
-          align-items: center
+          display: flex;
+          align-items: center;
         }
         .option-label {
-          flex: 1
-          overflow: visible
-          white-space: nowrap
+          flex: 1;
+          overflow: visible;
+          white-space: nowrap;
         }
         .text-box:not(.disabled) .icon-right-wrapper {
-          cursor: pointer
+          cursor: pointer;
         }
         .selectable {
-          cursor: pointer
+          cursor: pointer;
         }
         ul{
-          padding: 0
-          margin: 0
-          list-style: none
-          overflow-y: auto
-          max-height: 330px
+          padding: 0;
+          margin: 0;
+          list-style: none;
+          overflow-y: auto;
+          max-height: 330px;
         }
         #options-dialog {
-          border: 1px solid var(--dropdown-border-color)
-          border-radius: 0 0 var(--dropdown-border-radius, var(--default-dropdown-border-radius)) var(--dropdown-border-radius, var(--default-dropdown-border-radius))
-          background-color: var(--dropdown-background-color)
-          z-index: 10
-          position: absolute
-          overflow: hidden
-          width: var(--dropdown-width, var(--default-dropdown-width))
-          box-shadow: 0px 2px 4px -1px var(--gray-color)
-          border-top: none
+          border: 1px solid var(--dropdown-border-color);
+          border-radius: 0 0 var(--dropdown-border-radius, var(--default-dropdown-border-radius)) var(--dropdown-border-radius, var(--default-dropdown-border-radius));
+          background-color: var(--dropdown-background-color);
+          z-index: 10;
+          position: absolute;
+          overflow: hidden;
+          width: var(--dropdown-width, var(--default-dropdown-width));
+          box-shadow: 0px 2px 4px -1px var(--gray-color);
+          border-top: none;
         }
         .right-align {
-          right: 0
+          right: 0;
         }
         li {
-          font-size: var(--dropdown-text-size)
-          font-family: var(--dropdown-input-font)
-          background-color: var(--dropdown-background-color)
-          box-sizing: border-box
-          margin: 0
-          display: flex
-          flex-direction: column
+          font-size: var(--dropdown-text-size);
+          font-family: var(--dropdown-input-font);
+          background-color: var(--dropdown-background-color);
+          box-sizing: border-box;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
         }
         li:hover {
-          background-color: var(--dropdown-color-light)
+          background-color: var(--dropdown-color-light);
         }
 
         li:hover:not(.disabled){
-          cursor:pointer
+          cursor:pointer;
         }
         .list-element:hover {
-          background-color: var(--dropdown-color-light)
+          background-color: var(--dropdown-color-light);
         }
         .text-box {
-          width: auto
-          background-color: var(--dropdown-background-color)
-          box-sizing: border-box
-          display: flex
-          flex-direction: row
-          align-items: center
-          font-family: var(--dropdown-input-font)
-          font-size: var(--dropdown-text-size)
+          width: auto;
+          background-color: var(--dropdown-background-color);
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          font-family: var(--dropdown-input-font);
+          font-size: var(--dropdown-text-size);
         }
         .input-box {
-          border: 1px solid var(--dropdown-border-color)
-          border-radius: var(--dropdown-border-radius, var(--default-dropdown-border-radius))
-          height: var(--dropdown-line-height)
-          overflow: hidden
+          border: 1px solid var(--dropdown-border-color);
+          border-radius: var(--dropdown-border-radius, var(--default-dropdown-border-radius));
+          height: var(--dropdown-line-height);
+          overflow: hidden;
         }
         .dropdown-menu.expanded .input-box{
-          border: 1px solid var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color))
+          border: 1px solid var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color));
         }
         .input-box:not(.disabled):hover {
-          border: 1px solid var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color))
+          border: 1px solid var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color));
         }
         .expanded .input-box {
-          border-radius: var(--dropdown-border-radius, var(--default-dropdown-border-radius)) var(--dropdown-border-radius, var(--default-dropdown-border-radius)) 0 0
+          border-radius: var(--dropdown-border-radius, var(--default-dropdown-border-radius)) var(--dropdown-border-radius, var(--default-dropdown-border-radius)) 0 0;
         }
         .selectable:hover:not(.disabled){
-          cursor:pointer
+          cursor:pointer;
         }
         .displayed-wrapper {
-          display: flex
-          flex: 1
-          overflow: hidden
+          display: flex;
+          flex: 1;
+          overflow: hidden;
         }
         #displayed {
-          margin: 0
-          align-self: center
-          color: rgb(var(--dropdown-text-color))
-          border: 0
-          background-color: transparent
-          white-space: nowrap
+          margin: 0;
+          align-self: center;
+          color: rgb(var(--dropdown-text-color));
+          border: 0;
+          background-color: transparent;
+          white-space: nowrap;
         }
         .disabled {
-          border-color: var(--dropdown-border-color-disabled)
-          background-color: var(--dropdown-background-color-disabled)
-          color: rgba(var(--dropdown-text-color), .4)
+          border-color: var(--dropdown-border-color-disabled);
+          background-color: var(--dropdown-background-color-disabled);
+          color: rgba(var(--dropdown-text-color), .4);
         }
         .disabled #displayed {
-          color: var(--dark-grey-text-color)
+          color: var(--dark-grey-text-color);
         }
         .disabled .input-label-div {
-          cursor: default !important
+          cursor: default !important;
         }
         .placeholder {
-          color: var(--light-grey-text-color) !important
+          color: var(--light-grey-text-color) !important;
         }
         .disabled .placeholder {
-          color: var(--dropdown-border-color-disabled) !important
+          color: var(--dropdown-border-color-disabled) !important;
         }
         .input-box:hover:not(.disabled) .placeholder {
-          color: var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color)) !important
+          color: var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color)) !important;
         }
         .dropdown-menu.expanded .placeholder {
-          color: var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color)) !important
+          color: var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color)) !important;
         }
         .option-comment {
-          font-size: 0.9em
-          line-height: 1.2em
-          margin-top: 0
+          font-size: 0.9em;
+          line-height: 1.2em;
+          margin-top: 0;
         }
         .helper-text {
-          font-size: 10px
-          text-align: center
-          background-color: var(--dropdown-background-color)
+          font-size: 10px;
+          text-align: center;
+          background-color: var(--dropdown-background-color);
         }
         .search-box {
-          margin: 2px
-          padding: 0
+          margin: 2px;
+          padding: 0;
         }
         .text-highlight {
-          background-color: var(--dropdown-color-light)
+          background-color: var(--dropdown-color-light);
         }
         unity-text-input {
-          width: 100%
+          width: 100%;
         }
         .tag {
-          display: flex
-          flex: 0
-          align-items: center
-          background-color: #D8D8D8
-          width: auto
-          border-radius: 2px
-          margin: 2px
-          padding: 0 2px
+          display: flex;
+          flex: 0;
+          align-items: center;
+          background-color: #D8D8D8;
+          width: auto;
+          border-radius: 2px;
+          margin: 2px;
+          padding: 0 2px;
         }
         .tag-list {
-          display: flex
-          flex: 1
-          flex-basis: auto
-          overflow: hidden
+          display: flex;
+          flex: 1;
+          flex-basis: auto;
+          overflow: hidden;
         }
         .tag-text {
-          padding: 0 4px
-          white-space: nowrap
+          padding: 0 4px;
+          white-space: nowrap;
         }
         .button-options {
-          margin-top: 5px
-          margin-left: 10px
+          margin-top: 5px;
+          margin-left: 10px;
         }
         /* these two styles are required to get proper rendering
            of all tags and multi-select options */
         .input-label-div {
-          display: flex
-          flex: 1
-          flex-basis: auto
+          display: flex;
+          flex: 1;
+          flex-basis: auto;
         }
         .input-label-div.no-tags {
-          width: 100%
+          width: 100%;
         }
         .inline {
-          width: max-content
-          color: var(--dropdown-color)
+          width: max-content;
+          color: var(--dropdown-color);
         }
         .inline:hover {
-          color: var(--dropdown-color-dark)
+          color: var(--dropdown-color-dark);
         }
         #select-all {
-          border-bottom: 1px solid var(--dropdown-border-color)
-          margin: 0
-          padding: 0
+          border-bottom: 1px solid var(--dropdown-border-color);
+          margin: 0;
+          padding: 0;
         }
         unity-select-menu {
-          width: 100%
-          margin: 0
-          padding: 0
-          max-width: unset
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          max-width: unset;
         }
         paper-dialog {
-          display: block
-          margin: 0
-          box-shadow: none
+          display: block;
+          margin: 0;
+          box-shadow: none;
         }
         unity-button.dropdown-button {
-          --button-color: var(--dropdown-button-color)
-          --pressed-color: var(--dropdown-button-pressed-color)
-          --font-color: var(--dropdown-button-font-color)
+          --button-color: var(--dropdown-button-color);
+          --pressed-color: var(--dropdown-button-pressed-color);
+          --font-color: var(--dropdown-button-font-color);
         }
         #search-input {
-          padding: var(--dropdown-search-input-padding, var(--default-dropdown-search-input-padding))
+          padding: var(--dropdown-search-input-padding, var(--default-dropdown-search-input-padding));
         }
       `
     ]
