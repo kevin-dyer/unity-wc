@@ -2,6 +2,11 @@
 
 ## Changelog:
 
+### v1.2.4
+- Use same style for every item, independently from whether the element has children or not.
+
+### v1.2.3
+
 ### v1.2.2
 - Add id to inner nav items
 
