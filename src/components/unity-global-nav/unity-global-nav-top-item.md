@@ -3,6 +3,9 @@
 ## Changelog:
 
 ### v1.2.2
+- Add id to inner nav items
+
+### v1.2.2
 - Made open state of nav-top-item controllable. added props:
   `open` - (bool) open state of top item,
   `onOpen` - (func) callback when top nav item has been opened or closed, and
