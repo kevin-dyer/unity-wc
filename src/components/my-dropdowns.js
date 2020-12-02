@@ -1,7 +1,7 @@
 import { html, css } from 'lit-element'
 import '@bit/smartworks.unity.unity-core/unity-button'
-// import '@bit/smartworks.unity.unity-core/unity-dropdown'
-import './unity-dropdown/unity-dropdown'
+import '@bit/smartworks.unity.unity-core/unity-dropdown'
+// import './unity-dropdown/unity-dropdown'
 import '@bit/smartworks.unity.unity-core/unity-select-menu'
 
 import { PageViewElement } from './page-view-element.js'
@@ -215,7 +215,6 @@ class MyDropdowns extends PageViewElement {
   }
 
   render() {
-    console.log(`render. expanded? `, this.isExpanded)
     return html`
       <div class="example-container">
         <div class="col">

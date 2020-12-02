@@ -5,6 +5,17 @@
 
 ## Changelog:
 
+### v1.7.50
+- unity-dropdown v1.3.2
+
+### v1.7.49
+Style of first level nav items
+- unity-global-nav-top-item v1.2.4
+
+### v1.7.48
+Update in unity-table to support pagination using infinite scroll
+- unity-table v1.1.1
+
 ### v1.7.47
 Add ids to global nav items:
 - unity-global-nav-base v1.3.3
