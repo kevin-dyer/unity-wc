@@ -339,7 +339,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-top-item@1.2.3": {
+    "smartworks.unity/unity-global-nav-top-item@1.2.4": {
         "files": [
             {
                 "name": "unity-global-nav-top-item.js",
@@ -592,7 +592,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@1.1.0": {
+    "smartworks.unity/unity-table@1.1.1": {
         "files": [
             {
                 "name": "filter-dropdown.js",

@@ -119,7 +119,7 @@ class UnityGlobalNavTopItem extends LitElement {
     // use child label if only one label
     if (Array.isArray(children) && children.length === 1) label = children[0].label
     if(collapsed && !hasIcon) label = label[0]
-    return html`<unity-typography size="paragraph" weight=${hasChildren? "medium": "paragraph"} class="text">${label}</unity-typography>`
+    return html`<unity-typography size="paragraph" weight="medium" class="text">${label}</unity-typography>`
   }
 
   render() {
@@ -157,7 +157,7 @@ class UnityGlobalNavTopItem extends LitElement {
         "
         @click=${!disabled? _onSelect : null}
       >
-        <div class="label ${short ? 'short' : ''} ${hasChildren && !short? 'tall' : ''} ${collapsed? 'flex-center' : ''}">
+        <div class="label ${short ? 'short' : 'tall'} ${collapsed? 'flex-center' : ''}">
           ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
           ${this.getLabel(hasIcon, hasChildren) }
           ${collapsed? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
