@@ -160,9 +160,9 @@ class MyDropdowns extends PageViewElement {
       SharedStyles,
       css`
         .example-container {
+          height: fit-content;
           position: relative;
           width: 1000px;
-          height: 750px;
           top: 75px;
           left: 50%;
           transform: translateX(-50%);
@@ -174,6 +174,7 @@ class MyDropdowns extends PageViewElement {
         }
         .col {
           flex: 1;
+          padding: 0 20px;
         }
         .input-box {
           position: relative;
@@ -373,9 +374,7 @@ class MyDropdowns extends PageViewElement {
             />
             </unity-button>
           </div>
-        </div>
 
-        <div class="col">
           <div class="input-box">
             <unity-dropdown
               label="${"Primary button with menu"}"
@@ -416,7 +415,9 @@ class MyDropdowns extends PageViewElement {
             >
             </unity-dropdown>
           </div>
+        </div>
 
+        <div class="col">
           <h4>Select Menus</h4>
           <div class="input-box">
             <unity-select-menu
