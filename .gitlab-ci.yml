@@ -19,7 +19,7 @@ setup:
   - echo "***************************** installing deps for the project and building the app"
   - rm -rf node_modules
   - echo -e "@bit:registry=https://node.bit.dev\n//node.bit.dev/:_authToken=${BIT_TOKEN}\nalways-auth=true" > .npmrc
-  - npm install && rebuild
+  - npm install
   rules:
   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
   cache:
