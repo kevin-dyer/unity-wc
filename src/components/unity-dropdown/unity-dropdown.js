@@ -30,6 +30,7 @@ import * as strings from './strings'
 * @param {String} [placeholder], initial text to be overwritten
 * @param {Array} options, data array with the options that will be displayed
 * @param {Array} [selected], array of selected elements
+* @param {Function} [onExpandedChange], callback when expanded/collapsed state changes
 * @param {Function} [onMenuClick], callback when a menu option is clicked
 * @param {Function} [onValueChange], callback on clicking a value that returns current seelcted for single select, and option and bool selected when multiselect
 * @example
@@ -360,6 +361,7 @@ class UnityDropdown extends LitElement {
     this.label = ""
     this.placeholder = "Choose below"
     
+    this.onExpandedChange = () => {}
     this.onMenuClick = () => {}
     this.onValueChange = () => {}
     
@@ -403,7 +405,9 @@ class UnityDropdown extends LitElement {
       options: { type: Array },
       selected: { type: Array },
       
+      onExpandedChange: { type: Function },
       onMenuClick: { type: Function },
+      onValueChange: { type: Function },
 
       _searchValue: { type: String },
 
@@ -445,6 +449,9 @@ class UnityDropdown extends LitElement {
   set expanded(value) {
     if (this._expanded !== value) {
       const oldValue = this._expanded
+      if (oldValue !== value) {
+        this.onExpandedChange(value)
+      }
       this._expanded = value
       this.requestUpdate('expanded', oldValue)
     }
@@ -541,7 +548,7 @@ class UnityDropdown extends LitElement {
     this._searchValue = newValue
     // expand options list when some text is written
     if(this.boxType === BOX_TYPE_SEARCH) {
-      this.collapsed = !(this._searchValue.length > 0)
+      this.expanded = this._searchValue.length > 0
     }
     // match and update visible values
     const searchRegex = new RegExp(this._searchValue, "i")
