@@ -73,6 +73,9 @@ const loadPage = (page) => (dispatch) => {
     case 'dropzone':
       import('../components/my-dropzone.js');
       break;
+    case 'charts':
+      import('../components/my-charts.js');
+      break;
     default:
       page = 'view404';
       import('../components/my-view404.js');

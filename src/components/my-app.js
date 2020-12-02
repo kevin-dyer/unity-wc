@@ -225,6 +225,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'toggle'}" href="/toggle">Switch</a>
           <a ?selected="${this._page === 'modal'}" href="/modal">Modal</a>
           <a ?selected="${this._page === 'dropzone'}" href="/dropzone">Dropzone</a>
+          <a ?selected="${this._page === 'charts'}" href="/charts">Charts</a>
         </nav>
       </app-header>
 
@@ -246,6 +247,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'toggle'}" href="/toggle">Switch</a>
           <a ?selected="${this._page === 'modal'}" href="/modal">Modal</a>
           <a ?selected="${this._page === 'dropzone'}" href="/dropzone">Dropzone</a>
+          <a ?selected="${this._page === 'charts'}" href="/charts">Charts</a>
         </nav>
       </app-drawer> -->
 
@@ -266,6 +268,7 @@ class MyApp extends connect(store)(LitElement) {
         <my-toggle-switch class="page" ?active="${this._page === 'toggle'}"></my-toggle-switch>
         <my-modal class="page" ?active="${this._page === 'modal'}"></my-modal>
         <my-dropzone class="page" ?active="${this._page === 'dropzone'}"></my-dropzone>
+        <my-charts class="page" ?active="${this._page === 'charts'}"></my-charts>
       </main>
 
 
