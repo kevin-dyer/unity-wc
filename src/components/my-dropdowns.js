@@ -190,6 +190,21 @@ class MyDropdowns extends PageViewElement {
         .inline {
           width: max-content;
         }
+        .label {
+          padding: 0;
+          font-size: 12px;
+          color: rgb(77,77,77);
+          margin: 6px 0;
+        }
+        #size-controlled-container {
+          height: 200px;
+          width: 120px;
+          border: 1px solid black;
+          padding: 10px;
+        }
+        size-controlled-select-menu {
+          
+        }
       `
     ]
   }
@@ -419,27 +434,56 @@ class MyDropdowns extends PageViewElement {
 
         <div class="col">
           <h4>Select Menus</h4>
+
+          <div class="input-box ">
+            <div>
+              <p class="label">
+                With Icons
+              </p>
+              <unity-select-menu
+                .items=${dataMock.withIcons}
+              >
+              </unity-select-menu>
+            </div>
+          </div>
+
           <div class="input-box">
-            <unity-select-menu
-              .items=${dataMock.submenus}
-              .onMenuClick=${this.onMenuClick}
-            >
-            </unity-select-menu>
+            <div>
+              <p class="label">
+                With SubMenus
+              </p>
+              <unity-select-menu
+                .items=${dataMock.submenus}
+                .onMenuClick=${this.onMenuClick}
+              >
+              </unity-select-menu>
+            </div>
           </div>
 
           <div class="input-box ">
-            <unity-select-menu
-              .items=${dataMock.withIcons}
-            >
-            </unity-select-menu>
+            <div>
+              <p class="label">
+                Options as Tags
+              </p>
+              <unity-select-menu
+                .items=${dataMock.tags}
+                .onMenuClick="${id => console.log('id clicked', id)}"
+              >
+              </unity-select-menu>
+            </div>
           </div>
 
           <div class="input-box ">
-            <unity-select-menu
-              .items=${dataMock.tags}
-              .onMenuClick="${id => console.log('id clicked', id)}"
-            >
-            </unity-select-menu>
+            <div id="size-controlled-container">
+              <p class="label">
+                Size Controlled
+              </p>
+              <unity-select-menu
+                id="size-controlled-select-menu"
+                .items=${dataMock.labelsOnly}
+              >
+              </unity-select-menu>
+            </div>
           </div>
         </div>
       </div>
