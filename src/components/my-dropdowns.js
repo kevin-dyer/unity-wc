@@ -203,7 +203,8 @@ class MyDropdowns extends PageViewElement {
           padding: 10px;
         }
         size-controlled-select-menu {
-          
+          flex: 1;
+          width:
         }
       `
     ]
@@ -473,18 +474,20 @@ class MyDropdowns extends PageViewElement {
             </div>
           </div>
 
-          <div class="input-box ">
-            <div id="size-controlled-container">
-              <p class="label">
-                Size Controlled
-              </p>
-              <unity-select-menu
-                id="size-controlled-select-menu"
-                .items=${dataMock.labelsOnly}
-              >
-              </unity-select-menu>
+          <!-- Ended up not needing css variables to control this (hiding for now)
+            <div class="input-box ">
+              <div id="size-controlled-container">
+                <p class="label">
+                  Size Controlled
+                </p>
+                <unity-select-menu
+                  id="size-controlled-select-menu"
+                  .items=${dataMock.labelsOnly}
+                >
+                </unity-select-menu>
+              </div>
             </div>
-          </div>
+          -->
         </div>
       </div>
     `
