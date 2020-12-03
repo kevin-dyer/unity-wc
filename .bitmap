@@ -70,7 +70,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.7.50": {
+    "smartworks.unity/unity-core@1.7.51": {
         "files": [
             {
                 "name": "index.js",
@@ -560,6 +560,24 @@
             }
         ],
         "mainFile": "src/components/unity-layout/unity-split-pane.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-stepper@1.0.3": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-stepper/unity-stepper.js",
+                "test": false,
+                "name": "unity-stepper.js"
+            },
+            {
+                "relativePath": "src/components/unity-stepper/unity-stepper.md",
+                "test": false,
+                "name": "unity-stepper.md"
+            }
+        ],
+        "mainFile": "src/components/unity-stepper/unity-stepper.js",
+        "trackDir": "src/components/unity-stepper",
         "origin": "AUTHORED",
         "exported": true
     },

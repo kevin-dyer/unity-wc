@@ -43,7 +43,7 @@ class UnityStepper extends LitElement {
   constructor() {
     super()
 
-    this._steps = undefined
+    this._steps = []
     this.totalSteps = 0
     this.valid = false
     this.hideButton = false
@@ -94,7 +94,7 @@ class UnityStepper extends LitElement {
       // check currentStep
       this.checkCurrentStep(this.currentStep)
     } else {
-      this._steps = undefined
+      this._steps = []
     }
 
     this.requestUpdate('steps', oldValue)

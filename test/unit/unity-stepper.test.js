@@ -23,7 +23,7 @@ describe ('unity-stepper', () => {
 
   it('should render when given steps', async () => {
     const el = await fixture(html`<unity-stepper .steps="${[testStepOne]}"></unity-stepper>`)
-    expect(el).shadowDom.to.equal(`<div class="stepper"><div class="active step"><div class="bubble"><unity-typography>1</unity-typography></div><unity-typography class="step-name">Step 1</unity-typography></div></div><unity-button disabled="" label="Finish"></unity-button>`)
+    expect(el).shadowDom.to.equal(`<div class="stepper"><div class="active step"><div class="bubble"><unity-typography>1</unity-typography></div><unity-typography class="step-name">Step 1</unity-typography></div></div><div class="button-box"><unity-button disabled="" label="Finish"></unity-button></div>`)
   })
 
   it('should render for steps given', async () => {
