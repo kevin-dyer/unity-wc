@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.3
+- Minor code improvements
+
 ### v1.3.2
 - Added expanded and onExpandedChange attributes
 

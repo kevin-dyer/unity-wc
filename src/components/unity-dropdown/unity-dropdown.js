@@ -449,10 +449,8 @@ class UnityDropdown extends LitElement {
   set expanded(value) {
     if (this._expanded !== value) {
       const oldValue = this._expanded
-      if (oldValue !== value) {
-        this.onExpandedChange(value)
-      }
       this._expanded = value
+      this.onExpandedChange(value)
       this.requestUpdate('expanded', oldValue)
     }
   }
@@ -528,16 +526,8 @@ class UnityDropdown extends LitElement {
    */
   handleMultiSelect(id) {
     const selectedIndex = this.selected.indexOf(id)
-    const isSelected = selectedIndex > -1 ? true : false
-    let selected
-
-    if (isSelected) {
-      const nextSelected = [...this.selected]
-      nextSelected.splice(selectedIndex, 1)
-      selected = nextSelected
-    } else {
-      selected = [...this.selected, id]
-    }
+    const isSelected = selectedIndex !== -1
+    const selected = isSelected ? this.selected.slice(selectedIndex, 1) : [ ...this.selected, id ]
 
     this.onValueChange([id], !isSelected)
     return selected
