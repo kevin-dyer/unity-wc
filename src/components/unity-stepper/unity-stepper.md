@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.3
+- update steps default to an empty array
+
 ### v1.0.2
 - check step instanceof Object if step is not a string
 
