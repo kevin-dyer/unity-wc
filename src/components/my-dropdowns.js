@@ -1,10 +1,11 @@
-import { html, css } from 'lit-element';
+import { html, css } from 'lit-element'
 import '@bit/smartworks.unity.unity-core/unity-button'
 import '@bit/smartworks.unity.unity-core/unity-dropdown'
+// import './unity-dropdown/unity-dropdown'
 import '@bit/smartworks.unity.unity-core/unity-select-menu'
 
-import { PageViewElement } from './page-view-element.js';
-import { SharedStyles } from './shared-styles.js';
+import { PageViewElement } from './page-view-element.js'
+import { SharedStyles } from './shared-styles.js'
 
 
 const dataMock = {
@@ -137,11 +138,21 @@ const dataMock = {
       }
     }
   ]
-};
+}
 
 class MyDropdowns extends PageViewElement {
   constructor() {
-    super();
+    super()
+  }
+
+  get isExpanded() {
+    return this._isExpanded
+  }
+
+  set isExpanded(value) {
+    const oldValue = this._isExpanded
+    this._isExpanded = value
+    this.requestUpdate('isExpanded', oldValue)
   }
 
   static get styles() {
@@ -149,9 +160,9 @@ class MyDropdowns extends PageViewElement {
       SharedStyles,
       css`
         .example-container {
+          height: fit-content;
           position: relative;
           width: 1000px;
-          height: 750px;
           top: 75px;
           left: 50%;
           transform: translateX(-50%);
@@ -163,9 +174,12 @@ class MyDropdowns extends PageViewElement {
         }
         .col {
           flex: 1;
+          padding: 0 20px;
         }
         .input-box {
           position: relative;
+          display: flex;
+          align-items: flex-end;
           width: 250px;
           margin: 1em 0;
         }
@@ -176,48 +190,35 @@ class MyDropdowns extends PageViewElement {
         .inline {
           width: max-content;
         }
+        .label {
+          padding: 0;
+          font-size: 12px;
+          color: rgb(77,77,77);
+          margin: 6px 0;
+        }
+        #size-controlled-container {
+          height: 200px;
+          width: 120px;
+          border: 1px solid black;
+          padding: 10px;
+        }
+        size-controlled-select-menu {
+          flex: 1;
+          width:
+        }
       `
-    ];
+    ]
   }
 
   onMenuClick(index) {
-    window.alert(`Clicked option  with index=${index}`);
+    window.alert(`Clicked option  with index=${index}`)
   }
 
   render() {
     return html`
       <div class="example-container">
         <div class="col">
-
-
-          <div class="input-box">
-            <unity-select-menu
-              .items=${dataMock.submenus}
-              .onMenuClick=${this.onMenuClick}
-            >
-            </unity-select-menu>
-          </div>
-
-          <div class="input-box ">
-            <unity-select-menu
-              .items=${dataMock.withIcons}
-            >
-            </unity-select-menu>
-          </div>
-
-          <div class="input-box ">
-            <unity-select-menu
-              .items=${dataMock.tags}
-              .onMenuClick="${id => console.log('id clicked', id)}"
-            >
-            </unity-select-menu>
-          </div>
-
-        </div>
-
-        <div class="col">
-
-
+          <h4>Dropdowns</h4>
           <div class="input-box">
             <unity-dropdown
               label="${"Menu"}"
@@ -242,7 +243,6 @@ class MyDropdowns extends PageViewElement {
               inputType="single-select"
               .options=${dataMock.labelsOnly}
               .selected=${["1"]}
-
             >
             </unity-dropdown>
           </div>
@@ -253,7 +253,6 @@ class MyDropdowns extends PageViewElement {
               inputType="single-select"
               disabled
               .options=${dataMock.labelsOnly}
-
             >
             </unity-dropdown>
           </div>
@@ -263,7 +262,6 @@ class MyDropdowns extends PageViewElement {
               label="${"With comments"}"
               inputType="single-select"
               .options=${dataMock.withComments}
-
             >
             </unity-dropdown>
           </div>
@@ -308,121 +306,191 @@ class MyDropdowns extends PageViewElement {
             >
             </unity-dropdown>
           </div>
+        </div>
 
-       </div>
-
-       <div class="col">
-
-      <div class="input-box">
-        <unity-dropdown
-          label="${"Search"}"
-          boxType="search"
-          inputType="menu"
-          placeholder = "Write here or choose below"
-          .options=${dataMock.labelsOnly}
-          .onMenuClick=${this.onMenuClick}
-        >
-        </unity-dropdown>
-      </div>
-
-      <div class="input-box">
-        <unity-dropdown
-          label="${"Bottom content slot"}"
-          inputType="single-select"
-          .options=${dataMock.labelsOnly}
-        >
-          <div slot="bottom-content" style="margin:0;padding:0;">
-            <unity-button
-              type="borderless"
-              label="Add Option"
-              leftIcon="unity:add"
-              @click=${(e)=>console.log("Add Option button clicked")}
-              style="--unity-border-radius: 0; width:100%; --button-width: 100%;"
+        <div class="col">
+          <div class="input-box">
+            <unity-dropdown
+              label="${"Search"}"
+              boxType="search"
+              inputType="menu"
+              placeholder = "Write here or choose below"
+              .options=${dataMock.labelsOnly}
+              .onMenuClick=${this.onMenuClick}
             >
+            </unity-dropdown>
+          </div>
+
+          <div class="input-box">
+            <unity-dropdown
+              label="${"Bottom content slot"}"
+              inputType="single-select"
+              .options=${dataMock.labelsOnly}
+            >
+              <div slot="bottom-content" style="margin:0;padding:0;">
+                <unity-button
+                  type="borderless"
+                  label="Add Option"
+                  leftIcon="unity:add"
+                  @click=${(e)=>console.log("Add Option button clicked")}
+                  style="--unity-border-radius: 0; width:100%; --button-width: 100%;"
+                >
+                </unity-button>
+              </div>
+            </unity-dropdown>
+          </div>
+      
+          <div class="input-box">
+            <unity-dropdown
+              label="${"Multi select"}"
+              inputType="multi-select"
+              showTags
+              .selected=${["1","3"]}
+              .options=${dataMock.labelsOnly}
+            >
+            </unity-dropdown>
+          </div>
+
+          <div class="input-box">
+            <unity-dropdown
+              class="inline"
+              label="${"Inline"}"
+              boxType="inline"
+              .onMenuClick=${this.onMenuClick}
+              .options=${dataMock.labelsOnly}
+            >
+            </unity-dropdown>
+          </div>
+
+          <div class="input-box right-align">
+            <unity-dropdown
+              class="inline"
+              label="${"Right alignment"}"
+              boxType="inline"
+              .rightAlign=${true}
+              .onMenuClick=${this.onMenuClick}
+              .options=${dataMock.labelsOnly}
+            >
+            </unity-dropdown>
+          </div>
+
+          <div class="input-box">
+            <unity-dropdown
+              label="${"Expansion Controlled"}"
+              .expanded=${this.isExpanded}
+              .options=${dataMock.labelsOnly}
+              .onExpandedChange="${(value) => this.isExpanded = value}"
+            />
+            </unity-dropdown>
+            <unity-button
+              style="${"margin-left: 10px"}"
+              label="${this.isExpanded ? "Collapse" : "Expand"}"
+              @click=${(e) => this.isExpanded = !this.isExpanded}
+            />
             </unity-button>
+          </div>
+
+          <div class="input-box">
+            <unity-dropdown
+              label="${"Primary button with menu"}"
+              boxType="button-primary"
+              .onMenuClick=${this.onMenuClick}
+              .options=${dataMock.labelsOnly}
+            >
+            </unity-dropdown>
+          </div>
+
+          <div class="input-box">
+            <unity-dropdown
+              label="${"Secondary button with single-select"}"
+              boxType="button-secondary"
+              inputType="single-select"
+              .options=${dataMock.labelsOnly}
+            >
+            </unity-dropdown>
+          </div>
+
+          <div class="input-box">
+            <unity-dropdown
+              label="${"Borderless button with single-select"}"
+              boxType="button-borderless"
+              inputType="single-select"
+              .options=${dataMock.labelsOnly}
+            >
+            </unity-dropdown>
+          </div>
+
+          <div class="input-box">
+            <unity-dropdown
+              label="${"Important button with single-select"}"
+              boxType="button-primary"
+              important
+              inputType="single-select"
+              .options=${dataMock.labelsOnly}
+            >
+            </unity-dropdown>
+          </div>
+        </div>
+
+        <div class="col">
+          <h4>Select Menus</h4>
+
+          <div class="input-box ">
+            <div>
+              <p class="label">
+                With Icons
+              </p>
+              <unity-select-menu
+                .items=${dataMock.withIcons}
+              >
+              </unity-select-menu>
             </div>
-          </unity-dropdown>
-        </div>
-     
-        <div class="input-box">
-          <unity-dropdown
-            label="${"Multi select"}"
-            inputType="multi-select"
-            showTags
-            .selected=${["1","3"]}
-            .options=${dataMock.labelsOnly}
-          >
-          </unity-dropdown>
-        </div>
+          </div>
 
-        <div class="input-box">
-          <unity-dropdown
-            class="inline"
-            label="${"Inline"}"
-            boxType="inline"
-            .onMenuClick=${this.onMenuClick}
-            .options=${dataMock.labelsOnly}
-          >
-          </unity-dropdown>
-        </div>
+          <div class="input-box">
+            <div>
+              <p class="label">
+                With SubMenus
+              </p>
+              <unity-select-menu
+                .items=${dataMock.submenus}
+                .onMenuClick=${this.onMenuClick}
+              >
+              </unity-select-menu>
+            </div>
+          </div>
 
-        <div class="input-box right-align">
-        <unity-dropdown
-          class="inline"
-          label="${"Right alignment"}"
-          boxType="inline"
-          .rightAlign=${true}
-          .onMenuClick=${this.onMenuClick}
-          .options=${dataMock.labelsOnly}
-        >
-        </unity-dropdown>
+          <div class="input-box ">
+            <div>
+              <p class="label">
+                Options as Tags
+              </p>
+              <unity-select-menu
+                .items=${dataMock.tags}
+                .onMenuClick="${id => console.log('id clicked', id)}"
+              >
+              </unity-select-menu>
+            </div>
+          </div>
+
+          <!-- Ended up not needing css variables to control this (hiding for now)
+            <div class="input-box ">
+              <div id="size-controlled-container">
+                <p class="label">
+                  Size Controlled
+                </p>
+                <unity-select-menu
+                  id="size-controlled-select-menu"
+                  .items=${dataMock.labelsOnly}
+                >
+                </unity-select-menu>
+              </div>
+            </div>
+          -->
+        </div>
       </div>
-
-
-        <div class="input-box">
-          <unity-dropdown
-            label="${"Primary button with menu"}"
-            boxType="button-primary"
-            .onMenuClick=${this.onMenuClick}
-            .options=${dataMock.labelsOnly}
-          >
-          </unity-dropdown>
-        </div>
-
-        <div class="input-box">
-          <unity-dropdown
-            label="${"Secondary button with single-select"}"
-            boxType="button-secondary"
-            inputType="single-select"
-            .options=${dataMock.labelsOnly}
-          >
-          </unity-dropdown>
-        </div>
-
-        <div class="input-box">
-          <unity-dropdown
-            label="${"Borderless button with single-select"}"
-            boxType="button-borderless"
-            inputType="single-select"
-            .options=${dataMock.labelsOnly}
-          >
-          </unity-dropdown>
-        </div>
-
-        <div class="input-box">
-          <unity-dropdown
-            label="${"Important button with single-select"}"
-            boxType="button-primary"
-            important
-            inputType="single-select"
-            .options=${dataMock.labelsOnly}
-          >
-          </unity-dropdown>
-        </div>
-
-      </div>
-    </div>`;
+    `
   }
 }
 
-window.customElements.define('my-dropdowns', MyDropdowns);
+window.customElements.define('my-dropdowns', MyDropdowns)
