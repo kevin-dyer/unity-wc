@@ -7,13 +7,13 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * Renders a menu with optional submenus that display on hover.
 * @name UnitySelectMenu
 * @fileOverview A menu component with optional submenus
-* @param {Array} items, the list of menu items, item properties include: label, icon, comment (subtext), submenu, tag (flag), id (returned to onMenuClick), tagStyles (customizable tag styles only)
+* @param {Array} options, the list of menu options, option properties include: label, icon, comment (subtext), submenu, tag (flag), id (returned to onMenuClick), tagStyles (customizable tag styles only)
 * @param {func} onMenuClick, callback when a menu option is clicked
 * @param {bool} borderless, do not render list border or box shadow, default: false
 *
 * @example
 * <unity-select-menu
-*   .items=${dataMock.submenus}
+*   .options=${dataMock.submenus}
 *   .onMenuClick=${this.onMenuClick}
 * >
 * </unity-select-menu>
@@ -24,14 +24,14 @@ class UnitySelectMenu extends LitElement {
 
   constructor() {
     super()
-    this.items = []
+    this.options = []
     this.onMenuClick = () => {}
     this.borderless = false
   }
 
   static get properties() {
     return {
-      items: { type: Array },
+      options: { type: Array },
       onMenuClick: { type: Function },
       borderless: { type: Boolean }
     }
@@ -103,16 +103,16 @@ class UnitySelectMenu extends LitElement {
         max-height: 1.8em;
         max-width: 1.8em;
       }
-      .item-label-wrapper {
+      .option-label-wrapper {
         display: flex;
         align-items: center;
       }
-      .item-label {
+      .option-label {
         flex: 1;
         align-items: center;
         width: 100%;
       }
-      .item-comment {
+      .option-comment {
         font-size: 0.9em;
         line-height: 1.2em;
         margin-top: 0;
@@ -129,14 +129,14 @@ class UnitySelectMenu extends LitElement {
     ]
   }
 
-  // Call callback function only when the items has no submenu
+  // Call callback function only when the options has no submenu
   clickedMenu(id, submenu){
     if(!submenu) {
       this.onMenuClick(id)
     }
   }
 
-  renderItem(item) {
+  renderOption(option) {
     const {
       label,
       icon,
@@ -153,7 +153,7 @@ class UnitySelectMenu extends LitElement {
         "--tag-border": tagBorder,
         "--tag-hover-text-color": tagHoverTextColor
       }={}
-    } = item
+    } = option
 
     // tag height should be 2 * (font size + internal margin)
     let tagStyle = "height: calc( (var(--tag-font-size, var(--default-tag-font-size)) + var(--tag-margin, var(--default-tag-margin)) ) * 2 );"
@@ -175,20 +175,20 @@ class UnitySelectMenu extends LitElement {
             style="${tagStyle}"
           ></unity-tag>
         ` : html`
-          <div class="item-label-wrapper">
+          <div class="option-label-wrapper">
             ${!!icon? html`
               <div class="icon-left-wrapper">
                 <unity-icon class="inner-icon" icon="${icon}"}"></unity-icon>
               </div>`
             : null }
-            <p class="item-label">${label}</p>
-            ${!!item.submenu? html`
+            <p class="option-label">${label}</p>
+            ${!!option.submenu? html`
               <div class="icon-right-wrapper">
                 <unity-icon class="inner-icon" icon="unity:right_chevron"></unity-icon>
               </div>`
             : null }
           </div>
-          ${!!comment? html`<p class="item-comment">${comment}</p>`: null}
+          ${!!comment? html`<p class="option-comment">${comment}</p>`: null}
           ${!!submenu? this.renderSubmenu(submenu) : null}
         `}
       </li>
@@ -200,15 +200,15 @@ class UnitySelectMenu extends LitElement {
     return html`<ul class="submenu">${this.renderList(submenu)}</ul>`
   }
 
-  renderList(itemsList) {
-    return itemsList.map((item) => this.renderItem(item))
+  renderList(optionsList) {
+    return optionsList.map((option) => this.renderOption(option))
   }
 
   render() {
     const className = this.borderless ? "borderless" : null
     return html`
       <ul class=${className}>
-        ${this.renderList(this.items)}
+        ${this.renderList(this.options)}
       </ul>`
   }
 }
