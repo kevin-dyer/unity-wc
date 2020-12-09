@@ -809,7 +809,7 @@ class UnityDropdown extends LitElement {
       : (this.inputType === INPUT_TYPE_MENU) ?
         html`
           <unity-select-menu
-            .items=${this._visibleOptions}
+            .options=${this._visibleOptions}
             .onMenuClick=${(index) => this.clickedMenu(index)}
             borderless
           ></unity-select-menu>

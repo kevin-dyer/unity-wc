@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.0
+- Updated properties to conform to unity-select-menu v1.4.0
+
 ### v1.3.3
 - Minor code improvements
 
