@@ -9,7 +9,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @fileOverview A menu component with optional submenus
 * @param {Array} items, the list of menu items, item properties include: label, icon, comment (subtext), submenu, tag (flag), id (returned to onMenuClick), tagStyles (customizable tag styles only)
 * @param {func} onMenuClick, callback when a menu option is clicked
-* @param {bool} borderless, do not render list border, default: true
+* @param {bool} borderless, do not render list border or box shadow, default: false
 *
 * @example
 * <unity-select-menu
@@ -22,11 +22,11 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 class UnitySelectMenu extends LitElement {
 
-  constructor(){
-    super();
-    this.items = [];
-    this.onMenuClick = () => {};
-    this.borderless = false;
+  constructor() {
+    super()
+    this.items = []
+    this.onMenuClick = () => {}
+    this.borderless = false
   }
 
   static get properties() {
@@ -59,7 +59,8 @@ class UnitySelectMenu extends LitElement {
           max-width: 300px;
         }
       .borderless {
-        border: 0;
+        border: none;
+        box-shadow: none;
       }
       p {
         margin-block-start: 0.5em;
@@ -67,7 +68,7 @@ class UnitySelectMenu extends LitElement {
         padding: 0 8px;
         box-sizing: border-box;
       }
-      ul{
+      ul {
         padding: 0;
         margin: 0;
         list-style: none;
@@ -131,7 +132,8 @@ class UnitySelectMenu extends LitElement {
   // Call callback function only when the items has no submenu
   clickedMenu(id, submenu){
     if(!submenu) {
-    this.onMenuClick(id);}
+      this.onMenuClick(id)
+    }
   }
 
   renderItem(item) {
@@ -195,20 +197,20 @@ class UnitySelectMenu extends LitElement {
 
   // recursively render submenus
   renderSubmenu(submenu) {
-    return html`<ul class="submenu">${this.renderList(submenu)}</ul>`;
+    return html`<ul class="submenu">${this.renderList(submenu)}</ul>`
   }
 
   renderList(itemsList) {
-    return itemsList.map((item) => this.renderItem(item));
+    return itemsList.map((item) => this.renderItem(item))
   }
 
   render() {
-    const className = this.borderless? "borderless" : null;
+    const className = this.borderless ? "borderless" : null
     return html`
       <ul class=${className}>
         ${this.renderList(this.items)}
-      </ul>`;
+      </ul>`
   }
 }
 
-window.customElements.define('unity-select-menu', UnitySelectMenu);
+window.customElements.define('unity-select-menu', UnitySelectMenu)
