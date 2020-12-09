@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.3.3
+- Minor code improvements
+
+### v1.3.2
+- Added expanded and onExpandedChange attributes
+
 ### v1.3.1
 - update to unity-checkbox
 

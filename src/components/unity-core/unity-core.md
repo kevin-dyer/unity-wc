@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.7.52
+- unity-dropdown v1.3.3
+
+### v1.7.50
+- unity-dropdown v1.3.2
+
 ### v1.7.49
 Style of first level nav items
 - unity-global-nav-top-item v1.2.4
