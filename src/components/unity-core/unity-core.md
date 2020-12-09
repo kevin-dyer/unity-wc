@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+### v1.8.1
+- unity-dropdown v1.4.1
+- unity-checkbox v1.0.2
+
 ### v1.8.0
 - unity-select-menu v1.4.0
 - unity-dropdown v1.4.0
