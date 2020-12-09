@@ -594,27 +594,31 @@ class UnityDropdown extends LitElement {
             <unity-checkbox class="icon-left-wrapper custom-checkbox"
               id=${option.id}
               ?checked="${isSelected ? true : null}"
+              ?ignoreClicks="${true}"
             ></unity-checkbox>
             ${!!option.icon ? this.renderLeftIcon(option.icon) : null }
             <p>${label}</p>
           </div>
           ${!!option.comment ? html`<p class="option-comment">${option.comment}</p>`: null}
-        </li>`
+        </li>
+      `
     }
 
     else {
-      return html`<li class="selectable" @click=${this._changeValue(option.id)}>
-                    <div class="option-label-wrapper">
-                      ${!!option.icon ? this.renderLeftIcon(option.icon) : null }
-                      <p class="option-label">${label}</p>
-                      ${this.selectIcon && (option.id === this.selected[0]) ? html`
-                        <div class="icon-right-wrapper selected-icon">
-                          <iron-icon class="inner-icon" icon="unity:check"}"></iron-icon>
-                        </div>`
-                        : null}
-                    </div>
-                    ${!!option.comment ? html`<p class="option-comment">${option.comment}</p>`: null}
-                  </li>`
+      return html`
+        <li class="selectable" @click=${this._changeValue(option.id)}>
+          <div class="option-label-wrapper">
+            ${!!option.icon ? this.renderLeftIcon(option.icon) : null }
+            <p class="option-label">${label}</p>
+            ${this.selectIcon && (option.id === this.selected[0]) ? html`
+              <div class="icon-right-wrapper selected-icon">
+                <iron-icon class="inner-icon" icon="unity:check"}"></iron-icon>
+              </div>`
+              : null}
+          </div>
+          ${!!option.comment ? html`<p class="option-comment">${option.comment}</p>`: null}
+        </li>
+      `
     }
   }
 
@@ -630,11 +634,11 @@ class UnityDropdown extends LitElement {
       inputType
     } = this
     if (inputType === INPUT_TYPE_SINGLE_SELECT) {
-      return options.find(({id}) => id === selected[0]) || {}
+      return options.find(({ id }) => id === selected[0]) || {}
     }
     if (inputType === INPUT_TYPE_MULTI_SELECT) {
       const label = selected.reduce((selectedLabels, selection) => {
-        const { label } = options.find(({id}) => id === selection) || {}
+        const { label } = options.find(({ id }) => id === selection) || {}
         if (!label) return selectedLabels
         if (!selectedLabels) return label
         return `${selectedLabels}, ${label}`
@@ -654,7 +658,8 @@ class UnityDropdown extends LitElement {
           .innerLeftIcon="${"unity:search"}"
           .borderEffects=${false}
         ></unity-text-input>
-      </div>`
+      </div>
+    `
   }
 
   renderTag(id) {
