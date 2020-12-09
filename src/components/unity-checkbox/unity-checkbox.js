@@ -11,6 +11,7 @@ import '@bit/smartworks.unity.unity-typography'
  * @param {boolean} checked, whether the checkbox is checked
  * @param {boolean} indeterminate, whether the checkbox is in the indeterminate state, overrides checked
  * @param {boolean} disabled, whether the checkbox is disabled
+ * @param {boolean} ignoreClicks, whether the checkbox should ignore clicks and not change state internally.
  * @param {func} onChange, callback for returning the checkbox's new state
  * @return {LitElement} return s aclass extended from LitElement
  * @example
@@ -30,6 +31,7 @@ class UnityCheckbox extends LitElement {
     this.checked = false
     this.indeterminate = false
     this.disabled = false
+    this.ignoreClicks = false
     this.onChange = ()=>{}
   }
 
@@ -40,11 +42,13 @@ class UnityCheckbox extends LitElement {
       checked: { type: Boolean },
       indeterminate: { type: Boolean },
       disabled: { type: Boolean },
+      ignoreClicks: { type: Boolean },
       onChange: { type: Function }
     }
   }
 
   _handleClick(e) {
+    if (this.ignoreClicks) return
     const {
       checked: priorChecked,
       indeterminate: priorIndeterminate
