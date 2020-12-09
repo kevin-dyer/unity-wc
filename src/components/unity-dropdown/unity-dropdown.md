@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.1
+- fixed checkbox being out of sync with multi-select options
+
 ### v1.4.0
 - Updated properties to conform to unity-select-menu v1.4.0
 
