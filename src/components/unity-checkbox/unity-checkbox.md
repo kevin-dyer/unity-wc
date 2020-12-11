@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.3
+- changed "ignoreClicks" to "controlled"
+
 ### v1.0.2
 - added "ignoreClicks" property, allowing for completely controlled checkboxes
 
