@@ -336,7 +336,7 @@ class UnitySearchBar extends LitElement {
 
     return html`
       <unity-select-menu
-        .items="${[...tagOptions, ...text]}"
+        .options="${[...tagOptions, ...text]}"
         .onMenuClick="${tag => this.selectTag(tag)}"
         style="max-width: ${_menuWidth}px;"
       ></unity-select-menu>
