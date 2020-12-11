@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+### v1.8.4
+- unity-search-bar v1.0.5
+
+
 ### v1.8.3
 - unity-dropdown v1.4.3
 - unity-checkbox v1.0.3
