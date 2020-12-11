@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.0.4
+### v1.0.5
 - updated attribute for unity-select-menu 1.4.0
 
 ### v1.0.3
