@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { fixture, expect, oneEvent } from '@open-wc/testing'
-import { LitElement, html, css } from 'lit-element'
+import { html } from 'lit-element'
 
 // import '../../src/components/unity-search-bar/unity-search-bar'
 import '@bit/smartworks.unity.unity-search-bar'
@@ -18,7 +18,7 @@ describe('search bar test', () => {
     label: tagTwoLabel,
     value: tagTwoValue
   }
-  const tagSeed = [tagOne, tagTwo]
+  const tagSeed = [ tagOne, tagTwo ]
   const debounceTime = 100
 
   const makeOnChange = inj => ({tags, text}) => {
