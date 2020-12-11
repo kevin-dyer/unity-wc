@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.2
+- Updated dependency for unity-select-menu 1.4.0
+
 ### v1.4.1
 - fixed checkbox being out of sync with multi-select options
 

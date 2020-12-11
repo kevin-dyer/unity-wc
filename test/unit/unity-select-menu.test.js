@@ -19,17 +19,17 @@ describe ('unity-select-menu', () => {
 
   const tagStyleColor = "red"
 
-  const itemOne = {
+  const optionOne = {
     label: labelText,
     id: idText,
     icon: iconName,
     comment: commentText
   }
-  const itemTwo = {
+  const optionTwo = {
     label: otherLabelText,
     id: otherId
   }
-  const itemWithSubmenu = {
+  const optionWithSubmenu = {
     label: labelText,
     id: idText,
     icon: iconName,
@@ -43,7 +43,7 @@ describe ('unity-select-menu', () => {
       }
     ]
   }
-  const tagItem = {
+  const tagOption = {
     label: labelText,
     id: idText,
     tag: true,
@@ -57,11 +57,11 @@ describe ('unity-select-menu', () => {
     expect(el).shadowDom.to.equal('<ul class="null"></ul>')
   })
 
-  it('should render item', async () => {
-    const el = await fixture(html`<unity-select-menu .items="${[itemOne]}"></unity-select-menu>`)
+  it('should render option', async () => {
+    const el = await fixture(html`<unity-select-menu .options="${[optionOne]}"></unity-select-menu>`)
     const ul = el.shadowRoot.querySelector('ul')
     const li = ul.querySelector('li')
-    const labelWrapper = li.querySelector('div.item-label-wrapper')
+    const labelWrapper = li.querySelector('div.option-label-wrapper')
     const submenuIcon = labelWrapper.querySelector('div.icon-right-wrapper')
 
     expect(ul).to.exist
@@ -70,32 +70,32 @@ describe ('unity-select-menu', () => {
     expect(submenuIcon).to.not.exist
   })
 
-  it('should render item with label', async () => {
-    const el = await fixture(html`<unity-select-menu .items="${[itemOne]}"></unity-select-menu`)
-    const label = el.shadowRoot.querySelector('ul li div.item-label-wrapper p.item-label')
+  it('should render option with label', async () => {
+    const el = await fixture(html`<unity-select-menu .options="${[optionOne]}"></unity-select-menu`)
+    const label = el.shadowRoot.querySelector('ul li div.option-label-wrapper p.option-label')
 
     expect(label).to.exist
     expect(label.innerText).to.equal(labelText)
   })
 
-  it('should render item with comment', async () => {
-    const el = await fixture(html`<unity-select-menu .items="${[itemOne]}"></unity-select-menu`)
-    const comment = el.shadowRoot.querySelector('ul li p.item-comment')
+  it('should render option with comment', async () => {
+    const el = await fixture(html`<unity-select-menu .options="${[optionOne]}"></unity-select-menu`)
+    const comment = el.shadowRoot.querySelector('ul li p.option-comment')
 
     expect(comment).to.exist
     expect(comment.innerText).to.equal(commentText)
   })
 
-  it('should render item with icon', async () => {
-    const el = await fixture(html`<unity-select-menu .items="${[itemOne]}"></unity-select-menu`)
-    const icon = el.shadowRoot.querySelector('ul li div.item-label-wrapper div.icon-left-wrapper unity-icon')
+  it('should render option with icon', async () => {
+    const el = await fixture(html`<unity-select-menu .options="${[optionOne]}"></unity-select-menu`)
+    const icon = el.shadowRoot.querySelector('ul li div.option-label-wrapper div.icon-left-wrapper unity-icon')
 
     expect(icon).to.exist
     expect(icon.icon).to.equal(iconName)
   })
 
   it('should render borderless', async () => {
-    const el = await fixture(html`<unity-select-menu borderless .items="${[itemOne]}"></unity-select-menu`)
+    const el = await fixture(html`<unity-select-menu borderless .options="${[optionOne]}"></unity-select-menu`)
     const borderlessUl = el.shadowRoot.querySelector('ul.borderless')
 
     expect(borderlessUl).to.exist
@@ -105,7 +105,7 @@ describe ('unity-select-menu', () => {
     let ref = {}
     const onClick = makeOnClick(ref)
 
-    const el = await fixture(html`<unity-select-menu .items="${[itemOne]}" .onMenuClick="${onClick}"></unity-select-menu>`)
+    const el = await fixture(html`<unity-select-menu .options="${[optionOne]}" .onMenuClick="${onClick}"></unity-select-menu>`)
     const li = el.shadowRoot.querySelector('ul li')
 
     const eventName = 'click'
@@ -118,33 +118,33 @@ describe ('unity-select-menu', () => {
     expect(ref.value).to.equal(idText)
   })
 
-  it('should render multiple items', async () => {
-    const el = await fixture(html`<unity-select-menu .items="${[itemOne, itemTwo]}"></unity-select-menu>`)
+  it('should render multiple options', async () => {
+    const el = await fixture(html`<unity-select-menu .options="${[optionOne, optionTwo]}"></unity-select-menu>`)
     const ul = el.shadowRoot.querySelector('ul')
     const lis = ul.querySelectorAll('li')
-    const firstLabel = lis[0].querySelector('div.item-label-wrapper p.item-label')
-    const secondLabel = lis[1].querySelector('div.item-label-wrapper p.item-label')
+    const firstLabel = lis[0].querySelector('div.option-label-wrapper p.option-label')
+    const secondLabel = lis[1].querySelector('div.option-label-wrapper p.option-label')
 
     expect(lis.length).to.equal(2)
     expect(firstLabel.innerText).to.equal(labelText)
     expect(secondLabel.innerText).to.equal(otherLabelText)
   })
 
-  it('should render item with submenu', async () => {
-    const el = await fixture(html`<unity-select-menu .items="${[itemWithSubmenu]}"></unity-select-menu>`)
-    const rootItem = el.shadowRoot.querySelector('ul li')
-    const submenuIcon = rootItem.querySelector('div.item-label-wrapper div.icon-right-wrapper unity-icon.inner-icon')
-    const submenuItem = rootItem.querySelector('ul li')
-    const submenuLabel = submenuItem.querySelector('div.item-label-wrapper p.item-label')
+  it('should render option with submenu', async () => {
+    const el = await fixture(html`<unity-select-menu .options="${[optionWithSubmenu]}"></unity-select-menu>`)
+    const rootOption = el.shadowRoot.querySelector('ul li')
+    const submenuIcon = rootOption.querySelector('div.option-label-wrapper div.icon-right-wrapper unity-icon.inner-icon')
+    const submenuOption = rootOption.querySelector('ul li')
+    const submenuLabel = submenuOption.querySelector('div.option-label-wrapper p.option-label')
 
     expect(submenuIcon).to.exist
-    expect(submenuItem).to.exist
+    expect(submenuOption).to.exist
     expect(submenuLabel).to.exist
     expect(submenuLabel.innerText).to.equal(subLabelText)
   })
 
   it('should render tag with label', async () => {
-    const el = await fixture(html`<unity-select-menu .items="${[tagItem]}"></unity-select-menu>`)
+    const el = await fixture(html`<unity-select-menu .options="${[tagOption]}"></unity-select-menu>`)
     const tag = el.shadowRoot.querySelector('ul li unity-tag')
 
     expect(tag).to.exist
