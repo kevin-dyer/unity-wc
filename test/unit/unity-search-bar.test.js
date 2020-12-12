@@ -310,11 +310,11 @@ describe('search bar test', () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${[...tagSeed, { value: third }]}" search="a"></unity-search-bar>`)
     const menu = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-select-menu')
     expect(menu).to.exist
-    expect(menu.items.length).to.equal(2)
-    expect(menu.items[0].id).to.equal(tagOneValue)
-    expect(menu.items[0].label).to.equal(tagOneValue)
-    expect(menu.items[1].id).to.equal(tagTwoValue)
-    expect(menu.items[1].label).to.equal(tagTwoLabel)
+    expect(menu.options.length).to.equal(2)
+    expect(menu.options[0].id).to.equal(tagOneValue)
+    expect(menu.options[0].label).to.equal(tagOneValue)
+    expect(menu.options[1].id).to.equal(tagTwoValue)
+    expect(menu.options[1].label).to.equal(tagTwoLabel)
   })
 
   it("should add tag when menu item is clicked", async () => {
