@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.4.0
+- changed "items" property to "options"
+- removed box-shadow from borderless select menu
+
 ### v1.3.1
 - add support for `--tag-hover-text-color` in item's `tagStyles`
 

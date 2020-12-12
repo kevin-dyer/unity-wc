@@ -344,7 +344,18 @@ class MyDropdowns extends PageViewElement {
             <unity-dropdown
               label="${"Multi select"}"
               inputType="multi-select"
+              .selected=${["1","3"]}
+              .options=${dataMock.labelsOnly}
+            >
+            </unity-dropdown>
+          </div>
+      
+          <div class="input-box">
+            <unity-dropdown
+              label="${"Multi select with Tags and Checkboxes"}"
+              inputType="multi-select"
               showTags
+              showCheckboxes
               .selected=${["1","3"]}
               .options=${dataMock.labelsOnly}
             >
@@ -441,7 +452,7 @@ class MyDropdowns extends PageViewElement {
                 With Icons
               </p>
               <unity-select-menu
-                .items=${dataMock.withIcons}
+                .options=${dataMock.withIcons}
               >
               </unity-select-menu>
             </div>
@@ -453,7 +464,7 @@ class MyDropdowns extends PageViewElement {
                 With SubMenus
               </p>
               <unity-select-menu
-                .items=${dataMock.submenus}
+                .options=${dataMock.submenus}
                 .onMenuClick=${this.onMenuClick}
               >
               </unity-select-menu>
@@ -466,7 +477,7 @@ class MyDropdowns extends PageViewElement {
                 Options as Tags
               </p>
               <unity-select-menu
-                .items=${dataMock.tags}
+                .options=${dataMock.tags}
                 .onMenuClick="${id => console.log('id clicked', id)}"
               >
               </unity-select-menu>
@@ -481,7 +492,7 @@ class MyDropdowns extends PageViewElement {
                 </p>
                 <unity-select-menu
                   id="size-controlled-select-menu"
-                  .items=${dataMock.labelsOnly}
+                  .options=${dataMock.labelsOnly}
                 >
                 </unity-select-menu>
               </div>

@@ -1,9 +1,29 @@
 # unity-core
 
 ## usage Example
-`import @bit/smartworks.unity.unity-core/unity-button //import unity-button wc`
+`import @bit/smartworks.unity.unity-core/unity-button`
 
 ## Changelog:
+
+### v1.8.4
+- unity-search-bar v1.0.5
+
+
+### v1.8.3
+- unity-dropdown v1.4.3
+- unity-checkbox v1.0.3
+
+### v1.8.2
+- unity-dropdown v1.4.2
+- unity-table v1.1.2
+
+### v1.8.1
+- unity-dropdown v1.4.1
+- unity-checkbox v1.0.2
+
+### v1.8.0
+- unity-select-menu v1.4.0
+- unity-dropdown v1.4.0
 
 ### v1.7.52
 - unity-dropdown v1.3.3

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.2
+- updated dependency for unity-dropdown v1.4.2
+
 ### v1.1.1
 - support for using an async function in onEndReached to fetch new data and update table rows
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { fixture, expect, oneEvent } from '@open-wc/testing'
-import { LitElement, html, css } from 'lit-element'
+import { html } from 'lit-element'
 
 // import '../../src/components/unity-search-bar/unity-search-bar'
 import '@bit/smartworks.unity.unity-search-bar'
@@ -18,7 +18,7 @@ describe('search bar test', () => {
     label: tagTwoLabel,
     value: tagTwoValue
   }
-  const tagSeed = [tagOne, tagTwo]
+  const tagSeed = [ tagOne, tagTwo ]
   const debounceTime = 100
 
   const makeOnChange = inj => ({tags, text}) => {
@@ -310,11 +310,11 @@ describe('search bar test', () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${[...tagSeed, { value: third }]}" search="a"></unity-search-bar>`)
     const menu = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-select-menu')
     expect(menu).to.exist
-    expect(menu.items.length).to.equal(2)
-    expect(menu.items[0].id).to.equal(tagOneValue)
-    expect(menu.items[0].label).to.equal(tagOneValue)
-    expect(menu.items[1].id).to.equal(tagTwoValue)
-    expect(menu.items[1].label).to.equal(tagTwoLabel)
+    expect(menu.options.length).to.equal(2)
+    expect(menu.options[0].id).to.equal(tagOneValue)
+    expect(menu.options[0].label).to.equal(tagOneValue)
+    expect(menu.options[1].id).to.equal(tagTwoValue)
+    expect(menu.options[1].label).to.equal(tagTwoLabel)
   })
 
   it("should add tag when menu item is clicked", async () => {
