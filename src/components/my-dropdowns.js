@@ -1,8 +1,8 @@
 import { html, css } from 'lit-element'
 import '@bit/smartworks.unity.unity-core/unity-button'
-import '@bit/smartworks.unity.unity-core/unity-dropdown'
-// import './unity-dropdown/unity-dropdown'
-import '@bit/smartworks.unity.unity-core/unity-select-menu'
+// import '@bit/smartworks.unity.unity-core/unity-dropdown'
+import './unity-dropdown/unity-dropdown'
+// import '@bit/smartworks.unity.unity-core/unity-select-menu'
 
 import { PageViewElement } from './page-view-element.js'
 import { SharedStyles } from './shared-styles.js'
@@ -143,6 +143,8 @@ const dataMock = {
 class MyDropdowns extends PageViewElement {
   constructor() {
     super()
+    this._selectedMenuOptions = []
+    this._isExpanded = false
   }
 
   get isExpanded() {
@@ -153,6 +155,16 @@ class MyDropdowns extends PageViewElement {
     const oldValue = this._isExpanded
     this._isExpanded = value
     this.requestUpdate('isExpanded', oldValue)
+  }
+  
+  get selectedMenuOptions() {
+    return this._selectedMenuOptions
+  }
+
+  set selectedMenuOptions(value) {
+    const oldValue = this._selectedMenuOptions
+    this._selectedMenuOptions = value
+    this.requestUpdate('selectedMenuOptions', oldValue)
   }
 
   static get styles() {
@@ -212,6 +224,14 @@ class MyDropdowns extends PageViewElement {
 
   onMenuClick(index) {
     window.alert(`Clicked option  with index=${index}`)
+  }
+
+  _handleSelectMenuOption(id) {
+    if (this.selectedMenuOptions.includes(id)) {
+      this.selectedMenuOptions = this.selectedMenuOptions.filter(selectedId => selectedId !== id)
+    } else {
+      this.selectedMenuOptions = [ ...this.selectedMenuOptions, id]
+    }
   }
 
   render() {
@@ -445,7 +465,7 @@ class MyDropdowns extends PageViewElement {
 
         <div class="col">
           <h4>Select Menus</h4>
-
+${/*
           <div class="input-box ">
             <div>
               <p class="label">
@@ -483,21 +503,22 @@ class MyDropdowns extends PageViewElement {
               </unity-select-menu>
             </div>
           </div>
+*/""}
 
-          <!-- Ended up not needing css variables to control this (hiding for now)
-            <div class="input-box ">
-              <div id="size-controlled-container">
-                <p class="label">
-                  Size Controlled
-                </p>
-                <unity-select-menu
-                  id="size-controlled-select-menu"
-                  .options=${dataMock.labelsOnly}
-                >
-                </unity-select-menu>
-              </div>
+          <div class="input-box ">
+            <div id="selectable-container">
+              <p class="label">
+                Selectable
+              </p>
+              <unity-select-menu
+                id="selectable-select-menu"
+                .options=${dataMock.labelsOnly}
+                .highlighted=${this.selectedMenuOptions}
+                .onMenuClick=${this._handleSelectMenuOption.bind(this)}
+              >
+              </unity-select-menu>
             </div>
-          -->
+          </div>
         </div>
       </div>
     `
