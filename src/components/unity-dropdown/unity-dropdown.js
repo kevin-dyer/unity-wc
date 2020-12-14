@@ -8,7 +8,8 @@ import '@bit/smartworks.unity.unity-checkbox'
 import '@bit/smartworks.unity.unity-icon-set'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-text-input'
-import '@bit/smartworks.unity.unity-select-menu'
+// import '@bit/smartworks.unity.unity-select-menu'
+import './unity-select-menu'
 import * as strings from './strings'
 
 /**
