@@ -465,7 +465,7 @@ class MyDropdowns extends PageViewElement {
 
         <div class="col">
           <h4>Select Menus</h4>
-${/*
+
           <div class="input-box ">
             <div>
               <p class="label">
@@ -503,7 +503,6 @@ ${/*
               </unity-select-menu>
             </div>
           </div>
-*/""}
 
           <div class="input-box ">
             <div id="selectable-container">
