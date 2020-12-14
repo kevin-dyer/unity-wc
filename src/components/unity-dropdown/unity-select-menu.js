@@ -76,7 +76,7 @@ class UnitySelectMenu extends LitElement {
             --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
             --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
             --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
-            --highlighted-option-color: var(--primary-tint-1-color, var(--default-primary-tint-1-color));
+            --highlighted-option-color: var(--primary-tint-2-color, var(--default-primary-tint-2-color));
             --highlighted-option-hover-color: var(--primary-color, var(--default-primary-color));
             --default-menu-hover-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
             font-family: var(--input-font);
