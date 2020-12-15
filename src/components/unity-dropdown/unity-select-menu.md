@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.4.1
+- added `highlighted` attribute
+- added css variables to control highlighted styles
+- made it so that `options` can be changed and trigger an update
+
+
 ### v1.4.0
 - changed "items" property to "options"
 - removed box-shadow from borderless select menu

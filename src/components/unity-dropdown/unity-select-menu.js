@@ -8,13 +8,16 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 * @name UnitySelectMenu
 * @fileOverview A menu component with optional submenus
 * @param {Array} options, the list of menu options, option properties include: label, icon, comment (subtext), submenu, tag (flag), id (returned to onMenuClick), tagStyles (customizable tag styles only)
-* @param {func} onMenuClick, callback when a menu option is clicked
-* @param {bool} borderless, do not render list border or box shadow, default: false
+* @param {Array} highlighted, an array of ids for the option(s) to highlight
+* @param {Function} onMenuClick, callback when a menu option is clicked
+* @param {Boolean} borderless, do not render list border or box shadow, default: false
 *
 * @example
 * <unity-select-menu
 *   .options=${dataMock.submenus}
 *   .onMenuClick=${this.onMenuClick}
+*   .highlighted={"1"}
+*   borderless
 * >
 * </unity-select-menu>
 **/
@@ -24,107 +27,138 @@ class UnitySelectMenu extends LitElement {
 
   constructor() {
     super()
-    this.options = []
     this.onMenuClick = () => {}
     this.borderless = false
+    
+    this._options = []
+    this._highlighted = []
   }
 
   static get properties() {
     return {
       options: { type: Array },
+      highlighted: { type: Array },
       onMenuClick: { type: Function },
       borderless: { type: Boolean }
     }
   }
 
+  get highlighted() {
+    return this._highlighted
+  }
+
+  set highlighted(value) {
+    const oldValue = this._highlighted
+    this._highlighted = value
+    this.requestUpdate('highlighted', oldValue)
+  }
+
+  get options() {
+    return this._options
+  }
+
+  set options(value) {
+    const oldValue = this._options
+    this._options = value
+    this.requestUpdate('options', oldValue)
+  }
+
   static get styles() {
     return [
       UnityDefaultThemeStyles,
-      css`
-        * {
+        css`
+          * {
+            box-sizing: border-box;
+          }
+          :host {
+            --input-font: var(--font-family, var(--default-font-family));
+            --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+            --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
+            --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+            --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
+            --highlighted-option-color: var(--primary-tint-2-color, var(--default-primary-tint-2-color));
+            --highlighted-option-hover-color: var(--primary-color, var(--default-primary-color));
+            --default-menu-hover-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
+            font-family: var(--input-font);
+            border-collapse: collapse;
+            user-select: none;
+            display: flex;
+            width: fit-content;
+            max-width: 300px;
+          }
+        .borderless {
+          border: none;
+          box-shadow: none;
+        }
+        p {
+          margin-block-start: 0.5em;
+          margin-block-end: 0.5em;
+          padding: 0 8px;
           box-sizing: border-box;
         }
-        :host {
-          --input-font: var(--font-family, var(--default-font-family));
-          --label-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --text-color: var(--black-text-rgb, var(--default-black-text-rgb));
-          --text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
-          --border-color: var(--global-nav-border-color, var(--default-global-nav-border-color));
-          --default-menu-hover-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
-          font-family: var(--input-font);
-          border-collapse: collapse;
-          user-select: none;
-          display: flex;
-          width: fit-content;
-          max-width: 300px;
+        ul {
+          padding: 0;
+          margin: 0;
+          list-style: none;
+          border: 1px solid #9299A4;
+          box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
+          border-radius: 2px;
+          width: 100%;
         }
-      .borderless {
-        border: none;
-        box-shadow: none;
-      }
-      p {
-        margin-block-start: 0.5em;
-        margin-block-end: 0.5em;
-        padding: 0 8px;
-        box-sizing: border-box;
-      }
-      ul {
-        padding: 0;
-        margin: 0;
-        list-style: none;
-        border: 1px solid #9299A4;
-        box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
-        border-radius: 2px;
-        width: 100%;
-      }
-      li {
-        font-size: var(--text-size);
-        font-family: var(--input-font);
-        background-color: var(--background-color, var(--default-background-color));
-        box-sizing: border-box;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        position:relative;
-      }
-      li:hover {
-        background-color: var(--menu-hover-color, var(--default-menu-hover-color));
-      }
-      li:hover > .submenu {
-        display: block;
-      }
-      .icon-left-wrapper {
-        padding-left: 8px;
-      }
-      .icon-right-wrapper {
-        padding-right: 4px;
-      }
-      .inner-icon {
-        max-height: 1.8em;
-        max-width: 1.8em;
-      }
-      .option-label-wrapper {
-        display: flex;
-        align-items: center;
-      }
-      .option-label {
-        flex: 1;
-        align-items: center;
-        width: 100%;
-      }
-      .option-comment {
-        font-size: 0.9em;
-        line-height: 1.2em;
-        margin-top: 0;
-      }
-      .submenu {
-        position: absolute;
-        left: 100%;
-        width: max-content;
-        top: -1px;
-        z-index: 101;
-        display:none;
-      }
+        li {
+          font-size: var(--text-size);
+          font-family: var(--input-font);
+          background-color: var(--background-color, var(--default-background-color));
+          box-sizing: border-box;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          position:relative;
+        }
+        li:hover {
+          background-color: var(--menu-hover-color, var(--default-menu-hover-color));
+        }
+        li:hover > .submenu {
+          display: block;
+        }
+        .highlighted-option {
+          background-color: var(--highlighted-option-color);
+        }
+        .highlighted-option:hover {
+          background-color: var(--highlighted-option-hover-color);
+        }
+        .icon-left-wrapper {
+          padding-left: 8px;
+        }
+        .icon-right-wrapper {
+          padding-right: 4px;
+        }
+        .inner-icon {
+          max-height: 1.8em;
+          max-width: 1.8em;
+        }
+        .option-label-wrapper {
+          display: flex;
+          align-items: center;
+        }
+        .option-label {
+          flex: 1;
+          align-items: center;
+          width: 100%;
+        }
+        .option-comment {
+          font-size: 0.9em;
+          line-height: 1.2em;
+          margin-top: 0;
+        }
+        .submenu {
+          position: absolute;
+          left: 100%;
+          width: max-content;
+          top: -1px;
+          z-index: 101;
+          display:none;
+        }
       `
     ]
   }
@@ -167,8 +201,10 @@ class UnitySelectMenu extends LitElement {
       if (tagHoverTextColor) tagStyle += `--tag-hover-text-color: ${tagHoverTextColor};`
     }
 
+    const optionHighlighted = this.highlighted.includes(id)
+
     return html`
-      <li @click=${() => this.clickedMenu(id, submenu)}>
+      <li @click=${() => this.clickedMenu(id, submenu)} class="${optionHighlighted ? 'highlighted-option' : null}">
         ${tag ? html`
           <unity-tag
             .label="${label}"

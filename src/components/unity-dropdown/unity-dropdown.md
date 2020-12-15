@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.4
+- unity-select-menu v1.4.1
+
 ### v1.4.3
 - Added showCheckboxes attribute
 - Fixed multiselect bug introduces in 1.4.1
