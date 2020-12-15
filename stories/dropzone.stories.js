@@ -1,4 +1,4 @@
-import '../src/components/unity-dropzone/unity-dropzone'
+import '@bit/smartworks.unity.unity-core/unity-dropzone'
 import { html } from 'lit-element'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, text, boolean } from "@storybook/addon-knobs"

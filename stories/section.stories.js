@@ -1,4 +1,4 @@
-import '../src/components/unity-layout/unity-section'
+import '@bit/smartworks.unity.unity-core/unity-section'
 import { html } from 'lit-element'
 import {
   withKnobs,

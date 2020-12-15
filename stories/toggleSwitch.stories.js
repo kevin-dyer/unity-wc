@@ -1,4 +1,4 @@
-import '../src/components/unity-toggle-switch/unity-toggle-switch'
+import '@bit/smartworks.unity.unity-core/unity-toggle-switch'
 import { html } from 'lit-element'
 import { action } from '@storybook/addon-actions';
 import { withKnobs, text, boolean, select } from "@storybook/addon-knobs";

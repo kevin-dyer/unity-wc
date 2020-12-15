@@ -1,4 +1,4 @@
-import '../src/components/unity-progress/unity-progress'
+import '@bit/smartworks.unity.unity-core/unity-progress'
 import { html } from 'lit-element'
 import { action } from '@storybook/addon-actions';
 import { withKnobs, text, boolean, number, select } from "@storybook/addon-knobs";
