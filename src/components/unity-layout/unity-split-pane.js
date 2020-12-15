@@ -150,7 +150,7 @@ class UnitySplitPane extends LitElement {
       <unity-typography style="display: flex;">
         <div class="bar" @click=${() => this.toggleCollapse()}>
           <div class="bar-icon-wrapper">
-            <unity-icon icon="unity:double_right_chevron"></unity-icon>
+            <unity-icon icon="unity:expand"></unity-icon>
           </div>
           <div class="bar-label-wrapper">
             <p class="bar-label">${label}</p>
@@ -173,15 +173,16 @@ class UnitySplitPane extends LitElement {
       ${show && collapsed ? this.renderBar() : ''}
       <div class="wrapper ${show && collapsed?'hide':''}">
         <div class="header">
-          ${(collapseButton && show) ? html`
+          <slot name="header"></slot>
+          ${(collapseButton) ? html`
             <unity-button
               class="collapse-button"
-              centerIcon="unity:double_left_chevron"
+              centerIcon="unity:compress"
               @click=${()=>this.toggleCollapse()}
               type="borderless"
+              ?disabled="${!show}"
             ></unity-button>
           `: ''}
-          <slot name="header"></slot>
         </div>
         <div class="scroller">
           <div class="main" style="width: ${show? stretch(paneWidth) : "100"}%;">
@@ -247,6 +248,7 @@ class UnitySplitPane extends LitElement {
         .header {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           border-bottom: var(--header-border);
         }
         .footer {
