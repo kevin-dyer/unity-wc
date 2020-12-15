@@ -12,16 +12,15 @@ const MIN_PANE_WIDTH = 20 // %
  *   2) and one to act in a modal-like fashion, to hold contextual information, and cause
  *      the other view to shrink in view but not in function
  * @name UnitySplitPane
- * @param {bool} show, controls if the right pane should be visible or not
- * @param {bool} collapsed, controls if the left pane is collapsed or not
- * @param {''} label, text to show inside the bar when the main pane is collapsed
- * @param {bool} closeButton, controls if the overlapping close button is rendered
- * @param {bool} collapseButton, controls of the overlappy collapse button is rendered
- * @param {func} onClose, function to call when the close button is clicked, sends new pane width in %
- * @param {func} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
- * @param {number} paneWidth, width for the pane in percentage
- * @param {func} onResize, function to call when panel is being resized
- * @param {css} --pane-z-index, css var used for defining z-index of the right pane. Defaults to 3
+ * @param {Boolean} show, controls if the right pane should be visible or not
+ * @param {Boolean} collapsed, controls if the left pane is collapsed or not
+ * @param {Boolean} closeButton, controls if the overlapping close button is rendered
+ * @param {Boolean} collapseButton, controls whether the collapse button is rendered
+ * @param {String} label, text to show inside the bar when the main pane is collapsed
+ * @param {Number} paneWidth, width for the pane in percentage
+ * @param {Function} onClose, function to call when the close button is clicked, sends new pane width in %
+ * @param {Function} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
+ * @param {Function} onResize, function to call when panel is being resized
  * @example
  *   <unity-split-pane
  *     closeButton
@@ -45,6 +44,7 @@ const MIN_PANE_WIDTH = 20 // %
  *   --bar-background
  *   --pane-border-width
  *   --pane-border-color
+ *   --pane-z-index
  *   --bar-width
  *   --header-border
  *   --collapse-button-padding
