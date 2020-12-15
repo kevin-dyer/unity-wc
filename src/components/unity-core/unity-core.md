@@ -5,9 +5,12 @@
 
 ## Changelog:
 
+### v1.8.5
+- unity-select-menu v1.4.1
+- unity-dropdown v1.4.4
+
 ### v1.8.4
 - unity-search-bar v1.0.5
-
 
 ### v1.8.3
 - unity-dropdown v1.4.3
