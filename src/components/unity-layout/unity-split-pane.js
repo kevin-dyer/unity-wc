@@ -150,7 +150,7 @@ class UnitySplitPane extends LitElement {
       <unity-typography style="display: flex;">
         <div class="bar" @click=${() => this.toggleCollapse()}>
           <div class="bar-icon-wrapper">
-            <unity-icon icon="unity:expand"></unity-icon>
+            <unity-icon icon="unity:expand_horizontal"></unity-icon>
           </div>
           <div class="bar-label-wrapper">
             <p class="bar-label">${label}</p>
