@@ -114,7 +114,8 @@ class UnityCard extends LitElement {
     this.showMenu = false
   }
 
-  _handleMenuButtonClick() {
+  _handleMenuButtonClick(e) {
+    e.stopPropagation()
     if (!this.showMenu) {
       this._openMenu()
     } else {
@@ -122,8 +123,8 @@ class UnityCard extends LitElement {
     }
   }
 
-  _handleMenuItemClick() {
-    this.onMenuClick()
+  _handleMenuItemClick(id) {
+    this.onMenuClick(id)
     if(this.closeOnMenuClick) this._closeMenu()
   }
 
@@ -296,6 +297,7 @@ class UnityCard extends LitElement {
         }
 
         #action-button {
+          --unity-button-height: 27px;
           --background-color: rgba(0,0,0,0);
           --button-color: var(--card-icon-color, var(--default-card-icon-color));
         }

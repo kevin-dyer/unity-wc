@@ -14,7 +14,9 @@ export const Card = () => {
   const title = text('Title', 'Mallard')
   const description = text('Description', 'The males have irridescent green feathers on their head.')
   const imageUrl = text('Image URL', 'https://cdn.download.ams.birds.cornell.edu/api/v1/asset/187768561/2400')
-  const onClose = action('Clicked close!')
+  const onClose = action('Clicked close button!')
+  const onMenuClick = action('Clicked menu item!')
+  const onClick = action('Clicked card!')
 
   return html`
     <div style="display: flex; justify-content: space-around;">
@@ -23,6 +25,8 @@ export const Card = () => {
         description="${description}"
         image="${imageUrl}"
         .menuOptions="${selectMenuOptions}"
+        .onClick="${onClick}"
+        .onMenuClick="${onMenuClick}"
         menuButton
         hoverAnimation
       >
@@ -35,6 +39,7 @@ export const Card = () => {
         image="https://nas-national-prod.s3.amazonaws.com/styles/social_media_photo/s3/web_fb_web_a1_1902_16_barred-owl_sandra_rothenberg_kk.jpg?itok=d-vhSb_I"
         closeButton
         .onClose="${onClose}"
+        .onClick="${onClick}"
         hoverAnimation
       >
       </unity-card>
@@ -42,6 +47,7 @@ export const Card = () => {
       <unity-card
         title="No Image"
         description="This card has no image."
+        .onClick="${onClick}"
         hoverAnimation
       >
       </unity-card>
@@ -49,6 +55,7 @@ export const Card = () => {
       <unity-card
         title="Kittens"
         image="http://placekitten.com/180/150"
+        .onClick="${onClick}"
         hoverAnimation
         centerContent
       >
