@@ -236,7 +236,7 @@ class UnityCard extends LitElement {
           --default-card-border: 1px solid var(--gray-color, var(--default-gray-color));
           --default-card-border-radius: 5px;
           --default-card-menu-border-radius: 0;
-          --default-card-hover-border: 1px solid var(--primary-tint-2-color, var(--default-primary-tint-2-color));
+          --default-card-hover-border: 1px solid var(--primary-color, var(--default-primary-color));
           --default-card-height: 240px;
           --default-card-width: 180px;
           --default-card-icon-color: var(--dark-gray-color, var(--default-dark-gray-color));
