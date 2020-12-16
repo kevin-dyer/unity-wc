@@ -3,6 +3,7 @@ import { action } from '@storybook/addon-actions'
 import { withKnobs, text, boolean } from "@storybook/addon-knobs"
 // import '@bit/smartworks.unity.unity-core/unity-card'
 import '../src/components/unity-card/unity-card'
+import '@bit/smartworks.unity.unity-core/unity-select-menu'
 
 export default {
   title: 'Card',
@@ -21,6 +22,7 @@ export const Card = () => {
         title="${title}"
         description="${description}"
         image="${imageUrl}"
+        .menuOptions="${selectMenuOptions}"
         menuButton
         hoverAnimation
       >
@@ -28,12 +30,12 @@ export const Card = () => {
       
       
       <unity-card
-      title="Owl"
-      description="The design of their feathers allows them to fly nearly silently."
-      image="https://nas-national-prod.s3.amazonaws.com/styles/social_media_photo/s3/web_fb_web_a1_1902_16_barred-owl_sandra_rothenberg_kk.jpg?itok=d-vhSb_I"
-      closeButton
-      .onClose="${onClose}"
-      hoverAnimation
+        title="Owl"
+        description="The design of their feathers allows them to fly nearly silently."
+        image="https://nas-national-prod.s3.amazonaws.com/styles/social_media_photo/s3/web_fb_web_a1_1902_16_barred-owl_sandra_rothenberg_kk.jpg?itok=d-vhSb_I"
+        closeButton
+        .onClose="${onClose}"
+        hoverAnimation
       >
       </unity-card>
       
@@ -54,3 +56,26 @@ export const Card = () => {
     </div>
   `
 }
+
+const selectMenuOptions = [
+  {
+    id: '1',
+    label: 'Move',
+    icon: 'unity:folder_open'
+  },
+  {
+    id: '2',
+    label: 'Duplicate',
+    icon: 'unity:duplicate'
+  },
+  {
+    id: '3',
+    label: 'Apply Model',
+    icon: 'unity:magic_wand'
+  },
+  {
+    id: '4',
+    label: 'Delete',
+    icon: 'unity:trash_delete'
+  },
+]
