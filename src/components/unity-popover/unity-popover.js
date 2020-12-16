@@ -209,15 +209,16 @@ class UnityPopover extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --default-popover-min-width: 120px;
-          --default-popover-max-width: 300px;
-          --default-popover-min-height: 38px;
-          --default-popover-max-height: 300px;
-          --default-popover-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
-          --default-popover-border: none;
-          --default-popover-close-button-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --default-popover-z-index: 1;
-          --default-popover-content-overflow: scroll;
+          --popover-min-width: 120px;
+          --popover-max-width: 300px;
+          --popover-min-height: 38px;
+          --popover-max-height: 300px;
+          --popover-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
+          --popover-border: none;
+          --popover-close-button-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --popover-z-index: 1;
+          --popover-content-overflow: scroll;
+          --popover-padding: 2px 8px;
         }
 
         #page-content-container {
@@ -226,16 +227,16 @@ class UnityPopover extends LitElement {
 
         #popover-container {
           display: none;
-          max-width: var(--popover-max-width, var(--default-popover-max-width));
-          min-width: var(--popover-min-width, var(--default-popover-min-width));
-          max-height: var(--popover-max-height, var(--default-popover-max-height));
-          min-height: var(--popover-min-height, var(--default-popover-min-height));
+          max-width: var(--popover-max-width);
+          min-width: var(--popover-min-width);
+          max-height: var(--popover-max-height);
+          min-height: var(--popover-min-height);
           background-color: var(--popover-background-color, var(--default-white-color));
-          box-shadow: var(--popover-shadow, var(--default-popover-shadow));
-          border: var(--popover-border, var(--default-popover-border));
-          padding: 2px 8px;
-          overflow-y: var(--popover-content-overflow, var(--default-popover-content-overflow));
-          z-index: var(--popover-z-index, var(--default-popover-z-index));
+          box-shadow: var(--popover-shadow);
+          border: var(--popover-border);
+          padding: var(--popover-padding);
+          overflow-y: var(--popover-content-overflow);
+          z-index: var(--popover-z-index);
         }
 
         #popover-container[data-show] {
