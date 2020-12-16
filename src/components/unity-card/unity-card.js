@@ -1,6 +1,8 @@
 import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-typography'
+import '@bit/smartworks.unity.unity-button'
+import '@bit/smartworks.unity.unity-popover'
 
 /**
  * @name UnityCard
@@ -9,8 +11,9 @@ import '@bit/smartworks.unity.unity-typography'
  * @param {String} [image] the source for the image (note that if this attribute is provided, the "image" slot will not be available)
  * @param {Boolean} [menuButton] show a menu button in the top-right corner; default: false
  * @param {Boolean} [closeButton] show a close button in the top-right corner; default: false (Note that this is superseded by `menuButton - both will not show`)
- * @param {Boolean} [hoverAnimation] show an animation when the card is hovered over; default: false
+ * @param {Boolean} [hoverAnimation] show an animation on the border when the card is hovered over; default: false
  * @param {Boolean} [borderless] no border or shadow for the card; default: false
+ * @param {Boolean} [centerContent] center the title and description in the content region; default: false
  * @param {Boolean} [showMenu] force the menu to show or hide
  * @param {Function} [onClose] a callback for when the close button is clicked
  * @returns {LitElement} returns a class extended from LitElement
@@ -62,9 +65,12 @@ class UnityCard extends LitElement {
     this.closeButton = false
     this.hoverAnimation = false
     this.borderless = false
+    this.centerContent = false
+    this.showMenu = false
     this.onClose = () => {}
 
     this._showMenu = false
+    this._actionButtonRef = null
   }
 
   static get properties() {
@@ -76,8 +82,11 @@ class UnityCard extends LitElement {
       closeButton: { type: Boolean },
       hoverAnimation: { type: Boolean },
       borderless: { type: Boolean },
+      centerContent: { type: Boolean },
       showMenu: { type: Boolean },
       onClose: { type: Function },
+
+      _showMenu: { type: Boolean }
     }
   }
 
@@ -86,13 +95,24 @@ class UnityCard extends LitElement {
   }
 
   set showMenu(value) {
+    console.log(`setting showMenu`)
     const oldValue = this._showMenu
     this._showMenu = value
     this.requestUpdate('showMenu', oldValue)
   }
+  
+  updated() {
+    this._actionButtonRef = this.shadowRoot.querySelector('#action-button-container')
+
+  }
 
   _openMenu() {
+    this.showMenu = true
+  }
 
+  _closeMenu() {
+    console.log(`here`)
+    this.showMenu = false
   }
 
   render() {
@@ -104,14 +124,14 @@ class UnityCard extends LitElement {
       closeButton,
       hoverAnimation,
       borderless,
-      onClose
+      onClose,
+      showMenu,
+      centerContent
     } = this
-
-    const containerClass = `container ${borderless ? html`borderless` : hoverAnimation ? html`hoverable` : ''}`
+      console.log("🚀 ~ file: unity-card.js ~ line 127 ~ UnityCard ~ render ~ showMenu", showMenu)
     
     return html`
-      <div class="${containerClass}">
-        ${hoverAnimation ? html`<div id="hover-shade-box"></div>` : ''}
+      <div class="container ${borderless ? 'borderless' : hoverAnimation ? 'hoverable' : ''}">
         <div id="image-container">
           ${!!image ?
             html`
@@ -135,14 +155,14 @@ class UnityCard extends LitElement {
                     id="action-button"
                     type="borderless"
                     centerIcon="unity:close"
-                    @click="${this.onClose}"
+                    @click="${onClose}"
                   ></unity-button>
                 ` : ''
               )
             }
           </div>
         </div>
-        <div id="content-container">
+        <div class="content-container ${centerContent ? 'center-content' : ''}">
           <unity-typography
             id="title-text"
             size="header2"
@@ -165,6 +185,19 @@ class UnityCard extends LitElement {
           }
         </div>
       </div>
+      ${menuButton ? html`
+        <unity-popover
+          placement: "top-start"
+          .show="${showMenu}"
+          .onClose="${this._closeMenu}"
+          .referenceElement="${this._actionButtonRef}"
+          withClose
+          closeOnOutsideClick
+          flip
+        >
+        <slot name="menu-content"></slot>
+        </unity-popover>
+      ` : ''}
     `
   }
 
@@ -176,19 +209,17 @@ class UnityCard extends LitElement {
           --card-border: 1px solid var(--gray-color, var(--default-gray-color));
           --card-border-radius: 5px;
           --card-menu-border-radius: 0;
-          --card-box-shadow: 0 1px 3px 0 var(--gray-color, var(--default-gray-color));
           --card-hover-border: 1px solid var(--primary-tint-2-color, var(--default-primary-tint-2-color));
-          --card-hover-box-color: rgb(0,0,0);
-          --card-hover-box-opacity: 0;
           --card-height: 240px;
           --card-width: 180px;
-          --card-icon-color: var(--primary-color, var(--default-primary-color));
-          --card-no-image-background: var(--primary-color, var(--default-primary-color));
-          --card-image-flex: 5;
-          --card-content-flex: 2;
+          --card-icon-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --card-no-image-background: var(--gray-color, var(--default-gray-color));
+          --card-image-flex: 8;
+          --card-content-flex: 3;
         }
 
         .container {
+          position: relative;
           display: flex;
           flex-direction: column;
           align-items: stretch;
@@ -199,7 +230,7 @@ class UnityCard extends LitElement {
           width: var(--card-width);
           height: var(--card-height);
         }
-
+        
         .borderless {
           border: none;
           box-shadow: none;
@@ -209,20 +240,20 @@ class UnityCard extends LitElement {
           border: var(--card-hover-border);
         }
 
-        #hover-shade-box {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          z-index: 10;
-          background-color: rgba(0,0,0,0)
+        .content-container {
+          flex: var(--card-content-flex);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 10px;
         }
 
-        #hover-shade-box:hover {
-          background-color: var(--card-hover-box-color);
-          opacity: var(--card-hover-box-opacity);
+        .center-content {
+          align-items: center;
         }
-
+        
         #image-container {
+          background-color: var(--card-no-image-background);
           position: relative;
           flex: var(--card-image-flex);
           overflow: hidden;
@@ -245,14 +276,7 @@ class UnityCard extends LitElement {
 
         #action-button {
           --background-color: rgba(0,0,0,0);
-        }
-
-        #content-container {
-          flex: var(--card-content-flex);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: 10px;
+          --button-color: var(--card-icon-color);
         }
 
         #title-text {
