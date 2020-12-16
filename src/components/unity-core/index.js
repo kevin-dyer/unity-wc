@@ -9,6 +9,7 @@
 */
 export * from "@bit/smartworks.unity.table-cell-base"
 export * from "@bit/smartworks.unity.unity-button"
+export * from "@bit/smartworks.unity.unity-card"
 export * from "@bit/smartworks.unity.unity-checkbox"
 export * from "@bit/smartworks.unity.unity-column-editor"
 export * from "@bit/smartworks.unity.unity-default-theme-styles"

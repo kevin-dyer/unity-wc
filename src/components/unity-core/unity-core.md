@@ -5,6 +5,36 @@
 
 ## Changelog:
 
+### v1.8.6
+- unity-button v1.1.10
+- unity-card v1.0.1
+- unity-checkbox v1.0.4
+- unity-column-editor v1.1.10
+- unity-core v1.8.6
+- unity-dropzone v1.0.5
+- unity-global-nav-base v1.3.4
+- unity-global-nav-inner-item v1.3.2
+- unity-global-nav-top-item v1.2.5
+- unity-icon v1.1.5
+- unity-modal v1.0.8
+- unity-notification v1.1.5
+- unity-notifications-handler v1.2.10
+- unity-page-header v1.2.6
+- unity-popover v1.0.8
+- unity-progress v1.0.4
+- unity-search-bar v1.0.6
+- unity-section v1.0.5
+- unity-select-menu v1.4.2
+- unity-split-pane v1.1.7
+- unity-stepper v1.0.4
+- unity-table-cell v1.0.10
+- unity-table-export v1.0.8
+- unity-tag v1.1.5
+- unity-text-input v1.2.2
+- unity-toggle-switch v1.0.6
+- unity-tooltip v1.1.5
+- unity-typography v1.1.5
+
 ### v1.8.5
 - unity-select-menu v1.4.1
 - unity-dropdown v1.4.4
