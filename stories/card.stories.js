@@ -1,9 +1,8 @@
 import { html } from 'lit-element'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, text, boolean } from "@storybook/addon-knobs"
-// import '@bit/smartworks.unity.unity-core/unity-card'
-import '../src/components/unity-card/unity-card'
-import '@bit/smartworks.unity.unity-core/unity-select-menu'
+import '@bit/smartworks.unity.unity-core/unity-card'
+// import '../src/components/unity-card/unity-card'
 
 export default {
   title: 'Card',
