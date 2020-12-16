@@ -6,61 +6,61 @@ import '@bit/smartworks.unity.unity-button'
 import { createPopper } from '@popperjs/core'
 import { isElement } from '@bit/smartworks.unity.unity-utils'
 
-/**
-* Shadowed popover/popover with optional close button for holding variable content
-* @name UnityPopover
-* @param {bool} withClose, determines whether the close button is displayed
-* @param {func} onClose, callback fired when the close button is clicked; return true 
-* @param {bool} closeOnOutsideClick, determines whether popover will close when the user clicks outside of it or its on-page-content (not supported on IE)
-* @param {bool} show, determines whether the popover is visible
-* @param {string} placement, the position of the popover in reference to the on-page content options are
-*  'auto'
-*  'auto-start'
-*  'auto-end'
-*  'top'
-*  'top-start'
-*  'top-end'
-*  'bottom'
-*  'bottom-start'
-*  'bottom-end'
-*  'right'
-*  'right-start'
-*  'right-end'
-*  'left'
-*  'left-start'
-*  'left-end'
-* @param {Boolean} flip, determines whether popover will change placement to try to stay in view
-* @param {Boolean} preventOveflow, nudge the popover inwards to prevent it escaping the container
-* @param {Array} fallbackPlacements, if flip is true, this is an array of strings (selected from placement options) for possible placements the Popover will flip to
-* @param {Number} distance, offset of the popover from the on-page-content, in pixels. Overrides offsetModifier
-* @param {Function} offsetModifier, used to define Popper's offset modifier. Use in place of distance param. Overridden by distance.
-* @param {HTML Element} boundary, ref specifying the boundary element for flip and preventOverflow
-* @param {HTML Element} referenceElement, if provided, this will be the element to which the popover is anchored (not the on-page-content slot)
-* @return {LitElement} returns a class extended from LitElement
-* @example
-* <unity-popover
-*   withClose
-*   .onClose=${() => { console.log(`popover closed`); return true; }}
-*   .show=${true}
-*   placement='bottom'
-*   flip
-* >
-*   <div slot='on-page-content'>Content always visible, to which popover is anchored</div>
-*   <div slot='popover-content'>Content to be placed inside the popover</div>
-* </unity-popover>
-*
-* CSS Variables:
-* @css --popover-min-width - default value: 120px
-* @css --popover-min-height - default value: 38px
-* @css --popover-max-width - default value: 300px
-* @css --popover-max-height - default value: 300px
-* @css --popover-shadow - default value: 0 0 3px 2px rgba(0,0,0,0.2)
-* @css --popover-border - default value: none
-* @css --popover-close-button-color   default value: --dark-grey-text-color
-* @css --popover-z-index - default value: 1
-* @css --popover-content-overflow - default value: scroll
-* @css --popover-padding - default value: 2px 8px
-**/
+ /**
+ * Shadowed popover/popover with optional close button for holding variable content
+ * @name UnityPopover
+ * @param {bool} withClose, determines whether the close button is displayed
+ * @param {func} onClose, callback fired when the close button is clicked; return true 
+ * @param {bool} closeOnOutsideClick, determines whether popover will close when the user clicks outside of it or its on-page-content (not supported on IE)
+ * @param {bool} show, determines whether the popover is visible
+ * @param {string} placement, the position of the popover in reference to the on-page content options are
+ *  'auto'
+ *  'auto-start'
+ *  'auto-end'
+ *  'top'
+ *  'top-start'
+ *  'top-end'
+ *  'bottom'
+ *  'bottom-start'
+ *  'bottom-end'
+ *  'right'
+ *  'right-start'
+ *  'right-end'
+ *  'left'
+ *  'left-start'
+ *  'left-end'
+ * @param {Boolean} flip, determines whether popover will change placement to try to stay in view
+ * @param {Boolean} preventOveflow, nudge the popover inwards to prevent it escaping the container
+ * @param {Array} fallbackPlacements, if flip is true, this is an array of strings (selected from placement options) for possible placements the Popover will flip to
+ * @param {Number} distance, offset of the popover from the on-page-content, in pixels. Overrides offsetModifier
+ * @param {Function} offsetModifier, used to define Popper's offset modifier. Use in place of distance param. Overridden by distance.
+ * @param {HTML Element} boundary, ref specifying the boundary element for flip and preventOverflow
+ * @param {HTML Element} referenceElement, if provided, this will be the element to which the popover is anchored (not the on-page-content slot)
+ * @return {LitElement} returns a class extended from LitElement
+ * @example
+ * <unity-popover
+ *   withClose
+ *   .onClose=${() => { console.log(`popover closed`); return true; }}
+ *   .show=${true}
+ *   placement='bottom'
+ *   flip
+ * >
+ *   <div slot='on-page-content'>Content always visible, to which popover is anchored</div>
+ *   <div slot='popover-content'>Content to be placed inside the popover</div>
+ * </unity-popover>
+ *
+ * CSS Variables:
+ * @css --popover-min-width - default value: 120px
+ * @css --popover-min-height - default value: 38px
+ * @css --popover-max-width - default value: 300px
+ * @css --popover-max-height - default value: 300px
+ * @css --popover-shadow - default value: 0 0 3px 2px rgba(0,0,0,0.2)
+ * @css --popover-border - default value: none
+ * @css --popover-close-button-color   default value: --dark-grey-text-color
+ * @css --popover-z-index - default value: 1
+ * @css --popover-content-overflow - default value: scroll
+ * @css --popover-padding - default value: 2px 8px
+ **/
 
 const defaultPlacement = 'bottom'
 

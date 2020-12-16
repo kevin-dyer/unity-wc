@@ -21,6 +21,7 @@ import '@bit/smartworks.unity.unity-select-menu'
  * @param {Array} [highlightedMenuOptions] sets which options are highlighted. See unity-select-menu for structure.
  * @param {Function} [onMenuClick] callback for selecting a menu option. See unity-select-menu for structure.
  * @param {Function} [onClose] a callback for when the close button is clicked
+ * @param {Function} [onClick] a callback for when the card is clicked
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-card
@@ -47,16 +48,16 @@ import '@bit/smartworks.unity.unity-select-menu'
  *  </unity-card>
  * 
  *  CSS Vars:
-* @css --card-border - default value: 1px solid --gray-color
-* @css --card-border-radius - default value: 5px
-* @css --card-menu-border-radius - default value: 0
-* @css --card-hover-border - default value: 1px solid --primary-color
-* @css --card-height - default value: 240px
-* @css --card-width - default value: 180px
-* @css --card-icon-color - default value: --dark-gray-color
-* @css --card-no-image-background - default value: --gray-color
-* @css --card-image-flex - default value: 8
-* @css --card-content-flex - default value: 3
+ * @css --card-border - default value: 1px solid --gray-color
+ * @css --card-border-radius - default value: 5px
+ * @css --card-menu-border-radius - default value: 0
+ * @css --card-hover-border - default value: 1px solid --primary-color
+ * @css --card-height - default value: 240px
+ * @css --card-width - default value: 180px
+ * @css --card-icon-color - default value: --dark-gray-color
+ * @css --card-no-image-background - default value: --gray-color
+ * @css --card-image-flex - default value: 8
+ * @css --card-content-flex - default value: 3
  */
 
 
@@ -99,16 +100,6 @@ class UnityCard extends LitElement {
     }
   }
 
-  get showMenu() {
-    return this._showMenu
-  }
-
-  set showMenu(value) {
-    const oldValue = this._showMenu
-    this._showMenu = value
-    this.requestUpdate('showMenu', oldValue)
-  }
-  
   updated() {
     this._actionButtonRef = this.shadowRoot.querySelector('#action-button-container')
   }
