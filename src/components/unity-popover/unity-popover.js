@@ -29,14 +29,13 @@ import { isElement } from '@bit/smartworks.unity.unity-utils'
 *  'left'
 *  'left-start'
 *  'left-end'
-* @param {bool} flip, determines whether popover will change placement to try to stay in view
-* @param {array} fallbackPlacements, if flip is true, this is an array of strings (selected from placement options) for possible placements the Popover will flip to
-* @param {bool} preventOveflow, nudge the popover inwards to prevent it escaping the container
-* @param {htmlElement} boundary, ref specifying the boundary element for flip and preventOverflow
-* @param {number} distance, offset of the popover from the on-page-content, in pixels. Overrides offsetModifier
-* @param {func} offsetModifier, used to define Popper's offset modifier. Use in place of distance param. Overridden by distance.
+* @param {Boolean} flip, determines whether popover will change placement to try to stay in view
+* @param {Boolean} preventOveflow, nudge the popover inwards to prevent it escaping the container
+* @param {Array} fallbackPlacements, if flip is true, this is an array of strings (selected from placement options) for possible placements the Popover will flip to
+* @param {Number} distance, offset of the popover from the on-page-content, in pixels. Overrides offsetModifier
+* @param {Function} offsetModifier, used to define Popper's offset modifier. Use in place of distance param. Overridden by distance.
+* @param {HTML Element} boundary, ref specifying the boundary element for flip and preventOverflow
 * @param {HTML Element} referenceElement, if provided, this will be the element to which the popover is anchored (not the on-page-content slot)
-
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-popover
@@ -49,6 +48,18 @@ import { isElement } from '@bit/smartworks.unity.unity-utils'
 *   <div slot='on-page-content'>Content always visible, to which popover is anchored</div>
 *   <div slot='popover-content'>Content to be placed inside the popover</div>
 * </unity-popover>
+*
+* CSS Variables:
+* @css --popover-min-width - default value: 120px
+* @css --popover-min-height - default value: 38px
+* @css --popover-max-width - default value: 300px
+* @css --popover-max-height - default value: 300px
+* @css --popover-shadow - default value: 0 0 3px 2px rgba(0,0,0,0.2)
+* @css --popover-border - default value: none
+* @css --popover-close-button-color   default value: --dark-grey-text-color
+* @css --popover-z-index - default value: 1
+* @css --popover-content-overflow - default value: scroll
+* @css --popover-padding - default value: 2px 8px
 **/
 
 const defaultPlacement = 'bottom'
@@ -209,16 +220,16 @@ class UnityPopover extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --popover-min-width: 120px;
-          --popover-max-width: 300px;
-          --popover-min-height: 38px;
-          --popover-max-height: 300px;
-          --popover-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
-          --popover-border: none;
-          --popover-close-button-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
-          --popover-z-index: 1;
-          --popover-content-overflow: scroll;
-          --popover-padding: 2px 8px;
+          --default-popover-min-width: 120px;
+          --default-popover-max-width: 300px;
+          --default-popover-min-height: 38px;
+          --default-popover-max-height: 300px;
+          --default-popover-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
+          --default-popover-border: none;
+          --default-popover-close-button-color: var(--dark-grey-text-color, var(--default-dark-grey-text-color));
+          --default-popover-z-index: 1;
+          --default-popover-content-overflow: scroll;
+          --default-popover-padding: 2px 8px;
         }
 
         #page-content-container {
@@ -227,16 +238,16 @@ class UnityPopover extends LitElement {
 
         #popover-container {
           display: none;
-          max-width: var(--popover-max-width);
-          min-width: var(--popover-min-width);
-          max-height: var(--popover-max-height);
-          min-height: var(--popover-min-height);
+          max-width: var(--popover-max-width, var(--default-popover-max-width));
+          min-width: var(--popover-min-width, var(--default-popover-min-width));
+          max-height: var(--popover-max-height, var(--default-popover-max-height));
+          min-height: var(--popover-min-height, var(--default-popover-min-height));
           background-color: var(--popover-background-color, var(--default-white-color));
-          box-shadow: var(--popover-shadow);
-          border: var(--popover-border);
-          padding: var(--popover-padding);
-          overflow-y: var(--popover-content-overflow);
-          z-index: var(--popover-z-index);
+          box-shadow: var(--popover-shadow, var(--default-popover-shadow));
+          border: var(--popover-border, var(--default-popover-border));
+          padding: var(--popover-padding, var(--default-popover-padding));
+          overflow-y: var(--popover-content-overflow, var(--default-popover-content-overflow));
+          z-index: var(--popover-z-index, var(--default-popover-z-index));
         }
 
         #popover-container[data-show] {

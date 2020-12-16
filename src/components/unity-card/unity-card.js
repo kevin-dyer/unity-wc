@@ -47,16 +47,16 @@ import '@bit/smartworks.unity.unity-select-menu'
  *  </unity-card>
  * 
  *  CSS Vars:
- *    --card-border
- *    --card-hover-border
- *    --card-hover-box-color
- *    --card-hover-box-opacity
- *    --card-height
- *    --card-width
- *    --card-border-radius
- *    --card-menu-border-radius
- *    --card-icon-color
- *    --card-no-image-background
+* @css --card-border - default value: 1px solid --gray-color
+* @css --card-border-radius - default value: 5px
+* @css --card-menu-border-radius - default value: 0
+* @css --card-hover-border - default value: 1px solid --primary-color
+* @css --card-height - default value: 240px
+* @css --card-width - default value: 180px
+* @css --card-icon-color - default value: --dark-gray-color
+* @css --card-no-image-background - default value: --gray-color
+* @css --card-image-flex - default value: 8
+* @css --card-content-flex - default value: 3
  */
 
 
@@ -208,7 +208,7 @@ class UnityCard extends LitElement {
       ${menuButton ? html`
         <unity-popover
           id="popover"
-          placement="top-start"
+          placement="auto-start"
           .show="${showMenu}"
           .onClose="${this._closeMenu.bind(this)}"
           .referenceElement="${this._actionButtonRef}"
@@ -233,16 +233,16 @@ class UnityCard extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --card-border: 1px solid var(--gray-color, var(--default-gray-color));
-          --card-border-radius: 5px;
-          --card-menu-border-radius: 0;
-          --card-hover-border: 1px solid var(--primary-tint-2-color, var(--default-primary-tint-2-color));
-          --card-height: 240px;
-          --card-width: 180px;
-          --card-icon-color: var(--dark-gray-color, var(--default-dark-gray-color));
-          --card-no-image-background: var(--gray-color, var(--default-gray-color));
-          --card-image-flex: 8;
-          --card-content-flex: 3;
+          --default-card-border: 1px solid var(--gray-color, var(--default-gray-color));
+          --default-card-border-radius: 5px;
+          --default-card-menu-border-radius: 0;
+          --default-card-hover-border: 1px solid var(--primary-tint-2-color, var(--default-primary-tint-2-color));
+          --default-card-height: 240px;
+          --default-card-width: 180px;
+          --default-card-icon-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-card-no-image-background: var(--gray-color, var(--default-gray-color));
+          --default-card-image-flex: 8;
+          --default-card-content-flex: 3;
         }
 
         .container {
@@ -250,12 +250,12 @@ class UnityCard extends LitElement {
           display: flex;
           flex-direction: column;
           align-items: stretch;
-          border: var(--card-border);
-          box-shadow: var(--card-box-shadow);
-          border-radius: var(--card-border-radius);
+          border: var(--card-border, var(--default-card-border));
+          box-shadow: var(--card-box-shadow, var(--default-card-box-shadow));
+          border-radius: var(--card-border-radius, var(--default-card-border-radius));
           overflow: hidden;
-          width: var(--card-width);
-          height: var(--card-height);
+          width: var(--card-width, var(--default-card-width));
+          height: var(--card-height, var(--default-card-height));
         }
         
         .borderless {
@@ -264,11 +264,11 @@ class UnityCard extends LitElement {
         }
         
         .hoverable:hover {
-          border: var(--card-hover-border);
+          border: var(--card-hover-border, var(--default-card-hover-border));
         }
 
         .content-container {
-          flex: var(--card-content-flex);
+          flex: var(--card-content-flex, var(--default-card-content-flex));
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -280,9 +280,9 @@ class UnityCard extends LitElement {
         }
         
         #image-container {
-          background-color: var(--card-no-image-background);
+          background-color: var(--card-no-image-background, var(--default-card-no-image-background));
           position: relative;
-          flex: var(--card-image-flex);
+          flex: var(--card-image-flex, var(--default-card-image-flex));
           overflow: hidden;
         }
 
@@ -303,7 +303,7 @@ class UnityCard extends LitElement {
 
         #action-button {
           --background-color: rgba(0,0,0,0);
-          --button-color: var(--card-icon-color);
+          --button-color: var(--card-icon-color, var(--default-card-icon-color));
         }
 
         #title-text {
