@@ -3,6 +3,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 import '@bit/smartworks.unity.unity-typography'
 import '@bit/smartworks.unity.unity-button'
 import '@bit/smartworks.unity.unity-popover'
+import '@bit/smartworks.unity.unity-select-menu'
 
 /**
  * @name UnityCard
@@ -15,6 +16,10 @@ import '@bit/smartworks.unity.unity-popover'
  * @param {Boolean} [borderless] no border or shadow for the card; default: false
  * @param {Boolean} [centerContent] center the title and description in the content region; default: false
  * @param {Boolean} [showMenu] force the menu to show or hide
+ * @param {Boolean} [closeOnMenuClick] close the menu once an option is selected; default: true
+ * @param {Array} [menuOptions] options for the menu. See unity-select-menu for structure.
+ * @param {Array} [highlightedMenuOptions] sets which options are highlighted. See unity-select-menu for structure.
+ * @param {Function} [onMenuClick] callback for selecting a menu option. See unity-select-menu for structure.
  * @param {Function} [onClose] a callback for when the close button is clicked
  * @returns {LitElement} returns a class extended from LitElement
  * @example
@@ -67,6 +72,10 @@ class UnityCard extends LitElement {
     this.borderless = false
     this.centerContent = false
     this.showMenu = false
+    this.closeOnMenuClick = true
+    this.menuOptions = []
+    this.highlightedMenuOptions = []
+    this.onMenuClick = () => {}
     this.onClose = () => {}
 
     this._showMenu = false
@@ -84,9 +93,9 @@ class UnityCard extends LitElement {
       borderless: { type: Boolean },
       centerContent: { type: Boolean },
       showMenu: { type: Boolean },
+      closeOnMenuClick: { type: Boolean },
+      onMenuClick: { type: Function },
       onClose: { type: Function },
-
-      _showMenu: { type: Boolean }
     }
   }
 
@@ -95,7 +104,6 @@ class UnityCard extends LitElement {
   }
 
   set showMenu(value) {
-    console.log(`setting showMenu`)
     const oldValue = this._showMenu
     this._showMenu = value
     this.requestUpdate('showMenu', oldValue)
@@ -103,7 +111,6 @@ class UnityCard extends LitElement {
   
   updated() {
     this._actionButtonRef = this.shadowRoot.querySelector('#action-button-container')
-
   }
 
   _openMenu() {
@@ -111,8 +118,20 @@ class UnityCard extends LitElement {
   }
 
   _closeMenu() {
-    console.log(`here`)
     this.showMenu = false
+  }
+
+  _handleMenuButtonClick() {
+    if (!this.showMenu) {
+      this._openMenu()
+    } else {
+      this._closeMenu()
+    }
+  }
+
+  _handleMenuItemClick() {
+    this.onMenuClick()
+    if(this.closeOnMenuClick) this._closeMenu()
   }
 
   render() {
@@ -124,11 +143,12 @@ class UnityCard extends LitElement {
       closeButton,
       hoverAnimation,
       borderless,
-      onClose,
       showMenu,
-      centerContent
+      centerContent,
+      menuOptions,
+      highlightedMenuOptions,
+      onClose,
     } = this
-      console.log("🚀 ~ file: unity-card.js ~ line 127 ~ UnityCard ~ render ~ showMenu", showMenu)
     
     return html`
       <div class="container ${borderless ? 'borderless' : hoverAnimation ? 'hoverable' : ''}">
@@ -147,7 +167,7 @@ class UnityCard extends LitElement {
                   id="action-button"
                   type="borderless"
                   centerIcon="unity:ellipses_vertical"
-                  @click="${this._openMenu}"
+                  @click="${this._handleMenuButtonClick.bind(this)}"
                 ></unity-button>
               ` : (closeButton ?
                 html`
@@ -187,15 +207,22 @@ class UnityCard extends LitElement {
       </div>
       ${menuButton ? html`
         <unity-popover
-          placement: "top-start"
+          id="popover"
+          placement="top-start"
           .show="${showMenu}"
-          .onClose="${this._closeMenu}"
+          .onClose="${this._closeMenu.bind(this)}"
           .referenceElement="${this._actionButtonRef}"
-          withClose
           closeOnOutsideClick
           flip
         >
-        <slot name="menu-content"></slot>
+          <unity-select-menu
+            id="menu-content"
+            slot="popover-content"
+            .options="${menuOptions}"
+            .onMenuClick="${this._handleMenuItemClick}"
+            .highlighted="${this.highlightedMenuOptions}"
+            borderless
+          ></unity-select-menu>
         </unity-popover>
       ` : ''}
     `
@@ -285,7 +312,17 @@ class UnityCard extends LitElement {
 
         #description-text {
 
-        } 
+        }
+
+        #popover {
+          --popover-min-width: none;
+          --popover-min-height: none;
+          --popover-padding: 0;
+        }
+
+        #menu-content {
+          width: 100%;
+        }
       `
     ]
   }
