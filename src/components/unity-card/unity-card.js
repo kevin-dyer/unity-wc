@@ -78,6 +78,7 @@ class UnityCard extends LitElement {
     this.highlightedMenuOptions = []
     this.onMenuClick = () => {}
     this.onClose = () => {}
+    this.onClick = () => {}
 
     this._showMenu = false
     this._actionButtonRef = null
@@ -97,6 +98,7 @@ class UnityCard extends LitElement {
       closeOnMenuClick: { type: Boolean },
       onMenuClick: { type: Function },
       onClose: { type: Function },
+      onClick: { type: Function },
     }
   }
 
@@ -139,10 +141,11 @@ class UnityCard extends LitElement {
       menuOptions,
       highlightedMenuOptions,
       onClose,
+      onClick
     } = this
     
     return html`
-      <div class="container ${borderless ? 'borderless' : hoverAnimation ? 'hoverable' : ''}">
+      <div class="container ${borderless ? 'borderless' : hoverAnimation ? 'hoverable' : ''}" @click="${onClick.bind(this)}">
         <div id="image-container">
           ${!!image ?
             html`
@@ -210,8 +213,8 @@ class UnityCard extends LitElement {
             id="menu-content"
             slot="popover-content"
             .options="${menuOptions}"
-            .onMenuClick="${this._handleMenuItemClick}"
-            .highlighted="${this.highlightedMenuOptions}"
+            .onMenuClick="${this._handleMenuItemClick.bind(this)}"
+            .highlighted="${highlightedMenuOptions}"
             borderless
           ></unity-select-menu>
         </unity-popover>
