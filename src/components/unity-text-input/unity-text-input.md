@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.2.1
+### v1.2.3
 - Set input name attribute to the label property as a selector
 - Hardcoded autocmplete to off because it is always displayed in chrome on windows.
 
