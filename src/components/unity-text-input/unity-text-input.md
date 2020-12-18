@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.2.1
+- Set input name attribute to the label property as a selector
+- Hardcoded autocmplete to off because it is always displayed in chrome on windows.
+
 ### v1.2.0
 - Added `autofocus` property to autofocus input on first render
 

@@ -450,6 +450,8 @@ class UnityTextInput extends LitElement {
               class="${!!disabled ? "disabled" : ""}"
               ?disabled=${!!disabled || !!readOnly}
               ?autofocus=${autofocus}
+              autocomplete="off"
+              name="${label}"
             >`
           }
           ${!!dirty ? html`<div class="dirty" />` : null}
