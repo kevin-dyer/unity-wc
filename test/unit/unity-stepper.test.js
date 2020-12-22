@@ -178,7 +178,7 @@ describe ('unity-stepper', () => {
     let ref = {}
     const onChange = makeOnChange(ref)
     const stepsToTest = [testStepOne, testStepThree, stepzero]
-    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" .currentStep="${2}" .onChangeStep="${onChange}" backtrack></unity-stepper>`)
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" .currentStep="${2}" .onChangeStep="${onChange}" backtrack valid></unity-stepper>`)
     const doneStep = el.shadowRoot.querySelector('div.stepper div.step.done')
 
     expect(ref.value).to.be.undefined
@@ -189,6 +189,8 @@ describe ('unity-stepper', () => {
 
     doneStep.dispatchEvent(event)
     await listener
+
+    console.log("doneStep: ", doneStep)
 
     expect(ref.value).to.equal(testStepOne)
   })

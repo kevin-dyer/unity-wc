@@ -169,8 +169,11 @@ class UnityStepper extends LitElement {
     const {
       steps,
       totalSteps,
-      currentStep
+      currentStep,
+      valid
     } = this
+
+    if (!valid) return
     this.currentStep = typeof targetStep === 'number' ? targetStep : currentStep + 1
     this.onChangeStep(steps[this.currentStep-1] || currentStep)
   }

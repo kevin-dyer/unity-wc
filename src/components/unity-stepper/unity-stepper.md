@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.5
+- Do not advance if next button is clicked when invalid. Note that unity-button @click listener is still fired when button is disabled.
+
 ### v1.0.3
 - update steps default to an empty array
 
