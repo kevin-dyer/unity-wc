@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.11
+- added class name "selection-checkbox" to table row checkbox (used for selecting the row)
+
 ### v1.0.9
 - fix `resizable` property name
 
