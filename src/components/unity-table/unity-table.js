@@ -1024,6 +1024,7 @@ class UnityTable extends LitElement {
                     ${this.selectable && i === 0
                       ? html`
                         <unity-checkbox
+                          class="select-all-checkbox"
                           ?checked="${this._allSelected ? true : null}"
                           .onChange="${(e, v) => this._handleHeaderSelect(e, v)}"
                         ></unity-checkbox>` : null

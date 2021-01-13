@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.1.3
+- added class name "selection-checkbox" to table row checkbox (used for selecting the row)
+- added class name "select-all-checkbox" to table header checkbox (used for selecting All/None)
+
 ### v1.1.2
 - updated dependency for unity-dropdown v1.4.2
 
