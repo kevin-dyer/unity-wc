@@ -122,6 +122,7 @@ class UnityTableCell extends LitElement {
           ${this.selectable
             ? html`
               <unity-checkbox
+                class="selection-checkbox"
                 ?checked="${this.selected ? true : null}"
                 .onChange="${(e, v) => this.onSelect(e, v)}"
               ></unity-checkbox>`
