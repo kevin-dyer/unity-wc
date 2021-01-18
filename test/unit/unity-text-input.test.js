@@ -31,7 +31,7 @@ describe('unity-text-input', () => {
       const el = await fixture('<unity-text-input value="test"></unity-text-input>')
       expect(el).shadowDom.to.equal(`<div><iron-input class="input-wrapper showBorder notRounded valid border-effects" \
         bind-value="test"><input value="{{value::input}}" id="input" type="text" maxlength="null" placeholder="" \
-        style="" class="" name="" autocomplete="off"></iron-input></div>')
+        style="" class="" name="" autocomplete="off"></iron-input></div>`)
     })
 
     it('should default to text', async () => {
