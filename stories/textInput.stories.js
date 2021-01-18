@@ -40,6 +40,7 @@ export const Standard = () => {
   const innerRightIcon = text("Inside Right Icon (iron/unity icon)", "")
   const innerLeftIcon = text("Inside Left Icon (iron/unity icon)", "")
   const dirty = boolean("Dirty Marker", false)
+  const prefix = text("Prefix", "")
   return html`
     <div style="width: 500px; margin: 50px 100px;">
       <unity-text-input
@@ -59,6 +60,7 @@ export const Standard = () => {
         .remark="${remark}"
         .maxLength="${maxLength}"
         .units="${units}"
+        .prefix="${prefix}"
         .hint="${hint}"
         .error="${error}"
         .readonly="${readonly}"
