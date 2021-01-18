@@ -34,6 +34,8 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
 * @param {bool} dirty, if true, will render left-side bar to show that the element has been changed from it's original contents
 * @param {bool} autofocus, focus input on load
+* @param {''} prefix, read-only text to include at the start of the input
+
 * @example
 * <unity-text-input>
 *   .label="${'Strong Validation'}"
@@ -66,6 +68,8 @@ css vars
   input-icon-hint-color
   input-icon-valid-color
   input-icon-error-color
+  input-prefix-color
+  input-prefix-padding
   inner-icon-size
 **/
 
@@ -99,6 +103,7 @@ class UnityTextInput extends LitElement {
     this.maxLines = MAX_LINES
     this.dirty = false
     this.autofocus = false
+    this.prefix = ""
 
     // internals
     this._error = ''
@@ -138,6 +143,7 @@ class UnityTextInput extends LitElement {
       maxLines: { type: Number },
       dirty: { type: Boolean },
       autofocus: { type: Boolean },
+      prefix: { type: String },
 
       // internals
       _valid: { type: Boolean },
@@ -387,6 +393,7 @@ class UnityTextInput extends LitElement {
       dirty,
       showIcon,
       autofocus,
+      prefix,
       _onChange,
       _valid,
       _strength,
@@ -427,7 +434,14 @@ class UnityTextInput extends LitElement {
           bind-value="${value}"
           @input="${_onChange}"
           @click="${_focusInput}"
-        >
+          >
+          ${(!area && !!prefix) ?
+            html`<div
+              class="prefix ${!!disabled ? "disabled" : ""}"
+            >
+              ${prefix}
+            </div>`
+          : null}
           ${!!area ?
             html`<iron-autogrow-textarea
               id="textarea"
@@ -495,6 +509,8 @@ class UnityTextInput extends LitElement {
           --default-input-icon-hint-color: var(--primary-color, var(--default-primary-color));
           --default-input-icon-valid-color: var(--primary-color, var(--default-primary-color));
           --default-input-icon-error-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
+          --default-input-prefix-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-input-prefix-padding: 0;
           font-family: var(--input-font, var(--default-input-font));
           font-size: var(--input-text-size, var(--default-input-text-size));
           --default-inner-icon-size: calc(var(--input-text-size, var(--default-input-text-size)) * 4 / 3);
@@ -602,6 +618,13 @@ class UnityTextInput extends LitElement {
           align-self: center;
           font-size: var(--input-small-text-size, var(--default-input-small-text-size));
           color: var(--input-text-color, var(--default-input-text-color));
+          line-height: 2;
+        }
+        .prefix {
+          flex: 0;
+          padding-right: var(--input-prefix-padding, var(--default-input-prefix-padding));
+          align-self: center;
+          color: var(--input-prefix-color, var(--default-input-prefix-color));
           line-height: 2;
         }
         .icon-wrapper {
