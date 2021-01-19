@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.5
+- removed top margin from dropdown label
+
 ### v1.4.4
 - unity-select-menu v1.4.1
 
