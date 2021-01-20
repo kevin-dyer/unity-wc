@@ -11,6 +11,7 @@ describe('unity-text-input', () => {
   const maxlength = 20
   const remarkText = 'this is the remark text'
   const testUnits = 'test units'
+  const testPrefix = 'test prefixedText'
   const valid = 'valid'
   const notValid = 'notValid'
   const validation = val => val === valid ? true : notValid
@@ -31,7 +32,7 @@ describe('unity-text-input', () => {
       const el = await fixture('<unity-text-input value="test"></unity-text-input>')
       expect(el).shadowDom.to.equal(`<div><iron-input class="input-wrapper showBorder notRounded valid border-effects" \
         bind-value="test"><input value="{{value::input}}" id="input" type="text" maxlength="null" placeholder="" \
-        style="" class="" name="" autocomplete="off"></iron-input></div>')
+        style="" class="" name="" autocomplete="off"></iron-input></div>`)
     })
 
     it('should default to text', async () => {
@@ -137,6 +138,15 @@ describe('unity-text-input', () => {
       expect(units).to.exist
       expect(units.innerText).to.include(testUnits)
       expect(units.previousElementSibling).to.equal(input)
+    })
+
+    it('should have prefixed text adjacent to input', async () => {
+      const el = await fixture(`<unity-text-input prefixedText="${testPrefix}"></unity-text-input>`)
+      const input = el.shadowRoot.querySelector('iron-input.input-wrapper input#input')
+      const prefixedText = el.shadowRoot.querySelector('iron-input.input-wrapper div.prefixed-text')
+      expect(prefixedText).to.exist
+      expect(prefixedText.innerText).to.include(testPrefix)
+      expect(prefixedText.nextElementSibling).to.equal(input)
     })
 
     it('should have type time', async () => {
@@ -380,15 +390,17 @@ describe('unity-text-input', () => {
       expect(el).shadowDom.to.equal('<div><iron-input class="input-wrapper area showBorder notRounded valid border-effects" bind-value=""><iron-autogrow-textarea id="textarea" value="{{value::iron-autogrow-textarea}}" maxlength="null" class="" placeholder="" style="--area-min-lines: 4; --area-max-lines: 12" aria-disabled="false"></iron-autogrow-textarea></iron-input></div>')
     })
 
-    it('should not be affected by units, hideBorder, nor rounded', async () => {
-      const el = await fixture(`<unity-text-input area value="${testText}" units="${testUnits}" hideBorder rounded></unity-text-input>`)
+    it('should not be affected by units, prefixedText, hideBorder, nor rounded', async () => {
+      const el = await fixture(`<unity-text-input area value="${testText}" units="${testUnits}" prefixedText="${testPrefix}" hideBorder rounded></unity-text-input>`)
       const unitsClass = el.shadowRoot.querySelector('iron-input.input-wrapper.area.units')
+      const prefixedTextClass = el.shadowRoot.querySelector('iron-input.input-wrapper.area.prefixed-text')
       const hideBorder = el.shadowRoot.querySelector('iron-input.input-wrapper.area.hideBorder')
       const showBorder = el.shadowRoot.querySelector('iron-input.input-wrapper.area.showBorder')
       const rounded = el.shadowRoot.querySelector('iron-input.input-wrapper.area.rounded')
       const notRounded = el.shadowRoot.querySelector('iron-input.input-wrapper.area.notRounded')
 
       expect(unitsClass).to.not.exist
+      expect(prefixedTextClass).to.not.exist
       expect(hideBorder).to.not.exist
       expect(showBorder).to.exist
       expect(rounded).to.not.exist
