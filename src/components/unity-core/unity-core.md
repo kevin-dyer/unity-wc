@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.8.11
+- unity-dropdown v1.4.5
+
 ### v1.8.6
 - unity-button v1.1.10
 - unity-card v1.0.1

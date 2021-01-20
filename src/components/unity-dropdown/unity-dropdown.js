@@ -112,6 +112,7 @@ class UnityDropdown extends LitElement {
           white-space: normal;
         }
         .label {
+          margin-top: 0;
           padding: 0;
           font-size: var(--dropdown-text-size);
           color: var(--dropdown-label-color);
