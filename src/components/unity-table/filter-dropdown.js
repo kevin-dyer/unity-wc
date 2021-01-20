@@ -131,7 +131,7 @@ class FilterDropdown extends LitElement {
               boxType="none"
               placeholder="Filter"
               .searchBox=${true}
-              ._collapsed=${false}
+              ?expanded=${true}
               .onValueChange="${onValueChange}"
               .options=${options}
               .selected=${selected}
