@@ -429,19 +429,22 @@ class UnityTextInput extends LitElement {
             </p>`
           : null
         }
-        <iron-input
+        <div
           class="${this._getInputWrapperClasses()}"
+          @click="${_focusInput}"
+        >
+        ${(!area && !!prefixedText) ?
+          html`<div
+            class="prefixed-text ${!!disabled ? "disabled" : ""}"
+          >
+            ${prefixedText}
+          </div>`
+        : null}
+        <iron-input
           bind-value="${value}"
           @input="${_onChange}"
-          @click="${_focusInput}"
           >
-          ${(!area && !!prefixedText) ?
-            html`<div
-              class="prefixed-text ${!!disabled ? "disabled" : ""}"
-            >
-              ${prefixedText}
-            </div>`
-          : null}
+
           ${!!area ?
             html`<iron-autogrow-textarea
               id="textarea"
@@ -474,7 +477,6 @@ class UnityTextInput extends LitElement {
           ${(!area && !!units) ?
             html`<div
               class="units ${!!disabled ? "disabled" : ""}"
-              @click="${_focusInput}"
             >
               ${units}
             </div>`
@@ -482,6 +484,7 @@ class UnityTextInput extends LitElement {
           ${!showIcon && required ? html`<span class="required field">*</span>` : null}
           ${!area ? this._renderIcon() : null}
         </iron-input>
+        </div>
         ${(_errorText || remark || charCount)? this.renderBottomDiv() : null}
       </div>
     `
@@ -519,6 +522,10 @@ class UnityTextInput extends LitElement {
         }
         p {
           margin-top: 0;
+        }
+        iron-input {
+          display: flex;
+          width: 100%;
         }
         .label {
           margin-bottom: 6px;
