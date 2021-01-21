@@ -45,6 +45,7 @@ export const Standard = () => {
         .items="${items}"
         .grid="${grid}"
         .onSelect="${action('onSelect')}"
+        .onToggleCollapse="${action('onToggleCollapse')}"
       ></unity-global-nav-base>
     </div>
   `;

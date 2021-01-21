@@ -18,6 +18,7 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {bool} grid, if clicking the logo should open the grid menu
 * @param {Object} items, object containing the menu items
 * @param {Function} onSelect, callback for when a menu item is selected
+* @param {Function} onToggleCollapse, callback for when the Side Nav is collapsed or expanded. Callback argument is the current collapsed state.
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
 * @param {css} --primary-brand-color, var, css var used for coloring the component
@@ -59,6 +60,7 @@ class UnityGlobalNavBase extends LitElement {
     this.header = ''
     this.headerImg = ''
     this.grid = false
+    this.onToggleCollapse = () => {}
 
     this._itemClicked = (key) => { this._changeSelection(key)}
     this._showGrid = false
@@ -77,6 +79,7 @@ class UnityGlobalNavBase extends LitElement {
       header: { type: String },
       headerImg: { type: String },
       grid: { type: Boolean },
+      onToggleCollapse: { type: Function },
       _itemClicked: { type: Function },
       _showGrid: { type: Boolean },
       _openDict: { type: Object }
@@ -89,6 +92,7 @@ class UnityGlobalNavBase extends LitElement {
 
   _toggleCollapse() {
     this.collapsed = !this.collapsed
+    this.onToggleCollapse(this.collapsed)
   }
 
   _toggleGrid() {
