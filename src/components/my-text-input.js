@@ -193,6 +193,27 @@ class MyTextInput extends PageViewElement {
             .innerRightIcon="${"unity:step_in"}"
             ></unity-text-input>
           </div>
+          <div class="input-box">
+            <unity-text-input
+              label='With prefixed text'
+              .value="${"Input"}"
+              prefixedText="Prefix-"
+              .onChange="${this.onInputChange}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+            <unity-text-input
+              label='All together'
+              .value="${"With everything"}"
+              prefixedText="Prefixed"
+              .onChange="${this.onInputChange}"
+              units="km"
+              .dirty=${true}
+              innerRightIcon='unity:add'
+              innerLeftIcon='unity:edit'
+              style="--input-prefixed-text-padding: 4px;"
+            ></unity-text-input>
+          </div>
         </div>
         <div class="col">
           <div class="input-box">

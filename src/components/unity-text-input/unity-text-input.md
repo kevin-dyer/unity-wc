@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.3.1
+- Fixed wrong input value when `prefixedText` was set
+- Refactored component's inner HTML structure
+
 ### v1.3.0
 - Added `prefixedText` property to display a read-only text at the beginning of the input
 - Added `--input-prefixed-text-color` and `--input-prefixed-text-padding` CSS variables
