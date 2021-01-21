@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.9.3
+- unity-text-input v1.3.1
+
 ### v1.9.0
 - unity-text-input v1.3.0
 
