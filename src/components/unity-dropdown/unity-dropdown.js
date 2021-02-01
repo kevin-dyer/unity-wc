@@ -90,6 +90,7 @@ class UnityDropdown extends LitElement {
           --default-dropdown-width: 100%;
           --default-dropdown-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-dropdown-search-input-padding: 0;
+          --deafult-dropdown-options-list-max-height: 330px;
 
           font-family: var(--dropdown-input-font);
           border-collapse: collapse;
@@ -158,7 +159,7 @@ class UnityDropdown extends LitElement {
           margin: 0;
           list-style: none;
           overflow-y: auto;
-          max-height: 330px;
+          max-height: var(--dropdown-options-list-max-height, var(--default-dropdown-options-list-max-height));
         }
         #options-dialog {
           border: 1px solid var(--dropdown-border-color);
