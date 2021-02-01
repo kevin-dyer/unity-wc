@@ -178,7 +178,7 @@ class UnitySplitPane extends LitElement {
             <unity-button
               class="collapse-button"
               centerIcon="unity:compress"
-              @click=${()=>this.toggleCollapse()}
+              @click=${this.toggleCollapse}
               type="borderless"
               ?disabled="${!show}"
             ></unity-button>
@@ -270,7 +270,6 @@ class UnitySplitPane extends LitElement {
           flex: 1;
           display: flex;
         }
-
         .main ::slotted(*) {
           width: 100%;
         }
@@ -316,7 +315,7 @@ class UnitySplitPane extends LitElement {
           transform: rotate(-90deg) translate(-50%);
           margin: 0;
         }
-        .resize-handle{
+        .resize-handle {
           position: absolute;
           top: 0;
           left: 0;
@@ -331,6 +330,7 @@ class UnitySplitPane extends LitElement {
         }
         .collapse-button {
           padding: var(--collapse-button-padding);
+          --unity-button-height: 27px;
         }
       `
     ]
