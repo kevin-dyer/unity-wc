@@ -5,8 +5,11 @@
 
 ## Changelog:
 
+### v1.10.1
+- unity-split-pane v1.2.0
+
 ### v1.10.0
-- unity-dropdown v 1.5.0
+- unity-dropdown v1.5.0
 
 ### v1.9.3
 - unity-text-input v1.3.1
