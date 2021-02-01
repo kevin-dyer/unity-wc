@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
+// import './unity-global-nav/unity-global-nav-base'
 import '@bit/smartworks.unity.unity-core/unity-icon'
 import { items } from './unity-global-nav/fakeItems.js'
 
@@ -40,6 +41,10 @@ class MyGlobalNav extends PageViewElement {
     console.log(`Selected option with key=${key}`);
   }
 
+  handleToggleCollapse(collapsed) {
+    console.log("my-global-nav onToggleCollapse called! ", {collapsed})
+  }
+
   render() {
     return html`
       <div class="example-container">
@@ -48,6 +53,7 @@ class MyGlobalNav extends PageViewElement {
           .items=${items}
           .onSelect=${this.onSelect}
           .grid=${true}
+          .onToggleCollapse=${this.handleToggleCollapse}
         >
         </unity-global-nav-base>
       </div>

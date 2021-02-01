@@ -90,6 +90,7 @@ class UnityDropdown extends LitElement {
           --default-dropdown-width: 100%;
           --default-dropdown-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-dropdown-search-input-padding: 0;
+          --deafult-dropdown-options-list-max-height: 330px;
 
           font-family: var(--dropdown-input-font);
           border-collapse: collapse;
@@ -112,6 +113,7 @@ class UnityDropdown extends LitElement {
           white-space: normal;
         }
         .label {
+          margin-top: 0;
           padding: 0;
           font-size: var(--dropdown-text-size);
           color: var(--dropdown-label-color);
@@ -157,7 +159,7 @@ class UnityDropdown extends LitElement {
           margin: 0;
           list-style: none;
           overflow-y: auto;
-          max-height: 330px;
+          max-height: var(--dropdown-options-list-max-height, var(--default-dropdown-options-list-max-height));
         }
         #options-dialog {
           border: 1px solid var(--dropdown-border-color);
@@ -272,6 +274,9 @@ class UnityDropdown extends LitElement {
         }
         .text-highlight {
           background-color: var(--dropdown-color-light);
+        }
+        .bold-text {
+          font-weight: bold;
         }
         unity-text-input {
           width: 100%;
@@ -574,11 +579,12 @@ class UnityDropdown extends LitElement {
 
   // TODO: extract the different conditions in another component
   renderOption(option) {
+    const isSelected = this.selected.includes(option.id)
     let label = option.label
-    const start = label.toString().toLowerCase().indexOf(this._searchValue.toLowerCase())
 
     // highlight searched text
     if (this.searchBox) {
+      const start = label.toString().toLowerCase().indexOf(this._searchValue.toLowerCase())
       let end = start + this._searchValue.length
       if (start >= 0) {
         label = html`${label.slice(0, start)}<span class="text-highlight">${label.substring(start, end)}</span>${label.slice(end)}`
@@ -587,10 +593,7 @@ class UnityDropdown extends LitElement {
 
     // emphasize selected option
     // index = this.options.indexOf(label)
-
-    if (this.selected.includes(option.id)) {
-      label = html`<b>${label}</b>`
-    }
+    label = html`<span class="${isSelected ? 'bold-text' : ''}">${label}</span>`
     if (this.inputType === INPUT_TYPE_MULTI_SELECT) {
       const isSelected = this.selected.includes(option.id)
       return html`

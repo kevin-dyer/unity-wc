@@ -11,6 +11,7 @@ describe('unity-text-input', () => {
   const maxlength = 20
   const remarkText = 'this is the remark text'
   const testUnits = 'test units'
+  const testPrefix = 'test prefixedText'
   const valid = 'valid'
   const notValid = 'notValid'
   const validation = val => val === valid ? true : notValid
@@ -29,7 +30,9 @@ describe('unity-text-input', () => {
   describe('input mode', () => {
     it('should render', async () => {
       const el = await fixture('<unity-text-input value="test"></unity-text-input>')
-      expect(el).shadowDom.to.equal('<div><iron-input class="input-wrapper showBorder notRounded valid border-effects" bind-value="test"><input value="{{value::input}}" id="input" type="text" maxlength="null" placeholder="" style="" class=""></iron-input></div>')
+      expect(el).shadowDom.to.equal(`<div><div class="input-wrapper showBorder notRounded valid border-effects"><iron-input \
+        bind-value="test"><input value="{{value::input}}" id="input" type="text" maxlength="null" placeholder="" \
+        class="" name="" autocomplete="off"></iron-input></div></div>`)
     })
 
     it('should default to text', async () => {
@@ -40,8 +43,8 @@ describe('unity-text-input', () => {
 
     it('should have no value', async () => {
       const el = await fixture('<unity-text-input></unity-text-input>')
-      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper')
-      const input = el.shadowRoot.querySelector('iron-input.input-wrapper input#input')
+      const ironInput = el.shadowRoot.querySelector('iron-input')
+      const input = el.shadowRoot.querySelector('iron-input input#input')
       expect(ironInput.bindValue).to.equal("")
       expect(ironInput.value).to.equal("")
     })
@@ -49,7 +52,7 @@ describe('unity-text-input', () => {
     it(`should have value "${testText}"`, async () => {
       const el = await fixture(`<unity-text-input value="${testText}"></unity-text-input>`)
       const ironInput = el.shadowRoot.querySelector('iron-input')
-      const input = el.shadowRoot.querySelector('iron-input.input-wrapper input#input')
+      const input = el.shadowRoot.querySelector('iron-input input#input')
       expect(ironInput.bindValue).to.equal(testText)
       expect(ironInput.value).to.equal(testText)
     })
@@ -86,7 +89,7 @@ describe('unity-text-input', () => {
 
     it('should have a character limit', async () => {
       const el = await fixture(`<unity-text-input value="${longTestInput}" maxlength="${maxlength}"></unity-text-input>`)
-      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper')
+      const ironInput = el.shadowRoot.querySelector('iron-input')
       const input = el.shadowRoot.querySelector('input#input')
       expect(input.maxLength).to.equal(maxlength)
       expect(ironInput.bindValue.length).to.equal(maxlength)
@@ -112,29 +115,38 @@ describe('unity-text-input', () => {
 
     it('should have disabled', async () => {
       const el = await fixture('<unity-text-input disabled></unity-text-input>')
-      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.disabled')
+      const inputWrapper = el.shadowRoot.querySelector('.input-wrapper.disabled') 
       const input = el.shadowRoot.querySelector('input#input.disabled')
-      expect(ironInput).to.exist
+      expect(inputWrapper).to.exist
       expect(input).to.exist
       expect(input.disabled).to.be.true
     })
 
     it('should have readonly', async () => {
       const el = await fixture('<unity-text-input readonly></unity-text-input>')
-      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.readOnly')
+      const inputWrapper = el.shadowRoot.querySelector('.input-wrapper.readOnly')
       const input = el.shadowRoot.querySelector('input#input')
-      expect(ironInput).to.exist
+      expect(inputWrapper).to.exist
       expect(input).to.exist
       expect(input.disabled).to.be.true
     })
 
     it('should have units adjacent to input', async () => {
       const el = await fixture(`<unity-text-input units="${testUnits}"></unity-text-input>`)
-      const input = el.shadowRoot.querySelector('iron-input.input-wrapper input#input')
-      const units = el.shadowRoot.querySelector('iron-input.input-wrapper div.units')
+      const input = el.shadowRoot.querySelector('iron-input')
+      const units = el.shadowRoot.querySelector('div.units')
       expect(units).to.exist
       expect(units.innerText).to.include(testUnits)
       expect(units.previousElementSibling).to.equal(input)
+    })
+
+    it('should have prefixed text adjacent to input', async () => {
+      const el = await fixture(`<unity-text-input prefixedText="${testPrefix}"></unity-text-input>`)
+      const input = el.shadowRoot.querySelector('iron-input')
+      const prefixedText = el.shadowRoot.querySelector('div.prefixed-text')
+      expect(prefixedText).to.exist
+      expect(prefixedText.innerText).to.include(testPrefix)
+      expect(prefixedText.nextElementSibling).to.equal(input)
     })
 
     it('should have type time', async () => {
@@ -146,7 +158,7 @@ describe('unity-text-input', () => {
     it('should should have type password and icon', async () => {
       const el = await fixture(`<unity-text-input password></unity-text-input>`)
       const input = el.shadowRoot.querySelector('input#input')
-      const iconWrapper = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper')
+      const iconWrapper = el.shadowRoot.querySelector('div.icon-right-wrapper')
       const icon = iconWrapper.querySelector('unity-icon.inner-icon.password')
       expect(input.type).to.equal('password')
       expect(icon).to.exist
@@ -156,7 +168,7 @@ describe('unity-text-input', () => {
     it('should toggle type and icon when icon is clicked', async () => {
       const el = await fixture(`<unity-text-input password></unity-text-input>`)
       let input = el.shadowRoot.querySelector('input#input')
-      let icon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper unity-icon.inner-icon.password')
+      let icon = el.shadowRoot.querySelector('.input-wrapper div.icon-right-wrapper unity-icon.inner-icon.password')
       const listener = oneEvent(el, 'click')
       expect(input.type).to.equal('password')
       expect(icon.icon).to.equal('unity:show')
@@ -173,9 +185,9 @@ describe('unity-text-input', () => {
     it('should overwrite remark with error', async () => {
       const errorText = "this is the error text"
       const el = await fixture(`<unity-text-input remark="${remarkText}" error="${errorText}"></unity-text-input>`)
-      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.invalid')
+      const inputWrapper = el.shadowRoot.querySelector('.input-wrapper.invalid')
       const remark = el.shadowRoot.querySelector('div.bottom span.remark')
-      expect(ironInput).to.exist
+      expect(inputWrapper).to.exist
       expect(remark.innerText).to.not.equal(remarkText)
       expect(remark.innerText).to.equal(errorText)
     })
@@ -203,51 +215,51 @@ describe('unity-text-input', () => {
     it('should use validation if passed in', async () => {
       let el = await fixture(html`<unity-text-input .value="${notValid}" .validation="${validation}" .remark="${remarkText}"></unity-text-input>`)
       let remark = el.shadowRoot.querySelector('div.bottom span.remark')
-      let ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.invalid')
+      let inputWrapper = el.shadowRoot.querySelector('.input-wrapper.invalid')
       expect(remark.innerText).to.not.equal(remarkText)
       expect(remark.innerText).to.equal(notValid)
-      expect(ironInput).to.exist
+      expect(inputWrapper).to.exist
       el = await fixture(html`<unity-text-input .value="${valid}" .validation="${validation}" .remark="${remarkText}"></unity-text-input>`)
       remark = el.shadowRoot.querySelector('div.bottom span.remark')
-      ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.invalid')
+      inputWrapper = el.shadowRoot.querySelector('.input-wrapper.invalid')
       expect(remark.innerText).to.equal(remarkText)
       expect(remark.innerText).to.not.equal(notValid)
-      expect(ironInput).to.not.exist
+      expect(inputWrapper).to.not.exist
     })
 
     it('should be rounded', async () => {
       const el = await fixture(`<unity-text-input rounded></unity-text-input>`)
-      const roundedIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.rounded')
-      const notRoundedIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.notRounded')
+      const roundedIronInput = el.shadowRoot.querySelector('.input-wrapper.rounded')
+      const notRoundedIronInput = el.shadowRoot.querySelector('.input-wrapper.notRounded')
       expect(roundedIronInput).to.exist
       expect(notRoundedIronInput).to.not.exist
     })
 
     it('should hide border', async () => {
       const el = await fixture(`<unity-text-input hideBorder></unity-text-input>`)
-      const hideBorderIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.hideBorder')
-      const showBorderIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.showBorder')
+      const hideBorderIronInput = el.shadowRoot.querySelector('.input-wrapper.hideBorder')
+      const showBorderIronInput = el.shadowRoot.querySelector('.input-wrapper.showBorder')
       expect(hideBorderIronInput).to.exist
       expect(showBorderIronInput).to.not.exist
     })
 
     it('should have no border effects', async () => {
       const el = await fixture(html`<unity-text-input .borderEffects="${false}"></unity-text-input>`)
-      const borderEffectIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper.border-effects')
-      const noBorderEffectIronInput = el.shadowRoot.querySelector('iron-input.input-wrapper')
+      const borderEffectIronInput = el.shadowRoot.querySelector('.input-wrapper.border-effects')
+      const noBorderEffectIronInput = el.shadowRoot.querySelector('iron-input')
       expect(borderEffectIronInput).to.not.exist
       expect(noBorderEffectIronInput).to.exist
     })
 
     it('should show as dirty', async () => {
       const el = await fixture(`<unity-text-input dirty></unity-text-input>`)
-      const dirtyBar = el.shadowRoot.querySelector('iron-input.input-wrapper div.dirty')
+      const dirtyBar = el.shadowRoot.querySelector('.input-wrapper div.dirty')
       expect(dirtyBar).to.exist
     })
 
     it('should have required', async () => {
       const el = await fixture('<unity-text-input required></unity-text-input>')
-      const requiredStar = el.shadowRoot.querySelector('iron-input.input-wrapper span.required.field')
+      const requiredStar = el.shadowRoot.querySelector('.input-wrapper span.required.field')
       expect(requiredStar).to.exist
     })
 
@@ -259,15 +271,15 @@ describe('unity-text-input', () => {
 
     it('should not show icon without showIcon', async () => {
       let el = await fixture(html`<unity-text-input .validation="${validation}" .value="${valid}"></unity-text-input>`)
-      let circIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon')
+      let circIcon = el.shadowRoot.querySelector('iron-input div.icon-wrapper unity-icon.icon')
 
       expect(circIcon).to.not.exist
     })
 
     it('should show valid icon without validation', async () => {
       let el = await fixture(html`<unity-text-input showIcon .value="${valid}"></unity-text-input>`)
-      let validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-valid')
-      let invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-error')
+      let validCircleIcon = el.shadowRoot.querySelector('.input-wrapper div.icon-wrapper unity-icon.icon.icon-valid')
+      let invalidCircleIcon = el.shadowRoot.querySelector('.input-wrapper div.icon-wrapper unity-icon.icon.icon-error')
 
       expect(invalidCircleIcon).to.not.exist
       expect(validCircleIcon).to.exist
@@ -275,16 +287,16 @@ describe('unity-text-input', () => {
 
     it('should show correct icon based on validation', async () => {
       let el = await fixture(html`<unity-text-input showIcon .validation="${validation}" .value="${notValid}"></unity-text-input>`)
-      let validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-valid')
-      let invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-error')
+      let validCircleIcon = el.shadowRoot.querySelector('.input-wrapper div.icon-wrapper unity-icon.icon.icon-valid')
+      let invalidCircleIcon = el.shadowRoot.querySelector('.input-wrapper div.icon-wrapper unity-icon.icon.icon-error')
 
       expect(validCircleIcon).to.not.exist
       expect(invalidCircleIcon).to.exist
       expect(invalidCircleIcon.icon).to.equal('unity:warning_circle_outline')
 
       el = await fixture(html`<unity-text-input showIcon .validation="${validation}" .value="${valid}"></unity-text-input>`)
-      validCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-valid')
-      invalidCircleIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-wrapper unity-icon.icon.icon-error')
+      validCircleIcon = el.shadowRoot.querySelector('.input-wrapper div.icon-wrapper unity-icon.icon.icon-valid')
+      invalidCircleIcon = el.shadowRoot.querySelector('.input-wrapper div.icon-wrapper unity-icon.icon.icon-error')
 
       expect(invalidCircleIcon).to.not.exist
       expect(validCircleIcon).to.exist
@@ -293,9 +305,12 @@ describe('unity-text-input', () => {
 
     it('should render inner right icon', async () => {
       const el = await fixture(`<unity-text-input innerRightIcon="${innerIcon}"></unity-text-input>`)
-      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper unity-icon.inner-icon')
-      const leftIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-left-wrapper unity-icon.inner-icon')
+      const rightIconWrapper = el.shadowRoot.querySelector('div.icon-right-wrapper')
+      const rightIcon = el.shadowRoot.querySelector('div.icon-right-wrapper unity-icon.inner-icon')
+      const leftIcon = el.shadowRoot.querySelector('div.icon-left-wrapper unity-icon.inner-icon')
+      const ironInput = el.shadowRoot.querySelector('iron-input')
       expect(rightIcon).to.exist
+      expect(ironInput.nextElementSibling).to.equal(rightIconWrapper)
       expect(leftIcon).to.not.exist
       expect(rightIcon.icon).to.equal(innerIcon)
     })
@@ -303,7 +318,7 @@ describe('unity-text-input', () => {
     it('should override right icon with password icon', async () => {
       const passwordIcon = 'unity:show'
       const el = await fixture(`<unity-text-input password innerRightIcon="${innerIcon}"></unity-text-input>`)
-      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper unity-icon.inner-icon')
+      const rightIcon = el.shadowRoot.querySelector('div.icon-right-wrapper unity-icon.inner-icon')
       expect(rightIcon).to.exist
       expect(rightIcon.icon).to.not.equal(innerIcon)
       expect(rightIcon.icon).to.equal(passwordIcon)
@@ -311,9 +326,12 @@ describe('unity-text-input', () => {
 
     it('should render inner left icon', async () => {
       const el = await fixture(`<unity-text-input innerLeftIcon="${innerIcon}"></unity-text-input>`)
-      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-right-wrapper unity-icon.inner-icon')
-      const leftIcon = el.shadowRoot.querySelector('iron-input.input-wrapper div.icon-left-wrapper unity-icon.inner-icon')
+      const leftIconWrapper = el.shadowRoot.querySelector('div.icon-left-wrapper')
+      const rightIcon = el.shadowRoot.querySelector('div.icon-right-wrapper unity-icon.inner-icon')
+      const leftIcon = el.shadowRoot.querySelector('div.icon-left-wrapper unity-icon.inner-icon')
+      const ironInput = el.shadowRoot.querySelector('iron-input')
       expect(leftIcon).to.exist
+      expect(ironInput.previousElementSibling).to.equal(leftIconWrapper)
       expect(rightIcon).to.not.exist
       expect(leftIcon.icon).to.equal(innerIcon)
     })
@@ -325,7 +343,7 @@ describe('unity-text-input', () => {
       const second = 'second'
 
       const el = await fixture(html`<unity-text-input .value="${first}" .onChange="${onChange}"></unity-text-input>`)
-      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper')
+      const ironInput = el.shadowRoot.querySelector('iron-input')
       const input = el.shadowRoot.querySelector('input#input')
 
       // making input event
@@ -352,13 +370,15 @@ describe('unity-text-input', () => {
   describe('area mode', () => {
     it('should render', async () => {
       const el = await fixture('<unity-text-input area value="test"></unity-text-input>')
-      expect(el).shadowDom.to.equal('<div><iron-input class="input-wrapper area showBorder notRounded valid border-effects" bind-value="test"><iron-autogrow-textarea id="textarea" value="{{value::iron-autogrow-textarea}}" maxlength="null" class="" placeholder="" style="--area-min-lines: 4; --area-max-lines: 12" aria-disabled="false"></iron-autogrow-textarea></iron-input></div>')
+      expect(el).shadowDom.to.equal('<div><div class="input-wrapper area showBorder notRounded valid border-effects"><iron-input bind-value="test"><iron-autogrow-textarea id="textarea" value="{{value::iron-autogrow-textarea}}" maxlength="null" class="" placeholder="" style="--area-min-lines: 4; --area-max-lines: 12" aria-disabled="false"></iron-autogrow-textarea></iron-input></div></div> ')
     })
 
     it('should have no value', async () => {
       const el = await fixture('<unity-text-input area></unity-text-input>')
-      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.area')
-      const textArea = el.shadowRoot.querySelector('iron-input.input-wrapper.area iron-autogrow-textarea#textarea')
+      const areaInput = el.shadowRoot.querySelector('.input-wrapper.area')
+      const ironInput = el.shadowRoot.querySelector('iron-input')
+      const textArea = el.shadowRoot.querySelector('iron-autogrow-textarea#textarea')
+      expect(areaInput).to.exist
       expect(ironInput.bindValue).to.equal("")
       expect(textArea.value).to.equal("")
     })
@@ -366,27 +386,29 @@ describe('unity-text-input', () => {
     it('should have value "test text"', async () => {
       const el = await fixture(`<unity-text-input area value="${testText}"></unity-text-input>`)
       const ironInput = el.shadowRoot.querySelector('iron-input')
-      const textArea = el.shadowRoot.querySelector('iron-input.input-wrapper.area iron-autogrow-textarea#textarea')
+      const textArea = el.shadowRoot.querySelector('iron-autogrow-textarea#textarea')
       expect(ironInput.bindValue).to.equal(testText)
       expect(textArea.value).to.equal(testText)
     })
 
     it('should not be affected by password nor time', async () => {
       let el = await fixture(`<unity-text-input area password></unity-text-input>`)
-      expect(el).shadowDom.to.equal('<div><iron-input class="input-wrapper area showBorder notRounded valid border-effects" bind-value=""><iron-autogrow-textarea id="textarea" value="{{value::iron-autogrow-textarea}}" maxlength="null" class="" placeholder="" style="--area-min-lines: 4; --area-max-lines: 12" aria-disabled="false"></iron-autogrow-textarea></iron-input></div>')
+      expect(el).shadowDom.to.equal('<div><div class="input-wrapper area showBorder notRounded valid border-effects"><iron-input bind-value=""><iron-autogrow-textarea id="textarea" value="{{value::iron-autogrow-textarea}}" maxlength="null" class="" placeholder="" style="--area-min-lines: 4; --area-max-lines: 12" aria-disabled="false"></iron-autogrow-textarea></iron-input></div></div>')
       el = await fixture(`<unity-text-input area time></unity-text-input>`)
-      expect(el).shadowDom.to.equal('<div><iron-input class="input-wrapper area showBorder notRounded valid border-effects" bind-value=""><iron-autogrow-textarea id="textarea" value="{{value::iron-autogrow-textarea}}" maxlength="null" class="" placeholder="" style="--area-min-lines: 4; --area-max-lines: 12" aria-disabled="false"></iron-autogrow-textarea></iron-input></div>')
+      expect(el).shadowDom.to.equal('<div><div class="input-wrapper area showBorder notRounded valid border-effects"><iron-input bind-value=""><iron-autogrow-textarea id="textarea" value="{{value::iron-autogrow-textarea}}" maxlength="null" class="" placeholder="" style="--area-min-lines: 4; --area-max-lines: 12" aria-disabled="false"></iron-autogrow-textarea></iron-input></div></div>')
     })
 
-    it('should not be affected by units, hideBorder, nor rounded', async () => {
-      const el = await fixture(`<unity-text-input area value="${testText}" units="${testUnits}" hideBorder rounded></unity-text-input>`)
-      const unitsClass = el.shadowRoot.querySelector('iron-input.input-wrapper.area.units')
-      const hideBorder = el.shadowRoot.querySelector('iron-input.input-wrapper.area.hideBorder')
-      const showBorder = el.shadowRoot.querySelector('iron-input.input-wrapper.area.showBorder')
-      const rounded = el.shadowRoot.querySelector('iron-input.input-wrapper.area.rounded')
-      const notRounded = el.shadowRoot.querySelector('iron-input.input-wrapper.area.notRounded')
+    it('should not be affected by units, prefixedText, hideBorder, nor rounded', async () => {
+      const el = await fixture(`<unity-text-input area value="${testText}" units="${testUnits}" prefixedText="${testPrefix}" hideBorder rounded></unity-text-input>`)
+      const unitsClass = el.shadowRoot.querySelector('.input-wrapper.area.units')
+      const prefixedTextClass = el.shadowRoot.querySelector('.input-wrapper.area.prefixed-text')
+      const hideBorder = el.shadowRoot.querySelector('.input-wrapper.area.hideBorder')
+      const showBorder = el.shadowRoot.querySelector('.input-wrapper.area.showBorder')
+      const rounded = el.shadowRoot.querySelector('.input-wrapper.area.rounded')
+      const notRounded = el.shadowRoot.querySelector('.input-wrapper.area.notRounded')
 
       expect(unitsClass).to.not.exist
+      expect(prefixedTextClass).to.not.exist
       expect(hideBorder).to.not.exist
       expect(showBorder).to.exist
       expect(rounded).to.not.exist
@@ -395,8 +417,8 @@ describe('unity-text-input', () => {
 
     it('should not render left or right icons', async () => {
       const el = await fixture(`<unity-text-input area innerRightIcon="${innerIcon}" innerLeftIcon="${innerIcon}"></unity-text-input>`)
-      const rightIcon = el.shadowRoot.querySelector('iron-input.input-wrapper.area div.icon-right-wrapper unity-icon.inner-icon')
-      const leftIcon = el.shadowRoot.querySelector('iron-input.input-wrapper.area div.icon-left-wrapper unity-icon.inner-icon')
+      const rightIcon = el.shadowRoot.querySelector('.input-wrapper.area div.icon-right-wrapper unity-icon.inner-icon')
+      const leftIcon = el.shadowRoot.querySelector('.input-wrapper.area div.icon-left-wrapper unity-icon.inner-icon')
       expect(rightIcon).to.not.exist
       expect(leftIcon).to.not.exist
 
@@ -411,7 +433,7 @@ describe('unity-text-input', () => {
 
     it('should have maxlength', async () => {
       const el = await fixture(`<unity-text-input area value="${longTestInput}" maxlength="${maxlength}" ></unity-text-input>`)
-      const ironInput = el.shadowRoot.querySelector('iron-input.input-wrapper.area')
+      const ironInput = el.shadowRoot.querySelector('iron-input')
       const textArea = el.shadowRoot.querySelector('iron-autogrow-textarea#textarea')
       expect(ironInput.bindValue.length).to.equal(maxlength)
       expect(ironInput.bindValue).to.not.equal(longTestInput)

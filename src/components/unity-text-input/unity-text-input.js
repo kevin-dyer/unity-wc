@@ -34,6 +34,8 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
 * @param {bool} dirty, if true, will render left-side bar to show that the element has been changed from it's original contents
 * @param {bool} autofocus, focus input on load
+* @param {''} prefixedText, read-only text to include at the start of the input
+
 * @example
 * <unity-text-input>
 *   .label="${'Strong Validation'}"
@@ -66,6 +68,8 @@ css vars
   input-icon-hint-color
   input-icon-valid-color
   input-icon-error-color
+  input-prefixed-text-color
+  input-prefixed-text-padding
   inner-icon-size
 **/
 
@@ -99,6 +103,7 @@ class UnityTextInput extends LitElement {
     this.maxLines = MAX_LINES
     this.dirty = false
     this.autofocus = false
+    this.prefixedText = ""
 
     // internals
     this._error = ''
@@ -138,6 +143,7 @@ class UnityTextInput extends LitElement {
       maxLines: { type: Number },
       dirty: { type: Boolean },
       autofocus: { type: Boolean },
+      prefixedText: { type: String },
 
       // internals
       _valid: { type: Boolean },
@@ -268,10 +274,8 @@ class UnityTextInput extends LitElement {
 
   _renderIcon() {
     const {
-      password,
       showIcon,
       _valid,
-      _strength
     } = this
 
     if (!!showIcon) {
@@ -296,7 +300,7 @@ class UnityTextInput extends LitElement {
     if (!icon) return
     return html`
       <div class="${!!iconOnLeftSide ? "icon-left-wrapper" : "icon-right-wrapper"}">
-        <unity-icon class="inner-icon${password ? ' password' : ''}" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _focusInput}"></unity-icon>
+        <unity-icon class="inner-icon${password && !iconOnLeftSide ? ' password' : ''}" icon="${icon}" @click="${!iconOnLeftSide ? _clickRightIcon : _focusInput}"></unity-icon>
       </div>
     `
   }
@@ -387,6 +391,7 @@ class UnityTextInput extends LitElement {
       dirty,
       showIcon,
       autofocus,
+      prefixedText,
       _onChange,
       _valid,
       _strength,
@@ -422,50 +427,64 @@ class UnityTextInput extends LitElement {
             </p>`
           : null
         }
-        <iron-input
+        <div
           class="${this._getInputWrapperClasses()}"
-          bind-value="${value}"
-          @input="${_onChange}"
           @click="${_focusInput}"
         >
-          ${!!area ?
-            html`<iron-autogrow-textarea
-              id="textarea"
-              value="{{value::iron-autogrow-textarea}}"
-              maxlength="${maxlength || null}"
-              class="${!!disabled ? "disabled" : ""}"
-              ?disabled=${!!disabled || !!readOnly}
-              placeholder="${!!placeholder ? placeholder : ''}"
-              style="--area-min-lines: ${minLines}; --area-max-lines: ${maxLines}"
-              ?autofocus=${autofocus}
-            ></iron-autogrow-textarea>`
-            :
-            html`<input
-              value="{{value::input}}"
-              id="input"
-              type="${type}"
-              maxlength="${maxlength || null}"
-              placeholder="${!!placeholder ? placeholder : ''}"
-              style="${!!innerLeftIcon ? "margin-left: 18px;" : ''}"
-              class="${!!disabled ? "disabled" : ""}"
-              ?disabled=${!!disabled || !!readOnly}
-              ?autofocus=${autofocus}
-            >`
-          }
-          ${!!dirty ? html`<div class="dirty" />` : null}
-          ${!area ? this._renderInnerIcon(innerRightIcon, false) : null}
           ${!area ? this._renderInnerIcon(innerLeftIcon, true) : null}
+
+          ${(!area && !!prefixedText) ?
+            html`<div
+              class="prefixed-text ${!!disabled ? "disabled" : ""}"
+            >
+              ${prefixedText}
+            </div>`
+          : null}
+          <iron-input
+            bind-value="${value}"
+            @input="${_onChange}"
+            >
+
+            ${!!area ?
+              html`<iron-autogrow-textarea
+                id="textarea"
+                value="{{value::iron-autogrow-textarea}}"
+                maxlength="${maxlength || null}"
+                class="${!!disabled ? "disabled" : ""}"
+                ?disabled=${!!disabled || !!readOnly}
+                placeholder="${!!placeholder ? placeholder : ''}"
+                style="--area-min-lines: ${minLines}; --area-max-lines: ${maxLines}"
+                ?autofocus=${autofocus}
+              ></iron-autogrow-textarea>`
+              :
+              html`<input
+                value="{{value::input}}"
+                id="input"
+                type="${type}"
+                maxlength="${maxlength || null}"
+                placeholder="${!!placeholder ? placeholder : ''}"
+                class="${!!disabled ? "disabled" : ""}"
+                ?disabled=${!!disabled || !!readOnly}
+                ?autofocus=${autofocus}
+                autocomplete="off"
+                name="${label}"
+              >`
+            }
+          </iron-input>
+          ${!!dirty ? html`<div class="dirty" />` : null}
           ${(!area && !!units) ?
             html`<div
               class="units ${!!disabled ? "disabled" : ""}"
-              @click="${_focusInput}"
             >
               ${units}
             </div>`
           : null}
+          ${!area ? this._renderInnerIcon(innerRightIcon, false) : null}
+
           ${!showIcon && required ? html`<span class="required field">*</span>` : null}
           ${!area ? this._renderIcon() : null}
-        </iron-input>
+      
+        </div>
         ${(_errorText || remark || charCount)? this.renderBottomDiv() : null}
       </div>
     `
@@ -493,6 +512,8 @@ class UnityTextInput extends LitElement {
           --default-input-icon-hint-color: var(--primary-color, var(--default-primary-color));
           --default-input-icon-valid-color: var(--primary-color, var(--default-primary-color));
           --default-input-icon-error-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
+          --default-input-prefixed-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
+          --default-input-prefixed-text-padding: 0;
           font-family: var(--input-font, var(--default-input-font));
           font-size: var(--input-text-size, var(--default-input-text-size));
           --default-inner-icon-size: calc(var(--input-text-size, var(--default-input-text-size)) * 4 / 3);
@@ -501,6 +522,10 @@ class UnityTextInput extends LitElement {
         }
         p {
           margin-top: 0;
+        }
+        iron-input {
+          display: flex;
+          width: 100%;
         }
         .label {
           margin-bottom: 6px;
@@ -535,6 +560,7 @@ class UnityTextInput extends LitElement {
           position: relative;
           display: flex;
           flex-direction: row;
+          align-items: center;
         }
         .area {
           height: auto;
@@ -602,6 +628,13 @@ class UnityTextInput extends LitElement {
           color: var(--input-text-color, var(--default-input-text-color));
           line-height: 2;
         }
+        .prefixed-text {
+          flex: 0;
+          padding-right: var(--input-prefixed-text-padding, var(--default-input-prefixed-text-padding));
+          align-self: center;
+          color: var(--input-prefixed-text-color, var(--default-input-prefixed-text-color));
+          line-height: 2;
+        }
         .icon-wrapper {
           position: absolute;
           left: calc(100% + 4px);
@@ -611,20 +644,14 @@ class UnityTextInput extends LitElement {
           transform: translateY(-50%);
         }
         .icon-left-wrapper {
-          position: absolute;
-          left: 4px;
-          top: 50%;
-          transform: translateY(-50%);
           height: 20px;
           width: 20px;
+          margin-right: 2px;
         }
         .icon-right-wrapper {
-          position: relative;
-          left: 4px;
-          top: 50%;
-          transform: translateY(-50%);
           height: 20px;
           width: 20px;
+          margin-left: 2px;
         }
         .showBorder {
           border-width: 1px;
@@ -647,19 +674,11 @@ class UnityTextInput extends LitElement {
           color: var(--input-label-color, var(--default-input-label-color));
         }
         .icon {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
           --unity-icon-height: 24px;
           --unity-icon-width: 24px;
           color: var(--input-icon-valid-color, var(--default-input-icon-valid-color));
         }
         .inner-icon {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
           --unity-icon-height: var(--inner-icon-size, var(--default-inner-icon-size));
           --unity-icon-width: var(--inner-icon-size, var(--default-inner-icon-size));
           color: black;

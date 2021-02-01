@@ -79,7 +79,7 @@ describe('search bar test', () => {
     const onChange = makeOnChange(ref)
     const el = await fixture(html`<unity-search-bar .search="${first}" .onChange="${onChange}" .debounceTime="${debounceTime}"></unity-search-bar>`)
     const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
-    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input')
     const input = unityTextInput.shadowRoot.querySelector('input#input')
 
     const inputEventName = 'input'
@@ -107,7 +107,7 @@ describe('search bar test', () => {
     const onChange = makeOnChange(ref)
     const el = await fixture(html`<unity-search-bar search="${first}" debounceTime="${debounceTime}" .onChange="${onChange}"></unity-search-bar>`)
     const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
-    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input')
     const input = unityTextInput.shadowRoot.querySelector('input#input')
 
     const inputEventName = 'input'
@@ -207,7 +207,7 @@ describe('search bar test', () => {
   it("should change options and _showOptions if search changes results", async () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" search="x" debounceTime="${debounceTime}"></unity-search-bar>`)
     const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
-    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input')
     const input = unityTextInput.shadowRoot.querySelector('input#input')
 
     const inputEventName = 'input'
@@ -251,7 +251,7 @@ describe('search bar test', () => {
   it("should change options and _showOptions if tags changes results", async () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" search="t" debounceTime="${debounceTime}"></unity-search-bar>`)
     const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
-    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input')
     const input = unityTextInput.shadowRoot.querySelector('input#input')
 
     let tagMatches = el._currentOptions.tags
@@ -280,7 +280,7 @@ describe('search bar test', () => {
   it("should change options and _showOptions if tagSeed changes results", async () => {
     const el = await fixture(html`<unity-search-bar search="t" debounceTime="${debounceTime}"></unity-search-bar>`)
     const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
-    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input')
     const input = unityTextInput.shadowRoot.querySelector('input#input')
 
     let tagMatches = el._currentOptions.tags
@@ -380,7 +380,7 @@ describe('search bar test', () => {
     const el = await fixture(html`<unity-search-bar .tagSeed="${tagSeed}" .tags="${tagSeed}" search="${testStr}" .debounceTime="${debounceTime}" .onChange="${onChange}"></unity-search-bar>`)
     const clear = el.shadowRoot.querySelector('div#search-bar div.clear-button')
     const unityTextInput = el.shadowRoot.querySelector('div#search-bar div.input-wrapper unity-text-input.input')
-    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input.input-wrapper')
+    const ironInput = unityTextInput.shadowRoot.querySelector('iron-input')
     const input = unityTextInput.shadowRoot.querySelector('input#input')
 
     const inputEventName = 'input'
