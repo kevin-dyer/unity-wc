@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.9.4": {
+    "smartworks.unity/unity-core@1.10.0": {
         "files": [
             {
                 "name": "index.js",
@@ -288,7 +288,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@1.4.6": {
+    "smartworks.unity/unity-dropdown@1.5.0": {
         "files": [
             {
                 "name": "strings.js",

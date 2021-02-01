@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.5.0
+- Allow setting options list max height using the CSS variable `--dropdown-options-list-max-height` 
+
 ### v1.4.5
 - removed top margin from dropdown label
 
