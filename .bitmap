@@ -569,11 +569,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-<<<<<<< HEAD
     "smartworks.unity/unity-split-pane@1.2.0": {
-=======
-    "smartworks.unity/unity-split-pane@1.1.7": {
->>>>>>> master
         "files": [
             {
                 "name": "unity-split-pane.js",
