@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.1
+- fixed issue where clicking bar no longer expanded collapsed pane
+
 ### v1.2.0
 - made collapse button always show, but be disabled when split pane is not shown
 - changed icons for collapse and expand button

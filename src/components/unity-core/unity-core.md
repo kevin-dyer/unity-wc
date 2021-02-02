@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.10.2
+- unity-split-pane v1.2.1
+
 ### v1.10.1
 - unity-split-pane v1.2.0
 
