@@ -190,8 +190,6 @@ describe ('unity-stepper', () => {
     doneStep.dispatchEvent(event)
     await listener
 
-    console.log("doneStep: ", doneStep)
-
     expect(ref.value).to.equal(testStepOne)
   })
 
