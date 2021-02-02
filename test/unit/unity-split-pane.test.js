@@ -19,10 +19,10 @@ describe('split pane test', () => {
     expect(collapseButton).to.exist
   });
 
-  it('renders collapse button only when pane is shown', async () => {
+  it('renders collapse button both when pane is shown and when hidden', async () => {
     const paneHidden = await fixture('<unity-split-pane collapseButton></unity-split-pane>')
     let collapseButton = paneHidden.shadowRoot.querySelector('.collapse-button')
-    expect(collapseButton).to.be.null
+    expect(collapseButton).to.exist
 
     const paneShown = await fixture('<unity-split-pane show collapseButton></unity-split-pane>')
     collapseButton = paneShown.shadowRoot.querySelector('.collapse-button')
