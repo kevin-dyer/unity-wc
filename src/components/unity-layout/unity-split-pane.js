@@ -12,16 +12,15 @@ const MIN_PANE_WIDTH = 20 // %
  *   2) and one to act in a modal-like fashion, to hold contextual information, and cause
  *      the other view to shrink in view but not in function
  * @name UnitySplitPane
- * @param {bool} show, controls if the right pane should be visible or not
- * @param {bool} collapsed, controls if the left pane is collapsed or not
- * @param {''} label, text to show inside the bar when the main pane is collapsed
- * @param {bool} closeButton, controls if the overlapping close button is rendered
- * @param {bool} collapseButton, controls of the overlappy collapse button is rendered
- * @param {func} onClose, function to call when the close button is clicked, sends new pane width in %
- * @param {func} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
- * @param {number} paneWidth, width for the pane in percentage
- * @param {func} onResize, function to call when panel is being resized
- * @param {css} --pane-z-index, css var used for defining z-index of the right pane. Defaults to 3
+ * @param {Boolean} show, controls if the right pane should be visible or not
+ * @param {Boolean} collapsed, controls if the left pane is collapsed or not
+ * @param {Boolean} closeButton, controls if the overlapping close button is rendered
+ * @param {Boolean} collapseButton, controls whether the collapse button is rendered
+ * @param {String} label, text to show inside the bar when the main pane is collapsed
+ * @param {Number} paneWidth, width for the pane in percentage
+ * @param {Function} onClose, function to call when the close button is clicked, sends new pane width in %
+ * @param {Function} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
+ * @param {Function} onResize, function to call when panel is being resized
  * @example
  *   <unity-split-pane
  *     closeButton
@@ -45,6 +44,7 @@ const MIN_PANE_WIDTH = 20 // %
  *   --bar-background
  *   --pane-border-width
  *   --pane-border-color
+ *   --pane-z-index
  *   --bar-width
  *   --header-border
  *   --collapse-button-padding
@@ -144,13 +144,17 @@ class UnitySplitPane extends LitElement {
     this.toggleCollapse(false)
   }
 
+  handleBarClick(e) {
+    this.toggleCollapse(false)
+  }
+
   renderBar() {
     const { label } = this
     return html`
       <unity-typography style="display: flex;">
-        <div class="bar" @click=${() => this.toggleCollapse()}>
+        <div class="bar" @click=${this.handleBarClick}>
           <div class="bar-icon-wrapper">
-            <unity-icon icon="unity:double_right_chevron"></unity-icon>
+            <unity-icon icon="unity:expand_horizontal"></unity-icon>
           </div>
           <div class="bar-label-wrapper">
             <p class="bar-label">${label}</p>
@@ -171,17 +175,18 @@ class UnitySplitPane extends LitElement {
     } = this
     return html`
       ${show && collapsed ? this.renderBar() : ''}
-      <div class="wrapper ${show && collapsed?'hide':''}">
+      <div class="wrapper ${show && collapsed ? 'hide' : ''}">
         <div class="header">
-          ${(collapseButton && show) ? html`
+          <slot name="header"></slot>
+          ${(collapseButton) ? html`
             <unity-button
               class="collapse-button"
-              centerIcon="unity:double_left_chevron"
-              @click=${()=>this.toggleCollapse()}
+              centerIcon="unity:compress"
+              @click=${() => this.toggleCollapse()}
               type="borderless"
+              ?disabled="${!show}"
             ></unity-button>
           `: ''}
-          <slot name="header"></slot>
         </div>
         <div class="scroller">
           <div class="main" style="width: ${show? stretch(paneWidth) : "100"}%;">
@@ -203,7 +208,7 @@ class UnitySplitPane extends LitElement {
               type="borderless"
               class="close-button"
               centerIcon="close"
-              @click=${() => this.closePane()}
+              @click=${this.closePane}
             ></unity-button>`
           : null
         }
@@ -247,6 +252,7 @@ class UnitySplitPane extends LitElement {
         .header {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           border-bottom: var(--header-border);
         }
         .footer {
@@ -268,7 +274,6 @@ class UnitySplitPane extends LitElement {
           flex: 1;
           display: flex;
         }
-
         .main ::slotted(*) {
           width: 100%;
         }
@@ -314,7 +319,7 @@ class UnitySplitPane extends LitElement {
           transform: rotate(-90deg) translate(-50%);
           margin: 0;
         }
-        .resize-handle{
+        .resize-handle {
           position: absolute;
           top: 0;
           left: 0;
@@ -329,6 +334,7 @@ class UnitySplitPane extends LitElement {
         }
         .collapse-button {
           padding: var(--collapse-button-padding);
+          --unity-button-height: 27px;
         }
       `
     ]

@@ -1,5 +1,5 @@
-// import '@bit/smartworks.unity.unity-stepper'
-import '../src/components/unity-stepper/unity-stepper'
+import '@bit/smartworks.unity.unity-stepper'
+// import '../src/components/unity-stepper/unity-stepper'
 import { html } from 'lit-element'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, boolean, number, text, object} from '@storybook/addon-knobs'

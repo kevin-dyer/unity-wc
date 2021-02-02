@@ -2,6 +2,15 @@
 
 ## Changelog:
 
+### v1.2.1
+- fixed issue where clicking bar no longer expanded collapsed pane
+
+### v1.2.0
+- made collapse button always show, but be disabled when split pane is not shown
+- changed icons for collapse and expand button
+- moved collapse button to the right side of the header
+- made collapse button perfectly round
+
 ### v1.1.3
 - add css variable --pane-z-index for specifying z-index of pane. Defaults to 3.
 
