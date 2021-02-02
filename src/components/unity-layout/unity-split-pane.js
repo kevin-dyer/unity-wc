@@ -144,11 +144,15 @@ class UnitySplitPane extends LitElement {
     this.toggleCollapse(false)
   }
 
+  handleBarClick(e) {
+    this.toggleCollapse(false)
+  }
+
   renderBar() {
     const { label } = this
     return html`
       <unity-typography style="display: flex;">
-        <div class="bar" @click=${() => this.toggleCollapse()}>
+        <div class="bar" @click=${this.handleBarClick}>
           <div class="bar-icon-wrapper">
             <unity-icon icon="unity:expand_horizontal"></unity-icon>
           </div>
@@ -171,14 +175,14 @@ class UnitySplitPane extends LitElement {
     } = this
     return html`
       ${show && collapsed ? this.renderBar() : ''}
-      <div class="wrapper ${show && collapsed?'hide':''}">
+      <div class="wrapper ${show && collapsed ? 'hide' : ''}">
         <div class="header">
           <slot name="header"></slot>
           ${(collapseButton) ? html`
             <unity-button
               class="collapse-button"
               centerIcon="unity:compress"
-              @click=${this.toggleCollapse}
+              @click=${() => this.toggleCollapse()}
               type="borderless"
               ?disabled="${!show}"
             ></unity-button>
@@ -204,7 +208,7 @@ class UnitySplitPane extends LitElement {
               type="borderless"
               class="close-button"
               centerIcon="close"
-              @click=${() => this.closePane()}
+              @click=${this.closePane}
             ></unity-button>`
           : null
         }
