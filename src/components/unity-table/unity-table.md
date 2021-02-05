@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.1.4
+### v1.1.5
 - Added customFilter option for table columns to set custom search behavior
 
 ### v1.1.3
