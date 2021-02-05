@@ -12,15 +12,13 @@ export function filterData({
   childKeys=['children'], //attribute names containing nested array of nodes
   columnKeys=['name'] //attribute names to apply filter to
 }) {
-  const searchRegex = new RegExp(filter, 'i')
-
   //Create root node and pass data in as children
   const originalHierarchy = {
     [defaultChildKey]: data
   }
 
   const filteredHierarchy = _filterHierarchy({
-    searchRegex,
+    filter,
     node: originalHierarchy,
     columns,
     path: [],
@@ -41,7 +39,7 @@ function shouldDisplayNode(node={}, columnKeys=[], searchRegex = new RegExp()) {
 
 //Called recursively
 function _filterHierarchy({
-  searchRegex= new RegExp(),
+  filter='',
   node={},
   columns=[],
   path=[],
@@ -57,7 +55,7 @@ function _filterHierarchy({
     if (Array.isArray(children)) {
       children.forEach((child, childIndex) => {
         _filterHierarchy({
-          searchRegex,
+          filter,
           node: child,
           columns,
           path: [...path, childKey, childIndex],
@@ -75,10 +73,16 @@ function _filterHierarchy({
   if (columnKeys.some((colKey, colIndex) => {
     const {
       key,
-      format=val=>val
+      format=val=>val,
+      customFilter
     } = columns[colIndex] || {}
     const cellValue = format(node[key], node)
 
+    if (customFilter && typeof customFilter === 'function') {
+      return customFilter(filter, cellValue)
+    }
+    
+    const searchRegex = new RegExp(filter, 'i')
     return searchRegex.test(cellValue)
   })) {
     let filterNode = filteredHierarchy
