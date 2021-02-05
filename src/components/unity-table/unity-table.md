@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.4
+- Added customFilter option for table columns to set custom search behavior
+
 ### v1.1.3
 - added class name "selection-checkbox" to table row checkbox (used for selecting the row)
 - added class name "select-all-checkbox" to table header checkbox (used for selecting All/None)
