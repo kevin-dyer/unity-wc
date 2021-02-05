@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.10.2": {
+    "smartworks.unity/unity-core@1.10.4": {
         "files": [
             {
                 "name": "index.js",
@@ -106,9 +106,9 @@
                 "test": false
             },
             {
+                "name": "unity-card.js",
                 "relativePath": "src/components/unity-core/unity-card.js",
-                "test": false,
-                "name": "unity-card.js"
+                "test": false
             },
             {
                 "name": "unity-checkbox.js",
@@ -288,7 +288,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@1.5.0": {
+    "smartworks.unity/unity-dropdown@1.5.1": {
         "files": [
             {
                 "name": "strings.js",
