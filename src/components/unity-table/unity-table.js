@@ -75,7 +75,6 @@ import {
  *        label: 'Column #2'
  *        formatLabel: (colValue, datum) => `Building: ${colValue}`
  *        width: 50,
- *        centered: true
  *      },
  *      {
  *        key: 'columnN',
@@ -106,7 +105,13 @@ import {
 //   data:                   array of datum objects, non-uniform shape
 //                           each key is a viable column, with icon available for rendering leading row icon
 //   columns:                array of column objects, can contain formatLabel function (returns string)
-//                           {key (related to datum keys), label (label rendered) width, formatLabel (func to format cell label)}
+//                           structure: {
+//                             key (related to datum keys),
+//                             label (label rendered)
+//                             width (integer tp determine column width)
+//                             formatLabel (function that takes `value` and returns new value for cell)
+//                             customFilter (a function that takes `filter` and `value` and returns `true` if the element should appear in search results)
+//                           }
 //   selected
 //   headless:               bool to control head render, include to have no table header
 //   startExpanded:          bool to control whether data starts as expanded or collapsed
