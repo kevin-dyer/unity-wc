@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.3
+- preventDefault called on menu click to stop progagation of click event.
+
 ### v1.4.1
 - added `highlighted` attribute
 - added css variables to control highlighted styles
