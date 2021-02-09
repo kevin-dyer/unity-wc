@@ -164,7 +164,8 @@ class UnitySelectMenu extends LitElement {
   }
 
   // Call callback function only when the options has no submenu
-  clickedMenu(id, submenu){
+  clickedMenu(id, submenu, e){
+    e.stopPropagation()
     if(!submenu) {
       this.onMenuClick(id)
     }
@@ -204,7 +205,7 @@ class UnitySelectMenu extends LitElement {
     const optionHighlighted = this.highlighted.includes(id)
 
     return html`
-      <li @click=${() => this.clickedMenu(id, submenu)} class="${optionHighlighted ? 'highlighted-option' : null}">
+      <li @click=${(e) => this.clickedMenu(id, submenu, e)} class="${optionHighlighted ? 'highlighted-option' : null}">
         ${tag ? html`
           <unity-tag
             .label="${label}"
