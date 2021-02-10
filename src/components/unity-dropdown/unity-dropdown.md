@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.5.1
+- Filter visible dropdown options by search text in options setter. This keeps search filter applied after an option is selected.
+
 ### v1.5.0
 - Allow setting options list max height using the CSS variable `--dropdown-options-list-max-height` 
 
