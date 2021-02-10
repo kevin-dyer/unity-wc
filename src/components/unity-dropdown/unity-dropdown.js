@@ -446,10 +446,11 @@ class UnityDropdown extends LitElement {
     if (this._options !== value) {
       const oldValue = this._options
       this._options = value
-      this._visibleOptions = value
-
+      // Filter options by search text
+      this._visibleOptions = this.filterOptionsBySearch(value)
       // run filterSelection to remove invalid options
       if (value.length > 0) this.selected = this.filterSelection(this.selected)
+
       this.requestUpdate('options', oldValue)
     }
   }
@@ -552,9 +553,15 @@ class UnityDropdown extends LitElement {
     if(this.boxType === BOX_TYPE_SEARCH) {
       this.expanded = this._searchValue.length > 0
     }
-    // match and update visible values
+    // update visible values filtered by search text
+    this._visibleOptions = this.filterOptionsBySearch()
+  }
+
+  //Can pass in list of options, which defaults to this.options
+  //Filters by this._searchValue
+  filterOptionsBySearch(options=this.options) {
     const searchRegex = new RegExp(this._searchValue, "i")
-    this._visibleOptions = this.options.filter(option => searchRegex.test(option.label))
+    return options.filter(option => searchRegex.test(option.label))
   }
 
 
