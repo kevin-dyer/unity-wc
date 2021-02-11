@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.11
+- prevent column editor from being saved if no columns are selected
+
 ### v1.1.9
 - swap paper for unity-checkbox
 
