@@ -187,6 +187,9 @@ class UnityColumnEditor extends LitElement {
   }
 
   handleSave(e) {
+    //prevent saving if no columns are selected
+    if (this._formSelectedColumns.length === 0) return
+
     const visibleColumns = this._sortedColumns.filter(col =>
       this._formSelectedColumns.some(colKey =>
         colKey === col.key
@@ -276,6 +279,7 @@ class UnityColumnEditor extends LitElement {
           slot="bottom"
           autofocus
           type="primary"
+          ?disabled=${this._formSelectedColumns.length === 0}
           @click=${this.handleSave.bind(this)}
           class="modal-button"
         ></unity-button>
