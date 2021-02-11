@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.7
+- fixed typo with --page-header-font-weight css variable so it applies to the title text
+
 ### v1.2.4
 - added css var --separator-color to control color of separator bar
 
