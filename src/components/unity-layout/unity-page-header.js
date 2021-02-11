@@ -142,7 +142,7 @@ class UnityPageHeader extends LitElement {
           overflow: var(--page-header-left-wrapper-overflow, var(--default-page-header-left-wrapper-overflow));
           white-space: var(--page-header-title-white-space, var(--default-page-header-title-white-space));
           --header1-size: var(--page-header-font-size, var(--default-page-header-font-size));
-          --header1-wight: var(--page-header-font-weight, var(--default-page-header-font-weight));
+          --header1-weight: var(--page-header-font-weight, var(--default-page-header-font-weight));
         }
 
         paper-tabs {
