@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.2
+- Added `autocomplete` attribute. Defaults to "off"
+
 ### v1.3.1
 - Fixed wrong input value when `prefixedText` was set
 - Refactored component's inner HTML structure
