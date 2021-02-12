@@ -34,6 +34,7 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {''} innerLeftIcon, if defined, puts an icon (specified) from the unity icon set on the left side of the text input
 * @param {bool} dirty, if true, will render left-side bar to show that the element has been changed from it's original contents
 * @param {bool} autofocus, focus input on load
+* @param {string} autocomplete, to define autocomplete behavior, defaults to "off"
 * @param {''} prefixedText, read-only text to include at the start of the input
 
 * @example
@@ -104,6 +105,7 @@ class UnityTextInput extends LitElement {
     this.dirty = false
     this.autofocus = false
     this.prefixedText = ""
+    this.autocomplete = "off"
 
     // internals
     this._error = ''
@@ -144,6 +146,7 @@ class UnityTextInput extends LitElement {
       dirty: { type: Boolean },
       autofocus: { type: Boolean },
       prefixedText: { type: String },
+      autocomplete: { type: String },
 
       // internals
       _valid: { type: Boolean },
@@ -392,6 +395,7 @@ class UnityTextInput extends LitElement {
       showIcon,
       autofocus,
       prefixedText,
+      autocomplete,
       _onChange,
       _valid,
       _strength,
@@ -466,7 +470,7 @@ class UnityTextInput extends LitElement {
                 class="${!!disabled ? "disabled" : ""}"
                 ?disabled=${!!disabled || !!readOnly}
                 ?autofocus=${autofocus}
-                autocomplete="off"
+                autocomplete="${autocomplete}"
                 name="${label}"
               >`
             }
