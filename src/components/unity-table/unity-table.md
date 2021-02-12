@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.6
+- Fixed bug in sortData table util function.
+
 ### v1.1.5
 - Added customFilter option for table columns to set custom search behavior
 
