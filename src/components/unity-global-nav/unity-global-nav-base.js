@@ -176,7 +176,6 @@ class UnityGlobalNavBase extends LitElement {
           </div>
         `  : ''}
       </div>
-      ${gutter ? html`</div>` : ''}
       ${grid && _showGrid? html`<div class="grid"></div>` : ''}
     `
   }
