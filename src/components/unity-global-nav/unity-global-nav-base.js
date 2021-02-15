@@ -143,39 +143,39 @@ class UnityGlobalNavBase extends LitElement {
     const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, _showGrid } = this
     const { bottom, top } = items
     return html`
-        <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
-          <div class="header-container">
-            <slot name="customHeader">
-              <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
-                <div class="logo">
-                  <img src=${logo}>
-                </div>
+      <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
+        <div class="header-container">
+          <slot name="customHeader">
+            <div class="logo-container flex-center ${grid ? 'clickable': ''}" @click=${grid ? this._toggleGrid : null}>
+              <div class="logo">
+                <img src=${logo} />
               </div>
-              ${!collapsed ?
-                headerImg ?
-                  html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
-                  html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
-              : ''}
-            </slot> 
-            ${!collapsed ? html`<slot name="customExpandedHeader"></slot>` : ''}
-          </div>
-          ${!collapsed ? html`<slot name="expandedSubHeader" class="subheader-container"></slot>` : html`<slot name="collapsedSubHeader" class="subheader-container"></slot>`}
-          <div class="menu-box">
-            <div class="top-container">
-              ${top? this.renderItems(top) : ''}
             </div>
-            <div class="bottom-container">
-              ${bottom? this.renderItems(bottom) : '' }
-            </div>
+            ${!collapsed ?
+              headerImg ?
+                html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
+                html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
+            : ''}
+          </slot> 
+          ${!collapsed ? html`<slot name="customExpandedHeader"></slot>` : ''}
+        </div>
+        ${!collapsed ? html`<slot name="expandedSubHeader" class="subheader-container"></slot>` : html`<slot name="collapsedSubHeader" class="subheader-container"></slot>`}
+        <div class="menu-box">
+          <div class="top-container">
+            ${top? this.renderItems(top) : ''}
           </div>
-          ${collapsible ? html`
+          <div class="bottom-container">
+            ${bottom? this.renderItems(bottom) : '' }
+          </div>
+        </div>
+        ${collapsible ? html`
           <div>
-            <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
+            <div class="collapse-button flex-center" @click="${this._toggleCollapse}">
               <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
             </div>
           </div>
         `  : ''}
-        </div>
+      </div>
       ${gutter ? html`</div>` : ''}
       ${grid && _showGrid? html`<div class="grid"></div>` : ''}
     `
