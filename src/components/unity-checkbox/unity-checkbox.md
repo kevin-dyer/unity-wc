@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.0.4
+### v1.0.5
 - disable event propagation on checkbox click
 
 ### v1.0.3

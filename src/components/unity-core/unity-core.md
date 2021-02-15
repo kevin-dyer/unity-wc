@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.10.11
+- unity-checkbox v1.0.4
+
 ### v1.10.3
 - unity-table v1.1.5
 ### v1.10.2
