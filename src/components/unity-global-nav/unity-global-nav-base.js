@@ -41,7 +41,7 @@ import '@bit/smartworks.unity.unity-icon'
 * >
 * </unity-global-nav>
 **/
-c
+
 // Left-mounted Global Navigation Bar, only internal variable is bool 'gutter'
 // Has slots for top and bottom aligned items. They will be top or bottom mounted, but render in top-down order
 // To be used with 'unity-nav-top-item's. Others may be used, but may not have intended results.
