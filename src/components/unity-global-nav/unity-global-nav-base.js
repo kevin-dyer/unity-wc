@@ -41,7 +41,7 @@ import '@bit/smartworks.unity.unity-icon'
 * >
 * </unity-global-nav>
 **/
-
+c
 // Left-mounted Global Navigation Bar, only internal variable is bool 'gutter'
 // Has slots for top and bottom aligned items. They will be top or bottom mounted, but render in top-down order
 // To be used with 'unity-nav-top-item's. Others may be used, but may not have intended results.
@@ -145,22 +145,21 @@ class UnityGlobalNavBase extends LitElement {
     return html`
         <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
           <div class="header-container">
-             <slot name="customHeader">
-               <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
-                 <div class="logo">
-                   <img src=${logo}>
-                 </div>
-               </div>
-               ${!collapsed?
-                 headerImg?
-                   html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
-                   html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
-               : ''}
-             </slot> 
-             ${!collapsed? 
-               html`<slot name="customExpandedHeader"></slot>`
-             : ''}
+            <slot name="customHeader">
+              <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
+                <div class="logo">
+                  <img src=${logo}>
+                </div>
+              </div>
+              ${!collapsed ?
+                headerImg ?
+                  html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
+                  html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
+              : ''}
+            </slot> 
+            ${!collapsed ? html`<slot name="customExpandedHeader"></slot>` : ''}
           </div>
+          ${!collapsed ? html`<slot name="expandedSubHeader" class="subheader-container"></slot>` : html`<slot name="collapsedSubHeader" class="subheader-container"></slot>`}
           <div class="menu-box">
             <div class="top-container">
               ${top? this.renderItems(top) : ''}
@@ -253,6 +252,11 @@ class UnityGlobalNavBase extends LitElement {
           cursor: pointer;
         }
         .header-container {
+          display: flex;
+          border-bottom: 1px solid var(--global-nav-border-color, var(--default-global-nav-border-color));
+          align-items: center;
+        }
+        .subheader-container {
           display: flex;
           border-bottom: 1px solid var(--global-nav-border-color, var(--default-global-nav-border-color));
           align-items: center;
