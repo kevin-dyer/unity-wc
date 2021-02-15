@@ -12,7 +12,7 @@ describe ('unity-checkbox', () => {
 
   it('should render', async () => {
     const el = await fixture('<unity-checkbox></unity-checkbox>')
-    expect(el).shadowDom.to.equal('<sp-checkbox  class="checkbox"  data-js-focus-visible=""  dir="ltr"  focusable=""></sp-checkbox>')
+    expect(el).shadowDom.to.equal('<sp-checkbox  class="checkbox"  data-js-focus-visible=""  dir="ltr"  focusable="" onclick="event.stopPropagation()"></sp-checkbox>')
   })
 
   it('should default to just the checkbox', async () => {
