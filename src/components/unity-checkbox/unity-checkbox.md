@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.5
+- disable event propagation on checkbox click
+
 ### v1.0.3
 - changed "ignoreClicks" to "controlled"
 

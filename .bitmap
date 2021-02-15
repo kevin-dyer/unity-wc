@@ -53,7 +53,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-checkbox@1.0.4": {
+    "smartworks.unity/unity-checkbox@1.0.5": {
         "files": [
             {
                 "relativePath": "src/components/unity-checkbox/unity-checkbox.js",
@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.10.10": {
+    "smartworks.unity/unity-core@1.10.11": {
         "files": [
             {
                 "name": "index.js",
