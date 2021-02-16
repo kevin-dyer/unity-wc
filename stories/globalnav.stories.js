@@ -23,6 +23,8 @@ export const Standard = () => {
     bottom: bottomItemList
   } = itemsLib
   const gutter = boolean("Show Gutter", true)
+  const headerText = text("Header Text", "Header")
+  const showSubHeader = boolean("Show SubHeader", true)
   const collapsible = boolean("Collapsible", true)
   const collapsed = boolean("Collapsed", false)
   const grid = boolean("Grid", true)
@@ -41,6 +43,7 @@ export const Standard = () => {
     <div style="${style}">
       <unity-global-nav-base
         .gutter="${gutter}"
+        .header="${headerText}"
         .logo="../images/manifest/icon-48x48.png"
         ?collapsible="${collapsible}"
         ?collapsed="${collapsed}"
@@ -48,10 +51,15 @@ export const Standard = () => {
         .grid="${grid}"
         .onSelect="${action('onSelect')}"
         .onToggleCollapse="${action('onToggleCollapse')}"
+        ?subHeaderBorder="${showSubHeader}"
         ?alwaysShowBordersTop="${alwaysShowBordersTop}"
         ?alwaysShowBordersBottom="${alwaysShowBordersBottom}"
         ?bubbleBottomItems="${bubbleBottomItems}"
-      ></unity-global-nav-base>
+      >
+        ${showSubHeader ? html`<div style="padding: 4px;" slot="subHeader">
+          Sub Header Content
+        </div>` : ''}
+      </unity-global-nav-base>
     </div>
   `;
 }

@@ -25,14 +25,18 @@ import '@bit/smartworks.unity.unity-icon'
 *   - key, the key of the item that changed open state, if applicable
 *   - openState, the new open state of the element that changed, if applicable
 * @param {object} [openStates], dictionary of item keys with a boolean value for whether that item is "open" (children are visible)
-* @param {boolean} [alwaysShowBordersTop], if true, top items will have borders even when closed
-* @param {boolean} [alwaysShowBordersBottom], if true, bottom items will have borders even when closed
-* @param {boolean} [bubbleBottomItems], if true, bottom items will appear in a "bubble"
+* @param {bool} [alwaysShowBordersTop], if true, top items will have borders even when closed
+* @param {bool} [alwaysShowBordersBottom], if true, bottom items will have borders even when closed
+* @param {bool} [bubbleBottomItems], if true, bottom items will appear in a "bubble"
+* @param {bool} [subHeaderBorder], add a bordered area below the header for the subHeader slot. If no subHeader content, this just doubles the width of the border below the header
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
 * @param {css} --primary-brand-color, var, css var used for coloring the component
 * @param {css} --global-nav-text-color, css var used for coloring the component
 * @param {css} --global-nav-border-color, css var used for coloring the component
+* @param {slot} customHeader, slot for entire header content, intended to be used in lieu of logo and header image
+* @param {slot} customExpandedHeader, slot for header content that is visible only when expanded, intended to be used in lieu of header image
+* @param {slot} subHeader, slot for content below the header, used in conjunction with subHeaderBorder
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-global-nav gutter
@@ -60,6 +64,7 @@ class UnityGlobalNavBase extends LitElement {
     super()
 
     this.gutter = false
+    this.subHeaderBorder = false
     this.logo = ''
     this.collapsible = false
     this.collapsed = false
@@ -85,6 +90,7 @@ class UnityGlobalNavBase extends LitElement {
   static get properties() {
     return {
       gutter: { type: Boolean },
+      subHeaderBorder: { type: Boolean },
       logo: { type: String },
       collapsible: { type: Boolean },
       collapsed: { type: Boolean },
@@ -205,27 +211,27 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   render() {
-    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, bubbleBottomItems, _showGrid } = this
+    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, bubbleBottomItems, subHeaderBorder, _showGrid } = this
     const { bottom, top } = items
     return html`
-        <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
+        <div class="menu text${collapsed ? ' collapsed' : ''}${gutter ? ' gutter' : ''}${_showGrid ? ' shadowless' : ''}">
           <div class="header-container">
-             <slot name="customHeader">
-               <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
-                 <div class="logo">
-                   <img src=${logo}>
-                 </div>
-               </div>
-               ${!collapsed?
-                 headerImg?
-                   html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
-                   html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
-               : ''}
-             </slot> 
-             ${!collapsed? 
-               html`<slot name="customExpandedHeader"></slot>`
-             : ''}
+            <slot name="customHeader">
+              <div class="logo-container flex-center ${grid ? 'clickable': ''}" @click=${grid ? this._toggleGrid : null}>
+                <div class="logo">
+                  <img src=${logo}>
+                </div>
+              </div>
+              ${!collapsed ?
+                headerImg ?
+                  html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
+                  html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
+              : ''}
+            </slot> 
+             ${!collapsed ? html`<slot name="customExpandedHeader"></slot>` : ''}
           </div>
+          ${!collapsed ? html`<slot name="subHeader" class="${subHeaderBorder ? 'header-container' : ''}"></slot>` : ''}
+
           <div class="menu-box">
             <div class="top-container">
               ${top ? this.renderItems(top, this.alwaysShowBordersTop) : ''}
@@ -241,13 +247,12 @@ class UnityGlobalNavBase extends LitElement {
           ` : ''}
           ${collapsible ? html`
             <div>
-              <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
-                <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
+              <div class="collapse-button flex-center" @click="${this._toggleCollapse}">
+                <unity-icon .icon=${collapsed ? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
               </div>
             </div>
           `  : ''}
         </div>
-      ${gutter ? html`</div>` : ''}
       ${grid && _showGrid? html`<div class="grid"></div>` : ''}
     `
   }
