@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.5
+- Added `borderWhenClosed` attribute
+
 ### v1.2.4
 - Use same style for every item, independently from whether the element has children or not.
 
