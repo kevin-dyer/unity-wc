@@ -37,8 +37,10 @@ export const UsingNotificationsHandler = () => {
   const noAnimation = boolean('No Animation', false)
   const position = select('position', {
     'top-right': 'top-right',
+    'top-center': 'top-center',
     'top-left': 'top-left',
     'bottom-right': 'bottom-right',
+    'bottom-center': 'bottom-center',
     'bottom-left': 'bottom-left',
   }, 'top-right')
   const notificationHeight = number('Notification Height', 60, {
@@ -169,7 +171,7 @@ export const UsingNotificationsHandler = () => {
         --notification-height: ${notificationHeight}px;
         --notification-width: ${notificationWidth}px;
       }
-      
+
       .buttons-container {
         display: flex;
         flex-direction: row;
