@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.0
+- Added subHeader slot and subHeaderBorder attribute
+
 ### v1.3.5
 - Added onToggleCollapse callback to unity-global-nav-base. Indicates when the collapsed state has changed, providing the current collapsed value.
 
