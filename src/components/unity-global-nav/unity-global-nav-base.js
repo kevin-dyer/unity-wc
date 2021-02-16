@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import { styleToString } from '@bit/smartworks.unity.unity-utils'
-import '@bit/smartworks.unity.unity-global-nav-top-item'
+// import '@bit/smartworks.unity.unity-global-nav-top-item'
+import './unity-global-nav-top-item'
 import '@bit/smartworks.unity.unity-icon-set'
 import '@bit/smartworks.unity.unity-typography'
 import '@bit/smartworks.unity.unity-icon'
@@ -24,6 +25,9 @@ import '@bit/smartworks.unity.unity-icon'
 *   - key, the key of the item that changed open state, if applicable
 *   - openState, the new open state of the element that changed, if applicable
 * @param {object} [itemOpenStates], dictionary of item keys with a boolean value for whether that item is "open" (children are visible)
+* @param {boolean} [alwaysShowBordersTop], if true, top items will have borders even when closed
+* @param {boolean} [alwaysShowBordersBottom], if true, bottom items will have borders even when closed
+* @param {boolean} [bubbleBottomItems], if true, bottom items will appear in a "bubble"
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
 * @param {css} --primary-brand-color, var, css var used for coloring the component
@@ -68,8 +72,11 @@ class UnityGlobalNavBase extends LitElement {
     this.onToggleCollapse = () => {}
     this.onItemOpenStateChange = () => {}
     this.openStates = {}
+    this.alwaysShowBordersTop = false
+    this.alwaysShowBordersBottom = false
+    this.bubbleBottomItems = false
 
-    this._itemClicked = (key) => { this._changeSelection(key)}
+    this._itemClicked = (key) => { this._changeSelection(key) }
     this._showGrid = false
     this._openStates = {}
     this._items = {}
@@ -88,6 +95,10 @@ class UnityGlobalNavBase extends LitElement {
       headerImg: { type: String },
       grid: { type: Boolean },
       onToggleCollapse: { type: Function },
+      alwaysShowBordersTop: { type: Boolean },
+      alwaysShowBordersBottom: { type: Boolean },
+      bubbleBottomItems: { type: Boolean },
+
       _itemClicked: { type: Function },
       _showGrid: { type: Boolean },
       _openStates: { type: Object }
@@ -159,8 +170,8 @@ class UnityGlobalNavBase extends LitElement {
     this.onItemOpenStateChange(this._openStates, key, open)
   }
 
-  renderItems(items) {
-    return items.map(({ key, label, short, icon, children, disabled, style }, index) => {
+  renderItems(items, alwaysShowBorders) {
+    return items.map(({ key, label, short, icon, children, disabled, style, borderWhenClosed }, index) => {
       // Determine if next item is open, if so, set openNeighbor to true
       const isLast = index === items.length - 1
       const nextKey = !isLast && items[index + 1].key
@@ -186,6 +197,7 @@ class UnityGlobalNavBase extends LitElement {
           ?open=${this._openStates[key]}
           .onOpen=${this._setOpenState.bind(this)}
           ?openNeighbor=${hasOpenNeighbor}
+          ?borderWhenClosed=${!isLast && (alwaysShowBorders || borderWhenClosed)}
           style=${styleToString(style)}
         ></unity-global-nav-top-item>
       `
@@ -193,7 +205,7 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   render() {
-    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, _showGrid } = this
+    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, bubbleBottomItems, _showGrid } = this
     const { bottom, top } = items
     return html`
         <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
@@ -216,19 +228,24 @@ class UnityGlobalNavBase extends LitElement {
           </div>
           <div class="menu-box">
             <div class="top-container">
-              ${top? this.renderItems(top) : ''}
+              ${top ? this.renderItems(top, this.alwaysShowBordersTop) : ''}
             </div>
             <div class="bottom-container">
-              ${bottom? this.renderItems(bottom) : '' }
+              ${!bubbleBottomItems && bottom ? this.renderItems(bottom, this.alwaysShowBordersBottom) : ''}
             </div>
           </div>
+          ${bubbleBottomItems ? html`
+            <div class="bubble-items-container">
+              ${bottom ? this.renderItems(bottom, this.alwaysShowBordersBottom) : ''}
+            </div>
+          ` : ''}
           ${collapsible ? html`
-          <div>
-            <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
-              <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
+            <div>
+              <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
+                <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
+              </div>
             </div>
-          </div>
-        `  : ''}
+          `  : ''}
         </div>
       ${gutter ? html`</div>` : ''}
       ${grid && _showGrid? html`<div class="grid"></div>` : ''}
@@ -335,6 +352,12 @@ class UnityGlobalNavBase extends LitElement {
           min-height: min-content;
           width: 100%;
           border-collapse: collapse;
+        }
+        .bubble-items-container {
+          margin: 4px;
+          border: 1px solid var(--global-nav-light-text-color, var(--default-global-nav-light-text-color));
+          border-radius: 2px;
+          min-height: min-content;
         }
         unity-icon {
           color: var(--global-nav-highlight-color, var(--default-global-nav-highlight-color));
