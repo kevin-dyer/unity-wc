@@ -1,4 +1,5 @@
 import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
+// import '../src/components/unity-global-nav/unity-global-nav-base'
 
 import { html, LitElement } from 'lit-element';
 import {
@@ -24,6 +25,8 @@ export const Standard = () => {
     bottom: bottomItemList
   } = itemsLib
   const gutter = boolean("Show Gutter", true)
+  const headerText = text("Header Text", "Header")
+  const showSubHeader = boolean("Show SubHeader", true)
   const collapsible = boolean("Collapsible", true)
   const collapsed = boolean("Collapsed", false)
   const grid = boolean("Grid", true)
@@ -39,6 +42,7 @@ export const Standard = () => {
     <div style="${style}">
       <unity-global-nav-base
         .gutter="${gutter}"
+        .header="${headerText}"
         .logo="../images/manifest/icon-48x48.png"
         .collapsible="${collapsible}"
         .collapsed="${collapsed}"
@@ -46,7 +50,12 @@ export const Standard = () => {
         .grid="${grid}"
         .onSelect="${action('onSelect')}"
         .onToggleCollapse="${action('onToggleCollapse')}"
-      ></unity-global-nav-base>
+        ?subHeaderBorder="${showSubHeader}"
+      >
+        ${showSubHeader ? html`<div style="padding: 4px;" slot="subHeader">
+          Sub Header Content
+        </div>` : ''}
+      </unity-global-nav-base>
     </div>
   `;
 }
