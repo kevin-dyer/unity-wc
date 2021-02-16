@@ -21,10 +21,10 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {Function} [onSelect], callback for when a menu item is selected
 * @param {Function} [onToggleCollapse], callback for when the Side Nav is collapsed or expanded. Callback argument is the current collapsed state.
 * @param {Function} [onItemOpenStateChange], callback for when item openState(s) are set. Arguments are:
-*   - newOpenStates, updated dictionary of open states by key, as in the itemOpenStates property
+*   - newOpenStates, updated dictionary of open states by key, as in the openStates property
 *   - key, the key of the item that changed open state, if applicable
 *   - openState, the new open state of the element that changed, if applicable
-* @param {object} [itemOpenStates], dictionary of item keys with a boolean value for whether that item is "open" (children are visible)
+* @param {object} [openStates], dictionary of item keys with a boolean value for whether that item is "open" (children are visible)
 * @param {boolean} [alwaysShowBordersTop], if true, top items will have borders even when closed
 * @param {boolean} [alwaysShowBordersBottom], if true, bottom items will have borders even when closed
 * @param {boolean} [bubbleBottomItems], if true, bottom items will appear in a "bubble"
