@@ -1,5 +1,5 @@
-// import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
-import '../src/components/unity-global-nav/unity-global-nav-base'
+import '@bit/smartworks.unity.unity-core/unity-global-nav-base'
+// import '../src/components/unity-global-nav/unity-global-nav-base'
 
 import { html } from 'lit-element';
 import {
