@@ -19,11 +19,15 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {Object} items, object containing the menu items
 * @param {Function} onSelect, callback for when a menu item is selected
 * @param {Function} onToggleCollapse, callback for when the Side Nav is collapsed or expanded. Callback argument is the current collapsed state.
+* @param {bool} subHeaderBorder, add a bordered area below the header for the subHeader slot. If no subHeader content, this just doubles the width of the border below the header
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
 * @param {css} --primary-brand-color, var, css var used for coloring the component
 * @param {css} --global-nav-text-color, css var used for coloring the component
 * @param {css} --global-nav-border-color, css var used for coloring the component
+* @param {slot} customHeader, slot for entire header content, intended to be used in lieu of logo and header image
+* @param {slot} customExpandedHeader, slot for header content that is visible only when expanded, intended to be used in lieu of header image
+* @param {slot} subHeader, slot for content below the header, used in conjunction with subHeaderBorder
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-global-nav gutter
@@ -51,6 +55,7 @@ class UnityGlobalNavBase extends LitElement {
     super()
 
     this.gutter = false
+    this.subHeaderBorder = false
     this.logo = ''
     this.collapsible = false
     this.collapsed = false
@@ -70,6 +75,7 @@ class UnityGlobalNavBase extends LitElement {
   static get properties() {
     return {
       gutter: { type: Boolean },
+      subHeaderBorder: { type: Boolean },
       logo: { type: String },
       collapsible: { type: Boolean },
       collapsed: { type: Boolean },
@@ -140,7 +146,7 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   render() {
-    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, _showGrid } = this
+    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, _showGrid, subHeaderBorder } = this
     const { bottom, top } = items
     return html`
       <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
@@ -157,9 +163,11 @@ class UnityGlobalNavBase extends LitElement {
                 html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
             : ''}
           </slot> 
-          ${!collapsed ? html`<slot name="customExpandedHeader"></slot>` : ''}
+          ${!collapsed ?
+            html`<slot name="customExpandedHeader"></slot>`
+          : ''}
         </div>
-        ${!collapsed ? html`<slot name="expandedSubHeader" class="subheader-container"></slot>` : html`<slot name="collapsedSubHeader" class="subheader-container"></slot>`}
+        ${!collapsed ? html`<slot name="subHeader" class="${subHeaderBorder ? 'header-container' : ''}"></slot>` : ''}
         <div class="menu-box">
           <div class="top-container">
             ${top? this.renderItems(top) : ''}
@@ -251,11 +259,6 @@ class UnityGlobalNavBase extends LitElement {
           cursor: pointer;
         }
         .header-container {
-          display: flex;
-          border-bottom: 1px solid var(--global-nav-border-color, var(--default-global-nav-border-color));
-          align-items: center;
-        }
-        .subheader-container {
           display: flex;
           border-bottom: 1px solid var(--global-nav-border-color, var(--default-global-nav-border-color));
           align-items: center;
