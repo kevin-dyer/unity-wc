@@ -6,9 +6,12 @@
 ## Changelog:
 
 
-### v1.10.13
+### v1.10.14
 - unity-global-nav-base v1.4.0
 - unity-global-nav-top-item v1.2.6
+
+### v1.10.13
+- unity-notifications-handler v1.3.1
 
 ### v1.10.12
 - unity-notifications-handler v1.3.0
