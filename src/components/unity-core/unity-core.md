@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+### v1.10.12
+- unity-global-nav-base v1.4.0
+- unity-global-nav-top-item v1.2.6
+
 ### v1.10.11
 - unity-checkbox v1.0.4
 
