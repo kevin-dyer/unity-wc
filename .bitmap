@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.10.14": {
+    "smartworks.unity/unity-core@1.10.15": {
         "files": [
             {
                 "name": "index.js",
@@ -328,7 +328,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-global-nav-base@1.4.0": {
+    "smartworks.unity/unity-global-nav-base@1.4.1": {
         "files": [
             {
                 "name": "unity-global-nav-base.js",

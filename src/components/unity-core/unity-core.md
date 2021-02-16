@@ -6,6 +6,9 @@
 ## Changelog:
 
 
+### v1.10.15
+- unity-global-nav-base v1.4.1
+
 ### v1.10.14
 - unity-global-nav-base v1.4.0
 - unity-global-nav-top-item v1.2.6
