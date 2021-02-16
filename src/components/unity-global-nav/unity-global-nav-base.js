@@ -202,7 +202,7 @@ class UnityGlobalNavBase extends LitElement {
           ?open=${this._openStates[key]}
           .onOpen=${this._setOpenState.bind(this)}
           ?openNeighbor=${hasOpenNeighbor}
-          ?borderWhenClosed=${!isLast && (alwaysShowBorders || borderWhenClosed)}
+          ?borderWhenClosed=${!hasOpenNeighbor && (alwaysShowBorders || borderWhenClosed)}
           style=${styleToString(style)}
         ></unity-global-nav-top-item>
       `

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.
+- Only show `alwaysShowBorders` border when neighbor is not open (prevent double borders)
+
 ### v1.4.0
 - Added `subHeader` slot and `subHeaderBorder` attribute
 - Added `openStates` and `onOpenStateChange` properties
