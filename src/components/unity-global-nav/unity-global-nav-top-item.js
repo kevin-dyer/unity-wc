@@ -20,6 +20,7 @@ import '@bit/smartworks.unity.unity-typography'
 * @param {bool} open, if true, the top nav item is exapnded and child links are visible
 * @param {func} onOpen, action handler for when top nav item is opened or closed. Arguments are key and current open state
 * @param {bool} openNeighbor, if true, the next item is an open nav-top-item, so bottom border should be hidden
+* @param {bool} borderWhenClosed, if true, there will always be a border, even when the item is not expanded
 * @param {[]} children, list of child items
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
@@ -65,6 +66,7 @@ class UnityGlobalNavTopItem extends LitElement {
 
     this.selected = false
     this.short = false
+    this.borderWhenClosed = false
     this.label = ''
     this.key = ''
     this.icon = ''
@@ -81,6 +83,7 @@ class UnityGlobalNavTopItem extends LitElement {
   static get properties() {
     return {
       short: { type: Boolean },
+      borderWhenClosed: { type: Boolean },
       selected: { type: Boolean },
       onSelect: { type: Function },
       label: { type: String },
@@ -119,7 +122,7 @@ class UnityGlobalNavTopItem extends LitElement {
     }
   }
 
-  getLabel(hasIcon, hasChildren) {
+  getLabel(hasIcon) {
     let {
       collapsed,
       label=this.key,
@@ -129,7 +132,7 @@ class UnityGlobalNavTopItem extends LitElement {
     if (!label || collapsed && hasIcon) return ''
     // use child label if only one label
     if (Array.isArray(children) && children.length === 1) label = children[0].label
-    if(collapsed && !hasIcon) label = label[0]
+    if (collapsed && !hasIcon) label = label[0]
     return html`<unity-typography size="paragraph" weight="medium" class="text">${label}</unity-typography>`
   }
 
@@ -145,7 +148,8 @@ class UnityGlobalNavTopItem extends LitElement {
       open=false,
       collapsed,
       disabled,
-      openNeighbor
+      openNeighbor,
+      borderWhenClosed
     } = this
     let hasChildren = Array.isArray(children) && children.length > 0
     if (hasChildren && children.length === 1) {
@@ -161,6 +165,7 @@ class UnityGlobalNavTopItem extends LitElement {
       <div
         class="
           container
+          ${borderWhenClosed && !open ? 'closed-with-border' : ''}
           ${hasChildren && open ? 'open' : ''}
           ${!hasChildren && selected ? 'selected' : ''}
           ${disabled? 'disabled' : ''}
@@ -170,7 +175,7 @@ class UnityGlobalNavTopItem extends LitElement {
       >
         <div class="label ${short ? 'short' : 'tall'} ${collapsed? 'flex-center' : ''}">
           ${hasIcon ? html`<unity-icon class="icon ${selected? 'selected':''}" icon="${icon}"></unity-icon>` : null}
-          ${this.getLabel(hasIcon, hasChildren) }
+          ${this.getLabel(hasIcon) }
           ${collapsed? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
           ${!collapsed && hasChildren ? html`<unity-icon class="icon" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
         </div>
@@ -252,13 +257,15 @@ class UnityGlobalNavTopItem extends LitElement {
           position: absolute;
           z-index: 1;
         }
+        .closed-with-border {
+          border-bottom: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
+        }
         .open {
           background-color: var(--global-nav-item-secondary-color, var(--default-global-nav-item-secondary-color));
           border-top: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
           border-bottom: 1px solid var(--global-nav-item-border-color, var(--border-breakers));
           padding-bottom: var(--global-nav-item-padding-size-sm, var(--defauult-global-nav-item-padding-size-sm));
         }
-
         .open.no-bottom-border {
           border-bottom: none;
         }
