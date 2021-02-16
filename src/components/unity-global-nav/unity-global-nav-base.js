@@ -20,7 +20,7 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {Object} items, object containing the menu items
 * @param {Function} [onSelect], callback for when a menu item is selected
 * @param {Function} [onToggleCollapse], callback for when the Side Nav is collapsed or expanded. Callback argument is the current collapsed state.
-* @param {Function} [onItemOpenStateChange], callback for when item openState(s) are set. Arguments are:
+* @param {Function} [onOpenStateChange], callback for when item openState(s) are set. Arguments are:
 *   - newOpenStates, updated dictionary of open states by key, as in the openStates property
 *   - key, the key of the item that changed open state, if applicable
 *   - openState, the new open state of the element that changed, if applicable
@@ -70,7 +70,7 @@ class UnityGlobalNavBase extends LitElement {
     this.headerImg = ''
     this.grid = false
     this.onToggleCollapse = () => {}
-    this.onItemOpenStateChange = () => {}
+    this.onOpenStateChange = () => {}
     this.openStates = {}
     this.alwaysShowBordersTop = false
     this.alwaysShowBordersBottom = false
@@ -146,7 +146,7 @@ class UnityGlobalNavBase extends LitElement {
       ...newOpenStateDict,
       ...this._openStates
     }
-    this.onItemOpenStateChange(this._openStates)
+    this.onOpenStateChange(this._openStates)
   }
 
   _changeSelection(key) {
@@ -167,7 +167,7 @@ class UnityGlobalNavBase extends LitElement {
       ...this._openStates,
       [key]: open
     }
-    this.onItemOpenStateChange(this._openStates, key, open)
+    this.onOpenStateChange(this._openStates, key, open)
   }
 
   renderItems(items, alwaysShowBorders) {
