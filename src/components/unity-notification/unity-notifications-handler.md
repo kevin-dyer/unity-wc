@@ -2,10 +2,13 @@
 
 ## Changelog:
 
-### v 1.3.0
+### v1.3.1
+- remove ?. as it fails the build
+
+### v1.3.0
  - add center horizontal position, allowing for top-center and bottom-center positions.
 
-### v 1.2.8
+### v1.2.8
  - added back width:100% to notifications-handler :host. Removed --notification-flex css var as it is unnecessary.
 
 ### v1.2.5
