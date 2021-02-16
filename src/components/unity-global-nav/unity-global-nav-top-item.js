@@ -20,7 +20,7 @@ import '@bit/smartworks.unity.unity-typography'
 * @param {bool} open, if true, the top nav item is exapnded and child links are visible
 * @param {func} onOpen, action handler for when top nav item is opened or closed. Arguments are key and current open state
 * @param {bool} openNeighbor, if true, the next item is an open nav-top-item, so bottom border should be hidden
-* @param {[]} children, TO BE IMPLEMENTED, list of child item elements, could be slots
+* @param {[]} children, list of child items
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
 * @param {css} --primary-brand-color, var, css var used for coloring the component
@@ -68,12 +68,13 @@ class UnityGlobalNavTopItem extends LitElement {
     this.label = ''
     this.key = ''
     this.icon = ''
-    this.onSelect = ()=>{}
+    this.onSelect = () => {}
     this.children = []
     this.collapsed = false
     this.disabled = false
-    this.open = true
-    this.onOpen = ()=>{}
+    this.open = false
+    this._open = false
+    this.onOpen = () => {}
     this.openNeighbor = false
   }
 
@@ -94,12 +95,22 @@ class UnityGlobalNavTopItem extends LitElement {
     }
   }
 
+  get open() {
+    return this._open
+  }
+
+  set open(value) {
+    const oldValue = this._open
+    this._open = value
+    this.requestUpdate('open', oldValue)
+  }
+
   // either uses passed in onSelect, or toggles open to show/hide children
   _onSelect() {
     const { children, onSelect } = this
     if (Array.isArray(children) && children.length > 1) {
-      this.open = !this.open
-      this.onOpen(this.key, this.open)
+      this.open = !this._open
+      this.onOpen(this.key, this._open)
     } else if (Array.isArray(children) && children.length === 1) {
       const { onSelect, key, label } = children[0]
       onSelect(key, label)
