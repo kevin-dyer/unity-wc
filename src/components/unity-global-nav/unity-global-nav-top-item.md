@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.2.5
+### v1.2.6
 - Added `borderWhenClosed` attribute
 
 ### v1.2.4
