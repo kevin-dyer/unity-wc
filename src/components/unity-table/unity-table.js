@@ -558,7 +558,7 @@ class UnityTable extends LitElement {
     const oldValue = this._selected
     // this._selected
     const newValue = new Set(selectedSet) // ensure that value is an iterable array of keys
-    //NOTE: The following check prevents the selection from being set to an empty Set.
+    //NOTE: The following isEqual check prevents this._selected from being set to an empty Set.
     // This causes the select all checkbox to remain checked after selected rows are removed from table
     // checks if sets are equal
     // if (!!oldValue && oldValue.size === newValue.size && [...newValue].every(id => oldValue.has(id))) return
