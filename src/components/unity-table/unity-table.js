@@ -52,7 +52,8 @@ import {
  *        column2: 'item 1 col2',
  *        column3: 'item 1 col3',
  *        columnN: 'item 1 colN',
- *        icon: 'iron-iconName'
+ *        icon: 'iron-iconName',
+ *        backgroundColor: '#454545' //define row background color
  *      },
  *      {
  *        column1: 'item 2 col1',
@@ -1161,15 +1162,22 @@ class UnityTable extends LitElement {
     const columns = this.columns
     const {
       icon,
-      image
+      image,
+      backgroundColor
     } = datum
     const expandable = childCount > 0
     const expanded = this.expanded.has(rowId)
     // check if highlightedRow matches keyExtractor
     let rowClasses = ['row']
+    let rowStyle = ""
 
     //NOTE: using == so that rowId can be number or string
-    if (rowId == this.highlightedRow) rowClasses.push('highlight')
+    if (rowId == this.highlightedRow) {
+      rowClasses.push('highlight')
+    } else if (backgroundColor) {
+      //if row is not highlighted, and datum has backgroundColor defined, set style
+      rowStyle = `background-color: ${backgroundColor};`
+    }
     if (this.compact) rowClasses.push('compact')
     if (this.onClickRow instanceof Function) rowClasses.push('clickable')
     // if index is 0, add check-all button
@@ -1190,6 +1198,7 @@ class UnityTable extends LitElement {
             this.onClickRow(datum, rowId, e)
           }
         }}"
+        style="${rowStyle}"
       >
 
         ${columns.map((column, i) => {

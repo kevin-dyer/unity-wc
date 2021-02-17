@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.6
+- Added option to define custom row `backgroundColor` in data attribute.
+
 ### v1.1.5
 - Added customFilter option for table columns to set custom search behavior
 
