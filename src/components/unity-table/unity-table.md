@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.7
+- Added option to define custom row `backgroundColor` in data attribute.
+
 ### v1.1.6
 - Fixed bug in sortData table util function.
 
