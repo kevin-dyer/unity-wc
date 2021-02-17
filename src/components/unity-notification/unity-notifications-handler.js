@@ -187,7 +187,8 @@ class UnityNotificationsHandler extends LitElement {
   updated(changedProps) {
     if (changedProps.has('_queuedNotifications') || changedProps.has('_showNotification')) this._calculateStyles()
     if (changedProps.has('position')) {
-      const [ vertPos, horzPos ] = this.position?.split('-')
+      const { position } = this
+      const [ vertPos, horzPos ] = (typeof position === 'string' ? position : '').split('-')
       // only allow 'top' and 'bottom', defaulting to 'top'
       this._topBottomPosition = vertPos !== 'bottom'
         ? `top`
