@@ -73,6 +73,7 @@ class UnityCheckbox extends LitElement {
         ?checked="${state === 1 ? true : null}"
         ?indeterminate="${state === 2 ? true: null}"
         @change="${this._handleClick}"
+        onclick="event.stopPropagation()"
       >${label ? html`<unity-typography>${label}</unity-typography>` : ''}</sp-checkbox>
     `
   }

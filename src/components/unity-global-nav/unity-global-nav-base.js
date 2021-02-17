@@ -9,21 +9,33 @@ import '@bit/smartworks.unity.unity-icon'
 /**
 * Renders a left-bound navigation bar
 * @name UnityGlobalNavBase
-* @param {bool} gutter, show or hide the side gutter
-* @param {string} logo, path to hosted logo image. If not specified, the unity:app_menu icon will be used
-* @param {string} header, text to display in the header (e.g., product name). Overwritten by headerImg
-* @param {string} headerImg, image to display in the header (e.g., product name logo) instead of the header text
-* @param {bool} collapsible, render button at the bottom to collapse bar
-* @param {bool} collapsed, if the bar is collapsed or not
-* @param {bool} grid, if clicking the logo should open the grid menu
+* @param {bool} [gutter], show or hide the side gutter
+* @param {string} [logo], path to hosted logo image. If not specified, the unity:app_menu icon will be used
+* @param {string} [header], text to display in the header (e.g., product name). Overwritten by headerImg
+* @param {string} [headerImg], image to display in the header (e.g., product name logo) instead of the header text
+* @param {bool} [collapsible], render button at the bottom to collapse bar
+* @param {bool} [collapsed], if the bar is collapsed or not
+* @param {bool} [grid], if clicking the logo should open the grid menu
 * @param {Object} items, object containing the menu items
-* @param {Function} onSelect, callback for when a menu item is selected
-* @param {Function} onToggleCollapse, callback for when the Side Nav is collapsed or expanded. Callback argument is the current collapsed state.
+* @param {Function} [onSelect], callback for when a menu item is selected
+* @param {Function} [onToggleCollapse], callback for when the Side Nav is collapsed or expanded. Callback argument is the current collapsed state.
+* @param {Function} [onOpenStateChange], callback for when item openState(s) are set. Arguments are:
+*   - newOpenStates, updated dictionary of open states by key, as in the openStates property
+*   - key, the key of the item that changed open state, if applicable
+*   - openState, the new open state of the element that changed, if applicable
+* @param {object} [openStates], dictionary of item keys with a boolean value for whether that item is "open" (children are visible)
+* @param {bool} [alwaysShowBordersTop], if true, top items will have borders even when closed
+* @param {bool} [alwaysShowBordersBottom], if true, bottom items will have borders even when closed
+* @param {bool} [bubbleBottomItems], if true, bottom items will appear in a "bubble"
+* @param {bool} [subHeaderBorder], add a bordered area below the header for the subHeader slot. If no subHeader content, this just doubles the width of the border below the header
 * @param {css} --global-nav-background-color, css var used for coloring the component
 * @param {css} --global-nav-expanded-color, css var used for coloring the component
 * @param {css} --primary-brand-color, var, css var used for coloring the component
 * @param {css} --global-nav-text-color, css var used for coloring the component
 * @param {css} --global-nav-border-color, css var used for coloring the component
+* @param {slot} customHeader, slot for entire header content, intended to be used in lieu of logo and header image
+* @param {slot} customExpandedHeader, slot for header content that is visible only when expanded, intended to be used in lieu of header image
+* @param {slot} subHeader, slot for content below the header, used in conjunction with subHeaderBorder
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-global-nav gutter
@@ -51,6 +63,7 @@ class UnityGlobalNavBase extends LitElement {
     super()
 
     this.gutter = false
+    this.subHeaderBorder = false
     this.logo = ''
     this.collapsible = false
     this.collapsed = false
@@ -61,15 +74,22 @@ class UnityGlobalNavBase extends LitElement {
     this.headerImg = ''
     this.grid = false
     this.onToggleCollapse = () => {}
+    this.onOpenStateChange = () => {}
+    this.openStates = {}
+    this.alwaysShowBordersTop = false
+    this.alwaysShowBordersBottom = false
+    this.bubbleBottomItems = false
 
-    this._itemClicked = (key) => { this._changeSelection(key)}
+    this._itemClicked = (key) => { this._changeSelection(key) }
     this._showGrid = false
-    this._openDict = {}
+    this._openStates = {}
+    this._items = {}
   }
 
   static get properties() {
     return {
       gutter: { type: Boolean },
+      subHeaderBorder: { type: Boolean },
       logo: { type: String },
       collapsible: { type: Boolean },
       collapsed: { type: Boolean },
@@ -80,10 +100,58 @@ class UnityGlobalNavBase extends LitElement {
       headerImg: { type: String },
       grid: { type: Boolean },
       onToggleCollapse: { type: Function },
+      alwaysShowBordersTop: { type: Boolean },
+      alwaysShowBordersBottom: { type: Boolean },
+      bubbleBottomItems: { type: Boolean },
+
       _itemClicked: { type: Function },
       _showGrid: { type: Boolean },
-      _openDict: { type: Object }
+      _openStates: { type: Object }
     }
+  }
+
+  get items() {
+    return this._items
+  }
+
+  set items(value) {
+    const oldValue = this._items
+    this._items = value
+    this.constructOpenStatesDictionary(value)
+    this.requestUpdate('items', oldValue)
+  }
+  
+  get openStates() {
+    return this._openStates
+  }
+
+  set openStates(value) {
+    const oldValue = this._openStates
+    this._openStates = value
+    this.requestUpdate('openStates', oldValue)
+  }
+
+  constructOpenStatesDictionary(items) {
+    if (!items) return
+    if (!Array.isArray(items)) {
+      // We received a top level items object
+      this.constructOpenStatesDictionary(items.top)
+      this.constructOpenStatesDictionary(items.bottom)
+      return
+    }
+    const newOpenStateDict = items.reduce((openStateDict, item) => {
+      const { key } = item
+      if (!key) return openStateDict
+      return {
+        ...openStateDict,
+        [key]: false
+      }
+    }, {})
+    this._openStates = {
+      ...newOpenStateDict,
+      ...this._openStates
+    }
+    this.onOpenStateChange(this._openStates)
   }
 
   _changeSelection(key) {
@@ -100,19 +168,19 @@ class UnityGlobalNavBase extends LitElement {
   }
 
   _setOpenState(key, open) {
-    this._openDict = {
-      ...this._openDict,
+    this._openStates = {
+      ...this._openStates,
       [key]: open
     }
+    this.onOpenStateChange(this._openStates, key, open)
   }
 
-  renderItems(items) {
-
-    return items.map(({key, label, short, icon, children, disabled, style}, index) => {
-      //Determine if next item is open, if so, set openNeighbor to true
+  renderItems(items, alwaysShowBorders) {
+    return items.map(({ key, label, short, icon, children, disabled, style, borderWhenClosed }, index) => {
+      // Determine if next item is open, if so, set openNeighbor to true
       const isLast = index === items.length - 1
       const nextKey = !isLast && items[index + 1].key
-      const nextOpenState = !isLast && this._openDict[nextKey]
+      const nextOpenState = !isLast && this._openStates[nextKey]
       const hasOpenNeighbor = !isLast && nextOpenState === undefined || !!nextOpenState
 
       return html`
@@ -131,53 +199,59 @@ class UnityGlobalNavBase extends LitElement {
           }))}"
           ?collapsed=${this.collapsed}
           ?disabled=${disabled}
-          ?open=${this._openDict[key]}
+          ?open=${this._openStates[key]}
           .onOpen=${this._setOpenState.bind(this)}
           ?openNeighbor=${hasOpenNeighbor}
+          ?borderWhenClosed=${!hasOpenNeighbor && (alwaysShowBorders || borderWhenClosed)}
           style=${styleToString(style)}
-        ></unity-global-nav-top-item>`
+        ></unity-global-nav-top-item>
+      `
     })
   }
 
   render() {
-    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, _showGrid } = this
+    const { gutter, logo, collapsible, collapsed, items, headerImg, header, grid, bubbleBottomItems, subHeaderBorder, _showGrid } = this
     const { bottom, top } = items
     return html`
-        <div class="menu text${collapsed?' collapsed':''}${gutter?' gutter':''}${_showGrid? ' shadowless': ''}">
+        <div class="menu text${collapsed ? ' collapsed' : ''}${gutter ? ' gutter' : ''}${_showGrid ? ' shadowless' : ''}">
           <div class="header-container">
-             <slot name="customHeader">
-               <div class="logo-container flex-center ${grid? 'clickable': ''}" @click=${grid? () => this._toggleGrid() : null}>
-                 <div class="logo">
-                   <img src=${logo}>
-                 </div>
-               </div>
-               ${!collapsed?
-                 headerImg?
-                   html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
-                   html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
-               : ''}
-             </slot> 
-             ${!collapsed? 
-               html`<slot name="customExpandedHeader"></slot>`
-             : ''}
+            <slot name="customHeader">
+              <div class="logo-container flex-center ${grid ? 'clickable': ''}" @click=${grid ? this._toggleGrid : null}>
+                <div class="logo">
+                  <img src=${logo}>
+                </div>
+              </div>
+              ${!collapsed ?
+                headerImg ?
+                  html`<img style="padding: 0 var(--global-nav-padding-size-sm, var(--default-global-nav-padding-size-sm));" src=${headerImg}>` :
+                  html`<unity-typography class="header" size="header1" weight="header1" color="dark">${header}</unity-typography>`
+              : ''}
+            </slot> 
+             ${!collapsed ? html`<slot name="customExpandedHeader"></slot>` : ''}
           </div>
+          ${!collapsed ? html`<slot name="subHeader" class="${subHeaderBorder ? 'header-container' : ''}"></slot>` : ''}
+
           <div class="menu-box">
             <div class="top-container">
-              ${top? this.renderItems(top) : ''}
+              ${top ? this.renderItems(top, this.alwaysShowBordersTop) : ''}
             </div>
             <div class="bottom-container">
-              ${bottom? this.renderItems(bottom) : '' }
+              ${!bubbleBottomItems && bottom ? this.renderItems(bottom, this.alwaysShowBordersBottom) : ''}
             </div>
           </div>
+          ${bubbleBottomItems ? html`
+            <div class="bubble-items-container">
+              ${bottom ? this.renderItems(bottom, this.alwaysShowBordersBottom) : ''}
+            </div>
+          ` : ''}
           ${collapsible ? html`
-          <div>
-            <div class="collapse-button flex-center" @click="${() => this._toggleCollapse()}">
-              <unity-icon .icon=${collapsed? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
+            <div>
+              <div class="collapse-button flex-center" @click="${this._toggleCollapse}">
+                <unity-icon .icon=${collapsed ? "unity:double_right_chevron" : "unity:double_left_chevron"}></unity-icon>
+              </div>
             </div>
-          </div>
-        `  : ''}
+          `  : ''}
         </div>
-      ${gutter ? html`</div>` : ''}
       ${grid && _showGrid? html`<div class="grid"></div>` : ''}
     `
   }
@@ -282,6 +356,12 @@ class UnityGlobalNavBase extends LitElement {
           min-height: min-content;
           width: 100%;
           border-collapse: collapse;
+        }
+        .bubble-items-container {
+          margin: 4px;
+          border: 1px solid var(--global-nav-light-text-color, var(--default-global-nav-light-text-color));
+          border-radius: 2px;
+          min-height: min-content;
         }
         unity-icon {
           color: var(--global-nav-highlight-color, var(--default-global-nav-highlight-color));

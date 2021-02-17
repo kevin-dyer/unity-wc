@@ -2,6 +2,16 @@
 
 ## Changelog:
 
+### v1.4.
+- Only show `alwaysShowBorders` border when neighbor is not open (prevent double borders)
+
+### v1.4.0
+- Added `subHeader` slot and `subHeaderBorder` attribute
+- Added `openStates` and `onOpenStateChange` properties
+- Added `alwaysShowBordersTop` and `alwaysShowBordersBottom` attributes
+- Added `bubbleBottomItems` attribute
+- Now passing `borderWhenClosed` attribute to `unity-global-nav-top-item` when it's included in the object for an item in `items`
+
 ### v1.3.5
 - Added onToggleCollapse callback to unity-global-nav-base. Indicates when the collapsed state has changed, providing the current collapsed value.
 

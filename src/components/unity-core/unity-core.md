@@ -5,6 +5,23 @@
 
 ## Changelog:
 
+
+### v1.10.15
+- unity-global-nav-base v1.4.1
+
+### v1.10.14
+- unity-global-nav-base v1.4.0
+- unity-global-nav-top-item v1.2.6
+
+### v1.10.13
+- unity-notifications-handler v1.3.1
+
+### v1.10.12
+- unity-notifications-handler v1.3.0
+
+### v1.10.11
+- unity-checkbox v1.0.4
+
 ### v1.10.3
 - unity-table v1.1.5
 ### v1.10.2
