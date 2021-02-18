@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.10.20
+- unity-dropdown v1.5.3
+
 ### v1.10.19
 - unity-search-bar v1.0.7
 
