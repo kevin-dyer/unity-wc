@@ -5,6 +5,11 @@
 
 ## Changelog:
 
+### v1.10.19
+- unity-search-bar v1.0.7
+
+### v1.10.18
+- unity-notifications-handler v1.3.2
 
 ### v1.10.15
 - unity-global-nav-base v1.4.1

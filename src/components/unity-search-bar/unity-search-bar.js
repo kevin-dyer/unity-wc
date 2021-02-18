@@ -115,8 +115,8 @@ class UnitySearchBar extends LitElement {
     // all [tag values and labels]
     let excluded = []
     newValue.forEach(({value, label}) => {
-      excluded.push(value)
-      if (label) excluded.push(label)
+      if(value) excluded.push(value)
+      else if (label) excluded.push(label)
     })
     this._excludedTags = excluded
     this.getMatches()

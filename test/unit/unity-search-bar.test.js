@@ -142,9 +142,9 @@ describe('search bar test', () => {
     expect(el.tags.get(tagTwoValue)).to.deep.equal({value: tagTwoValue, label: tagTwoLabel})
   })
 
-  it("should add tag values and labels to _excludedTags", async () => {
+  it("should add tag values to _excludedTags", async () => {
     const el = await fixture(html`<unity-search-bar .tags="${tagSeed}"></unity-search-bar>`)
-    expect(el._excludedTags).to.deep.equal([tagOneValue, tagTwoValue, tagTwoLabel])
+    expect(el._excludedTags).to.deep.equal([tagOneValue, tagTwoValue])
   })
 
   it("should have tagSeed array", async () => {
@@ -175,7 +175,6 @@ describe('search bar test', () => {
   it("should have _excludedTags be array of tags", async() => {
     const el = await fixture(html`<unity-search-bar .tags="${tagSeed}"></unity-search-bar>`)
     expect(el._excludedTags.includes(tagOneValue)).to.be.true
-    expect(el._excludedTags.includes(tagTwoLabel)).to.be.true
     expect(el._excludedTags.includes(tagTwoValue)).to.be.true
   })
 

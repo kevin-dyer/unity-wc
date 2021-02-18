@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.7
+- exclude label name from the search options after select only if label value is not defined.
+
 ### v1.0.5
 - updated attribute for unity-select-menu 1.4.0
 
