@@ -995,7 +995,9 @@ class UnityTable extends LitElement {
             key,
             label,
             width: rootWidth=0,
-            centered=false
+            centered=false,
+            hideFilter,
+            hideSort
           }, i) => {
             const isColSorted = column === key && direction !== UNS
             const sortIcon = isColSorted ? getSortedIcon(direction) : 'unity:sort'
@@ -1040,10 +1042,12 @@ class UnityTable extends LitElement {
                     <div class="header-content">
                       <span
                         class="header-label ${centered?'centered':''}"
-                        @click="${()=>{this.sortBy = key}}"
+                        @click="${()=>{
+                          if (!hideSort) this.sortBy = key
+                        }}"
                       ><b>${label || name}</b></span>
 
-                      ${!this.hideFilterIcons?
+                      ${(!this.hideFilterIcons && !hideFilter)?
                         html`<filter-dropdown
                           .onValueChange="${this.dropdownValueChange(key)}"
                           .options=${this.getDropdownOptions(key)}
@@ -1051,7 +1055,7 @@ class UnityTable extends LitElement {
                         </filter-dropdown>` : null
                       }
 
-                      ${isColSorted
+                      ${(isColSorted && !hideFilter)
                         ? html`<paper-icon-button
                             noink
                             icon="${sortIcon}"
