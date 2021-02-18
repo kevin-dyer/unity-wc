@@ -8,8 +8,6 @@ export default {
   decorators: [withKnobs]
 };
 
-
-
 export const SingleInput = () => {
   const disabled = boolean("Disabled", false)
   const label = text("Label", "Dropdown")

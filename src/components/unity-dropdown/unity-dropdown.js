@@ -93,6 +93,8 @@ class UnityDropdown extends LitElement {
           --default-dropdown-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-dropdown-search-input-padding: 0;
           --deafult-dropdown-options-list-max-height: 330px;
+          --default-dropdown-highlighted-option-color: var(--sky-blue-tint-1, var(--default-sky-blue-tint-1))
+          --default-dropdown-highlighted-option-hover-color: var(--sky-blue-tint-2, var(--default-sky-blue-tint-2))
 
           font-family: var(--dropdown-input-font);
           border-collapse: collapse;
@@ -334,6 +336,8 @@ class UnityDropdown extends LitElement {
           margin: 0;
           padding: 0;
           max-width: unset;
+          --highlighted-option-color: var(--dropdown-highlighted-option-color, var(--default-dropdown-highlighted-option-color));
+          --highlighted-option-hover-color: var(--dropdown-highlighted-option-hover-color, var(--default-dropdown-highlighted-option-hover-color));
         }
         paper-dialog {
           display: block;
@@ -833,6 +837,7 @@ class UnityDropdown extends LitElement {
       : (this.inputType === INPUT_TYPE_MENU) ?
         html`
           <unity-select-menu
+            .highlighted=${this.selected}
             .options=${this._visibleOptions}
             .onMenuClick=${(index) => this.clickedMenu(index)}
             borderless
