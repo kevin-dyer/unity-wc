@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.1.8
+- Removed an isEqual check in `selected` setter which was preventing the selection from being cleared when selected rows were removed from the table.
+
+### v1.1.7
+- Added option to define custom row `backgroundColor` in data attribute.
+
 ### v1.1.6
 - Fixed bug in sortData table util function.
 

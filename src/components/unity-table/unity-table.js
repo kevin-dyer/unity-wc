@@ -52,7 +52,8 @@ import {
  *        column2: 'item 1 col2',
  *        column3: 'item 1 col3',
  *        columnN: 'item 1 colN',
- *        icon: 'iron-iconName'
+ *        icon: 'iron-iconName',
+ *        backgroundColor: '#454545' //define row background color
  *      },
  *      {
  *        column1: 'item 2 col1',
@@ -557,8 +558,10 @@ class UnityTable extends LitElement {
     const oldValue = this._selected
     // this._selected
     const newValue = new Set(selectedSet) // ensure that value is an iterable array of keys
+    //NOTE: The following isEqual check prevents this._selected from being set to an empty Set.
+    // This causes the select all checkbox to remain checked after selected rows are removed from table
     // checks if sets are equal
-    if (!!oldValue && oldValue.size === newValue.size && [...newValue].every(id => oldValue.has(id))) return
+    // if (!!oldValue && oldValue.size === newValue.size && [...newValue].every(id => oldValue.has(id))) return
     this._selected = newValue
 
     // Array of selected data elements
@@ -1161,15 +1164,22 @@ class UnityTable extends LitElement {
     const columns = this.columns
     const {
       icon,
-      image
+      image,
+      backgroundColor
     } = datum
     const expandable = childCount > 0
     const expanded = this.expanded.has(rowId)
     // check if highlightedRow matches keyExtractor
     let rowClasses = ['row']
+    let rowStyle = ""
 
     //NOTE: using == so that rowId can be number or string
-    if (rowId == this.highlightedRow) rowClasses.push('highlight')
+    if (rowId == this.highlightedRow) {
+      rowClasses.push('highlight')
+    } else if (backgroundColor) {
+      //if row is not highlighted, and datum has backgroundColor defined, set style
+      rowStyle = `background-color: ${backgroundColor};`
+    }
     if (this.compact) rowClasses.push('compact')
     if (this.onClickRow instanceof Function) rowClasses.push('clickable')
     // if index is 0, add check-all button
@@ -1190,6 +1200,7 @@ class UnityTable extends LitElement {
             this.onClickRow(datum, rowId, e)
           }
         }}"
+        style="${rowStyle}"
       >
 
         ${columns.map((column, i) => {
