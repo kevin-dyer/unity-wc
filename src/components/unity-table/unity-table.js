@@ -996,8 +996,8 @@ class UnityTable extends LitElement {
             label,
             width: rootWidth=0,
             centered=false,
-            hideFilter,
-            hideSort
+            hideFilter=false,
+            hideSort=false
           }, i) => {
             const isColSorted = column === key && direction !== UNS
             const sortIcon = isColSorted ? getSortedIcon(direction) : 'unity:sort'
