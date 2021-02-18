@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.2
+- make sure to recalculate styles when position changes
+
 ### v1.3.1
 - remove ?. as it fails the build
 

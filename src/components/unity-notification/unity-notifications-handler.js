@@ -185,7 +185,7 @@ class UnityNotificationsHandler extends LitElement {
   }
 
   updated(changedProps) {
-    if (changedProps.has('_queuedNotifications') || changedProps.has('_showNotification')) this._calculateStyles()
+    if ( changedProps.has('_queuedNotifications') || changedProps.has('_showNotification')) this._calculateStyles()
     if (changedProps.has('position')) {
       const { position } = this
       const [ vertPos, horzPos ] = (typeof position === 'string' ? position : '').split('-')
@@ -205,6 +205,7 @@ class UnityNotificationsHandler extends LitElement {
         default:
           this._leftRightPosition = 'right'
       }
+      this._calculateStyles()
     }
   }
 
