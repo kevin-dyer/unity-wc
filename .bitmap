@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.10.20": {
+    "smartworks.unity/unity-core@1.10.22": {
         "files": [
             {
                 "name": "index.js",
@@ -633,7 +633,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@1.1.8": {
+    "smartworks.unity/unity-table@1.1.10": {
         "files": [
             {
                 "name": "filter-dropdown.js",

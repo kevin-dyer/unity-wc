@@ -85,7 +85,9 @@ import {
  *      {
  *        key: 'column1',
  *        label: 'Column #1'
- *        formatLabel: column1Handler
+ *        formatLabel: column1Handler,
+ *        hideSort: true,
+ *        hideFilter: true
  *      }
  *    ]}"
  *    ?selectable="${true}"
@@ -556,12 +558,9 @@ class UnityTable extends LitElement {
 
   set selected(selectedSet) {
     const oldValue = this._selected
-    // this._selected
     const newValue = new Set(selectedSet) // ensure that value is an iterable array of keys
-    //NOTE: The following isEqual check prevents this._selected from being set to an empty Set.
-    // This causes the select all checkbox to remain checked after selected rows are removed from table
     // checks if sets are equal
-    // if (!!oldValue && oldValue.size === newValue.size && [...newValue].every(id => oldValue.has(id))) return
+    if (!!oldValue && oldValue.size === newValue.size && [...newValue].every(id => oldValue.has(id))) return
     this._selected = newValue
 
     // Array of selected data elements
@@ -588,29 +587,6 @@ class UnityTable extends LitElement {
       this._allSelected = !hasUnselected
     }
     const originalDataMap = this._dataMap || new Map()
-
-    // // Update the selection to include children
-    // const originalSelected = this._selected
-    // const nextSelected = new Set(originalSelected)
-    // let selectionHasChanged = false
-    //
-    // this.dfsTraverse({
-    //   node: this.data,
-    //   callback: (node, tabIndex, childCount, parents=[]) => {
-    //     const key = this.keyExtractor(node, tabIndex)
-    //     if (this.includesSelectedNode(parents)) {
-    //       nextSelected.add(key)
-    //       selectionHasChanged = true
-    //     }
-    //   }
-    // })
-    //
-    // if (selectionHasChanged) {
-    //   this._selected = nextSelected
-    // }
-    // // end
-    //
-
 
     this.requestUpdate('selected', oldValue)
   }
@@ -694,11 +670,6 @@ class UnityTable extends LitElement {
 
     this.addSelectedChildren(originalDataMap)
     this.removeDeletedSelections()
-
-    //request update if selected has changed
-    if (this._selected !== originalSelected) {
-      this.selected = this._selected
-    }
   }
 
   //If datum does not exist in original data map, AND it has a parent that is selected, add to this.selected
@@ -719,7 +690,7 @@ class UnityTable extends LitElement {
     })
 
     if (selectionHasChanged) {
-      this._selected = nextSelected
+      this.selected = nextSelected
     }
   }
 
@@ -738,7 +709,7 @@ class UnityTable extends LitElement {
     })
 
     if (selectionHasChanged) {
-      this._selected = nextSelected
+      this.selected = nextSelected
     }
   }
 
@@ -995,7 +966,9 @@ class UnityTable extends LitElement {
             key,
             label,
             width: rootWidth=0,
-            centered=false
+            centered=false,
+            hideFilter=false,
+            hideSort=false
           }, i) => {
             const isColSorted = column === key && direction !== UNS
             const sortIcon = isColSorted ? getSortedIcon(direction) : 'unity:sort'
@@ -1040,10 +1013,12 @@ class UnityTable extends LitElement {
                     <div class="header-content">
                       <span
                         class="header-label ${centered?'centered':''}"
-                        @click="${()=>{this.sortBy = key}}"
+                        @click="${()=>{
+                          if (!hideSort) this.sortBy = key
+                        }}"
                       ><b>${label || name}</b></span>
 
-                      ${!this.hideFilterIcons?
+                      ${(!this.hideFilterIcons && !hideFilter)?
                         html`<filter-dropdown
                           .onValueChange="${this.dropdownValueChange(key)}"
                           .options=${this.getDropdownOptions(key)}
@@ -1051,7 +1026,7 @@ class UnityTable extends LitElement {
                         </filter-dropdown>` : null
                       }
 
-                      ${isColSorted
+                      ${(isColSorted && !hideFilter)
                         ? html`<paper-icon-button
                             noink
                             icon="${sortIcon}"

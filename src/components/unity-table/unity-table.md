@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.9
+- Fixed selected setter bug causing infinite update loop. Added back the isEqual check and updated addSelectedChildren and removeDeletedSelections to call the selected setter.
+
 ### v1.1.8
 - Removed an isEqual check in `selected` setter which was preventing the selection from being cleared when selected rows were removed from the table.
 
