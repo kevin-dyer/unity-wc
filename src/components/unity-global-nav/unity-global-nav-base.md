@@ -2,7 +2,11 @@
 
 ## Changelog:
 
-### v1.4.
+### v1.5.0
+- Updated `unity-global-nav-top-item` dependency to v1.3.0
+- Added `selectFirstChildOnExpand` attribute
+
+### v1.4.1
 - Only show `alwaysShowBorders` border when neighbor is not open (prevent double borders)
 
 ### v1.4.0

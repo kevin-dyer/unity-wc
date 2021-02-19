@@ -2,6 +2,13 @@
 
 ## Changelog:
 
+### v1.3.1
+- Changelog update (no functionality change)
+
+### v1.3.0
+- Now styling top item as selected when it's collapsed and it has a selected child
+- Now calling `onOpen` with three parameters: `key`, `openedState`, and `children` (added `children`)
+
 ### v1.2.6
 - Added `borderWhenClosed` attribute
 
