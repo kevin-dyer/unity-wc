@@ -586,29 +586,6 @@ class UnityTable extends LitElement {
     }
     const originalDataMap = this._dataMap || new Map()
 
-    // // Update the selection to include children
-    // const originalSelected = this._selected
-    // const nextSelected = new Set(originalSelected)
-    // let selectionHasChanged = false
-    //
-    // this.dfsTraverse({
-    //   node: this.data,
-    //   callback: (node, tabIndex, childCount, parents=[]) => {
-    //     const key = this.keyExtractor(node, tabIndex)
-    //     if (this.includesSelectedNode(parents)) {
-    //       nextSelected.add(key)
-    //       selectionHasChanged = true
-    //     }
-    //   }
-    // })
-    //
-    // if (selectionHasChanged) {
-    //   this._selected = nextSelected
-    // }
-    // // end
-    //
-
-
     this.requestUpdate('selected', oldValue)
   }
 
