@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.10
+- Fixed a bug that caused the `hideFilter` property to also hide sort icons.
+
 ### v1.1.9
 - Fixed selected setter bug causing infinite update loop. Added back the isEqual check and updated addSelectedChildren and removeDeletedSelections to call the selected setter.
 

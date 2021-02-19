@@ -1026,7 +1026,7 @@ class UnityTable extends LitElement {
                         </filter-dropdown>` : null
                       }
 
-                      ${(isColSorted && !hideFilter)
+                      ${(isColSorted && !hideSort)
                         ? html`<paper-icon-button
                             noink
                             icon="${sortIcon}"
