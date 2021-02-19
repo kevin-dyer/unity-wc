@@ -10,7 +10,7 @@ import '@bit/smartworks.unity.unity-typography'
 * Renders a left-bound navigation bar
 * @name UnityGlobalNavTopItem
 * @param {bool} short, bool to control if element is short or tall
-* @param {bool} selected, whether item shows primary-brand-color, ignored if children are passed in
+* @param {bool} selected, whether item shows as selected. If children are passed in, this is ignored.
 * @param {func} onSelect, action handler for clicking the element, sends (key, label), ignored if children are passed in
 * @param {''} icon, string unity-icon or iron-icon name, optional
 * @param {''} key, string key for referencing
@@ -113,7 +113,7 @@ class UnityGlobalNavTopItem extends LitElement {
     const { children, onSelect } = this
     if (Array.isArray(children) && children.length > 1) {
       this.open = !this._open
-      this.onOpen(this.key, this._open)
+      this.onOpen(this.key, this._open, children)
     } else if (Array.isArray(children) && children.length === 1) {
       const { onSelect, key, label } = children[0]
       onSelect(key, label)
@@ -159,7 +159,12 @@ class UnityGlobalNavTopItem extends LitElement {
       icon = newItem.icon
       hasChildren = false
     }
+    
     const hasIcon = !!icon && icon !== String(undefined) && icon !== String(NaN) && icon !== String(null)
+
+    // Show selected if (a) it has no children and is selected, or (b) it has a child that is selected and is collapsed 
+    const childIsSelected = hasChildren && children.some(child => !!child?.selected)
+    const styleAsSelected = (!hasChildren && selected) || (!open && childIsSelected)
 
     return html`
       <div
@@ -167,9 +172,9 @@ class UnityGlobalNavTopItem extends LitElement {
           container
           ${borderWhenClosed && !open ? 'closed-with-border' : ''}
           ${hasChildren && open ? 'open' : ''}
-          ${!hasChildren && selected ? 'selected' : ''}
-          ${disabled? 'disabled' : ''}
-          ${openNeighbor? 'no-bottom-border' : ''}
+          ${styleAsSelected ? 'selected' : ''}
+          ${disabled ? 'disabled' : ''}
+          ${openNeighbor ? 'no-bottom-border' : ''}
         "
         @click=${!disabled? _onSelect : null}
       >
@@ -179,18 +184,18 @@ class UnityGlobalNavTopItem extends LitElement {
           ${collapsed? html`<unity-tooltip arrow="left" label=${label}></unity-tooltip>` : ''}
           ${!collapsed && hasChildren ? html`<unity-icon class="icon" icon="${open ? 'unity:down_chevron' : 'unity:right_chevron'}"></unity-icon>` : null}
         </div>
-        ${hasChildren && open ? children.map(({key, label, icon, onSelect, selected, disabled, style}) => html`
-        <unity-global-nav-inner-item
-          id="${key}"
-          .key="${key}"
-          .onSelect="${onSelect}"
-          .label="${label}"
-          .icon="${icon}"
-          .selected="${selected}"
-          ?collapsed=${collapsed}
-          ?disabled=${disabled}
-          style=${styleToString(style)}
-        ></unity-global-nav-inner-item>
+        ${hasChildren && open ? children.map(({ key, label, icon, onSelect, selected, disabled, style }) => html`
+          <unity-global-nav-inner-item
+            id="${key}"
+            .key="${key}"
+            .onSelect="${onSelect}"
+            .label="${label}"
+            .icon="${icon}"
+            .selected="${selected}"
+            ?collapsed=${collapsed}
+            ?disabled=${disabled}
+            style=${styleToString(style)}
+          ></unity-global-nav-inner-item>
         `) : null}
       </div>
     `

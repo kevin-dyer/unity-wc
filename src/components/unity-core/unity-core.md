@@ -5,6 +5,11 @@
 
 ## Changelog:
 
+### v1.11.0
+- unity-global-nav-base v1.5.0
+- unity-global-nav-top-item v1.3.1
+- unity-global-nav-top-item v1.3.0
+
 ### v1.10.20
 - unity-dropdown v1.5.3
 
