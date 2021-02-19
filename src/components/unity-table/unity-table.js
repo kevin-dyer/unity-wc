@@ -85,7 +85,9 @@ import {
  *      {
  *        key: 'column1',
  *        label: 'Column #1'
- *        formatLabel: column1Handler
+ *        formatLabel: column1Handler,
+ *        hideSort: true,
+ *        hideFilter: true
  *      }
  *    ]}"
  *    ?selectable="${true}"
