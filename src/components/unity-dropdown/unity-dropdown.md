@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.5.3
+- Now passing `selected` property to the child `unity-select-menu` as `highlighted`. The selected element(s) will now also be highlighted.
+- Added css vars `--highlighted-option-color` and `--highlighted-option-hover-color`
+
 ### v1.5.1
 - Filter visible dropdown options by search text in options setter. This keeps search filter applied after an option is selected.
 
