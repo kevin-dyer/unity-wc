@@ -17,7 +17,9 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {bool} [collapsed], if the bar is collapsed or not
 * @param {bool} [grid], if clicking the logo should open the grid menu
 * @param {Object} items, object containing the menu items
+* @param {string} [selected], indicates the key of the item that is selected
 * @param {Function} [onSelect], callback for when a menu item is selected
+* @param {bool} [selectFirstChildOnExpand], determine whether, when expanding an item, the first child will be selected
 * @param {Function} [onToggleCollapse], callback for when the Side Nav is collapsed or expanded. Callback argument is the current collapsed state.
 * @param {Function} [onOpenStateChange], callback for when item openState(s) are set. Arguments are:
 *   - newOpenStates, updated dictionary of open states by key, as in the openStates property
@@ -79,6 +81,7 @@ class UnityGlobalNavBase extends LitElement {
     this.alwaysShowBordersTop = false
     this.alwaysShowBordersBottom = false
     this.bubbleBottomItems = false
+    this.selectFirstChildOnExpand = false
 
     this._itemClicked = (key) => { this._changeSelection(key) }
     this._showGrid = false
@@ -103,6 +106,7 @@ class UnityGlobalNavBase extends LitElement {
       alwaysShowBordersTop: { type: Boolean },
       alwaysShowBordersBottom: { type: Boolean },
       bubbleBottomItems: { type: Boolean },
+      selectFirstChildOnExpand: { type: Boolean },
 
       _itemClicked: { type: Function },
       _showGrid: { type: Boolean },
@@ -167,6 +171,14 @@ class UnityGlobalNavBase extends LitElement {
     this._showGrid = !this._showGrid
   }
 
+  _onOpenTopItem(key, openState, children) {
+    this._setOpenState(key, openState)
+    if (this.selectFirstChildOnExpand && !!openState) {
+      const firstChildKey = children[0]?.key
+      if (this.selected !== firstChildKey) this._changeSelection(firstChildKey)
+    }
+  }
+
   _setOpenState(key, open) {
     this._openStates = {
       ...this._openStates,
@@ -200,7 +212,7 @@ class UnityGlobalNavBase extends LitElement {
           ?collapsed=${this.collapsed}
           ?disabled=${disabled}
           ?open=${this._openStates[key]}
-          .onOpen=${this._setOpenState.bind(this)}
+          .onOpen=${this._onOpenTopItem.bind(this)}
           ?openNeighbor=${hasOpenNeighbor}
           ?borderWhenClosed=${!hasOpenNeighbor && (alwaysShowBorders || borderWhenClosed)}
           style=${styleToString(style)}
