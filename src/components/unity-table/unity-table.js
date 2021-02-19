@@ -556,12 +556,9 @@ class UnityTable extends LitElement {
 
   set selected(selectedSet) {
     const oldValue = this._selected
-    // this._selected
     const newValue = new Set(selectedSet) // ensure that value is an iterable array of keys
-    //NOTE: The following isEqual check prevents this._selected from being set to an empty Set.
-    // This causes the select all checkbox to remain checked after selected rows are removed from table
     // checks if sets are equal
-    // if (!!oldValue && oldValue.size === newValue.size && [...newValue].every(id => oldValue.has(id))) return
+    if (!!oldValue && oldValue.size === newValue.size && [...newValue].every(id => oldValue.has(id))) return
     this._selected = newValue
 
     // Array of selected data elements
@@ -694,11 +691,6 @@ class UnityTable extends LitElement {
 
     this.addSelectedChildren(originalDataMap)
     this.removeDeletedSelections()
-
-    //request update if selected has changed
-    if (this._selected !== originalSelected) {
-      this.selected = this._selected
-    }
   }
 
   //If datum does not exist in original data map, AND it has a parent that is selected, add to this.selected
@@ -719,7 +711,7 @@ class UnityTable extends LitElement {
     })
 
     if (selectionHasChanged) {
-      this._selected = nextSelected
+      this.selected = nextSelected
     }
   }
 
@@ -738,7 +730,7 @@ class UnityTable extends LitElement {
     })
 
     if (selectionHasChanged) {
-      this._selected = nextSelected
+      this.selected = nextSelected
     }
   }
 
