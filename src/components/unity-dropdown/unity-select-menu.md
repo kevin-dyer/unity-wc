@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.4
+- fixed dropdown close on backdrop click by binding method to component instance.
+
 ### v1.4.3
 - preventDefault called on menu click to stop progagation of click event.
 

@@ -503,7 +503,7 @@ class UnityDropdown extends LitElement {
   }
 
   _delayedClose() {
-    setTimeout(this.collapse, 0)
+    setTimeout(this.collapse.bind(this), 0)
   }
 
   /**
