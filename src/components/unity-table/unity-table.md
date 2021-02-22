@@ -1,6 +1,8 @@
 # unity-table
 
 ## Changelog:
+### v1.1.11
+- Fixed a bug with special characters in search filter.
 
 ### v1.1.10
 - Fixed a bug that caused the `hideFilter` property to also hide sort icons.
