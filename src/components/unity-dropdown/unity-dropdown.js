@@ -165,6 +165,9 @@ class UnityDropdown extends LitElement {
           overflow-y: auto;
           max-height: var(--dropdown-options-list-max-height, var(--default-dropdown-options-list-max-height));
         }
+        .dropdown-select-menu {
+          --menu-options-list-max-height: var(--dropdown-options-list-max-height, var(--default-dropdown-options-list-max-height));
+        }
         #options-dialog {
           border: 1px solid var(--dropdown-border-color);
           border-radius: 0 0 var(--dropdown-border-radius, var(--default-dropdown-border-radius)) var(--dropdown-border-radius, var(--default-dropdown-border-radius));
@@ -838,6 +841,7 @@ class UnityDropdown extends LitElement {
         html`
           <unity-select-menu
             .highlighted=${this.selected}
+            class="dropdown-select-menu"
             .options=${this._visibleOptions}
             .onMenuClick=${(index) => this.clickedMenu(index)}
             borderless
