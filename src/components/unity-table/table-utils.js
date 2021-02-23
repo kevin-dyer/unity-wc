@@ -37,6 +37,12 @@ function shouldDisplayNode(node={}, columnKeys=[], searchRegex = new RegExp()) {
   })
 }
 
+function _escapeSpecialCharacters(str) {
+  return str.replaceAll(/[\W]/g, function(match) {
+    return `\\${match}`
+  })
+}
+
 //Called recursively
 function _filterHierarchy({
   filter='',
@@ -81,9 +87,15 @@ function _filterHierarchy({
     if (customFilter && typeof customFilter === 'function') {
       return customFilter(filter, cellValue)
     }
-    
-    const searchRegex = new RegExp(filter, 'i')
-    return searchRegex.test(cellValue)
+    let searchRegex = new RegExp()
+    try {
+      const formattedFilter = _escapeSpecialCharacters(filter)
+      searchRegex = new RegExp(formattedFilter, 'i')
+      return searchRegex.test(cellValue)
+    } catch(e) {
+      console.error('error in table-utils.js -> _filterHierarchy(): ', e)
+      return false
+    }
   })) {
     let filterNode = filteredHierarchy
     let originalNode = originalHierarchy
