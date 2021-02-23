@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.11.6
+- Fixed wrong export for previous version
+
 ### v1.11.5
 - unity-select-menu v1.4.6
 
