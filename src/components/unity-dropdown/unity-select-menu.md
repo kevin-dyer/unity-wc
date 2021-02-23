@@ -2,8 +2,14 @@
 
 ## Changelog:
 
+### v1.4.6
+- changed `overflow: scroll` for `auto`
+
+### v1.4.5
+- added `overflow: scroll` to root element
+
 ### v1.4.4
-- fixed dropdown close on backdrop click by binding method to component instance.
+- added `--menu-options-list-max-height` css var
 
 ### v1.4.3
 - preventDefault called on menu click to stop progagation of click event.
