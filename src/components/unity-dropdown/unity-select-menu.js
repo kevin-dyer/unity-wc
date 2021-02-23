@@ -86,7 +86,7 @@ class UnitySelectMenu extends LitElement {
             display: flex;
             width: fit-content;
             max-width: 300px;
-            overflow: scroll;
+            overflow: auto;
           }
         .borderless {
           border: none;
