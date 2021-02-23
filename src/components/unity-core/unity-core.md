@@ -5,6 +5,19 @@
 
 ## Changelog:
 
+### v1.11.6
+- Fixed wrong export for previous version
+
+### v1.11.5
+- unity-select-menu v1.4.6
+
+### v1.11.4
+- unity-select-menu v1.4.5
+
+### v1.11.3
+- unity-dropdown v1.5.5
+- unity-select-menu v1.4.4
+
 ### v1.11.0
 - unity-global-nav-base v1.5.0
 - unity-global-nav-top-item v1.3.1

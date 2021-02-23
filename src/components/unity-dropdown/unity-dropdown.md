@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.5.5
+- fixed options list max height when dropdown type is menu
+
 ### v1.5.3
 - Now passing `selected` property to the child `unity-select-menu` as `highlighted`. The selected element(s) will now also be highlighted.
 - Added css vars `--highlighted-option-color` and `--highlighted-option-hover-color`
