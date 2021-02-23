@@ -18,6 +18,9 @@
 - unity-dropdown v1.5.5
 - unity-select-menu v1.4.4
 
+### v1.11.2
+- unity-table v1.1.12
+
 ### v1.11.0
 - unity-global-nav-base v1.5.0
 - unity-global-nav-top-item v1.3.1
