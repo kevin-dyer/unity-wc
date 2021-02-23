@@ -79,12 +79,14 @@ class UnitySelectMenu extends LitElement {
             --highlighted-option-color: var(--primary-tint-2-color, var(--default-primary-tint-2-color));
             --highlighted-option-hover-color: var(--primary-color, var(--default-primary-color));
             --default-menu-hover-color: var(--light-gray-2-color, var(--default-light-gray-2-color));
+            --default-menu-options-list-max-height: 330px;
             font-family: var(--input-font);
             border-collapse: collapse;
             user-select: none;
             display: flex;
             width: fit-content;
             max-width: 300px;
+            overflow: scroll;
           }
         .borderless {
           border: none;
@@ -104,6 +106,7 @@ class UnitySelectMenu extends LitElement {
           box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
           border-radius: 2px;
           width: 100%;
+          max-height: var(--menu-options-list-max-height, var(--default-menu-options-list-max-height));
         }
         li {
           font-size: var(--text-size);
