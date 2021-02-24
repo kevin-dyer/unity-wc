@@ -1039,7 +1039,7 @@ class UnityTable extends LitElement {
                     </div>
 
                     ${i === (colLength - 1)
-                      ? html`<slot name="right-actions"></slot>`
+                      ? html`<slot class="header-right-actions" name="right-actions"></slot>`
                       : null
                     }
                   </div>
@@ -1472,6 +1472,11 @@ class UnityTable extends LitElement {
         }
         .header.centered {
           padding-left: 0;
+        }
+        .header-right-actions::slotted(*){
+          position: absolute;
+          right: 0;
+          background-color: var(--background-color, var(--default-background-color));
         }
         tr {
           width: 100%;
