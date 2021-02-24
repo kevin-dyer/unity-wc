@@ -5,6 +5,15 @@
 
 ## Changelog:
 
+### v1.11.10
+- Fixed changelog
+
+### v1.11.9
+- unity-notifications-handler v1.3.3
+
+### v1.11.8
+- unity-notifications-handler v1.3.3
+
 ### v1.11.8
 - Fixed changelog
 
