@@ -5,6 +5,27 @@
 
 ## Changelog:
 
+### v1.11.12
+- unity-table v1.1.14
+
+### v1.11.11
+- unity-notifications-handler v1.3.4
+
+### v1.11.10
+- Fixed changelog
+
+### v1.11.9
+- unity-notifications-handler v1.3.3
+
+### v1.11.8
+- unity-notifications-handler v1.3.3
+
+### v1.11.8
+- Fixed changelog
+
+### v1.11.7
+- unity-table v1.1.13
+
 ### v1.11.6
 - Fixed wrong export for previous version
 

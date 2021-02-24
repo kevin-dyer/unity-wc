@@ -504,11 +504,24 @@ class UnityTable extends LitElement {
 
   set columns(cols) {
     const oldVal = this._columns
+    //Clear saved column widths when a new column is added to allow column widths to adjust to fit
+    const clearColumnWidths = !cols || !oldVal || cols.length > oldVal.length
 
-    this._columns = cols
+    this._columns = clearColumnWidths
+      ? cols
+      : cols.map(col => {
+          const {width: oldWidth} = oldVal.find(oldColumn => oldColumn.key === col.key) || {}
+          const nextCol = {...col}
+          //preserve old column width if defined
+          if (oldWidth) {
+            nextCol.width = nextCol.width || oldWidth
+          }
+
+          return nextCol
+        })
 
     if (!!this.onColumnChange) {
-      this.onColumnChange(cols)
+      this.onColumnChange(this._columns)
     }
     this._columnValues = this.getColumnValues(this.data);
     this.requestUpdate('columns', oldVal)

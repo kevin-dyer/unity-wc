@@ -1,6 +1,10 @@
 # unity-table
 
 ## Changelog:
+
+### v1.1.14
+- Added a class to right-actions slot which absolutely positions right actions.
+
 ### v1.1.11
 - Fixed a bug with special characters in search filter.
 
