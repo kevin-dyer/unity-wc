@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.11.8
+- Fixed changelog
+
+### v1.11.7
+- unity-table v1.1.13
+
 ### v1.11.6
 - Fixed wrong export for previous version
 
