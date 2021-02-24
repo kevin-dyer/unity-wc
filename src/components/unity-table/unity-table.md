@@ -2,10 +2,10 @@
 
 ## Changelog:
 
-### v1.1.13
-- Preserve column widths when columns are updated unless more columns are added. Fixed previous changelog version.
+### v1.1.14
+- Added a class to right-actions slot which absolutely positions right actions.
 
-### v1.1.12
+### v1.1.11
 - Fixed a bug with special characters in search filter.
 
 ### v1.1.10
