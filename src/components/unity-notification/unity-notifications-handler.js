@@ -298,7 +298,7 @@ class UnityNotificationsHandler extends LitElement {
   }
 
   _handleAddNotification(notification={}) {
-    const { text, subtext, type, timeout } = notification
+    const { id, text, subtext, type, timeout } = notification
 
     const { icon, color } = this._getIconAndColorFromType(type) || notification
 
@@ -320,6 +320,7 @@ class UnityNotificationsHandler extends LitElement {
       icon,
       color,
       timeout,
+      id,
       onClose: async () => {
         const closeResult = await this.onClose()
         if (closeResult !== false) this._handleCloseNotification() // if user returns false, don't close notification (but accept undefined)
