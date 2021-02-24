@@ -28,6 +28,7 @@ import '@bit/smartworks.unity.unity-notification'
  *  addNotification({
  *    target: 'foo-notifications',
  *    notification: {
+ *      id: 'custom-notification'
  *      text:  'Notification Main Text',
  *      subtext:  'Extra notification information',
  *      // EITHER
@@ -297,7 +298,7 @@ class UnityNotificationsHandler extends LitElement {
   }
 
   _handleAddNotification(notification={}) {
-    const { text, subtext, type, timeout } = notification
+    const { id, text, subtext, type, timeout } = notification
 
     const { icon, color } = this._getIconAndColorFromType(type) || notification
 
@@ -319,6 +320,7 @@ class UnityNotificationsHandler extends LitElement {
       icon,
       color,
       timeout,
+      id,
       onClose: async () => {
         const closeResult = await this.onClose()
         if (closeResult !== false) this._handleCloseNotification() // if user returns false, don't close notification (but accept undefined)
@@ -361,6 +363,7 @@ class UnityNotificationsHandler extends LitElement {
 
   render() {
     const {
+      id='',
       text='',
       subtext='',
       icon='',
@@ -371,6 +374,7 @@ class UnityNotificationsHandler extends LitElement {
       <div id='container'>
         <unity-notification
           class="${this._topBottomPosition} ${this._leftRightPosition}"
+          id=${id}
           .text=${text}
           .subtext=${subtext}
           .icon=${icon}
