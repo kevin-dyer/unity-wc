@@ -448,7 +448,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-notifications-handler@1.3.2": {
+    "smartworks.unity/unity-notifications-handler@1.3.4": {
         "files": [
             {
                 "name": "unity-notifications-handler.js",
