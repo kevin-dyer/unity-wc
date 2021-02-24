@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.4
+- fixed setting an id for notifications added through notifications handler
+
 ### v1.3.3
 - allow setting an id for notifications added through notifications handler
 
