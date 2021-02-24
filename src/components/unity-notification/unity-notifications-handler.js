@@ -28,6 +28,7 @@ import '@bit/smartworks.unity.unity-notification'
  *  addNotification({
  *    target: 'foo-notifications',
  *    notification: {
+ *      id: 'custom-notification'
  *      text:  'Notification Main Text',
  *      subtext:  'Extra notification information',
  *      // EITHER
@@ -361,6 +362,7 @@ class UnityNotificationsHandler extends LitElement {
 
   render() {
     const {
+      id='',
       text='',
       subtext='',
       icon='',
@@ -371,6 +373,7 @@ class UnityNotificationsHandler extends LitElement {
       <div id='container'>
         <unity-notification
           class="${this._topBottomPosition} ${this._leftRightPosition}"
+          id=${id}
           .text=${text}
           .subtext=${subtext}
           .icon=${icon}
