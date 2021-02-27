@@ -22,6 +22,10 @@ const MIN_PANE_WIDTH = 20 // %
  * @param {Function} onClose, function to call when the close button is clicked, sends new pane width in %
  * @param {Function} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
  * @param {Function} onResize, function to call when panel is being resized
+
+ * @param {Array} visiblePanes, list of panes to be visible, first pane is always visible
+ * @param {Array} collapsedPanes, list of panes to be collapsed
+
  * @example
  *   <unity-split-pane
  *     closeButton
@@ -75,6 +79,10 @@ class UnitySplitPane extends LitElement {
     this.paneWidth = 50
     this.onResize=()=>{}
     this._startingX = 0
+
+    this._visiblePanes = new Set()
+    this._collapsedPanes = new Set()
+    this._paneKeys = new Set()
   }
 
   static get properties() {
@@ -87,7 +95,11 @@ class UnitySplitPane extends LitElement {
       onClose: { type: Function },
       onCollapseChange: { type: Function },
       paneWidth: { type: Number },
-      onResize: { type: Function }
+      onResize: { type: Function },
+
+      visiblePanes: { type: Array },
+      collapsedPanes: { type: Array },
+      paneKeys: { attribute: false }
     }
   }
 
