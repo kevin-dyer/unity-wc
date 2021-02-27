@@ -53,6 +53,13 @@ const MIN_PANE_WIDTH = 20 // %
 
 const stretch = overlapPercent => 100 - overlapPercent
 
+const shouldUpdateSet = (one, two) => {
+  if (one.size !== two.size) return true
+  for (let key of two) {
+    if (!one.has(key)) return true
+  }
+  return false
+}
 
 class UnitySplitPane extends LitElement {
   constructor() {
