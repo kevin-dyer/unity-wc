@@ -4,6 +4,7 @@ import '@bit/smartworks.unity.unity-button'
 import '@bit/smartworks.unity.unity-icon'
 import '@bit/smartworks.unity.unity-typography'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
+import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
 
 const MIN_PANE_WIDTH = 20 // %
 /**
@@ -93,6 +94,34 @@ class UnitySplitPane extends LitElement {
   }
 
   get show() { return this._show }
+
+  connectedCallback() {
+    super.connectedCallback()
+    this.shadowRoot.addEventListener('slotchange', event => this.processSlots());
+  }
+
+  // gets all slots passed into template, processes to get keys to make slots from
+  // skips any ending with ::header or ::footer
+  processSlots() {
+    // get all slots
+    const slots = [...this.shadowRoot.querySelectorAll('slot')]
+    // get the assigned nodes and trim any excess whitespace
+    const slotContent = slots.map(slot => trimWhitespace(slot && slot.assignedNodes() || []))
+    // iterate to get the keys of just the panes
+    const slotKeys = slotContent.reduce((keys, slottedNodes) => {
+      const node = slottedNodes[0]
+      // skip if empty
+      if (!node) return keys
+      // skip if slot has ::header || ::footer
+      if (/(::header$)|(::footer$)/.test(node.slot)) return keys
+      keys.add(node.slot)
+    }, new Set())
+    // make into set
+    let newPaneKeys = new Set(slotKeys)
+    // compare to current paneKeys to see if update is needed
+    const { _paneKeys } = this
+    if (shouldUpdateSet(_paneKeys, newPaneKeys)) this._paneKeys = newPaneKeys
+  }
 
 
   handleMouseDown(e) {
