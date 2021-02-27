@@ -109,7 +109,7 @@ class UnitySplitPane extends LitElement {
     if (oldValue === true && newValue === false) this.onClose(this.paneWidth)
 
     this._show = newValue
-    this.requestUpdate('show', newValue)
+    this.requestUpdate('show', oldValue)
   }
 
   get show() { return this._show }
