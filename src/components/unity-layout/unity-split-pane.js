@@ -114,6 +114,35 @@ class UnitySplitPane extends LitElement {
 
   get show() { return this._show }
 
+  set paneKeys(value) {
+    const {
+      visiblePanes,
+      collapsedPanes,
+      _paneKeys: oldValue
+    } = this
+    this._paneKeys = value
+    // make sure to set a default of the first pane if empty
+    if (!visiblePanes || Object.entries(visiblePanes).length === 0)
+      this.visiblePanes = [value.values().next().value]
+    this.requestUpdate('paneKeys', oldValue)
+  }
+
+  get paneKeys() { return this._paneKeys }
+
+  set visiblePanes(value) {
+    const oldValue = this._visiblePanes
+    let newValues = new Set(values)
+    // add first paneKey to newValues
+    newValues.add(this._pan)
+
+    if (shouldUpdateSet(oldValue, newValues)) {
+      this._visiblePanes = newValues
+      this.requestUpdate('visiblePanes', oldValue)
+    }
+  }
+
+  get visiblePanes() { return this._visiblePanes }
+
   connectedCallback() {
     super.connectedCallback()
     this.shadowRoot.addEventListener('slotchange', event => this.processSlots());
