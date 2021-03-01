@@ -147,11 +147,6 @@ class UnitySplitPane extends LitElement {
 
   get visiblePanes() { return this._visiblePanes }
 
-  connectedCallback() {
-    super.connectedCallback()
-    this.shadowRoot.addEventListener('slotchange', event => this.processSlots());
-  }
-
   set collapsedPanes(value) {
     const oldValue = this._collapsedPanes
     let newValues = value
@@ -164,6 +159,11 @@ class UnitySplitPane extends LitElement {
       this._collapsedPanes = newValues
       this.requestUpdate('collapsedPanes', oldValue)
     }
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    this.shadowRoot.addEventListener('slotchange', event => this.processSlots());
   }
 
   get collapsedPanes() { return this._collapsedPanes }
