@@ -152,6 +152,22 @@ class UnitySplitPane extends LitElement {
     this.shadowRoot.addEventListener('slotchange', event => this.processSlots());
   }
 
+  set collapsedPanes(value) {
+    const oldValue = this._collapsedPanes
+    let newValues = value
+    if (typeof value === 'object' && !Array.isArray(value) && !(value instanceof Set)) {
+      newValues = Object.entries(value).reduce((list, [key, value]) => !!value ? [...list, key] : list, [])
+    }
+    newValues = new Set(newValues)
+
+    if (shouldUpdateset(oldValue, newValues)) {
+      this._collapsedPanes = newValues
+      this.requestUpdate('collapsedPanes', oldValue)
+    }
+  }
+
+  get collapsedPanes() { return this._collapsedPanes }
+
   // gets all slots passed into template, processes to get keys to make slots from
   // skips any ending with ::header or ::footer
   processSlots() {
