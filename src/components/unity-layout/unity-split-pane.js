@@ -131,7 +131,11 @@ class UnitySplitPane extends LitElement {
 
   set visiblePanes(value) {
     const oldValue = this._visiblePanes
-    let newValues = new Set(values)
+    let newValues = values
+    if (typeof value === 'object' && !Array.isArray(value) && !(value instanceof Set)) {
+      newValues = Object.entries(value).reduce((list, [key, value]) => !!value ? [...list, key] : list, [])
+    }
+    newValues = new Set(newValues)
     // add first paneKey to newValues
     newValues.add(this._pan)
 
