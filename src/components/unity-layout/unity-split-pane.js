@@ -162,7 +162,13 @@ class UnitySplitPane extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    this.shadowRoot.addEventListener('slotchange', event => this.processSlots());
+    this.processSlots()
+    this.shadowRoot.addEventListener('slotchange', event => this.processSlots(event));
+  }
+
+  disconnectedCallback() {
+    this.shadowRoot.removeEventListener('slotchange', event => this.processSlots(event));
+    super.disconnectedCallback()
   }
 
   get collapsedPanes() { return this._collapsedPanes }
@@ -185,8 +191,8 @@ class UnitySplitPane extends LitElement {
     // make into set
     let newPaneKeys = new Set(slotKeys)
     // compare to current paneKeys to see if update is needed
-    const { _paneKeys } = this
-    if (shouldUpdateSet(_paneKeys, newPaneKeys)) this._paneKeys = newPaneKeys
+    const { paneKeys } = this
+    if (shouldUpdateSet(paneKeys, newPaneKeys)) this.paneKeys = newPaneKeys
   }
 
 
