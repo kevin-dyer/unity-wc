@@ -172,18 +172,17 @@ class UnitySplitPane extends LitElement {
   // skips any ending with ::header or ::footer
   processSlots() {
     // get all slots
-    const slots = [...this.shadowRoot.querySelectorAll('slot')]
-    // get the assigned nodes and trim any excess whitespace
-    const slotContent = slots.map(slot => trimWhitespace(slot && slot.assignedNodes() || []))
+    const slottedContent = [...this.children]
     // iterate to get the keys of just the panes
-    const slotKeys = slotContent.reduce((keys, slottedNodes) => {
-      const node = slottedNodes[0]
+    const slotKeys = slottedContent.reduce((keys, slottedNodes) => {
+      const node = slottedNodes
       // skip if empty
       if (!node) return keys
       // skip if slot has ::header || ::footer
       if (/(::header$)|(::footer$)/.test(node.slot)) return keys
-      keys.add(node.slot)
-    }, new Set())
+      keys.push(node.slot)
+      return keys
+    }, [])
     // make into set
     let newPaneKeys = new Set(slotKeys)
     // compare to current paneKeys to see if update is needed
