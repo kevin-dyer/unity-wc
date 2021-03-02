@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.3
+- Enabled pointer events in read-only inputs
+
 ### v1.3.2
 - Added `autocomplete` attribute. Defaults to "off"
 
