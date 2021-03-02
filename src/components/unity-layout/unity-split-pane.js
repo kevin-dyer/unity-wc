@@ -265,20 +265,21 @@ class UnitySplitPane extends LitElement {
     `
   }
 
-
-  render() {
+  renderPane(paneKey, first) {
     const {
-      show,
-      closeButton,
+      visiblePanes,
+      collapsedPanes,
       collapseButton,
-      collapsed,
-      paneWidth
+      paneWidth,
+      closeButton
     } = this
+    const show = visiblePanes.has(paneKey)
+    const collapsed = collapsedPanes.has(paneKey)
     return html`
       ${show && collapsed ? this.renderBar() : ''}
-      <div class="wrapper ${show && collapsed ? 'hide' : ''}">
+      <div class="wrapper${!show || collapsed ? ' hide' : ''}">
         <div class="header">
-          <slot name="header"></slot>
+          <slot name="${paneKey}::header"></slot>
           ${(collapseButton) ? html`
             <unity-button
               class="collapse-button"
@@ -290,33 +291,42 @@ class UnitySplitPane extends LitElement {
           `: ''}
         </div>
         <div class="scroller">
-          <div class="main" style="width: ${show? stretch(paneWidth) : "100"}%;">
-            <slot name="main"></slot>
-          </div>
+          ${first ? html`
+            <div class="main" style="width: ${show? stretch(paneWidth) : "100"}%;">
+              <slot name="${paneKey}"></slot>
+            </div>`
+            : html`
+            <div id="pane" class="pane" style="width: ${collapsed?'100':paneWidth}%;">
+              <div
+                class="resize-handle"
+                @mousedown="${this.handleMouseDown}"
+              ></div>
+              ${!!closeButton ?
+                html`
+                  <unity-button
+                    type="borderless"
+                    class="close-button"
+                    centerIcon="close"
+                    @click=${this.closePane}
+                  ></unity-button>`
+                : null
+              }
+
+              <slot name="${paneKey}"></slot>
+            </div>`
+          }
         </div>
         <div class="footer">
-          <slot name="footer"></slot>
+          <slot name="${paneKey}::footer"></slot>
         </div>
       </div>
-      <div id="pane" class="pane ${!show ? 'hide' : ''}" style="width: ${collapsed?'100':paneWidth}%;">
-        <div
-          class="resize-handle"
-          @mousedown="${this.handleMouseDown}"
-        ></div>
-        ${!!closeButton ?
-          html`
-            <unity-button
-              type="borderless"
-              class="close-button"
-              centerIcon="close"
-              @click=${this.closePane}
-            ></unity-button>`
-          : null
-        }
-
-        <slot name="pane"></slot>
-      </div>
     `
+  }
+
+
+  render() {
+    const { paneKeys } = this
+    return html`${[...paneKeys].map((key, i) => this.renderPane(key, i === 0))}`
   }
 
   static get styles() {
