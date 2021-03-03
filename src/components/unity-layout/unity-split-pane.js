@@ -240,7 +240,7 @@ class UnitySplitPane extends LitElement {
   toggleCollapse(paneKey='', value=!this.collapsedPanes.has(paneKey)) {
     // create a new set to avoid unwanted mutations
     let newCollapsedPanes = new Set(this.collapsedPanes)
-    if (collapsedPanes.has(paneKey) || value === false) newCollapsedPanes.delete(paneKey)
+    if (newCollapsedPanes.has(paneKey) || value === false) newCollapsedPanes.delete(paneKey)
     else newCollapsedPanes.add(paneKey)
     this.collapsedPanes = newCollapsedPanes
     this.onCollapseChange({key: paneKey, collapsed: value})
