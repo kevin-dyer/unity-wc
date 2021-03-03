@@ -154,7 +154,7 @@ class UnitySplitPane extends LitElement {
     }
     newValues = new Set(newValues)
 
-    if (shouldUpdateset(oldValue, newValues)) {
+    if (shouldUpdateSet(oldValue, newValues)) {
       this._collapsedPanes = newValues
       this.requestUpdate('collapsedPanes', oldValue)
     }
