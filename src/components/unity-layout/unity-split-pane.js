@@ -147,7 +147,7 @@ class UnitySplitPane extends LitElement {
   get visiblePanes() { return this._visiblePanes }
 
   set collapsedPanes(value) {
-    const oldValue = this._collapsedPanes
+    const oldValue = this.collapsedPanes
     let newValues = value
     if (typeof value === 'object' && !Array.isArray(value) && !(value instanceof Set)) {
       newValues = Object.entries(value).reduce((list, [key, value]) => !!value ? [...list, key] : list, [])
@@ -160,6 +160,8 @@ class UnitySplitPane extends LitElement {
     }
   }
 
+  get collapsedPanes() { return this._collapsedPanes }
+
   connectedCallback() {
     super.connectedCallback()
     this.processSlots()
@@ -170,8 +172,6 @@ class UnitySplitPane extends LitElement {
     this.shadowRoot.removeEventListener('slotchange', event => this.processSlots(event));
     super.disconnectedCallback()
   }
-
-  get collapsedPanes() { return this._collapsedPanes }
 
   // gets all slots passed into template, processes to get keys to make slots from
   // skips any ending with ::header or ::footer
