@@ -13,8 +13,6 @@ const MIN_PANE_WIDTH = 20 // %
  *   2) and one to act in a modal-like fashion, to hold contextual information, and cause
  *      the other view to shrink in view but not in function
  * @name UnitySplitPane
- * @param {Boolean} show, controls if the right pane should be visible or not
- * @param {Boolean} collapsed, controls if the left pane is collapsed or not
  * @param {Boolean} closeButton, controls if the overlapping close button is rendered
  * @param {Boolean} collapseButton, controls whether the collapse button is rendered
  * @param {String} label, text to show inside the bar when the main pane is collapsed
@@ -69,9 +67,7 @@ class UnitySplitPane extends LitElement {
   constructor() {
     super()
 
-    this._show = false
     this.label = ''
-    this.collapsed = false
     this.closeButton = false
     this.collapseButton = false
     this.onClose = ()=>{}
@@ -87,9 +83,7 @@ class UnitySplitPane extends LitElement {
 
   static get properties() {
     return {
-      show: { type: Boolean },
       label: { type: String },
-      collapsed: { type: Boolean },
       closeButton: { type: Boolean },
       collapseButton: { type: Boolean },
       onClose: { type: Function },
@@ -102,17 +96,6 @@ class UnitySplitPane extends LitElement {
       paneKeys: { attribute: false }
     }
   }
-
-  set show(value) {
-    const newValue = Boolean(value)
-    const oldValue = this._show
-    if (oldValue === true && newValue === false) this.onClose(this.paneWidth)
-
-    this._show = newValue
-    this.requestUpdate('show', oldValue)
-  }
-
-  get show() { return this._show }
 
   set paneKeys(value) {
     const {
