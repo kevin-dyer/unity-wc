@@ -235,25 +235,31 @@ class UnitySplitPane extends LitElement {
     }
   }
 
-  toggleCollapse(value=!this.collapsed) {
-    this.collapsed = value
-    this.onCollapseChange(value)
+  toggleCollapse(paneKey='', value=!this.collapsedPanes.has(paneKey)) {
+    let { collapsedPanes } = this
+    if (collapsedPanes.has(paneKey) || value === false) collapsedPanes.delete(paneKey)
+    else collapsedPanes.add(paneKey)
+    this.collapsedPanes = collapsedPanes
+    this.onCollapseChange({key: paneKey, collapsed: value})
   }
 
-  closePane() {
-    this.show = false
-    this.toggleCollapse(false)
+  closePane(paneKey) {
+    let { visiblePanes } = this
+    if(visiblePanes.values().next().value !== paneKey) {
+      visiblePanes.delete(paneKey)
+      this.visiblePanes = visiblePanes
+    }
   }
 
-  handleBarClick(e) {
-    this.toggleCollapse(false)
+  handleBarClick(e, paneKey) {
+    this.toggleCollapse(paneKey, false)
   }
 
-  renderBar() {
+  renderBar(paneKey) {
     const { label } = this
     return html`
       <unity-typography style="display: flex;">
-        <div class="bar" @click=${this.handleBarClick}>
+        <div class="bar" @click=${e=>this.handleBarClick(e, paneKey)}>
           <div class="bar-icon-wrapper">
             <unity-icon icon="unity:expand_horizontal"></unity-icon>
           </div>
@@ -276,7 +282,7 @@ class UnitySplitPane extends LitElement {
     const show = visiblePanes.has(paneKey)
     const collapsed = collapsedPanes.has(paneKey)
     return html`
-      ${show && collapsed ? this.renderBar() : ''}
+      ${show && collapsed ? this.renderBar(paneKey) : ''}
       <div class="wrapper${!show || collapsed ? ' hide' : ''}">
         <div class="header">
           <slot name="${paneKey}::header"></slot>
@@ -284,7 +290,7 @@ class UnitySplitPane extends LitElement {
             <unity-button
               class="collapse-button"
               centerIcon="unity:compress"
-              @click=${() => this.toggleCollapse()}
+              @click=${() => this.toggleCollapse(paneKey)}
               type="borderless"
               ?disabled="${!show}"
             ></unity-button>
