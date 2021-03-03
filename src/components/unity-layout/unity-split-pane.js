@@ -120,15 +120,20 @@ class UnitySplitPane extends LitElement {
       visiblePanes: oldValue,
       paneKeys
     } = this
-    let newValues = value
+    let unorderedValue = value
     if (typeof value === 'object' && !Array.isArray(value) && !(value instanceof Set)) {
-      newValues = Object.entries(value).reduce((list, [key, value]) => !!value ? [...list, key] : list, [])
+      unorderedValue = Object.entries(value).reduce((list, [key, value]) => !!value ? [...list, key] : list, [])
     }
-    newValues = new Set(newValues)
-    // add first paneKey to newValues
-    newValues.add(paneKeys.values().next().value)
-    if (shouldUpdateSet(oldValue, newValues)) {
-      this._visiblePanes = newValues
+    unorderedValue = new Set(unorderedValue)
+
+    // order values into new set, starting with first value
+    let newValue = new Set([paneKeys.values().next().value])
+    for (let pane of paneKeys) {
+      if (unorderedValue.has(pane)) newValue.add(pane)
+    }
+
+    if (shouldUpdateSet(oldValue, newValue)) {
+      this._visiblePanes = newValue
       this.requestUpdate('visiblePanes', oldValue)
     }
   }
@@ -137,14 +142,14 @@ class UnitySplitPane extends LitElement {
 
   set collapsedPanes(value) {
     const oldValue = this.collapsedPanes
-    let newValues = value
+    let newValue = value
     if (typeof value === 'object' && !Array.isArray(value) && !(value instanceof Set)) {
-      newValues = Object.entries(value).reduce((list, [key, value]) => !!value ? [...list, key] : list, [])
+      newValue = Object.entries(value).reduce((list, [key, value]) => !!value ? [...list, key] : list, [])
     }
-    newValues = new Set(newValues)
+    newValue = new Set(newValue)
 
-    if (shouldUpdateSet(oldValue, newValues)) {
-      this._collapsedPanes = newValues
+    if (shouldUpdateSet(oldValue, newValue)) {
+      this._collapsedPanes = newValue
       this.requestUpdate('collapsedPanes', oldValue)
     }
   }
@@ -211,7 +216,6 @@ class UnitySplitPane extends LitElement {
     const { paneKeys } = this
     if (shouldUpdateSet(paneKeys, newPaneKeys)) this.paneKeys = newPaneKeys
   }
-
 
   handleMouseDown(e) {
     this._startingX = e.clientX
@@ -292,7 +296,7 @@ class UnitySplitPane extends LitElement {
     `
   }
 
-  renderPane(paneKey, first) {
+  renderPane(paneKey, order) {
     const {
       visiblePanes,
       collapsedPanes,
@@ -300,14 +304,16 @@ class UnitySplitPane extends LitElement {
       paneWidth,
       closeButton
     } = this
+    const first = order === 0
+    const last = (order + 1) === visiblePanes.size
     const show = first || visiblePanes.has(paneKey)
-    const collapsed = collapsedPanes.has(paneKey)
+    const collapsed = !last && collapsedPanes.has(paneKey)
     return html`
       ${show && collapsed ? this.renderBar(paneKey) : ''}
       <div class="wrapper${!show || collapsed ? ' hide' : ''}">
         <div class="header">
           <slot name="${paneKey}::header"></slot>
-          ${(collapseButton) ? html`
+          ${(collapseButton && !last) ? html`
             <unity-button
               class="collapse-button"
               centerIcon="unity:compress"
@@ -350,10 +356,9 @@ class UnitySplitPane extends LitElement {
     `
   }
 
-
   render() {
     const { paneKeys } = this
-    return html`${[...paneKeys].map((key, i) => this.renderPane(key, i === 0))}`
+    return html`${[...paneKeys].map((key, i) => this.renderPane(key, i))}`
   }
 
   static get styles() {
