@@ -238,18 +238,22 @@ class UnitySplitPane extends LitElement {
   }
 
   toggleCollapse(paneKey='', value=!this.collapsedPanes.has(paneKey)) {
-    let { collapsedPanes } = this
-    if (collapsedPanes.has(paneKey) || value === false) collapsedPanes.delete(paneKey)
-    else collapsedPanes.add(paneKey)
-    this.collapsedPanes = collapsedPanes
+    // create a new set to avoid unwanted mutations
+    let newCollapsedPanes = new Set(this.collapsedPanes)
+    if (collapsedPanes.has(paneKey) || value === false) newCollapsedPanes.delete(paneKey)
+    else newCollapsedPanes.add(paneKey)
+    this.collapsedPanes = newCollapsedPanes
     this.onCollapseChange({key: paneKey, collapsed: value})
   }
 
-  closePane(paneKey) {
-    let { visiblePanes } = this
-    if(visiblePanes.values().next().value !== paneKey) {
-      visiblePanes.delete(paneKey)
-      this.visiblePanes = visiblePanes
+  closePane(e, paneKey) {
+    let { paneKeys, visiblePanes } = this
+    if(paneKeys.values().next().value !== paneKey) {
+      // create a new set to avoid unwanted mutations
+      let newVisiblePanes = new Set(visiblePanes)
+      newVisiblePanes.delete(paneKey)
+      this.visiblePanes = newVisiblePanes
+      this.onClose(paneKey)
     }
   }
 
@@ -281,7 +285,7 @@ class UnitySplitPane extends LitElement {
       paneWidth,
       closeButton
     } = this
-    const show = visiblePanes.has(paneKey)
+    const show = first || visiblePanes.has(paneKey)
     const collapsed = collapsedPanes.has(paneKey)
     return html`
       ${show && collapsed ? this.renderBar(paneKey) : ''}
@@ -315,7 +319,7 @@ class UnitySplitPane extends LitElement {
                     type="borderless"
                     class="close-button"
                     centerIcon="close"
-                    @click=${this.closePane}
+                    @click=${e=>this.closePane(e, paneKey)}
                   ></unity-button>`
                 : null
               }
