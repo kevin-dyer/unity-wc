@@ -15,7 +15,7 @@ const MIN_PANE_WIDTH = 20 // %
  * @name UnitySplitPane
  * @param {Boolean} closeButton, controls if the overlapping close button is rendered
  * @param {Boolean} collapseButton, controls whether the collapse button is rendered
- * @param {String} label, text to show inside the bar when the main pane is collapsed
+ * @param {String} labels, text to show inside the bars when the main pane is collapsed, {paneKey: label, ...}
  * @param {Number} paneWidth, width for the pane in percentage
  * @param {Function} onClose, function to call when the close button is clicked, sends new pane width in %
  * @param {Function} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
@@ -67,7 +67,7 @@ class UnitySplitPane extends LitElement {
   constructor() {
     super()
 
-    this.label = ''
+    this._labels = {}
     this.closeButton = false
     this.collapseButton = false
     this.onClose = ()=>{}
@@ -83,7 +83,7 @@ class UnitySplitPane extends LitElement {
 
   static get properties() {
     return {
-      label: { type: String },
+      labels: { type: Object },
       closeButton: { type: Boolean },
       collapseButton: { type: Boolean },
       onClose: { type: Function },
@@ -101,11 +101,15 @@ class UnitySplitPane extends LitElement {
     const {
       visiblePanes,
       collapsedPanes,
-      _paneKeys: oldValue
+      _paneKeys: oldValue,
+      labels
     } = this
     this._paneKeys = value
-    // make sure to set a default of the first pane if empty
-    this.visiblePanes = this.visiblePanes
+
+    // trigger set to make sure defaults are set
+    this.visiblePanes = visiblePanes
+    this.labels = labels
+
     this.requestUpdate('paneKeys', oldValue)
   }
 
@@ -146,6 +150,34 @@ class UnitySplitPane extends LitElement {
   }
 
   get collapsedPanes() { return this._collapsedPanes }
+
+  set labels(value) {
+    const {
+      labels: oldValue,
+      paneKeys
+    } = this
+
+    let newValue = {...value}
+    let shouldUpdate = false
+
+    if (paneKeys.size === 0) {
+      this._labels = newValue
+      this.requestUpdate('labels', oldValue)
+      return
+    }
+    // iterate paneKeys to make sure a default label is set, and check for needed update
+    for (let key of paneKeys) {
+      if (!newValue[key]) newValue[key] = key
+      if (!shouldUpdate && oldValue[key] !== newValue[key]) shouldUpdate = true
+    }
+
+    if (shouldUpdate) {
+      this._labels = newValue
+      this.requestUpdate('labels', oldValue)
+    }
+  }
+
+  get labels() { return this._labels }
 
   connectedCallback() {
     super.connectedCallback()
@@ -245,7 +277,7 @@ class UnitySplitPane extends LitElement {
   }
 
   renderBar(paneKey) {
-    const { label } = this
+    const { labels: { [paneKey]: label } } = this
     return html`
       <unity-typography style="display: flex;">
         <div class="bar" @click=${e=>this.handleBarClick(e, paneKey)}>
