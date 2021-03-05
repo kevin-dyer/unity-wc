@@ -7,7 +7,7 @@ import '@bit/smartworks.unity.unity-typography'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
 
-// const MIN_PANE_WIDTH = 20 // %
+const MIN_PANE_WIDTH = 20 // %
 /**
  * A container to hold two views:
  *   1) one which will hold main content to always be rendered and fit to the full view
@@ -63,17 +63,17 @@ const shouldUpdateSet = (one, two) => {
   return false
 }
 
-// const clipPaneWidth = width => {
-//   if (width < MIN_PANE_WIDTH) {
-//     return MIN_PANE_WIDTH
-//   }
-//   else if (width > 100 - MIN_PANE_WIDTH) {
-//     return 100 - MIN_PANE_WIDTH
-//   }
-//   else {
-//     return width
-//   }
-// }
+const clipPaneWidth = width => {
+  if (width < MIN_PANE_WIDTH) {
+    return MIN_PANE_WIDTH
+  }
+  else if (width > 100 - MIN_PANE_WIDTH) {
+    return 100 - MIN_PANE_WIDTH
+  }
+  else {
+    return width
+  }
+}
 
 class UnitySplitPane extends LitElement {
   constructor() {
@@ -82,12 +82,12 @@ class UnitySplitPane extends LitElement {
     this._labels = {}
     this.closeButton = false
     this.collapseButton = false
-    // this._paneWidths = {}
+    this.paneWidths = {}
     this._visiblePanes = new Set()
     this._collapsedPanes = new Set()
     this.onClose = ()=>{}
     this.onCollapseChange = ()=>{}
-    this.onResize=()=>{}
+    // this.onResize=()=>{}
 
     // internals
     this._startingX = 0
@@ -101,8 +101,8 @@ class UnitySplitPane extends LitElement {
       collapseButton: { type: Boolean },
       onClose: { type: Function },
       onCollapseChange: { type: Function },
-      // paneWidths: { type: Object },
-      onResize: { type: Function },
+      paneWidths: { type: Object },
+      // onResize: { type: Function },
       visiblePanes: { type: Array },
       collapsedPanes: { type: Array },
       paneKeys: { attribute: false }
