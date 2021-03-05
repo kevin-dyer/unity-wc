@@ -83,7 +83,7 @@ class UnitySplitPane extends LitElement {
     this.closeButton = false
     this.collapseButton = false
     // this._paneWidths = {}
-    this._visiblePanes = new Set(['main'])
+    this._visiblePanes = new Set()
     this._collapsedPanes = new Set()
     this.onClose = ()=>{}
     this.onCollapseChange = ()=>{}
