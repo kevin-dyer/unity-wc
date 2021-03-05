@@ -1,12 +1,13 @@
 import { LitElement, html, css } from 'lit-element'
 
+
 import '@bit/smartworks.unity.unity-button'
 import '@bit/smartworks.unity.unity-icon'
 import '@bit/smartworks.unity.unity-typography'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
 
-const MIN_PANE_WIDTH = 20 // %
+// const MIN_PANE_WIDTH = 20 // %
 /**
  * A container to hold two views:
  *   1) one which will hold main content to always be rendered and fit to the full view
@@ -16,8 +17,7 @@ const MIN_PANE_WIDTH = 20 // %
  * @param {Boolean} closeButton, controls if the overlapping close button is rendered
  * @param {Boolean} collapseButton, controls whether the collapse button is rendered
  * @param {String} labels, text to show inside the bars when the main pane is collapsed, {paneKey: label, ...}
- * @param {Number} paneWidth, width for the pane in percentage
- * @param {Function} onClose, function to call when the close button is clicked, sends new pane width in %
+ * @param {Function} onClose, function to call when the close button is clicked
  * @param {Function} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
  * @param {Function} onResize, function to call when panel is being resized
 
@@ -63,6 +63,18 @@ const shouldUpdateSet = (one, two) => {
   return false
 }
 
+// const clipPaneWidth = width => {
+//   if (width < MIN_PANE_WIDTH) {
+//     return MIN_PANE_WIDTH
+//   }
+//   else if (width > 100 - MIN_PANE_WIDTH) {
+//     return 100 - MIN_PANE_WIDTH
+//   }
+//   else {
+//     return width
+//   }
+// }
+
 class UnitySplitPane extends LitElement {
   constructor() {
     super()
@@ -70,14 +82,15 @@ class UnitySplitPane extends LitElement {
     this._labels = {}
     this.closeButton = false
     this.collapseButton = false
+    // this._paneWidths = {}
+    this._visiblePanes = new Set(['main'])
+    this._collapsedPanes = new Set()
     this.onClose = ()=>{}
     this.onCollapseChange = ()=>{}
-    this.paneWidth = 50
     this.onResize=()=>{}
-    this._startingX = 0
 
-    this._visiblePanes = new Set()
-    this._collapsedPanes = new Set()
+    // internals
+    this._startingX = 0
     this._paneKeys = new Set()
   }
 
@@ -88,32 +101,58 @@ class UnitySplitPane extends LitElement {
       collapseButton: { type: Boolean },
       onClose: { type: Function },
       onCollapseChange: { type: Function },
-      paneWidth: { type: Number },
+      // paneWidths: { type: Object },
       onResize: { type: Function },
-
       visiblePanes: { type: Array },
       collapsedPanes: { type: Array },
       paneKeys: { attribute: false }
     }
   }
 
+  // when paneKeys is updated, it will set it's value before checking visiblePanes, labels, or paneWidths,
+  // but it won't consider it an update until after the other three have finished
   set paneKeys(value) {
     const {
       visiblePanes,
       collapsedPanes,
       _paneKeys: oldValue,
-      labels
+      labels,
+      // paneWidths
     } = this
     this._paneKeys = value
 
     // trigger set to make sure defaults are set
     this.visiblePanes = visiblePanes
     this.labels = labels
+    // this.paneWidths = paneWidths
 
     this.requestUpdate('paneKeys', oldValue)
   }
 
   get paneKeys() { return this._paneKeys }
+
+  // set paneWidths(value) {
+  //   const {
+  //     paneWidths: oldValue,
+  //     paneKeys
+  //   } = this
+  //   let newValue = {...value}
+  //   let shouldUpdate = false
+  //
+  //   // make sure all pane-keys are present in new value
+  //   for (let key of paneKeys) {
+  //     if (!newValue[key]) newValue[key] = 100
+  //     // compare to old value
+  //     if (oldValue[key] !== newValue[key]) shouldUpdate = true
+  //   }
+  //
+  //   if (shouldUpdate) {
+  //     this._paneWidths = newValue
+  //     this.requestUpdate('paneWidths', oldValue)
+  //   }
+  // }
+  //
+  // get paneWidths() { return this._paneWidths }
 
   set visiblePanes(value) {
     const {
@@ -217,44 +256,44 @@ class UnitySplitPane extends LitElement {
     if (shouldUpdateSet(paneKeys, newPaneKeys)) this.paneKeys = newPaneKeys
   }
 
-  handleMouseDown(e) {
-    this._startingX = e.clientX
-    this.mouseMoveListener = this.handleMouseMove.bind(this)
-    this.mouseUpListener = this.handleMouseUp.bind(this)
-    document.addEventListener('mousemove', this.mouseMoveListener)
-    document.addEventListener('mouseup', this.mouseUpListener)
-  }
-
-  handleMouseMove(e) {
-    const pane = this.shadowRoot.getElementById('pane')
-    const splitPaneWidth = pane.clientWidth * 100 / this.paneWidth // get splitpane total width
-
-    const deltaX = e.clientX - this._startingX
-    const newWidth = this.paneWidth - (deltaX * 100 / splitPaneWidth) // curent % - increment %
-
-    this.paneWidth = this._clipPaneWidth(newWidth)
-    this._startingX = e.clientX
-    this.onResize(this.paneWidth) // callback
-    this.requestUpdate('paneWidth')
-  }
-
-  //clean up event listener
-  handleMouseUp() {
-    document.removeEventListener('mousemove', this.mouseMoveListener)
-    document.removeEventListener('mouseup', this.mouseUpListener)
-  }
-
-  _clipPaneWidth(width) {
-    if (width < MIN_PANE_WIDTH) {
-      return MIN_PANE_WIDTH
-    }
-    else if (width > 100 - MIN_PANE_WIDTH) {
-      return 100 - MIN_PANE_WIDTH
-    }
-    else {
-      return width
-    }
-  }
+  // handleMouseDown(e, paneKey, prevPaneKey) {
+  //   this._startingX = e.clientX
+  //   this.mouseMoveListener = this.handleMouseMove.bind(this, paneKey, prevPaneKey)
+  //   this.mouseUpListener = this.handleMouseUp.bind(this)
+  //   document.addEventListener('mousemove', this.mouseMoveListener)
+  //   document.addEventListener('mouseup', this.mouseUpListener)
+  // }
+  //
+  // handleMouseMove(paneKey, prevPaneKey, e) {
+  //   const {
+  //     shadowRoot,
+  //     paneWidths,
+  //     paneWidths: {
+  //       [prevPaneKey]: prevPaneWidth,
+  //       [paneKey]: paneWidth
+  //     }={}
+  //   } = this
+  //   const pane = shadowRoot.getElementById(paneKey)
+  //   const splitPaneWidth = pane.clientWidth * 100 / paneWidth // get splitpane total width
+  //   const deltaX = e.clientX - this._startingX
+  //   const newWidth = paneWidth - (deltaX * 100 / splitPaneWidth) // curent % - increment %
+  //
+  //   const newPaneWidth = clipPaneWidth(newWidth)
+  //   const newPrevPaneWidth = clipPaneWidth(prevPaneWidth + (deltaX * 100))
+  //   this.paneWidths = {
+  //     ...paneWidths,
+  //     [prevPaneKey]: newPrevPaneWidth,
+  //     [paneKey]: newPaneWidth
+  //   }
+  //   this._startingX = e.clientX
+  //   this.onResize({key: paneKey, width: newPaneWidth}) // callback
+  // }
+  //
+  // //clean up event listener
+  // handleMouseUp() {
+  //   document.removeEventListener('mousemove', this.mouseMoveListener)
+  //   document.removeEventListener('mouseup', this.mouseUpListener)
+  // }
 
   toggleCollapse(paneKey='', value=!this.collapsedPanes.has(paneKey)) {
     // create a new set to avoid unwanted mutations
@@ -296,21 +335,31 @@ class UnitySplitPane extends LitElement {
     `
   }
 
+  // handle removed from below
+  // <div
+  //   class="resize-handle"
+  //   @mousedown="${e=>this.handleMouseDown(e, paneKey, prevPaneKey)}"
+  // ></div>
+
   renderPane(paneKey, order) {
     const {
       visiblePanes,
       collapsedPanes,
       collapseButton,
-      paneWidth,
+      paneKeys,
+      // paneWidths: {
+      //   [paneKey]: paneWidth
+      // }={},
       closeButton
     } = this
     const first = order === 0
     const last = (order + 1) === visiblePanes.size
     const show = first || visiblePanes.has(paneKey)
     const collapsed = !last && collapsedPanes.has(paneKey)
+    // const prevPaneKey = [...paneKeys][first ? order :order-1]
     return html`
       ${show && collapsed ? this.renderBar(paneKey) : ''}
-      <div class="wrapper${!show || collapsed ? ' hide' : ''}">
+      <div class="wrapper${!show || collapsed ? ' hide' : ''}" id="${paneKey}-wrapper">
         <div class="header">
           <slot name="${paneKey}::header"></slot>
           ${(collapseButton && !last) ? html`
@@ -323,17 +372,13 @@ class UnitySplitPane extends LitElement {
             ></unity-button>
           `: ''}
         </div>
-        <div class="scroller">
+        <div c*lass="scroller">
           ${first ? html`
-            <div class="main" style="width: ${show? stretch(paneWidth) : "100"}%;">
+            <div class="main" id="${paneKey}">
               <slot name="${paneKey}"></slot>
             </div>`
             : html`
-            <div id="pane" class="pane" style="width: ${collapsed?'100':paneWidth}%;">
-              <div
-                class="resize-handle"
-                @mousedown="${this.handleMouseDown}"
-              ></div>
+            <div id="${paneKey}" class="pane">
               ${!!closeButton ?
                 html`
                   <unity-button
@@ -344,7 +389,6 @@ class UnitySplitPane extends LitElement {
                   ></unity-button>`
                 : null
               }
-
               <slot name="${paneKey}"></slot>
             </div>`
           }
@@ -358,7 +402,11 @@ class UnitySplitPane extends LitElement {
 
   render() {
     const { paneKeys } = this
-    return html`${[...paneKeys].map((key, i) => this.renderPane(key, i))}`
+    return html`
+      <div class="container">
+        ${[...paneKeys].map((key, i) => this.renderPane(key, i))}
+      </div>
+    `
   }
 
   static get styles() {
@@ -381,6 +429,13 @@ class UnitySplitPane extends LitElement {
           flex-direction: row;
           height: 100%;
           width: 100%;
+        }
+        .container {
+          display: flex;
+          flex-direction: row;
+          flex: 1;
+          overflow: hidden;
+          position: relative;
         }
         .wrapper {
           display: flex;
