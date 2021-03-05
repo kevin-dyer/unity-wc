@@ -372,7 +372,7 @@ class UnitySplitPane extends LitElement {
             ></unity-button>
           `: ''}
         </div>
-        <div c*lass="scroller">
+        <div class="scroller">
           ${first ? html`
             <div class="main" id="${paneKey}">
               <slot name="${paneKey}"></slot>
