@@ -168,7 +168,7 @@ class UnitySplitPane extends LitElement {
     // order values into new set, starting with first value
     let newValue = new Set([paneKeys.values().next().value])
     for (let pane of paneKeys) {
-      if (unorderedValue.has(pane)) newValue.add(pane)
+      if (unorderedValue.has(pane) && paneKeys.has(pane)) newValue.add(pane)
     }
 
     if (shouldUpdateSet(oldValue, newValue)) {
@@ -182,12 +182,22 @@ class UnitySplitPane extends LitElement {
   get visiblePanes() { return this._visiblePanes }
 
   set collapsedPanes(value) {
+    const { visiblePanes } = this
     const oldValue = this.collapsedPanes
-    let newValue = value
+    let uncheckedValue = value
     if (typeof value === 'object' && !Array.isArray(value) && !(value instanceof Set)) {
-      newValue = Object.entries(value).reduce((list, [key, value]) => !!value ? [...list, key] : list, [])
+      uncheckedValue = Object.entries(value).reduce((list, [key, value]) => !!value ? [...list, key] : list, [])
     }
-    newValue = new Set(newValue)
+    uncheckedValue = new Set(uncheckedValue)
+
+    // check that collapsedPanes are in visiblePanes
+    let newValue = new Set()
+    for (let pane of uncheckedValue) {
+
+      const isLast = [...visiblePanes][visiblePanes.size - 1] === pane
+      if (!isLast && visiblePanes.has(pane)) newValue.add(pane)
+      else if (isLast) this.onCollapseChange({ key: pane, collapsed: false })
+    }
 
     if (shouldUpdateSet(oldValue, newValue)) {
       this._collapsedPanes = newValue
@@ -342,7 +352,7 @@ class UnitySplitPane extends LitElement {
   renderBar(paneKey) {
     const { labels: { [paneKey]: label } } = this
     return html`
-      <unity-typography style="display: flex;">
+      <unity-typography id="collapse-bar" style="display: flex;">
         <div class="bar" @click=${e=>this.handleBarClick(e, paneKey)}>
           <div class="bar-icon-wrapper">
             <unity-icon icon="unity:expand_horizontal"></unity-icon>
