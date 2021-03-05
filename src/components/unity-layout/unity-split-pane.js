@@ -373,25 +373,17 @@ class UnitySplitPane extends LitElement {
           `: ''}
         </div>
         <div class="scroller">
-          ${first ? html`
-            <div class="main" id="${paneKey}">
-              <slot name="${paneKey}"></slot>
-            </div>`
-            : html`
-            <div id="${paneKey}" class="pane">
-              ${!!closeButton ?
-                html`
-                  <unity-button
-                    type="borderless"
-                    class="close-button"
-                    centerIcon="close"
-                    @click=${e=>this.closePane(e, paneKey)}
-                  ></unity-button>`
-                : null
-              }
-              <slot name="${paneKey}"></slot>
-            </div>`
-          }
+          <slot name="${paneKey}"></slot>
+          ${!first && !!closeButton ?
+            html`
+            <unity-button
+              type="borderless"
+              class="close-button"
+              centerIcon="close"
+              @click=${e=>this.closePane(e, paneKey)}
+              ></unity-button>`
+              : null
+            }
         </div>
         <div class="footer">
           <slot name="${paneKey}::footer"></slot>
