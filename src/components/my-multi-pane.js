@@ -14,8 +14,8 @@ import '@bit/smartworks.unity.unity-core/unity-button';
 import '@bit/smartworks.unity.unity-core/unity-table';
 import '@bit/smartworks.unity.unity-core/unity-page-header';
 import '@bit/smartworks.unity.unity-core/unity-text-input';
-// import '@bit/smartworks.unity.unity-core/unity-split-pane'
-import './unity-layout/unity-split-pane'
+// import '@bit/smartworks.unity.unity-core/unity-multi-pane'
+import './unity-layout/unity-multi-pane'
 import '@bit/smartworks.unity.unity-core/unity-typography'
 import '@bit/smartworks.unity.unity-core/unity-column-editor.js'
 import '@bit/smartworks.unity.unity-core/unity-modal'
@@ -118,14 +118,14 @@ const exampleColumns = [
 const exampleFilters = [{column: "name", values: ["Grey"], include: false} ]
 
 
-class MySplitPane extends PageViewElement {
+class MyMultiPane extends PageViewElement {
   constructor() {
     super()
 
     this._searchText = ''
 
     this.columns = [...exampleColumns] //For Column Editor
-    this.collapsedPanes = {} // split-pane collapse
+    this.collapsedPanes = {} // multi-pane collapse
     this._visibleColumns = [...exampleColumns] //For Table display
     this._columnFilters = exampleFilters
     this.highlightedRowId = ''
@@ -268,16 +268,14 @@ class MySplitPane extends PageViewElement {
   }
 
   render() {
-    // .paneWidths="${{main: 25}}"
     const {
       highlightedRowId,
       showLastPane,
       visiblePanes,
       collapsedPanes
     } = this
-    console.log('my-split-pane render collapsedPanes', collapsedPanes)
     return html`
-      <unity-split-pane
+      <unity-multi-pane
         closeButton
         collapseButton
         .labels="${{
@@ -347,9 +345,9 @@ class MySplitPane extends PageViewElement {
         <div slot="last">
           This is the last pane.
         </div>
-      </unity-split-pane>
+      </unity-multi-pane>
     `
   }
 }
 
-window.customElements.define('my-split-pane', MySplitPane);
+window.customElements.define('my-multi-pane', MyMultiPane);
