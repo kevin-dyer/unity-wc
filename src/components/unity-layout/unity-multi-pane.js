@@ -13,7 +13,7 @@ const MIN_PANE_WIDTH = 20 // %
  *   1) one which will hold main content to always be rendered and fit to the full view
  *   2) and one to act in a modal-like fashion, to hold contextual information, and cause
  *      the other view to shrink in view but not in function
- * @name UnitySplitPane
+ * @name UnityMultiPane
  * @param {Boolean} closeButton, controls if the overlapping close button is rendered
  * @param {Boolean} collapseButton, controls whether the collapse button is rendered
  * @param {String} labels, text to show inside the bars when the main pane is collapsed, {paneKey: label, ...}
@@ -26,7 +26,7 @@ const MIN_PANE_WIDTH = 20 // %
  *   <unity-multi-pane
  *     closeButton
  *     collapseButton
- *     label="Split Pane"
+ *     label="Multi Pane"
  *     show=${showDetails}
  *     onClose="${toggleShowDetails}"
  *   >
@@ -73,7 +73,7 @@ const clipPaneWidth = width => {
   }
 }
 
-class UnitySplitPane extends LitElement {
+class UnityMultiPane extends LitElement {
   constructor() {
     super()
 
@@ -277,9 +277,9 @@ class UnitySplitPane extends LitElement {
       }={}
     } = this
     const pane = shadowRoot.getElementById(paneKey)
-    const splitPaneWidth = pane.clientWidth * 100 / paneWidth // get splitpane total width
+    const multiPaneWidth = pane.clientWidth * 100 / paneWidth // get multipane total width
     const deltaX = e.clientX - this._startingX
-    const newWidth = paneWidth - (deltaX * 100 / splitPaneWidth) // curent % - increment %
+    const newWidth = paneWidth - (deltaX * 100 / multiPaneWidth) // curent % - increment %
 
     let newPaneWidth = clipPaneWidth(newWidth)
     const newPrevPaneWidth = prevPaneWidth + (paneWidth - newPaneWidth)
@@ -543,4 +543,4 @@ class UnitySplitPane extends LitElement {
   }
 }
 
-window.customElements.define('unity-multi-pane', UnitySplitPane)
+window.customElements.define('unity-multi-pane', UnityMultiPane)
