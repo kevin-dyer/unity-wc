@@ -34,6 +34,9 @@ const loadPage = (page) => (dispatch) => {
     case 'split-pane':
       import('../components/my-split-pane.js')
       break;
+    case 'multi-pane':
+      import('../components/my-multi-pane.js')
+      break;
     case 'popover':
       import('../components/my-popover.js')
       break;
