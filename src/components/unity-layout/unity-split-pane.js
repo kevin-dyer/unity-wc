@@ -19,8 +19,6 @@ const MIN_PANE_WIDTH = 20 // %
  * @param {String} labels, text to show inside the bars when the main pane is collapsed, {paneKey: label, ...}
  * @param {Function} onClose, function to call when the close button is clicked
  * @param {Function} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
- * @param {Function} onResize, function to call when panel is being resized
-
  * @param {Array} visiblePanes, list of panes to be visible, first pane is always visible
  * @param {Array} collapsedPanes, list of panes to be collapsed
 
@@ -82,14 +80,13 @@ class UnitySplitPane extends LitElement {
     this._labels = {}
     this.closeButton = false
     this.collapseButton = false
-    this.paneWidths = {}
     this._visiblePanes = new Set()
     this._collapsedPanes = new Set()
     this.onClose = ()=>{}
     this.onCollapseChange = ()=>{}
-    // this.onResize=()=>{}
 
     // internals
+    this.paneWidths = {}
     this._startingX = 0
     this._paneKeys = new Set()
   }
@@ -101,10 +98,9 @@ class UnitySplitPane extends LitElement {
       collapseButton: { type: Boolean },
       onClose: { type: Function },
       onCollapseChange: { type: Function },
-      paneWidths: { type: Object },
-      // onResize: { type: Function },
       visiblePanes: { type: Array },
       collapsedPanes: { type: Array },
+      paneWidths: { attribute: false },
       paneKeys: { attribute: false }
     }
   }
@@ -130,29 +126,6 @@ class UnitySplitPane extends LitElement {
   }
 
   get paneKeys() { return this._paneKeys }
-
-  // set paneWidths(value) {
-  //   const {
-  //     paneWidths: oldValue,
-  //     paneKeys
-  //   } = this
-  //   let newValue = {...value}
-  //   let shouldUpdate = false
-  //
-  //   // make sure all pane-keys are present in new value
-  //   for (let key of paneKeys) {
-  //     if (!newValue[key]) newValue[key] = 100
-  //     // compare to old value
-  //     if (oldValue[key] !== newValue[key]) shouldUpdate = true
-  //   }
-  //
-  //   if (shouldUpdate) {
-  //     this._paneWidths = newValue
-  //     this.requestUpdate('paneWidths', oldValue)
-  //   }
-  // }
-  //
-  // get paneWidths() { return this._paneWidths }
 
   set visiblePanes(value) {
     const {
@@ -308,15 +281,15 @@ class UnitySplitPane extends LitElement {
     const deltaX = e.clientX - this._startingX
     const newWidth = paneWidth - (deltaX * 100 / splitPaneWidth) // curent % - increment %
 
-    const newPaneWidth = clipPaneWidth(newWidth)
-    const newPrevPaneWidth = clipPaneWidth(prevPaneWidth + (deltaX * 100))
+    let newPaneWidth = clipPaneWidth(newWidth)
+    const newPrevPaneWidth = prevPaneWidth + (paneWidth - newPaneWidth)
+    if (newPrevPaneWidth <= MIN_PANE_WIDTH) newPaneWidth = newPaneWidth - (20 - newPrevPaneWidth)
     this.paneWidths = {
       ...paneWidths,
-      [prevPaneKey]: newPrevPaneWidth,
+      [prevPaneKey]: clipPaneWidth(newPrevPaneWidth),
       [paneKey]: newPaneWidth
     }
     this._startingX = e.clientX
-    this.onResize({key: paneKey, width: newPaneWidth}) // callback
   }
 
   //clean up event listener
@@ -384,7 +357,7 @@ class UnitySplitPane extends LitElement {
     return html`
       <div
         class="wrapper${!show ? ' hide' : ''}"
-        id="${paneKey}-wrapper"
+        id="${paneKey}"
         style="width: ${!!paneWidth ? paneWidth : 'unset'}%;"
       >
         ${show && collapsed ? this.renderBar(paneKey) : ''}
@@ -460,13 +433,18 @@ class UnitySplitPane extends LitElement {
           display: flex;
           flex-direction: row;
           flex: 1;
-          overflow: hidden;
           position: relative;
         }
         .wrapper {
           display: flex;
           flex-direction: column;
           overflow-y: hidden;
+          position: relative;
+        }
+        .content {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
           position: relative;
         }
         .header {
