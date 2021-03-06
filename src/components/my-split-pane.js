@@ -14,8 +14,7 @@ import '@bit/smartworks.unity.unity-core/unity-button';
 import '@bit/smartworks.unity.unity-core/unity-table';
 import '@bit/smartworks.unity.unity-core/unity-page-header';
 import '@bit/smartworks.unity.unity-core/unity-text-input';
-// import '@bit/smartworks.unity.unity-core/unity-split-pane'
-import './unity-layout/unity-split-pane'
+import '@bit/smartworks.unity.unity-core/unity-split-pane'
 import '@bit/smartworks.unity.unity-core/unity-typography'
 import '@bit/smartworks.unity.unity-core/unity-column-editor.js'
 import '@bit/smartworks.unity.unity-core/unity-modal'
@@ -125,13 +124,13 @@ class MySplitPane extends PageViewElement {
     this._searchText = ''
 
     this.columns = [...exampleColumns] //For Column Editor
-    this.collapsedPanes = {} // split-pane collapse
+    this.collapsed = false // split-pane collapse
     this._visibleColumns = [...exampleColumns] //For Table display
     this._columnFilters = exampleFilters
     this.highlightedRowId = ''
     this.highlightedRow = {}
     this.highlightColor = ''
-    this.visiblePanes = {}
+    this.showDetails = false
     this.showPaneModal = false
   }
 
@@ -139,12 +138,12 @@ class MySplitPane extends PageViewElement {
     return {
       _searchText: { type: String },
       columns: { type: Array },
-      collapsedPanes: { type: Object },
+      collapsed: { type: Boolean },
       _visibleColumns: { type: Array },
       highlightedRowId: { type: String },
       highlightedRow: { type: Object },
       highlightColor: { type: String },
-      visiblePanes: { type: Boolean },
+      showDetails: { type: Boolean },
       showPaneModal: { type: Boolean }
     }
   }
@@ -231,10 +230,6 @@ class MySplitPane extends PageViewElement {
     console.log('This was the key of the element:', key)
     console.log('This was the clicked event:', event)
     this.highlightedRowId = this.highlightedRowId === key ? '' : key
-    this.visiblePanes = {
-      ...this.visiblePanes,
-      pane: true
-    }
   }
 
   handleRowHighlighted(element={}) {
@@ -243,59 +238,36 @@ class MySplitPane extends PageViewElement {
     this.highlightedRow = element
   }
 
-  toggleDetails(pane) {
-    if (pane === 'pane') this.highlightedRowId = ''
-    this.visiblePanes = {
-      ...this.visiblePanes,
-      [pane]: false
-    }
+  toggleDetails() {
+    this.highlightedRowId = ''
   }
 
-  toggleCollapse({key, value=!this.collapsed}) {
-    this.collapsed = {
-      ...this.collapsed,
-      [key]: value
-    }
+  toggleCollapse(value=!this.collapsed) {
+    this.collapsed = value
   }
 
   togglePaneModal() {
+    console.log('this', this)
+    console.log('this.showPaneModal', this.showPaneModal)
     this.showPaneModal = !this.showPaneModal
   }
 
-  toggleLastPane() {
-    this.visiblePanes = {
-      ...this.visiblePanes,
-      last: true
-    }
-  }
-
   render() {
-    // .paneWidths="${{main: 25}}"
-    const {
-      highlightedRowId,
-      showLastPane,
-      visiblePanes,
-      collapsedPanes
-    } = this
+    console.log('exampleData', exampleData)
+    console.log('this.highlightedRow', this.highlightedRow)
     return html`
       <unity-split-pane
         closeButton
         collapseButton
-        .labels="${{
-          header: 'Header',
-          footer: 'Footer',
-          main: 'Main',
-          pane: 'Pane'
-        }}"
-        .visiblePanes="${visiblePanes}"
-        .collapsedPanes="${collapsedPanes}"
-        .onCollapseChange="${this.toggleCollapse.bind(this)}"
+        label="Unity Table"
+        ?show="${!!this.highlightedRowId}"
+        ?collapsed="${!!this.collapsed}"
         .onClose="${this.toggleDetails.bind(this)}"
+        .onCollapseChange="${this.toggleCollapse.bind(this)}"
       >
         <unity-page-header
           header="Unity Table"
-          slot="main::header"
-        >
+          slot="header" >
 
           <div slot="right-content">
             <unity-text-input
@@ -311,7 +283,7 @@ class MySplitPane extends PageViewElement {
         </unity-page-header>
 
         <div
-          slot="main::footer"
+          slot="footer"
           class="footer-container"
         >
             <unity-typography size='header2'>Footer</unity-typography>
@@ -342,16 +314,12 @@ class MySplitPane extends PageViewElement {
         <div class="pane" slot="pane">
           <unity-button label="Show Test Modal" @click="${this.togglePaneModal.bind(this)}"></unity-button>
           ${JSON.stringify(this.highlightedRow)}
-          <unity-button label="Show Last Pane" @click="${this.toggleLastPane.bind(this)}"></unity-button>
           <unity-modal
             .show="${this.showPaneModal}"
             .title="${"Test Modal"}"
             .toggle="${this.togglePaneModal.bind(this)}"
             cancelOnOutsideClick
           ></unity-modal>
-        </div>
-        <div slot="last">
-          This is the last pane.
         </div>
       </unity-split-pane>
     `
