@@ -1170,7 +1170,7 @@ class UnityTable extends LitElement {
       rowStyle = `background-color: ${backgroundColor};`
     }
     if (rowOpacity) {
-      rowStyle += ` opacity: ${rowOpacity}`
+      rowStyle += ` opacity: ${rowOpacity};`
     }
     if (this.compact) rowClasses.push('compact')
     if (this.onClickRow instanceof Function) rowClasses.push('clickable')
