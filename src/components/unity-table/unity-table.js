@@ -1154,7 +1154,7 @@ class UnityTable extends LitElement {
       icon,
       image,
       backgroundColor,
-      style
+      rowOpacity
     } = datum
     const expandable = childCount > 0
     const expanded = this.expanded.has(rowId)
@@ -1169,8 +1169,8 @@ class UnityTable extends LitElement {
       //if row is not highlighted, and datum has backgroundColor defined, set style
       rowStyle = `background-color: ${backgroundColor};`
     }
-    if (style) {
-      rowStyle += ` ${style}`
+    if (rowOpacity) {
+      rowStyle += ` opacity: ${rowOpacity}`
     }
     if (this.compact) rowClasses.push('compact')
     if (this.onClickRow instanceof Function) rowClasses.push('clickable')
