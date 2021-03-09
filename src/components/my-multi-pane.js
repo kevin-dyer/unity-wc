@@ -231,7 +231,7 @@ class MyMultiPane extends PageViewElement {
     this.highlightedRowId = this.highlightedRowId === key ? '' : key
     this.visiblePanes = {
       ...this.visiblePanes,
-      pane: true
+      pane: !!this.highlightedRowId
     }
   }
 
