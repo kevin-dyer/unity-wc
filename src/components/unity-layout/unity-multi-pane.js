@@ -353,7 +353,14 @@ class UnityMultiPane extends LitElement {
     const last = (order + 1) === visiblePanes.size
     const show = first || visiblePanes.has(paneKey)
     const collapsed = !last && collapsedPanes.has(paneKey)
-    const prevPaneKey = [...paneKeys][first ? order :order-1]
+    const paneList = [...visiblePanes]
+    let nextPaneKey = paneKey
+    // iterate over paneKeys, starting at order
+    for (let i = order+1; i < paneList.length && nextPaneKey === paneKey; i++) {
+      // if not collapsed, that's next pane
+      const key = paneList[i]
+      if (!collapsedPanes.has(key)) nextPaneKey = key
+    }
     return html`
       <div
         class="wrapper${!show ? ' hide' : ''}"
@@ -361,10 +368,6 @@ class UnityMultiPane extends LitElement {
         style="width: ${!!paneWidth ? paneWidth : 'unset'}%;"
       >
         ${show && collapsed ? this.renderBar(paneKey) : ''}
-        ${!first ? html`<div
-          class="resize-handle"
-          @mousedown="${e=>this.handleMouseDown(e, paneKey, prevPaneKey)}"
-        ></div>` : null}
         <div class="content${collapsed ? ' hide' : ''}" >
           <div class="header">
             <slot name="${paneKey}::header"></slot>
@@ -395,6 +398,10 @@ class UnityMultiPane extends LitElement {
             <slot name="${paneKey}::footer"></slot>
           </div>
         </div>
+        ${!last ? html`<div
+          class="resize-handle"
+          @mousedown="${e=>!collapsed && this.handleMouseDown(e, paneKey, nextPaneKey)}"
+        ></div>` : null}
       </div>
     `
   }
@@ -520,12 +527,12 @@ class UnityMultiPane extends LitElement {
         .resize-handle {
           position: absolute;
           top: 0;
-          left: 0;
+          right: 0;
           height: 100%;
           width: 8px;
           cursor: col-resize;
           z-index: 5;
-          border-left: var(--pane-border-width) solid var(--pane-border-color);
+          border-right: var(--pane-border-width) solid var(--pane-border-color);
         }
         unity-icon {
           --unity-icon-height: var(--medium-icon-size, var(--default-medium-icon-size));
