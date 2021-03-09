@@ -454,7 +454,7 @@ class UnityTextInput extends LitElement {
                 id="textarea"
                 value="{{value::iron-autogrow-textarea}}"
                 maxlength="${maxlength || null}"
-                class="${!!disabled ? "disabled" : ""}"
+                class="${!!disabled ? "disabled" : !!readOnly? "readOnly" : ""}"
                 ?disabled=${!!disabled || !!readOnly}
                 placeholder="${!!placeholder ? placeholder : ''}"
                 style="--area-min-lines: ${minLines}; --area-max-lines: ${maxLines}"
@@ -620,6 +620,9 @@ class UnityTextInput extends LitElement {
           min-height: calc(var(--input-text-size, var(--default-input-text-size)) * 1.4545 * var(--area-min-lines, ${MIN_LINES}));
           max-height: calc(var(--input-text-size, var(--default-input-text-size)) * 1.4545 * var(--area-max-lines, ${MAX_LINES}));
           -webkit-appearance: none;
+        }
+        #textarea.readOnly {
+          pointer-events: auto !important;
         }
         #textarea:focus {
           outline: none;
