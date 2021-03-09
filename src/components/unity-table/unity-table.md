@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.0
+- Allow setting opacity of a row by passing the `rowOpacity` property in the data object.
+
 ### v1.1.14
 - Added a class to right-actions slot which absolutely positions right actions.
 
