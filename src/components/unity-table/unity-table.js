@@ -54,6 +54,7 @@ import {
  *        columnN: 'item 1 colN',
  *        icon: 'iron-iconName',
  *        backgroundColor: '#454545' //define row background color
+ *        rowOpacity: 0.5 //define row opacity
  *      },
  *      {
  *        column1: 'item 2 col1',
