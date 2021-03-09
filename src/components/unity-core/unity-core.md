@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.12.0
+- unity-table v1.2.0
+
 ### v1.11.13
 - unity-text-input v1.3.3
 

@@ -54,6 +54,7 @@ import {
  *        columnN: 'item 1 colN',
  *        icon: 'iron-iconName',
  *        backgroundColor: '#454545' //define row background color
+ *        rowOpacity: 0.5 //define row opacity
  *      },
  *      {
  *        column1: 'item 2 col1',
@@ -1153,7 +1154,8 @@ class UnityTable extends LitElement {
     const {
       icon,
       image,
-      backgroundColor
+      backgroundColor,
+      rowOpacity
     } = datum
     const expandable = childCount > 0
     const expanded = this.expanded.has(rowId)
@@ -1167,6 +1169,9 @@ class UnityTable extends LitElement {
     } else if (backgroundColor) {
       //if row is not highlighted, and datum has backgroundColor defined, set style
       rowStyle = `background-color: ${backgroundColor};`
+    }
+    if (rowOpacity) {
+      rowStyle += ` opacity: ${rowOpacity};`
     }
     if (this.compact) rowClasses.push('compact')
     if (this.onClickRow instanceof Function) rowClasses.push('clickable')
