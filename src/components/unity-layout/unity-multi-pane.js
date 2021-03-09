@@ -259,34 +259,34 @@ class UnityMultiPane extends LitElement {
     this.paneWidths = newPaneWidths
   }
 
-  handleMouseDown(e, paneKey, prevPaneKey) {
+  handleMouseDown(e, paneKey, nextPaneKey) {
     this._startingX = e.clientX
-    this.mouseMoveListener = this.handleMouseMove.bind(this, paneKey, prevPaneKey)
+    this.mouseMoveListener = this.handleMouseMove.bind(this, paneKey, nextPaneKey)
     this.mouseUpListener = this.handleMouseUp.bind(this)
     document.addEventListener('mousemove', this.mouseMoveListener)
     document.addEventListener('mouseup', this.mouseUpListener)
   }
 
-  handleMouseMove(paneKey, prevPaneKey, e) {
+  handleMouseMove(paneKey, nextPaneKey, e) {
     const {
       shadowRoot,
       paneWidths,
       paneWidths: {
-        [prevPaneKey]: prevPaneWidth,
+        [nextPaneKey]: nextPaneWidth,
         [paneKey]: paneWidth
       }={}
     } = this
     const pane = shadowRoot.getElementById(paneKey)
     const multiPaneWidth = pane.clientWidth * 100 / paneWidth // get multipane total width
     const deltaX = e.clientX - this._startingX
-    const newWidth = paneWidth - (deltaX * 100 / multiPaneWidth) // curent % - increment %
+    const newWidth = paneWidth + (deltaX * 100 / multiPaneWidth) // curent % - increment %
 
     let newPaneWidth = clipPaneWidth(newWidth)
-    const newPrevPaneWidth = prevPaneWidth + (paneWidth - newPaneWidth)
-    if (newPrevPaneWidth <= MIN_PANE_WIDTH) newPaneWidth = newPaneWidth - (20 - newPrevPaneWidth)
+    const newNextPaneWidth = nextPaneWidth + (paneWidth - newPaneWidth)
+    if (newNextPaneWidth <= MIN_PANE_WIDTH) newPaneWidth = newPaneWidth - (20 - newNextPaneWidth)
     this.paneWidths = {
       ...paneWidths,
-      [prevPaneKey]: clipPaneWidth(newPrevPaneWidth),
+      [nextPaneKey]: clipPaneWidth(newNextPaneWidth),
       [paneKey]: newPaneWidth
     }
     this._startingX = e.clientX
