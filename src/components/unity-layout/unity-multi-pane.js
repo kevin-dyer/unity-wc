@@ -137,9 +137,8 @@ class UnityMultiPane extends LitElement {
       unorderedValue = Object.entries(value).reduce((list, [key, value]) => !!value ? [...list, key] : list, [])
     }
     unorderedValue = new Set(unorderedValue)
-
-    // order values into new set, starting with first value
-    let newValue = new Set([paneKeys.values().next().value])
+    // order values into new set, starting with first value, just use unorderedValue if paneKeys aren't set
+    let newValue = paneKeys.size !== 0 ? new Set([paneKeys.values().next().value]) : unorderedValue
     for (let pane of paneKeys) {
       if (unorderedValue.has(pane) && paneKeys.has(pane)) newValue.add(pane)
     }
@@ -166,7 +165,6 @@ class UnityMultiPane extends LitElement {
     // check that collapsedPanes are in visiblePanes
     let newValue = new Set()
     for (let pane of uncheckedValue) {
-
       const isLast = [...visiblePanes][visiblePanes.size - 1] === pane
       if (!isLast && visiblePanes.has(pane)) newValue.add(pane)
       else if (isLast) this.onCollapseChange({ key: pane, collapsed: false })
