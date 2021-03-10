@@ -371,7 +371,7 @@ class UnityMultiPane extends LitElement {
         <div class="content${collapsed ? ' hide' : ''}" >
           <div class="header">
             <slot name="${paneKey}::header"></slot>
-            ${(collapseButton && !last) ? html`
+            ${(collapseButton && (!last || first)) ? html`
               <unity-button
                 class="collapse-button"
                 centerIcon="unity:compress"
