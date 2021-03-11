@@ -1439,6 +1439,7 @@ class UnityTable extends LitElement {
           border-spacing: 0;
           box-sizing: border-box;
           overflow: auto;
+          border-bottom: 1px solid;
         }
         .fullspace {
           width: 100%;

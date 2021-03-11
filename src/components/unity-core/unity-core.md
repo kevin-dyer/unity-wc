@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.13.2
+- unity-table v1.2.1
+
 ### v1.13.1
 - unity-multi-pane v1.0.1
 
