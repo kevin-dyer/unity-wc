@@ -91,27 +91,21 @@ describe('multi pane test', () => {
     expect(multiPaneContent).not.to.have.class('hide')
   });
 
-  /*
   it('mousedown handler should set starting position properly', async () => {
-    const el = await fixture('<unity-multi-pane show></unity-multi-pane>')
+    const el = await fixture(html`<unity-multi-pane .visiblePanes="${[firstKey, secondKey]}" .collapsedPanes="${[firstKey]}" closeButton>${firstElem}${secondElem}</unity-multi-pane>`)
     el.handleMouseDown({clientX: 500})
     expect(el._startingX).to.equal(500)
   });
 
   it('mousemove handler should set pane width properly', async () => {
-    const el = await fixture('<unity-multi-pane style="width:1000px;" panewidth=50 show></unity-multi-pane>')
+    const el = await fixture(html`<unity-multi-pane .visiblePanes="${[firstKey, secondKey]}" closeButton>${firstElem}${secondElem}</unity-multi-pane>`)
     el._startingX = 500
-    el.handleMouseMove({clientX: 450})
-    expect(Math.round(el.paneWidth)).to.equal(55)
+    el.handleMouseMove(firstKey, secondKey, {clientX: 450})
+    expect(Math.round(el.paneWidths.first)).to.equal(44)
+    expect(Math.round(el.paneWidths.second)).to.equal(56)
   });
 
-  it('clip pane function should keep value in the 20-80 range', async () => {
-    const el = await fixture('<unity-multi-pane></unity-multi-pane>')
-    expect(el._clipPaneWidth(90)).to.equal(80)
-    expect(el._clipPaneWidth(10)).to.equal(20)
-    expect(el._clipPaneWidth(50)).to.equal(50)
-  });
-
+  /*
   // onClose and onCollapseChange tests
   it(`should call onClose when the pane is closed`, async () => {
     let ref = {}
