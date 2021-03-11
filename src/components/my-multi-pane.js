@@ -314,23 +314,22 @@ class MyMultiPane extends PageViewElement {
             <unity-typography size='header2'>Footer</unity-typography>
         </div>
 
-        <div slot="main">
-          <unity-table
-            selectable
-            filter="${this._searchText}"
-            .keyExtractor="${(datum, index) => datum.name}"
-            .childKeys="${['children']}"
-            .data="${exampleData}"
-            .columns="${this._visibleColumns}"
-            .columnFilter="${this._columnFilters}"
-            .onFilterChange="${this.onFilterChange}"
-            endReachedThreshold="${200}"
-            .highlightedRow="${this.highlightedRowId}"
-            .onHighlight="${this.handleRowHighlighted.bind(this)}"
-            .onClickRow="${this.handleClickRow.bind(this)}"
+        <unity-table
+          slot="main"
+          selectable
+          filter="${this._searchText}"
+          .keyExtractor="${(datum, index) => datum.name}"
+          .childKeys="${['children']}"
+          .data="${exampleData}"
+          .columns="${this._visibleColumns}"
+          .columnFilter="${this._columnFilters}"
+          .onFilterChange="${this.onFilterChange}"
+          endReachedThreshold="${200}"
+          .highlightedRow="${this.highlightedRowId}"
+          .onHighlight="${this.handleRowHighlighted.bind(this)}"
+          .onClickRow="${this.handleClickRow.bind(this)}"
+        ></unity-table>
 
-          ></unity-table>
-        </div>
         <div class="pane" slot="pane">
           <unity-button label="Show Test Modal" @click="${this.togglePaneModal.bind(this)}"></unity-button>
           ${JSON.stringify(this.highlightedRow)}
