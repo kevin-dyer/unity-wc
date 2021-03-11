@@ -80,18 +80,18 @@ describe('multi pane test', () => {
 
   });
 
-  /*
-  it('expands main pane when close pane button is clicked', async () => {
-    const el = await fixture('<unity-multi-pane show collapsed closeButton></unity-multi-pane>')
+  it('expand pane when close pane button is clicked', async () => {
+    const el = await fixture(html`<unity-multi-pane .visiblePanes="${[firstKey, secondKey]}" .collapsedPanes="${[firstKey]}" closeButton>${firstElem}${secondElem}</unity-multi-pane>`)
     const listener = oneEvent(el, 'click')
-    const closeButton = el.shadowRoot.querySelector('.close-button')
-    let multiPaneWrapper = el.shadowRoot.querySelector('.wrapper')
-    expect(multiPaneWrapper).to.have.class('hide')
+    const closeButton = el.shadowRoot.querySelector(`#${secondKey} .close-button`)
+    let multiPaneContent = el.shadowRoot.querySelector(`#${firstKey} .content`)
+    expect(multiPaneContent).to.have.class('hide')
     closeButton.click()
     await listener
-    expect(multiPaneWrapper).not.to.have.class('hide')
+    expect(multiPaneContent).not.to.have.class('hide')
   });
 
+  /*
   it('mousedown handler should set starting position properly', async () => {
     const el = await fixture('<unity-multi-pane show></unity-multi-pane>')
     el.handleMouseDown({clientX: 500})
