@@ -105,37 +105,37 @@ describe('multi pane test', () => {
     expect(Math.round(el.paneWidths.second)).to.equal(56)
   });
 
-  /*
   // onClose and onCollapseChange tests
-  it(`should call onClose when the pane is closed`, async () => {
+  it(`should call onClose when a pane is closed`, async () => {
     let ref = {}
     const onClose = makeOnChange(ref)
 
-    const el = await fixture(html`<unity-multi-pane show collapsed closeButton .onClose="${onClose}"></unity-multi-pane>`)
+    const el = await fixture(html`<unity-multi-pane .visiblePanes="${[firstKey, secondKey]}" closeButton .onClose="${onClose}">${firstElem}${secondElem}</unity-multi-pane>`)
     const listener = oneEvent(el, 'click')
     const closeButton = el.shadowRoot.querySelector('.close-button')
 
     closeButton.click()
     await listener
-    expect(ref.value).to.equal(50)
+    expect(ref.value).to.equal(secondKey)
   })
 
-  it(`should call onCollapseToggle when the main area is collapse or expanded`, async () => {
+  it(`should call onCollapseToggle when a pane is collapse or expanded`, async () => {
     let ref = {}
     const onCollapseChange = makeOnChange(ref)
 
-    const el = await fixture(html`<unity-multi-pane show collapseButton .onCollapseChange="${onCollapseChange}"></unity-multi-pane>`)
+    const el = await fixture(html`<unity-multi-pane .visiblePanes="${[firstKey, secondKey]}" collapseButton .onCollapseChange="${onCollapseChange}">${firstElem}${secondElem}</unity-multi-pane>`)
     const listener = oneEvent(el, 'click')
     const collapseButton = el.shadowRoot.querySelector('.collapse-button')
 
     collapseButton.click()
     await listener
-    expect(ref.value).to.equal(true)
+    expect(ref.value.key).to.equal(firstKey)
+    expect(ref.value.collapsed).to.equal(true)
 
     const expandBar = el.shadowRoot.querySelector('.bar')
     expandBar.click()
     await listener
-    expect(ref.value).to.equal(false)
+    expect(ref.value.key).to.equal(firstKey)
+    expect(ref.value.collapsed).to.equal(false)
   })
-  */
 });
