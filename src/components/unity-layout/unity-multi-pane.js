@@ -368,13 +368,13 @@ class UnityMultiPane extends LitElement {
       >
         ${show && collapsed ? this.renderBar(paneKey) : ''}
         <div class="content${collapsed ? ' hide' : ''}" >
-          ${(collapseButton && !last) ? html`
+          ${(collapseButton && order !== paneKeys.size) ? html`
             <unity-button
               class="collapse-button"
               centerIcon="unity:compress"
               @click=${() => this.toggleCollapse(paneKey)}
               type="borderless"
-              ?disabled="${!show}"
+              ?disabled="${last}"
               ></unity-button>
               `: ''}
           <div class="header">
