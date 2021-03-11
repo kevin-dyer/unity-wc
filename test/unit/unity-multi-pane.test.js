@@ -49,22 +49,22 @@ describe('multi pane test', () => {
     expect(multiPaneContent).to.have.class('hide')
     expect(collapsedBar).to.exist
   });
-  /*
 
   it('should only collapse when pane is showing', async () => {
-    let el = await fixture('<unity-multi-pane collapsed></unity-multi-pane>')
+    let el = await fixture(html`<unity-multi-pane .visiblePanes="${[firstKey]}" .collapsedPanes="${[firstKey]}" collapseButton>${firstElem}${secondElem}</unity-multi-pane>`)
     let collapsedBar = el.shadowRoot.querySelector('.bar')
-    let multiPaneWrapper = el.shadowRoot.querySelector('.wrapper')
+    let multiPaneContent = el.shadowRoot.querySelector(`#${firstKey} .content`)
     expect(collapsedBar).to.not.exist
-    expect(multiPaneWrapper).to.not.have.class('hide')
+    expect(multiPaneContent).to.not.have.class('hide')
 
-    el = await fixture('<unity-multi-pane collapsed show></unity-multi-pane>')
+    el = await fixture(html`<unity-multi-pane .visiblePanes="${[firstKey, secondKey]}" .collapsedPanes="${[firstKey]}" collapseButton>${firstElem}${secondElem}</unity-multi-pane>`)
     collapsedBar = el.shadowRoot.querySelector('.bar')
-    multiPaneWrapper = el.shadowRoot.querySelector('.wrapper')
+    multiPaneContent = el.shadowRoot.querySelector(`#${firstKey} .content`)
     expect(collapsedBar).to.exist
-    expect(multiPaneWrapper).to.have.class('hide')
+    expect(multiPaneContent).to.have.class('hide')
   });
 
+  /*
   it('expands main pane when collapsed bar is clicked', async () => {
     const el = await fixture('<unity-multi-pane collapsed show></unity-multi-pane>')
     const listener = oneEvent(el, 'click')
