@@ -49,6 +49,7 @@ const MIN_PANE_WIDTH = 20 // %
  *   --bar-width
  *   --header-border
  *   --collapse-button-padding
+ *   --close-button-padding
  */
 
 const stretch = overlapPercent => 100 - overlapPercent
@@ -367,17 +368,17 @@ class UnityMultiPane extends LitElement {
       >
         ${show && collapsed ? this.renderBar(paneKey) : ''}
         <div class="content${collapsed ? ' hide' : ''}" >
+          ${(collapseButton && !last) ? html`
+            <unity-button
+              class="collapse-button"
+              centerIcon="unity:compress"
+              @click=${() => this.toggleCollapse(paneKey)}
+              type="borderless"
+              ?disabled="${!show}"
+              ></unity-button>
+              `: ''}
           <div class="header">
             <slot name="${paneKey}::header"></slot>
-            ${(collapseButton && (!last || first)) ? html`
-              <unity-button
-                class="collapse-button"
-                centerIcon="unity:compress"
-                @click=${() => this.toggleCollapse(paneKey)}
-                type="borderless"
-                ?disabled="${!show}"
-              ></unity-button>
-            `: ''}
           </div>
           <div class="scroller">
             <slot name="${paneKey}"></slot>
@@ -428,6 +429,7 @@ class UnityMultiPane extends LitElement {
           --bar-width: 40px;
           --header-border: none;
           --collapse-button-padding: var(--padding-size-sm, var(--default-padding-size-sm));
+          --close-button-padding: var(--padding-size-sm, var(--default-padding-size-sm));
           background-color: var(--background);
           display: flex;
           flex-direction: row;
@@ -492,11 +494,20 @@ class UnityMultiPane extends LitElement {
         .hide {
           display: none;
         }
+        .collapse-button {
+          position: absolute;
+          z-index: 10;
+          top: 0;
+          left: 0;
+          padding: var(--collapse-button-padding);
+          --unity-button-height: 27px;
+        }
         unity-button.close-button {
           position: absolute;
           z-index: 10;
           top: 0;
-          right: 1px;
+          right: 0;
+          padding: var(--collapse-button-padding);
         }
         .bar {
           width: var(--bar-width);
@@ -541,10 +552,6 @@ class UnityMultiPane extends LitElement {
         }
         #collapse-bar {
           height: 100%;
-        }
-        .collapse-button {
-          padding: var(--collapse-button-padding);
-          --unity-button-height: 27px;
         }
       `
     ]
