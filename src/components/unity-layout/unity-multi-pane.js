@@ -461,6 +461,9 @@ class UnityMultiPane extends LitElement {
         .footer {
           flex: 0;
         }
+        slot {
+          overflow-wrap: anywhere;
+        }
         .scroller {
           flex: 1;
           display: flex;
@@ -493,7 +496,7 @@ class UnityMultiPane extends LitElement {
           position: absolute;
           z-index: 10;
           top: 0;
-          right: 0;
+          right: 1px;
         }
         .bar {
           width: var(--bar-width);
