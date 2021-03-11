@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.12.0": {
+    "smartworks.unity/unity-core@1.13.1": {
         "files": [
             {
                 "name": "index.js",
@@ -169,6 +169,11 @@
                 "name": "unity-modal.js",
                 "relativePath": "src/components/unity-core/unity-modal.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-multi-pane.js",
+                "test": false,
+                "name": "unity-multi-pane.js"
             },
             {
                 "name": "unity-notification.js",
@@ -428,6 +433,23 @@
             }
         ],
         "mainFile": "src/components/unity-modal/unity-modal.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-multi-pane@1.0.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-layout/unity-multi-pane.js",
+                "test": false,
+                "name": "unity-multi-pane.js"
+            },
+            {
+                "relativePath": "src/components/unity-layout/unity-multi-pane.md",
+                "test": false,
+                "name": "unity-multi-pane.md"
+            }
+        ],
+        "mainFile": "src/components/unity-layout/unity-multi-pane.js",
         "origin": "AUTHORED",
         "exported": true
     },
