@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.2
+- Since table bottom border is visible when the table is empty, updated the border color to match row separator color.
+
 ### v1.2.1
 - Prevent unnecessary scrollbar from rendering on Chrome.
 
