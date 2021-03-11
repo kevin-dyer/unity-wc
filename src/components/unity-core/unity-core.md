@@ -5,12 +5,14 @@
 
 ## Changelog:
 
+### v1.13.0
+- unity-multi-pane v1.0.0
+
 ### v1.12.0
 - unity-table v1.2.0
 
 ### v1.11.13
 - unity-text-input v1.3.3
-- unity-multi-pane v1.0.0
 
 ### v1.11.12
 - unity-table v1.1.14
