@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.1
+- Prevent unnecessary scrollbar from rendering on Chrome.
+
 ### v1.2.0
 - Allow setting opacity of a row by passing the `rowOpacity` property in the data object.
 
