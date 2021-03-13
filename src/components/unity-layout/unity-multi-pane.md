@@ -2,6 +2,8 @@
 
 ## Changelog:
 
+### v1.0.2
+- fix converter issue
 
 ### v1.0.1
 - add close-button-padding, fix spacing and appearance of collapse button.
