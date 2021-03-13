@@ -74,11 +74,6 @@ const clipPaneWidth = width => {
   }
 }
 
-const strToStrArr = value => {
-  if (typeof value === 'string') return value.split(',')
-  return value
-}
-
 class UnityMultiPane extends LitElement {
   constructor() {
     super()
@@ -104,8 +99,8 @@ class UnityMultiPane extends LitElement {
       collapseButton: { type: Boolean },
       onClose: { type: Function },
       onCollapseChange: { type: Function },
-      visiblePanes: { type: Array, converter: strToStrArr },
-      collapsedPanes: { type: Array, converter: strToStrArr },
+      visiblePanes: { type: Array },
+      collapsedPanes: { type: Array },
       paneWidths: { attribute: false },
       paneKeys: { attribute: false }
     }
