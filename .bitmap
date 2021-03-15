@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.11.12": {
+    "smartworks.unity/unity-core@1.13.5": {
         "files": [
             {
                 "name": "index.js",
@@ -169,6 +169,11 @@
                 "name": "unity-modal.js",
                 "relativePath": "src/components/unity-core/unity-modal.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-multi-pane.js",
+                "test": false,
+                "name": "unity-multi-pane.js"
             },
             {
                 "name": "unity-notification.js",
@@ -431,6 +436,23 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-multi-pane@1.0.3": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-layout/unity-multi-pane.js",
+                "test": false,
+                "name": "unity-multi-pane.js"
+            },
+            {
+                "relativePath": "src/components/unity-layout/unity-multi-pane.md",
+                "test": false,
+                "name": "unity-multi-pane.md"
+            }
+        ],
+        "mainFile": "src/components/unity-layout/unity-multi-pane.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "smartworks.unity/unity-notification@1.1.5": {
         "files": [
             {
@@ -633,7 +655,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@1.1.14": {
+    "smartworks.unity/unity-table@1.2.2": {
         "files": [
             {
                 "name": "filter-dropdown.js",
@@ -678,7 +700,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@1.3.2": {
+    "smartworks.unity/unity-text-input@1.3.3": {
         "files": [
             {
                 "name": "unity-text-input.js",

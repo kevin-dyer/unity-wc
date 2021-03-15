@@ -2,6 +2,15 @@
 
 ## Changelog:
 
+### v1.2.2
+- Since table bottom border is visible when the table is empty, updated the border color to match row separator color.
+
+### v1.2.1
+- Prevent unnecessary scrollbar from rendering on Chrome.
+
+### v1.2.0
+- Allow setting opacity of a row by passing the `rowOpacity` property in the data object.
+
 ### v1.1.14
 - Added a class to right-actions slot which absolutely positions right actions.
 
