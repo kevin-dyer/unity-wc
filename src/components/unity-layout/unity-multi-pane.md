@@ -2,8 +2,11 @@
 
 ## Changelog:
 
+### v1.0.4
+- fix position and sizing issue
+
 ### v1.0.3
-- rever last change
+- revert last change
 
 ### v1.0.2
 - fix converter issue

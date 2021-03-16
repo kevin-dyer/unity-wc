@@ -71,7 +71,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-column-editor@1.1.11": {
+    "smartworks.unity/unity-column-editor@1.1.12": {
         "files": [
             {
                 "name": "unity-column-editor.js",
@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.13.5": {
+    "smartworks.unity/unity-core@1.13.7": {
         "files": [
             {
                 "name": "index.js",
@@ -171,9 +171,9 @@
                 "test": false
             },
             {
+                "name": "unity-multi-pane.js",
                 "relativePath": "src/components/unity-core/unity-multi-pane.js",
-                "test": false,
-                "name": "unity-multi-pane.js"
+                "test": false
             },
             {
                 "name": "unity-notification.js",
@@ -436,7 +436,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-multi-pane@1.0.3": {
+    "smartworks.unity/unity-multi-pane@1.0.4": {
         "files": [
             {
                 "relativePath": "src/components/unity-layout/unity-multi-pane.js",
