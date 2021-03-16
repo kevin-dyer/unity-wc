@@ -2,7 +2,10 @@
 
 ## Changelog:
 
-### v1.0.4
+### v1.0.6
+- don't render pane contents until visible
+
+### v1.0.5
 - fix position and sizing issue
 
 ### v1.0.3
