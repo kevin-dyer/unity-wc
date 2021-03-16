@@ -446,7 +446,6 @@ class UnityMultiPane extends LitElement {
           left: 0;
           flex-direction: row;
           flex: 1;
-          position: relative;
         }
         .wrapper {
           display: flex;
