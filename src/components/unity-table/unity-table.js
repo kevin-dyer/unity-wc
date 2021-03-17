@@ -999,7 +999,9 @@ class UnityTable extends LitElement {
             width: rootWidth=0,
             centered=false,
             hideFilter=false,
-            hideSort=false
+            hideSort=false,
+            selectable: selectableColumn=false,
+            onSelect: onColumnSelect=()=>{}
           }, i) => {
             const isColSorted = column === key && direction !== UNS
             const sortIcon = isColSorted ? getSortedIcon(direction) : 'unity:sort'
@@ -1033,6 +1035,13 @@ class UnityTable extends LitElement {
                   }}"
                 >
                   <div class="header ${centered?'centered':''}">
+                  ${selectableColumn? 
+                      html`<unity-checkbox
+                        id="select-all-${key}-checkbox"
+                        .onChange=${onColumnSelect}
+                      ></unity-checkbox>`
+                      : ''
+                  }
                     <div class="header-content">
                       <span
                         class="header-label ${centered?'centered':''}"
@@ -1204,18 +1213,19 @@ class UnityTable extends LitElement {
         }}"
         style="${rowStyle}"
       >
-      <td class='centered select-row-wrapper'>
-        <unity-checkbox
-          class="select-row-checkbox"
-          ?checked="${this.selected.has(rowId)}"
+        ${this.selectable?
+          html`<td class='centered select-row-wrapper'>
+            <unity-checkbox
+              class="select-row-checkbox"
+              ?checked="${this.selected.has(rowId)}"
           .onChange="${e => {
             e.stopPropagation()
             this._selectOne(rowId)
-          }}"
-        >
-        </unity-checkbox>
-       </td>
-
+              }}"
+            >
+            </unity-checkbox>
+          </td>` : ''
+        }
         ${columns.map((column, i) => {
           const {
             key: columnKey,
