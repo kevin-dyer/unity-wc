@@ -980,7 +980,6 @@ class UnityTable extends LitElement {
             ? html`
               <th
                 class="cell select-row-wrapper"
-                style="width: 20px;"
               >
                 <div class="header centered">
                   <unity-checkbox
@@ -1508,7 +1507,7 @@ class UnityTable extends LitElement {
           justify-content: space-between;
           align-items: center;
           margin: 0;
-          padding-left: 13px;
+          padding-left: var(--padding-medium);
           box-sizing: border-box;
           border-collapse: collapse;
           border-bottom: 1px solid var(--separator-color);
@@ -1565,12 +1564,12 @@ class UnityTable extends LitElement {
           z-index: 2;
         }
         .select-row-wrapper {
-          width: 20px;
-          max-width: 20px;
+          width: 28px;
         }
         .select-row-checkbox {
           margin: auto;
           width: 16px;
+          margin-left: var(--margin-medium);
         }
         paper-icon-button {
           width: 33px;
