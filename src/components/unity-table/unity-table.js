@@ -976,6 +976,23 @@ class UnityTable extends LitElement {
     return html`
       <thead>
         <tr class="${trClass}">
+          ${(this.selectable)
+            ? html`
+              <th
+                class="cell select-row-wrapper"
+                style="width: 20px;"
+              >
+                <div class="header centered">
+                  <unity-checkbox
+                    id="select-all-rows-checkbox"
+                    class="select-row-checkbox"
+                    ?checked="${this._allSelected ? true : null}"
+                    .onChange="${(e, v) => this._handleHeaderSelect(e, v)}"
+                  ></unity-checkbox>
+                </div>
+              </th>`
+            : null
+          }
           ${columns.map(({
             key,
             label,
@@ -1016,14 +1033,6 @@ class UnityTable extends LitElement {
                   }}"
                 >
                   <div class="header ${centered?'centered':''}">
-                    ${this.selectable && i === 0
-                      ? html`
-                        <unity-checkbox
-                          class="select-all-checkbox"
-                          ?checked="${this._allSelected ? true : null}"
-                          .onChange="${(e, v) => this._handleHeaderSelect(e, v)}"
-                        ></unity-checkbox>` : null
-                    }
                     <div class="header-content">
                       <span
                         class="header-label ${centered?'centered':''}"
@@ -1186,7 +1195,7 @@ class UnityTable extends LitElement {
           this.startingX = e.screenX
         }}"
         @click="${e => {
-          //Compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
+          //Compare screenY on mouseDown and this event. Dont call onClickRow if dragged
           const deltaX = Math.abs(e.screenX - this.startingX)
 
           if (deltaX < MOUSE_MOVE_THRESHOLD && this.onClickRow instanceof Function) {
@@ -1195,6 +1204,17 @@ class UnityTable extends LitElement {
         }}"
         style="${rowStyle}"
       >
+      <td class='centered select-row-wrapper'>
+        <unity-checkbox
+          class="select-row-checkbox"
+          ?checked="${this.selected.has(rowId)}"
+          .onChange="${e => {
+            e.stopPropagation()
+            this._selectOne(rowId)
+          }}"
+        >
+        </unity-checkbox>
+       </td>
 
         ${columns.map((column, i) => {
           const {
@@ -1215,15 +1235,9 @@ class UnityTable extends LitElement {
                 .image="${i === 0 && image}"
                 .id="${rowId}"
                 .slotId="${slotId}"
-                ?selectable="${this.selectable && i === 0}"
-                ?selected="${this.selected.has(rowId)}"
                 .tabIndex="${i === 0 ? tabIndex : 0}"
                 ?expandable="${i === 0 && expandable}"
                 ?expanded="${i === 0 && expanded}"
-                .onSelect="${e => {
-                  e.stopPropagation()
-                  this._selectOne(rowId)
-                }}"
                 .onExpand="${e => {
                   this._toggleExpand(rowId)
                 }}"
@@ -1488,6 +1502,10 @@ class UnityTable extends LitElement {
           box-sizing: border-box;
           border-collapse: collapse;
           border-bottom: 1px solid var(--separator-color);
+          height: var(--thead-height);
+        }
+        .header.compact {
+          height: var(--thead-compact-height);
         }
         .header.centered {
           padding-left: 0;
@@ -1535,6 +1553,14 @@ class UnityTable extends LitElement {
         unity-checkbox {
           margin-right: var(--margin-medium);
           z-index: 2;
+        }
+        .select-row-wrapper {
+          width: 20px;
+          max-width: 20px;
+        }
+        .select-row-checkbox {
+          margin: auto;
+          width: 16px;
         }
         paper-icon-button {
           width: 33px;
