@@ -1034,6 +1034,7 @@ class UnityTable extends LitElement {
                   }}"
                 >
                   <div class="header ${centered?'centered':''}">
+                    <div class="header-content ${centered?'centered':''}">
                   ${selectableColumn? 
                       html`<unity-checkbox
                         id="select-all-${key}-checkbox"
@@ -1041,9 +1042,8 @@ class UnityTable extends LitElement {
                       ></unity-checkbox>`
                       : ''
                   }
-                    <div class="header-content">
                       <span
-                        class="header-label ${centered?'centered':''}"
+                        class="header-label"
                         @click="${()=>{
                           if (!hideSort) this.sortBy = key
                         }}"
@@ -1550,14 +1550,14 @@ class UnityTable extends LitElement {
           align-items: center;
           flex: 1;
         }
+        .header-content.centered {
+          justify-content: center;
+        }
         .header-label {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           cursor: pointer;
-        }
-        .header-label.centered {
-          margin: auto;
         }
         unity-checkbox {
           margin-right: var(--margin-medium);
