@@ -1000,7 +1000,8 @@ class UnityTable extends LitElement {
             hideFilter=false,
             hideSort=false,
             selectable: selectableColumn=false,
-            onSelect: onColumnSelect=()=>{}
+            onSelect: onColumnSelect=()=>{},
+            isSelected=false
           }, i) => {
             const isColSorted = column === key && direction !== UNS
             const sortIcon = isColSorted ? getSortedIcon(direction) : 'unity:sort'
@@ -1035,13 +1036,14 @@ class UnityTable extends LitElement {
                 >
                   <div class="header ${centered?'centered':''}">
                     <div class="header-content ${centered?'centered':''}">
-                  ${selectableColumn? 
-                      html`<unity-checkbox
-                        id="select-all-${key}-checkbox"
-                        .onChange=${onColumnSelect}
-                      ></unity-checkbox>`
-                      : ''
-                  }
+                      ${selectableColumn? 
+                        html`<unity-checkbox
+                          id="select-all-${key}-checkbox"
+                          ?checked=${isSelected}
+                          .onChange=${onColumnSelect}
+                        ></unity-checkbox>`
+                        : ''
+                      }
                       <span
                         class="header-label"
                         @click="${()=>{
@@ -1217,9 +1219,9 @@ class UnityTable extends LitElement {
             <unity-checkbox
               class="select-row-checkbox"
               ?checked="${this.selected.has(rowId)}"
-          .onChange="${e => {
-            e.stopPropagation()
-            this._selectOne(rowId)
+              .onChange="${e => {
+                e.stopPropagation()
+                this._selectOne(rowId)
               }}"
             >
             </unity-checkbox>
