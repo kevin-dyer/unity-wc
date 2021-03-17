@@ -109,7 +109,9 @@ const exampleColumns = [
   {
     key: 'favorite',
     label: 'Favourite?',
-    width: 500,
+    width: 60,
+    selectable: true,
+    onSelect: ()=>console.log('selected column Favourite'),
     format: (value, datum) => ({label: value ? 'I love it!' : 'passible, I guess'})
   }
 ]
