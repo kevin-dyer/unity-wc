@@ -976,13 +976,32 @@ class UnityTable extends LitElement {
     return html`
       <thead>
         <tr class="${trClass}">
+          ${(this.selectable)
+            ? html`
+              <th
+                class="cell select-row-wrapper"
+              >
+                <div class="header centered">
+                  <unity-checkbox
+                    id="select-all-rows-checkbox"
+                    class="select-row-checkbox"
+                    ?checked="${this._allSelected ? true : null}"
+                    .onChange="${(e, v) => this._handleHeaderSelect(e, v)}"
+                  ></unity-checkbox>
+                </div>
+              </th>`
+            : null
+          }
           ${columns.map(({
             key,
             label,
             width: rootWidth=0,
             centered=false,
             hideFilter=false,
-            hideSort=false
+            hideSort=false,
+            selectable: selectableColumn=false,
+            onSelect: onColumnSelect=()=>{},
+            isSelected=false
           }, i) => {
             const isColSorted = column === key && direction !== UNS
             const sortIcon = isColSorted ? getSortedIcon(direction) : 'unity:sort'
@@ -1016,17 +1035,17 @@ class UnityTable extends LitElement {
                   }}"
                 >
                   <div class="header ${centered?'centered':''}">
-                    ${this.selectable && i === 0
-                      ? html`
-                        <unity-checkbox
-                          class="select-all-checkbox"
-                          ?checked="${this._allSelected ? true : null}"
-                          .onChange="${(e, v) => this._handleHeaderSelect(e, v)}"
-                        ></unity-checkbox>` : null
-                    }
-                    <div class="header-content">
+                    <div class="header-content ${centered?'centered':''}">
+                      ${selectableColumn? 
+                        html`<unity-checkbox
+                          id="select-all-${key}-checkbox"
+                          ?checked=${isSelected}
+                          .onChange=${onColumnSelect}
+                        ></unity-checkbox>`
+                        : ''
+                      }
                       <span
-                        class="header-label ${centered?'centered':''}"
+                        class="header-label"
                         @click="${()=>{
                           if (!hideSort) this.sortBy = key
                         }}"
@@ -1186,7 +1205,7 @@ class UnityTable extends LitElement {
           this.startingX = e.screenX
         }}"
         @click="${e => {
-          //Compare screenY on mouseDown and this event. Dont call onlClickRow if dragged
+          //Compare screenY on mouseDown and this event. Dont call onClickRow if dragged
           const deltaX = Math.abs(e.screenX - this.startingX)
 
           if (deltaX < MOUSE_MOVE_THRESHOLD && this.onClickRow instanceof Function) {
@@ -1195,7 +1214,19 @@ class UnityTable extends LitElement {
         }}"
         style="${rowStyle}"
       >
-
+        ${this.selectable?
+          html`<td class='centered select-row-wrapper'>
+            <unity-checkbox
+              class="select-row-checkbox"
+              ?checked="${this.selected.has(rowId)}"
+              .onChange="${e => {
+                e.stopPropagation()
+                this._selectOne(rowId)
+              }}"
+            >
+            </unity-checkbox>
+          </td>` : ''
+        }
         ${columns.map((column, i) => {
           const {
             key: columnKey,
@@ -1215,15 +1246,9 @@ class UnityTable extends LitElement {
                 .image="${i === 0 && image}"
                 .id="${rowId}"
                 .slotId="${slotId}"
-                ?selectable="${this.selectable && i === 0}"
-                ?selected="${this.selected.has(rowId)}"
                 .tabIndex="${i === 0 ? tabIndex : 0}"
                 ?expandable="${i === 0 && expandable}"
                 ?expanded="${i === 0 && expanded}"
-                .onSelect="${e => {
-                  e.stopPropagation()
-                  this._selectOne(rowId)
-                }}"
                 .onExpand="${e => {
                   this._toggleExpand(rowId)
                 }}"
@@ -1484,10 +1509,14 @@ class UnityTable extends LitElement {
           justify-content: space-between;
           align-items: center;
           margin: 0;
-          padding-left: 13px;
+          padding-left: var(--padding-medium);
           box-sizing: border-box;
           border-collapse: collapse;
           border-bottom: 1px solid var(--separator-color);
+          height: var(--thead-height);
+        }
+        .header.compact {
+          height: var(--thead-compact-height);
         }
         .header.centered {
           padding-left: 0;
@@ -1523,18 +1552,26 @@ class UnityTable extends LitElement {
           align-items: center;
           flex: 1;
         }
+        .header-content.centered {
+          justify-content: center;
+        }
         .header-label {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           cursor: pointer;
         }
-        .header-label.centered {
-          margin: auto;
-        }
         unity-checkbox {
           margin-right: var(--margin-medium);
           z-index: 2;
+        }
+        .select-row-wrapper {
+          width: 28px;
+        }
+        .select-row-checkbox {
+          margin: auto;
+          width: 16px;
+          margin-left: var(--margin-medium);
         }
         paper-icon-button {
           width: 33px;

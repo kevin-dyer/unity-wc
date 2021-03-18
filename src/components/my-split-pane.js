@@ -98,19 +98,21 @@ const exampleColumns = [
     key: 'hex',
     label: 'Hex value',
     width: 200,
-    format: (hex, datum) => ({label: hex, content: html`<span style="color: ${hex}">${hex}</span>`})
+    format: (hex, datum) => ({label: hex, content: html`<span style="color: ${hex}">${hex}</span>`}) // obsolete, needs to be updated
   },
   {
     key: 'name',
     label: 'Color',
     width: 300,
-    format: (name, datum) => ({label: !!name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''})
+    formatLabel: name => name ? `${name.charAt(0).toUpperCase()}${name.slice(1)}` : ''
   },
   {
     key: 'favorite',
     label: 'Favourite?',
-    width: 500,
-    format: (value, datum) => ({label: value ? 'I love it!' : 'passible, I guess'})
+    width: 60,
+    selectable: true,
+    onSelect: ()=>console.log('selected column Favourite'),
+    formatLabel: value  => value ? 'I love it!' : 'passible, I guess'
   }
 ]
 

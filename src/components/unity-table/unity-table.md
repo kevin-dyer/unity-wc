@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.3.0
+- Added feature to display a checkbox next to the column header if the `selectable` property is set for that column. Added `isSelected`
+and `onSelect` properties to columns to manage checkbox selection.
+
 ### v1.2.2
 - Since table bottom border is visible when the table is empty, updated the border color to match row separator color.
 
