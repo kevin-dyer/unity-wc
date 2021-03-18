@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.12
+- in selectedColumns setter, check that a change has actually occured before updating.
+
 ### v1.1.11
 - prevent column editor from being saved if no columns are selected
 
