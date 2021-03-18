@@ -117,12 +117,21 @@ class UnityColumnEditor extends LitElement {
 
   set selectedColumns (selectedColumns) {
     const oldSelected = this._selectedColumns
+    const oldSelectedLib = new Set(oldSelected)
+    //Check if selectedColumns has actually changed, otherwise do not update
+    const hasChanged = !oldSelected ||
+      selectedColumns.length !== oldSelected.length ||
+      selectedColumns.some(columnKey => {
+        return !oldSelectedLib.has(columnKey)
+      })
 
-    this._selectedColumns = selectedColumns
+    if (hasChanged) {
+      this._selectedColumns = selectedColumns
 
-    //Also reset this._formSelectedColumns
-    this._formSelectedColumns = selectedColumns
-    this.requestUpdate('selectedColumns', oldSelected)
+      //Also reset this._formSelectedColumns
+      this._formSelectedColumns = selectedColumns
+      this.requestUpdate('selectedColumns', oldSelected)
+    }
   }
 
   get selectedColumns() {
