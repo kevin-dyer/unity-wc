@@ -16,7 +16,7 @@ const MIN_PANE_WIDTH = 20 // %
  * @name UnityMultiPane
  * @param {Boolean} closeButton, controls if the overlapping close button is rendered
  * @param {Boolean} collapseButton, controls whether the collapse button is rendered
- * @param {String} labels, text to show inside the bars when the main pane is collapsed, {paneKey: label, ...}
+ * @param {Object} labels, text to show inside the bars when the main pane is collapsed, {paneKey: label, ...}
  * @param {Function} onClose, function to call when the close button is clicked
  * @param {Function} onCollapseChange, function to call when the collapse changes, true for collapsed, false for expanded
  * @param {Array} visiblePanes, list of panes to be visible, first pane is always visible
@@ -26,7 +26,7 @@ const MIN_PANE_WIDTH = 20 // %
  *   <unity-multi-pane
  *     closeButton
  *     collapseButton
- *     label="Multi Pane"
+ *     labels={main: "Multi Pane"}
  *     show=${showDetails}
  *     onClose="${toggleShowDetails}"
  *   >
@@ -51,8 +51,6 @@ const MIN_PANE_WIDTH = 20 // %
  *   --collapse-button-padding
  *   --close-button-padding
  */
-
-const stretch = overlapPercent => 100 - overlapPercent
 
 const shouldUpdateSet = (one, two) => {
   if (one.size !== two.size) return true
@@ -360,9 +358,10 @@ class UnityMultiPane extends LitElement {
       const key = paneList[i]
       if (!collapsedPanes.has(key)) nextPaneKey = key
     }
+    if (!show) return null
     return html`
       <div
-        class="wrapper${!show ? ' hide' : ''}"
+        class="wrapper"
         id="${paneKey}"
         style="width: ${!!paneWidth ? paneWidth : 'unset'}%;"
       >
@@ -435,12 +434,17 @@ class UnityMultiPane extends LitElement {
           flex-direction: row;
           height: 100%;
           width: 100%;
+          position: relative;
         }
         .container {
           display: flex;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
           flex-direction: row;
           flex: 1;
-          position: relative;
         }
         .wrapper {
           display: flex;

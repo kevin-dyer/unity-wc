@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+### v1.13.9
+- unity-multi-pane v1.0.6
+
+### v1.13.8
+- unity-multi-pane v1.0.4
+
 ### v1.13.5
 - unity-multi-pane v1.0.3
 
