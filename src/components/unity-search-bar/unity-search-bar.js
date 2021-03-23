@@ -498,7 +498,6 @@ class UnitySearchBar extends LitElement {
           flex: 1;
         }
         div.clear-button {
-          flex: 0;
           font-size: var(--small-text-selected-size, var(--default-small-text-selected-size));
           color: var(--dark-gray-color, var(--default-dark-gray-color));
           margin: 0 var(--padding-size-sm, var(--default-padding-size-sm));

@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.8
+- remove flex from clear label avoid vertical horizontal squish into vertical alignment
+
 ### v1.0.7
 - exclude label name from the search options after select only if label value is not defined.
 
