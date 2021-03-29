@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.2
+- Modified fix from 1.3.1 to work properly in latest version of FF.
+
 ### v1.3.1
 - Updated table style to prevent rows from expanding vertically to fill container height.
 
