@@ -1419,7 +1419,8 @@ class UnityTable extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          height: 100%;
+          max-height: 100%;
+          height: max-content;
           width: 100%;
           font-family: var(--font-family, var(--default-font-family));
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
