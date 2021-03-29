@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.1
+- Updated table style to prevent rows from expanding vertically to fill container height.
+
 ### v1.3.0
 - Added feature to display a checkbox next to the column header if the `selectable` property is set for that column. Added `isSelected`
 and `onSelect` properties to columns to manage checkbox selection.
