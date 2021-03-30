@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.2
+- removed optional chaining as it is unsupported by compiler.
+
 ### v1.3.1
 - Changelog update (no functionality change)
 

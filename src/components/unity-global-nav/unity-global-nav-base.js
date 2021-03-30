@@ -174,7 +174,7 @@ class UnityGlobalNavBase extends LitElement {
   _onOpenTopItem(key, openState, children) {
     this._setOpenState(key, openState)
     if (this.selectFirstChildOnExpand && !!openState) {
-      const firstChildKey = children[0]?.key
+      const [{key: firstChildKey}={}] = children || []
       if (this.selected !== firstChildKey) this._changeSelection(firstChildKey)
     }
   }
