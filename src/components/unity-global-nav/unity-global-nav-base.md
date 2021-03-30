@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.5.1
+- removed optional chaining as it is unsupported by compiler.
+
 ### v1.5.0
 - Updated `unity-global-nav-top-item` dependency to v1.3.0
 - Added `selectFirstChildOnExpand` attribute
