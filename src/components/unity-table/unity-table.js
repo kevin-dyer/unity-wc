@@ -1453,10 +1453,9 @@ class UnityTable extends LitElement {
           flex: 1;
           display: flex;
           flex-direction: column;
-          height: max-content;
         }
         table {
-          flex: 1;
+          flex: 0 1 auto;
           min-height: 0;
           width: 100%;
           max-width: 100%;
