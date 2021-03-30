@@ -163,7 +163,7 @@ class UnityGlobalNavTopItem extends LitElement {
     const hasIcon = !!icon && icon !== String(undefined) && icon !== String(NaN) && icon !== String(null)
 
     // Show selected if (a) it has no children and is selected, or (b) it has a child that is selected and is collapsed 
-    const childIsSelected = hasChildren && children.some(child => !!child?.selected)
+    const childIsSelected = hasChildren && children.some(child => child && !!child.selected)
     const styleAsSelected = (!hasChildren && selected) || (!open && childIsSelected)
 
     return html`
