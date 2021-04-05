@@ -6,13 +6,16 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 /**
  * @name UnityStepper
- * @param {[]} steps, the steps to be tracked, string of step name to be rendered or obj{name, key(opt), buttonText(opt)}, buttonText defaults to Next/Finish
+ * @param {[]} steps, the steps to be tracked, string of step name to be rendered or obj{name, key(opt), buttonText(opt), cancelText(opt)}, buttonText defaults to "Next"/"Finish", cancelText defaults to "Cancel"
  * @param {number} totalSteps, total number of steps, not needed if given steps
  * @param {number} currentStep, override the current step to the one given, should be used carefully
  * @param {bool} valid, if the current step is valid, enables next button
  * @param {bool} hideButton, flag for having no button
- * @param {bool} backtrack, controls if the user can backtrack through the steps
+ * @param {bool} backtrack, controls if the user can backtrack through the steps using the step buttons
+ * @param {bool} cancelButton, controls if the invalid button will have a cancel/back state
+ * @param {string} cancelText, controls the text of the cancel button, defaults to "Cancel", step object overrides this setting
  * @param {func} onChangeStep, the callback to return the current step
+ * @param {func} onCancel, the callback for pressing cancel on the first step
  * @example
  * <unity-stepper
  *   .onChangeStep="${step => reportStep(step)}"
@@ -47,8 +50,11 @@ class UnityStepper extends LitElement {
     this.totalSteps = 0
     this.valid = false
     this.hideButton = false
+    this.cancelButton = false
     this.backtrack = false
+    this.cancelText = "Cancel"
     this.onChangeStep = ()=>{}
+    this.onCancel = ()=>{}
     this._currentStep = 1
   }
 
@@ -58,9 +64,12 @@ class UnityStepper extends LitElement {
       totalSteps: { type: Number },
       valid: { type: Boolean },
       hideButton: { type: Boolean },
+      cancelButton: { type: Boolean },
       backtrack: { type: Boolean },
+      cancelText: { type: String },
       onChangeStep: { type: Function },
-      currentStep: { type: Number },
+      onCancel: { type: Function },
+      currentStep: { type: Number }
     }
   }
 
@@ -178,6 +187,10 @@ class UnityStepper extends LitElement {
     this.onChangeStep(steps[this.currentStep-1] || currentStep)
   }
 
+  backup() {
+    this.advance(this.currentStep - 1)
+  }
+
   render() {
     const {
       steps=[],
@@ -228,7 +241,7 @@ class UnityStepper extends LitElement {
           --bubble-margin: calc(var(--padding-size-sm, var(--default-padding-size-sm)) / 2);
 
           display: flex;
-          flex: 1;
+          flex: 0;
           width: 100%;
           flex-direction: row;
           user-select: none;
