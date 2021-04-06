@@ -188,7 +188,10 @@ class UnityStepper extends LitElement {
   }
 
   backup() {
-    this.advance(this.currentStep - 1)
+    const { currentStep } = this
+    const prevStep = currentStep
+    if (prevStep < 1) this.onCancel(steps[0] || 1)
+    else this.advance(prevStep)
   }
 
   render() {
