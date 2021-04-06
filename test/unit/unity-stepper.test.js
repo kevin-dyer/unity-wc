@@ -15,6 +15,7 @@ describe ('unity-stepper', () => {
   const testStepOne = makeStep(stepone)
   const testStepTwo = makeStep(steptwo, steptwo)
   const testStepThree = makeStep(stepthree, stepthree, stepthree)
+  const cancelText = "cancelText"
 
   it('should render without steps', async () => {
     const el = await fixture('<unity-stepper></unity-stepper>')
@@ -23,7 +24,7 @@ describe ('unity-stepper', () => {
 
   it('should render when given steps', async () => {
     const el = await fixture(html`<unity-stepper .steps="${[testStepOne]}"></unity-stepper>`)
-    expect(el).shadowDom.to.equal(`<div class="stepper"><div class="active step"><div class="bubble"><unity-typography>1</unity-typography></div><unity-typography class="step-name">Step 1</unity-typography></div></div><div class="button-box"><unity-button disabled="" label="Finish"></unity-button></div>`)
+    expect(el).shadowDom.to.equal(`<div class="stepper"><div class="active step"><div class="bubble"><unity-typography>1</unity-typography></div><unity-typography class="step-name">Step 1</unity-typography></div></div><div class="button-box"><unity-button disabled="" label="Finish" type="primary"></unity-button></div>`)
   })
 
   it('should render for steps given', async () => {
@@ -98,6 +99,23 @@ describe ('unity-stepper', () => {
     expect(button.disabled).to.be.false
   })
 
+  it('should render cancel button when passed', async () => {
+    const stepsToTest = [stepzero, stepone]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" cancelButton></unity-stepper>`)
+    const button = el.shadowRoot.querySelector("unity-button")
+    expect(button.disabled).to.be.false
+    expect(button.label).to.equal("Cancel")
+    expect(button.type).to.equal("secondary")
+  })
+
+  it('should render specified cancel text', async () => {
+    const stepsToTest = [stepzero, stepone]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" cancelButton cancelText="${cancelText}"></unity-stepper>`)
+    const button = el.shadowRoot.querySelector("unity-button")
+    expect(button.label).to.not.equal("Cancel")
+    expect(button.label).to.equal(cancelText)
+  })
+
   it('should advance the step when button is clicked', async () => {
     const stepsToTest = [stepzero, stepone]
     const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" valid></unity-stepper>`)
@@ -152,6 +170,25 @@ describe ('unity-stepper', () => {
     await listener
 
     expect(ref.value).to.equal(stepzero)
+  })
+
+  it('should report step when given onCancel on first step', async () => {
+    let ref = {}
+    const onChange = makeOnChange(ref)
+    const stepsToTest = [testStepOne, testStepThree, stepzero]
+    const el = await fixture(html`<unity-stepper .steps="${stepsToTest}" cancelButton .onCancel="${onChange}"></unity-stepper>`)
+    const button = el.shadowRoot.querySelector("unity-button")
+
+    expect(ref.value).to.be.undefined
+
+    const eventName = 'click'
+    const event = new Event(eventName)
+    const listener = oneEvent(button, eventName)
+
+    button.dispatchEvent(event)
+    await listener
+
+    expect(ref.value).to.equal(testStepOne)
   })
 
   it('should accept currentStep', async () => {
