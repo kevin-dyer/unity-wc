@@ -200,7 +200,9 @@ class UnityStepper extends LitElement {
       totalSteps: givenSteps,
       currentStep: currentPos,
       hideButton,
-      valid
+      valid,
+      cancelButton,
+      cancelText
     } = this
 
     if (!steps.length && !givenSteps) return
@@ -209,7 +211,8 @@ class UnityStepper extends LitElement {
     const currentStep = steps[currentPos-1] || {}
 
     const defaultButtonText = currentPos === totalSteps ? "Finish" : "Next"
-    const buttonText = currentStep.buttonText || defaultButtonText
+    const cancelButtonText = currentStep.cancelText || cancelText
+    const buttonText = cancelButton && !valid ? cancelButtonText : currentStep.buttonText || defaultButtonText
     return html`
       <div class="stepper">
         ${this.orderSteps()}
@@ -217,9 +220,10 @@ class UnityStepper extends LitElement {
       ${hideButton ? null : html`
         <div class="button-box">
           <unity-button
-            ?disabled="${!valid || null}"
+            ?disabled="${(!valid && !cancelButton) || null}"
             label="${buttonText}"
-            @click="${this.advance}"
+            @click="${!valid && cancelButton ? this.backup : this.advance}"
+            type="${cancelButton && !valid ? "secondary" : "primary"}"
           ></unity-button>
         </div>
       `}
