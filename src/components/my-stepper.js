@@ -9,8 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import './unity-stepper/unity-stepper.js'
-// import '@bit/smartworks.unity.unity-core/unity-stepper'
+// import './unity-stepper/unity-stepper.js'
+import '@bit/smartworks.unity.unity-core/unity-stepper'
 // import './unity-button/unity-button.js'
 import '@bit/smartworks.unity.unity-core/unity-button'
 
@@ -85,6 +85,10 @@ class MyStepper extends PageViewElement {
     this.changeValid(false)
   }
 
+  onCancel(key) {
+    console.log('the canceled step is', key)
+  }
+
   changeValid(valid) {
     this.isValid = typeof valid === 'boolean' ? valid : !this.isValid
   }
@@ -97,7 +101,10 @@ class MyStepper extends PageViewElement {
           .steps="${steps}"
           totalSteps="5"
           .onChangeStep="${this.onStepChange}"
+          .onCancel="${this.onCancel}"
           ?valid="${isValid || null}"
+          backtrack
+          cancelButton
         ></unity-stepper>
         <unity-button
           label="${isValid ? "Invalidate" : "Validate"}"
