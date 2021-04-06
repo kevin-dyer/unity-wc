@@ -56,6 +56,9 @@ class UnityStepper extends LitElement {
     this.onChangeStep = ()=>{}
     this.onCancel = ()=>{}
     this._currentStep = 1
+
+    this.advance = this.advance.bind(this)
+    this.backup = this.backup.bind(this)
   }
 
   static get properties() {
@@ -182,14 +185,13 @@ class UnityStepper extends LitElement {
       valid
     } = this
 
-    if (!valid) return
     this.currentStep = typeof targetStep === 'number' ? targetStep : currentStep + 1
     this.onChangeStep(steps[this.currentStep-1] || currentStep)
   }
 
   backup() {
-    const { currentStep } = this
-    const prevStep = currentStep
+    const { currentStep, steps } = this
+    const prevStep = currentStep - 1
     if (prevStep < 1) this.onCancel(steps[0] || 1)
     else this.advance(prevStep)
   }
