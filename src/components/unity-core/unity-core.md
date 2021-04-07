@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.14.7
+- unity-stepper v1.1.0
+
 ### v1.14.1
 - unity-search-bar v1.0.8
 
