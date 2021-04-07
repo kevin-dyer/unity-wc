@@ -11,6 +11,8 @@ import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 // import './unity-stepper/unity-stepper.js'
 import '@bit/smartworks.unity.unity-core/unity-stepper'
+// import './unity-button/unity-button.js'
+import '@bit/smartworks.unity.unity-core/unity-button'
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
@@ -43,6 +45,15 @@ const steps = [
 class MyStepper extends PageViewElement {
   constructor() {
     super()
+
+    this.isValid = false
+    this.onStepChange = this.onStepChange.bind(this)
+  }
+
+  static get properties() {
+    return {
+      isValid: { attribute: false }
+    }
   }
 
   static get styles() {
@@ -62,6 +73,7 @@ class MyStepper extends PageViewElement {
           padding: 20px;
           box-sizing: border-box;
           display: flex;
+          flex-direction: column;
           border-collapse: collapse;
         }
       `
@@ -70,18 +82,34 @@ class MyStepper extends PageViewElement {
 
   onStepChange(key) {
     console.log('step is', key)
+    this.changeValid(false)
+  }
+
+  onCancel(key) {
+    console.log('the canceled step is', key)
+  }
+
+  changeValid(valid) {
+    this.isValid = typeof valid === 'boolean' ? valid : !this.isValid
   }
 
   render() {
+    const { isValid } = this
     return html`
       <div class="example-container">
         <unity-stepper
           .steps="${steps}"
           totalSteps="5"
-          .onChangeStep="${step => console.log('step', step)}"
+          .onChangeStep="${this.onStepChange}"
+          .onCancel="${this.onCancel}"
+          ?valid="${isValid || null}"
           backtrack
-          valid
+          cancelButton
         ></unity-stepper>
+        <unity-button
+          label="${isValid ? "Invalidate" : "Validate"}"
+          @click="${this.changeValid}"
+        ></unity-button>
       </div>
     `
   }

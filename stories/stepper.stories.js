@@ -16,7 +16,8 @@ const stepList = [
   },
   {
     name: "Step 2",
-    key: "step2"
+    key: "step2",
+    cancelText: "Back"
   },
   {
     name: "Step 3",
@@ -32,6 +33,8 @@ export const Standard = () => {
   const hideButton = boolean("Hide Button", false)
   const backtrack = boolean("Allow Backtrack", false)
   const currentStep = number("Step Override", null)
+  const cancelButton = boolean("Cancel Button", false)
+  const cancelText = text("Cancel Text", "Cancel Text")
 
   return html`
     <unity-stepper
@@ -41,7 +44,10 @@ export const Standard = () => {
       .hideButton="${hideButton}"
       .backtrack="${backtrack}"
       .currentStep="${currentStep}"
+      .cancelButton="${cancelButton}"
+      .cancelText="${cancelText}"
       .onChangeStep="${action("step changed")}"
+      .onCancel="${action("stepper canceled")}"
     ></unity-stepper>
   `
 }

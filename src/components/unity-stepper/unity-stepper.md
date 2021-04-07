@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.0
+- Add cancel button option, backtracks or calls onCancel if on first step
+
 ### v1.0.5
 - Do not advance if next button is clicked when invalid. Note that unity-button @click listener is still fired when button is disabled.
 

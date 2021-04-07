@@ -6,13 +6,16 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 /**
  * @name UnityStepper
- * @param {[]} steps, the steps to be tracked, string of step name to be rendered or obj{name, key(opt), buttonText(opt)}, buttonText defaults to Next/Finish
+ * @param {[]} steps, the steps to be tracked, string of step name to be rendered or obj{name, key(opt), buttonText(opt), cancelText(opt)}, buttonText defaults to "Next"/"Finish", cancelText defaults to "Cancel"
  * @param {number} totalSteps, total number of steps, not needed if given steps
  * @param {number} currentStep, override the current step to the one given, should be used carefully
  * @param {bool} valid, if the current step is valid, enables next button
  * @param {bool} hideButton, flag for having no button
- * @param {bool} backtrack, controls if the user can backtrack through the steps
+ * @param {bool} backtrack, controls if the user can backtrack through the steps using the step buttons
+ * @param {bool} cancelButton, controls if the invalid button will have a cancel/back state
+ * @param {string} cancelText, controls the text of the cancel button, defaults to "Cancel", step object overrides this setting
  * @param {func} onChangeStep, the callback to return the current step
+ * @param {func} onCancel, the callback for pressing cancel on the first step
  * @example
  * <unity-stepper
  *   .onChangeStep="${step => reportStep(step)}"
@@ -47,9 +50,15 @@ class UnityStepper extends LitElement {
     this.totalSteps = 0
     this.valid = false
     this.hideButton = false
+    this.cancelButton = false
     this.backtrack = false
+    this.cancelText = "Cancel"
     this.onChangeStep = ()=>{}
+    this.onCancel = ()=>{}
     this._currentStep = 1
+
+    this.advance = this.advance.bind(this)
+    this.backup = this.backup.bind(this)
   }
 
   static get properties() {
@@ -58,9 +67,12 @@ class UnityStepper extends LitElement {
       totalSteps: { type: Number },
       valid: { type: Boolean },
       hideButton: { type: Boolean },
+      cancelButton: { type: Boolean },
       backtrack: { type: Boolean },
+      cancelText: { type: String },
       onChangeStep: { type: Function },
-      currentStep: { type: Number },
+      onCancel: { type: Function },
+      currentStep: { type: Number }
     }
   }
 
@@ -169,13 +181,33 @@ class UnityStepper extends LitElement {
     const {
       steps,
       totalSteps,
-      currentStep,
-      valid
+      currentStep
     } = this
 
-    if (!valid) return
     this.currentStep = typeof targetStep === 'number' ? targetStep : currentStep + 1
     this.onChangeStep(steps[this.currentStep-1] || currentStep)
+  }
+
+  backup() {
+    const { currentStep, steps } = this
+    const prevStep = currentStep - 1
+    if (prevStep < 1) this.onCancel(steps[0] || 1)
+    else this.advance(prevStep)
+  }
+
+  makeClick() {
+    const {
+      valid,
+      cancelButton
+    } = this
+    let handler = ()=>{}
+
+    if (!valid && cancelButton) {
+      handler = this.backup
+    } else if (valid) {
+      handler = this.advance
+    }
+    return handler
   }
 
   render() {
@@ -184,7 +216,9 @@ class UnityStepper extends LitElement {
       totalSteps: givenSteps,
       currentStep: currentPos,
       hideButton,
-      valid
+      valid,
+      cancelButton,
+      cancelText
     } = this
 
     if (!steps.length && !givenSteps) return
@@ -193,7 +227,10 @@ class UnityStepper extends LitElement {
     const currentStep = steps[currentPos-1] || {}
 
     const defaultButtonText = currentPos === totalSteps ? "Finish" : "Next"
-    const buttonText = currentStep.buttonText || defaultButtonText
+    const cancelButtonText = currentStep.cancelText || cancelText
+    const disabled = !valid && !cancelButton
+    const buttonText = cancelButton && !valid ? cancelButtonText : currentStep.buttonText || defaultButtonText
+
     return html`
       <div class="stepper">
         ${this.orderSteps()}
@@ -201,9 +238,10 @@ class UnityStepper extends LitElement {
       ${hideButton ? null : html`
         <div class="button-box">
           <unity-button
-            ?disabled="${!valid || null}"
+            ?disabled="${disabled || null}"
             label="${buttonText}"
-            @click="${this.advance}"
+            @click="${this.makeClick()}"
+            type="${cancelButton && !valid ? "secondary" : "primary"}"
           ></unity-button>
         </div>
       `}
@@ -228,7 +266,7 @@ class UnityStepper extends LitElement {
           --bubble-margin: calc(var(--padding-size-sm, var(--default-padding-size-sm)) / 2);
 
           display: flex;
-          flex: 1;
+          flex: 0;
           width: 100%;
           flex-direction: row;
           user-select: none;
