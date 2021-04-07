@@ -181,8 +181,7 @@ class UnityStepper extends LitElement {
     const {
       steps,
       totalSteps,
-      currentStep,
-      valid
+      currentStep
     } = this
 
     this.currentStep = typeof targetStep === 'number' ? targetStep : currentStep + 1
@@ -194,6 +193,21 @@ class UnityStepper extends LitElement {
     const prevStep = currentStep - 1
     if (prevStep < 1) this.onCancel(steps[0] || 1)
     else this.advance(prevStep)
+  }
+
+  makeClick() {
+    const {
+      valid,
+      cancelButton
+    } = this
+    let handler = ()=>{}
+
+    if (!valid && cancelButton) {
+      handler = this.backup
+    } else if (valid) {
+      handler = this.advance
+    }
+    return handler
   }
 
   render() {
@@ -214,7 +228,9 @@ class UnityStepper extends LitElement {
 
     const defaultButtonText = currentPos === totalSteps ? "Finish" : "Next"
     const cancelButtonText = currentStep.cancelText || cancelText
+    const disabled = !valid && !cancelButton
     const buttonText = cancelButton && !valid ? cancelButtonText : currentStep.buttonText || defaultButtonText
+
     return html`
       <div class="stepper">
         ${this.orderSteps()}
@@ -222,9 +238,9 @@ class UnityStepper extends LitElement {
       ${hideButton ? null : html`
         <div class="button-box">
           <unity-button
-            ?disabled="${(!valid && !cancelButton) || null}"
+            ?disabled="${disabled || null}"
             label="${buttonText}"
-            @click="${!valid && cancelButton ? this.backup : this.advance}"
+            @click="${this.makeClick()}"
             type="${cancelButton && !valid ? "secondary" : "primary"}"
           ></unity-button>
         </div>
