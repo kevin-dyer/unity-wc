@@ -278,10 +278,11 @@ class UnityTextInput extends LitElement {
   _renderIcon() {
     const {
       showIcon,
+      value,
       _valid,
     } = this
 
-    if (!!showIcon) {
+    if (!!showIcon && !!value) {
       const validClass = !_valid ? 'icon-error' : 'icon-valid'
       const icon = !_valid ? 'unity:warning_circle_outline' : 'unity:circle_check'
       return html`
