@@ -634,6 +634,7 @@ class UnityTextInput extends LitElement {
           font-size: var(--input-small-text-size, var(--default-input-small-text-size));
           color: var(--input-text-color, var(--default-input-text-color));
           line-height: 2;
+          white-space: nowrap;
         }
         .prefixed-text {
           flex: 0;
