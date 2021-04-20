@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.4
+- prevent units from wrapping to new line
+
 ### v1.3.3
 - Enabled pointer events in read-only inputs
 
