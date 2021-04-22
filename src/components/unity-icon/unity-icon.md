@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.6
+- Added iron device icon set
+
 ### v1.1.2
 - add ignore unity-tags
 
