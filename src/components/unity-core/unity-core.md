@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.14.9
+- unity-text-input v1.3.5
+
 ### v1.14.7
 - unity-stepper v1.1.0
 

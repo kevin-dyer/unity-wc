@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.5
+- if showIcon is true, hide icon if input has no value
+
 ### v1.3.4
 - prevent units from wrapping to new line
 
