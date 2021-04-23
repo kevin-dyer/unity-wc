@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.5.6
+- autofocus inner search box when expanded
+
 ### v1.5.5
 - fixed options list max height when dropdown type is menu
 
