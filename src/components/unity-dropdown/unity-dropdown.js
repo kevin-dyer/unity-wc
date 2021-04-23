@@ -194,7 +194,6 @@ class UnityDropdown extends LitElement {
         li:hover {
           background-color: var(--dropdown-color-light);
         }
-
         li:hover:not(.disabled){
           cursor:pointer;
         }
@@ -392,7 +391,19 @@ class UnityDropdown extends LitElement {
     this._dropdown = () => this.toggleShowDropdown()
     this._changeValue = (id) => () => { this.changeSelected(id) } // QUESTION: Why is this here?
     this._onInputSearchChange = (e) => { this.updateSearchValue(e.target.value) }
-    
+  }
+
+  updated(changedProperties) {
+    if (changedProperties.has("expanded") && !changedProperties.get('expanded')) {
+      setTimeout(() => {
+        const searchBox = this.shadowRoot.getElementById("dropdown-inner-search-box")
+        if(searchBox) {
+          const input = searchBox.shadowRoot.getElementById("input")
+          input.focus()
+        }
+      },
+      0)
+    }
   }
 
   clickedMenu(index) {
@@ -679,6 +690,7 @@ class UnityDropdown extends LitElement {
     return html`
       <div class="search-box">
         <unity-text-input
+          id="dropdown-inner-search-box"
           value="${this._searchValue}"
           .onChange="${this._onInputSearchChange}"
           .innerLeftIcon="${"unity:search"}"
