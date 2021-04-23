@@ -396,12 +396,14 @@ class UnityDropdown extends LitElement {
 
   updated(changedProperties) {
     if (changedProperties.has("expanded") && !changedProperties.get('expanded')) {
-      console.log("expanded searchbox")
-      const searchBox = this.shadowRoot.getElementById("dropdown-inner-search-box")
-      if(searchBox) {
-        const input = searchBox.shadowRoot.getElementById("input")
-        input.focus()
-      }
+      setTimeout(() => {
+        const searchBox = this.shadowRoot.getElementById("dropdown-inner-search-box")
+        if(searchBox) {
+          const input = searchBox.shadowRoot.getElementById("input")
+          input.focus()
+        }
+      },
+      0)
     }
   }
 
