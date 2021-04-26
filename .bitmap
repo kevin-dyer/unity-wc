@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.14.11": {
+    "smartworks.unity/unity-core@1.14.12": {
         "files": [
             {
                 "name": "index.js",
@@ -539,7 +539,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-search-bar@1.0.8": {
+    "smartworks.unity/unity-search-bar@1.0.9": {
         "files": [
             {
                 "relativePath": "src/components/unity-search-bar/unity-search-bar.js",

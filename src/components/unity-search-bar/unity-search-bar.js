@@ -410,7 +410,7 @@ class UnitySearchBar extends LitElement {
           ></unity-text-input>
           ${this.renderMenu()}
         </div>
-        <div class="clear-button" @click="${() => this.clearInput()}">CLEAR</unity-button>
+        <div class="clear-button" @click="${() => this.clearInput()}">CLEAR</div>
       </div>
     `
   }
@@ -502,6 +502,7 @@ class UnitySearchBar extends LitElement {
           color: var(--dark-gray-color, var(--default-dark-gray-color));
           margin: 0 var(--padding-size-sm, var(--default-padding-size-sm));
           cursor: pointer;
+          white-space: nowrap;
         }
         unity-select-menu {
           position: absolute;
