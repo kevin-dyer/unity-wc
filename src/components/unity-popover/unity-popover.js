@@ -87,6 +87,8 @@ class UnityPopover extends LitElement {
 
     this._popoverInstance = null
 
+    this._observer = null
+
     this.outsideClickListener = this.outsideClickListener.bind(this)
   }
 
@@ -145,6 +147,22 @@ class UnityPopover extends LitElement {
 
   get referenceElement() { return this._referenceElement }
 
+  startObserver() {
+    this.stopObserver()
+    const { referenceElement } = this
+    if (!!referenceElement) {
+      this._observedElement = referenceElement
+      this._observer = new ResizeObserver(([entry]) => {
+        this.createPopover()
+      })
+      this._observer.observe(referenceElement)
+    }
+  }
+
+  stopObserver() {
+    if (this._observer) this._observer.disconnect()
+  }
+
   outsideClickListener(event) {
     const { target, path: eventPath} = event
     const path = eventPath || (event.composedPath && event.composedPath())
@@ -170,6 +188,8 @@ class UnityPopover extends LitElement {
 
     if (!reference || !popover ) return
 
+    this.startObserver()
+
     this._popoverInstance = createPopper(reference, popover, {
       placement: this.placement,
       modifiers: this.makeModifiers()
@@ -178,6 +198,7 @@ class UnityPopover extends LitElement {
 
   destroyPopover() {
     if (this._popoverInstance) this._popoverInstance.destroy()
+    this.stopObserver()
     this._popoverInstance = null
   }
 
