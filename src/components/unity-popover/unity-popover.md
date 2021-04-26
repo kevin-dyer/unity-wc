@@ -1,5 +1,8 @@
 # unity-popover
 
+## v1.0.8
+- update to use ResizeObserver to track the referenceElement resizing to move the popover
+
 ## v1.0.7
 - added `--popover-padding` css variable
 
