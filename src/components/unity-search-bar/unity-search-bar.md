@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.9
+- Fixed closing tag of clear button. Prevent clear button text from wrapping to new line.
+
 ### v1.0.8
 - remove flex from clear label avoid vertical horizontal squish into vertical alignment
 
