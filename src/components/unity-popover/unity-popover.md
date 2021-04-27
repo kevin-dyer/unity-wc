@@ -1,6 +1,6 @@
 # unity-popover
 
-## v1.0.8
+## v1.0.9
 - update to use ResizeObserver to track the referenceElement resizing to move the popover
 
 ## v1.0.7
