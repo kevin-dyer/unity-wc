@@ -542,14 +542,14 @@
     "smartworks.unity/unity-search-bar@1.0.9": {
         "files": [
             {
+                "name": "unity-search-bar.js",
                 "relativePath": "src/components/unity-search-bar/unity-search-bar.js",
-                "test": false,
-                "name": "unity-search-bar.js"
+                "test": false
             },
             {
+                "name": "unity-search-bar.md",
                 "relativePath": "src/components/unity-search-bar/unity-search-bar.md",
-                "test": false,
-                "name": "unity-search-bar.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-search-bar/unity-search-bar.js",
