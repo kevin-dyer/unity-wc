@@ -216,6 +216,9 @@ class UnityDropdown extends LitElement {
           height: var(--dropdown-line-height);
           overflow: hidden;
         }
+        div.dropdown-menu {
+          position: relative;
+        }
         .dropdown-menu.expanded .input-box{
           border: 1px solid var(--dropdown-border-hover-color, var(--default-dropdown-border-hover-color));
         }
@@ -369,25 +372,25 @@ class UnityDropdown extends LitElement {
     this.selectIcon = true
     this.showCheckboxes = false
     this.showTags = false
-    
+
     this.boxType = BOX_TYPE_LABEL // valid values: "label" | "search" | "button-primary" | "button-secondary" | "button-borderless" | "inline"
     this.helperText = ""
     this.inputType = INPUT_TYPE_MENU // valid values: "menu" | "single-select" | "multi-select"
     this.label = ""
     this.placeholder = "Choose below"
-    
+
     this.onExpandedChange = () => {}
     this.onMenuClick = () => {}
     this.onValueChange = () => {}
-    
+
     this._expanded = false
 
     this._searchValue = ""
-    
+
     this._options = []
     this._selected = []
     this._visibleOptions = []
-    
+
     this._dropdown = () => this.toggleShowDropdown()
     this._changeValue = (id) => () => { this.changeSelected(id) } // QUESTION: Why is this here?
     this._onInputSearchChange = (e) => { this.updateSearchValue(e.target.value) }
@@ -423,16 +426,16 @@ class UnityDropdown extends LitElement {
       selectIcon: { type: Boolean },
       showCheckboxes: { type: Boolean },
       showTags: { type: Boolean },
-      
+
       boxType: { type: String },
       helperText: { type: String },
       inputType: { type: String },
       label: { type: String },
       placeholder: { type: String },
-      
+
       options: { type: Array },
       selected: { type: Array },
-      
+
       onExpandedChange: { type: Function },
       onMenuClick: { type: Function },
       onValueChange: { type: Function },
