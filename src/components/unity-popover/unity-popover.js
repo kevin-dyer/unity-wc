@@ -10,7 +10,7 @@ import { isElement } from '@bit/smartworks.unity.unity-utils'
  * Shadowed popover/popover with optional close button for holding variable content
  * @name UnityPopover
  * @param {bool} withClose, determines whether the close button is displayed
- * @param {func} onClose, callback fired when the close button is clicked; return true 
+ * @param {func} onClose, callback fired when the close button is clicked; return true
  * @param {bool} closeOnOutsideClick, determines whether popover will close when the user clicks outside of it or its on-page-content (not supported on IE)
  * @param {bool} show, determines whether the popover is visible
  * @param {string} placement, the position of the popover in reference to the on-page content options are
@@ -68,7 +68,7 @@ class UnityPopover extends LitElement {
 
   constructor() {
     super()
-    
+
     this.onClose = ()=>{}
     this.withClose = false
     this.closeOnOutsideClick = false
@@ -77,17 +77,18 @@ class UnityPopover extends LitElement {
     this.boundary = null
     this.fallbackPlacements = []
     this.placement = defaultPlacement
-    this.distance = 0 
+    this.distance = 0
     this.offsetModifier = undefined
-    
-    this.referenceElement = {}
-    this._referenceElement = {}
+
+    this._referenceElement = null
 
     this.show = false
     this._show = false
-    
+
     this._popoverInstance = null
-    
+
+    this._observer = null
+
     this.outsideClickListener = this.outsideClickListener.bind(this)
   }
 
@@ -134,7 +135,7 @@ class UnityPopover extends LitElement {
     }
     this.requestUpdate('show', oldVal)
   }
-  
+
   get show() { return this._show }
 
   set referenceElement(val) {
@@ -146,11 +147,27 @@ class UnityPopover extends LitElement {
 
   get referenceElement() { return this._referenceElement }
 
+  startObserver() {
+    this.stopObserver()
+    const { referenceElement } = this
+    if (!!referenceElement) {
+      this._observedElement = referenceElement
+      this._observer = new ResizeObserver(([entry]) => {
+        this.createPopover()
+      })
+      this._observer.observe(referenceElement)
+    }
+  }
+
+  stopObserver() {
+    if (this._observer) this._observer.disconnect()
+  }
+
   outsideClickListener(event) {
     const { target, path: eventPath} = event
     const path = eventPath || (event.composedPath && event.composedPath())
     if (!path) return // IE will not have a path here
-    
+
     if (!target || !Array.isArray(path)) return
 
     const containerElement = this.shadowRoot.getElementById('main-container')
@@ -160,7 +177,7 @@ class UnityPopover extends LitElement {
     if (!pathInContainer && !pathInReferenceElement) {
       event.stopPropagation()
       if (!!this.show) this.onClose()
-    } 
+    }
   }
 
   createPopover() {
@@ -171,6 +188,8 @@ class UnityPopover extends LitElement {
 
     if (!reference || !popover ) return
 
+    this.startObserver()
+
     this._popoverInstance = createPopper(reference, popover, {
       placement: this.placement,
       modifiers: this.makeModifiers()
@@ -179,6 +198,7 @@ class UnityPopover extends LitElement {
 
   destroyPopover() {
     if (this._popoverInstance) this._popoverInstance.destroy()
+    this.stopObserver()
     this._popoverInstance = null
   }
 
@@ -214,7 +234,7 @@ class UnityPopover extends LitElement {
   }
 
 
-  
+
   static get styles() {
     return [
       UnityDefaultThemeStyles,
@@ -253,7 +273,7 @@ class UnityPopover extends LitElement {
         #popover-container[data-show] {
           display: block;
         }
-        
+
         #close-button {
           position: absolute;
           top: 5px;

@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.14.12": {
+    "smartworks.unity/unity-core@1.14.13": {
         "files": [
             {
                 "name": "index.js",
@@ -504,7 +504,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-popover@1.0.8": {
+    "smartworks.unity/unity-popover@1.0.9": {
         "files": [
             {
                 "name": "unity-popover.js",
@@ -542,14 +542,14 @@
     "smartworks.unity/unity-search-bar@1.0.9": {
         "files": [
             {
+                "name": "unity-search-bar.js",
                 "relativePath": "src/components/unity-search-bar/unity-search-bar.js",
-                "test": false,
-                "name": "unity-search-bar.js"
+                "test": false
             },
             {
+                "name": "unity-search-bar.md",
                 "relativePath": "src/components/unity-search-bar/unity-search-bar.md",
-                "test": false,
-                "name": "unity-search-bar.md"
+                "test": false
             }
         ],
         "mainFile": "src/components/unity-search-bar/unity-search-bar.js",
