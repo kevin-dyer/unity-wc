@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+## v1.14.15
+- unity-dropdown v1.5.7
+
 ### v1.14.14
 - unity-utility-belt v0.0.1
 
