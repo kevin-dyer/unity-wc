@@ -734,6 +734,9 @@ class UnityDropdown extends LitElement {
       this._dropdown()
     }
 
+    // close dropdown before moving focus to next element
+    if(this._expanded && key === "Tab") { 
+      this._dropdown()
   }
 
   // TODO: possibly needs refactoring
