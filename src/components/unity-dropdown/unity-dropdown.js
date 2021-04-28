@@ -909,7 +909,7 @@ class UnityDropdown extends LitElement {
             </p>
           ` : null
         }
-        <div class=${this.getMenuClass()}>
+        <div class=${this.getMenuClass()} tabindex="0" @keydown="${this.handleDropdownKeydown}">
           ${this.getInputBox()}
           ${this.expanded ?
             html`
