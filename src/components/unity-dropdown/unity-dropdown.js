@@ -396,7 +396,7 @@ class UnityDropdown extends LitElement {
     this._visibleOptions = []
     
     this._dropdown = () => this.toggleShowDropdown()
-    this._changeValue = (id) => () => { this.changeSelected(id) } // QUESTION: Why is this here?
+    this._changeValue = (id) => () => { this.changeSelected(id) } // this is here because arrow functions in lit can only be declared in the constructor
     this._onInputSearchChange = (e) => { this.updateSearchValue(e.target.value) }
   }
 
@@ -902,7 +902,7 @@ class UnityDropdown extends LitElement {
     const optionsList = this._visibleOptions.map(option => this.renderOption(option))
     return (
       optionsList.every(element => element === null) ?
-        html`<p class="helper-text">${strings.NO_MATCHES}</p>`
+        html`<p class="helper-text" id="no-matches-text">${strings.NO_MATCHES}</p>`
       : (this.inputType === INPUT_TYPE_MENU) ?
         html`
           <unity-select-menu
@@ -976,7 +976,7 @@ class UnityDropdown extends LitElement {
                 ${this.searchBox ? this.renderSearchBox() : null}
                 ${this.inputType === INPUT_TYPE_MULTI_SELECT ? this.renderSelectAll() : null}
                 ${this.renderList()}
-                ${!!this.helperText ? html`<p class="helper-text">${this.helperText}</p>` :null}
+                ${!!this.helperText ? html`<p class="helper-text" id="helper-text">${this.helperText}</p>` :null}
                 <slot name="bottom-content"></slot>
               </paper-dialog>`
             :null}
