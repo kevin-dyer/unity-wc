@@ -198,6 +198,9 @@ class UnityDropdown extends LitElement {
         li:hover {
           background-color: var(--dropdown-color-light);
         }
+        li:focus {
+          background-color: var(--dropdown-color-light);
+        }
         li:hover:not(.disabled){
           cursor:pointer;
         }
@@ -597,6 +600,13 @@ class UnityDropdown extends LitElement {
     }
   }
 
+  optionKeyDown(event, id) {
+    if(event.key === 'Enter') {
+      event.preventDefault()
+      this.changeSelected(id)
+    }
+  }
+
 
   renderLeftIcon(icon) {
     return html`<div class="icon-left-wrapper">
@@ -628,11 +638,11 @@ class UnityDropdown extends LitElement {
     if (this.inputType === INPUT_TYPE_MULTI_SELECT) {
       const isSelected = this.selected.includes(option.id)
       return html`
-        <li class="selectable" @click=${this._changeValue(option.id)}>
+        <li id=${option.id} class="selectable" @click=${this._changeValue(option.id)} tabindex=0 @keydown=${(e) => this.optionKeyDown(e, option.id)}>
           <div class="option-label-wrapper">
             ${this.showCheckboxes ? html`
               <unity-checkbox class="icon-left-wrapper custom-checkbox"
-                id=${option.id}
+                id=${`checkbox-${option.id}`}
                 ?checked="${isSelected ? true : null}"
                 ?controlled="${true}"
               ></unity-checkbox>
@@ -647,7 +657,7 @@ class UnityDropdown extends LitElement {
 
     else {
       return html`
-        <li class="selectable" @click=${this._changeValue(option.id)}>
+        <li id=${option.id} class="selectable" @click=${this._changeValue(option.id)} tabindex=0 @keydown=${(e) => this.optionKeyDown(e, option.id)}>
           <div class="option-label-wrapper">
             ${!!option.icon ? this.renderLeftIcon(option.icon) : null }
             <p class="option-label">${label}</p>
@@ -737,6 +747,24 @@ class UnityDropdown extends LitElement {
     // close dropdown before moving focus to next element
     if(this._expanded && key === "Tab") { 
       this._dropdown()
+    }
+
+    // use down arrow to navigate through options
+    if(this._expanded && (key === 'ArrowDown' || key === 'ArrowUp')) { 
+      e.preventDefault()
+      const options = this.shadowRoot.querySelectorAll('li')
+      const focusedOption = this.shadowRoot.querySelector('li:focus')
+      let toFocus
+      if(focusedOption) {
+        toFocus = (key === 'ArrowDown')? focusedOption.nextElementSibling : focusedOption.previousElementSibling
+      }
+      // select first / last option depending on the direction
+      // this also wraps navigation from first to last and viceversa, because nextElementSibling/previousElementSibling will be null in those situations
+      if(!toFocus) {
+        toFocus = (key === 'ArrowDown')? options[0] : options[options.length - 1]
+      }
+      toFocus.focus()
+    }
   }
 
   // TODO: possibly needs refactoring
