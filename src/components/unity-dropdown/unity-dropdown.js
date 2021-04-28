@@ -699,12 +699,20 @@ class UnityDropdown extends LitElement {
     return {}
   }
 
+  inputBoxKeyDown(e) {
+    // don't close dropdown when space is pressed on a text input
+    // also prevent event propagation if Tab is pressed for inner search box only to avoid losing the focus
+    if (e.keyCode === 32 || (e.key==='Tab' && e.target.id === "dropdown-inner-search-box") ) {
+      e.stopPropagation()
+    }
+  }
 
   renderSearchBox() {
     return html`
       <div class="search-box">
         <unity-text-input
           id="dropdown-inner-search-box"
+          @keydown=${this.inputBoxKeyDown}
           value="${this._searchValue}"
           .onChange="${this._onInputSearchChange}"
           .innerLeftIcon="${"unity:search"}"
@@ -833,6 +841,7 @@ class UnityDropdown extends LitElement {
         <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
           <unity-text-input
             id="search-input"
+            @keydown=${this.inputBoxKeyDown}
             value="${this._searchValue}"
             hideBorder=${true}
             .onChange="${this._onInputSearchChange}"
