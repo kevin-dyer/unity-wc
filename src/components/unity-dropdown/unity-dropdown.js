@@ -107,6 +107,10 @@ class UnityDropdown extends LitElement {
           -webkit-box-sizing: border-box;
           box-sizing: border-box;
         }
+        *:focus-visible {
+          outline: 1px dotted black;
+        }
+
         unity-checkbox.custom-checkbox {
           --unity-checkbox-size: 14px;
         }
