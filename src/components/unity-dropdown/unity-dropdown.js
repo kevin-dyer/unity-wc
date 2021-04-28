@@ -725,6 +725,16 @@ class UnityDropdown extends LitElement {
     `
   }
 
+  handleDropdownKeydown(e) {
+    const { key, keyCode } = e
+
+    // open/close dropdown with spacebar
+    if (keyCode === 32) {
+      e.preventDefault()
+      this._dropdown()
+    }
+
+  }
 
   // TODO: possibly needs refactoring
   getInputBox() {
