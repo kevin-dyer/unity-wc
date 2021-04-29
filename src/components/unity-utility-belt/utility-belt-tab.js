@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-icon'
-import '@bit/smartworks.unity.unity-core/unity-button'
+import '@bit/smartworks.unity.unity-button'
 import '@bit/smartworks.unity.unity-typography'
 
 
