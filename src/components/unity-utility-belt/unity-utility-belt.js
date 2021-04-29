@@ -140,9 +140,6 @@ class UnityUtilityBelt extends LitElement {
 
   }
 
-
-
-  //TODO: replace with document mouse move event listener
   handleMouseMove(e) {
     const deltaY = e.clientY - this._startingY
     const oldHeight = this._panelHeight
@@ -155,6 +152,9 @@ class UnityUtilityBelt extends LitElement {
     if (nextHeight > MAXIMUM_PANEL_HEIGHT) nextHeight = MAXIMUM_PANEL_HEIGHT
 
     this._panelHeight = nextHeight
+
+    //Prevent text highlighting while dragging
+    e.preventDefault()
   }
 
   //clean up event listener
