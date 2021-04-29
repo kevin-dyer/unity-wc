@@ -100,7 +100,7 @@ class UtilityBeltTab extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          --default-tab-width: 120px;
+          --default-tab-width: 140px;
           --default-tab-height: 20px;
           --default-selected-tab-background: var(--default-light-gray-1-color);
           --default-tab-border-color: var(--default-dark-gray-2-color);
