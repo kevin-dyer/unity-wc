@@ -63,12 +63,14 @@ class MyUtilityBelt extends PageViewElement {
 
     return html`
       <div class="example-container">
-        <div class="page-content">Example page content</div>
         <unity-utility-belt
           .onTabClose=${this.handleTabClose}
           .tabs=${this.tabs}
         >
-
+          <div slot="main">
+            <h2>Example page content</h2>
+            <p>Page description here</p>
+          </div>
           ${this.tabs.map(tab => {
             return html`<div slot="${tab.id}">${tab.name} Content!</div>`
           })}
@@ -93,8 +95,9 @@ class MyUtilityBelt extends PageViewElement {
           max-width: 100%;
           /*height: 750px;*/
           /*top: 75px;*/
-          /*border: 1px solid grey;*/
+          border: 1px solid grey;
           /*padding: 20px;*/
+          margin: 20px;
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
