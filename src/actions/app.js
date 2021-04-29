@@ -79,6 +79,9 @@ const loadPage = (page) => (dispatch) => {
     case 'stepper':
       import('../components/my-stepper.js');
       break;
+    case 'utility-belt':
+      import('../components/my-utility-belt.js');
+      break;
     default:
       page = 'view404';
       import('../components/my-view404.js');
