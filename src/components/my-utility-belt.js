@@ -93,6 +93,7 @@ class MyUtilityBelt extends PageViewElement {
         .example-container {
           flex: 1;
           max-width: 100%;
+          min-width: 0;
           /*height: 750px;*/
           /*top: 75px;*/
           border: 1px solid grey;
