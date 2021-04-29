@@ -58,6 +58,7 @@
     "@bit/smartworks.unity.unity-toggle-switch": "^1.0.6",
     "@bit/smartworks.unity.unity-tooltip": "^1.1.5",
     "@bit/smartworks.unity.unity-typography": "^1.1.5",
+    "@bit/smartworks.unity.unity-utility-belt": "0.0.2",
     "@bit/smartworks.unity.unity-utils": "^1.1.0",
     "@polymer/app-layout": "^3.0.0",
     "@polymer/iron-autogrow-textarea": "^3.0.1",
