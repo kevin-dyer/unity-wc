@@ -87,8 +87,33 @@ class UnityUtilityBelt extends LitElement {
     return this._selectedTab
   }
 
+  async connectedCallback() {
+    super.connectedCallback()
 
-  handleTabClick(tab, index) {
+    await this.updateComplete
+    this.startObserver()
+  }
+
+  startObserver() {
+    this.stopObserver()
+    const referenceElement = this.shadowRoot.querySelector('.unity-utility-toolbelt')
+
+    if (!!referenceElement) {
+      this._observer = new ResizeObserver(([entry]) => {
+        this._totalHeight = referenceElement.offsetHeight
+      })
+      this._observer.observe(referenceElement)
+    }
+  }
+
+  stopObserver() {
+    if (this._observer) this._observer.disconnect()
+  }
+
+
+  handleTabClick(tab) {
+    //reset panel height
+    this.handleOneThirdOpen()
     //if tab is already selected, unselect
     if (tab.id === this.selectedTab) {
       this.selectedTab = ''
@@ -104,7 +129,8 @@ class UnityUtilityBelt extends LitElement {
   }
 
   handleMouseDown(e) {
-    // console.log("handleMouseDown called! e.clientY: ", e.clientY)
+    //Ignore right click
+    if (e.button !== 0) return
     this._startingY = e.clientY
     this._originalPaneHeight = this._panelHeight || 0
     this.mouseMoveListener = this.handleMouseMove.bind(this)
@@ -120,38 +146,31 @@ class UnityUtilityBelt extends LitElement {
   handleMouseMove(e) {
     const deltaY = e.clientY - this._startingY
     const oldHeight = this._panelHeight
-    const MINIMUM_PANEL_HEIGHT = 32 //height of page header
-
-    // console.log("mouse move deltaY: ", {deltaY, e, startingY: this._startingY})
-
+    const MINIMUM_PANEL_HEIGHT = 0 //height of page header
+    const MAXIMUM_PANEL_HEIGHT = this._totalHeight - 22 - 32 // subtract header and footer heights
     let nextHeight = this._originalPaneHeight - deltaY
 
     if (nextHeight < MINIMUM_PANEL_HEIGHT) nextHeight = MINIMUM_PANEL_HEIGHT
 
-    //TODO: determine max allowed height and restrict panel to that ***
-      // Not sure how to do this unless it is absolutely positioned and using window height
+    if (nextHeight > MAXIMUM_PANEL_HEIGHT) nextHeight = MAXIMUM_PANEL_HEIGHT
 
-    // this.onResize(deltaY)
     this._panelHeight = nextHeight
-
-    // this.requestUpdate('_panelHeight', oldHeight)
   }
 
   //clean up event listener
   handleMouseUp(e) {
-    // const deltaY = e.clientY - this._startingY
     this._originalPaneHeight = this._panelHeight
-
-    // console.log("mouse UP deltaY: ", deltaY)
 
     document.removeEventListener('mousemove', this.mouseMoveListener)
     document.removeEventListener('mouseup', this.mouseUpListener)
-
-    // this.onResizeComplete(deltaY)
   }
 
-  handleFullScreen() {
-    this._panelHeight
+  handleExpand() {
+    this._panelHeight = this._totalHeight - 22 - 32
+  }
+
+  handleOneThirdOpen() {
+    this._panelHeight = Math.floor((this._totalHeight - 22 - 32) / 3)
   }
 
   render() {
@@ -161,12 +180,14 @@ class UnityUtilityBelt extends LitElement {
       _panelHeight
     } = this
     const selectedTabObj = selectedTab && tabs.find(tab => tab.id === selectedTab)
-    console.log("belt render ", {_panelHeight})
 
     return html`
       <div class="unity-utility-toolbelt">
+        <div class="main">
+          <slot name="main"></slot>
+        </div>
         ${selectedTabObj ? html`
-          <div id="panel" class="panel" style="height: ${_panelHeight}px;">
+          <div id="panel" class="panel">
             <unity-page-header
               header="${selectedTabObj.name}"
               @mousedown="${this.handleMouseDown}"
@@ -175,22 +196,24 @@ class UnityUtilityBelt extends LitElement {
                 slot="right-action"
                 type="borderless"
                 label="Expand"
-                @click=${e => console.log("Expand button clicked! e: ", e)}
+                @click=${this.handleExpand}
               ></unity-button>
               <unity-button
                 slot="right-action"
                 label="Shrink"
                 type="borderless"
-                @click=${e => console.log("Shrink button clicked! e: ", e)}
+                @click=${this.handleOneThirdOpen}
               ></unity-button>
               <unity-button
                 slot="right-action"
                 centerIcon="close"
                 type="borderless"
-                @click=${e => console.log("Close button clicked! e: ", e)}
+                @click=${e => this.handleTabClick(selectedTabObj)}
               ></unity-button>
             </unity-page-header>
-            <slot name="${selectedTab}" style="height: ${_panelHeight}px;"></slot>
+            <div class="panel-container" style="height: ${_panelHeight}px;">
+              <slot name="${selectedTab}" ></slot>
+            </div>
           </div>`
         : null}
 
@@ -222,16 +245,38 @@ class UnityUtilityBelt extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          width: 100%;
-          overflow: hidden;
+          /*width: 100%;*/
+          /*overflow: hidden;*/
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          min-height: 0;
         }
         .unity-utility-toolbelt {
-          
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          min-height: 0;
+        }
+        .main {
+          flex: 1;
+          min-height: 0;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .main ::slotted(*) {
+          flex: 1;
+          min-height: 0;
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto;
         }
         .footer {
           display: flex;
           flex-direction: row;
           align-items: center;
+          min-height: 0;
         }
         .tab-bar {
           display: flex;
