@@ -286,6 +286,7 @@ class UnityUtilityBelt extends LitElement {
         unity-page-header {
           border-top: 1px solid var(--default-dark-gray-2-color);
           --page-header-font-size: 12px;
+          cursor: ns-resize;
         }
       `
     ]
