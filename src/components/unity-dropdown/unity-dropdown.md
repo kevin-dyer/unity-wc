@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.5.7
+- change menu position to relative to allow tracking on scrolling
+
 ### v1.5.6
 - autofocus inner search box when expanded
 
