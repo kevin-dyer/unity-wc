@@ -251,6 +251,7 @@ class UnityUtilityBelt extends LitElement {
           display: flex;
           flex-direction: column;
           min-height: 0;
+          height: 100%;
         }
         .unity-utility-toolbelt {
           flex: 1;
