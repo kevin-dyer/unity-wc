@@ -188,7 +188,7 @@ class UnityUtilityBelt extends LitElement {
     if (!this._headerHeight || !this._footerHeight) {
       this.setHeaderFooterHeights()
     }
-    return this._totalHeight - this._headerHeight - this._footerHeight + 1 // subtract header and footer heights, exclude header top border
+    return this._totalHeight - this._headerHeight - this._footerHeight
   }
 
   render() {
@@ -198,6 +198,7 @@ class UnityUtilityBelt extends LitElement {
       _panelHeight
     } = this
     const selectedTabObj = selectedTab && tabs.find(tab => tab.id === selectedTab)
+    const isPanelExpanded = this._panelHeight === this.getMaxPanelHeight()
 
     return html`
       <div class="unity-utility-toolbelt">
@@ -213,20 +214,20 @@ class UnityUtilityBelt extends LitElement {
               <unity-button
                 slot="right-action"
                 type="borderless"
-                label="Expand"
-                @click=${this.handleExpand}
+                centerIcon="${isPanelExpanded ? 'fullscreen-exit' : 'fullscreen'}"
+                @click=${isPanelExpanded ? this.handleOneThirdOpen : this.handleExpand}
               ></unity-button>
               <unity-button
                 slot="right-action"
-                label="Shrink"
                 type="borderless"
-                @click=${this.handleOneThirdOpen}
+                centerIcon="remove"
+                @click=${e => this.handleTabClick(selectedTabObj)}
               ></unity-button>
               <unity-button
                 slot="right-action"
                 centerIcon="close"
                 type="borderless"
-                @click=${e => this.handleTabClick(selectedTabObj)}
+                @click=${e => this.handleTabClose(selectedTab)}
               ></unity-button>
             </unity-page-header>
             <div class="panel-container" style="height: ${_panelHeight}px;">
@@ -246,7 +247,7 @@ class UnityUtilityBelt extends LitElement {
                   id="${tab.id}"
                   index=${index}
                   ?selected=${isSelected}
-                  @click=${e => this.handleTabClick(tab, index)}
+                  @click=${e => this.handleTabClick(tab)}
                   .onClose=${id => this.handleTabClose(id)}
                 ></utility-belt-tab>`
             })}
