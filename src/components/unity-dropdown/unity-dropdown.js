@@ -107,6 +107,10 @@ class UnityDropdown extends LitElement {
           -webkit-box-sizing: border-box;
           box-sizing: border-box;
         }
+        *:focus-visible {
+          outline: 1px dotted black;
+        }
+
         unity-checkbox.custom-checkbox {
           --unity-checkbox-size: 14px;
         }
@@ -192,6 +196,9 @@ class UnityDropdown extends LitElement {
           flex-direction: column;
         }
         li:hover {
+          background-color: var(--dropdown-color-light);
+        }
+        li:focus {
           background-color: var(--dropdown-color-light);
         }
         li:hover:not(.disabled){
@@ -392,7 +399,7 @@ class UnityDropdown extends LitElement {
     this._visibleOptions = []
 
     this._dropdown = () => this.toggleShowDropdown()
-    this._changeValue = (id) => () => { this.changeSelected(id) } // QUESTION: Why is this here?
+    this._changeValue = (id) => () => { this.changeSelected(id) } // this is here because arrow functions in lit can only be declared in the constructor
     this._onInputSearchChange = (e) => { this.updateSearchValue(e.target.value) }
   }
 
@@ -596,6 +603,13 @@ class UnityDropdown extends LitElement {
     }
   }
 
+  optionKeyDown(event, id) {
+    if(event.key === 'Enter') {
+      event.preventDefault()
+      this.changeSelected(id)
+    }
+  }
+
 
   renderLeftIcon(icon) {
     return html`<div class="icon-left-wrapper">
@@ -627,11 +641,11 @@ class UnityDropdown extends LitElement {
     if (this.inputType === INPUT_TYPE_MULTI_SELECT) {
       const isSelected = this.selected.includes(option.id)
       return html`
-        <li class="selectable" @click=${this._changeValue(option.id)}>
+        <li id=${option.id} class="selectable" @click=${this._changeValue(option.id)} tabindex=0 @keydown=${(e) => this.optionKeyDown(e, option.id)}>
           <div class="option-label-wrapper">
             ${this.showCheckboxes ? html`
               <unity-checkbox class="icon-left-wrapper custom-checkbox"
-                id=${option.id}
+                id=${`checkbox-${option.id}`}
                 ?checked="${isSelected ? true : null}"
                 ?controlled="${true}"
               ></unity-checkbox>
@@ -646,7 +660,7 @@ class UnityDropdown extends LitElement {
 
     else {
       return html`
-        <li class="selectable" @click=${this._changeValue(option.id)}>
+        <li id=${option.id} class="selectable" @click=${this._changeValue(option.id)} tabindex=0 @keydown=${(e) => this.optionKeyDown(e, option.id)}>
           <div class="option-label-wrapper">
             ${!!option.icon ? this.renderLeftIcon(option.icon) : null }
             <p class="option-label">${label}</p>
@@ -688,12 +702,20 @@ class UnityDropdown extends LitElement {
     return {}
   }
 
+  inputBoxKeyDown(e) {
+    // don't close dropdown when space is pressed on a text input
+    // also prevent event propagation if Tab is pressed for inner search box only to avoid losing the focus
+    if (e.keyCode === 32 || (e.key==='Tab' && e.target.id === "dropdown-inner-search-box") ) {
+      e.stopPropagation()
+    }
+  }
 
   renderSearchBox() {
     return html`
       <div class="search-box">
         <unity-text-input
           id="dropdown-inner-search-box"
+          @keydown=${this.inputBoxKeyDown}
           value="${this._searchValue}"
           .onChange="${this._onInputSearchChange}"
           .innerLeftIcon="${"unity:search"}"
@@ -709,7 +731,7 @@ class UnityDropdown extends LitElement {
       <div class="tag">
         ${icon && this.renderIcon(icon)}
         <span class="tag-text">${label}</span>
-        <div @click="${()=> this.changeSelected(id)}">
+        <div class="close-tag-button" @click="${()=> this.changeSelected(id)}">
           <iron-icon class="inner-icon selectable" icon="unity:close"></iron-icon>
         </div>
       </div>
@@ -724,6 +746,39 @@ class UnityDropdown extends LitElement {
     `
   }
 
+  handleDropdownKeydown(e) {
+    const { key, keyCode } = e
+
+    // open/close dropdown with spacebar; also open with down arrow
+    if (keyCode === 32 || (key === 'ArrowDown' && !this._expanded)) {
+      e.preventDefault()
+      this._dropdown()
+      this.shadowRoot.querySelector('.dropdown-menu').focus() // focus dropdown box again
+      return
+    }
+
+    // close dropdown before moving focus to next element
+    if(this._expanded && key === "Tab") { 
+      this._dropdown()
+    }
+
+    // use down arrow to navigate through options
+    if(this._expanded && (key === 'ArrowDown' || key === 'ArrowUp')) { 
+      e.preventDefault()
+      const options = this.shadowRoot.querySelectorAll('li')
+      const focusedOption = this.shadowRoot.querySelector('li:focus')
+      let toFocus
+      if(focusedOption) {
+        toFocus = (key === 'ArrowDown')? focusedOption.nextElementSibling : focusedOption.previousElementSibling
+      }
+      // select first / last option depending on the direction
+      // this also wraps navigation from first to last and viceversa, because nextElementSibling/previousElementSibling will be null in those situations
+      if(!toFocus) {
+        toFocus = (key === 'ArrowDown')? options[0] : options[options.length - 1]
+      }
+      toFocus.focus()
+    }
+  }
 
   // TODO: possibly needs refactoring
   getInputBox() {
@@ -791,6 +846,7 @@ class UnityDropdown extends LitElement {
         <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
           <unity-text-input
             id="search-input"
+            @keydown=${this.inputBoxKeyDown}
             value="${this._searchValue}"
             hideBorder=${true}
             .onChange="${this._onInputSearchChange}"
@@ -851,7 +907,7 @@ class UnityDropdown extends LitElement {
     const optionsList = this._visibleOptions.map(option => this.renderOption(option))
     return (
       optionsList.every(element => element === null) ?
-        html`<p class="helper-text">${strings.NO_MATCHES}</p>`
+        html`<p class="helper-text" id="no-matches-text">${strings.NO_MATCHES}</p>`
       : (this.inputType === INPUT_TYPE_MENU) ?
         html`
           <unity-select-menu
@@ -912,7 +968,7 @@ class UnityDropdown extends LitElement {
             </p>
           ` : null
         }
-        <div class=${this.getMenuClass()}>
+        <div class=${this.getMenuClass()} tabindex="0" @keydown="${this.handleDropdownKeydown}">
           ${this.getInputBox()}
           ${this.expanded ?
             html`
@@ -925,7 +981,7 @@ class UnityDropdown extends LitElement {
                 ${this.searchBox ? this.renderSearchBox() : null}
                 ${this.inputType === INPUT_TYPE_MULTI_SELECT ? this.renderSelectAll() : null}
                 ${this.renderList()}
-                ${!!this.helperText ? html`<p class="helper-text">${this.helperText}</p>` :null}
+                ${!!this.helperText ? html`<p class="helper-text" id="helper-text">${this.helperText}</p>` :null}
                 <slot name="bottom-content"></slot>
               </paper-dialog>`
             :null}
