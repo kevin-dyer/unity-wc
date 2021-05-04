@@ -5,6 +5,12 @@
 
 ## Changelog:
 
+## v1.14.18
+- unity-dropdown v1.6.1
+
+## v1.14.17
+- unity-dropdown v1.6.0
+
 ## v1.14.16
 - unity-dropdown v1.5.7
 

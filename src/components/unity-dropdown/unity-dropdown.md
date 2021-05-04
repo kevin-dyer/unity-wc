@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.6.1
+- added class to close tag button
+
+### v1.6.0
+- added keyboard navigation
+
 ### v1.5.7
 - change menu position to relative to allow tracking on scrolling
 
