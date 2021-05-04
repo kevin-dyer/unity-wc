@@ -212,18 +212,21 @@ class UnityUtilityBelt extends LitElement {
               @mousedown="${this.handleMouseDown}"
             >
               <unity-button
+                title="${isPanelExpanded ? 'Shrink' : 'Expand'}"
                 slot="right-action"
                 type="borderless"
                 centerIcon="${isPanelExpanded ? 'fullscreen-exit' : 'fullscreen'}"
                 @click=${isPanelExpanded ? this.handleOneThirdOpen : this.handleExpand}
               ></unity-button>
               <unity-button
+                title="Minimize"
                 slot="right-action"
                 type="borderless"
                 centerIcon="remove"
                 @click=${e => this.handleTabClick(selectedTabObj)}
               ></unity-button>
               <unity-button
+                title="Close"
                 slot="right-action"
                 centerIcon="close"
                 type="borderless"
