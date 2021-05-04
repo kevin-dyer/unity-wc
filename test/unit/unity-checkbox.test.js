@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-expressions */
 import { fixture, expect, oneEvent } from '@open-wc/testing'
 import { LitElement, html, css } from 'lit-element'
-import '../../src/components/unity-checkbox/unity-checkbox'
+
+import '@bit/smartworks.unity.unity-checkbox'
+// import '../../src/components/unity-checkbox/unity-checkbox'
 
 describe ('unity-checkbox', () => {
   // testing consts

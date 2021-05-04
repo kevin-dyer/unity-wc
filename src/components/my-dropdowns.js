@@ -1,8 +1,9 @@
 import { html, css } from 'lit-element'
 import '@bit/smartworks.unity.unity-core/unity-button'
-// import '@bit/smartworks.unity.unity-core/unity-dropdown'
-import './unity-dropdown/unity-dropdown'
+import '@bit/smartworks.unity.unity-core/unity-dropdown'
+// import './unity-dropdown/unity-dropdown'
 import '@bit/smartworks.unity.unity-core/unity-select-menu'
+// import './unity-dropdown/unity-select-menu'
 
 import { PageViewElement } from './page-view-element.js'
 import { SharedStyles } from './shared-styles.js'
@@ -156,7 +157,7 @@ class MyDropdowns extends PageViewElement {
     this._isExpanded = value
     this.requestUpdate('isExpanded', oldValue)
   }
-  
+
   get selectedMenuOptions() {
     return this._selectedMenuOptions
   }
@@ -359,7 +360,7 @@ class MyDropdowns extends PageViewElement {
               </div>
             </unity-dropdown>
           </div>
-      
+
           <div class="input-box">
             <unity-dropdown
               label="${"Multi select"}"
@@ -369,7 +370,7 @@ class MyDropdowns extends PageViewElement {
             >
             </unity-dropdown>
           </div>
-      
+
           <div class="input-box">
             <unity-dropdown
               label="${"Multi select with Tags and Checkboxes"}"
