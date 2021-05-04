@@ -731,7 +731,7 @@ class UnityDropdown extends LitElement {
       <div class="tag">
         ${icon && this.renderIcon(icon)}
         <span class="tag-text">${label}</span>
-        <div @click="${()=> this.changeSelected(id)}">
+        <div class="close-tag-button" @click="${()=> this.changeSelected(id)}">
           <iron-icon class="inner-icon selectable" icon="unity:close"></iron-icon>
         </div>
       </div>
