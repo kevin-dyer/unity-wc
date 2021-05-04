@@ -750,6 +750,7 @@ class UnityDropdown extends LitElement {
     if (keyCode === 32 || (key === 'ArrowDown' && !this._expanded)) {
       e.preventDefault()
       this._dropdown()
+      this.shadowRoot.querySelector('.dropdown-menu').focus() // focus dropdown box again
       return
     }
 
