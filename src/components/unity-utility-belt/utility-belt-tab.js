@@ -87,6 +87,7 @@ class UtilityBeltTab extends LitElement {
           <unity-typography class="tab-name">${name}</unity-typography>
         </div>
         <unity-button
+          title="Close"
           centerIcon="close"
           type="borderless"
           @click=${this.handleClose}
