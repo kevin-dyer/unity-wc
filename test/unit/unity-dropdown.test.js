@@ -3,8 +3,8 @@ import { fixture, expect, oneEvent } from '@open-wc/testing'
 import { html } from 'lit-element'
 import sinon from 'sinon';
 
-// import '@bit/smartworks.unity.unity-dropdown'
-import '../../src/components/unity-dropdown/unity-dropdown'
+import '@bit/smartworks.unity.unity-dropdown'
+// import '../../src/components/unity-dropdown/unity-dropdown'
 
 
 const options = [
