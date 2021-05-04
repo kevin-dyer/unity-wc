@@ -192,21 +192,19 @@ describe('unity-dropdown', () => {
 
   // TODO
 
-  // it('click a menu option', async () => {
-  //   const fakeOnMenuClick = i => i
-  //   const callback = sinon.spy(fakeOnMenuClick)
-  //   const el = await fixture(html`<unity-dropdown expanded .options=${options} .onMenuClicked=${callback}></unity-dropdown>`)
-  //   expect(el.selected).to.be.empty
-  //   expect(el.expanded).to.be.true
+  it('click a menu option', async () => {
+    const fakeOnMenuClick = i => i
+    const callback = sinon.spy(fakeOnMenuClick)
+    const el = await fixture(html`<unity-dropdown expanded .options=${options} .onMenuClick=${callback}></unity-dropdown>`)
+    expect(el.selected).to.be.empty
+    expect(el.expanded).to.be.true
 
-  //   let optionsList = el.shadowRoot.querySelector('unity-select-menu')
-  //   expect(callback).to.not.have.been.called
-  //   optionsList.onMenuClick('1')
-  //   expect(el.expanded).to.be.false
-  //   expect(callback).to.have.been.called
-  //   // expect(optionsList.options).to.equal(options)
-
-  // });
+    let optionsList = el.shadowRoot.querySelector('unity-select-menu')
+    expect(callback).to.not.have.been.called
+    optionsList.onMenuClick('1')
+    expect(el.expanded).to.be.false
+    expect(callback).to.have.been.called
+  });
 
   describe('multi select', () => {
     it('select multiple options', async () => {
