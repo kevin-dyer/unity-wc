@@ -51,6 +51,8 @@ class UnityUtilityBelt extends LitElement {
     this._panelHeight = Math.floor(window.innerHeight / 3)
     this._originalPaneHeight = this._panelHeight
     this._startingY = 0
+    this._headerHeight = 0
+    this._footerHeight = 0
   }
 
   static get properties() {
@@ -111,15 +113,17 @@ class UnityUtilityBelt extends LitElement {
   }
 
 
-  handleTabClick(tab) {
-    //reset panel height
-    this.handleOneThirdOpen()
+  async handleTabClick(tab) {
     //if tab is already selected, unselect
     if (tab.id === this.selectedTab) {
       this.selectedTab = ''
     } else {
       this.selectedTab = tab.id
     }
+
+    await this.updateComplete
+    //reset panel height
+    this.handleOneThirdOpen()
   }
 
   handleTabClose(id) {
@@ -144,7 +148,7 @@ class UnityUtilityBelt extends LitElement {
     const deltaY = e.clientY - this._startingY
     const oldHeight = this._panelHeight
     const MINIMUM_PANEL_HEIGHT = 0 //height of page header
-    const MAXIMUM_PANEL_HEIGHT = this._totalHeight - 22 - 32 // subtract header and footer heights
+    const MAXIMUM_PANEL_HEIGHT = this.getMaxPanelHeight()
     let nextHeight = this._originalPaneHeight - deltaY
 
     if (nextHeight < MINIMUM_PANEL_HEIGHT) nextHeight = MINIMUM_PANEL_HEIGHT
@@ -166,11 +170,25 @@ class UnityUtilityBelt extends LitElement {
   }
 
   handleExpand() {
-    this._panelHeight = this._totalHeight - 22 - 32
+    this._panelHeight = this.getMaxPanelHeight()
   }
 
   handleOneThirdOpen() {
-    this._panelHeight = Math.floor((this._totalHeight - 22 - 32) / 3)
+    this._panelHeight = Math.floor((this.getMaxPanelHeight()) / 3)
+  }
+
+  setHeaderFooterHeights() {
+    const header = this.shadowRoot.querySelector('unity-page-header')
+    const footer = this.shadowRoot.querySelector('.footer')
+    this._headerHeight = header && header.offsetHeight || 32
+    this._footerHeight = footer && footer.offsetHeight || 22
+  }
+
+  getMaxPanelHeight() {
+    if (!this._headerHeight || !this._footerHeight) {
+      this.setHeaderFooterHeights()
+    }
+    return this._totalHeight - this._headerHeight - this._footerHeight
   }
 
   render() {
@@ -180,6 +198,7 @@ class UnityUtilityBelt extends LitElement {
       _panelHeight
     } = this
     const selectedTabObj = selectedTab && tabs.find(tab => tab.id === selectedTab)
+    const isPanelExpanded = this._panelHeight === this.getMaxPanelHeight()
 
     return html`
       <div class="unity-utility-toolbelt">
@@ -193,22 +212,25 @@ class UnityUtilityBelt extends LitElement {
               @mousedown="${this.handleMouseDown}"
             >
               <unity-button
+                title="${isPanelExpanded ? 'Shrink' : 'Expand'}"
                 slot="right-action"
                 type="borderless"
-                label="Expand"
-                @click=${this.handleExpand}
+                centerIcon="${isPanelExpanded ? 'fullscreen-exit' : 'fullscreen'}"
+                @click=${isPanelExpanded ? this.handleOneThirdOpen : this.handleExpand}
               ></unity-button>
               <unity-button
+                title="Minimize"
                 slot="right-action"
-                label="Shrink"
                 type="borderless"
-                @click=${this.handleOneThirdOpen}
+                centerIcon="remove"
+                @click=${e => this.handleTabClick(selectedTabObj)}
               ></unity-button>
               <unity-button
+                title="Close"
                 slot="right-action"
                 centerIcon="close"
                 type="borderless"
-                @click=${e => this.handleTabClick(selectedTabObj)}
+                @click=${e => this.handleTabClose(selectedTab)}
               ></unity-button>
             </unity-page-header>
             <div class="panel-container" style="height: ${_panelHeight}px;">
@@ -228,7 +250,7 @@ class UnityUtilityBelt extends LitElement {
                   id="${tab.id}"
                   index=${index}
                   ?selected=${isSelected}
-                  @click=${e => this.handleTabClick(tab, index)}
+                  @click=${e => this.handleTabClick(tab)}
                   .onClose=${id => this.handleTabClose(id)}
                 ></utility-belt-tab>`
             })}
