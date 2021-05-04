@@ -227,6 +227,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'modal'}" href="/modal">Modal</a>
           <a ?selected="${this._page === 'dropzone'}" href="/dropzone">Dropzone</a>
           <a ?selected="${this._page === 'stepper'}" href="/stepper">Stepper</a>
+          <a ?selected="${this._page === 'utility-belt'}" href="/utility-belt">Utility Belt</a>
         </nav>
       </app-header>
 
@@ -251,6 +252,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'modal'}" href="/modal">Modal</a>
           <a ?selected="${this._page === 'dropzone'}" href="/dropzone">Dropzone</a>
           <a ?selected="${this._page === 'stepper'}" href="/stepper">Stepper</a>
+          <a ?selected="${this._page === 'utility-belt'}" href="/utility-belt">Utility Belt</a>
         </nav>
       </app-drawer> -->
 
@@ -273,6 +275,7 @@ class MyApp extends connect(store)(LitElement) {
         <my-modal class="page" ?active="${this._page === 'modal'}"></my-modal>
         <my-dropzone class="page" ?active="${this._page === 'dropzone'}"></my-dropzone>
         <my-stepper class="page" ?active="${this._page === 'stepper'}"></my-stepper>
+        <my-utility-belt class="page" ?active="${this._page === 'utility-belt'}"></my-utility-belt>
       </main>
 
 
