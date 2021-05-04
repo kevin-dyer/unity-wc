@@ -746,10 +746,11 @@ class UnityDropdown extends LitElement {
   handleDropdownKeydown(e) {
     const { key, keyCode } = e
 
-    // open/close dropdown with spacebar
-    if (keyCode === 32) {
+    // open/close dropdown with spacebar; also open with down arrow
+    if (keyCode === 32 || (key === 'ArrowDown' && !this._expanded)) {
       e.preventDefault()
       this._dropdown()
+      return
     }
 
     // close dropdown before moving focus to next element
