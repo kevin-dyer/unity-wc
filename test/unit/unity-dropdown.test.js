@@ -238,14 +238,14 @@ describe('unity-dropdown', () => {
   
       // select all
       const selectAll = el.shadowRoot.querySelector('#select-all')
-      expect(selectAll.innerText.replaceAll(/\n/g, "").trim()).to.equal("Select visible")
+      expect(selectAll.innerText.replace(/\n/g, "").trim()).to.equal("Select visible")
       const listener = oneEvent(selectAll, 'click')
       selectAll.click()
       await listener
       expect(el.selected).to.eql(options.map(o => o.id))
 
       // deselect all
-      expect(selectAll.innerText.replaceAll(/\n/g, "").trim()).to.equal("Deselect visible")
+      expect(selectAll.innerText.replace(/\n/g, "").trim()).to.equal("Deselect visible")
       selectAll.click()
       await listener
       expect(el.selected).to.be.empty
