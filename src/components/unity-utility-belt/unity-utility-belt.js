@@ -180,8 +180,9 @@ class UnityUtilityBelt extends LitElement {
   setHeaderFooterHeights() {
     const header = this.shadowRoot.querySelector('unity-page-header')
     const footer = this.shadowRoot.querySelector('.footer')
-    this._headerHeight = header && header.offsetHeight || 32
-    this._footerHeight = footer && footer.offsetHeight || 22
+
+    if (header) this._headerHeight = header.offsetHeight || 32
+    if (footer) this._footerHeight = footer.offsetHeight || 22
   }
 
   getMaxPanelHeight() {
@@ -201,6 +202,14 @@ class UnityUtilityBelt extends LitElement {
     const isPanelExpanded = this._panelHeight === this.getMaxPanelHeight()
 
     return html`
+      <style>
+        .panel-container {
+          height: ${_panelHeight}px;
+        }
+        unity-page-header {
+          border-top: ${isPanelExpanded ? 'none' : '1px solid var(--default-dark-gray-2-color)'};
+        }
+      </style>
       <div class="unity-utility-toolbelt">
         <div class="main">
           <slot name="main"></slot>
@@ -233,7 +242,7 @@ class UnityUtilityBelt extends LitElement {
                 @click=${e => this.handleTabClose(selectedTab)}
               ></unity-button>
             </unity-page-header>
-            <div class="panel-container" style="height: ${_panelHeight}px;">
+            <div class="panel-container">
               <slot name="${selectedTab}" ></slot>
             </div>
           </div>`
@@ -295,6 +304,9 @@ class UnityUtilityBelt extends LitElement {
           flex-direction: column;
           overflow-y: auto;
         }
+        .panel-container {
+          overflow-y: auto;
+        }
         .footer {
           display: flex;
           flex-direction: row;
@@ -307,7 +319,6 @@ class UnityUtilityBelt extends LitElement {
         }
 
         unity-page-header {
-          border-top: 1px solid var(--default-dark-gray-2-color);
           --page-header-font-size: 12px;
           cursor: ns-resize;
         }
