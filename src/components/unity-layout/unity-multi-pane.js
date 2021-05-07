@@ -449,7 +449,7 @@ class UnityMultiPane extends LitElement {
         .wrapper {
           display: flex;
           flex-direction: column;
-          overflow: hidden;
+          overflow-y: hidden;
           position: relative;
         }
         .content {
@@ -463,6 +463,7 @@ class UnityMultiPane extends LitElement {
           align-items: center;
           justify-content: space-between;
           border-bottom: var(--header-border);
+          overflow-x: auto
         }
         .footer {
           flex: 0;
