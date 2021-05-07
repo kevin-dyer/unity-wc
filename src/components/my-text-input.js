@@ -51,7 +51,7 @@ class MyTextInput extends PageViewElement {
         .input-box {
           position: relative;
           width: 250px;
-          margin: 1em 0;
+          margin: 1.5em 0;
         }
 
         unity-search-bar {
@@ -159,7 +159,7 @@ class MyTextInput extends PageViewElement {
             <unity-text-input
               .label="${"Validation with Remark"}"
               .value="${"Will only be correct if this equals \"valid\"."}"
-              .remark="${"This must equal \"valid\"."}"
+
               .validation="${val => {
                 if (val.length === 0) return 'Cannot be empty.'
                 if (val !== 'valid') return 'Value must equal "valid".'

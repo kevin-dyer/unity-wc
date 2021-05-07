@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.6
+- make error text not shift input position
+
 ### v1.3.5
 - if showIcon is true, hide icon if input has no value
 
