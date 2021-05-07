@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.14.20": {
+    "smartworks.unity/unity-core@1.14.21": {
         "files": [
             {
                 "name": "index.js",
@@ -441,7 +441,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-multi-pane@1.0.6": {
+    "smartworks.unity/unity-multi-pane@1.0.7": {
         "files": [
             {
                 "relativePath": "src/components/unity-layout/unity-multi-pane.js",
