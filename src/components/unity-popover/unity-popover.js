@@ -147,15 +147,14 @@ class UnityPopover extends LitElement {
 
   get referenceElement() { return this._referenceElement }
 
-  startObserver() {
+  startObserver(reference) {
     this.stopObserver()
-    const { referenceElement } = this
-    if (!!referenceElement) {
-      this._observedElement = referenceElement
+    if (!!reference) {
+      this._observedElement = reference
       this._observer = new ResizeObserver(([entry]) => {
         this.createPopover()
       })
-      this._observer.observe(referenceElement)
+      this._observer.observe(reference)
     }
   }
 
@@ -184,11 +183,12 @@ class UnityPopover extends LitElement {
     const reference = isElement(this.referenceElement) ?
       this.referenceElement
       : this.shadowRoot.getElementById('page-content-container')
+
     const popover = this.shadowRoot.getElementById('popover-container')
 
     if (!reference || !popover ) return
 
-    this.startObserver()
+    this.startObserver(reference)
 
     this._popoverInstance = createPopper(reference, popover, {
       placement: this.placement,
