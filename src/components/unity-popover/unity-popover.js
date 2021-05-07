@@ -35,7 +35,7 @@ import { isElement } from '@bit/smartworks.unity.unity-utils'
  * @param {Number} distance, offset of the popover from the on-page-content, in pixels. Overrides offsetModifier
  * @param {Function} offsetModifier, used to define Popper's offset modifier. Use in place of distance param. Overridden by distance.
  * @param {HTML Element} boundary, ref specifying the boundary element for flip and preventOverflow
- * @param {HTML Element} referenceElement, if provided, this will be the element to which the popover is anchored (not the on-page-content slot)
+ * @param {HTML Element} referenceElement, if provided, this will be the element to which the popover is anchored (not the on-page-content slot). Note that this has to be a DOM element (not a React element, for example)
  * @return {LitElement} returns a class extended from LitElement
  * @example
  * <unity-popover
