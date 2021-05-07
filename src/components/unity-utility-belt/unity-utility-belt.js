@@ -220,6 +220,8 @@ class UnityUtilityBelt extends LitElement {
               header="${selectedTabObj.name}"
               @mousedown="${this.handleMouseDown}"
             >
+              <slot name="left-content" slot="left-content"></slot>
+              <slot name="left-action" slot="left-action"></slot>
               <unity-button
                 title="${isPanelExpanded ? 'Shrink' : 'Expand'}"
                 slot="right-action"
