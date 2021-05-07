@@ -509,7 +509,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-popover@1.0.9": {
+    "smartworks.unity/unity-popover@1.0.10": {
         "files": [
             {
                 "name": "unity-popover.js",
