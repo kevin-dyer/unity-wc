@@ -5,13 +5,17 @@
 
 ## Changelog:
 
-## v1.14.18
+### v1.14.21
+- unity-multi-pane v1.0.7
+- unity-text-input v1.3.6
+
+### v1.14.18
 - unity-dropdown v1.6.1
 
-## v1.14.17
+### v1.14.17
 - unity-dropdown v1.6.0
 
-## v1.14.16
+### v1.14.16
 - unity-dropdown v1.5.7
 
 ### v1.14.14

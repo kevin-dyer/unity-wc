@@ -463,6 +463,7 @@ class UnityMultiPane extends LitElement {
           align-items: center;
           justify-content: space-between;
           border-bottom: var(--header-border);
+          overflow-x: auto
         }
         .footer {
           flex: 0;

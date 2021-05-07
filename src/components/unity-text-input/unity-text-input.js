@@ -358,7 +358,7 @@ class UnityTextInput extends LitElement {
     } = this;
 
     return html`
-      <div class="bottom">
+      <div class="bottom${!remark && _errorText ? " float-error" : ""}">
         <span class="remark${_errorText && !_valid ? " invalid-text": ""}">
         ${_errorText || remark}
       </span>
@@ -488,7 +488,7 @@ class UnityTextInput extends LitElement {
 
           ${!showIcon && required ? html`<span class="required field">*</span>` : null}
           ${!area ? this._renderIcon() : null}
-      
+
         </div>
         ${(_errorText || remark || charCount)? this.renderBottomDiv() : null}
       </div>
@@ -574,6 +574,10 @@ class UnityTextInput extends LitElement {
         .invalid {
           background-color: var(--input-background-error-color, var(--default-input-background-error-color));
           border-color: var(--input-border-error-color, var(--default-input-border-error-color)) !important;
+        }
+        .float-error {
+          position: absolute;
+          top: 100%;
         }
         .invalid-text {
           color: var(--input-border-error-color, var(--default-input-border-error-color)) !important;

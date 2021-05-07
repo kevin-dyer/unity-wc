@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.7
+- make sure all overflow for header can scroll, to avoid entire pane scroll
+
 ### v1.0.6
 - don't render pane contents until visible
 
