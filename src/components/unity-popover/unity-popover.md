@@ -1,5 +1,8 @@
 # unity-popover
 
+## v1.0.10
+- fixed fatal error when referenceElement is invalid DOM element
+
 ## v1.0.9
 - update to use ResizeObserver to track the referenceElement resizing to move the popover
 

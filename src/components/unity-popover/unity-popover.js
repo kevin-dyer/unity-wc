@@ -35,7 +35,7 @@ import { isElement } from '@bit/smartworks.unity.unity-utils'
  * @param {Number} distance, offset of the popover from the on-page-content, in pixels. Overrides offsetModifier
  * @param {Function} offsetModifier, used to define Popper's offset modifier. Use in place of distance param. Overridden by distance.
  * @param {HTML Element} boundary, ref specifying the boundary element for flip and preventOverflow
- * @param {HTML Element} referenceElement, if provided, this will be the element to which the popover is anchored (not the on-page-content slot)
+ * @param {HTML Element} referenceElement, if provided, this will be the element to which the popover is anchored (not the on-page-content slot). Note that this has to be a DOM element (not a React element, for example)
  * @return {LitElement} returns a class extended from LitElement
  * @example
  * <unity-popover
@@ -147,15 +147,14 @@ class UnityPopover extends LitElement {
 
   get referenceElement() { return this._referenceElement }
 
-  startObserver() {
+  startObserver(reference) {
     this.stopObserver()
-    const { referenceElement } = this
-    if (!!referenceElement) {
-      this._observedElement = referenceElement
+    if (!!reference) {
+      this._observedElement = reference
       this._observer = new ResizeObserver(([entry]) => {
         this.createPopover()
       })
-      this._observer.observe(referenceElement)
+      this._observer.observe(reference)
     }
   }
 
@@ -184,11 +183,14 @@ class UnityPopover extends LitElement {
     const reference = isElement(this.referenceElement) ?
       this.referenceElement
       : this.shadowRoot.getElementById('page-content-container')
+
+    if (!isElement(this.referenceElement)) console.trace(`unity-popover: provided reference element is not a valiud DOM element. Popover placement may be impacted.`)
+
     const popover = this.shadowRoot.getElementById('popover-container')
 
     if (!reference || !popover ) return
 
-    this.startObserver()
+    this.startObserver(reference)
 
     this._popoverInstance = createPopper(reference, popover, {
       placement: this.placement,

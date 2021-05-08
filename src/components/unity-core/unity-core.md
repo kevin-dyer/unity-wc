@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.14.24
+- unity-popover v1.0.10
+
 ### v1.14.21
 - unity-multi-pane v1.0.7
 - unity-text-input v1.3.6
