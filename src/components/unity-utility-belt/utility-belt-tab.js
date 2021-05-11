@@ -62,9 +62,6 @@ class UtilityBeltTab extends LitElement {
     const {index, selected} = this
     let tabClasses = 'utility-belt-tab'
 
-    if (index === 0) {
-      tabClasses = `${tabClasses} first-tab`
-    }
     if (selected) {
       tabClasses = `${tabClasses} selected-tab`
     }
@@ -114,13 +111,9 @@ class UtilityBeltTab extends LitElement {
           justify-content: space-between;
           align-items: center;
           padding: 0 0 0 8px;
-          border: 1px solid var(--tab-border-color, var(--default-tab-border-color));
-          border-left: none;
+          border-right: 1px solid var(--tab-border-color, var(--default-tab-border-color));
           overflow: hidden;
           cursor: pointer;
-        }
-        .first-tab {
-          border-left: 1px solid var(--tab-border-color, var(--default-tab-border-color));
         }
         .selected-tab {
           background-color: var(--selected-tab-background, var(--default-selected-tab-background));
