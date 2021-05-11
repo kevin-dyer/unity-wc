@@ -1,5 +1,8 @@
 # unity-popover
 
+## v1.0.11
+- fixed typo in error message
+
 ## v1.0.10
 - fixed fatal error when referenceElement is invalid DOM element
 

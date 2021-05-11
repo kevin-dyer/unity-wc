@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.7
+- remove inset on float error
+
 ### v1.3.6
 - make error text not shift input position
 

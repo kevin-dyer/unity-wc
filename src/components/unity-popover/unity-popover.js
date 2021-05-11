@@ -184,7 +184,7 @@ class UnityPopover extends LitElement {
       this.referenceElement
       : this.shadowRoot.getElementById('page-content-container')
 
-    if (!isElement(this.referenceElement)) console.trace(`unity-popover: provided reference element is not a valiud DOM element. Popover placement may be impacted.`)
+    if (!isElement(this.referenceElement)) console.warn(`unity-popover: provided reference element is not a valid DOM element. Popover placement may be impacted.`)
 
     const popover = this.shadowRoot.getElementById('popover-container')
 

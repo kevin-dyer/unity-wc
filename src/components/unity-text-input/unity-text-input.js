@@ -577,7 +577,6 @@ class UnityTextInput extends LitElement {
         }
         .float-error {
           position: absolute;
-          top: 100%;
         }
         .invalid-text {
           color: var(--input-border-error-color, var(--default-input-border-error-color)) !important;
