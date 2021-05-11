@@ -59,6 +59,7 @@ class UnityButton extends LitElement {
           --font-color: var(--background-color, var(--default-background-color));
           --icon-color: var(--font-color);
           --default-button-hover-color: var(--button-color);
+          --default-icon-button-size: 27px;
         }
 
         paper-button {
@@ -154,8 +155,9 @@ class UnityButton extends LitElement {
         }
 
         paper-button.icon-btn {
-          min-width: 27px;
-          width: 27px;
+          min-width: var(--icon-button-size, var(--default-icon-button-size));
+          width: var(--icon-button-size, var(--default-icon-button-size));
+          height: var(--icon-button-size, var(--default-icon-button-size));
           padding: 0;
           border-radius: 50%;
         }

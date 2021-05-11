@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.11
+- Added --icon-button-size for controlling height & width of icon buttons.
+
 ### v1.1.7
 - Fix color on hover for `important` buttons
 

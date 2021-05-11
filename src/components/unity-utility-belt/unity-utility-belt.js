@@ -42,9 +42,6 @@ class UnityUtilityBelt extends LitElement {
     this.onTabClose = () => {}
 
     this.resizable=true
-    // this.onResizeStart=()=>{}
-    // this.onResize=()=>{}
-    // this.onResizeComplete=()=>{}
 
     // internals
     this._selectedTab = ''
@@ -63,10 +60,6 @@ class UnityUtilityBelt extends LitElement {
       onTabClose: {type: Function},
       resizable: {type: Boolean},
       _panelHeight: {type: Number},
-      // onResizeStart: {type: Function},
-      // onResize: {type: Function},
-      // onResizeComplete: {type: Function},
-
       // internals
       _selectedTab: {type: String}
     }
@@ -278,13 +271,12 @@ class UnityUtilityBelt extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          /*width: 100%;*/
-          /*overflow: hidden;*/
           flex: 1;
           display: flex;
           flex-direction: column;
           min-height: 0;
           height: 100%;
+          --default-bar-border-color: var(--default-dark-gray-2-color);
         }
         .unity-utility-toolbelt {
           flex: 1;
@@ -314,10 +306,12 @@ class UnityUtilityBelt extends LitElement {
           flex-direction: row;
           align-items: center;
           min-height: 0;
+          border-top: 1px solid var(--bar-border-color, var(--default-bar-border-color));
         }
         .tab-bar {
           display: flex;
           overflow-y: auto;
+          flex: 1;
         }
 
         unity-page-header {
