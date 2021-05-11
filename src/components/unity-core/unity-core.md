@@ -5,6 +5,10 @@
 
 ## Changelog:
 
+
+### v1.14.25
+- unity-text-input v1.3.7
+
 ### v1.14.24
 - unity-popover v1.0.10
 
