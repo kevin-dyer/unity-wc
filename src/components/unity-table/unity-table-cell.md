@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.12
+- removed overflow: hidden from table cell div to allow dropdowns and other content to overflow cell.
+
 ### v1.0.11
 - added class name "selection-checkbox" to table row checkbox (used for selecting the row)
 
