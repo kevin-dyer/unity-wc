@@ -287,6 +287,8 @@ class UnityMultiPane extends LitElement {
       [paneKey]: newPaneWidth
     }
     this._startingX = e.clientX
+
+    e.preventDefault()
   }
 
   //clean up event listener
@@ -457,13 +459,13 @@ class UnityMultiPane extends LitElement {
           display: flex;
           flex-direction: column;
           position: relative;
+          overflow: hidden;
         }
         .header {
           display: flex;
           align-items: center;
           justify-content: space-between;
           border-bottom: var(--header-border);
-          overflow-x: auto
         }
         .footer {
           flex: 0;
