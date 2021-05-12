@@ -273,6 +273,9 @@ class UnityMultiPane extends LitElement {
         [paneKey]: paneWidth
       }={}
     } = this
+    const {
+      preventDefault=()=>{}
+    } = e || {}
     const pane = shadowRoot.getElementById(paneKey)
     const multiPaneWidth = pane.clientWidth * 100 / paneWidth // get multipane total width
     const deltaX = e.clientX - this._startingX
@@ -287,6 +290,8 @@ class UnityMultiPane extends LitElement {
       [paneKey]: newPaneWidth
     }
     this._startingX = e.clientX
+
+    preventDefault()
   }
 
   //clean up event listener
@@ -457,13 +462,13 @@ class UnityMultiPane extends LitElement {
           display: flex;
           flex-direction: column;
           position: relative;
+          overflow: hidden;
         }
         .header {
           display: flex;
           align-items: center;
           justify-content: space-between;
           border-bottom: var(--header-border);
-          overflow-x: auto
         }
         .footer {
           flex: 0;

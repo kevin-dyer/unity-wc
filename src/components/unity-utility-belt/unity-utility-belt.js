@@ -210,7 +210,7 @@ class UnityUtilityBelt extends LitElement {
         ${selectedTabObj ? html`
           <div id="panel" class="panel">
             <unity-page-header
-              header="${selectedTabObj.name}"
+              header="${selectedTabObj.header || ''}"
               @mousedown="${this.handleMouseDown}"
             >
               <slot name="left-content-${selectedTab}" slot="left-content"></slot>

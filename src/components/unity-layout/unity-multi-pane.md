@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.0.9
+- Check if e.preventDefault exists on mousemove event to simplify unit tests.
+
+### v1.0.8
+- Fixed horizontal scrolling issue with side panel header by hiding panel overflow. Fixed unintentional highlighting when resizing panel by preventing default.
+
 ### v1.0.7
 - make sure all overflow for header can scroll, to avoid entire pane scroll
 
