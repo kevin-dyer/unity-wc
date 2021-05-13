@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.6.2
+- added `preventUnselect` attribute
+
 ### v1.6.1
 - added class to close tag button
 

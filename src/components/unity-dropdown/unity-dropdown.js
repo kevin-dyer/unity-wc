@@ -24,6 +24,7 @@ import * as strings from './strings'
 * @param {Boolean} [selectIcon], show an icon to the right of the element when selected
 * @param {Boolean} [showCheckboxes], show checkboxes next to selected options (only for multi-select); default: false
 * @param {Boolean} [showTags], show tags insearch bar with selected options (only for multi-select); default: false
+* @param {Boolean} [preventUnselect], (single-select dropdowns only) prevent the user from removing the selected option by clicking on it again
 * @param {String} [boxType], type of the dropdown box. Possible values: "fixed", "label", "search", "button-primary", "button-secondary", "button-borderless", or "inline." Default value is "label."
 * @param {String} [helperText], a helper text to show below the options list
 * @param {String} inputType, type of the list of options that will be displayed. Possible values: "menu", "single-select" or "multi-select." Default is "menu."
@@ -379,6 +380,7 @@ class UnityDropdown extends LitElement {
     this.selectIcon = true
     this.showCheckboxes = false
     this.showTags = false
+    this.preventUnselect = false
 
     this.boxType = BOX_TYPE_LABEL // valid values: "label" | "search" | "button-primary" | "button-secondary" | "button-borderless" | "inline"
     this.helperText = ""
@@ -433,6 +435,7 @@ class UnityDropdown extends LitElement {
       selectIcon: { type: Boolean },
       showCheckboxes: { type: Boolean },
       showTags: { type: Boolean },
+      preventUnselect: { type: Boolean },
 
       boxType: { type: String },
       helperText: { type: String },
@@ -554,9 +557,14 @@ class UnityDropdown extends LitElement {
    */
   handleSingleSelect(id) {
     this.expanded = false
-    const newSelected = this.selected[0] === id ? [] : [id]
-    this.onValueChange(newSelected[0])
-    return newSelected
+    if (!this.preventUnselect) {
+      const newSelected = this.selected[0] === id ? [] : [id]
+      this.onValueChange(newSelected[0])
+      return newSelected
+    }
+    // Fall-through - maintain selection when clicking same element
+    this.onValueChange(id)
+    return [id]
   }
 
   /**
