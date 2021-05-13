@@ -1,7 +1,7 @@
 import { html, css } from 'lit-element'
 import '@bit/smartworks.unity.unity-core/unity-button'
-import '@bit/smartworks.unity.unity-core/unity-dropdown'
-// import './unity-dropdown/unity-dropdown'
+// import '@bit/smartworks.unity.unity-core/unity-dropdown'
+import './unity-dropdown/unity-dropdown'
 import '@bit/smartworks.unity.unity-core/unity-select-menu'
 // import './unity-dropdown/unity-select-menu'
 
@@ -254,6 +254,16 @@ class MyDropdowns extends PageViewElement {
               label="${"Single select"}"
               inputType="single-select"
               .options=${dataMock.labelsOnly}
+            >
+            </unity-dropdown>
+          </div>
+
+          <div class="input-box">
+            <unity-dropdown
+              label="${"Single select, no-unselect"}"
+              inputType="single-select"
+              .options=${dataMock.labelsOnly}
+              ?preventUnselect="${true}"
             >
             </unity-dropdown>
           </div>
