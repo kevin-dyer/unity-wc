@@ -238,6 +238,7 @@ class UnityCard extends LitElement {
           --default-card-no-image-background: var(--gray-color, var(--default-gray-color));
           --default-card-image-flex: 8;
           --default-card-content-flex: 3;
+          --default-card-color: white;
         }
 
         .container {
@@ -268,6 +269,7 @@ class UnityCard extends LitElement {
           flex-direction: column;
           justify-content: center;
           padding: 10px;
+          background-color: var(--card-color, var(--default-card-color));
         }
 
         .center-content {
