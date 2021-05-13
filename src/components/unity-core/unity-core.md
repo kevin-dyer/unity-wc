@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.15.0
+- unity-card v1.1.0
+
 ### v1.14.26
 - unity-popover v1.0.11
 
