@@ -435,6 +435,7 @@ class UnityDropdown extends LitElement {
       selectIcon: { type: Boolean },
       showCheckboxes: { type: Boolean },
       showTags: { type: Boolean },
+      preventUnselect: { type: Boolean },
 
       boxType: { type: String },
       helperText: { type: String },
