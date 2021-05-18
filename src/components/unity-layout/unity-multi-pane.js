@@ -273,9 +273,6 @@ class UnityMultiPane extends LitElement {
         [paneKey]: paneWidth
       }={}
     } = this
-    const {
-      preventDefault=()=>{}
-    } = e || {}
     const pane = shadowRoot.getElementById(paneKey)
     const multiPaneWidth = pane.clientWidth * 100 / paneWidth // get multipane total width
     const deltaX = e.clientX - this._startingX
@@ -291,7 +288,7 @@ class UnityMultiPane extends LitElement {
     }
     this._startingX = e.clientX
 
-    preventDefault()
+    e && e.preventDefault && e.preventDefault()
   }
 
   //clean up event listener

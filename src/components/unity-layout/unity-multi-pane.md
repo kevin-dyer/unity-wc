@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.10
+- Fixed bug with preventDefault call in mousemove listener
+
 ### v1.0.9
 - Check if e.preventDefault exists on mousemove event to simplify unit tests.
 

@@ -1,5 +1,6 @@
 const { createDefaultConfig } = require('@open-wc/testing-karma');
 const merge = require('deepmerge');
+const COVERAGE_THRESHOLD = 20
 
 module.exports = config => {
   config.set(
@@ -37,10 +38,10 @@ module.exports = config => {
       coverageIstanbulReporter: {
         thresholds: {
           global: {
-            statements: 50,
-            branches: 50,
-            functions: 50,
-            lines: 50
+            statements: COVERAGE_THRESHOLD,
+            branches: COVERAGE_THRESHOLD,
+            functions: COVERAGE_THRESHOLD,
+            lines: COVERAGE_THRESHOLD
           }
         }
       }
