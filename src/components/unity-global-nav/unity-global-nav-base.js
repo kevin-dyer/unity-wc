@@ -242,7 +242,8 @@ class UnityGlobalNavBase extends LitElement {
              ${!collapsed ? html`<slot name="customExpandedHeader"></slot>` : ''}
           </div>
           ${!collapsed ? html`<slot name="subHeader" class="${subHeaderBorder ? 'header-container' : ''}"></slot>` 
-            : html`<slot name="collapsedSubHeader" class="${subHeaderBorder ? 'header-container' : ''}"></slot>`}
+            : collapsible ? html`<slot name="collapsedSubHeader" class="${subHeaderBorder ? 'header-container' : ''}"></slot>` : ''
+          }
 
           <div class="menu-box">
             <div class="top-container">
