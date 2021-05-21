@@ -1,5 +1,9 @@
 # unity-popover
 
+
+## v1.0.12
+- Prevent infinite loop caused by createPopover reinitializing the resize observer.
+
 ## v1.0.11
 - fixed typo in error message
 

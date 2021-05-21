@@ -190,7 +190,10 @@ class UnityPopover extends LitElement {
 
     if (!reference || !popover ) return
 
-    this.startObserver(reference)
+    //To prevent infinite loop, check if this._observer exists before calling startObserver
+    if (!this._observer) {
+      this.startObserver(reference)
+    }
 
     this._popoverInstance = createPopper(reference, popover, {
       placement: this.placement,
