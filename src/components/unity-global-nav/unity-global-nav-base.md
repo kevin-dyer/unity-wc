@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.6.0
+- Added `collapsedSubHeader` slot
+
 ### v1.5.1
 - removed optional chaining as it is unsupported by compiler.
 

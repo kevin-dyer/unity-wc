@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.16.0
+- unity-global-nav-base v1.6.0
+
 ### v1.15.1
 - unity-dropdown v1.6.2
 
