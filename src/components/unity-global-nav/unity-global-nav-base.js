@@ -38,6 +38,8 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {slot} customHeader, slot for entire header content, intended to be used in lieu of logo and header image
 * @param {slot} customExpandedHeader, slot for header content that is visible only when expanded, intended to be used in lieu of header image
 * @param {slot} subHeader, slot for content below the header, used in conjunction with subHeaderBorder
+* @param {slot} collapsedSubHeader, slot for content below the header when the nav bar is in collapsed state, to use in conjunction with subHeader and only if collapsible=true
+
 * @return {LitElement} returns a class extended from LitElement
 * @example
 * <unity-global-nav gutter
@@ -241,7 +243,9 @@ class UnityGlobalNavBase extends LitElement {
             </slot> 
              ${!collapsed ? html`<slot name="customExpandedHeader"></slot>` : ''}
           </div>
-          ${!collapsed ? html`<slot name="subHeader" class="${subHeaderBorder ? 'header-container' : ''}"></slot>` : ''}
+          ${!collapsed ? html`<slot name="subHeader" class="${subHeaderBorder ? 'header-container' : ''}"></slot>` 
+            : collapsible ? html`<slot name="collapsedSubHeader" class="${subHeaderBorder ? 'header-container' : ''}"></slot>` : ''
+          }
 
           <div class="menu-box">
             <div class="top-container">
