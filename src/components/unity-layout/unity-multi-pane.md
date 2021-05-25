@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+
+### v1.0.11
+- Exposed paneWidths as a property for initializing pane widths
+
 ### v1.0.10
 - Fixed bug with preventDefault call in mousemove listener
 
