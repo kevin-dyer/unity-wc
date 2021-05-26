@@ -81,11 +81,11 @@ class UnityMultiPane extends LitElement {
     this.collapseButton = false
     this._visiblePanes = new Set()
     this._collapsedPanes = new Set()
+    this.paneWidths = {}
     this.onClose = ()=>{}
     this.onCollapseChange = ()=>{}
 
     // internals
-    this.paneWidths = {}
     this._startingX = 0
     this._paneKeys = new Set()
   }
@@ -99,7 +99,7 @@ class UnityMultiPane extends LitElement {
       onCollapseChange: { type: Function },
       visiblePanes: { type: Array },
       collapsedPanes: { type: Array },
-      paneWidths: { attribute: false },
+      paneWidths: { type: Object },
       paneKeys: { attribute: false }
     }
   }
