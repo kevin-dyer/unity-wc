@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.12
+- Added iron communication icons to button.
+
 ### v1.1.11
 - Added --icon-button-size for controlling height & width of icon buttons.
 
