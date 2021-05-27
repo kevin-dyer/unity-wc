@@ -646,6 +646,7 @@ class UnityTextInput extends LitElement {
           align-self: center;
           color: var(--input-prefixed-text-color, var(--default-input-prefixed-text-color));
           line-height: 2;
+          white-space: nowrap;
         }
         .icon-wrapper {
           position: absolute;
