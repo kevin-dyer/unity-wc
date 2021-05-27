@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.16.3": {
+    "smartworks.unity/unity-core@1.16.5": {
         "files": [
             {
                 "name": "index.js",
@@ -492,7 +492,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-page-header@1.2.7": {
+    "smartworks.unity/unity-page-header@1.2.8": {
         "files": [
             {
                 "name": "unity-page-header.js",
@@ -705,7 +705,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-text-input@1.3.7": {
+    "smartworks.unity/unity-text-input@1.3.8": {
         "files": [
             {
                 "name": "unity-text-input.js",
