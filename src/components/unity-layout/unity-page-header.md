@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.8
+- Added --left-content-flex css variable to control flex of left content in order to stretch to whole width.
+
 ### v1.2.7
 - fixed typo with --page-header-font-weight css variable so it applies to the title text
 
