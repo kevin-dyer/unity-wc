@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.8
+- prevent prefixed text from wrapping to new line
+
 ### v1.3.7
 - remove inset on float error
 
