@@ -55,7 +55,9 @@ class UnityStepper extends LitElement {
     this.cancelText = "Cancel"
     this.onChangeStep = ()=>{}
     this.onCancel = ()=>{}
-    this._currentStep = 1
+    this.currentStep = 1
+    this._trackedStep = 1
+
 
     this.advance = this.advance.bind(this)
     this.backup = this.backup.bind(this)
@@ -76,25 +78,25 @@ class UnityStepper extends LitElement {
     }
   }
 
-  checkCurrentStep(value) {
-    const oldValue = this._currentStep
+  checkTrackedStep(value) {
+    const oldValue = this._trackedStep
     const {
       steps,
       totalSteps: givenSteps
     } = this
     const totalSteps = Math.max(steps.length, givenSteps)
-    if (value < 1) this._currentStep = 1
-    else if (value > totalSteps) this._currentStep = totalSteps
-    else this._currentStep = value
-    this.requestUpdate('currentStep', oldValue)
+    if (value < 1) this._trackedStep = 1
+    else if (value > totalSteps) this._trackedStep = totalSteps
+    else this._trackedStep = value
+    this.requestUpdate('trackedStep', oldValue)
   }
 
-  set currentStep(value) {
-    if (this.steps.length > 0) this.checkCurrentStep(value)
-    else this._currentStep = value
+  set trackedStep(value) {
+    if (this.steps.length > 0) this.checkTrackedStep(value)
+    else this._trackedStep = value
   }
 
-  get currentStep() { return this._currentStep }
+  get trackedStep() { return this.currentStep || this._trackedStep }
 
   set steps(value) {
     const oldValue = this._steps
@@ -103,8 +105,8 @@ class UnityStepper extends LitElement {
     const valid = value.reduce((valid, step) => !valid ? false : typeof step === 'string' || step instanceof Object, true)
     if (valid) {
       this._steps = value
-      // check currentStep
-      this.checkCurrentStep(this.currentStep)
+      // check trackedStep
+      this.checkTrackedStep(this.trackedStep)
     } else {
       this._steps = []
     }
@@ -117,13 +119,13 @@ class UnityStepper extends LitElement {
   // this will create the bubble and the text
   createStep({name, key, pos}) {
     const {
-      currentStep,
+      trackedStep,
       backtrack,
       valid
     } = this
-    const active = currentStep === pos
-    const done = currentStep > pos
-    const icon = ((currentStep > pos) || (active && valid)) ?
+    const active = trackedStep === pos
+    const done = trackedStep > pos
+    const icon = ((trackedStep > pos) || (active && valid)) ?
       html`<unity-icon class="icon" icon="unity:check"></unity-icon>` :
       html`<unity-typography>${pos}</unity-typography>`
     return html`
@@ -150,7 +152,7 @@ class UnityStepper extends LitElement {
     const {
       steps=[],
       totalSteps: givenSteps,
-      currentStep,
+      trackedStep,
       valid
     } = this
 
@@ -181,16 +183,18 @@ class UnityStepper extends LitElement {
     const {
       steps,
       totalSteps,
-      currentStep
+      trackedStep
     } = this
 
-    this.currentStep = typeof targetStep === 'number' ? targetStep : currentStep + 1
-    this.onChangeStep(steps[this.currentStep-1] || currentStep)
+    const nextStep = typeof targetStep === 'number' ? targetStep : trackedStep + 1
+
+    this.trackedStep = nextStep
+    this.onChangeStep(steps[nextStep-1] || trackedStep)
   }
 
   backup() {
-    const { currentStep, steps } = this
-    const prevStep = currentStep - 1
+    const { trackedStep, steps } = this
+    const prevStep = trackedStep - 1
     if (prevStep < 1) this.onCancel(steps[0] || 1)
     else this.advance(prevStep)
   }
@@ -214,7 +218,7 @@ class UnityStepper extends LitElement {
     const {
       steps=[],
       totalSteps: givenSteps,
-      currentStep: currentPos,
+      trackedStep: trackedPos,
       hideButton,
       valid,
       cancelButton,
@@ -224,12 +228,12 @@ class UnityStepper extends LitElement {
     if (!steps.length && !givenSteps) return
 
     const totalSteps = Math.max(steps.length, givenSteps)
-    const currentStep = steps[currentPos-1] || {}
+    const trackedStep = steps[trackedPos-1] || {}
 
-    const defaultButtonText = currentPos === totalSteps ? "Finish" : "Next"
-    const cancelButtonText = currentStep.cancelText || cancelText
+    const defaultButtonText = trackedPos === totalSteps ? "Finish" : "Next"
+    const cancelButtonText = trackedStep.cancelText || cancelText
     const disabled = !valid && !cancelButton
-    const buttonText = cancelButton && !valid ? cancelButtonText : currentStep.buttonText || defaultButtonText
+    const buttonText = cancelButton && !valid ? cancelButtonText : trackedStep.buttonText || defaultButtonText
 
     return html`
       <div class="stepper">

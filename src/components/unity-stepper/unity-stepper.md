@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.1
+- Add trackedStep to allow complete override with currentStep
+
 ### v1.1.0
 - Add cancel button option, backtracks or calls onCancel if on first step
 
