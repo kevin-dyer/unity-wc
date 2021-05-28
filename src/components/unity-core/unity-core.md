@@ -6,6 +6,9 @@
 
 ## Changelog:
 
+### v1.16.9
+- updated lit element and typescript compiler versions for all components.
+
 ### v1.16.8
 - unity-card v1.1.1
 
