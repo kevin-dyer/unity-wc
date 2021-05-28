@@ -5,6 +5,9 @@
 
 ## Changelog:
 
+### v1.16.8
+- unity-stepper v1.1.1
+
 ### v1.16.0
 - unity-global-nav-base v1.6.0
 
