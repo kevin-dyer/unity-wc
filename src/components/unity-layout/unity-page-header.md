@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.9
+- Added --left-content-min-width css variable to control min width of left content in order to allow width to collapse to zero.
+
 ### v1.2.8
 - Added --left-content-flex css variable to control flex of left content in order to stretch to whole width.
 

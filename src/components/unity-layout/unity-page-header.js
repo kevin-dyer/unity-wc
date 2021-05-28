@@ -32,6 +32,7 @@ import { trimWhitespace } from '@bit/smartworks.unity.unity-utils'
  * @param {css} --page-header-background-color, css var used for styling the component
  * @param {css} --separator-color, css var used for styling the separator color
  * @param {css} --left-content-flex, css var used for defining flex of left content. Allows left content to expand
+ * @param {css} --left-content-min-width, css var used for defining min-width of left content. Allows left content to collapse to 0 width.
  * @returns {LitElement} returns a a class extended from LitElement
  * @example
  *  <unity-page-header
@@ -105,6 +106,7 @@ class UnityPageHeader extends LitElement {
           --default-page-header-tab-padding: 0 var(--page-header-tab-padding-size, var(--default-page-header-tab-padding-size));
           --default-separator-color: var(--light-gray-1-color, var(--default-light-gray-1-color));
           --default-left-content-flex: unset;
+          --default-left-content-min-width: unset;
 
           width: 100%;
           display: flex;
@@ -133,6 +135,7 @@ class UnityPageHeader extends LitElement {
           align-items: center;
           overflow: var(--page-header-left-wrapper-overflow, var(--default-page-header-left-wrapper-overflow));
           flex: var(--left-content-flex, var(--default-left-content-flex));
+          min-width: var(--left-content-min-width, var(--default-left-content-min-width));
         }
 
         .left-container {
