@@ -1,11 +1,15 @@
 # unity-core
 
 ## usage Example
-`import @bit/smartworks.unity.unity-core/unity-button`
+`import @bit/smartworks.unity.unity-core/unity-button`### v1.16.7
+- unity-stepper v1.1.1
 
 ## Changelog:
 
 ### v1.16.8
+- unity-card v1.1.1
+
+### v1.16.7
 - unity-stepper v1.1.1
 
 ### v1.16.0
