@@ -239,6 +239,7 @@ class UnityCard extends LitElement {
           --default-card-image-flex: 8;
           --default-card-content-flex: 3;
           --default-card-color: white;
+          max-height: var(--card-height, var(--default-card-height));
         }
 
         .container {
