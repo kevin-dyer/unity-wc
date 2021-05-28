@@ -35,7 +35,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-card@1.1.0": {
+    "smartworks.unity/unity-card@1.1.1": {
         "files": [
             {
                 "relativePath": "src/components/unity-card/unity-card.js",
@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.16.7": {
+    "smartworks.unity/unity-core@1.16.8": {
         "files": [
             {
                 "name": "index.js",
