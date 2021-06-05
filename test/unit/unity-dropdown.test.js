@@ -34,7 +34,8 @@ describe('unity-dropdown', () => {
     const el = await fixture('<unity-dropdown></unity-dropdown>')
     let optionsDialog = el.shadowRoot.querySelector('#options-dialog')
     expect(el.expanded).to.be.false
-    expect(optionsDialog).to.not.exist
+    expect(optionsDialog).to.exist
+    expect(optionsDialog.opened).to.be.false
 
 
     const dropdownMenu = el.shadowRoot.querySelector('.input-label-div')
@@ -42,9 +43,9 @@ describe('unity-dropdown', () => {
     dropdownMenu.click()
     await listener
     optionsDialog = el.shadowRoot.querySelector('#options-dialog')
-    
+
     expect(el.expanded).to.be.true
-    expect(optionsDialog).to.exist
+    expect(optionsDialog.opened).to.be.true
   });
 
   it('collapses on click if expanded', async () => {
@@ -52,6 +53,7 @@ describe('unity-dropdown', () => {
     let optionsDialog = el.shadowRoot.querySelector('#options-dialog')
     expect(el.expanded).to.be.true
     expect(optionsDialog).to.exist
+    expect(optionsDialog.opened).to.be.true
 
 
     const dropdownMenu = el.shadowRoot.querySelector('.input-label-div')
@@ -59,9 +61,9 @@ describe('unity-dropdown', () => {
     dropdownMenu.click()
     await listener
     optionsDialog = el.shadowRoot.querySelector('#options-dialog')
-    
+
     expect(el.expanded).to.be.false
-    expect(optionsDialog).to.not.exist
+    expect(optionsDialog.opened).to.be.false
   });
 
   // TODO: this doesn't work because the outside click needs to trigger the iron-overlay-canceled event, which is not happening
@@ -78,7 +80,7 @@ describe('unity-dropdown', () => {
   //   outside.click()
   //   await listener
   //   optionsDialog = updatedEl.shadowRoot.querySelector('#options-dialog')
-    
+
   //   expect(el.expanded).to.be.false
   //   expect(optionsDialog).to.not.exist
   // });
@@ -94,7 +96,7 @@ describe('unity-dropdown', () => {
     const el = await fixture('<unity-dropdown boxType="fixed"></unity-dropdown>')
     let optionsDialog = el.shadowRoot.querySelector('#options-dialog')
     expect(el.expanded).to.be.false
-    expect(optionsDialog).to.not.exist
+    expect(optionsDialog.opened).to.be.false
 
 
     const dropdownMenu = el.shadowRoot.querySelector('.input-label-div')
@@ -102,16 +104,16 @@ describe('unity-dropdown', () => {
     dropdownMenu.click()
     await listener
     optionsDialog = el.shadowRoot.querySelector('#options-dialog')
-    
+
     expect(el.expanded).to.be.false
-    expect(optionsDialog).to.not.exist
+    expect(optionsDialog.opened).to.be.false
   });
 
   it('does not expand if disabled', async () => {
     const el = await fixture('<unity-dropdown disabled></unity-dropdown>')
     let optionsDialog = el.shadowRoot.querySelector('#options-dialog')
     expect(el.expanded).to.be.false
-    expect(optionsDialog).to.not.exist
+    expect(optionsDialog.opened).to.be.false
 
 
     const dropdownMenu = el.shadowRoot.querySelector('.input-label-div')
@@ -119,9 +121,9 @@ describe('unity-dropdown', () => {
     dropdownMenu.click()
     await listener
     optionsDialog = el.shadowRoot.querySelector('#options-dialog')
-    
+
     expect(el.expanded).to.be.false
-    expect(optionsDialog).to.not.exist
+    expect(optionsDialog.opened).to.be.false
   });
 
   it('displays a label above the dropdown', async () => {
@@ -149,7 +151,7 @@ describe('unity-dropdown', () => {
     let optionsDialog = el.shadowRoot.querySelector('#options-dialog')
     expect([...optionsDialog.classList]).to.contain('right-align')
   });
-  
+
   it('renders options list', async () => {
     const el = await fixture(html`<unity-dropdown inputType="single-select" expanded .options=${options}></unity-dropdown>`)
     let optionsList = el.shadowRoot.querySelector('#options-list')
@@ -175,7 +177,7 @@ describe('unity-dropdown', () => {
     firstOption.click()
     await firstListener
     expect(el.selected).to.eql([options[0].id])
-    expect(el.expanded).to.be.false // 
+    expect(el.expanded).to.be.false //
 
     // select a different option
     const secondOption = selectable[1]
@@ -210,7 +212,7 @@ describe('unity-dropdown', () => {
     it('select multiple options', async () => {
       const el = await fixture(html`<unity-dropdown inputType="multi-select" expanded .options=${options}></unity-dropdown>`)
       expect(el.selected).to.be.empty
-  
+
       // select one option
       const selectable = el.shadowRoot.querySelectorAll('li.selectable')
       const firstOption = selectable[0]
@@ -218,14 +220,14 @@ describe('unity-dropdown', () => {
       firstOption.click()
       await firstListener
       expect(el.selected).to.eql([options[0].id])
-  
+
       // select a different option
       const secondOption = selectable[1]
       const secondListener = oneEvent(secondOption, 'click')
       secondOption.click()
       await secondListener
       expect(el.selected).to.eql([options[0].id, options[1].id])
-  
+
       // deselect an option
       secondOption.click()
       await secondListener
@@ -235,7 +237,7 @@ describe('unity-dropdown', () => {
     it('select all options', async () => {
       const el = await fixture(html`<unity-dropdown inputType="multi-select" expanded .options=${options}></unity-dropdown>`)
       expect(el.selected).to.be.empty
-  
+
       // select all
       const selectAll = el.shadowRoot.querySelector('#select-all')
       expect(selectAll.innerText.replace(/\n/g, "").trim()).to.equal("Select visible")
@@ -269,7 +271,7 @@ describe('unity-dropdown', () => {
     const listener = oneEvent(closeButton, 'click')
     closeButton.click()
     await listener
-    
+
     tags = el.shadowRoot.querySelectorAll(".tag")
     expect(tags.length).to.equal(1)
     expect(el.selected).to.eql([options[1].id])
@@ -283,11 +285,11 @@ describe('unity-dropdown', () => {
     let searchBox = withoutSearchBox.shadowRoot.getElementById("dropdown-inner-search-box")
     expect(searchBox).to.not.exist
     searchBox = withSearchBoxCollapsed.shadowRoot.getElementById("dropdown-inner-search-box")
-    expect(searchBox).to.not.exist
+    expect(searchBox).to.exist
     searchBox = withSearchBox.shadowRoot.getElementById("dropdown-inner-search-box")
     expect(searchBox).to.exist
   });
-  
+
   describe('button box type', () => {
     it('displays a primary button if box type is button-primary', async () => {
       const el = await fixture('<unity-dropdown boxType="button-primary"></unity-dropdown>')

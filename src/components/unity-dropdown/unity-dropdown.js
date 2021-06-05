@@ -766,12 +766,12 @@ class UnityDropdown extends LitElement {
     }
 
     // close dropdown before moving focus to next element
-    if(this._expanded && key === "Tab") { 
+    if(this._expanded && key === "Tab") {
       this._dropdown()
     }
 
     // use down arrow to navigate through options
-    if(this._expanded && (key === 'ArrowDown' || key === 'ArrowUp')) { 
+    if(this._expanded && (key === 'ArrowDown' || key === 'ArrowUp')) {
       e.preventDefault()
       const options = this.shadowRoot.querySelectorAll('li')
       const focusedOption = this.shadowRoot.querySelector('li:focus')
@@ -978,21 +978,19 @@ class UnityDropdown extends LitElement {
         }
         <div class=${this.getMenuClass()} tabindex="0" @keydown="${this.handleDropdownKeydown}">
           ${this.getInputBox()}
-          ${this.expanded ?
-            html`
-              <paper-dialog
-                .noAutoFocus="${true}"
-                id="options-dialog"
-                opened
-                class=${classes}
-              >
-                ${this.searchBox ? this.renderSearchBox() : null}
-                ${this.inputType === INPUT_TYPE_MULTI_SELECT ? this.renderSelectAll() : null}
-                ${this.renderList()}
-                ${!!this.helperText ? html`<p class="helper-text" id="helper-text">${this.helperText}</p>` :null}
-                <slot name="bottom-content"></slot>
-              </paper-dialog>`
-            :null}
+            <paper-dialog
+              .noAutoFocus="${true}"
+              id="options-dialog"
+              ?opened="${this.expanded ? true : null}"
+              class=${classes}
+              .scrollAction=${"refit"}"
+            >
+              ${this.searchBox ? this.renderSearchBox() : null}
+              ${this.inputType === INPUT_TYPE_MULTI_SELECT ? this.renderSelectAll() : null}
+              ${this.renderList()}
+              ${!!this.helperText ? html`<p class="helper-text" id="helper-text">${this.helperText}</p>` :null}
+              <slot name="bottom-content"></slot>
+            </paper-dialog>
         </div>
       </div>
     `

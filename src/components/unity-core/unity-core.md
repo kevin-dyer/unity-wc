@@ -6,6 +6,9 @@
 
 ## Changelog:
 
+### v1.16.11
+- unity-dropdown v1.6.5
+
 ### v1.16.10
 - various version updates
 
