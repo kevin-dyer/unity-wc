@@ -11,7 +11,8 @@ import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 
 //TODO: replace with bit import
-import './unity-utility-belt/unity-utility-belt'
+// import './unity-utility-belt/unity-utility-belt'
+import "@bit/smartworks.unity.unity-core/unity-utility-belt"
 
 import '@bit/smartworks.unity.unity-core/unity-button'
 
