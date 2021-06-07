@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
-import './unity-dropzone/unity-dropzone.js'
+// import './unity-dropzone/unity-dropzone.js'
+import "@bit/smartworks.unity.unity-core/unity-dropzone"
 import { SharedStyles } from './shared-styles'
 
 class MyDropzone extends LitElement {

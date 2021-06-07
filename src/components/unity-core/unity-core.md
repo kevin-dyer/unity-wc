@@ -6,6 +6,12 @@
 
 ## Changelog:
 
+### v1.16.11
+- unity-dropdown v1.6.5
+
+### v1.16.10
+- various version updates
+
 ### v1.16.9
 - updated lit element and typescript compiler versions for all components.
 

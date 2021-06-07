@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 // import './unity-toggle-switch/unity-toggle-switch.js'
 import '@bit/smartworks.unity.unity-core/unity-toggle-switch'
-import './unity-checkbox/unity-checkbox.js'
-// import '@bit/smartworks.unity.unity-checkbox'
+// import './unity-checkbox/unity-checkbox.js'
+import '@bit/smartworks.unity.unity-core/unity-checkbox'
 import { SharedStyles } from './shared-styles.js';
 
 class MyToggleSwitch extends LitElement {
