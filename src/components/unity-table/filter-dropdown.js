@@ -128,6 +128,7 @@ class FilterDropdown extends LitElement {
         html`<unity-dropdown
               class="${dropdownSide}"
               inputType="multi-select"
+              showCheckboxes
               boxType="none"
               placeholder="Filter"
               .searchBox=${true}
