@@ -180,8 +180,15 @@ const _sortNode = ({
 //Pass in data array, sortBy key and direction
 const _sortList = (data=[], sortBy='', direction=UNS) => {
   return [...data].sort((datum1, datum2) => {
-    const a = String(datum1[sortBy]).toLowerCase()
-    const b = String(datum2[sortBy]).toLowerCase()
+    //check if number or string
+    const valA = datum1[sortBy]
+    const valB = datum2[sortBy]
+    const a = (valA || valA === 0) && !isNaN(valA)
+      ? Number(valA)
+      : valA && typeof(valA) === 'string' ? String(valA).toLowerCase() : ''
+    const b = (valB || valB === 0) && !isNaN(valB)
+      ? Number(valB)
+      : valB && typeof(valB) === 'string' ? String(valB).toLowerCase() : ''
     return compare(a, b, direction)
   })
 }
