@@ -93,8 +93,8 @@ class UnityDropdown extends LitElement {
           --default-dropdown-width: 100%;
           --default-dropdown-border-hover-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-dropdown-search-input-padding: 0;
-          --deafult-dropdown-options-list-max-height: 330px;
-          --default-dropdown-highlighted-option-color: var(--sky-blue-tint-1, var(--default-sky-blue-tint-1))
+          --default-dropdown-options-list-max-height: 330px;
+          --default-dropdown-highlighted-option-color: var(--sky-blue-tint-1, var(--default-sky-blue-tint-1));
           --default-dropdown-highlighted-option-hover-color: var(--sky-blue-tint-2, var(--default-sky-blue-tint-2))
 
           font-family: var(--dropdown-input-font);
