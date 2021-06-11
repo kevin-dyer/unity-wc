@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.7
+- Updated table column sorting algorithm to sort numbers, booleans and strings.
+
 ### v1.3.3
 - Modified fix from 1.3.1 to work in FF 87 and enable table scrolling.
 
