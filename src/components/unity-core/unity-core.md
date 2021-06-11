@@ -6,6 +6,9 @@
 
 ## Changelog:
 
+### v1.16.47
+- unity-dropdown v1.6.7
+
 ### v1.16.46
 - unity-table v1.3.7
 

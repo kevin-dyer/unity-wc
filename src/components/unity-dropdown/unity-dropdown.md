@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.6.7
+- fix typos in default stylings
+
 ### v1.6.5
 - leverage paper-dialog opened prop for calculating expanded
 
