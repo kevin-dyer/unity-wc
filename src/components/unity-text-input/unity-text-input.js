@@ -21,6 +21,7 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {''} hint, text to show when hovering over/clicked on hint icon
 * @param {bool} time, option to have input by type time, overriden by password
 * @param {bool} password, converts characters to dots/password field, overwrites rightIcon
+* @param {bool} hideErrors, do not display error messages below the input
 * @param {''} error, error message for external error control or default forcing, can give true to not render remark error text, if validation is also sent it it will overwrite error's effects
 * @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid.
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
@@ -106,6 +107,7 @@ class UnityTextInput extends LitElement {
     this.autofocus = false
     this.prefixedText = ""
     this.autocomplete = "off"
+    this.hideErrors = false
 
     // internals
     this._error = ''
@@ -135,6 +137,7 @@ class UnityTextInput extends LitElement {
       charCount: { type: Boolean },
       maxlength: { type: Number },
       error: { type: String },
+      hideErrors: { type: Boolean },
       validation: { type: Function },
       showIcon: { type: Boolean },
       hideBorder: { type: Boolean },
@@ -405,7 +408,8 @@ class UnityTextInput extends LitElement {
       _strength,
       _errorText,
       _focusInput,
-      _showPassword
+      _showPassword,
+      hideErrors
     } = this
     const minLines = givenMinLines < 1 ? 1 : Math.floor(givenMinLines)
     const maxLines = givenMaxLines < minLines ? minLines : Math.floor(givenMaxLines)
@@ -493,7 +497,7 @@ class UnityTextInput extends LitElement {
           ${!area ? this._renderIcon() : null}
 
         </div>
-        ${(_errorText || remark || charCount)? this.renderBottomDiv() : null}
+        ${(!hideErrors || remark || charCount)? this.renderBottomDiv() : null}
       </div>
     `
   }
