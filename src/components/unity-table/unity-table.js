@@ -315,6 +315,7 @@ class UnityTable extends LitElement {
       startExpanded: { type: Boolean },
       disableColumnResize: { type: Boolean },
       hideFilterIcons: { type: Boolean },
+      initialSortBy: {type: Object},
       // internals, tracking for change
       _allSelected: { type: Boolean },
       _rowOffset: { type: Number },
@@ -532,6 +533,10 @@ class UnityTable extends LitElement {
     return this._columns
   }
 
+  set initialSortBy(value) {
+    this.sortBy = value
+  }
+
   // sortBy will be cyclical: UNS -> ASC -> DES -> UNS
   set sortBy(value) {
     // should always receive object
@@ -566,6 +571,10 @@ class UnityTable extends LitElement {
     this._sortData()
     this._setVisibleRowsArray()
     this.requestUpdate('sortBy', oldValue)
+
+    if (this.onColumnSort instanceof Function) {
+      this.onColumnSort(this._sortBy)
+    }
   }
 
   get sortBy() { return this._sortBy }
