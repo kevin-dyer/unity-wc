@@ -22,6 +22,7 @@ import '@bit/smartworks.unity.unity-icon'
 * @param {bool} time, option to have input by type time, overriden by password
 * @param {bool} password, converts characters to dots/password field, overwrites rightIcon
 * @param {bool} hideErrors, do not display error messages below the input
+* @param {bool} wrapErrors, if the error text should be wrapped or not; needs 'hideErrors' to be false. 
 * @param {''} error, error message for external error control or default forcing, can give true to not render remark error text, if validation is also sent it it will overwrite error's effects
 * @param {func} validation, func used to show if value is valid, return falsey or string for invalid, truth for valid.
 * @param {bool} showIcon, show/hide right-bound in/valid icon, only renders w/ validation func, defaults: false (hide)
@@ -108,6 +109,7 @@ class UnityTextInput extends LitElement {
     this.prefixedText = ""
     this.autocomplete = "off"
     this.hideErrors = false
+    this.wrapErrors = false
 
     // internals
     this._error = ''
@@ -138,6 +140,7 @@ class UnityTextInput extends LitElement {
       maxlength: { type: Number },
       error: { type: String },
       hideErrors: { type: Boolean },
+      wrapErrors: { type: Boolean },
       validation: { type: Function },
       showIcon: { type: Boolean },
       hideBorder: { type: Boolean },
@@ -357,14 +360,16 @@ class UnityTextInput extends LitElement {
       _valid,
       remark,
       value,
-      charCount
+      charCount,
+      wrapErrors
     } = this;
 
     let spanClasses = "remark"
     if (_errorText && !_valid) spanClasses += " invalid-text"
+    if (wrapErrors) spanClasses += " wrapped"
 
     return html`
-      <div class="bottom">
+      <div class="bottom${wrapErrors? " wrapped" : ""}">
         <span class=${spanClasses}>
         ${_errorText || remark}
       </span>
@@ -551,11 +556,18 @@ class UnityTextInput extends LitElement {
           flex-direction: row;
           height: 16px;
         }
+        .bottom:not(.wrapped) {
+          white-space: nowrap;
+        }
         .remark {
           flex: 1;
           word-break: break-word;
           font-size: var(--input-small-text-size, var(--default-input-small-text-size));
           color: var(--input-label-color, var(--default-input-label-color));
+          text-overflow: ellipsis;
+        }
+        .remark:not(.wrapped) {
+          overflow: hidden;
         }
         .charCount {
           flex: 0;
