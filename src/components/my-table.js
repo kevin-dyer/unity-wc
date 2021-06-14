@@ -247,6 +247,8 @@ class MyTable extends PageViewElement {
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
             id="unity-table"
+            .initialSortBy="${{column: 'name', direction: 'Ascending'}}"
+            .onColumnSort="${sortBy => console.log("onColumnSort ", sortBy)}"
           >
             ${this._renderRightActions()}
             ${this._renderStatusIcons()}
