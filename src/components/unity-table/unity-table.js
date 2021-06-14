@@ -329,7 +329,7 @@ class UnityTable extends LitElement {
       // TBI
       // controls: { type: Boolean },
       // onSearchFilter: { type: Function },
-      // onColumnSort: { type: Function },
+      onColumnSort: { type: Function },
       onEndReached: { type: Function },
       onColumnChange: { type: Function },
 
