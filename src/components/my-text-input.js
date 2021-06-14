@@ -162,7 +162,7 @@ class MyTextInput extends PageViewElement {
 
               .validation="${val => {
                 if (val.length === 0) return 'Cannot be empty.'
-                if (val !== 'valid') return 'Value must equal "valid".'
+                if (val !== 'valid') return 'Value must equal "valid"; this extra text is to test error overflow'
                 return true
               }}"
               .onChange="${this.onInputChange}"
