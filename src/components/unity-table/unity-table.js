@@ -35,10 +35,12 @@ import {
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
+ * @param {object} initialSortBy, sortBy object to initialize table column sorting.
  * @param {func} onClickRow, func that is sent the data of the element clicked, the key of the row as defined by keyExtractor, and the event of the click
  * @param {func} onHighlight, func that is sent the data of the highlighted element if it is found
  * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
  * @param {func} onEndReached, func that is fired when bottom of table has been reached. useful for external pagination.
+ * @param {func} onColumnSort, func that is fired when column sorting changes.
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-table
