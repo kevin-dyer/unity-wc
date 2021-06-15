@@ -162,7 +162,21 @@ class MyTextInput extends PageViewElement {
 
               .validation="${val => {
                 if (val.length === 0) return 'Cannot be empty.'
-                if (val !== 'valid') return 'Value must equal "valid".'
+                if (val !== 'valid') return 'Value must equal "valid"; this extra text is to test error overflow'
+                return true
+              }}"
+              .onChange="${this.onInputChange}"
+            ></unity-text-input>
+          </div>
+          <div class="input-box">
+          <unity-text-input
+            .wrapErrors=${true}
+            .label="${"Validation with Remark and wrapped errors"}"
+            .value="${"Will only be correct if this equals \"valid\"."}"
+
+            .validation="${val => {
+              if (val.length === 0) return 'Cannot be empty.'
+              if (val !== 'valid') return 'Value must equal "valid"; this extra text is to test error overflow'
                 return true
               }}"
               .onChange="${this.onInputChange}"

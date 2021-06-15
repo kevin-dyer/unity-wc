@@ -2,6 +2,10 @@
 
 ## Changelog:
 
+### v1.4.0
+- changed default text error position to deafult (static) instead of absolute
+- added `hideErrors` and `wrapErrors` attributes
+
 ### v1.3.8
 - prevent prefixed text from wrapping to new line
 

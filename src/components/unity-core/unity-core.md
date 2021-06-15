@@ -6,6 +6,9 @@
 
 ## Changelog:
 
+### v1.17.0
+- unity-text-input v1.4.0
+
 ### v1.16.49
 - unity-dropdown v1.6.7
 - unity-table v1.3.11
