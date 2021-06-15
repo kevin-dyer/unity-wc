@@ -13,8 +13,8 @@ import '@polymer/paper-input/paper-input.js';
 
 import '@bit/smartworks.unity.unity-core/unity-page-header'
 import '@bit/smartworks.unity.unity-core/unity-button';
-// import '@bit/smartworks.unity.unity-core/unity-table'
-import './unity-table/unity-table.js'
+import '@bit/smartworks.unity.unity-core/unity-table'
+// import './unity-table/unity-table.js'
 import '@bit/smartworks.unity.unity-core/unity-text-input';
 // import '@bit/smartworks.unity.unity-core/unity-column-editor'
 import './unity-table/unity-column-editor.js';
@@ -247,6 +247,8 @@ class MyTable extends PageViewElement {
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
             id="unity-table"
+            .initialSortBy="${{column: 'name', direction: 'Ascending'}}"
+            .onColumnSort="${sortBy => console.log("onColumnSort ", sortBy)}"
           >
             ${this._renderRightActions()}
             ${this._renderStatusIcons()}

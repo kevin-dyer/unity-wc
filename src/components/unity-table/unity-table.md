@@ -2,6 +2,15 @@
 
 ## Changelog:
 
+### v1.3.11
+- add showCheckboxes to filter dropdown
+
+### v1.3.9
+- fixed bug with setting initial column sorting.
+
+### v1.3.8
+- added attribute initialSortBy to initialize table column sorting. Also added onColumnSort callback which is fired when column sorting is updated.
+
 ### v1.3.7
 - Updated table column sorting algorithm to sort numbers, booleans and strings.
 
