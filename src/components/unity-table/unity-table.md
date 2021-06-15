@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.3.9
+- fixed bug with setting initial column sorting.
+
 ### v1.3.8
 - added attribute initialSortBy to initialize table column sorting. Also added onColumnSort callback which is fired when column sorting is updated.
 
