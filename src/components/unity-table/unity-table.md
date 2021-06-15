@@ -2,8 +2,9 @@
 
 ## Changelog:
 
-### v1.3.10
+### v1.3.11
 - add showCheckboxes to filter dropdown
+
 ### v1.3.9
 - fixed bug with setting initial column sorting.
 
