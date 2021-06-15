@@ -565,8 +565,9 @@ class UnityTable extends LitElement {
     }
     // check that column is in list
     const columns = this.columns
+
     const exists = columns.some(({key}) => key === column)
-    if (!exists) {
+    if (!exists && columns.length > 0) {
       return false
     }
     this._sortBy = {column, direction}
