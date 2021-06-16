@@ -6,6 +6,11 @@
 
 ## Changelog:
 
+### v1.17.1
+Fixes for input height issues introduced by last update to text input component:
+- unity-dropdown v1.6.8
+- unity-search-bar v1.0.13
+
 ### v1.17.0
 - unity-text-input v1.4.0
 

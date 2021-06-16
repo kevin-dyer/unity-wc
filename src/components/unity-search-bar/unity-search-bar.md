@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.13
+- Fixed text input height.
+
 ### v1.0.9
 - Fixed closing tag of clear button. Prevent clear button text from wrapping to new line.
 

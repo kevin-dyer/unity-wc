@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.6.8
+- Fixed text input height.
+
 ### v1.6.7
 - fix typos in default stylings
 

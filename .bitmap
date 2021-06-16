@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.17.0": {
+    "smartworks.unity/unity-core@1.17.1": {
         "files": [
             {
                 "name": "index.js",
@@ -298,7 +298,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@1.6.7": {
+    "smartworks.unity/unity-dropdown@1.6.8": {
         "files": [
             {
                 "name": "strings.js",
@@ -544,7 +544,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-search-bar@1.0.12": {
+    "smartworks.unity/unity-search-bar@1.0.13": {
         "files": [
             {
                 "name": "unity-search-bar.js",
