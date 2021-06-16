@@ -407,6 +407,7 @@ class UnitySearchBar extends LitElement {
             .value="${search}"
             .onChange="${(e, v) => this._debouncedOnChange(v)}"
             placeholder="Search"
+            .hideErrors=${true}
           ></unity-text-input>
           ${this.renderMenu()}
         </div>

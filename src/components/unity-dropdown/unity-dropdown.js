@@ -728,6 +728,7 @@ class UnityDropdown extends LitElement {
           .onChange="${this._onInputSearchChange}"
           .innerLeftIcon="${"unity:search"}"
           .borderEffects=${false}
+          .hideErrors=${true}
         ></unity-text-input>
       </div>
     `
@@ -861,6 +862,7 @@ class UnityDropdown extends LitElement {
             placeholder=${placeholder}
             .borderEffects=${false}
             .autofocus=${this.autofocus}
+            .hideErrors=${true}
           ></unity-text-input>
           <div class="icon-right-wrapper chevron" @click="${_dropdown}">
             <iron-icon class="inner-icon" icon="${arrowIcon}"></iron-icon>
