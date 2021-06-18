@@ -2,17 +2,21 @@
 
 ## Changelog:
 
+### v1.2.10
+- Added `--left-content-max-width`
+- Added `--left-content-text-overflow`
+- Added `--button-container-flex`
 ### v1.2.9
-- Added --left-content-min-width css variable to control min width of left content in order to allow width to collapse to zero.
+- Added `--left-content-min-width` css variable to control min width of left content in order to allow width to collapse to zero.
 
 ### v1.2.8
-- Added --left-content-flex css variable to control flex of left content in order to stretch to whole width.
+- Added `--left-content-flex` css variable to control flex of left content in order to stretch to whole width.
 
 ### v1.2.7
-- fixed typo with --page-header-font-weight css variable so it applies to the title text
+- fixed typo with `--page-header-font-weight` css variable so it applies to the title text
 
 ### v1.2.4
-- added css var --separator-color to control color of separator bar
+- added css var `--separator-color` to control color of separator bar
 
 ### v1.2.2
 - Updated separator height to 12px, vertically centered.
@@ -48,5 +52,5 @@
 - fix font to apply to header and tabs
 
 ### v0.1.0
-- Added css variables: --tab-height, --tab-padding, --left-wrapper-overflow and --title-white-space.
+- Added css variables: `--tab-height`, `--tab-padding`, `--left-wrapper-overflow` and -`-title-white-space`.
 - Updated dependencies
