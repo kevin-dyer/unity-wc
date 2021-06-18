@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v1.2.10
+### v1.2.13
 - Added `--left-content-max-width`
 - Added `--left-content-text-overflow`
 - Added `--button-container-flex`

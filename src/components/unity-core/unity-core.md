@@ -6,6 +6,9 @@
 
 ## Changelog:
 
+### v1.17.2
+- unity-page-header v1.2.13
+
 ### v1.17.1
 Fixes for input height issues introduced by last update to text input component:
 - unity-dropdown v1.6.8
