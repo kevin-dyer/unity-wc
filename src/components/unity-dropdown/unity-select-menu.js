@@ -208,10 +208,15 @@ class UnitySelectMenu extends LitElement {
     const optionHighlighted = this.highlighted.includes(id)
 
     return html`
-      <li @click=${(e) => this.clickedMenu(id, submenu, e)} class="${optionHighlighted ? 'highlighted-option' : null}">
+      <li
+        @click=${(e) => this.clickedMenu(id, submenu, e)}
+        class="${optionHighlighted ? 'highlighted-option' : null}"
+        id="select-menu-option-${id}"
+      >
         ${tag ? html`
           <unity-tag
             .label="${label}"
+            id="tag-option-${id}"
             style="${tagStyle}"
           ></unity-tag>
         ` : html`
