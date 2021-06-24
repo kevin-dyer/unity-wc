@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.10
+- added unique IDs to menu options and to unity-tags within.
+
 ### v1.4.6
 - changed `overflow: scroll` for `auto`
 
