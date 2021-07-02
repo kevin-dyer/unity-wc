@@ -16,8 +16,8 @@ import '@bit/smartworks.unity.unity-core/unity-button';
 import '@bit/smartworks.unity.unity-core/unity-table'
 // import './unity-table/unity-table.js'
 import '@bit/smartworks.unity.unity-core/unity-text-input';
-// import '@bit/smartworks.unity.unity-core/unity-column-editor'
-import './unity-table/unity-column-editor.js';
+import '@bit/smartworks.unity.unity-core/unity-column-editor'
+// import './unity-table/unity-column-editor.js';
 import '@bit/smartworks.unity.unity-core/unity-table-export'
 
 import { PageViewElement } from './page-view-element.js';
