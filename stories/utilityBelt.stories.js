@@ -1,5 +1,5 @@
 import "@bit/smartworks.unity.unity-core/unity-utility-belt"
-// import "../src/components/my-utility-belt"
+import "@bit/smartworks.unity.unity-core/unity-button"
 import { LitElement, html, css } from 'lit-element'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, text, select, object } from "@storybook/addon-knobs";
@@ -18,12 +18,7 @@ class UtilityBeltExample extends LitElement {
       {name: 'tab 2', id: 'tab2'},
       {name: 'tab 3', id: 'tab3'},
       {name: 'tab 4', id: 'tab4'},
-      {name: 'tab 5', id: 'tab5'},
-      {name: 'tab 6', id: 'tab6'},
-      {name: 'tab 7', id: 'tab7'},
-      {name: 'tab 8', id: 'tab8'},
-      {name: 'tab 9', id: 'tab9'},
-      {name: 'tab 10', id: 'tab10'}
+      {name: 'tab 5', id: 'tab5'}
     ]
   }
 
@@ -38,20 +33,23 @@ class UtilityBeltExample extends LitElement {
     this.tabs = this.tabs.filter(tab => tab.id !== tabId)
   }
 
+  handleAddTab() {
+    const index = this.tabs.length + 1
+
+    this.tabs = [
+      ...this.tabs,
+      {
+        name: `tab ${index}b`,
+        id: `tab${Math.floor(Math.random() * 100)}`
+      }
+    ]
+  }
+
   render() {
-    // const selectedTab = 'tab2'
-
-    // <div slot="right-actions">
-    //         <unity-button
-    //           centerIcon="add"
-    //           type="borderless"
-    //         ></unity-button>
-    //       </div>
-
     return html`
       <div class="example-container">
         <unity-utility-belt
-          .onTabClose=${this.handleTabClose}
+          .onTabClose=${this.handleTabClose.bind(this)}
           .tabs=${this.tabs}
         >
           <div slot="main">
@@ -61,6 +59,14 @@ class UtilityBeltExample extends LitElement {
           ${this.tabs.map(tab => {
             return html`<div slot="${tab.id}">${tab.name} Content!</div>`
           })}
+
+          <unity-button
+            slot="right-actions"
+            class="add-button"
+            type="borderless"
+            centerIcon="unity:add"
+            @click=${this.handleAddTab.bind(this)}
+          ></unity-button
         </unity-utility-belt>
       </div>
     `
@@ -68,12 +74,8 @@ class UtilityBeltExample extends LitElement {
 
   static get styles() {
     return [
-      // SharedStyles,
       css`
         :host {
-          /*display: flex;
-          justify-content: center;*/
-          /*max-width: 100%;*/
           max-width: 100vw;
           position: relative;
         }
@@ -81,11 +83,7 @@ class UtilityBeltExample extends LitElement {
           flex: 1;
           max-width: 100%;
           min-width: 0;
-          /*height: 750px;*/
-          /*top: 75px;*/
           border: 1px solid grey;
-          /*padding: 20px;*/
-          /*margin: 20px;*/
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
@@ -95,6 +93,9 @@ class UtilityBeltExample extends LitElement {
         .page-content {
           flex: 1;
 
+        }
+        .add-button {
+          --icon-button-size: 20px;
         }
 
       `
