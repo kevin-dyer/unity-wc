@@ -1,5 +1,7 @@
 # unity-popover
 
+## v1.0.16
+- fixed how document click event listner is registered in popover. Only register when menu opens and closeOnOutsideClick is true. Remove listener when menu closes. Still attempt to remove listener in disconnectedCallback.
 
 ## v1.0.12
 - Prevent infinite loop caused by createPopover reinitializing the resize observer.
