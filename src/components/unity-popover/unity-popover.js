@@ -94,8 +94,9 @@ class UnityPopover extends LitElement {
 
 
   disconnectedCallback() {
-    this.destroyPopover()
     super.disconnectedCallback()
+    this.destroyPopover()
+    document.removeEventListener('click', this.outsideClickListener)
   }
 
   static get properties() {
