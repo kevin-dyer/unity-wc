@@ -92,14 +92,9 @@ class UnityPopover extends LitElement {
     this.outsideClickListener = this.outsideClickListener.bind(this)
   }
 
-  connectedCallback() {
-    super.connectedCallback()
-    if (this.closeOnOutsideClick) document.addEventListener('click', this.outsideClickListener)
-  }
 
   disconnectedCallback() {
     this.destroyPopover()
-    if (this.closeOnOutsideClick) document.removeEventListener('click', this.outsideClickListener)
     super.disconnectedCallback()
   }
 
@@ -133,6 +128,15 @@ class UnityPopover extends LitElement {
         popoverElement.removeAttribute('data-show')
       }
     }
+
+    //If closeOnOutsideClick is true, register document onClick handler when menu opens
+    // cleanup document onClick handler when menu closes
+    if (!oldVal && val && this.closeOnOutsideClick) {
+      document.addEventListener('click', this.outsideClickListener)
+    } else if (oldVal && !val) {
+      document.removeEventListener('click', this.outsideClickListener)
+    }
+
     this.requestUpdate('show', oldVal)
   }
 
