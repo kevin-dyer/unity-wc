@@ -19,7 +19,7 @@ setup:
   - echo "***************************** installing deps for the project and building the app"
   - rm -rf node_modules
   - echo -e "@bit:registry=https://node.bit.dev\n//node.bit.dev/:_authToken=${BIT_TOKEN}\nalways-auth=true" > .npmrc
-  - npm install
+  - yarn
   rules:
   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
   cache:
@@ -36,7 +36,7 @@ test:
     name: atlassianlabs/docker-node-jdk-chrome-firefox
   script:
   - echo "Running tests"
-  - npm test
+  - yarn test
   artifacts:
     paths:
       - junit/report.xml
@@ -84,9 +84,9 @@ build:
   - echo ""
   - echo "***************************** installing deps for the project and building the app"
   - echo -e "@bit:registry=https://node.bit.dev\n//node.bit.dev/:_authToken=${BIT_TOKEN}\nalways-auth=true" > .npmrc
-  - rm -rf node_modules && rm package-lock.json
-  - npm install
-  - npm run build-storybook
+  - rm -rf node_modules && rm yarn.lock
+  - yarn
+  - yarn run build-storybook
   artifacts:
     paths:
     - ./storybook-static
