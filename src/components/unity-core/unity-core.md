@@ -6,6 +6,9 @@
 
 ## Changelog:
 
+### v1.17.5
+- unity-notifications v1.1.9
+
 ### v1.17.2
 - unity-page-header v1.2.13
 
