@@ -97,6 +97,7 @@ class UnityNotification extends LitElement {
 
   render() {
     const { icon, onClose, subtext, text } = this
+    const visible = !!text || !!subtext
     return html`
       <div class='notification'>
         <unity-icon icon=${icon}></unity-icon>
@@ -108,11 +109,20 @@ class UnityNotification extends LitElement {
             <unity-typography color='dark' size='small'>${subtext}</unity-typography>
           </div>
         </div>
-        <unity-button
-          type='borderless'
-          centerIcon='unity:close'
-          @click=${onClose}
-        </unity-button>
+        ${visible ? html`
+          <unity-button
+            type='borderless'
+            centerIcon='unity:close'
+            @click=${onClose}
+          </unity-button>`
+        : html`
+          <unity-button
+            tabindex="-1"
+            type='borderless'
+            centerIcon='unity:close'
+            @click=${onClose}
+          </unity-button>
+        `}
       </div>
     `
   }

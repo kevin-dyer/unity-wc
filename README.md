@@ -1,9 +1,11 @@
 ## Running app
-```npm install```  
+```yarn install```  
 
-```npm start```
+```yarn start```
 or
-```npm start -- --hostname 0.0.0.0 --port 4444```
+```yarn start -- --hostname 0.0.0.0 --port 4444```
+
+*Due to some confusing webpack issues related to Storybooks, this repo has been changed to use* `yarn` *instead of* `npm` *for package management and building.*
 
 [![Built with pwa–starter–kit](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)](https://github.com/Polymer/pwa-starter-kit "Built with pwa–starter–kit")
 [![Build status](https://api.travis-ci.org/Polymer/pwa-starter-kit.svg?branch=master)](https://travis-ci.org/Polymer/pwa-starter-kit)
