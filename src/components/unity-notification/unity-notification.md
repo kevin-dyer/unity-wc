@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.9
+- Hide close button when notification isn't given text or subtext to make sure it cannot be tab focused when off page for notifications handler
+
 ### v1.1.3
 - Fixed defaulting of --notification-z-index
 
