@@ -13,8 +13,8 @@ import '@polymer/paper-input/paper-input.js';
 
 import '@bit/smartworks.unity.unity-core/unity-page-header'
 import '@bit/smartworks.unity.unity-core/unity-button';
-import '@bit/smartworks.unity.unity-core/unity-table'
-// import './unity-table/unity-table.js'
+// import '@bit/smartworks.unity.unity-core/unity-table'
+import './unity-table/unity-table.js'
 import '@bit/smartworks.unity.unity-core/unity-text-input';
 import '@bit/smartworks.unity.unity-core/unity-column-editor'
 // import './unity-table/unity-column-editor.js';
@@ -198,6 +198,7 @@ class MyTable extends PageViewElement {
   }
 
   render() {
+    // .initialSortBy="${{column: 'name', direction: 'Ascending'}}"
     return html`
       <div class="example-container">
 
@@ -247,7 +248,6 @@ class MyTable extends PageViewElement {
             .onDisplayColumnsChange="${displayColumns => console.log("displayColumns has changed: ", displayColumns)}"
             .onColumnChange="${columns => console.log("onColumnChange callback cols: ", columns)}"
             id="unity-table"
-            .initialSortBy="${{column: 'name', direction: 'Ascending'}}"
             .onColumnSort="${sortBy => console.log("onColumnSort ", sortBy)}"
           >
             ${this._renderRightActions()}
@@ -306,7 +306,9 @@ class MyTable extends PageViewElement {
         }
         .table-container {
           position: relative;
-          flex: 1
+          flex: 1;
+          display: flex;
+          flex-direction: column;
         }
         .right-actions-container {
           height: 30px;
