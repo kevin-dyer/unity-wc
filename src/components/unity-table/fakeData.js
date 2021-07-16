@@ -327,7 +327,8 @@ export const colors = {
     }
   ],
 
-  filters: [{column: "name", values: ["Grey"], include: false} ],
+  // filters: [{column: "name", values: ["Grey"], include: false} ],
+  filters: [],
   childKeys: ['children', '_children']
 }
 
