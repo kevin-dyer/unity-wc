@@ -5,6 +5,7 @@ import '@polymer/paper-spinner/paper-spinner-lite.js'
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
 import { throttle } from 'throttle-debounce'
 
+
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-table-cell'
 import '@bit/smartworks.unity.unity-checkbox'
@@ -165,11 +166,13 @@ const DES = 'Descending'
 const UNS = 'Unsorted'
 const MIN_CELL_WIDTH = 60 //minimum pixel width of each table cell
 const MOUSE_MOVE_THRESHOLD = 5 //pixels mouse is able to move horizontally before rowClick is cancelled
-const ROW_HEIGHT = 40 //used to set scroll offset
+const ROW_HEIGHT = 36 //used to set scroll offset
 const THRESHOLD_TIMEOUT = 60 //Timeout after scroll boundry is reached before callback can be fired again
 const END_REACHED_TIMEOUT = 2000 //Timeout after true end is reached before callback can be fired again
-const MIN_VISIBLE_ROWS = 50 //Minimum number of rows to render at once
+const MIN_VISIBLE_ROWS = 10 //Minimum number of rows to render at once
 const CELL_PLACEHOLDER = "-" //Consider adding this as a table property
+const SCROLL_PADDING = 2
+const SCROLL_THROTTLE_TIMEOUT = 300
 
 const getSortedIcon = direction => {
   switch(direction) {
@@ -237,6 +240,8 @@ class UnityTable extends LitElement {
     this.dropdownValueChange = key => (values, selected) => this.filterColumn(key, values, selected)
     this.isFlat = true
     this.hasIcons = false
+
+    this.throttledScrollHandler = throttle(SCROLL_THROTTLE_TIMEOUT, this.handleScroll)
   }
 
 
@@ -342,6 +347,7 @@ class UnityTable extends LitElement {
   firstUpdated(changedProperties) {
     this.initTableRef()
     this._setVisibleRowsArray()
+
     this.updateComplete.then(() => {
       this.scrollToHighlightedRow.bind(this)
     })
@@ -1399,29 +1405,65 @@ class UnityTable extends LitElement {
       row.scrollIntoView({behavior: "smooth", block: "center"})
   }
 
+  handleScroll(e) {
+    const tableHeight = ROW_HEIGHT * this._flattenedData.length + ROW_HEIGHT
+    // console.log("scroll ", {e, scrollTop: this.tableRef.scrollTop})
+    const nextScrollTop = Math.min(this.tableRef.scrollTop, Math.max(tableHeight - this.tableRef.offsetHeight, 0))
+    //TODO: update this._rowOffset
+    const nextOffset = Math.floor(nextScrollTop / ROW_HEIGHT)
+
+    // console.log({nextScrollTop, tableHeight, offsetHeight: this.tableRef.offsetHeight, e})
+
+    const minRowIndex = Math.max(this._rowOffset - SCROLL_PADDING, 0)
+    console.log("scroll: ", {scrollTop: this.tableRef.scrollTop, minRowIndex, offset: this._rowOffset, nextOffset})
+    // TODO: Check if nextOffset is SCROLL_PADDING away from previous offset, if so, dont update
+    // if ((nextOffset - this._rowOffset) <= SCROLL_PADDING) {
+    //   console.log("skipping rowOffset update.")
+    //   return
+    // }
+
+
+    this._rowOffset = nextOffset
+  }
+
   render() {
-    const data = this._flattenedData.slice(0, this._rowOffset + this._visibleRowCount) || []
-    const hasData = data.length > 0
+    const minRowIndex = Math.max(this._rowOffset - SCROLL_PADDING, 0)
+    const maxRowIndex = this._rowOffset + this._visibleRowCount + SCROLL_PADDING
+    const data = this._flattenedData.slice(minRowIndex, maxRowIndex)
+    const hasData = this._flattenedData.length > 0
     const isLoading = this.isLoading
     const fill = isLoading || !hasData
-    // if isLoading, show spinner
-    // if !hasData, show empty message
-    // show data
+    const tableHeight = ROW_HEIGHT * this._flattenedData.length + ROW_HEIGHT
+
+    console.log("render margin: ", minRowIndex * (ROW_HEIGHT + 0.5))
+
     return html`
-      <iron-scroll-threshold
-        id="${`unity-table-${this._tableId}`}"
-        class="container"
-      >
-        <table>
-          ${!this.headless ? this._renderTableHeader(this.columns, this._columnOffset) : null}
-          ${fill?
-            isLoading?
-              html`<paper-spinner-lite active class="spinner center" />`
-              : html`<div class="center">${this.emptyDisplay}</div>`
-            : this._renderTableData(data)
-          }
-        </table>
-      </iron-scroll-threshold>
+      <style>
+        .table-wrapper {
+          min-height: ${tableHeight}px;
+        }
+        tbody {
+          //transform: translate(0, ${minRowIndex * (ROW_HEIGHT + 0.5)}px);
+        }
+        tbody:before {
+          content: " ";
+          display: block;
+          height: ${minRowIndex * (ROW_HEIGHT + 0.5)}px;
+        }
+      </style>
+        <div class="container" id="${`unity-table-${this._tableId}`}" @scroll="${this.throttledScrollHandler}">
+          <div class="table-wrapper">
+            <table>
+              ${!this.headless ? this._renderTableHeader(this.columns, this._columnOffset) : null}
+              ${fill?
+                isLoading?
+                  html`<paper-spinner-lite active class="spinner center" />`
+                  : html`<div class="center">${this.emptyDisplay}</div>`
+                : html`<tbody>${this._renderTableData(data)}</tbody>`
+              }
+            </table>
+          </div>
+        </div>
     `
   }
 
@@ -1431,7 +1473,7 @@ class UnityTable extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          height: 100%;
+          /*height: 100%;*/
           width: 100%;
           font-family: var(--font-family, var(--default-font-family));
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
@@ -1457,14 +1499,16 @@ class UnityTable extends LitElement {
           --filter-button-color: var(--black-color, var(--default-black-color));
           --sort-button-color: var(--black-color, var(--default-black-color));
           display: flex;
+          flex-direction: column;
           height: 100%;
-          flex: 1;
           min-height: 0;
+          flex: 0 1 auto;
         }
         .container {
           flex: 1;
           display: flex;
           flex-direction: column;
+          overflow: auto;
         }
         table {
           flex: 0 1 auto;
@@ -1475,7 +1519,15 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           border-spacing: 0;
           box-sizing: border-box;
-          overflow: auto;
+          /*overflow: auto;*/
+          border-bottom: 1px solid var(--separator-color);
+        }
+        tbody {
+          table-layout: fixed;
+          border-collapse: collapse;
+          border-spacing: 0;
+          box-sizing: border-box;
+          /*overflow: auto;*/
           border-bottom: 1px solid var(--separator-color);
         }
         .fullspace {
