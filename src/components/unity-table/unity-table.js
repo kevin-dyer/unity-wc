@@ -1442,14 +1442,18 @@ class UnityTable extends LitElement {
         .table-wrapper {
           min-height: ${tableHeight}px;
         }
+        table {
+          transform-style: preserve-3d;
+        }
         tbody {
           //transform: translate(0, ${minRowIndex * (ROW_HEIGHT + 0.5)}px);
+          transform: translate3d(0, ${minRowIndex * (ROW_HEIGHT + 0.5)}px, 1px);
         }
-        tbody:before {
-          content: " ";
-          display: block;
-          height: ${minRowIndex * (ROW_HEIGHT + 0.5)}px;
-        }
+        //tbody:before {
+        //  content: " ";
+        //  display: block;
+        //  height: ${minRowIndex * (ROW_HEIGHT + 0.5)}px;
+        //}
       </style>
         <div class="container" id="${`unity-table-${this._tableId}`}" @scroll="${this.throttledScrollHandler}">
           <div class="table-wrapper">
