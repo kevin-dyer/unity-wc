@@ -815,5 +815,28 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-virtual-table@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-virtual-table/filter-dropdown-copy.js",
+                "test": false,
+                "name": "filter-dropdown-copy.js"
+            },
+            {
+                "relativePath": "src/components/unity-virtual-table/table-utils.js",
+                "test": false,
+                "name": "table-utils.js"
+            },
+            {
+                "relativePath": "src/components/unity-virtual-table/unity-virtual-table.js",
+                "test": false,
+                "name": "unity-virtual-table.js"
+            }
+        ],
+        "mainFile": "src/components/unity-virtual-table/unity-virtual-table.js",
+        "trackDir": "src/components/unity-virtual-table",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "version": "14.8.8"
 }

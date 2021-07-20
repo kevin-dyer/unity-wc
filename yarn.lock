@@ -1278,6 +1278,18 @@
   resolved "https://node.bit.dev/smartworks.unity.unity-utils/-/smartworks.unity.unity-utils-1.1.0.tgz#810fbaa412d23707e890416137a9e01a18e077ff"
   integrity sha1-gQ+6pBLSNwfokEFhN6ngGhjgd/8=
 
+"@bit/smartworks.unity.unity-virtual-table@^0.0.1":
+  version "0.0.1"
+  resolved "https://node.bit.dev/smartworks.unity.unity-virtual-table/-/smartworks.unity.unity-virtual-table-0.0.1.tgz#550d6e72ca4eebb5f9b586ed87c4dae7b5c777f5"
+  integrity sha1-VQ1ucspO67X5tYbth8Ta57XHd/U=
+  dependencies:
+    "@polymer/iron-icons" "^3.0.1"
+    "@polymer/iron-scroll-threshold" "^3.0.1"
+    "@polymer/paper-icon-button" "^3.0.2"
+    "@polymer/paper-spinner" "^3.0.2"
+    lit-element "^2.5.1"
+    throttle-debounce "^2.3.0"
+
 "@dabh/diagnostics@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@dabh/diagnostics/-/diagnostics-2.0.2.tgz#290d08f7b381b8f94607dc8f471a12c675f9db31"
