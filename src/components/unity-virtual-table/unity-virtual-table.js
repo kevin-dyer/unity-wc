@@ -9,7 +9,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 import '@bit/smartworks.unity.unity-table-cell'
 import '@bit/smartworks.unity.unity-checkbox'
 import '@bit/smartworks.unity.table-cell-base'
-import './filter-dropdown'
+import './filter-dropdown-copy'
 
 import {
   filterData,
@@ -1068,11 +1068,11 @@ class UnityVirtualTable extends LitElement {
                       ><b>${label || name}</b></span>
 
                       ${(!this.hideFilterIcons && !hideFilter)?
-                        html`<filter-dropdown
+                        html`<filter-dropdown-copy
                           .onValueChange="${this.dropdownValueChange(key)}"
                           .options=${this.getDropdownOptions(key)}
                           .selected=${this.getSelected(key)}>
-                        </filter-dropdown>` : null
+                        </filter-dropdown-copy>` : null
                       }
 
                       ${(isColSorted && !hideSort)
@@ -1427,7 +1427,7 @@ class UnityVirtualTable extends LitElement {
           min-height: ${tableHeight}px;
         }
         tbody {
-          transform: translate(0, ${minRowIndex * (ROW_HEIGHT + 0.5)}px);
+          transform: translate(0, ${minRowIndex * (ROW_HEIGHT)}px);
         }
       </style>
         <div class="container" id="${`unity-table-${this._tableId}`}" @scroll="${this.throttledScrollHandler}">
