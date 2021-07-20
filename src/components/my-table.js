@@ -20,6 +20,9 @@ import '@bit/smartworks.unity.unity-core/unity-column-editor'
 // import './unity-table/unity-column-editor.js';
 import '@bit/smartworks.unity.unity-core/unity-table-export'
 
+//TODO: replace with BIT import
+import './unity-pagination-controls/unity-pagination-controls'
+
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
 import {devices} from './unity-table/fakeData'
@@ -211,6 +214,7 @@ class MyTable extends PageViewElement {
               .value="${this._searchText}"
               placeholder="${"Search input"}"
               .onChange="${this.onInputChange.bind(this)}"
+              hideErrors
             ></unity-text-input>
 
             <unity-table-export .tableRef=${this.tableRef}>
@@ -263,6 +267,8 @@ class MyTable extends PageViewElement {
           .onUpdate=${this.handleColUpdate.bind(this)}
           .onClose=${this.handleColEditorClose.bind(this)}
         ></unity-column-editor>
+
+        <unity-pagination-controls></unity-pagination-controls>
       </div>
     `
   }
