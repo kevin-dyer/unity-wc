@@ -1477,7 +1477,6 @@ class UnityTable extends LitElement {
       UnityDefaultThemeStyles,
       css`
         :host {
-          /*height: 100%;*/
           width: 100%;
           font-family: var(--font-family, var(--default-font-family));
           font-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
@@ -1523,15 +1522,6 @@ class UnityTable extends LitElement {
           border-collapse: collapse;
           border-spacing: 0;
           box-sizing: border-box;
-          /*overflow: auto;*/
-          border-bottom: 1px solid var(--separator-color);
-        }
-        tbody {
-          table-layout: fixed;
-          border-collapse: collapse;
-          border-spacing: 0;
-          box-sizing: border-box;
-          /*overflow: auto;*/
           border-bottom: 1px solid var(--separator-color);
         }
         .fullspace {
