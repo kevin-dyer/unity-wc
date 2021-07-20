@@ -5,7 +5,6 @@ import '@polymer/paper-spinner/paper-spinner-lite.js'
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js'
 import { throttle } from 'throttle-debounce'
 
-
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-table-cell'
 import '@bit/smartworks.unity.unity-checkbox'
@@ -169,10 +168,10 @@ const MOUSE_MOVE_THRESHOLD = 5 //pixels mouse is able to move horizontally befor
 const ROW_HEIGHT = 36 //used to set scroll offset
 const THRESHOLD_TIMEOUT = 60 //Timeout after scroll boundry is reached before callback can be fired again
 const END_REACHED_TIMEOUT = 2000 //Timeout after true end is reached before callback can be fired again
-const MIN_VISIBLE_ROWS = 10 //Minimum number of rows to render at once
+const MIN_VISIBLE_ROWS = 5 //Minimum number of rows to render at once
 const CELL_PLACEHOLDER = "-" //Consider adding this as a table property
-const SCROLL_PADDING = 2
-const SCROLL_THROTTLE_TIMEOUT = 300
+const SCROLL_PADDING = 2 //Number of rows to render above and below the view port
+const SCROLL_THROTTLE_TIMEOUT = 200 //scroll event throttle timeout
 
 const getSortedIcon = direction => {
   switch(direction) {
@@ -347,7 +346,6 @@ class UnityTable extends LitElement {
   firstUpdated(changedProperties) {
     this.initTableRef()
     this._setVisibleRowsArray()
-
     this.updateComplete.then(() => {
       this.scrollToHighlightedRow.bind(this)
     })
@@ -1407,21 +1405,9 @@ class UnityTable extends LitElement {
 
   handleScroll(e) {
     const tableHeight = ROW_HEIGHT * this._flattenedData.length + ROW_HEIGHT
-    // console.log("scroll ", {e, scrollTop: this.tableRef.scrollTop})
     const nextScrollTop = Math.min(this.tableRef.scrollTop, Math.max(tableHeight - this.tableRef.offsetHeight, 0))
-    //TODO: update this._rowOffset
     const nextOffset = Math.floor(nextScrollTop / ROW_HEIGHT)
-
-    // console.log({nextScrollTop, tableHeight, offsetHeight: this.tableRef.offsetHeight, e})
-
     const minRowIndex = Math.max(this._rowOffset - SCROLL_PADDING, 0)
-    console.log("scroll: ", {scrollTop: this.tableRef.scrollTop, minRowIndex, offset: this._rowOffset, nextOffset})
-    // TODO: Check if nextOffset is SCROLL_PADDING away from previous offset, if so, dont update
-    // if ((nextOffset - this._rowOffset) <= SCROLL_PADDING) {
-    //   console.log("skipping rowOffset update.")
-    //   return
-    // }
-
 
     this._rowOffset = nextOffset
   }
@@ -1435,25 +1421,14 @@ class UnityTable extends LitElement {
     const fill = isLoading || !hasData
     const tableHeight = ROW_HEIGHT * this._flattenedData.length + ROW_HEIGHT
 
-    console.log("render margin: ", minRowIndex * (ROW_HEIGHT + 0.5))
-
     return html`
       <style>
         .table-wrapper {
           min-height: ${tableHeight}px;
         }
-        table {
-          transform-style: preserve-3d;
-        }
         tbody {
-          //transform: translate(0, ${minRowIndex * (ROW_HEIGHT + 0.5)}px);
-          transform: translate3d(0, ${minRowIndex * (ROW_HEIGHT + 0.5)}px, 1px);
+          transform: translate(0, ${minRowIndex * (ROW_HEIGHT + 0.5)}px);
         }
-        //tbody:before {
-        //  content: " ";
-        //  display: block;
-        //  height: ${minRowIndex * (ROW_HEIGHT + 0.5)}px;
-        //}
       </style>
         <div class="container" id="${`unity-table-${this._tableId}`}" @scroll="${this.throttledScrollHandler}">
           <div class="table-wrapper">
