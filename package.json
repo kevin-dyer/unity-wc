@@ -60,6 +60,7 @@
     "@bit/smartworks.unity.unity-typography": "^1.1.8",
     "@bit/smartworks.unity.unity-utility-belt": "^0.0.12",
     "@bit/smartworks.unity.unity-utils": "^1.1.0",
+    "@bit/smartworks.unity.unity-virtual-table": "^0.0.1",
     "@polymer/app-layout": "^3.0.0",
     "@polymer/iron-autogrow-textarea": "^3.0.1",
     "@polymer/iron-icon": "^3.0.1",
