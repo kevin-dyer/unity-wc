@@ -9,7 +9,7 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 import '@bit/smartworks.unity.unity-table-cell'
 import '@bit/smartworks.unity.unity-checkbox'
 import '@bit/smartworks.unity.table-cell-base'
-import './filter-dropdown'
+import './query-filter-dropdown'
 
 import {
   filterData,
@@ -31,7 +31,7 @@ import {
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
  * @param {bool} disableColumnResize, controls if column resize should be disabled
- * @param {bool} hideFilterIcons, hides icons for column filtering
+ * @param {bool} hideFilterIcons, hides icons for column filtering on all columns
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
@@ -41,6 +41,7 @@ import {
  * @param {func} onSelectionChange, func that is sent the currently selected elements as an array
  * @param {func} onEndReached, func that is fired when bottom of table has been reached. useful for external pagination.
  * @param {func} onColumnSort, func that is fired when column sorting changes.
+ * @param {func} onColumnFilter, func that is fired when column filters change.
  * @returns {LitElement} returns a class extended from LitElement
  * @example
  *  <unity-table
@@ -95,7 +96,7 @@ import {
  *    ]}"
  *    ?selectable="${true}"
  *    .onSelectionChange="${selected => console.log('These elements are selected: ', selected')}"
- *    .columnFilters=${[{column: "name", values: ["Grey"], include: false} ]}
+ *    .columnFilters=${{deviceType: [{expression: 'eq', value: 'thermostat'}, {expression: 'neq', value: 'heater'}]}}
 
  *  />
  */
@@ -134,7 +135,6 @@ import {
 //   endReachedThreshold  :  Number of px before scroll boundary to update this._rowOffset
 //   onExpandedChange     :  On Change Callback Function for expanded array
 //   onEndReached         :  Callback fired when bottom of table has been reached. useful for external pagination.
-//   columnFilter:           array of column filters. Each filter has the structure: {column: <columnKey>, values: [<value1>, <value2>], include: true|false}
 //
 //   Internals for creating/editing
 //   _data:                  data marked w/ rowId for uniq references
@@ -156,6 +156,7 @@ import {
 //   filterThrottleTimeout:  TBD
 //   onColumnSort:           function to be called when sortBy changes if controls are EXT
 //                           sends string of column name and string for ascending or descending
+//   onColumnFilter:         Callback to update when column filters change
 //   onColumnChange:         Callback to update changes to the rendered columns
 //   onEndReached:           Callback fired when Scroll to within threshold of lower bound.
 //                           Useful for server side pagination to support infiniscroll
@@ -197,7 +198,7 @@ class UnityTable extends LitElement {
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
-    this.columnFilter = []
+    this.columnFilters = {}
     this.endReachedThreshold = 200 //distance in px to fire onEndReached before getting to bottom
     this.slotIdExtractor = (row={}, column={}) => `${row._rowId}-${column.key}`
 
@@ -208,8 +209,8 @@ class UnityTable extends LitElement {
     this.onSelectionChange = ()=>{}
     this.onExpandedChange = ()=>{}
     this.onDisplayColumnsChange = ()=>{}
-    this.onFilterChange = () => {}
     this.onHighlight = ()=>{}
+    this.onColumnFilter = ()=>{}
 
     // action handlers, to be implemented later
     // this.controls = false
@@ -234,63 +235,8 @@ class UnityTable extends LitElement {
     this._rowOffset = 0 //used to track for infinite scroll
     this._tableId = Date.now()//unique identifier for table element
     this._visibleRowCount = MIN_VISIBLE_ROWS
-    this.dropdownValueChange = key => (values, selected) => this.filterColumn(key, values, selected)
     this.isFlat = true
     this.hasIcons = false
-  }
-
-
-  filterColumn(key, values, selected){
-    const {columnFilter=[]} = this
-    //TODO: very inefficient, review
-    for(const value of values) {
-      let currentColumn = columnFilter.find(f => f.column === key);
-      if (!!currentColumn) {
-        const currentColumnFilter = currentColumn.values;
-
-        // if exclude all, delete * and change to include
-        if(currentColumnFilter[0] === '*') {
-          currentColumnFilter.splice(0,1)
-          currentColumn.include = true
-        }
-
-        // add/remove value from filter
-        if (currentColumnFilter.includes(value)) {
-          currentColumnFilter.splice(currentColumnFilter.indexOf(value), 1)
-        }
-        else {
-            currentColumnFilter.push(value);
-        }
-
-        // change exclude/include filter depending on size
-        if(currentColumnFilter.length > this._columnValues[key].length/2) {
-          currentColumn.include = !currentColumn.include
-          currentColumn.values = this._columnValues[key].filter(option => !currentColumnFilter.includes(option))
-        }
-
-        // // remove filter if list is empty
-        if (currentColumnFilter.length === 0) {
-          // if include is empty, change to exclude all (*)
-          if(currentColumn.include) {
-            currentColumn.values = ['*']
-            currentColumn.include = false
-          }
-          else {
-            this.columnFilter = columnFilter.splice(this.columnFilter.indexOf(currentColumn))
-          }
-        }
-
-      }
-      else {
-        //add new filter for this column
-        columnFilter.push({column: key, values: [value], include: selected });
-        this.columnFilter = columnFilter
-      }
-    }
-    this._flattenedData = this.removeCollapsedChildren(this.getFilteredData())
-    this._expandAll()
-    this.onFilterChange(columnFilter);
-    // this.requestUpdate();
   }
 
   // inputs
@@ -332,6 +278,7 @@ class UnityTable extends LitElement {
       onColumnSort: { type: Function },
       onEndReached: { type: Function },
       onColumnChange: { type: Function },
+      onColumnFilter: { type: Function },
 
       //Expose this internal variable as a property for the table csv downloader to access
       _flattenedData: {type: Array}
@@ -500,7 +447,6 @@ class UnityTable extends LitElement {
     if (this.startExpanded && (!this.expanded || this.expanded.size === 0)) this._expandAll()
 
     this._process()
-    this._columnValues = this.getColumnValues(value);
     this.requestUpdate('data', oldValue)
   }
 
@@ -527,7 +473,6 @@ class UnityTable extends LitElement {
     if (!!this.onColumnChange) {
       this.onColumnChange(this._columns)
     }
-    this._columnValues = this.getColumnValues(this.data);
     this.requestUpdate('columns', oldVal)
   }
 
@@ -976,6 +921,19 @@ class UnityTable extends LitElement {
     this.expanded = nextExpanded
   }
 
+  //call onColumnFilter callback with new column filters
+  _handleColumnFilter(key, filters) {
+    //TODO: update set of column filters for entire table, report all col filters back to user
+    this.columnFilters = {
+      ...this.columnFilters,
+      [key]: filters
+    }
+
+    if (this.onColumnFilter instanceof Function) {
+      this.onColumnFilter(this.columnFilters)
+    }
+  }
+
   _renderTableHeader(columns, offsets) {
     const {
       column,
@@ -1064,11 +1022,11 @@ class UnityTable extends LitElement {
                       ><b>${label || name}</b></span>
 
                       ${(!this.hideFilterIcons && !hideFilter)?
-                        html`<filter-dropdown
-                          .onValueChange="${this.dropdownValueChange(key)}"
-                          .options=${this.getDropdownOptions(key)}
-                          .selected=${this.getSelected(key)}>
-                        </filter-dropdown>` : null
+                        html`<query-filter-dropdown
+                          .onValueChange="${filters => this._handleColumnFilter(key, filters)}"
+                          .filters="${this.columnFilters[key]}"
+                        >
+                        </query-filter-dropdown>` : null
                       }
 
                       ${(isColSorted && !hideSort)
@@ -1095,25 +1053,6 @@ class UnityTable extends LitElement {
         </tr>
       </thead>
     `
-  }
-
-  /**
-   * Get all possible values for every column.
-   */
-  getColumnValues(data) {
-    let columnValues = {};
-    this.columns.map( col => {
-      const {
-        key,
-        formatLabel = (val) => val
-      } = col;
-      const values = [];
-      for (const row of data) {
-        values.push(...this.getAllTreeValues(row, key, formatLabel))
-      }
-      columnValues[key] = [...new Set(values)].sort();
-    })
-    return columnValues;
   }
 
   getAllTreeValues(row, key, formatLabel) {
@@ -1147,31 +1086,6 @@ class UnityTable extends LitElement {
     }
     return formattedValue
   }
-
-  getDropdownOptions(key) {
-    return this._columnValues[key].map(x => ({label: x, id: x}));
-  }
-
-  getSelected(key) {
-    const {
-      columnFilter=[],
-      _columnValues: {
-        [key]: selectedArray=[]
-    }={}} = this
-
-    const currentFilter = columnFilter.find( filter => filter.column === key);
-    let selectedValues = selectedArray;
-    if (!!currentFilter) {
-      if(currentFilter.include || (!currentFilter.include && currentFilter.values[0] === '*')) {
-        selectedValues = currentFilter.values;
-      }
-      else {
-        selectedValues = selectedValues.filter(x => !currentFilter.values.includes(x));
-      }
-    }
-    return selectedValues;
-  }
-
 
   _renderRow(row={}) {
     const {
