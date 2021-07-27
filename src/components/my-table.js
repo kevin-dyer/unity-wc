@@ -211,6 +211,7 @@ class MyTable extends PageViewElement {
               .value="${this._searchText}"
               placeholder="${"Search input"}"
               .onChange="${this.onInputChange.bind(this)}"
+              ?hideErrors="${true}"
             ></unity-text-input>
 
             <unity-table-export .tableRef=${this.tableRef}>
@@ -231,7 +232,7 @@ class MyTable extends PageViewElement {
             .childKeys=${childKeys}
             .data="${this.data}"
             .columns="${this._visibleColumns}"
-            .columnFilter="${this._columnFilters}"
+            .columnFilters="${this._columnFilters}"
             .onFilterChange="${this.onFilterChange}"
             endReachedThreshold="${200}"
             .onEndReached="${() => {
@@ -249,6 +250,9 @@ class MyTable extends PageViewElement {
             id="unity-table"
             .initialSortBy="${{column: 'name', direction: 'Ascending'}}"
             .onColumnSort="${sortBy => console.log("onColumnSort ", sortBy)}"
+            .onColumnFilter="${colFilters => {
+              console.log("onColumnFilter called in my-table: ", colFilters)
+            }}"
           >
             ${this._renderRightActions()}
             ${this._renderStatusIcons()}
