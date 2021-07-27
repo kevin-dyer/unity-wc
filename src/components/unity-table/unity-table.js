@@ -22,7 +22,7 @@ import {
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
  * @param {[]} selected, array of strings, each a cell identifier to be selected ('this.selected' is only set in table when attribute changes)
- * @param {[]} columnFilters, array of filters for columns, each one with the scructure {column: string, values: string[], include:bool}
+ * @param {object} columnFilters, array of filters for each column key, scructure {columnKey: {expression: 'eq', value: 'valueToMatch'}}
  * @param {func} keyExtractor, func with row datum and row index as arguments. Retuns unique row identifier.
  * @param {func} slotIdExtractor, func with row datum and column datum as arguments. Returns unique cell identifier.
  * @param {bool} headless, controls if the table has a header row
@@ -31,7 +31,6 @@ import {
  * @param {bool} selectable, controls if rows are selectable
  * @param {bool} isLoading, shows spinner instead of table
  * @param {bool} disableColumnResize, controls if column resize should be disabled
- * @param {bool} hideFilterIcons, hides icons for column filtering on all columns
  * @param {string} emptyDisplay, string to show when table is empty
  * @param {string} highlightedRow, id of row to highlight
  * @param {number} endReachedThreshold, number of px before scroll boundary to update this._rowOffset
@@ -91,7 +90,7 @@ import {
  *        label: 'Column #1'
  *        formatLabel: column1Handler,
  *        hideSort: true,
- *        hideFilter: true
+ *        showFilter: true
  *      }
  *    ]}"
  *    ?selectable="${true}"
@@ -127,7 +126,6 @@ import {
 //   emptyDisplay:           String to display when data array is empty
 //   isLoading:              Boolean to show spinner instead of table
 //   disableColumnResize:    controls if column resize should be disabled
-//   hideFilterIcons:        hides icons for column filtering
 //   keyExtractor         :  Function to define a unique key on each data element
 //   slotIdExtractor      :  Function to define a unique slot name for each table cell. Used for adding custom content to specific table cells.
 //   childKeys            :  Array of attribute names that contain list of child nodes, listed in the order that they should be displayed
@@ -194,7 +192,6 @@ class UnityTable extends LitElement {
     this.startExpanded = false
     this.isLoading = false
     this.disableColumnResize = false
-    this.hideFilterIcons = false
     this.emptyDisplay = 'No information found.'
     this.childKeys = ['children']
     this.filter = ''
@@ -262,12 +259,10 @@ class UnityTable extends LitElement {
       highlightedRow: { type: String },
       startExpanded: { type: Boolean },
       disableColumnResize: { type: Boolean },
-      hideFilterIcons: { type: Boolean },
       initialSortBy: {type: Object},
       // internals, tracking for change
       _allSelected: { type: Boolean },
       _rowOffset: { type: Number },
-      columnFilter: { type: Array },
       isFlat: { type: false },
       hasIcons: { type: false },
       _columnOffset: { type: false },
@@ -821,7 +816,7 @@ class UnityTable extends LitElement {
   //This function flattens hierarchy data, adds internal values such as _rowId and _tabIndex
   //This should also remove children of non-expanded rows
   _setVisibleRowsArray() {
-    this._flattenedData = this.removeCollapsedChildren(this.getFilteredData())
+    this._flattenedData = this.removeCollapsedChildren(this._flattenData(this._sortedData))
     this.requestUpdate()
   }
 
@@ -967,7 +962,7 @@ class UnityTable extends LitElement {
             label,
             width: rootWidth=0,
             centered=false,
-            hideFilter=false,
+            showFilter=false,
             hideSort=false,
             selectable: selectableColumn=false,
             onSelect: onColumnSelect=()=>{},
@@ -1021,7 +1016,7 @@ class UnityTable extends LitElement {
                         }}"
                       ><b>${label || name}</b></span>
 
-                      ${(!this.hideFilterIcons && !hideFilter)?
+                      ${showFilter?
                         html`<query-filter-dropdown
                           .onValueChange="${filters => this._handleColumnFilter(key, filters)}"
                           .filters="${this.columnFilters[key]}"
@@ -1246,64 +1241,6 @@ class UnityTable extends LitElement {
 
   _renderTableData(data) {
     return data.map((datum) => this._renderRow(datum));
-  }
-
-
-  /**
-   * Filter data from the full sorted data array. Non-matching parents of matching rows are kept.
-   */
-  getFilteredData() {
-    const {columnFilter=[]} = this
-    const fullDataArray = this._flattenData(this._sortedData);
-    let filteredData = [...fullDataArray]
-    try {
-      if(columnFilter.length > 0){
-        for(const f of columnFilter) {
-          // add / exclude data from table depending on filters
-          filteredData = filteredData.filter( (datum) =>
-            {
-              const {formatLabel} = this.columns.find(col=> col.key === f.column) || {}
-              const formattedValue = this.getFormattedValue(datum[f.column], formatLabel);
-              if ((f.include) || (!f.include && f.values[0] === '*')) {
-                return f.values.includes(formattedValue);
-              }
-              else {
-                return !f.values.includes(formattedValue);
-              }
-            }
-          );
-        }
-      }
-      filteredData = this.addParentRows(filteredData, fullDataArray)
-    }
-    catch (error) {
-    }
-    return filteredData
-  }
-
-  /**
-   * Add missing parent rows in their right position
-   * @param {object[]} data
-   */
-  addParentRows(filteredData, fullDataArray) {
-    for(let i = 0; i<filteredData.length; i++) {
-      const parents = filteredData[i]._parents
-      if(parents.length > 0) {
-        const inmediateParent = parents[parents.length - 1]
-        // if parent row is not in the array already, insert it
-        if(!filteredData.find(d => {
-          const rowId = this.keyExtractor(d)
-          return rowId === inmediateParent
-        })){
-          filteredData.splice(i, 0, fullDataArray.find(d => {
-            const rowId = this.keyExtractor(d)
-            return rowId === inmediateParent
-          }))
-          i-- // to check added element's parents
-        }
-      }
-    }
-    return filteredData
   }
 
   // this is written as a separate function in the case we want to scroll-to in the future
