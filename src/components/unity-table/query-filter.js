@@ -148,7 +148,7 @@ class QueryFilter extends LitElement {
           margin-right:4px;
         }
         unity-text-input {
-          width: 80px;
+          width: 100px;
         }
         .filter-field {
           margin-bottom: 4px;
