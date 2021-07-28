@@ -6,6 +6,9 @@
 
 ## Changelog:
 
+### v2.0.0
+- unity-table v2.0.0 - change to column filtering.
+
 ### v1.17.5
 - unity-notifications v1.1.9
 
