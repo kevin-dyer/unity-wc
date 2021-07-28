@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v2.0.0
+- Major change to column filtering. Now only external column filtering is supported. Column filters are now defined with a conditional expression and a value. Ex: {expression: 'eq', value: 'online'}
+
 ### v1.3.11
 - add showCheckboxes to filter dropdown
 
