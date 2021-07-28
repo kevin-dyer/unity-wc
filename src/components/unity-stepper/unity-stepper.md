@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.5
+- Add id to stepper button for test automation.
+
 ### v1.1.1
 - Add trackedStep to allow complete override with currentStep
 
