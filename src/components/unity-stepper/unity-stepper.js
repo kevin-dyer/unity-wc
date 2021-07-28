@@ -242,6 +242,7 @@ class UnityStepper extends LitElement {
       ${hideButton ? null : html`
         <div class="button-box">
           <unity-button
+            id="stepper-button"
             ?disabled="${disabled || null}"
             label="${buttonText}"
             @click="${this.makeClick()}"
