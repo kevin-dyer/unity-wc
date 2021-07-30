@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@2.0.0": {
+    "smartworks.unity/unity-core@2.0.1": {
         "files": [
             {
                 "name": "index.js",
@@ -697,7 +697,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-tag@1.1.8": {
+    "smartworks.unity/unity-tag@1.1.9": {
         "files": [
             {
                 "name": "unity-tag.js",
