@@ -2,7 +2,7 @@
 
 ## Changelog:
 
-### v2.0.1
+### v2.0.2
 - Fixed bug with column filter dropdown validation. Now invalid filters are removed when dropdown is closed and are not reported to onColumnFilter callback.
 
 ### v2.0.0
