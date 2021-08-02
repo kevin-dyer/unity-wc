@@ -87,7 +87,7 @@ class QueryFilterDropdown extends LitElement {
   handleClose() {
     this.toggleDropdown(false)
 
-    const validFilters = this.filters.filter((expression, value) => {
+    const validFilters = this.filters.filter(({expression, value}) => {
       //remove empty queries
       if (!expression && !value) return false
 
