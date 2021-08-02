@@ -84,15 +84,11 @@ class QueryFilter extends LitElement {
   }
 
   handleFilterChange() {
-    //TODO: May need to convert value to number when applicable
     const isValid = this.validate()
-
-    if (isValid) {
-      this.onValueChange({
-        expression: this.expression || defaultExp,
-        value: this.value
-      })
-    }
+    this.onValueChange({
+      expression: this.expression || defaultExp,
+      value: this.value
+    })
   }
 
   render() {
