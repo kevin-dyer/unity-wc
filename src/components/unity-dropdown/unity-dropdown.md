@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.6.9
+- Added `htmlId` as an optional attribute to options. Used for defining the <li> element ID.
+
 ### v1.6.8
 - Fixed text input height.
 
