@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.2.14
+- Added optional id attribute to unity-page-header tabs to specify id of paper-tab element.
+
 ### v1.2.13
 - Added `--left-content-max-width`
 - Added `--left-content-text-overflow`
