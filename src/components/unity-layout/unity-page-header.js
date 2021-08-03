@@ -335,10 +335,10 @@ class UnityPageHeader extends LitElement {
           ? html`
             <paper-tabs selected="${selectedTab}" id="header-tabs" noink>
               ${tabs.map((tab, index) => {
-                const {label} = tab
+                const {label, id} = tab
 
                 return html`
-                  <paper-tab @click=${e => this._handleTabSelect(tab, index)}>
+                  <paper-tab id="${id}" @click=${e => this._handleTabSelect(tab, index)}>
                     <unity-typography>${label}</unity-typography>
                   </paper-tab>`
                 }
