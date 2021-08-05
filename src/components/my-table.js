@@ -271,7 +271,15 @@ class MyTable extends PageViewElement {
           .onClose=${this.handleColEditorClose.bind(this)}
         ></unity-column-editor>
 
-        <unity-pagination-controls></unity-pagination-controls>
+        <unity-pagination-controls
+          itemsPerPage="50"
+          id="my-table-pagination-controls"
+          hasPrevPage
+          .onFirstPageClick="${() => {console.log("onFirstPageClicked!")}}"
+          .onPrevPageClick="${() => {console.log("onPrevPageClicked!")}}"
+          .onNextPageClick="${() => {console.log("onNextPageClicked!")}}"
+          .onItemsPerPageUpdate="${(resultsPerPage) => {console.log("onItemsPerPageUpdate ", {resultsPerPage})}}"
+        ></unity-pagination-controls>
       </div>
     `
   }
