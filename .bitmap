@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@2.0.5": {
+    "smartworks.unity/unity-core@2.0.6": {
         "files": [
             {
                 "name": "index.js",
@@ -189,6 +189,11 @@
                 "name": "unity-page-header.js",
                 "relativePath": "src/components/unity-core/unity-page-header.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-core/unity-pagination-controls.js",
+                "test": false,
+                "name": "unity-pagination-controls.js"
             },
             {
                 "name": "unity-popover.js",
@@ -509,7 +514,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-pagination-controls@0.0.1": {
+    "smartworks.unity/unity-pagination-controls@0.0.2": {
         "files": [
             {
                 "relativePath": "src/components/unity-pagination-controls/unity-pagination-controls.js",
