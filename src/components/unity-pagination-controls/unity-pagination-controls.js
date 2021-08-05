@@ -1,14 +1,8 @@
 // === IMPORTS ===
 import { LitElement, html, css } from 'lit-element'
-// import '@polymer/iron-icon/iron-icon'
-// import "@polymer/paper-dialog"
 import '@bit/smartworks.unity.unity-typography'
 import '@bit/smartworks.unity.unity-button'
-// import '@bit/smartworks.unity.unity-icon-set'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
-
-// import '../unity-dropdown/unity-dropdown'
-// import '@bit/smartworks.unity.unity-dropdown'
 import '@bit/smartworks.unity.unity-text-input'
 import '@bit/smartworks.unity.unity-popover'
 
