@@ -509,6 +509,24 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "smartworks.unity/unity-pagination-controls@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-pagination-controls/unity-pagination-controls.js",
+                "test": false,
+                "name": "unity-pagination-controls.js"
+            },
+            {
+                "relativePath": "src/components/unity-pagination-controls/unity-pagination-controls.md",
+                "test": false,
+                "name": "unity-pagination-controls.md"
+            }
+        ],
+        "mainFile": "src/components/unity-pagination-controls/unity-pagination-controls.js",
+        "trackDir": "src/components/unity-pagination-controls",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "smartworks.unity/unity-popover@1.0.16": {
         "files": [
             {
