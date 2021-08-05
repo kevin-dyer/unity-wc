@@ -100,41 +100,22 @@ class UnityPaginationControls extends LitElement {
   }
 
   handleFirst() {
-    if (!hasPrevPage) return
+    if (!this.hasPrevPage) return
 
     this.onFirstPageClick({itemsPerPage: this.itemsPerPage})
   }
 
   handlePrev() {
-    if (!hasPrevPage) return
+    if (!this.hasPrevPage) return
     this.onPrevPageClick({itemsPerPage: this.itemsPerPage})
   }
 
   handleNext() {
-    if (!hasNextPage) return
+    if (!this.hasNextPage) return
+    this.onNextPageClick({itemsPerPage: this.itemsPerPage})
   }
 
   render() {
-
-      // <unity-text-input
-      //   slot="on-page-content"
-      //   .value="${this.itemsPerPage}"
-      //   hideErrors
-      //   .innerRightIcon="${"unity:options"}"
-      //   @click="${this.toggleMenuExpand}"
-      //   @blur="${this.handleInputBlur}"
-      // >
-      // </unity-text-input>
-    // <unity-dropdown
-    //         id="results-per-page-dropdown"
-    //         inputType="single-select"
-    //         .options="${itemsPerPageOptions}"
-    //         .selected="[${this.itemsPerPage}]"
-    //         ?autoFitOnAttach="${true}"
-    //         ?dynamicAlign="${true}"
-    //       >
-
-    console.log("this._isResultsPerPageExanded: ", this._isResultsPerPageExanded)
     return html`
       <div id="${this.id}" class="unity-pagination-controls">
         <div id="results-per-page-control">
@@ -164,13 +145,8 @@ class UnityPaginationControls extends LitElement {
               .highlighted="${[this.itemsPerPage]}"
               borderless
             >
-
             </unity-select-menu>
           </unity-popover>
-
-          
-
-          
         </div>
 
         <unity-button
