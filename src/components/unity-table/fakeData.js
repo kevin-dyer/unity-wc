@@ -227,11 +227,13 @@ export const devices = {
     {
       key: 'description',
       label: 'Description',
+      showFilter: true,
       formatLabel: (description='') => description
     },
     {
       key: 'status',
       label: 'Status',
+      showFilter: true,
       formatLabel: (status='...') => status
     },
     {
@@ -241,6 +243,7 @@ export const devices = {
     },
   ],
   //filters: [{column: "status", values: ["Active"], include: true} ],
+  filters: {"status": [{expression: 'eq', value: 'Active'}]},
   childKeys: ['groups', 'devices']
 }
 

@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@1.17.5": {
+    "smartworks.unity/unity-core@2.0.5": {
         "files": [
             {
                 "name": "index.js",
@@ -298,7 +298,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-dropdown@1.6.8": {
+    "smartworks.unity/unity-dropdown@1.6.9": {
         "files": [
             {
                 "name": "strings.js",
@@ -492,7 +492,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-page-header@1.2.13": {
+    "smartworks.unity/unity-page-header@1.2.14": {
         "files": [
             {
                 "name": "unity-page-header.js",
@@ -613,7 +613,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-stepper@1.1.4": {
+    "smartworks.unity/unity-stepper@1.1.5": {
         "files": [
             {
                 "name": "unity-stepper.js",
@@ -660,12 +660,22 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-table@1.3.11": {
+    "smartworks.unity/unity-table@2.0.2": {
         "files": [
             {
                 "name": "filter-dropdown.js",
                 "relativePath": "src/components/unity-table/filter-dropdown.js",
                 "test": false
+            },
+            {
+                "relativePath": "src/components/unity-table/query-filter-dropdown.js",
+                "test": false,
+                "name": "query-filter-dropdown.js"
+            },
+            {
+                "relativePath": "src/components/unity-table/query-filter.js",
+                "test": false,
+                "name": "query-filter.js"
             },
             {
                 "name": "table-utils.js",
@@ -812,6 +822,29 @@
             }
         ],
         "mainFile": "src/components/unity-utils/unity-utils.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "smartworks.unity/unity-virtual-table@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/components/unity-virtual-table/filter-dropdown-copy.js",
+                "test": false,
+                "name": "filter-dropdown-copy.js"
+            },
+            {
+                "relativePath": "src/components/unity-virtual-table/table-utils.js",
+                "test": false,
+                "name": "table-utils.js"
+            },
+            {
+                "relativePath": "src/components/unity-virtual-table/unity-virtual-table.js",
+                "test": false,
+                "name": "unity-virtual-table.js"
+            }
+        ],
+        "mainFile": "src/components/unity-virtual-table/unity-virtual-table.js",
+        "trackDir": "src/components/unity-virtual-table",
         "origin": "AUTHORED",
         "exported": true
     },

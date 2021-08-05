@@ -30,7 +30,7 @@ import * as strings from './strings'
 * @param {String} inputType, type of the list of options that will be displayed. Possible values: "menu", "single-select" or "multi-select." Default is "menu."
 * @param {String} [label], floating header label
 * @param {String} [placeholder], initial text to be overwritten
-* @param {Array} options, data array with the options that will be displayed
+* @param {Array} options, data array with the options that will be displayed. ex: {id: '2', label: 'text to display', htmlId: 'option-2'}. id is option value, label is text to display in dropdown, htmlId is optional to set <li> ID.
 * @param {Array} [selected], array of selected elements
 * @param {Function} [onExpandedChange], callback when expanded/collapsed state changes
 * @param {Function} [onMenuClick], callback when a menu option is clicked
@@ -649,7 +649,7 @@ class UnityDropdown extends LitElement {
     if (this.inputType === INPUT_TYPE_MULTI_SELECT) {
       const isSelected = this.selected.includes(option.id)
       return html`
-        <li id=${option.id} class="selectable" @click=${this._changeValue(option.id)} tabindex=0 @keydown=${(e) => this.optionKeyDown(e, option.id)}>
+        <li id=${option.htmlId || option.id} class="selectable" @click=${this._changeValue(option.id)} tabindex=0 @keydown=${(e) => this.optionKeyDown(e, option.id)}>
           <div class="option-label-wrapper">
             ${this.showCheckboxes ? html`
               <unity-checkbox class="icon-left-wrapper custom-checkbox"
