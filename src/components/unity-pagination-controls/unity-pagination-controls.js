@@ -86,7 +86,6 @@ class UnityPaginationControls extends LitElement {
   }
 
   handleItemsPerPageSelect(itemsPerPage) {
-    console.log("handleItemsPerPageSelect ", {itemsPerPage, 'this.onItemsPerPageUpdate': this.onItemsPerPageUpdate})
     const itemsNum = Number(itemsPerPage)
     this.onItemsPerPageUpdate(itemsNum)
 
@@ -95,7 +94,6 @@ class UnityPaginationControls extends LitElement {
   }
 
   toggleMenuExpand(expanded) {
-    console.log("calling toggleMenuExpand to: ", !this._isResultsPerPageExanded)
     this._isResultsPerPageExanded = typeof(expanded) === 'boolean' ? expanded : !this._isResultsPerPageExanded
   }
 
