@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.6.11
+- Added id to dropdown chevron icon for selectability.
+
 ### v1.6.10
 - Added `htmlId` to single select dropdown options.
 
