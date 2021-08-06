@@ -1006,10 +1006,10 @@
     lit-element "^2.5.1"
     sortablejs "^1.10.2"
 
-"@bit/smartworks.unity.unity-core@^2.0.5":
-  version "2.0.5"
-  resolved "https://node.bit.dev/smartworks.unity.unity-core/-/smartworks.unity.unity-core-2.0.5.tgz#f22cdd47a3c88d79f5e5dc2829db3d8b5336777f"
-  integrity sha1-8izdR6PIjXn15dwoKds9i1M2d38=
+"@bit/smartworks.unity.unity-core@^2.0.6":
+  version "2.0.6"
+  resolved "https://node.bit.dev/smartworks.unity.unity-core/-/smartworks.unity.unity-core-2.0.6.tgz#14683604339fc4a2d17b2d0f497a2d8ed44c00cb"
+  integrity sha1-FGg2BDOfxKLRey0PSXotjtRMAMs=
   dependencies:
     "@bit/smartworks.unity.table-cell-base" "1.0.3"
     "@bit/smartworks.unity.unity-button" "1.1.15"
@@ -1029,6 +1029,7 @@
     "@bit/smartworks.unity.unity-notification" "1.1.9"
     "@bit/smartworks.unity.unity-notifications-handler" "1.3.7"
     "@bit/smartworks.unity.unity-page-header" "1.2.14"
+    "@bit/smartworks.unity.unity-pagination-controls" "0.0.1"
     "@bit/smartworks.unity.unity-popover" "1.0.16"
     "@bit/smartworks.unity.unity-progress" "1.0.7"
     "@bit/smartworks.unity.unity-search-bar" "1.0.13"
@@ -1039,7 +1040,7 @@
     "@bit/smartworks.unity.unity-table" "2.0.2"
     "@bit/smartworks.unity.unity-table-cell" "1.0.15"
     "@bit/smartworks.unity.unity-table-export" "1.0.11"
-    "@bit/smartworks.unity.unity-tag" "1.1.9"
+    "@bit/smartworks.unity.unity-tag" "1.1.8"
     "@bit/smartworks.unity.unity-text-input" "1.4.0"
     "@bit/smartworks.unity.unity-toggle-switch" "1.0.9"
     "@bit/smartworks.unity.unity-tooltip" "1.1.8"
@@ -1146,10 +1147,17 @@
     "@polymer/paper-tabs" "^3.1.0"
     lit-element "^2.5.1"
 
-"@bit/smartworks.unity.unity-pagination-controls@^0.0.1":
+"@bit/smartworks.unity.unity-pagination-controls@0.0.1":
   version "0.0.1"
   resolved "https://node.bit.dev/smartworks.unity.unity-pagination-controls/-/smartworks.unity.unity-pagination-controls-0.0.1.tgz#ae7d95ceb531326bafaffc63a5c18d4b46c7e457"
   integrity sha1-rn2VzrUxMmuvr/xjpcGNS0bH5Fc=
+  dependencies:
+    lit-element "^2.5.1"
+
+"@bit/smartworks.unity.unity-pagination-controls@^0.0.2":
+  version "0.0.2"
+  resolved "https://node.bit.dev/smartworks.unity.unity-pagination-controls/-/smartworks.unity.unity-pagination-controls-0.0.2.tgz#97719579b1b17a1e3c2a1d5f788ee71c0400d1e0"
+  integrity sha1-l3GVebGxeh48Kh1feI7nHAQA0eA=
   dependencies:
     lit-element "^2.5.1"
 
@@ -1238,7 +1246,14 @@
     lit-element "^2.5.1"
     throttle-debounce "^2.3.0"
 
-"@bit/smartworks.unity.unity-tag@1.1.9", "@bit/smartworks.unity.unity-tag@^1.1.8":
+"@bit/smartworks.unity.unity-tag@1.1.8":
+  version "1.1.8"
+  resolved "https://node.bit.dev/smartworks.unity.unity-tag/-/smartworks.unity.unity-tag-1.1.8.tgz#00df37e190589ea601234a8f95fd1244248accbf"
+  integrity sha1-AN834ZBYnqYBI0qPlf0SRCSKzL8=
+  dependencies:
+    lit-element "^2.5.1"
+
+"@bit/smartworks.unity.unity-tag@^1.1.8":
   version "1.1.9"
   resolved "https://node.bit.dev/smartworks.unity.unity-tag/-/smartworks.unity.unity-tag-1.1.9.tgz#cd610283c96ffb13ba8b3d14da622568a6f37792"
   integrity sha1-zWECg8lv+xO6iz0U2mIlaKbzd5I=
