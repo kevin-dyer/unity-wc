@@ -845,7 +845,11 @@ class UnityDropdown extends LitElement {
                 </p>`}
             </div>
             <div class="icon-right-wrapper chevron">
-              <iron-icon class="inner-icon" icon="${arrowIcon}"></iron-icon>
+              <iron-icon
+                id="dropdown-expand-toggle-icon"
+                class="inner-icon"
+                icon="${arrowIcon}"
+              ></iron-icon>
             </div>
           </div>
         </div>`
