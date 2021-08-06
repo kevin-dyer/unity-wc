@@ -668,7 +668,7 @@ class UnityDropdown extends LitElement {
 
     else {
       return html`
-        <li id=${option.id} class="selectable" @click=${this._changeValue(option.id)} tabindex=0 @keydown=${(e) => this.optionKeyDown(e, option.id)}>
+        <li id=${option.htmlId || option.id} class="selectable" @click=${this._changeValue(option.id)} tabindex=0 @keydown=${(e) => this.optionKeyDown(e, option.id)}>
           <div class="option-label-wrapper">
             ${!!option.icon ? this.renderLeftIcon(option.icon) : null }
             <p class="option-label">${label}</p>
