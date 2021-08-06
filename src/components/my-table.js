@@ -19,6 +19,8 @@ import '@bit/smartworks.unity.unity-core/unity-text-input';
 import '@bit/smartworks.unity.unity-core/unity-column-editor'
 // import './unity-table/unity-column-editor.js';
 import '@bit/smartworks.unity.unity-core/unity-table-export'
+import '@bit/smartworks.unity.unity-core/unity-pagination-controls'
+// import './unity-pagination-controls/unity-pagination-controls'
 
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
@@ -267,6 +269,16 @@ class MyTable extends PageViewElement {
           .onUpdate=${this.handleColUpdate.bind(this)}
           .onClose=${this.handleColEditorClose.bind(this)}
         ></unity-column-editor>
+
+        <unity-pagination-controls
+          itemsPerPage="50"
+          id="my-table-pagination-controls"
+          hasPrevPage
+          .onFirstPageClick="${() => {console.log("onFirstPageClicked!")}}"
+          .onPrevPageClick="${() => {console.log("onPrevPageClicked!")}}"
+          .onNextPageClick="${() => {console.log("onNextPageClicked!")}}"
+          .onItemsPerPageUpdate="${(resultsPerPage) => {console.log("onItemsPerPageUpdate ", {resultsPerPage})}}"
+        ></unity-pagination-controls>
       </div>
     `
   }
