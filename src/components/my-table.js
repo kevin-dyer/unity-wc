@@ -19,9 +19,8 @@ import '@bit/smartworks.unity.unity-core/unity-text-input';
 import '@bit/smartworks.unity.unity-core/unity-column-editor'
 // import './unity-table/unity-column-editor.js';
 import '@bit/smartworks.unity.unity-core/unity-table-export'
-
-//TODO: replace with BIT import
-import './unity-pagination-controls/unity-pagination-controls'
+import '@bit/smartworks.unity.unity-core/unity-pagination-controls'
+// import './unity-pagination-controls/unity-pagination-controls'
 
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js'; // These are the shared styles needed by this element.
