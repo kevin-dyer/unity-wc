@@ -66,12 +66,10 @@ class QueryFilterDropdown extends LitElement {
       //remove filters with gt or lt operation and a non-numerical value
       if (/gt|gte|lt|lte/.test(operation)) {
         if (!value || isNaN(value)) {
-          // this._valueError = 'Number needed'
           return false
         }
       }
 
-      //TODO: validate fields are correct type
       return true
     })
 
