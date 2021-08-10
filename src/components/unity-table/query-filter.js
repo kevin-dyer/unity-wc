@@ -30,12 +30,11 @@ const operationOptions = [
     "id": "lte",
   }
 ]
-const defaultOperation = operationOptions[0].id
 
 class QueryFilter extends LitElement {
   constructor() {
     super()
-    this.operation = defaultOperation
+    this.operation = ""
     this.value = ""
     this.onValueChange = () => {};
     this.onDelete = () => {};
@@ -86,14 +85,13 @@ class QueryFilter extends LitElement {
   handleFilterChange() {
     const isValid = this.validate()
     this.onValueChange({
-      operation: this.operation,// || defaultOperation,
+      operation: this.operation,
       value: this.value
     })
   }
 
   render() {
     const showValueError = this._valueTouched && this._valueError
-    // const selectedOperation = this.operation// || defaultOperation
     return html`
       <div class="query-filter">
         <unity-dropdown
