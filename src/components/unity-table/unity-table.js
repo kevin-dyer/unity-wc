@@ -22,7 +22,7 @@ import {
  * @param {[]} data, array of objects
  * @param {[]} columns, array of objects, relates to data's object keys
  * @param {[]} selected, array of strings, each a cell identifier to be selected ('this.selected' is only set in table when attribute changes)
- * @param {object} columnFilters, array of filters for each column key, scructure {columnKey: {expression: 'eq', value: 'valueToMatch'}}
+ * @param {object} columnFilters, array of filters for each column key, scructure {columnKey: {operation: 'eq', value: 'valueToMatch'}}
  * @param {func} keyExtractor, func with row datum and row index as arguments. Retuns unique row identifier.
  * @param {func} slotIdExtractor, func with row datum and column datum as arguments. Returns unique cell identifier.
  * @param {bool} headless, controls if the table has a header row
@@ -95,7 +95,7 @@ import {
  *    ]}"
  *    ?selectable="${true}"
  *    .onSelectionChange="${selected => console.log('These elements are selected: ', selected')}"
- *    .columnFilters=${{deviceType: [{expression: 'eq', value: 'thermostat'}, {expression: 'neq', value: 'heater'}]}}
+ *    .columnFilters=${{deviceType: [{operation: 'eq', value: 'thermostat'}, {operation: 'neq', value: 'heater'}]}}
 
  *  />
  */

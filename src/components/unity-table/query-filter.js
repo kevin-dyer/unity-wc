@@ -4,7 +4,7 @@ import '@bit/smartworks.unity.unity-text-input'
 import '@bit/smartworks.unity.unity-dropdown'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 
-const expressionOptions = [
+const operationOptions = [
   {
     "label": "==",
     "id": "eq"
@@ -30,12 +30,11 @@ const expressionOptions = [
     "id": "lte",
   }
 ]
-const defaultExp = expressionOptions[0].id
 
 class QueryFilter extends LitElement {
   constructor() {
     super()
-    this.expression = defaultExp
+    this.operation = ""
     this.value = ""
     this.onValueChange = () => {};
     this.onDelete = () => {};
@@ -46,7 +45,7 @@ class QueryFilter extends LitElement {
   static get properties() {
     return {
       options: { type: Array },
-      expression: { type: String },
+      operation: { type: String },
       value: {type: String},
       _valueError: {type: String},
       onValueChange: { type: Function },
@@ -54,8 +53,8 @@ class QueryFilter extends LitElement {
     }
   }
 
-  onExpressionSelect(expression) {
-    this.expression = expression
+  onOperationSelect(operation) {
+    this.operation = operation
     this.handleFilterChange()
   }
 
@@ -71,7 +70,7 @@ class QueryFilter extends LitElement {
   }
 
   validate() {
-    if (/gt|gte|lt|lte/.test(this.expression)) {
+    if (/gt|gte|lt|lte/.test(this.operation)) {
 
       if (!this.value || isNaN(this.value)) {
         this._valueError = 'Number needed'
@@ -86,24 +85,23 @@ class QueryFilter extends LitElement {
   handleFilterChange() {
     const isValid = this.validate()
     this.onValueChange({
-      expression: this.expression || defaultExp,
+      operation: this.operation,
       value: this.value
     })
   }
 
   render() {
     const showValueError = this._valueTouched && this._valueError
-    const selectedExp = this.expression || defaultExp
     return html`
       <div class="query-filter">
         <unity-dropdown
           class="filter-field${showValueError ? ' field-with-error' : ''}"
           label=""
           inputType="single-select"
-          placeholder="Exp"
-          .options=${expressionOptions}
-          .selected="${[selectedExp]}"
-          .onValueChange=${this.onExpressionSelect.bind(this)}
+          placeholder="oper"
+          .options=${operationOptions}
+          .selected="${[this.operation]}"
+          .onValueChange=${this.onOperationSelect.bind(this)}
         >
         </unity-dropdown>
 
@@ -140,7 +138,7 @@ class QueryFilter extends LitElement {
         }
 
         unity-dropdown {
-          --dropdown-width: 50px;
+          --dropdown-width: 60px;
           margin-right:4px;
         }
         unity-text-input {
