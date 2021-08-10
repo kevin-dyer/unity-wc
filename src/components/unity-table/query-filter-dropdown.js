@@ -6,37 +6,9 @@ import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-the
 
 import './query-filter.js'
 
-const LEFT = 'left'
-const RIGHT = 'right'
 
-const conditionalOptions = [
-  {
-    "label": "==",
-    "id": "eq"
-  },
-  {
-    "label": "!=",
-    "id": "neq"
-  },
-  {
-    "label": ">",
-    "id": "gt",
-  },
-  {
-    "label": ">=",
-    "id": "gte",
-  },
-  {
-    "label": "<",
-    "id": "lt",
-  },
-  {
-    "label": "<=",
-    "id": "lte",
-  }
-]
 const initFilter = {
-  expression: undefined,
+  operation: undefined,
   value: ''
 }
 
@@ -76,8 +48,8 @@ class QueryFilterDropdown extends LitElement {
     this.filters = [...this.filters, initFilter]
   }
 
-  handleFilterChange({expression, value}, index) {
-    this.filters[index] = {expression, value}
+  handleFilterChange({operation, value}, index) {
+    this.filters[index] = {operation, value}
   }
 
   handleFilterDelete(index) {
@@ -87,12 +59,12 @@ class QueryFilterDropdown extends LitElement {
   handleClose() {
     this.toggleDropdown(false)
 
-    const validFilters = this.filters.filter(({expression, value}) => {
+    const validFilters = this.filters.filter(({operation, value}) => {
       //remove empty queries
-      if (!expression && !value) return false
+      if (!operation) return false
 
       //remove filters with gt or lt operation and a non-numerical value
-      if (/gt|gte|lt|lte/.test(expression)) {
+      if (/gt|gte|lt|lte/.test(operation)) {
         if (!value || isNaN(value)) {
           // this._valueError = 'Number needed'
           return false
@@ -119,7 +91,6 @@ class QueryFilterDropdown extends LitElement {
 
   render() {
     const {
-      onValueChange,
       filters=[],
     } = this
 
@@ -145,7 +116,7 @@ class QueryFilterDropdown extends LitElement {
         >
           <unity-typography>Column Filters</unity-typography>
           ${filters.map((filter, index) => html`<query-filter
-              .expression="${filter.expression}"
+              .operation="${filter.operation}"
               .value="${filter.value}"
               .onValueChange=${filter => this.handleFilterChange(filter, index)}
               .onDelete=${() => this.handleFilterDelete(index)}
