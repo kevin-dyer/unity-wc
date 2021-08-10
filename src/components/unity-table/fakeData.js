@@ -242,8 +242,7 @@ export const devices = {
       formatLabel: (createdAt='') => createdAt
     },
   ],
-  //filters: [{column: "status", values: ["Active"], include: true} ],
-  filters: {"status": [{expression: 'eq', value: 'Active'}]},
+  filters: {"status": [{operation: 'eq', value: 'Active'}]},
   childKeys: ['groups', 'devices']
 }
 
