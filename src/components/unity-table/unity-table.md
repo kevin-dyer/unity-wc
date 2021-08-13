@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v2.0.5
+- fix ids to checkboxes
+
 ### v2.0.4
 - add ids to checkboxes
 

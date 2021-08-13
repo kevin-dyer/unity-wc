@@ -1138,7 +1138,7 @@ class UnityTable extends LitElement {
         ${this.selectable?
           html`<td class='centered select-row-wrapper'>
             <unity-checkbox
-              class="select-row-${rowId}-checkbox"
+              id="select-row-${rowId}-checkbox"
               class="select-row-checkbox"
               ?checked="${this.selected.has(rowId)}"
               .onChange="${e => {
