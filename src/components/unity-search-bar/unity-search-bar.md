@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.14:
+- add ids to text-box and clear button.
+
 ### v1.0.13
 - Fixed text input height.
 
