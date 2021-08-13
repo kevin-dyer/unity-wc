@@ -1001,7 +1001,7 @@ class UnityTable extends LitElement {
                 >
                   <div class="header ${centered?'centered':''}">
                     <div class="header-content ${centered?'centered':''}">
-                      ${selectableColumn? 
+                      ${selectableColumn?
                         html`<unity-checkbox
                           id="select-all-${key}-checkbox"
                           ?checked=${isSelected}
@@ -1138,6 +1138,7 @@ class UnityTable extends LitElement {
         ${this.selectable?
           html`<td class='centered select-row-wrapper'>
             <unity-checkbox
+              class="select-row-${rowId}-checkbox"
               class="select-row-checkbox"
               ?checked="${this.selected.has(rowId)}"
               .onChange="${e => {
