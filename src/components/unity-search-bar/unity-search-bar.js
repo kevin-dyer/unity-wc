@@ -402,6 +402,7 @@ class UnitySearchBar extends LitElement {
         <div class="input-wrapper">
           ${!!_oversized ? html`<unity-typography style="right: ${_ellipsisRight}px;" class="ellipsis">...</unity-typography>` : null}
           <unity-text-input
+            id="search-bar-text-input"
             class="input"
             hideBorder
             .value="${search}"
@@ -411,7 +412,7 @@ class UnitySearchBar extends LitElement {
           ></unity-text-input>
           ${this.renderMenu()}
         </div>
-        <div class="clear-button" @click="${() => this.clearInput()}">CLEAR</div>
+        <div id="search-bar-clear-button" class="clear-button" @click="${() => this.clearInput()}">CLEAR</div>
       </div>
     `
   }
