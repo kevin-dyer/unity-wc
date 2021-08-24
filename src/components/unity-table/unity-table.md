@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v2.0.6
+- fixed bug in column filtering. The filter property of query-filter can now be updated to undefined.
+
 ### v2.0.5
 - fix ids to checkboxes
 

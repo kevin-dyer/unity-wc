@@ -17,7 +17,7 @@ class QueryFilterDropdown extends LitElement {
     super()
     this.show = false;
     this.onValueChange = () => {};
-    this.filters = [initFilter]
+    this._filters = [initFilter]
   }
 
   static get properties() {
@@ -31,9 +31,7 @@ class QueryFilterDropdown extends LitElement {
   }
 
   set filters(filters) {
-    if (filters) {
-      this._filters = filters
-    }
+    this._filters = filters || [initFilter]
   }
 
   get filters() {
