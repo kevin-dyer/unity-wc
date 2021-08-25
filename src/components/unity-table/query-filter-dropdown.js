@@ -30,8 +30,8 @@ class QueryFilterDropdown extends LitElement {
     }
   }
 
-  set filters(filters) {
-    this._filters = filters || [initFilter]
+  set filters(filters=[]) {
+    this._filters = filters.length > 0 ? filters : [initFilter]
   }
 
   get filters() {
