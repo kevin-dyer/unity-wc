@@ -212,7 +212,10 @@ export const devices = {
   columns: [
     {
       key: 'name',
-      label: 'Name'
+      label: 'Name',
+      showFilter: true,
+      operators: [{"label": "==", "id": "eq"}],
+      singleFilter: true,
     },
     {
       key: 'deployments',
@@ -234,8 +237,6 @@ export const devices = {
       key: 'status',
       label: 'Status',
       showFilter: true,
-      operators: [{"label": "==", "id": "eq"}],
-      singleFilter: true,
       formatLabel: (status='...') => status
     },
     {
