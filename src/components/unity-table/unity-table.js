@@ -963,6 +963,8 @@ class UnityTable extends LitElement {
             width: rootWidth=0,
             centered=false,
             showFilter=false,
+            singleFilter=false,
+            operators=[],
             hideSort=false,
             selectable: selectableColumn=false,
             onSelect: onColumnSelect=()=>{},
@@ -1020,6 +1022,8 @@ class UnityTable extends LitElement {
                         html`<query-filter-dropdown
                           .onValueChange="${filters => this._handleColumnFilter(key, filters)}"
                           .filters="${this.columnFilters[key]}"
+                          .operators="${operators}"
+                          ?singleFilter=${singleFilter}
                         >
                         </query-filter-dropdown>` : null
                       }

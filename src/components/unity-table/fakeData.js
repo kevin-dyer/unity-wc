@@ -212,7 +212,10 @@ export const devices = {
   columns: [
     {
       key: 'name',
-      label: 'Name'
+      label: 'Name',
+      showFilter: true,
+      operators: [{"label": "==", "id": "eq"}],
+      singleFilter: true,
     },
     {
       key: 'deployments',
@@ -242,7 +245,7 @@ export const devices = {
       formatLabel: (createdAt='') => createdAt
     },
   ],
-  filters: {"status": [{operation: 'eq', value: 'Active'}]},
+  filters: {name: [{operator: 'eq', value: 'africa'}], status: [{operator: 'eq', value: 'Active'}]},
   childKeys: ['groups', 'devices']
 }
 
