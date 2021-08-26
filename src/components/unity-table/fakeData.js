@@ -234,6 +234,8 @@ export const devices = {
       key: 'status',
       label: 'Status',
       showFilter: true,
+      operators: [{"label": "==", "id": "eq"}],
+      singleFilter: true,
       formatLabel: (status='...') => status
     },
     {
@@ -242,7 +244,7 @@ export const devices = {
       formatLabel: (createdAt='') => createdAt
     },
   ],
-  filters: {"status": [{operation: 'eq', value: 'Active'}]},
+  filters: {name: [{operator: 'eq', value: 'africa'}], status: [{operator: 'eq', value: 'Active'}]},
   childKeys: ['groups', 'devices']
 }
 
