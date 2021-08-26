@@ -8,16 +8,45 @@ import './query-filter.js'
 
 
 const initFilter = {
-  operation: undefined,
+  operator: undefined,
   value: ''
 }
+
+const initOperators = [
+  {
+    "label": "==",
+    "id": "eq"
+  },
+  {
+    "label": "!=",
+    "id": "neq"
+  },
+  {
+    "label": ">",
+    "id": "gt",
+  },
+  {
+    "label": ">=",
+    "id": "gte",
+  },
+  {
+    "label": "<",
+    "id": "lt",
+  },
+  {
+    "label": "<=",
+    "id": "lte",
+  }
+]
 
 class QueryFilterDropdown extends LitElement {
   constructor() {
     super()
     this.show = false;
     this.onValueChange = () => {};
+    // this.operators = initOperators
     this._filters = [initFilter]
+    this._operators = initOperators
   }
 
   static get properties() {
@@ -25,8 +54,9 @@ class QueryFilterDropdown extends LitElement {
       show: { type: Boolean },
       filters: { type: Array },
       onValueChange: { type: Function },
-
-      _filters: { type: Array}
+      operators: {type: Array },
+      singleFilter: { type: Boolean },
+      _filters: { type: Array }
     }
   }
 
@@ -38,6 +68,14 @@ class QueryFilterDropdown extends LitElement {
     return this._filters
   }
 
+  set operators(operators=[]) {
+    this._operators = operators.length > 0 ? operators : initOperators
+  }
+
+  get operators() {
+    return this._operators
+  }
+
   toggleDropdown(show) {
     this.show = typeof show === 'boolean' ? show : !this.show
   }
@@ -46,8 +84,8 @@ class QueryFilterDropdown extends LitElement {
     this.filters = [...this.filters, initFilter]
   }
 
-  handleFilterChange({operation, value}, index) {
-    this.filters[index] = {operation, value}
+  handleFilterChange({operator, value}, index) {
+    this.filters[index] = {operator, value}
   }
 
   handleFilterDelete(index) {
@@ -57,12 +95,12 @@ class QueryFilterDropdown extends LitElement {
   handleClose() {
     this.toggleDropdown(false)
 
-    const validFilters = this.filters.filter(({operation, value}) => {
+    const validFilters = this.filters.filter(({operator, value}) => {
       //remove empty queries
-      if (!operation) return false
+      if (!operator) return false
 
-      //remove filters with gt or lt operation and a non-numerical value
-      if (/gt|gte|lt|lte/.test(operation)) {
+      //remove filters with gt or lt operator and a non-numerical value
+      if (/gt|gte|lt|lte/.test(operator)) {
         if (!value || isNaN(value)) {
           return false
         }
@@ -112,8 +150,9 @@ class QueryFilterDropdown extends LitElement {
         >
           <unity-typography>Column Filters</unity-typography>
           ${filters.map((filter, index) => html`<query-filter
-              .operation="${filter.operation}"
+              .operator="${filter.operator}"
               .value="${filter.value}"
+              .operators="${this.operators}"
               .onValueChange=${filter => this.handleFilterChange(filter, index)}
               .onDelete=${() => this.handleFilterDelete(index)}
             >
@@ -121,13 +160,15 @@ class QueryFilterDropdown extends LitElement {
           )}
 
           <div class="controls">
-            <unity-button
-              centerIcon="unity:add"
-              type="borderless"
-              @click=${this.handleAddFilter.bind(this)}
-              class="add-filter-button"
-            >
-            </unity-button>
+            ${singleFilter ? null :
+              html`<unity-button
+                centerIcon="unity:add"
+                type="borderless"
+                @click=${this.handleAddFilter.bind(this)}
+                class="add-filter-button"
+              >
+              </unity-button>`
+            }
           </div>
         </div>
 
