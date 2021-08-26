@@ -44,7 +44,7 @@ class QueryFilterDropdown extends LitElement {
     super()
     this.show = false;
     this.onValueChange = () => {};
-    // this.operators = initOperators
+    this.singleFilter = false
     this._filters = [initFilter]
     this._operators = initOperators
   }
@@ -160,7 +160,7 @@ class QueryFilterDropdown extends LitElement {
           )}
 
           <div class="controls">
-            ${singleFilter ? null :
+            ${this.singleFilter ? null :
               html`<unity-button
                 centerIcon="unity:add"
                 type="borderless"
