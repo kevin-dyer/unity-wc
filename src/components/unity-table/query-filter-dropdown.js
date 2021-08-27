@@ -123,6 +123,13 @@ class QueryFilterDropdown extends LitElement {
     return false
   }
 
+  handleInputKeyDown(e) {
+    // Close dropdown and fire onValueChange callback
+    if (e.key==='Enter' || e.keyCode === 13) {//&& e.target.id === "filter-value-field") ) {
+      this.handleClose()
+    }
+  }
+
   render() {
     const {
       filters=[],
@@ -155,6 +162,7 @@ class QueryFilterDropdown extends LitElement {
               .operators="${this.operators}"
               .onValueChange=${filter => this.handleFilterChange(filter, index)}
               .onDelete=${() => this.handleFilterDelete(index)}
+              @keydown=${this.handleInputKeyDown}
             >
             </query-filter>`
           )}
