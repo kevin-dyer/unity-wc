@@ -92,6 +92,10 @@ class QueryFilterDropdown extends LitElement {
     this.filters = [...this.filters.slice(0, index), ...this.filters.slice(index + 1)]
   }
 
+  handleClearFilters() {
+    this.filters = [initFilter]
+  }
+
   handleClose() {
     this.toggleDropdown(false)
 
@@ -121,6 +125,13 @@ class QueryFilterDropdown extends LitElement {
     if (filters.length > 1) return true
     if (filters.length === 1 && filters[0] !== initFilter) return true
     return false
+  }
+
+  handleInputKeyDown(e) {
+    // Close dropdown and fire onValueChange callback
+    if (e.key==='Enter' || e.keyCode === 13) {//&& e.target.id === "filter-value-field") ) {
+      this.handleClose()
+    }
   }
 
   render() {
@@ -155,11 +166,19 @@ class QueryFilterDropdown extends LitElement {
               .operators="${this.operators}"
               .onValueChange=${filter => this.handleFilterChange(filter, index)}
               .onDelete=${() => this.handleFilterDelete(index)}
+              @keydown=${this.handleInputKeyDown}
             >
             </query-filter>`
           )}
 
           <div class="controls">
+            <unity-button
+              label="clear"
+              type="borderless"
+              @click=${this.handleClearFilters.bind(this)}
+              class="clear-filter-button"
+            >
+            </unity-button>
             ${this.singleFilter ? null :
               html`<unity-button
                 centerIcon="unity:add"
@@ -198,10 +217,12 @@ class QueryFilterDropdown extends LitElement {
           align-items: center;
           align-self: center;
           height: 22px;
-          width: 22px;
           margin-right: 2px;
           --button-color: var(--filter-button-color);
           --paper-button-ink-color: transparent;
+        }
+        .add-filter-button {
+          width: 22px;
         }
         .filtered {
           --button-borderless-text-color: var(--primary-brand-color, var(--default-primary-brand-color));
