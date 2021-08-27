@@ -92,6 +92,10 @@ class QueryFilterDropdown extends LitElement {
     this.filters = [...this.filters.slice(0, index), ...this.filters.slice(index + 1)]
   }
 
+  handleClearFilters() {
+    this.filters = [initFilter]
+  }
+
   handleClose() {
     this.toggleDropdown(false)
 
@@ -168,6 +172,13 @@ class QueryFilterDropdown extends LitElement {
           )}
 
           <div class="controls">
+            <unity-button
+              label="clear"
+              type="borderless"
+              @click=${this.handleClearFilters.bind(this)}
+              class="clear-filter-button"
+            >
+            </unity-button>
             ${this.singleFilter ? null :
               html`<unity-button
                 centerIcon="unity:add"
@@ -206,10 +217,12 @@ class QueryFilterDropdown extends LitElement {
           align-items: center;
           align-self: center;
           height: 22px;
-          width: 22px;
           margin-right: 2px;
           --button-color: var(--filter-button-color);
           --paper-button-ink-color: transparent;
+        }
+        .add-filter-button {
+          width: 22px;
         }
         .filtered {
           --button-borderless-text-color: var(--primary-brand-color, var(--default-primary-brand-color));
