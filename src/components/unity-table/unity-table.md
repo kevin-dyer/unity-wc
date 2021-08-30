@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v2.0.11
+- fixed bug with column filtering submit on Enter. Now last created filter is included in the onColumnFilter callback.
+
 ### v2.0.6
 - fixed bug in column filtering. The filter property of query-filter can now be updated to undefined.
 

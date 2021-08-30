@@ -65,6 +65,13 @@ class QueryFilter extends LitElement {
     })
   }
 
+  handleInputKeyDown(e) {
+    // fire handleValueBlur callback to update filter in query-filter-dropdown before it is closed
+    if (e.key==='Enter' || e.keyCode === 13) {
+      this.handleValueBlur(e)
+    }
+  }
+
   render() {
     const showValueError = this._valueTouched && this._valueError
     return html`
@@ -87,6 +94,7 @@ class QueryFilter extends LitElement {
           value="${this.value}"
           @blur="${this.handleValueBlur}"
           error="${this._valueTouched ? this._valueError : ''}"
+          @keydown=${this.handleInputKeyDown}
         ></unity-text-input>
         <unity-button
           class="filter-delete-button"
