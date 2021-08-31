@@ -11,11 +11,15 @@ import '@bit/smartworks.unity.unity-popover'
 * @description Renders a control bar for navigating through a set of paginated results.
 * @param {String} [id], id of controls used for accessing in DOM
 * @param {Number} [itemsPerPage], number of items to be displayed per page.
+* @param {Number} [currentPage], page number of current page. If not defined, will not be displayed.
+* @param {Number} [pageCount], total number of pages. If currentPage or pageCount is not defined, will not be displayed.
 * @param {Boolean} [hasPrevPage], indicates if there is a previous page to fetch
 * @param {Boolean} [hasNextPage], indicates if there is a next page to fetch
+* @param {Boolean} [showLastPage], indicates if the button to navigate to last page is visible, defaults to false.
 * @param {Function} [onFirstPageClick], callback when first page button is clicked. Typically used to trigger an api request.
 * @param {Function} [onPrevPageClick], callback when previous page button is clicked. Typically used to trigger an api request.
 * @param {Function} [onNextPageClick], callback when next page button is clicked. Typically used to trigger an api request.
+* @param {Function} [onLastPageClick], callback when last page button is clicked. Typically used to trigger an api request.
 * @param {Function} [onItemsPerPageUpdate], callback when number of items per page is updated.
 * @example
 * <unity-pagination-controls
@@ -60,12 +64,16 @@ class UnityPaginationControls extends LitElement {
     this.itemsPerPage=25
     this.hasPrevPage = false
     this.hasNextPage = false
+    this.showLastPage = false
+    this.currentPage = undefined
+    this.pageCount = undefined
 
     //TODO: track pagination cursor
     this.onFirstPageClick = () => {}
     this.onPrevPageClick = () => {}
     this.onNextPageClick = () => {}
     this.onItemsPerPageUpdate = () => {}
+    this.onLastPageClick = () => {}
 
     this._isResultsPerPageExanded = false
   }
@@ -74,14 +82,18 @@ class UnityPaginationControls extends LitElement {
     return {
       id: { type: String },
       itemsPerPage: { type: Number },
+      currentPage: { type: Number },
+      pageCount: { type: Number },
       hasPrevPage: { type: Boolean },
       hasNextPage: { type: Boolean },
+      showLastPage: { type: Boolean },
       onFirstPageClick: { type: Function},
-      onPrevPageClick: {type: Function},
-      onNextPageClick: {type: Function},
-      onItemsPerPageUpdate: {type: Function},
+      onPrevPageClick: { type: Function },
+      onNextPageClick: { type: Function },
+      onItemsPerPageUpdate: { type: Function },
+      onLastPageClick: { type: Function },
 
-      _isResultsPerPageExanded: {type: Boolean}
+      _isResultsPerPageExanded: { type: Boolean }
     }
   }
 
@@ -111,6 +123,11 @@ class UnityPaginationControls extends LitElement {
   handleNext() {
     if (!this.hasNextPage) return
     this.onNextPageClick({itemsPerPage: this.itemsPerPage})
+  }
+
+  handleLast() {
+    if (!this.showLastPage || !this.hasNextPage) return
+    this.onLastPageClick({itemsPerPage: this.itemsPerPage})
   }
 
   render() {
@@ -165,6 +182,12 @@ class UnityPaginationControls extends LitElement {
           ?disabled="${!this.hasPrevPage}"
           @click=${this.handlePrev}
         ></unity-button>
+        ${this.currentPage
+          ? html`<unity-typography id="page-number">
+              ${this.currentPage} ${this.pageCount ? `/${this.pageCount}` : null}
+            </unity-typography>`
+          : null
+        }
         <unity-button
           id="next-page-button"
           class="pagination-btn"
@@ -174,6 +197,18 @@ class UnityPaginationControls extends LitElement {
           ?disabled="${!this.hasNextPage}"
           @click=${this.handleNext}
         ></unity-button>
+        ${this.showLastPage
+          ? html`<unity-button
+              id="last-page-button"
+              class="pagination-btn"
+              title="Last"
+              centerIcon="icons:last-page"
+              type="borderless"
+              ?disabled="${!this.hasNextPage}"
+              @click=${this.handleLast}
+            ></unity-button>`
+          : null
+        }
       </div>
     `
   }
@@ -207,6 +242,11 @@ class UnityPaginationControls extends LitElement {
 
         }
         .pagination-btn {
+          margin-right: 12px;
+        }
+        #page-number {
+          height: 30px;
+          line-height: 30px;
           margin-right: 12px;
         }
       `
