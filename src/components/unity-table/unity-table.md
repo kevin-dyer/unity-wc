@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v2.0.12
+- fixed bug with updating an existing column filter caused by mutating property in query-filter-dropdown.
+
 ### v2.0.11
 - fixed bug with column filtering submit on Enter. Now last created filter is included in the onColumnFilter callback.
 
