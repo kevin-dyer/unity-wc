@@ -85,7 +85,9 @@ class QueryFilterDropdown extends LitElement {
   }
 
   handleFilterChange({operator, value}, index) {
-    this.filters[index] = {operator, value}
+    this.filters = this.filters.map((filter, i) => {
+      return index === i ? {operator, value} : filter
+    })
   }
 
   handleFilterDelete(index) {
