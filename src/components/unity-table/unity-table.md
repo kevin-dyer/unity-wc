@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v2.0.13
+- Added Apply button to column filter dropdown to make more clear to user.
+
 ### v2.0.12
 - fixed bug with updating an existing column filter caused by mutating property in query-filter-dropdown.
 

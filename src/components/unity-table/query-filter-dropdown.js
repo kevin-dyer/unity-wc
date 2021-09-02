@@ -174,26 +174,33 @@ class QueryFilterDropdown extends LitElement {
           )}
 
           <div class="controls">
-            <unity-button
-              label="clear"
-              type="borderless"
-              @click=${this.handleClearFilters.bind(this)}
-              class="clear-filter-button"
-            >
-            </unity-button>
             ${this.singleFilter ? null :
               html`<unity-button
+                id="add-filter-button"
                 centerIcon="unity:add"
                 type="borderless"
                 @click=${this.handleAddFilter.bind(this)}
-                class="add-filter-button"
               >
               </unity-button>`
             }
+            <div class="lower-controls">
+              <unity-button
+                label="Clear"
+                id="clear-filter-button"
+                type="borderless"
+                @click=${this.handleClearFilters.bind(this)}
+              >
+              </unity-button>
+              <unity-button
+                label="Apply"
+                id="apply-filter-button"
+                type="primary"
+                @click=${this.handleClose.bind(this)}
+              >
+              </unity-button>
+            </div>
           </div>
         </div>
-
-
       </unity-popover>      
     `;
   }
@@ -214,17 +221,15 @@ class QueryFilterDropdown extends LitElement {
         }
 
         unity-button {
-          display: flex;
-          /*flex: 1;*/
-          align-items: center;
-          align-self: center;
-          height: 22px;
-          margin-right: 2px;
           --button-color: var(--filter-button-color);
           --paper-button-ink-color: transparent;
         }
-        .add-filter-button {
+        #add-filter-button {
           width: 22px;
+          height: 22px;
+          margin-right: 2px;
+          margin-top: -2px;
+          margin-bottom: 2px;
         }
         .filtered {
           --button-borderless-text-color: var(--primary-brand-color, var(--default-primary-brand-color));
@@ -244,7 +249,14 @@ class QueryFilterDropdown extends LitElement {
         .controls {
           width: 100%;
           display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        }
+        .lower-controls {
+          flex: 1;
+          display: flex;
           justify-content: flex-end;
+          margin-top: 4px;
         }
       `
     ]
