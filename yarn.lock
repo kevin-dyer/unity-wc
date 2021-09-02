@@ -1006,10 +1006,10 @@
     lit-element "^2.5.1"
     sortablejs "^1.10.2"
 
-"@bit/smartworks.unity.unity-core@^2.0.21":
-  version "2.0.21"
-  resolved "https://node.bit.dev/smartworks.unity.unity-core/-/smartworks.unity.unity-core-2.0.21.tgz#be6ff4783dafff56e5cf045cdc03602866d86fdf"
-  integrity sha1-vm/0eD2v/1blzwRc3ANgKGbYb98=
+"@bit/smartworks.unity.unity-core@^2.0.22":
+  version "2.0.22"
+  resolved "https://node.bit.dev/smartworks.unity.unity-core/-/smartworks.unity.unity-core-2.0.22.tgz#251488cbdaa47754d8353e0768e3128e255541c5"
+  integrity sha1-JRSIy9qkd1TYNT4HaOMSjiVVQcU=
   dependencies:
     "@bit/smartworks.unity.table-cell-base" "1.0.3"
     "@bit/smartworks.unity.unity-button" "1.1.15"
@@ -1037,7 +1037,7 @@
     "@bit/smartworks.unity.unity-select-menu" "1.4.10"
     "@bit/smartworks.unity.unity-split-pane" "1.2.4"
     "@bit/smartworks.unity.unity-stepper" "1.1.5"
-    "@bit/smartworks.unity.unity-table" "2.0.12"
+    "@bit/smartworks.unity.unity-table" "2.0.13"
     "@bit/smartworks.unity.unity-table-cell" "1.0.15"
     "@bit/smartworks.unity.unity-table-export" "1.0.11"
     "@bit/smartworks.unity.unity-tag" "1.1.8"
@@ -1224,10 +1224,10 @@
     "@polymer/paper-icon-button" "^3.0.2"
     lit-element "^2.5.1"
 
-"@bit/smartworks.unity.unity-table@2.0.12", "@bit/smartworks.unity.unity-table@^2.0.12":
-  version "2.0.12"
-  resolved "https://node.bit.dev/smartworks.unity.unity-table/-/smartworks.unity.unity-table-2.0.12.tgz#f918864785ba4d871c011b7c819a97012b8eb248"
-  integrity sha1-+RiGR4W6TYccARt8gZqXASuOskg=
+"@bit/smartworks.unity.unity-table@2.0.13", "@bit/smartworks.unity.unity-table@^2.0.13":
+  version "2.0.13"
+  resolved "https://node.bit.dev/smartworks.unity.unity-table/-/smartworks.unity.unity-table-2.0.13.tgz#902c20a5668bda5478d20e8cb1d46e67349e3dba"
+  integrity sha1-kCwgpWaL2lR40g6MsdRuZzSePbo=
   dependencies:
     "@bit/smartworks.unity.unity-popover" "1.0.16"
     "@bit/smartworks.unity.unity-text-input" "1.4.0"
