@@ -153,6 +153,7 @@ class QueryFilterDropdown extends LitElement {
           centerIcon="unity:filter"
           type="borderless"
           @click=${() => this.toggleDropdown()}
+          id="filter-header-button"
           class="${this.hasAppliedFilters() ? "filtered" : ""}"
         ></unity-button>
         </unity-button>
@@ -219,8 +220,12 @@ class QueryFilterDropdown extends LitElement {
           align-items: center;
           --filter-button-color: var(--black-color, var(--default-black-color));
         }
-
-        unity-button {
+        #filter-header-button {
+          display: flex;
+          align-items: center;
+          align-self: center;
+          height: 22px;
+          margin-right: 2px;
           --button-color: var(--filter-button-color);
           --paper-button-ink-color: transparent;
         }

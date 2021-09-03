@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v2.0.14
+- Fixed styling bug with column filter dropdown action buttons.
+
 ### v2.0.13
 - Added Apply button to column filter dropdown to make more clear to user.
 
