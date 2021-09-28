@@ -154,9 +154,8 @@ class QueryFilterDropdown extends LitElement {
           type="borderless"
           @click=${() => this.toggleDropdown()}
           id="filter-header-button"
-          class="${this.hasAppliedFilters() ? "filtered" : ""}"
+          class="${this.hasAppliedFilters() ? "filtered column-filter-button" : "column-filter-button"}"
         ></unity-button>
-        </unity-button>
         
         <div
           slot="popover-content"

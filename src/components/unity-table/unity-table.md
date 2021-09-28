@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v2.0.15
+- added class selector to column filter button.
+
 ### v2.0.14
 - Fixed styling bug with column filter dropdown action buttons.
 
