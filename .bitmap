@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@2.0.24": {
+    "smartworks.unity/unity-core@2.0.25": {
         "files": [
             {
                 "name": "index.js",
@@ -412,7 +412,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-icon@1.1.9": {
+    "smartworks.unity/unity-icon@1.1.10": {
         "files": [
             {
                 "name": "unity-icon.js",
