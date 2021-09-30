@@ -41,12 +41,12 @@ class UnityIcon extends LitElement {
       css`
         :host {
           display: inline-block;
-          --unity-icon-height: 16px;
-          --unity-icon-width: 16px;
+          --default-unity-icon-height: 16px;
+          --default-unity-icon-width: 16px;
         }
         iron-icon {
-          --iron-icon-height: var(--unity-icon-height);
-          --iron-icon-width: var(--unity-icon-width);
+          --iron-icon-height: var(--unity-icon-height, var(--default-unity-icon-height));
+          --iron-icon-width: var(--unity-icon-width, var(--default-unity-icon-width));
         }
       `
     ]
