@@ -106,12 +106,16 @@ class UnityModal extends LitElement {
     const {
       title,
     } = this
-    const classes = ["modal-title"]
-    if (!title && top.length === 0) classes.push('hide')
+
+    let topClasses = ["modal-title"]
+    if (!title && top.length === 0) topClasses.push('hide')
+    let buttonClasses = ["button-box"]
+    if (top.length === 0) buttonClasses.push('hide')
+
     return html`
-      <div class="${classes.join(' ')}">
+      <div class="${topClasses.join(' ')}">
         <unity-typography size="header2">${title}</unity-typography>
-        <div class="button-box">
+        <div class="${buttonClasses.join(' ')}">
           <div class="buttons">
             <slot name="${TOP_SLOT}"></slot>
           </div>
@@ -148,7 +152,9 @@ class UnityModal extends LitElement {
 
           ${this.renderTitle(slots)}
 
-          <slot name="${BODY_SLOT}"></slot>
+          <div class="body-wrapper">
+            <slot name="${BODY_SLOT}"></slot>
+          </div>
 
           ${this.renderBottom(slots)}
         </div>
@@ -176,22 +182,28 @@ class UnityModal extends LitElement {
         }
         .modal {
           position: absolute;
+          max-height: 90%;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
           box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
           background-color: var(--modal-background-color);
+          display: flex;
+          flex-direction: column;
         }
         .modal-title {
-          flex: 0;
+          display: flex;
           border-bottom: 1px solid var(--title-border-color);
           margin-top: 0;
           padding: 0 12px;
           height: 50px;
-          display: flex;
           flex-direction: row;
           align-items: center;
           align-content: center;
+        }
+        .body-wrapper {
+          flex: 0;
+          overflow: auto;
         }
         .button-box {
           flex: 1;
