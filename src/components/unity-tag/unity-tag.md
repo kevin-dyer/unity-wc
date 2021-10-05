@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.1.4
+- Added id to close tag button for QA test automation
+
 ### v1.1.3
 - Add `--tag-hover-text-color` variable
 - Highlight close button on button hover
