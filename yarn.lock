@@ -1006,10 +1006,10 @@
     lit-element "^2.5.1"
     sortablejs "^1.10.2"
 
-"@bit/smartworks.unity.unity-core@^2.0.25":
-  version "2.0.25"
-  resolved "https://node.bit.dev/smartworks.unity.unity-core/-/smartworks.unity.unity-core-2.0.25.tgz"
-  integrity sha1-y0uZLCKKsgLlC/lyu6cUpHsohlA=
+"@bit/smartworks.unity.unity-core@^2.0.26":
+  version "2.0.26"
+  resolved "https://node.bit.dev/smartworks.unity.unity-core/-/smartworks.unity.unity-core-2.0.26.tgz#366faccce0a1cedb972f409b8157759a1af23b06"
+  integrity sha1-Nm+szOChztuXL0CbgVd1mhryOwY=
   dependencies:
     "@bit/smartworks.unity.table-cell-base" "1.0.3"
     "@bit/smartworks.unity.unity-button" "1.1.15"
@@ -1024,7 +1024,7 @@
     "@bit/smartworks.unity.unity-global-nav-top-item" "1.3.5"
     "@bit/smartworks.unity.unity-icon" "1.1.10"
     "@bit/smartworks.unity.unity-icon-set" "1.0.0"
-    "@bit/smartworks.unity.unity-modal" "1.0.11"
+    "@bit/smartworks.unity.unity-modal" "1.0.12"
     "@bit/smartworks.unity.unity-multi-pane" "1.0.14"
     "@bit/smartworks.unity.unity-notification" "1.1.9"
     "@bit/smartworks.unity.unity-notifications-handler" "1.3.7"
@@ -1040,7 +1040,7 @@
     "@bit/smartworks.unity.unity-table" "2.0.15"
     "@bit/smartworks.unity.unity-table-cell" "1.0.15"
     "@bit/smartworks.unity.unity-table-export" "1.0.11"
-    "@bit/smartworks.unity.unity-tag" "1.1.8"
+    "@bit/smartworks.unity.unity-tag" "1.1.9"
     "@bit/smartworks.unity.unity-text-input" "1.4.0"
     "@bit/smartworks.unity.unity-toggle-switch" "1.0.9"
     "@bit/smartworks.unity.unity-tooltip" "1.1.8"
@@ -1111,10 +1111,10 @@
     "@polymer/iron-icons" "^3.0.1"
     lit-element "^2.5.1"
 
-"@bit/smartworks.unity.unity-modal@1.0.11", "@bit/smartworks.unity.unity-modal@^1.0.11":
-  version "1.0.11"
-  resolved "https://node.bit.dev/smartworks.unity.unity-modal/-/smartworks.unity.unity-modal-1.0.11.tgz"
-  integrity sha1-iUbMGrrpVQkVT+PQAm945cf45l0=
+"@bit/smartworks.unity.unity-modal@1.0.12", "@bit/smartworks.unity.unity-modal@^1.0.12":
+  version "1.0.12"
+  resolved "https://node.bit.dev/smartworks.unity.unity-modal/-/smartworks.unity.unity-modal-1.0.12.tgz#acf3b8319b12ca8d5bf2243ba85472a82d1f5010"
+  integrity sha1-rPO4MZsSyo1b8iQ7qFRyqC0fUBA=
   dependencies:
     lit-element "^2.5.1"
 
@@ -1239,14 +1239,7 @@
     lit-element "^2.5.1"
     throttle-debounce "^2.3.0"
 
-"@bit/smartworks.unity.unity-tag@1.1.8":
-  version "1.1.8"
-  resolved "https://node.bit.dev/smartworks.unity.unity-tag/-/smartworks.unity.unity-tag-1.1.8.tgz"
-  integrity sha1-AN834ZBYnqYBI0qPlf0SRCSKzL8=
-  dependencies:
-    lit-element "^2.5.1"
-
-"@bit/smartworks.unity.unity-tag@^1.1.8":
+"@bit/smartworks.unity.unity-tag@1.1.9", "@bit/smartworks.unity.unity-tag@^1.1.8":
   version "1.1.9"
   resolved "https://node.bit.dev/smartworks.unity.unity-tag/-/smartworks.unity.unity-tag-1.1.9.tgz"
   integrity sha1-zWECg8lv+xO6iz0U2mIlaKbzd5I=
