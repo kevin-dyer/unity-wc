@@ -6,8 +6,12 @@
 
 ## Changelog:
 
+### v2.0.27
+- unity-notification v1.1.10
+
 ### v2.0.26
 - unity-modal v1.0.12
+- unity-tag v1.1.9
 
 ### v2.0.13
 - unity-table v2.0.5
