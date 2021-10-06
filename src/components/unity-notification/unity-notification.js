@@ -111,6 +111,7 @@ class UnityNotification extends LitElement {
         </div>
         ${visible ? html`
           <unity-button
+            id='close-notification-button'
             type='borderless'
             centerIcon='unity:close'
             @click=${onClose}

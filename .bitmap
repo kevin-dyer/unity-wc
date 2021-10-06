@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@2.0.26": {
+    "smartworks.unity/unity-core@2.0.27": {
         "files": [
             {
                 "name": "index.js",
@@ -463,7 +463,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-notification@1.1.9": {
+    "smartworks.unity/unity-notification@1.1.10": {
         "files": [
             {
                 "name": "unity-notification.js",
