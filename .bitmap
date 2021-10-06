@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@2.0.25": {
+    "smartworks.unity/unity-core@2.0.26": {
         "files": [
             {
                 "name": "index.js",
@@ -429,7 +429,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-modal@1.0.11": {
+    "smartworks.unity/unity-modal@1.0.12": {
         "files": [
             {
                 "name": "unity-modal.js",
@@ -720,7 +720,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-tag@1.1.8": {
+    "smartworks.unity/unity-tag@1.1.9": {
         "files": [
             {
                 "name": "unity-tag.js",

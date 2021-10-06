@@ -127,7 +127,12 @@ class UnityTag extends LitElement {
     return html`
       <div class=${this.onClick instanceof Function? 'clickable':''} id="tag" @click="${e => this.handleClick(e)}">
         <unity-typography class="label">${label}</unity-typography>
-        ${!!withClose ? html`<unity-icon icon="unity:close" class="close" @click="${e => this.handleClose(e)}"></unity-icon>` : null}
+        ${!!withClose ? html`<unity-icon
+            icon="unity:close"
+            class="close"
+            id="close-tag-button"
+            @click="${e => this.handleClose(e)}"
+          ></unity-icon>` : null}
       </div>
     `
   }

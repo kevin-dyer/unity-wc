@@ -6,6 +6,9 @@
 
 ## Changelog:
 
+### v2.0.26
+- unity-modal v1.0.12
+
 ### v2.0.13
 - unity-table v2.0.5
 

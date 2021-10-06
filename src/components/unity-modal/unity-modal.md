@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.0.12
+- update so modal has max height of 90% available space, making middle component scroll if needed.
+
 ### v1.0.6
 - update unity-utils peer dependency
 
