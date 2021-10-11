@@ -373,6 +373,7 @@ class UnityDropdown extends LitElement {
           display: flex;
           flex-direction: row;
           height: 16px;
+          position: absolute;
         }
         .remark {
           flex: 1;
