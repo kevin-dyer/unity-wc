@@ -2,6 +2,12 @@
 
 ## Changelog:
 
+### v1.7.1
+- make remark position: absolute to avoid wiggling
+
+### v1.7.0
+- Added remark property for text to render under the Dropdown, like with text-input
+
 ### v1.6.11
 - Added id to dropdown chevron icon for selectability.
 

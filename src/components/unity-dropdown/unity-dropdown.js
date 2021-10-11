@@ -23,6 +23,7 @@ import * as strings from './strings'
 * @param {Boolean} [searchBox], when expanded, include a search box that highlights the searched text
 * @param {Boolean} [selectIcon], show an icon to the right of the element when selected
 * @param {Boolean} [showCheckboxes], show checkboxes next to selected options (only for multi-select); default: false
+* @param {String} [remark], remark text to show under the dropdown box
 * @param {Boolean} [showTags], show tags insearch bar with selected options (only for multi-select); default: false
 * @param {Boolean} [preventUnselect], (single-select dropdowns only) prevent the user from removing the selected option by clicking on it again
 * @param {String} [boxType], type of the dropdown box. Possible values: "fixed", "label", "search", "button-primary", "button-secondary", "button-borderless", or "inline." Default value is "label."
@@ -86,6 +87,7 @@ class UnityDropdown extends LitElement {
           --dropdown-line-height: var(--unity-text-input-height, var(--default-unity-text-input-height));
           --dropdown-text-color: var(--black-text-rgb, var(--default-black-text-rgb));
           --dropdown-text-size: var(--paragraph-font-size, var(--default-paragraph-font-size));
+          --default-dropdown-small-text-size: var(--small-text-size, var(--default-small-text-size));
           --dropdown-button-color: var(--secondary-color, var(--default-secondary-color));
           --dropdown-button-pressed-color: var(--secondary-tint-color, var(--default-secondary-tint-color));
           --dropdown-button-font-color: var(--background-color, var(--default-background-color));
@@ -95,7 +97,7 @@ class UnityDropdown extends LitElement {
           --default-dropdown-search-input-padding: 0;
           --default-dropdown-options-list-max-height: 330px;
           --default-dropdown-highlighted-option-color: var(--sky-blue-tint-1, var(--default-sky-blue-tint-1));
-          --default-dropdown-highlighted-option-hover-color: var(--sky-blue-tint-2, var(--default-sky-blue-tint-2))
+          --default-dropdown-highlighted-option-hover-color: var(--sky-blue-tint-2, var(--default-sky-blue-tint-2));
 
           font-family: var(--dropdown-input-font);
           border-collapse: collapse;
@@ -365,6 +367,22 @@ class UnityDropdown extends LitElement {
         #search-input {
           padding: var(--dropdown-search-input-padding, var(--default-dropdown-search-input-padding));
         }
+        .bottom {
+          margin: 0;
+          padding-top: 4px;
+          display: flex;
+          flex-direction: row;
+          height: 16px;
+          position: absolute;
+        }
+        .remark {
+          flex: 1;
+          word-break: break-word;
+          font-size: var(--dropdown-small-text-size, var(--default-dropdown-small-text-size));
+          color: var(--dropdown-label-color);
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
       `
     ]
   }
@@ -381,6 +399,7 @@ class UnityDropdown extends LitElement {
     this.showCheckboxes = false
     this.showTags = false
     this.preventUnselect = false
+    this.remark = ''
 
     this.boxType = BOX_TYPE_LABEL // valid values: "label" | "search" | "button-primary" | "button-secondary" | "button-borderless" | "inline"
     this.helperText = ""
@@ -436,6 +455,7 @@ class UnityDropdown extends LitElement {
       showCheckboxes: { type: Boolean },
       showTags: { type: Boolean },
       preventUnselect: { type: Boolean },
+      remark: { type: String },
 
       boxType: { type: String },
       helperText: { type: String },
@@ -969,6 +989,16 @@ class UnityDropdown extends LitElement {
     this.selected = Array.from(selectedSet)
   }
 
+  renderRemark() {
+    return html`
+      <div class="bottom">
+        <span class="remark">
+          ${this.remark}
+        </span>
+      </div>
+    `
+  }
+
   render() {
     let classes = ''
     if(this.boxType === BOX_TYPE_PRIMARY || this.boxType === BOX_TYPE_SECONDARY || this.boxType === BOX_TYPE_BORDERLESS) classes += ' button-options'
@@ -998,6 +1028,7 @@ class UnityDropdown extends LitElement {
               <slot name="bottom-content"></slot>
             </paper-dialog>
         </div>
+        ${!!this.remark ? this.renderRemark() : null}
       </div>
     `
   }
