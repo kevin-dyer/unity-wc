@@ -334,6 +334,7 @@ class MyDropdowns extends PageViewElement {
               .searchBox=${true}
               .options=${dataMock.withEverything}
               helperText="Choose any option"
+              remark="Remark text"
             >
             </unity-dropdown>
           </div>

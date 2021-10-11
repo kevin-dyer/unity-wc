@@ -6,6 +6,9 @@
 
 ## Changelog:
 
+### v2.0.28
+- unity-dropdown v1.7.0
+
 ### v2.0.27
 - unity-notification v1.1.10
 
