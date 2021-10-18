@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.7.2
+- updated dropdown list to use flexbox.
+
 ### v1.7.1
 - make remark position: absolute to avoid wiggling
 

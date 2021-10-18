@@ -355,9 +355,10 @@ class UnityDropdown extends LitElement {
           --highlighted-option-hover-color: var(--dropdown-highlighted-option-hover-color, var(--default-dropdown-highlighted-option-hover-color));
         }
         paper-dialog {
-          display: block;
           margin: 0;
           box-shadow: none;
+          display: flex;
+          flex-direction: column;
         }
         unity-button.dropdown-button {
           --button-color: var(--dropdown-button-color);
