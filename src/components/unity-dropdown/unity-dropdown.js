@@ -9,6 +9,7 @@ import '@bit/smartworks.unity.unity-icon-set'
 import { UnityDefaultThemeStyles } from '@bit/smartworks.unity.unity-default-theme-styles'
 import '@bit/smartworks.unity.unity-text-input'
 import '@bit/smartworks.unity.unity-select-menu'
+import '@bit/smartworks.unity.unity-popover'
 import * as strings from './strings'
 
 /**
@@ -422,6 +423,13 @@ class UnityDropdown extends LitElement {
     this._dropdown = () => this.toggleShowDropdown()
     this._changeValue = (id) => () => { this.changeSelected(id) } // this is here because arrow functions in lit can only be declared in the constructor
     this._onInputSearchChange = (e) => { this.updateSearchValue(e.target.value) }
+  }
+
+  firstUpdated() {
+    this.dropdownAnchor = this.shadowRoot.getElementById("dropdown-anchor")
+    this.boundary = document.body
+
+
   }
 
   updated(changedProperties) {
@@ -838,7 +846,7 @@ class UnityDropdown extends LitElement {
     const arrowIcon = !expanded ? "unity:down_chevron" : "unity:up_chevron"
     if (boxType === BOX_TYPE_FIXED) {
       return html`
-        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
+        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}" id="dropdown-anchor">
           ${(isMulti && showTags) ? this.renderTags() : null}
           <div class="input-label-div${!showTags ? " no-tags" : ""}">
             <div class="displayed-wrapper">
@@ -851,7 +859,7 @@ class UnityDropdown extends LitElement {
     }
     if (boxType === BOX_TYPE_LABEL) {
       return html`
-        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
+        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}" id="dropdown-anchor">
           ${(anySelected && showTags) ? this.renderTags() : null}
           <div class="input-label-div${!showTags ? " no-tags" : ""} selectable" @click="${_dropdown}">
             <div class="displayed-wrapper">
@@ -876,7 +884,7 @@ class UnityDropdown extends LitElement {
     }
     if (boxType === BOX_TYPE_SEARCH) {
       return html`
-        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}">
+        <div class="text-box input-box ${!!disabled ? 'disabled' : ''}" id="dropdown-anchor">
           <unity-text-input
             id="search-input"
             @keydown=${this.inputBoxKeyDown}
@@ -898,6 +906,7 @@ class UnityDropdown extends LitElement {
       return html`
         <unity-button
           class="dropdown-button"
+          id="dropdown-anchor"
           label="${label || placeholder}"
           rightIcon="${arrowIcon}"
           type="${boxType.slice(7)}"
@@ -909,7 +918,7 @@ class UnityDropdown extends LitElement {
     }
     if (boxType === BOX_TYPE_INLINE) {
       return html`
-        <div class="selectable text-box inline ${!!disabled ? 'disabled' : ''}" @click="${_dropdown}">
+        <div class="selectable text-box inline ${!!disabled ? 'disabled' : ''}" id="dropdown-anchor" @click="${_dropdown}">
           <div class="displayed-wrapper">
             ${(!isMulti && !!icon)
               ? this.renderLeftIcon(icon)
@@ -1014,19 +1023,30 @@ class UnityDropdown extends LitElement {
         }
         <div class=${this.getMenuClass()} tabindex="0" @keydown="${this.handleDropdownKeydown}">
           ${this.getInputBox()}
-            <paper-dialog
-              .noAutoFocus="${true}"
-              id="options-dialog"
-              ?opened="${this.expanded ? true : null}"
-              class=${classes}
-              .scrollAction=${"refit"}"
-            >
-              ${this.searchBox ? this.renderSearchBox() : null}
-              ${this.inputType === INPUT_TYPE_MULTI_SELECT ? this.renderSelectAll() : null}
-              ${this.renderList()}
-              ${!!this.helperText ? html`<p class="helper-text" id="helper-text">${this.helperText}</p>` :null}
-              <slot name="bottom-content"></slot>
-            </paper-dialog>
+            ${this.dropdownAnchor
+              ? html`
+                <unity-popover
+                  closeOnOutsideClick
+                  .show=${this.expanded ? true : null}
+                  .onClose=${() => {console.log("popover onClosed")}}
+                  placement='bottom'
+                  class=${classes}
+                  .referenceElement=${this.dropdownAnchor}
+                  .boundary=${this.boundary}
+                >
+                  <div
+                    slot="popover-content"
+                  >
+                    ${this.searchBox ? this.renderSearchBox() : null}
+                    ${this.inputType === INPUT_TYPE_MULTI_SELECT ? this.renderSelectAll() : null}
+                    ${this.renderList()}
+                    ${!!this.helperText ? html`<p class="helper-text" id="helper-text">${this.helperText}</p>` :null}
+                    <slot name="bottom-content"></slot>
+                  </div>
+                </unity-popover>
+              `
+              : ''
+            }
         </div>
         ${!!this.remark ? this.renderRemark() : null}
       </div>
