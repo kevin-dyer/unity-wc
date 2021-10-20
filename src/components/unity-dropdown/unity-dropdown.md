@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.7.3
+- fixed dropdown paper-dialog resize on scroll.
+
 ### v1.7.2
 - updated dropdown list to use flexbox.
 
