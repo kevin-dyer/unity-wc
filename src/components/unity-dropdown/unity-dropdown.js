@@ -541,13 +541,15 @@ class UnityDropdown extends LitElement {
     super.connectedCallback()
     this._visibleOptions = this.options
     this.addEventListener("iron-overlay-canceled", this._delayedClose) // collapse component when clicking outside options box
-    window.addEventListener("scroll", this.resizeOptionsBox.bind(this))
+
+    this.boundResizeHandler = this.resizeOptionsBox.bind(this);
+    window.addEventListener("scroll", this.boundResizeHandler)
   }
 
   disconnectedCallback() {
     super.disconnectedCallback()
     this.removeEventListener("iron-overlay-canceled", this._delayedClose)
-    window.removeEventListener("scroll", this.resizeOptionsBox.bind(this))
+    window.removeEventListener("scroll", this.boundResizeHandler)
   }
 
   _delayedClose() {
@@ -1016,11 +1018,12 @@ class UnityDropdown extends LitElement {
         <div class=${this.getMenuClass()} tabindex="0" @keydown="${this.handleDropdownKeydown}">
           ${this.getInputBox()}
             <paper-dialog
-              .noAutoFocus="${true}"
+              noAutoFocus
               id="options-dialog"
               ?opened="${this.expanded ? true : null}"
               class=${classes}
-              .scrollAction=${"refit"}"
+              dynamicAlign
+              alwaysOntTop
             >
               ${this.searchBox ? this.renderSearchBox() : null}
               ${this.inputType === INPUT_TYPE_MULTI_SELECT ? this.renderSelectAll() : null}
