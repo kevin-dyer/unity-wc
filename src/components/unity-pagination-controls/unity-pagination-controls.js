@@ -249,6 +249,9 @@ class UnityPaginationControls extends LitElement {
           line-height: 30px;
           margin-right: 12px;
         }
+        unity-typography {
+          white-space: nowrap;
+        }
       `
     ];
   }
