@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v0.0.5
+- prevent text from wrapping in pagination controls.
+
 ### v0.0.3
 - added props for displaying current page and total page count. Also added option to display button to jump to last page.
 
