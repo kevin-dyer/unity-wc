@@ -1006,10 +1006,10 @@
     lit-element "^2.5.1"
     sortablejs "^1.10.2"
 
-"@bit/smartworks.unity.unity-core@^2.0.31":
-  version "2.0.31"
-  resolved "https://node.bit.dev/smartworks.unity.unity-core/-/smartworks.unity.unity-core-2.0.31.tgz#3463c0069ae67a69bf72787536ef70affdc05549"
-  integrity sha1-NGPABprmemm/cnh1Nu9wr/3AVUk=
+"@bit/smartworks.unity.unity-core@^2.0.32":
+  version "2.0.32"
+  resolved "https://node.bit.dev/smartworks.unity.unity-core/-/smartworks.unity.unity-core-2.0.32.tgz#417770b8d484a1219f84ff69f15ee18d7529b781"
+  integrity sha1-QXdwuNSEoSGfhP9p8V7hjXUpt4E=
   dependencies:
     "@bit/smartworks.unity.table-cell-base" "1.0.3"
     "@bit/smartworks.unity.unity-button" "1.1.15"
@@ -1029,7 +1029,7 @@
     "@bit/smartworks.unity.unity-notification" "1.1.10"
     "@bit/smartworks.unity.unity-notifications-handler" "1.3.7"
     "@bit/smartworks.unity.unity-page-header" "1.2.14"
-    "@bit/smartworks.unity.unity-pagination-controls" "0.0.4"
+    "@bit/smartworks.unity.unity-pagination-controls" "0.0.5"
     "@bit/smartworks.unity.unity-popover" "1.0.16"
     "@bit/smartworks.unity.unity-progress" "1.0.7"
     "@bit/smartworks.unity.unity-search-bar" "1.0.14"
@@ -1147,10 +1147,10 @@
     "@polymer/paper-tabs" "^3.1.0"
     lit-element "^2.5.1"
 
-"@bit/smartworks.unity.unity-pagination-controls@0.0.4", "@bit/smartworks.unity.unity-pagination-controls@^0.0.4":
-  version "0.0.4"
-  resolved "https://node.bit.dev/smartworks.unity.unity-pagination-controls/-/smartworks.unity.unity-pagination-controls-0.0.4.tgz#3805acfe376cad67444e42ac9ef312b2f745ec05"
-  integrity sha1-OAWs/jdsrWdETkKsnvMSsvdF7AU=
+"@bit/smartworks.unity.unity-pagination-controls@0.0.5", "@bit/smartworks.unity.unity-pagination-controls@^0.0.5":
+  version "0.0.5"
+  resolved "https://node.bit.dev/smartworks.unity.unity-pagination-controls/-/smartworks.unity.unity-pagination-controls-0.0.5.tgz#c36659e126500cbfec5a525a2c54e2d2b7523402"
+  integrity sha1-w2ZZ4SZQDL/sWlJaLFTi0rdSNAI=
   dependencies:
     lit-element "^2.5.1"
 

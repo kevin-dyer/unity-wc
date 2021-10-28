@@ -88,7 +88,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-core@2.0.31": {
+    "smartworks.unity/unity-core@2.0.32": {
         "files": [
             {
                 "name": "index.js",
@@ -514,7 +514,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "smartworks.unity/unity-pagination-controls@0.0.4": {
+    "smartworks.unity/unity-pagination-controls@0.0.5": {
         "files": [
             {
                 "relativePath": "src/components/unity-pagination-controls/unity-pagination-controls.js",
