@@ -1018,12 +1018,12 @@ class UnityDropdown extends LitElement {
         <div class=${this.getMenuClass()} tabindex="0" @keydown="${this.handleDropdownKeydown}">
           ${this.getInputBox()}
             <paper-dialog
-              noAutoFocus
+              .noAutoFocus="${true}"
               id="options-dialog"
               ?opened="${this.expanded ? true : null}"
               class=${classes}
               dynamicAlign
-              alwaysOntTop
+              alwaysOnTop
             >
               ${this.searchBox ? this.renderSearchBox() : null}
               ${this.inputType === INPUT_TYPE_MULTI_SELECT ? this.renderSelectAll() : null}
