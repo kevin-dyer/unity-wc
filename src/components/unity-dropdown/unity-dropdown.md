@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.7.4
+- fixed how noAutoFocus prop is defined on dropdown paper-dialog to fix issue with loosing focus on search text input.
+
 ### v1.7.3
 - fixed dropdown paper-dialog resize on scroll.
 
