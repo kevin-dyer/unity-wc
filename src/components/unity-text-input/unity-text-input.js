@@ -74,6 +74,7 @@ css vars
   input-prefixed-text-color
   input-prefixed-text-padding
   inner-icon-size
+  bottom-height
 **/
 
 const MIN_LINES = 4
@@ -531,6 +532,7 @@ class UnityTextInput extends LitElement {
           --default-input-icon-error-color: var(--tertiary-1-color, var(--default-tertiary-1-color));
           --default-input-prefixed-text-color: var(--dark-gray-color, var(--default-dark-gray-color));
           --default-input-prefixed-text-padding: 0;
+          --default-bottom-height: 16px;
           font-family: var(--input-font, var(--default-input-font));
           font-size: var(--input-text-size, var(--default-input-text-size));
           --default-inner-icon-size: calc(var(--input-text-size, var(--default-input-text-size)) * 4 / 3);
@@ -554,7 +556,7 @@ class UnityTextInput extends LitElement {
           padding-top: 4px;
           display: flex;
           flex-direction: row;
-          height: 16px;
+          height: var(--bottom-height, var(--default-bottom-height));
         }
         .bottom:not(.wrapped) {
           white-space: nowrap;

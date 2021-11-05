@@ -2,6 +2,9 @@
 
 ## Changelog:
 
+### v1.4.1
+- added css variable to set bottom height to allow it to be set to auto to change dynamically based on remark or error text.
+
 ### v1.4.0
 - changed default text error position to deafult (static) instead of absolute
 - added `hideErrors` and `wrapErrors` attributes
